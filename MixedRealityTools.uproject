@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{FFD5A25B-4E09-8491-537E-7FAD178BC092}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "MixedRealityTools",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
