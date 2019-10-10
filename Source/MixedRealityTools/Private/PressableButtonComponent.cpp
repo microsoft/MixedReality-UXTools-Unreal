@@ -51,17 +51,17 @@ static XMVECTOR ToMRPosition(const FVector& vectorUE)
 	return XMVectorSwizzle<1, 2, 0, 3>(vectorXM) * g_XMNegateZ;
 }
 
-static XMVECTOR ToMRRotation(const FQuat& quatUE)
-{
-	auto quatXM = ToXM(quatUE);
-	return XMVectorSwizzle<1, 2, 0, 3>(quatXM) * g_XMNegateZ;
-}
-
 static FQuat ToUERotation(XMVECTOR quaternionXM)
 {
 	FQuat quaternionUE;
-	XMStoreFloat4A((XMFLOAT4A*)&quaternionUE, XMVectorSwizzle<2, 0, 1, 3>(quaternionXM) * g_XMNegateX);
+	XMStoreFloat4A((XMFLOAT4A*)&quaternionUE, XMVectorSwizzle<2, 0, 1, 3>(quaternionXM) * g_XMNegateW);
 	return quaternionUE;
+}
+
+static XMVECTOR ToMRRotation(const FQuat& quatUE)
+{
+	auto quatXM = ToXM(quatUE);
+	return XMVectorSwizzle<1, 2, 0, 3>(quatXM) * g_XMNegateW;
 }
 
 void UPressableButtonComponent::FButtonHandler::OnButtonPressed(PressableButton& button, PointerId pointerId, DirectX::FXMVECTOR touchPoint)
