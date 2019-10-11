@@ -23,10 +23,6 @@ public:
     void SetTouchRadius(float radius);
 
 protected:
-	using TargetSet = TSet<TWeakObjectPtr<UActorComponent>>;
-
-	UPROPERTY()
-	TSet<TWeakObjectPtr<UActorComponent>> TouchedTargets;
 
 	/// Start touching the component.
 	/// Returns false if the component is not a valid touch target.
@@ -51,6 +47,10 @@ protected:
 private:
 
 	bool ImplementsTargetInterface(const UActorComponent *comp) const;
+
+protected:
+
+	TSet<TWeakObjectPtr<UActorComponent>> TouchedTargets;
 
 private:
 

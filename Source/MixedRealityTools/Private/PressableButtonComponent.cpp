@@ -5,7 +5,7 @@
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 
-using namespace Microsoft::MixedReality::HandUtils;
+namespace HandUtils = Microsoft::MixedReality::HandUtils;
 using namespace DirectX;
 
 
@@ -79,12 +79,12 @@ struct FButtonHandler : public Microsoft::MixedReality::HandUtils::IButtonHandle
 	UPressableButtonComponent& PressableButtonComponent;
 };
 
-void FButtonHandler::OnButtonPressed(PressableButton& button, PointerId pointerId, DirectX::FXMVECTOR touchPoint)
+void FButtonHandler::OnButtonPressed(HandUtils::PressableButton& button, HandUtils::PointerId pointerId, DirectX::FXMVECTOR touchPoint)
 {
 	PressableButtonComponent.ButtonPressed.Broadcast(&PressableButtonComponent);
 }
 
-void FButtonHandler::OnButtonReleased(PressableButton& button, PointerId pointerId)
+void FButtonHandler::OnButtonReleased(HandUtils::PressableButton& button, HandUtils::PointerId pointerId)
 {
 	PressableButtonComponent.ButtonReleased.Broadcast(&PressableButtonComponent);
 }
@@ -97,7 +97,7 @@ void UPressableButtonComponent::BeginPlay()
 	const FTransform& transform = GetComponentTransform();
 	XMVECTOR restPosition = ToMRPosition(transform.GetTranslation());
 	XMVECTOR orientation = ToMRRotation(transform.GetRotation());
-	Button = new PressableButton(restPosition, orientation, Width, Height, MaxPushDistance, PressedDistance, ReleasedDistance);
+	Button = new HandUtils::PressableButton(restPosition, orientation, Width, Height, MaxPushDistance, PressedDistance, ReleasedDistance);
 	Button->m_recoverySpeed = 50;
 
 	ButtonHandler = new FButtonHandler(*this);
@@ -121,18 +121,31 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+    std::vector<HandUtils::TouchPointer> touchPointers;
+    touchPointers.reserve(GetActivePointers().Num());
+    for (const TWeakObjectPtr<USceneComponent>& wPointer : GetActivePointers())
+    {
+        if (USceneComponent *pointer = wPointer.Get())
+        {
+            HandUtils::TouchPointer touchPointer;
+            touchPointer.m_position = ToMRPosition(pointer->GetComponentLocation());
+            touchPointer.m_id = (HandUtils::PointerId)pointer;
+            touchPointers.emplace_back(touchPointer);
+        }
+    }
+
 	if (Pointer)
 	{
-		TouchPointer touchPointer;
+        HandUtils::TouchPointer touchPointer;
 		touchPointer.m_position = ToMRPosition(Pointer->GetActorLocation());
-		touchPointer.m_id = (PointerId)Pointer;
-
-		Button->Update(DeltaTime, { &touchPointer, 1 });
-
-		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition());
-
-		SetWorldLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
+		touchPointer.m_id = (HandUtils::PointerId)Pointer;
+        touchPointers.emplace_back(touchPointer);
 	}
+
+    Button->Update(DeltaTime, touchPointers);
+
+    FVector NewLocation = ToUEPosition(Button->GetCurrentPosition());
+    SetWorldLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
 
 	// Debug display
 	{
@@ -143,4 +156,3 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		DrawDebugSolidPlane(GetWorld(), Plane, Position, Extents, FColor::Green);
 	}
 }
-

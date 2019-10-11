@@ -6,6 +6,8 @@
 #include "UObject/Interface.h"
 #include "TouchPointerTarget.generated.h"
 
+class USceneComponent;
+
 // This class does not need to be modified.
 UINTERFACE(BlueprintType)
 class UTouchPointerTarget : public UInterface
@@ -24,9 +26,9 @@ class MIXEDREALITYTOOLS_API ITouchPointerTarget
 public:
 
     UFUNCTION(BlueprintNativeEvent)
-    void TouchStarted();
+    void TouchStarted(USceneComponent* pointer);
 
     UFUNCTION(BlueprintNativeEvent)
-    void TouchEnded();
+    void TouchEnded(USceneComponent* pointer);
 
 };

@@ -4,9 +4,3 @@
 #include "TouchPointerTarget.h"
 
 // Add default functionality here for any ITouchPointerTarget functions that are not pure virtual.
-
-//UTouchPointerTarget::UTouchPointerTarget(const class FObjectInitializer& ObjectInitializer)
-//    : Super(ObjectInitializer)
-//{
-//
-//}

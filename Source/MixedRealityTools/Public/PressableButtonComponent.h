@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "InteractableSceneComponent.h"
+
 #include "PressableButtonComponent.generated.h"
 
 namespace Microsoft
@@ -25,7 +26,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonReleasedDelegate, UPressableB
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class MIXEDREALITYTOOLS_API UPressableButtonComponent : public USceneComponent
+class MIXEDREALITYTOOLS_API UPressableButtonComponent : public UInteractableSceneComponent
 {
 	GENERATED_BODY()
 
