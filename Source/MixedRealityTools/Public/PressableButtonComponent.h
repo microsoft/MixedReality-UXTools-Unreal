@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "PressableButton.h"
 #include "PressableButtonComponent.generated.h"
 
 namespace Microsoft
@@ -18,9 +17,15 @@ namespace Microsoft
     }
 }
 
+class UPressableButtonComponent;
+struct FButtonHandler;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonPressedDelegate, UPressableButtonComponent*, Button);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonReleasedDelegate, UPressableButtonComponent*, Button);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class MIXEDREALITYTOOLS_API UPressableButtonComponent : public UActorComponent
+class MIXEDREALITYTOOLS_API UPressableButtonComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
@@ -36,22 +41,6 @@ protected:
 	virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-private:
-
-    struct FButtonHandler : public Microsoft::MixedReality::HandUtils::IButtonHandler
-    {
-        FButtonHandler(UPressableButtonComponent& PressableButtonComponent) : PressableButtonComponent(PressableButtonComponent) {}
-
-        virtual void OnButtonPressed(
-            Microsoft::MixedReality::HandUtils::PressableButton& button, 
-            Microsoft::MixedReality::HandUtils::PointerId pointerId, 
-            DirectX::FXMVECTOR touchPoint) override;
-
-        UPressableButtonComponent& PressableButtonComponent;
-    };
-
-    friend FButtonHandler;
 
 public:
 
@@ -73,13 +62,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AActor* Pointer;
 
-    DECLARE_EVENT_OneParam(UPressableButtonComponent, FPressedEvent, UPressableButtonComponent&)
-    FPressedEvent& OnPressed() { return PressedEvent; }
+	UPROPERTY(BlueprintAssignable)
+	FButtonPressedDelegate ButtonPressed;
+
+	UPROPERTY(BlueprintAssignable)
+	FButtonReleasedDelegate ButtonReleased;
 
 private:
 
     Microsoft::MixedReality::HandUtils::PressableButton* Button = nullptr;
     FButtonHandler* ButtonHandler = nullptr;
-
-    FPressedEvent PressedEvent;
 };

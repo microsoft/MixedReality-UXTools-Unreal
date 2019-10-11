@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PressableButtonComponent.h"
+#include "PressableButton.h"
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 
@@ -11,8 +12,6 @@ using namespace DirectX;
 // Sets default values for this component's properties
 UPressableButtonComponent::UPressableButtonComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
@@ -64,9 +63,30 @@ static XMVECTOR ToMRRotation(const FQuat& quatUE)
 	return XMVectorSwizzle<1, 2, 0, 3>(quatXM) * g_XMNegateX * g_XMNegateY;
 }
 
-void UPressableButtonComponent::FButtonHandler::OnButtonPressed(PressableButton& button, PointerId pointerId, DirectX::FXMVECTOR touchPoint)
+struct FButtonHandler : public Microsoft::MixedReality::HandUtils::IButtonHandler
 {
-	PressableButtonComponent.PressedEvent.Broadcast(PressableButtonComponent);
+	FButtonHandler(UPressableButtonComponent& PressableButtonComponent) : PressableButtonComponent(PressableButtonComponent) {}
+
+	virtual void OnButtonPressed(
+		Microsoft::MixedReality::HandUtils::PressableButton& button,
+		Microsoft::MixedReality::HandUtils::PointerId pointerId,
+		DirectX::FXMVECTOR touchPoint) override;
+
+	virtual void OnButtonReleased(
+		Microsoft::MixedReality::HandUtils::PressableButton& button,
+		Microsoft::MixedReality::HandUtils::PointerId pointerId) override;
+
+	UPressableButtonComponent& PressableButtonComponent;
+};
+
+void FButtonHandler::OnButtonPressed(PressableButton& button, PointerId pointerId, DirectX::FXMVECTOR touchPoint)
+{
+	PressableButtonComponent.ButtonPressed.Broadcast(&PressableButtonComponent);
+}
+
+void FButtonHandler::OnButtonReleased(PressableButton& button, PointerId pointerId)
+{
+	PressableButtonComponent.ButtonReleased.Broadcast(&PressableButtonComponent);
 }
 
 // Called when the game starts
@@ -74,8 +94,7 @@ void UPressableButtonComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AActor* owner = GetOwner();
-	FTransform transform = owner->GetActorTransform();
+	const FTransform& transform = GetComponentTransform();
 	XMVECTOR restPosition = ToMRPosition(transform.GetTranslation());
 	XMVECTOR orientation = ToMRRotation(transform.GetRotation());
 	Button = new PressableButton(restPosition, orientation, Width, Height, MaxPushDistance, PressedDistance, ReleasedDistance);
@@ -104,10 +123,6 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	if (Pointer)
 	{
-		AActor* Owner = GetOwner();
-		/*FVector NewLocation = Owner->GetActorLocation();
-		NewLocation.Y = Pointer->GetActorLocation().Y;*/
-
 		TouchPointer touchPointer;
 		touchPointer.m_position = ToMRPosition(Pointer->GetActorLocation());
 		touchPointer.m_id = (PointerId)Pointer;
@@ -115,7 +130,8 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		Button->Update(DeltaTime, { &touchPointer, 1 });
 
 		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition());
-		Owner->SetActorLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
+
+		SetWorldLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
 	}
 
 	// Debug display

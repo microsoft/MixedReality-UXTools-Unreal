@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{FFD5A25B-4E09-8491-537E-7FAD178BC092}",
+	"EngineAssociation": "{07A2203C-4486-A0E5-AF88-9AB6AE6A2F20}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -10,6 +10,23 @@
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine"
+			]
+		},
+		{
+			"Name": "MixedRealityToolsEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "SteamVR",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64",
+				"Linux",
+				"Mac"
 			]
 		}
 	]
