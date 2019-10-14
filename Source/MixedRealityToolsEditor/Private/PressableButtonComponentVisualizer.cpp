@@ -7,23 +7,24 @@ void FPressableButtonComponentVisualizer::DrawVisualization(const UActorComponen
 {
 	if (const UPressableButtonComponent* Button = Cast<const UPressableButtonComponent>(Component))
 	{
+		FVector Extents = Button->GetComponentScale() * Button->Extents;
 		FMatrix Matrix = Button->GetComponentTransform().ToMatrixNoScale();
-		FVector HalfExtents = 0.5f * FVector(Button->MaxPushDistance, Button->Width, Button->Height);
-
+		
 		// Draw movement box, from resting position to maximum push distance
 		{
-			FBox Box = FBox::BuildAABB(FVector::ForwardVector * HalfExtents.X, HalfExtents);
+			FBox Box = FBox::BuildAABB(FVector::ForwardVector * Extents.X, Extents);
 			DrawWireBox(PDI, Matrix, Box, FLinearColor::Green, SDPG_Foreground, 0.1f);
 		}
 
 		// Draw quad at pressed distance
 		{
+			float PressedDistance = Extents.X * Button->PressedFraction * 2;
 			FVector Vertices[] =
 			{
-				FVector(Button->PressedDistance, HalfExtents.Y, HalfExtents.Z),
-				FVector(Button->PressedDistance, HalfExtents.Y, -HalfExtents.Z),
-				FVector(Button->PressedDistance, -HalfExtents.Y, -HalfExtents.Z),
-				FVector(Button->PressedDistance, -HalfExtents.Y, HalfExtents.Z)
+				FVector(PressedDistance, Extents.Y, Extents.Z),
+				FVector(PressedDistance, Extents.Y, -Extents.Z),
+				FVector(PressedDistance, -Extents.Y, -Extents.Z),
+				FVector(PressedDistance, -Extents.Y, Extents.Z)
 			};
 
 			for (int i = 0; i < 4; ++i)

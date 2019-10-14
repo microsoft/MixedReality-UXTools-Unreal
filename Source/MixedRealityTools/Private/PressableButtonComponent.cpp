@@ -15,11 +15,9 @@ UPressableButtonComponent::UPressableButtonComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
-	Width = 10;
-	Height = 10;
-	MaxPushDistance = 10;
-	PressedDistance = 5;
-	ReleasedDistance = 2;
+	Extents.Set(10, 10, 10);
+	PressedFraction = 0.5f;
+	ReleasedFraction = 0.2f;
 }
 
 static XMVECTOR ToXM(const FVector& vectorUE)
@@ -94,14 +92,21 @@ void UPressableButtonComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	const FTransform& transform = GetComponentTransform();
-	XMVECTOR restPosition = ToMRPosition(transform.GetTranslation());
-	XMVECTOR orientation = ToMRRotation(transform.GetRotation());
-	Button = new HandUtils::PressableButton(restPosition, orientation, Width, Height, MaxPushDistance, PressedDistance, ReleasedDistance);
+	const FTransform& Transform = GetComponentTransform();
+	const auto WorldDimensions = 2 * Extents * Transform.GetScale3D();
+	XMVECTOR Orientation = ToMRRotation(Transform.GetRotation());
+	const auto RestPosition = Transform.GetTranslation();
+
+	Button = new HandUtils::PressableButton(ToMRPosition(RestPosition), Orientation, WorldDimensions.Y, WorldDimensions.Z, WorldDimensions.X, PressedFraction * WorldDimensions.X, ReleasedFraction * WorldDimensions.X);
 	Button->m_recoverySpeed = 50;
 
 	ButtonHandler = new FButtonHandler(*this);
 	Button->Subscribe(ButtonHandler);
+
+	if (Visuals)
+	{
+		VisualsPositionLocal = Visuals->GetActorLocation() - RestPosition;
+	}
 }
 
 
@@ -142,17 +147,13 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
         touchPointers.emplace_back(touchPointer);
 	}
 
-    Button->Update(DeltaTime, touchPointers);
+	// Update button logic with all known pointers
+	Button->Update(DeltaTime, touchPointers);
 
-    FVector NewLocation = ToUEPosition(Button->GetCurrentPosition());
-    SetWorldLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
-
-	// Debug display
+	if (Visuals)
 	{
-		FVector Position = ToUEPosition(Button->GetCurrentPosition());
-		FQuat Orientation = ToUERotation(Button->GetOrientation());
-		FPlane Plane(Position, -Orientation.GetForwardVector());
-		FVector2D Extents(Width, Height);
-		DrawDebugSolidPlane(GetWorld(), Plane, Position, Extents, FColor::Green);
+		// Update visuals position
+		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsPositionLocal;
+		Visuals->SetActorLocation(NewLocation);
 	}
 }
