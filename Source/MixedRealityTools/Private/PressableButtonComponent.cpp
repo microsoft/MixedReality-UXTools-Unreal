@@ -126,29 +126,24 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    std::vector<HandUtils::TouchPointer> touchPointers;
-    touchPointers.reserve(GetActivePointers().Num());
-    for (const TWeakObjectPtr<USceneComponent>& wPointer : GetActivePointers())
+	const auto& Pointers = GetActivePointers();
+    std::vector<HandUtils::TouchPointer> TouchPointers;
+    TouchPointers.reserve(Pointers.Num());
+
+	// Collect all touch pointers interacting with the button
+    for (const TWeakObjectPtr<USceneComponent>& PointerWeak : Pointers)
     {
-        if (USceneComponent *pointer = wPointer.Get())
+        if (USceneComponent* Pointer = PointerWeak.Get())
         {
-            HandUtils::TouchPointer touchPointer;
-            touchPointer.m_position = ToMRPosition(pointer->GetComponentLocation());
-            touchPointer.m_id = (HandUtils::PointerId)pointer;
-            touchPointers.emplace_back(touchPointer);
+            HandUtils::TouchPointer TouchPointer;
+            TouchPointer.m_position = ToMRPosition(Pointer->GetComponentLocation());
+            TouchPointer.m_id = (HandUtils::PointerId)Pointer;
+            TouchPointers.emplace_back(TouchPointer);
         }
     }
 
-	if (Pointer)
-	{
-        HandUtils::TouchPointer touchPointer;
-		touchPointer.m_position = ToMRPosition(Pointer->GetActorLocation());
-		touchPointer.m_id = (HandUtils::PointerId)Pointer;
-        touchPointers.emplace_back(touchPointer);
-	}
-
 	// Update button logic with all known pointers
-	Button->Update(DeltaTime, touchPointers);
+	Button->Update(DeltaTime, TouchPointers);
 
 	if (Visuals)
 	{

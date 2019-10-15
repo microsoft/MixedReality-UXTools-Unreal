@@ -67,9 +67,6 @@ public:
     UPROPERTY(EditAnywhere)
     float ReleasedFraction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	AActor* Pointer;
-
 	/** Event raised when the button reaches the pressed distance. */
 	UPROPERTY(BlueprintAssignable)
 	FButtonPressedDelegate ButtonPressed;

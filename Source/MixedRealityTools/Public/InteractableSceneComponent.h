@@ -28,7 +28,7 @@ protected:
 
     const PointerSet& GetActivePointers() const { return ActivePointers; }
 
-protected:
+private:
 
 	TSet<TWeakObjectPtr<USceneComponent>> ActivePointers;
 
