@@ -73,11 +73,18 @@ namespace Microsoft
                 /// Unsubscribe handler from button events.
                 void Unsubscribe(IButtonHandler* handler);
 
-                /// Returns the current button position.
+				/// Returns the button position at rest, i.e when not pushed.
+				DirectX::XMVECTOR GetRestPosition() const { return m_restPosition; }
+
+                /// Returns the current button position, i.e. rest position + push distance along push direction.
                 DirectX::XMVECTOR GetCurrentPosition() const;
 
                 /// Returns the button orientation.
                 DirectX::XMVECTOR GetOrientation() const { return m_orientation; }
+
+				/// Sets the button transform at rest. 
+				/// This modifies the current transform while keeping the current push distance.
+				void SetRestTransform(DirectX::FXMVECTOR position, DirectX::FXMVECTOR orientation);
 
                 /// Returns the button width.
                 float GetWidth() const { return m_width; }

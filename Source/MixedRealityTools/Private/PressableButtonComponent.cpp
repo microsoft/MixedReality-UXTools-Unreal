@@ -109,7 +109,6 @@ void UPressableButtonComponent::BeginPlay()
 	}
 }
 
-
 void UPressableButtonComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Button->Unsubscribe(ButtonHandler);
@@ -125,6 +124,21 @@ void UPressableButtonComponent::EndPlay(const EEndPlayReason::Type EndPlayReason
 void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	// Update the button rest transform if the component one has changed
+	{
+		const FTransform& Transform = GetComponentTransform();
+		const auto NewRestPosition = ToMRPosition(Transform.GetTranslation());
+		const auto NewOrientation = ToMRRotation(Transform.GetRotation());
+		const auto LinearEpsilon = XMVectorReplicate(0.01f);	// in cm
+		const auto AngularEpsilon = XMVectorReplicate(0.0001f);
+
+		if (!XMVector3NearEqual(Button->GetRestPosition(), NewRestPosition, LinearEpsilon) || 
+			!XMVector4NearEqual(Button->GetOrientation(), NewOrientation, AngularEpsilon))
+		{
+			Button->SetRestTransform(NewRestPosition, NewOrientation);
+		}
+	}
 
 	const auto& Pointers = GetActivePointers();
     std::vector<HandUtils::TouchPointer> TouchPointers;
@@ -150,5 +164,25 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		// Update visuals position
 		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsPositionLocal;
 		Visuals->SetActorLocation(NewLocation);
+	}
+
+	// Debug display
+	{
+		// Button face
+		{
+			FVector Position = ToUEPosition(Button->GetCurrentPosition());
+			FQuat Orientation = ToUERotation(Button->GetOrientation());
+			FPlane Plane(Position, -Orientation.GetForwardVector());
+			FVector2D HalfExtents(Button->GetWidth(), Button->GetHeight());
+			DrawDebugSolidPlane(GetWorld(), Plane, Position, 0.5f * HalfExtents, FColor::Green);
+		}
+
+		// Pointers
+		for (const auto& Pointer : TouchPointers)
+		{
+			auto Position = ToUEPosition(Pointer.m_position);
+			Position.Z += 2;
+			DrawDebugPoint(GetWorld(), Position, 10, FColor::Yellow);
+		}
 	}
 }
