@@ -52,27 +52,24 @@ float PressableButton::CalculatePushDistance(const TouchPointer& pointer)
         }
     }
 
-    if (!cachedPointer)
-    {
-		// If we didn't know about this pointer cache its position and ignore it as we don't know if it's 
-		// coming from the front or the back.
-        m_pointers.emplace_back(TouchPointer{ pointer.m_position, pointer.m_id });
-        return 0;
-    }
-
-	XMVECTOR rayStartLocal;
 	XMVECTOR rayEndLocal;
 
-	// Calculate ray connecting previous and current pointer positions in local space
+	// Calculate current pointer position in local space
 	{
 		const auto invOrientation = XMQuaternionInverse(m_orientation);
-		rayStartLocal = XMVector3Rotate(cachedPointer->m_position - m_restPosition, invOrientation);
 		rayEndLocal = XMVector3Rotate(pointer.m_position - m_restPosition, invOrientation);
 	}
 
-	// Update cached position
-    cachedPointer->m_position = pointer.m_position;
+	if (!cachedPointer)
+	{
+		// If we didn't know about this pointer cache its position and ignore it as we don't know if it's 
+		// coming from the front or the back.
+		m_pointers.emplace_back(TouchPointer{ rayEndLocal, pointer.m_id });
+		return 0;
+	}
 
+	XMVECTOR rayStartLocal = cachedPointer->m_position;
+	cachedPointer->m_position = rayEndLocal;
     const auto startDistance = -XMVectorGetZ(rayStartLocal);
     const auto endDistance = -XMVectorGetZ(rayEndLocal);
     const auto extents = 0.5f * XMVectorSet(m_width, m_height, m_maxPushDistance, 2.0f);

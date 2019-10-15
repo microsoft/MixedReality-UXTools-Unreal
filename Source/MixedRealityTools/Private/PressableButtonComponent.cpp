@@ -166,6 +166,7 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		Visuals->SetActorLocation(NewLocation);
 	}
 
+#if 0
 	// Debug display
 	{
 		// Button face
@@ -174,15 +175,19 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			FQuat Orientation = ToUERotation(Button->GetOrientation());
 			FPlane Plane(Position, -Orientation.GetForwardVector());
 			FVector2D HalfExtents(Button->GetWidth(), Button->GetHeight());
-			DrawDebugSolidPlane(GetWorld(), Plane, Position, 0.5f * HalfExtents, FColor::Green);
+			DrawDebugSolidPlane(GetWorld(), Plane, Position, 0.5f * HalfExtents, FColor::Blue);
 		}
 
 		// Pointers
 		for (const auto& Pointer : TouchPointers)
 		{
 			auto Position = ToUEPosition(Pointer.m_position);
+
+			// Shift it up a bit so it is not hidden by the pointer visuals.
 			Position.Z += 2;
+
 			DrawDebugPoint(GetWorld(), Position, 10, FColor::Yellow);
 		}
 	}
+#endif
 }
