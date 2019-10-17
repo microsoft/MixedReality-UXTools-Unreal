@@ -20,6 +20,17 @@ UPressableButtonComponent::UPressableButtonComponent()
 	ReleasedFraction = 0.2f;
 }
 
+USceneComponent* UPressableButtonComponent::GetVisuals() const 
+{
+	return Visuals;
+}
+
+void UPressableButtonComponent::SetVisuals(USceneComponent* NewVisuals)
+{
+	Visuals = NewVisuals;
+	VisualsPositionLocal = Visuals->GetComponentLocation() - GetComponentLocation();
+}
+
 static XMVECTOR ToXM(const FVector& vectorUE)
 {
 	return XMLoadFloat3((const XMFLOAT3*)&vectorUE);
@@ -61,30 +72,45 @@ static XMVECTOR ToMRRotation(const FQuat& quatUE)
 	return XMVectorSwizzle<1, 2, 0, 3>(quatXM) * g_XMNegateX * g_XMNegateY;
 }
 
-struct FButtonHandler : public Microsoft::MixedReality::HandUtils::IButtonHandler
+struct FButtonHandler : public HandUtils::IButtonHandler
 {
 	FButtonHandler(UPressableButtonComponent& PressableButtonComponent) : PressableButtonComponent(PressableButtonComponent) {}
 
+	virtual void OnButtonHoverStart(HandUtils::PressableButton& button, HandUtils::PointerId pointerId) override;
+
+	virtual void OnButtonHoverEnd(HandUtils::PressableButton& button, HandUtils::PointerId pointerId) override;
+
 	virtual void OnButtonPressed(
-		Microsoft::MixedReality::HandUtils::PressableButton& button,
-		Microsoft::MixedReality::HandUtils::PointerId pointerId,
+		HandUtils::PressableButton& button,
+		HandUtils::PointerId pointerId,
 		DirectX::FXMVECTOR touchPoint) override;
 
 	virtual void OnButtonReleased(
-		Microsoft::MixedReality::HandUtils::PressableButton& button,
-		Microsoft::MixedReality::HandUtils::PointerId pointerId) override;
+		HandUtils::PressableButton& button,
+		HandUtils::PointerId pointerId) override;
 
 	UPressableButtonComponent& PressableButtonComponent;
 };
 
+void FButtonHandler::OnButtonHoverStart(HandUtils::PressableButton& button, HandUtils::PointerId pointerId)
+{
+	// TODO Review use of raw pointers in events.
+	PressableButtonComponent.OnButtonHoverStart.Broadcast(&PressableButtonComponent, reinterpret_cast<USceneComponent*>(pointerId));
+}
+
+void FButtonHandler::OnButtonHoverEnd(HandUtils::PressableButton& button, HandUtils::PointerId pointerId)
+{
+	PressableButtonComponent.OnButtonHoverEnd.Broadcast(&PressableButtonComponent, reinterpret_cast<USceneComponent*>(pointerId));
+}
+
 void FButtonHandler::OnButtonPressed(HandUtils::PressableButton& button, HandUtils::PointerId pointerId, DirectX::FXMVECTOR touchPoint)
 {
-	PressableButtonComponent.ButtonPressed.Broadcast(&PressableButtonComponent);
+	PressableButtonComponent.OnButtonPressed.Broadcast(&PressableButtonComponent);
 }
 
 void FButtonHandler::OnButtonReleased(HandUtils::PressableButton& button, HandUtils::PointerId pointerId)
 {
-	PressableButtonComponent.ButtonReleased.Broadcast(&PressableButtonComponent);
+	PressableButtonComponent.OnButtonReleased.Broadcast(&PressableButtonComponent);
 }
 
 // Called when the game starts
@@ -105,7 +131,7 @@ void UPressableButtonComponent::BeginPlay()
 
 	if (Visuals)
 	{
-		VisualsPositionLocal = Visuals->GetActorLocation() - RestPosition;
+		VisualsPositionLocal = Visuals->GetComponentLocation() - RestPosition;
 	}
 }
 
@@ -163,7 +189,7 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	{
 		// Update visuals position
 		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsPositionLocal;
-		Visuals->SetActorLocation(NewLocation);
+		Visuals->SetWorldLocation(NewLocation);
 	}
 
 #if 0

@@ -21,6 +21,8 @@ namespace Microsoft
 class UPressableButtonComponent;
 struct FButtonHandler;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FButtonHoverStartDelegate, UPressableButtonComponent*, Button, USceneComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FButtonHoverEndDelegate, UPressableButtonComponent*, Button, USceneComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonPressedDelegate, UPressableButtonComponent*, Button);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonReleasedDelegate, UPressableButtonComponent*, Button);
 
@@ -37,6 +39,14 @@ public:
 
 	UPressableButtonComponent();
 
+	/** Get scene component used for the moving visuals */
+	UFUNCTION(BlueprintCallable)
+	USceneComponent* GetVisuals() const;
+
+	/** Set scene component to be used for the moving visuals */
+	UFUNCTION(BlueprintCallable)
+	void SetVisuals(USceneComponent* Visuals);
+
 protected:
 
     //
@@ -47,10 +57,6 @@ protected:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-
-	/** Button visuals. Will move as the button is pressed. */
-	UPROPERTY(EditAnywhere)
-	AActor* Visuals;
 
 	/** 
 	 * The extents (i.e. half the dimensions) of the button movement box.
@@ -67,17 +73,26 @@ public:
     UPROPERTY(EditAnywhere)
     float ReleasedFraction;
 
+	/** Event raised when the first pointer enters the button collision box. */
+	UPROPERTY(BlueprintAssignable)
+	FButtonHoverStartDelegate OnButtonHoverStart;
+
+	/** Event raised when the last pointer leaves the button collision box. */
+	UPROPERTY(BlueprintAssignable)
+	FButtonHoverEndDelegate OnButtonHoverEnd;
+
 	/** Event raised when the button reaches the pressed distance. */
 	UPROPERTY(BlueprintAssignable)
-	FButtonPressedDelegate ButtonPressed;
+	FButtonPressedDelegate OnButtonPressed;
 
 	/** Event raised when the a pressed button reaches the released distance. */
 	UPROPERTY(BlueprintAssignable)
-	FButtonReleasedDelegate ButtonReleased;
+	FButtonReleasedDelegate OnButtonReleased;
 
 private:
 
     Microsoft::MixedReality::HandUtils::PressableButton* Button = nullptr;
     FButtonHandler* ButtonHandler = nullptr;
 	FVector VisualsPositionLocal;
+	USceneComponent* Visuals = nullptr;
 };

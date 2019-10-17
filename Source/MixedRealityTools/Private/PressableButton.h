@@ -23,6 +23,12 @@ namespace Microsoft
             /// Interface used to handle button events.
             struct IButtonHandler
             {
+				/// Raised when the first pointer is seen.
+				virtual void OnButtonHoverStart(PressableButton& button, PointerId pointerId) {};
+
+				/// Raised when the last pointer is lost.
+				virtual void OnButtonHoverEnd(PressableButton& button, PointerId pointerId) {};
+
                 /// Raised when a pointer becomes in contact with a button.
                 virtual void OnButtonTouchStart(PressableButton& button, PointerId pointerId, DirectX::FXMVECTOR touchPoint) {};
 

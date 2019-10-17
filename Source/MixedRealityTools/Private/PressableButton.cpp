@@ -122,25 +122,47 @@ void PressableButton::Update(float timeDelta, gsl::span<const TouchPointer> touc
     m_touchingPointerId = TouchPointer::InvalidPointerId;
     float targetDistance = 0;
 
-    for (const auto& pointer : touchPointers)
-    {
-        float pushDistance = CalculatePushDistance(pointer);
-        if (pushDistance > targetDistance)
-        {
-            m_touchingPointerId = pointer.m_id;
-            targetDistance = pushDistance;
-        }
-    }
+	if (!touchPointers.empty())
+	{
+		// Raise hover start if this is the first pointer we see.
+		if (m_pointers.empty())
+		{
+			const auto numHandlers = m_handlers.size();
+			for (size_t i = 0; i < numHandlers; ++i)
+			{
+				if (m_handlers[i])
+				{
+					m_handlers[i]->OnButtonHoverStart(*this, touchPointers[0].m_id);
+				}
+			}
+		}
+
+		for (const auto& pointer : touchPointers)
+		{
+			float pushDistance = CalculatePushDistance(pointer);
+			if (pushDistance > targetDistance)
+			{
+				m_touchingPointerId = pointer.m_id;
+				targetDistance = pushDistance;
+			}
+		}
+	}
 
     assert(targetDistance >= 0 && targetDistance <= m_maxPushDistance);
 
     // Remove cached pointers we haven't seen this frame
+	PointerId lastPointer = m_pointers.empty() ? TouchPointer::InvalidPointerId : m_pointers.back().m_id;
     {
         auto newEnd = std::remove_if(m_pointers.begin(), m_pointers.end(), [touchPointers](const TouchPointer& pointer)
             {
                 return std::find(touchPointers.begin(), touchPointers.end(), pointer) == touchPointers.end();
             });
         m_pointers.erase(newEnd, m_pointers.end());
+
+		if (!m_pointers.empty())
+		{
+			lastPointer = TouchPointer::InvalidPointerId;
+		}
     }
 
     const auto previousPushDistance = m_currentPushDistance;
@@ -168,7 +190,8 @@ void PressableButton::Update(float timeDelta, gsl::span<const TouchPointer> touc
     {
         m_currentPushDistance = std::max(targetDistance, m_currentPushDistance - timeDelta * m_recoverySpeed);
 
-        if (m_isPressed && m_currentPushDistance <= m_releasedDistance && previousPushDistance > m_releasedDistance)
+		// Raise button released if we're pressed but we just lost our last pointer or crossed the released distance
+        if (m_isPressed && (lastPointer != TouchPointer::InvalidPointerId || (m_currentPushDistance <= m_releasedDistance && previousPushDistance > m_releasedDistance)))
         {
             m_isPressed = false;
 
@@ -182,6 +205,19 @@ void PressableButton::Update(float timeDelta, gsl::span<const TouchPointer> touc
             }
         }
     }
+
+	// Raise hover end if we just lost our last pointer
+	if (lastPointer != TouchPointer::InvalidPointerId)
+	{
+		const auto numHandlers = m_handlers.size();
+		for (size_t i = 0; i < numHandlers; ++i)
+		{
+			if (m_handlers[i])
+			{
+				m_handlers[i]->OnButtonHoverEnd(*this, lastPointer);
+			}
+		}
+	}
 
     // Remove null handlers that may have been introduced via Unsubsribe()
     {
