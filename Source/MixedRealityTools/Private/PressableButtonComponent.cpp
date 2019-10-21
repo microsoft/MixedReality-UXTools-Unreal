@@ -28,7 +28,10 @@ USceneComponent* UPressableButtonComponent::GetVisuals() const
 void UPressableButtonComponent::SetVisuals(USceneComponent* NewVisuals)
 {
 	Visuals = NewVisuals;
-	VisualsPositionLocal = Visuals->GetComponentLocation() - GetComponentLocation();
+	if (Visuals)
+	{
+		VisualsPositionLocal = Visuals->GetComponentLocation() - GetComponentLocation();
+	}
 }
 
 static XMVECTOR ToXM(const FVector& vectorUE)
