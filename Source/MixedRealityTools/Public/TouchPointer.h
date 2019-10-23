@@ -22,6 +22,10 @@ public:
     UFUNCTION(BlueprintCallable)
     void SetTouchRadius(float radius);
 
+	/// Returns all active pointers.
+	UFUNCTION(BlueprintCallable)
+	static const TArray<UTouchPointer*>& GetAllPointers();
+
 protected:
 
 	/// Start touching the component.
@@ -60,4 +64,6 @@ private:
 
 	USphereComponent* m_touchSphere;
 
+	// Static list with all active pointers.
+	static TArray<UTouchPointer*> Pointers;
 };

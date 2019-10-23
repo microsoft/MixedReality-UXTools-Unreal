@@ -4,6 +4,8 @@
 
 #include "TouchPointerTarget.h"
 
+TArray<UTouchPointer*> UTouchPointer::Pointers;
+
 // Sets default values for this component's properties
 UTouchPointer::UTouchPointer()
 {
@@ -90,10 +92,14 @@ void UTouchPointer::BeginPlay()
 
 	GetOwner()->OnActorBeginOverlap.AddUnique(m_beginOverlapDelegate);
 	GetOwner()->OnActorEndOverlap.AddUnique(m_endOverlapDelegate);
+
+	Pointers.Add(this);
 }
 
 void UTouchPointer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	Pointers.Remove(this);
+
 	StopAllTouching();
 
 	GetOwner()->OnActorBeginOverlap.Remove(m_beginOverlapDelegate);
@@ -124,4 +130,9 @@ void UTouchPointer::SetTouchRadius(float radius)
 {
     this->TouchRadius = radius;
     m_touchSphere->SetSphereRadius(radius);
+}
+
+const TArray<UTouchPointer*>& UTouchPointer::GetAllPointers()
+{
+	return Pointers;
 }
