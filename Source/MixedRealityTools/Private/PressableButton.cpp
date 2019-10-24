@@ -89,6 +89,11 @@ float PressableButton::CalculatePushDistance(const TouchPointer& pointer)
                 newPushDistance = std::min(endDistance, m_maxPushDistance);
             }
         }
+		else if (pointer.m_id == m_touchingPointerId)
+		{
+			// Keep the button pushed for as long as the touching pointer is over the current push distance
+			newPushDistance = std::min(endDistance, m_maxPushDistance);
+		}
     }
     else if (endDistance > 0)
     {
@@ -119,7 +124,7 @@ void PressableButton::SetRestTransform(FXMVECTOR position, FXMVECTOR orientation
 
 void PressableButton::Update(float timeDelta, gsl::span<const TouchPointer> touchPointers)
 {
-    m_touchingPointerId = TouchPointer::InvalidPointerId;
+    PointerId newTouchingPointerId = TouchPointer::InvalidPointerId;
     float targetDistance = 0;
 
 	if (!touchPointers.empty())
@@ -142,13 +147,15 @@ void PressableButton::Update(float timeDelta, gsl::span<const TouchPointer> touc
 			float pushDistance = CalculatePushDistance(pointer);
 			if (pushDistance > targetDistance)
 			{
-				m_touchingPointerId = pointer.m_id;
+				newTouchingPointerId = pointer.m_id;
 				targetDistance = pushDistance;
 			}
 		}
 	}
 
     assert(targetDistance >= 0 && targetDistance <= m_maxPushDistance);
+
+	m_touchingPointerId = newTouchingPointerId;
 
     // Remove cached pointers we haven't seen this frame
 	PointerId lastPointer = m_pointers.empty() ? TouchPointer::InvalidPointerId : m_pointers.back().m_id;
