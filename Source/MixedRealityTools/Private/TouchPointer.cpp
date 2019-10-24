@@ -11,16 +11,6 @@ UTouchPointer::UTouchPointer()
 {
     // No ticking needed for pointers.
     PrimaryComponentTick.bCanEverTick = false;
-
-    // Set to make sure InitializeComponent gets called.
-    bWantsInitializeComponent = true;
-
-    // Create a collision sphere for detecting interactables
-    m_touchSphere = CreateDefaultSubobject<USphereComponent>(TEXT("TouchSphere"));
-    m_touchSphere->InitSphereRadius(TouchRadius);
-    m_touchSphere->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
-    m_touchSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    m_touchSphere->SetGenerateOverlapEvents(true);
 }
 
 void UTouchPointer::OnActorBeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
@@ -79,57 +69,26 @@ bool UTouchPointer::ImplementsTargetInterface(const UActorComponent *comp) const
 	return comp->GetClass()->ImplementsInterface(UTouchPointerTarget::StaticClass()) || Cast<ITouchPointerTarget>(comp);
 }
 
-void UTouchPointer::InitializeComponent()
-{
-	// Create event delegates for handling overlap begin/end
-	m_beginOverlapDelegate.BindUFunction(this, "OnActorBeginOverlap");
-	m_endOverlapDelegate.BindUFunction(this, "OnActorEndOverlap");
-}
-
 void UTouchPointer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetOwner()->OnActorBeginOverlap.AddUnique(m_beginOverlapDelegate);
-	GetOwner()->OnActorEndOverlap.AddUnique(m_endOverlapDelegate);
+	GetOwner()->OnActorBeginOverlap.AddDynamic(this, &UTouchPointer::OnActorBeginOverlap);
+	GetOwner()->OnActorEndOverlap.AddDynamic(this, &UTouchPointer::OnActorEndOverlap);
 
 	Pointers.Add(this);
 }
 
 void UTouchPointer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	StopAllTouching();
+
 	Pointers.Remove(this);
 
-	StopAllTouching();
-
-	GetOwner()->OnActorBeginOverlap.Remove(m_beginOverlapDelegate);
-	GetOwner()->OnActorEndOverlap.Remove(m_endOverlapDelegate);
+	GetOwner()->OnActorBeginOverlap.RemoveDynamic(this, &UTouchPointer::OnActorBeginOverlap);
+	GetOwner()->OnActorEndOverlap.RemoveDynamic(this, &UTouchPointer::OnActorEndOverlap);
 
 	Super::EndPlay(EndPlayReason);
-}
-
-void UTouchPointer::Activate(bool bReset)
-{
-	Super::Activate();
-
-	GetOwner()->OnActorBeginOverlap.AddUnique(m_beginOverlapDelegate);
-	GetOwner()->OnActorEndOverlap.AddUnique(m_endOverlapDelegate);
-}
-
-void UTouchPointer::Deactivate()
-{
-	StopAllTouching();
-
-	GetOwner()->OnActorBeginOverlap.Remove(m_beginOverlapDelegate);
-	GetOwner()->OnActorEndOverlap.Remove(m_endOverlapDelegate);
-
-	Super::Deactivate();
-}
-
-void UTouchPointer::SetTouchRadius(float radius)
-{
-    this->TouchRadius = radius;
-    m_touchSphere->SetSphereRadius(radius);
 }
 
 const TArray<UTouchPointer*>& UTouchPointer::GetAllPointers()

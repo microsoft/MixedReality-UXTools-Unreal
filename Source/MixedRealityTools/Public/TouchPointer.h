@@ -8,6 +8,11 @@
 #include "TouchPointer.generated.h"
 
 
+/**
+ * Turns an actor into a touch pointer.
+ * Touch pointers confer focus to interactables (e.g. buttons) when they overlap with them. 
+ * Interactables use the transform of pointers focusing them to drive their interactions.
+ */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MIXEDREALITYTOOLS_API UTouchPointer : public USceneComponent
 {
@@ -16,11 +21,6 @@ class MIXEDREALITYTOOLS_API UTouchPointer : public USceneComponent
 public:
     // Sets default values for this component's properties
     UTouchPointer();
-
-    UPROPERTY(BlueprintSetter = "SetTouchRadius")
-    float TouchRadius;
-    UFUNCTION(BlueprintCallable)
-    void SetTouchRadius(float radius);
 
 	/// Returns all active pointers.
 	UFUNCTION(BlueprintCallable)
@@ -31,9 +31,11 @@ protected:
 	/// Start touching the component.
 	/// Returns false if the component is not a valid touch target.
 	bool TryStartTouching(UActorComponent *comp);
+
 	/// Stop touching the component.
 	/// Returns false if the component was not touched.
 	bool StopTouching(UActorComponent *comp);
+
 	/// Stop touching all current components.
 	void StopAllTouching();
 
@@ -42,11 +44,8 @@ protected:
 	UFUNCTION()
 	void OnActorEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
-	virtual void InitializeComponent() override;
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	virtual void Activate(bool bReset) override;
-	virtual void Deactivate() override;
 
 private:
 
@@ -58,12 +57,6 @@ protected:
 
 private:
 
-	// Delegates for handling overlap events
-	FScriptDelegate m_beginOverlapDelegate;
-	FScriptDelegate m_endOverlapDelegate;
-
-	USphereComponent* m_touchSphere;
-
-	// Static list with all active pointers.
+	/** List with all active pointers. */
 	static TArray<UTouchPointer*> Pointers;
 };
