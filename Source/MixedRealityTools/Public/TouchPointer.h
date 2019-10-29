@@ -16,46 +16,62 @@
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MIXEDREALITYTOOLS_API UTouchPointer : public USceneComponent
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    // Sets default values for this component's properties
-    UTouchPointer();
+	// Sets default values for this component's properties
+	UTouchPointer();
+
+	UPROPERTY(BlueprintSetter = "SetTouchRadius")
+	float TouchRadius;
+	UFUNCTION(BlueprintCallable)
+	void SetTouchRadius(float radius);
 
 	/// Returns all active pointers.
 	UFUNCTION(BlueprintCallable)
 	static const TArray<UTouchPointer*>& GetAllPointers();
 
+	UFUNCTION(BlueprintPure)
+	bool GetPinched() const;
+	UFUNCTION(BlueprintCallable)
+	void SetPinched(bool Enable);
+
 protected:
 
 	/// Start touching the component.
 	/// Returns false if the component is not a valid touch target.
-	bool TryStartTouching(UActorComponent *comp);
+	bool TryStartTouching(USceneComponent *comp);
 
 	/// Stop touching the component.
 	/// Returns false if the component was not touched.
-	bool StopTouching(UActorComponent *comp);
+	bool TryStopTouching(USceneComponent *comp);
 
 	/// Stop touching all current components.
 	void StopAllTouching();
 
 	UFUNCTION()
-	void OnActorBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	void OnPointerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
 	UFUNCTION()
-	void OnActorEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	void OnPointerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
 
-	bool ImplementsTargetInterface(const UActorComponent *comp) const;
+	bool ImplementsTargetInterface(const UObject *obj) const;
 
 protected:
 
 	TSet<TWeakObjectPtr<UActorComponent>> TouchedTargets;
 
 private:
+
+	UPROPERTY(BlueprintGetter = "GetPinched", BlueprintSetter = "SetPinched")
+	bool bIsPinched;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	USphereComponent *TouchSphere;
 
 	/** List with all active pointers. */
 	static TArray<UTouchPointer*> Pointers;

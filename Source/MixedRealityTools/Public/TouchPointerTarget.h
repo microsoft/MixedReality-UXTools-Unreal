@@ -31,4 +31,10 @@ public:
     UFUNCTION(BlueprintNativeEvent)
     void TouchEnded(USceneComponent* pointer);
 
+	UFUNCTION(BlueprintNativeEvent)
+	void PinchStarted(USceneComponent* pointer);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void PinchEnded(USceneComponent* pointer);
+
 };
