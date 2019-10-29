@@ -7,7 +7,7 @@
 #include "MixedRealityToolsFunctionLibrary.generated.h"
 
 /**
- * 
+ * Library of utility functions for Mixed Reality.
  */
 UCLASS()
 class MIXEDREALITYTOOLS_API UMixedRealityToolsFunctionLibrary : public UBlueprintFunctionLibrary
@@ -16,7 +16,7 @@ class MIXEDREALITYTOOLS_API UMixedRealityToolsFunctionLibrary : public UBlueprin
 
 public:
 
-	/** Returns whether we're currently running in VR */
+	/** Returns true if hand tracking is available. Useful to decide whether hand tracking emulation is required. */
 	UFUNCTION(BlueprintPure, Category="MixedRealityTools")
-	static bool IsInVR();
+	static bool IsHandTrackingAvailable();
 };
