@@ -22,10 +22,18 @@ public:
 	// Sets default values for this component's properties
 	UTouchPointer();
 
-	UPROPERTY(BlueprintSetter = "SetTouchRadius")
+	UPROPERTY(BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius")
 	float TouchRadius;
+
 	UFUNCTION(BlueprintCallable)
 	void SetTouchRadius(float radius);
+
+	UFUNCTION(BlueprintCallable)
+	float GetTouchRadius() const;
+
+	/** Returns the owner of the closest target */
+	UFUNCTION(BlueprintCallable)
+	AActor* FindClosestTarget() const;
 
 	/// Returns all active pointers.
 	UFUNCTION(BlueprintCallable)
@@ -63,7 +71,7 @@ private:
 
 protected:
 
-	TSet<TWeakObjectPtr<UActorComponent>> TouchedTargets;
+	TSet<UActorComponent*> TouchedTargets;
 
 private:
 

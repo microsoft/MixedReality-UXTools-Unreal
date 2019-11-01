@@ -25,11 +25,11 @@ void UHandJointAttachmentComponent::BeginPlay()
 
 			if (Hand == EControllerHand::Left)
 			{
-				Location.Set(40, -10, 0);
+				Location.Set(30, -10, 0);
 			}
 			else
 			{
-				Location.Set(40, 10, 0);
+				Location.Set(30, 10, 0);
 			}
 
 			GetOwner()->SetActorLocation(Location);

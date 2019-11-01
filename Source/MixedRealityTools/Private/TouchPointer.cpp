@@ -78,16 +78,16 @@ bool UTouchPointer::TryStopTouching(USceneComponent *comp)
 
 void UTouchPointer::StopAllTouching()
 {
-	for (const TWeakObjectPtr<UActorComponent>& wComp : TouchedTargets)
+	for (UActorComponent* Target : TouchedTargets)
 	{
-		if (UActorComponent *comp = wComp.Get())
+		if (Target)
 		{
 			if (bIsPinched)
 			{
-				ITouchPointerTarget::Execute_PinchEnded(comp, this);
+				ITouchPointerTarget::Execute_PinchEnded(Target, this);
 			}
 
-			ITouchPointerTarget::Execute_TouchEnded(comp, this);
+			ITouchPointerTarget::Execute_TouchEnded(Target, this);
 		}
 	}
 	TouchedTargets.Empty();
@@ -124,6 +124,33 @@ void UTouchPointer::SetTouchRadius(float radius)
 {
 	this->TouchRadius = radius;
 	TouchSphere->SetSphereRadius(radius);
+}
+
+float UTouchPointer::GetTouchRadius() const 
+{
+	return TouchRadius;
+}
+
+AActor* UTouchPointer::FindClosestTarget() const
+{
+	AActor* ClosestTarget = nullptr;
+	float DistanceSqr = MAX_flt;
+
+	for (UActorComponent* TargetComponent : TouchedTargets)
+	{
+		if (TargetComponent && TargetComponent->GetOwner() != ClosestTarget)
+		{
+			// TODO Use distance to surface?
+			auto NewDistanceSqr = FVector::DistSquared(GetComponentLocation(), TargetComponent->GetOwner()->GetActorLocation());
+			if (NewDistanceSqr < DistanceSqr)
+			{
+				DistanceSqr = NewDistanceSqr;
+				ClosestTarget = TargetComponent->GetOwner();
+			}
+		}
+	}
+
+	return ClosestTarget;
 }
 
 const TArray<UTouchPointer*>& UTouchPointer::GetAllPointers()
