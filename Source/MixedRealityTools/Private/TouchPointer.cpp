@@ -131,21 +131,27 @@ float UTouchPointer::GetTouchRadius() const
 	return TouchRadius;
 }
 
-AActor* UTouchPointer::FindClosestTarget() const
+UActorComponent* UTouchPointer::GetClosestPointOnTargets(FVector& OutPointOnTargetSurface) const
 {
-	AActor* ClosestTarget = nullptr;
+	UActorComponent* ClosestTarget = nullptr;
 	float DistanceSqr = MAX_flt;
+	const auto PointerPosition = GetComponentLocation();
 
+	// Iterate over all current targets obtaining their closest point to the pointer.
 	for (UActorComponent* TargetComponent : TouchedTargets)
 	{
-		if (TargetComponent && TargetComponent->GetOwner() != ClosestTarget)
+		if (TargetComponent)
 		{
-			// TODO Use distance to surface?
-			auto NewDistanceSqr = FVector::DistSquared(GetComponentLocation(), TargetComponent->GetOwner()->GetActorLocation());
-			if (NewDistanceSqr < DistanceSqr)
+			FVector ClosestPoint;
+			if (ITouchPointerTarget::Execute_GetClosestPointOnSurface(TargetComponent, PointerPosition, ClosestPoint))
 			{
-				DistanceSqr = NewDistanceSqr;
-				ClosestTarget = TargetComponent->GetOwner();
+				auto NewDistanceSqr = FVector::DistSquared(PointerPosition, ClosestPoint);
+				if (NewDistanceSqr < DistanceSqr)
+				{
+					DistanceSqr = NewDistanceSqr;
+					ClosestTarget = TargetComponent;
+					OutPointOnTargetSurface = ClosestPoint;
+				}
 			}
 		}
 	}

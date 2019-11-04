@@ -22,9 +22,12 @@ public:
 
 protected:
 
-    virtual void TouchStarted_Implementation(USceneComponent* pointer) override;
+	//
+	// ITouchPointerTarget interface
 
+    virtual void TouchStarted_Implementation(USceneComponent* pointer) override;
     virtual void TouchEnded_Implementation(USceneComponent* pointer) override;
+	virtual bool GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface) override;
 
     const PointerSet& GetActivePointers() const { return ActivePointers; }
 

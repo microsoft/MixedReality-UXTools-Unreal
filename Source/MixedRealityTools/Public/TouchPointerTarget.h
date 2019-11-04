@@ -37,4 +37,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void PinchEnded(USceneComponent* pointer);
 
+	/** Calculates the point on the target surface that is closest to the point passed in. Return value indicates whether a point was found. */
+	UFUNCTION(BlueprintNativeEvent)
+	bool GetClosestPointOnSurface(const FVector& Point, FVector& OutPointOnSurface);
 };

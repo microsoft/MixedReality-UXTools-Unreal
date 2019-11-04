@@ -31,9 +31,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetTouchRadius() const;
 
-	/** Returns the owner of the closest target */
+	/** 
+	 * Returns the target that is closest to the pointer position or null if there is none. 
+	 * The closest point on the target surface is stored in OutPointOnTargetSurface.
+	 */
 	UFUNCTION(BlueprintCallable)
-	AActor* FindClosestTarget() const;
+	UActorComponent* GetClosestPointOnTargets(FVector& OutPointOnTargetSurface) const;
 
 	/// Returns all active pointers.
 	UFUNCTION(BlueprintCallable)

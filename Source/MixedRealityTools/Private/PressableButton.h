@@ -103,7 +103,7 @@ namespace Microsoft
 
             private:
 
-                /// Returns the distance a given pointer is push the button to.
+                /// Returns the distance a given pointer is pushing the button to.
                 float CalculatePushDistance(const TouchPointer& pointer);
 
             public:

@@ -16,3 +16,8 @@ void UInteractableSceneComponent::TouchEnded_Implementation(USceneComponent* poi
 {
     ActivePointers.Remove(TWeakObjectPtr<USceneComponent>(pointer));
 }
+
+bool UInteractableSceneComponent::GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface)
+{
+	return false;
+}

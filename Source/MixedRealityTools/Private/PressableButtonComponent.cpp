@@ -249,3 +249,19 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	}
 #endif
 }
+
+bool UPressableButtonComponent::GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface)
+{
+	FVector ButtonPosition = ToUEPosition(Button->GetCurrentPosition());
+	FQuat ButtonOrientation = ToUERotation(Button->GetOrientation());	
+	FVector PointLocal = ButtonOrientation.Inverse().RotateVector(Point - ButtonPosition);
+
+	// In local space the button is a rectangle centered at the origin with -X normal
+	const auto halfWidth = 0.5f * Button->GetWidth();
+	const auto halfHeight = 0.5f * Button->GetHeight();
+	FVector ClosestPointLocal { 0, FMath::Clamp(PointLocal.Y, -halfWidth, halfWidth), FMath::Clamp(PointLocal.Z, -halfHeight, halfHeight) };
+
+	OutPointOnSurface = ButtonOrientation.RotateVector(ClosestPointLocal) + ButtonPosition;
+
+	return true;
+}
