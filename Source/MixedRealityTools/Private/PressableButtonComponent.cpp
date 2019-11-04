@@ -4,6 +4,7 @@
 #include "PressableButton.h"
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
+#include <Components/ShapeComponent.h>
 
 namespace HandUtils = Microsoft::MixedReality::HandUtils;
 using namespace DirectX;
@@ -22,16 +23,27 @@ UPressableButtonComponent::UPressableButtonComponent()
 
 USceneComponent* UPressableButtonComponent::GetVisuals() const 
 {
-	return Visuals;
+	return VisualsWeak.Get();
 }
 
 void UPressableButtonComponent::SetVisuals(USceneComponent* NewVisuals)
 {
-	Visuals = NewVisuals;
-	if (Visuals)
+	VisualsWeak = NewVisuals;
+
+	if (VisualsWeak.IsValid())
 	{
-		VisualsPositionLocal = Visuals->GetComponentLocation() - GetComponentLocation();
+		VisualsPositionLocal = NewVisuals->GetComponentLocation() - GetComponentLocation();
 	}
+}
+
+UShapeComponent* UPressableButtonComponent::GetHoverVolumeShape() const
+{
+	return HoverVolumeShapeWeak.Get();
+}
+
+void UPressableButtonComponent::SetHoverVolumeShape(UShapeComponent* Shape)
+{
+	HoverVolumeShapeWeak = Shape;
 }
 
 static XMVECTOR ToXM(const FVector& vectorUE)
@@ -132,9 +144,14 @@ void UPressableButtonComponent::BeginPlay()
 	ButtonHandler = new FButtonHandler(*this);
 	Button->Subscribe(ButtonHandler);
 
-	if (Visuals)
+	if (auto Visuals = VisualsWeak.Get())
 	{
 		VisualsPositionLocal = Visuals->GetComponentLocation() - RestPosition;
+	}
+
+	if (!HoverVolumeShapeWeak.IsValid())
+	{
+		HoverVolumeShapeWeak = GetOwner()->FindComponentByClass<UShapeComponent>();
 	}
 }
 
@@ -169,26 +186,38 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		}
 	}
 
-	const auto& Pointers = GetActivePointers();
-    std::vector<HandUtils::TouchPointer> TouchPointers;
-    TouchPointers.reserve(Pointers.Num());
+	std::vector<HandUtils::TouchPointer> TouchPointers;
 
-	// Collect all touch pointers interacting with the button
-    for (const TWeakObjectPtr<USceneComponent>& PointerWeak : Pointers)
-    {
-        if (USceneComponent* Pointer = PointerWeak.Get())
-        {
-            HandUtils::TouchPointer TouchPointer;
-            TouchPointer.m_position = ToMRPosition(Pointer->GetComponentLocation());
-            TouchPointer.m_id = (HandUtils::PointerId)Pointer;
-            TouchPointers.emplace_back(TouchPointer);
-        }
-    }
+	if (UShapeComponent* HoverVolumeShape = HoverVolumeShapeWeak.Get())
+	{
+		const auto& Pointers = GetActivePointers();
+		TouchPointers.reserve(Pointers.Num());
+
+		// Collect all touch pointers interacting with the button
+		for (const TWeakObjectPtr<USceneComponent>& PointerWeak : Pointers)
+		{
+			if (USceneComponent* Pointer = PointerWeak.Get())
+			{
+				const FVector PointerPosition = Pointer->GetComponentLocation();
+				float SquaredDistance;
+				FVector ClosestPoint;
+
+				// Check if the pointer is inside the hover volume
+				if (HoverVolumeShape->GetSquaredDistanceToCollision(PointerPosition, SquaredDistance, ClosestPoint) && SquaredDistance == 0.0)
+				{
+					HandUtils::TouchPointer TouchPointer;
+					TouchPointer.m_position = ToMRPosition(PointerPosition);
+					TouchPointer.m_id = (HandUtils::PointerId)Pointer;
+					TouchPointers.emplace_back(TouchPointer);
+				}
+			}
+		}
+	}
 
 	// Update button logic with all known pointers
 	Button->Update(DeltaTime, TouchPointers);
 
-	if (Visuals)
+	if (auto Visuals = VisualsWeak.Get())
 	{
 		// Update visuals position
 		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsPositionLocal;

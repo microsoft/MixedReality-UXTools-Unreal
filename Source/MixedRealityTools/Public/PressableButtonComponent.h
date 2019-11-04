@@ -19,6 +19,7 @@ namespace Microsoft
 }
 
 class UPressableButtonComponent;
+class UShapeComponent;
 struct FButtonHandler;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FButtonHoverStartDelegate, UPressableButtonComponent*, Button, USceneComponent*, Pointer);
@@ -46,6 +47,14 @@ public:
 	/** Set scene component to be used for the moving visuals */
 	UFUNCTION(BlueprintCallable)
 	void SetVisuals(USceneComponent* Visuals);
+
+	/** Get shape component used as hover volume shape */
+	UFUNCTION(BlueprintCallable)
+	UShapeComponent* GetHoverVolumeShape() const;
+
+	/** Set shape component to be used as hover volume shape */
+	UFUNCTION(BlueprintCallable)
+	void SetHoverVolumeShape(UShapeComponent* Shape);
 
 protected:
 
@@ -94,5 +103,10 @@ private:
     Microsoft::MixedReality::HandUtils::PressableButton* Button = nullptr;
     FButtonHandler* ButtonHandler = nullptr;
 	FVector VisualsPositionLocal;
-	USceneComponent* Visuals = nullptr;
+
+	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
+	TWeakObjectPtr<USceneComponent> VisualsWeak;
+
+	/** Shape defining the hover volume for the button. Pointers outside this volume will be ignored. */
+	TWeakObjectPtr<UShapeComponent> HoverVolumeShapeWeak;
 };
