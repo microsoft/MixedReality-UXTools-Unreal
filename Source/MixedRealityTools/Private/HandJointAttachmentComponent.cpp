@@ -5,6 +5,7 @@
 #include "Kismet\GameplayStatics.h"
 #include "MixedRealityToolsFunctionLibrary.h"
 #include "WindowsMixedRealityHandTrackingFunctionLibrary.h"
+#include "MixedRealityTools.h"
 
 
 UHandJointAttachmentComponent::UHandJointAttachmentComponent()
@@ -38,6 +39,13 @@ void UHandJointAttachmentComponent::BeginPlay()
 
 		SetComponentTickEnabled(false);
 	}
+	else if (bAttachOnSkin)
+	{
+		if (!LocalAttachDirection.Normalize())
+		{
+			UE_LOG(MixedRealityTools, Error, TEXT("Could not normalize LocalAttachDirection. The calculated attachment position won't be on the skin"));
+		}
+	}
 }
 
 void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -53,8 +61,18 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 		Owner->SetActorHiddenInGame(false);
 		Owner->SetActorEnableCollision(true);
 
+		FVector Location = Transform.GetLocation();
+		FQuat Rotation = Transform.GetRotation();
+
+		if (bAttachOnSkin)
+		{
+			// TODO Obtain joint radius from WMR hand tracking when available
+			const float JointRadius = 1.0f;
+			Location += Rotation.RotateVector(LocalAttachDirection) * JointRadius;
+		}
+
 		// Update transform
-		Owner->SetActorLocationAndRotation(Transform.GetLocation(), Transform.GetRotation());
+		Owner->SetActorLocationAndRotation(Location, Rotation);
 	}
 	else
 	{
