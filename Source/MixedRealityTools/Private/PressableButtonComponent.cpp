@@ -2,6 +2,7 @@
 
 #include "PressableButtonComponent.h"
 #include "Native/PressableButton.h"
+#include "TouchPointer.h"
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 #include <Components/ShapeComponent.h>
@@ -190,26 +191,23 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	if (UShapeComponent* HoverVolumeShape = HoverVolumeShapeWeak.Get())
 	{
-		const auto& Pointers = GetActivePointers();
+		TArray<UTouchPointer*> Pointers = GetActivePointers();
 		TouchPointers.reserve(Pointers.Num());
 
 		// Collect all touch pointers interacting with the button
-		for (const TWeakObjectPtr<USceneComponent>& PointerWeak : Pointers)
+		for (UTouchPointer* Pointer : Pointers)
 		{
-			if (USceneComponent* Pointer = PointerWeak.Get())
-			{
-				const FVector PointerPosition = Pointer->GetComponentLocation();
-				float SquaredDistance;
-				FVector ClosestPoint;
+			const FVector PointerPosition = Pointer->GetComponentLocation();
+			float SquaredDistance;
+			FVector ClosestPoint;
 
-				// Check if the pointer is inside the hover volume
-				if (HoverVolumeShape->GetSquaredDistanceToCollision(PointerPosition, SquaredDistance, ClosestPoint) && SquaredDistance == 0.0)
-				{
-					HandUtils::TouchPointer TouchPointer;
-					TouchPointer.m_position = ToMRPosition(PointerPosition);
-					TouchPointer.m_id = (HandUtils::PointerId)Pointer;
-					TouchPointers.emplace_back(TouchPointer);
-				}
+			// Check if the pointer is inside the hover volume
+			if (HoverVolumeShape->GetSquaredDistanceToCollision(PointerPosition, SquaredDistance, ClosestPoint) && SquaredDistance == 0.0)
+			{
+				HandUtils::TouchPointer TouchPointer;
+				TouchPointer.m_position = ToMRPosition(PointerPosition);
+				TouchPointer.m_id = (HandUtils::PointerId)Pointer;
+				TouchPointers.emplace_back(TouchPointer);
 			}
 		}
 	}

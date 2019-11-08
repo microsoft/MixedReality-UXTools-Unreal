@@ -16,6 +16,10 @@ class MIXEDREALITYTOOLS_API UMixedRealityToolsFunctionLibrary : public UBlueprin
 
 public:
 
+	/** Returns the world space position and orientation of the head. */
+	UFUNCTION(BlueprintPure, Category = "MixedRealityTools", meta = (WorldContext = "WorldContextObject", UnsafeDuringActorConstruction = "true"))
+	static FTransform GetHeadPose(const UObject* WorldContextObject);
+
 	/** Returns true if hand tracking is available. Useful to decide whether hand tracking emulation is required. */
 	UFUNCTION(BlueprintPure, Category="MixedRealityTools")
 	static bool IsHandTrackingAvailable();

@@ -8,6 +8,11 @@
 #include "TouchPointer.generated.h"
 
 
+class UTouchPointer;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTouchPointerBeginPinchDelegate, UTouchPointer*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTouchPointerEndPinchDelegate, UTouchPointer*, Pointer);
+
 /**
  * Turns an actor into a touch pointer.
  * Touch pointers confer focus to interactables (e.g. buttons) when they overlap with them. 
@@ -46,6 +51,14 @@ public:
 	bool GetPinched() const;
 	UFUNCTION(BlueprintCallable)
 	void SetPinched(bool Enable);
+
+	/** Event raised when the pointer pinch starts. */
+	UPROPERTY(BlueprintAssignable)
+	FTouchPointerBeginPinchDelegate OnBeginPinch;
+
+	/** Event raised when the pointer pinch ends. */
+	UPROPERTY(BlueprintAssignable)
+	FTouchPointerEndPinchDelegate OnEndPinch;
 
 protected:
 

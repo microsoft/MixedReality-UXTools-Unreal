@@ -3,33 +3,40 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "Components/SceneComponent.h"
 #include "TouchPointerTarget.h"
 
 #include "InteractableComponent.generated.h"
 
 
-UCLASS( ClassGroup = (Custom), meta = (BlueprintSpawnableComponent) )
-class MIXEDREALITYTOOLS_API UInteractableComponent : public UActorComponent, public ITouchPointerTarget
+/**
+ * Base class for pointer targets that keeps track of the currently touching pointers.
+ */
+UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class MIXEDREALITYTOOLS_API UInteractableComponent : public USceneComponent, public ITouchPointerTarget
 {
     GENERATED_BODY()
 
 public:
 
-    using PointerSet = TSet<TWeakObjectPtr<USceneComponent>>;
-
-    UInteractableComponent();
+	UInteractableComponent();
 
 protected:
+	//
+	// ITouchPointerTarget interface
 
-    virtual void TouchStarted_Implementation(USceneComponent* pointer) override;
+	virtual void TouchStarted_Implementation(UTouchPointer* Pointer) override;
+	virtual void TouchEnded_Implementation(UTouchPointer* Pointer) override;
 
-    virtual void TouchEnded_Implementation(USceneComponent* pointer) override;
+	virtual bool GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface) override;
 
-    const PointerSet& GetActivePointers() const { return ActivePointers; }
+	/** Returns a list of the pointers that are currently touching this actor. */
+	UFUNCTION(BlueprintCallable)
+	TArray<UTouchPointer*> GetActivePointers() const;
 
-protected:
+private:
 
-	TSet<TWeakObjectPtr<USceneComponent>> ActivePointers;
+	/** List of pointers that are currently touching the actor. */
+	TSet<TWeakObjectPtr<UTouchPointer>> ActivePointers;
 
 };

@@ -54,8 +54,9 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 	AActor* Owner = GetOwner();
 	FTransform Transform;
+	float JointRadius;
 
-	if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Joint, Transform))
+	if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Joint, Transform, JointRadius))
 	{
 		// Enable actor
 		Owner->SetActorHiddenInGame(false);
@@ -66,8 +67,6 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 		if (bAttachOnSkin)
 		{
-			// TODO Obtain joint radius from WMR hand tracking when available
-			const float JointRadius = 1.0f;
 			Location += Rotation.RotateVector(LocalAttachDirection) * JointRadius;
 		}
 

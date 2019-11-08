@@ -38,12 +38,6 @@ bool UTouchPointer::TryStartTouching(USceneComponent *comp)
 		{
 			ITouchPointerTarget::Execute_TouchStarted(comp, this);
 			TouchedTargets.Add((UActorComponent*)comp);
-
-			if (bIsPinched)
-			{
-				ITouchPointerTarget::Execute_PinchStarted(comp, this);
-			}
-
 			return true;
 		}
 
@@ -60,11 +54,6 @@ bool UTouchPointer::TryStopTouching(USceneComponent *comp)
 		{
 			if (ImplementsTargetInterface(comp))
 			{
-				if (bIsPinched)
-				{
-					ITouchPointerTarget::Execute_PinchEnded(comp, this);
-				}
-
 				ITouchPointerTarget::Execute_TouchEnded(comp, this);
 			}
 
@@ -82,11 +71,6 @@ void UTouchPointer::StopAllTouching()
 	{
 		if (Target)
 		{
-			if (bIsPinched)
-			{
-				ITouchPointerTarget::Execute_PinchEnded(Target, this);
-			}
-
 			ITouchPointerTarget::Execute_TouchEnded(Target, this);
 		}
 	}
@@ -173,20 +157,14 @@ void UTouchPointer::SetPinched(bool Enable)
 {
 	if (bIsPinched != Enable)
 	{
-		for (const TWeakObjectPtr<UActorComponent>& wComp : TouchedTargets)
+		if (Enable)
 		{
-			if (UActorComponent *comp = wComp.Get())
-			{
-				if (Enable)
-				{
-					ITouchPointerTarget::Execute_PinchStarted(comp, this);
-				}
-				{
-					ITouchPointerTarget::Execute_PinchEnded(comp, this);
-				}
-			}
+			OnBeginPinch.Broadcast(this);
 		}
-
+		else
+		{
+			OnEndPinch.Broadcast(this);
+		}
 		bIsPinched = Enable;
 	}
 }

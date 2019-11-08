@@ -12,7 +12,7 @@ class USceneComponent;
 UINTERFACE(BlueprintType)
 class UTouchPointerTarget : public UInterface
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 };
 
 /**
@@ -20,22 +20,16 @@ class UTouchPointerTarget : public UInterface
  */
 class MIXEDREALITYTOOLS_API ITouchPointerTarget
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-    UFUNCTION(BlueprintNativeEvent)
-    void TouchStarted(USceneComponent* pointer);
-
-    UFUNCTION(BlueprintNativeEvent)
-    void TouchEnded(USceneComponent* pointer);
+	UFUNCTION(BlueprintNativeEvent)
+	void TouchStarted(UTouchPointer* pointer);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void PinchStarted(USceneComponent* pointer);
-
-	UFUNCTION(BlueprintNativeEvent)
-	void PinchEnded(USceneComponent* pointer);
+	void TouchEnded(UTouchPointer* pointer);
 
 	/** Calculates the point on the target surface that is closest to the point passed in. Return value indicates whether a point was found. */
 	UFUNCTION(BlueprintNativeEvent)
