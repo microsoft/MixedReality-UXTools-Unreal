@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PressableButtonComponent.h"
-#include "PressableButton.h"
+#include "Native/PressableButton.h"
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 #include <Components/ShapeComponent.h>
@@ -215,7 +215,7 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	}
 
 	// Update button logic with all known pointers
-	Button->Update(DeltaTime, TouchPointers);
+	Button->Update(DeltaTime, TouchPointers.data(), TouchPointers.size());
 
 	if (auto Visuals = VisualsWeak.Get())
 	{
