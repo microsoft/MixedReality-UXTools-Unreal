@@ -106,15 +106,27 @@ public:
 	 * PointerData will contain the associated grab data for the pointer.
 	 * Index is the order in which pointers started grabbing.
 	 */
-	UFUNCTION(BlueprintCallable)
-	void FindGrabPointer(UTouchPointer *Pointer, bool &Success, FGrabPointerData &PointerData, int &Index);
+	UFUNCTION(BlueprintPure)
+	void FindGrabPointer(UTouchPointer *Pointer, bool &Success, FGrabPointerData &PointerData, int &Index) const;
+
+	/** Returns the first active grab pointer.
+	 * If no pointer is grabbing the Valid output will be false.
+	 */
+	UFUNCTION(BlueprintPure)
+	void GetPrimaryGrabPointer(bool &Valid, FGrabPointerData &PointerData) const;
+
+	/** Returns the second active grab pointer.
+	 * If less than two pointers are grabbing the Valid output will be false.
+	 */
+	UFUNCTION(BlueprintPure)
+	void GetSecondaryGrabPointer(bool &Valid, FGrabPointerData &PointerData) const;
 
 	/** Compute the centroid of the grab points in world space. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 	FVector GetGrabPointCentroid(const FTransform &Transform) const;
 
 	/** Compute the centroid of the pointer targets in world space. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 	FVector GetTargetCentroid() const;
 
 protected:
@@ -140,7 +152,7 @@ private:
 	void EndGrab(UTouchPointer *Pointer);
 
 	/** Internal search function for finding active grabbing pointers */
-	bool FindGrabPointerInternal(UTouchPointer *Pointer, FGrabPointerData* &OutData, int &OutIndex);
+	bool FindGrabPointerInternal(UTouchPointer *Pointer, FGrabPointerData const *&OutData, int &OutIndex) const;
 
 	/** Compute the grab transform relative to the current actor world transform. */
 	void ResetLocalGrabPoint(FGrabPointerData &PointerData);

@@ -120,11 +120,11 @@ void UGrabbableComponent::OnPointerEndPinch(UTouchPointer* Pointer)
 	EndGrab(Pointer);
 }
 
-bool UGrabbableComponent::FindGrabPointerInternal(UTouchPointer *Pointer, FGrabPointerData *&OutData, int &OutIndex)
+bool UGrabbableComponent::FindGrabPointerInternal(UTouchPointer *Pointer, FGrabPointerData const *&OutData, int &OutIndex) const
 {
 	for (int i = 0; i < GrabPointers.Num(); ++i)
 	{
-		FGrabPointerData &data = GrabPointers[i];
+		const FGrabPointerData &data = GrabPointers[i];
 		if (data.Pointer == Pointer)
 		{
 			OutData = &data;
@@ -138,13 +138,39 @@ bool UGrabbableComponent::FindGrabPointerInternal(UTouchPointer *Pointer, FGrabP
 	return false;
 }
 
-void UGrabbableComponent::FindGrabPointer(UTouchPointer *Pointer, bool &Success, FGrabPointerData &PointerData, int &Index)
+void UGrabbableComponent::FindGrabPointer(UTouchPointer *Pointer, bool &Success, FGrabPointerData &PointerData, int &Index) const
 {
-	FGrabPointerData *pData;
+	FGrabPointerData const *pData;
 	Success = FindGrabPointerInternal(Pointer, pData, Index);
 	if (Success)
 	{
 		PointerData = *pData;
+	}
+}
+
+void UGrabbableComponent::GetPrimaryGrabPointer(bool &Valid, FGrabPointerData &PointerData) const
+{
+	if (GrabPointers.Num() >= 1)
+	{
+		PointerData = GrabPointers[0];
+		Valid = true;
+	}
+	else
+	{
+		Valid = false;
+	}
+}
+
+void UGrabbableComponent::GetSecondaryGrabPointer(bool &Valid, FGrabPointerData &PointerData) const
+{
+	if (GrabPointers.Num() >= 2)
+	{
+		PointerData = GrabPointers[1];
+		Valid = true;
+	}
+	else
+	{
+		Valid = false;
 	}
 }
 
