@@ -27,13 +27,10 @@ public:
 	// Sets default values for this component's properties
 	UTouchPointer();
 
-	UPROPERTY(BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius")
-	float TouchRadius;
-
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintSetter)
 	void SetTouchRadius(float radius);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintGetter)
 	float GetTouchRadius() const;
 
 	/** 
@@ -47,9 +44,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static const TArray<UTouchPointer*>& GetAllPointers();
 
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintGetter)
 	bool GetPinched() const;
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintSetter)
 	void SetPinched(bool Enable);
 
 	/** Event raised when the pointer pinch starts. */
@@ -96,6 +93,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	USphereComponent *TouchSphere;
+
+	UPROPERTY(EditAnywhere, BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius")
+	float TouchRadius;
 
 	/** List with all active pointers. */
 	static TArray<UTouchPointer*> Pointers;
