@@ -1,0 +1,44 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{C2A773EB-4735-A328-03B9-6B9705DC95C8}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "MixedRealityTools",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+	],
+	"Plugins": [
+		{
+			"Name": "SteamVR",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64",
+				"Linux",
+				"Mac"
+			]
+		},
+		{
+			"Name": "HoloLensAR",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"HoloLens",
+				"Win64"
+			]
+		},
+		{
+			"Name": "WindowsMixedReality",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		}
+	]
+}
