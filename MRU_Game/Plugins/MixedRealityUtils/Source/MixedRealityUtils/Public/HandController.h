@@ -18,7 +18,7 @@ class UHandController : public UInterface
 /**
  * Interface for controlling hand movements and interactions.
  */
-class MIXEDREALITYTOOLS_API IHandController
+class MIXEDREALITYUTILS_API IHandController
 {
     GENERATED_BODY()
 

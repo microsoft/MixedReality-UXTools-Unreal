@@ -18,7 +18,7 @@ class UTouchPointerTarget : public UInterface
 /**
  * 
  */
-class MIXEDREALITYTOOLS_API ITouchPointerTarget
+class MIXEDREALITYUTILS_API ITouchPointerTarget
 {
 	GENERATED_BODY()
 

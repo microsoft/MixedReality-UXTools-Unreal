@@ -19,7 +19,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTouchPointerEndPinchDelegate, UTouc
  * Interactables use the transform of pointers focusing them to drive their interactions.
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class MIXEDREALITYTOOLS_API UTouchPointer : public USceneComponent
+class MIXEDREALITYUTILS_API UTouchPointer : public USceneComponent
 {
 	GENERATED_BODY()
 

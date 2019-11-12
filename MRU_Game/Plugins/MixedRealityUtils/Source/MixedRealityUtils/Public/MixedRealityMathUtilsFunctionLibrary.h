@@ -10,7 +10,7 @@
  * Library of utility functions for Mixed Reality.
  */
 UCLASS()
-class MIXEDREALITYTOOLS_API UMixedRealityMathUtilsFunctionLibrary : public UBlueprintFunctionLibrary
+class MIXEDREALITYUTILS_API UMixedRealityMathUtilsFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

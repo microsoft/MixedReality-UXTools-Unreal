@@ -1,25 +1,25 @@
-#include "MixedRealityToolsEditor.h"
+#include "MixedRealityUtilsEditor.h"
 #include "PressableButtonComponentVisualizer.h"
 #include "Modules/ModuleManager.h"
 #include "Modules/ModuleInterface.h"
 
-IMPLEMENT_GAME_MODULE(FMixedRealityToolsEditorModule, MixedRealityToolsEditor);
+IMPLEMENT_GAME_MODULE(FMixedRealityUtilsEditorModule, MixedRealityUtilsEditor);
 
-DEFINE_LOG_CATEGORY(MixedRealityToolsEditor)
+DEFINE_LOG_CATEGORY(MixedRealityUtilsEditor)
 
-#define LOCTEXT_NAMESPACE "MixedRealityToolsEditor"
+#define LOCTEXT_NAMESPACE "MixedRealityUtilsEditor"
 
 
-void FMixedRealityToolsEditorModule::StartupModule()
+void FMixedRealityUtilsEditorModule::StartupModule()
 {
 	FModuleStatus Status;
-	if (FModuleManager::Get().QueryModule("MixedRealityToolsEditor", Status))
+	if (FModuleManager::Get().QueryModule("MixedRealityUtilsEditor", Status))
 	{
-		UE_LOG(MixedRealityToolsEditor, Warning, TEXT("Startup from DLL %s"),*Status.FilePath);
+		UE_LOG(MixedRealityUtilsEditor, Warning, TEXT("Startup from DLL %s"),*Status.FilePath);
 	}
 	else
 	{
-		UE_LOG(MixedRealityToolsEditor, Warning, TEXT("Module not found"));
+		UE_LOG(MixedRealityUtilsEditor, Warning, TEXT("Module not found"));
 	}
 
 	if (GUnrealEd)
@@ -34,14 +34,14 @@ void FMixedRealityToolsEditorModule::StartupModule()
 	}
 }
 
-void FMixedRealityToolsEditorModule::ShutdownModule()
+void FMixedRealityUtilsEditorModule::ShutdownModule()
 {
 	if (GUnrealEd)
 	{
 		GUnrealEd->UnregisterComponentVisualizer(UPressableButtonComponent::StaticClass()->GetFName());
 	}
 
-	UE_LOG(MixedRealityToolsEditor, Warning, TEXT("Shutdown"));
+	UE_LOG(MixedRealityUtilsEditor, Warning, TEXT("Shutdown"));
 }
 
 #undef LOCTEXT_NAMESPACE

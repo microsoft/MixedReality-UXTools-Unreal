@@ -5,7 +5,7 @@
 #include "Kismet\GameplayStatics.h"
 #include "MixedRealityToolsFunctionLibrary.h"
 #include "WindowsMixedRealityHandTrackingFunctionLibrary.h"
-#include "MixedRealityTools.h"
+#include "MixedRealityUtils.h"
 
 
 UHandJointAttachmentComponent::UHandJointAttachmentComponent()
@@ -43,7 +43,7 @@ void UHandJointAttachmentComponent::BeginPlay()
 	{
 		if (!LocalAttachDirection.Normalize())
 		{
-			UE_LOG(MixedRealityTools, Error, TEXT("Could not normalize LocalAttachDirection. The calculated attachment position won't be on the skin"));
+			UE_LOG(MixedRealityUtils, Error, TEXT("Could not normalize LocalAttachDirection. The calculated attachment position won't be on the skin"));
 		}
 	}
 }

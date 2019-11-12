@@ -15,7 +15,7 @@ class APlayerController;
  * Component that manages hands in a pawn using a controller.
  */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class MIXEDREALITYTOOLS_API UHandManager : public UActorComponent
+class MIXEDREALITYUTILS_API UHandManager : public UActorComponent
 {
 	GENERATED_BODY()
 

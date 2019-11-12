@@ -5,10 +5,10 @@
 #include "Modules/ModuleManager.h"
 #include "UnrealEd.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(MixedRealityToolsEditor, All, All)
+DECLARE_LOG_CATEGORY_EXTERN(MixedRealityUtilsEditor, All, All)
 
 
-class FMixedRealityToolsEditorModule : public IModuleInterface
+class FMixedRealityUtilsEditorModule : public IModuleInterface
 {
 public:
 

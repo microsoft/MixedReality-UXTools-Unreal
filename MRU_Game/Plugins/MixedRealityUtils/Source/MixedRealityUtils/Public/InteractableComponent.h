@@ -13,7 +13,7 @@
  * Base class for pointer targets that keeps track of the currently touching pointers.
  */
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class MIXEDREALITYTOOLS_API UInteractableComponent : public USceneComponent, public ITouchPointerTarget
+class MIXEDREALITYUTILS_API UInteractableComponent : public USceneComponent, public ITouchPointerTarget
 {
     GENERATED_BODY()
 

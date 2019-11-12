@@ -13,7 +13,7 @@ class UTouchPointer;
  * Representation of a hand for interaction with other actors.
  */
 UCLASS()
-class MIXEDREALITYTOOLS_API AMixedRealityHand : public AActor
+class MIXEDREALITYUTILS_API AMixedRealityHand : public AActor
 {
 	GENERATED_BODY()
 

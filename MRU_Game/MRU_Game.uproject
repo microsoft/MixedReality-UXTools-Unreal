@@ -12,11 +12,6 @@
 				"Engine"
 			]
 		},
-		{
-			"Name": "MixedRealityToolsEditor",
-			"Type": "Editor",
-			"LoadingPhase": "PostEngineInit"
-		}
 	],
 	"Plugins": [
 		{

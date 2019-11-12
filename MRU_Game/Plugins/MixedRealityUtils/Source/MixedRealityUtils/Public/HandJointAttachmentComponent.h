@@ -14,7 +14,7 @@
  * The actor will be hidden and its collision disabled during hand tracking loss.
  */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class MIXEDREALITYTOOLS_API UHandJointAttachmentComponent : public UActorComponent
+class MIXEDREALITYUTILS_API UHandJointAttachmentComponent : public UActorComponent
 {
 	GENERATED_BODY()
 

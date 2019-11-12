@@ -9,6 +9,6 @@ public class MixedRealityToolsEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 
-		ExtraModuleNames.AddRange( new string[] { "MixedRealityTools", "MixedRealityToolsEditor" } );
+		ExtraModuleNames.AddRange( new string[] { "MixedRealityTools" } );
 	}
 }

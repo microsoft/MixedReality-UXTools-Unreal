@@ -15,7 +15,7 @@ class UTouchPointer;
  * Utility struct that stores transient data for a pointer which is interacting with a grabbable component.
  */
 USTRUCT(BlueprintType)
-struct MIXEDREALITYTOOLS_API FGrabPointerData
+struct MIXEDREALITYUTILS_API FGrabPointerData
 {
 	GENERATED_BODY()
 
@@ -39,7 +39,7 @@ struct MIXEDREALITYTOOLS_API FGrabPointerData
  * Utility functions for FGrabPointerData.
  */
 UCLASS()
-class MIXEDREALITYTOOLS_API UGrabPointerDataFunctionLibrary : public UBlueprintFunctionLibrary
+class MIXEDREALITYUTILS_API UGrabPointerDataFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
@@ -94,7 +94,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEndGrabDelegate, UGrabbableCompone
  * The GrabbableComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation.
  */
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class MIXEDREALITYTOOLS_API UGrabbableComponent : public UInteractableComponent
+class MIXEDREALITYUTILS_API UGrabbableComponent : public UInteractableComponent
 {
 	GENERATED_BODY()
 

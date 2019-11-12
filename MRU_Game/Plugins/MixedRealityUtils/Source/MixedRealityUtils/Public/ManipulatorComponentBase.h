@@ -14,7 +14,7 @@
  * to actually modify the actor.
  */
 UCLASS(Abstract, Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class MIXEDREALITYTOOLS_API UManipulatorComponentBase : public UGrabbableComponent
+class MIXEDREALITYUTILS_API UManipulatorComponentBase : public UGrabbableComponent
 {
 	GENERATED_BODY()
 

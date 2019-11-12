@@ -32,7 +32,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonReleasedDelegate, UPressableB
  * Component that turns the actor it is attached to into a pressable rectangular button.
  */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class MIXEDREALITYTOOLS_API UPressableButtonComponent : public UInteractableComponent
+class MIXEDREALITYUTILS_API UPressableButtonComponent : public UInteractableComponent
 {
 	GENERATED_BODY()
 
