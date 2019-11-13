@@ -20,49 +20,49 @@ UTouchPointer::UTouchPointer()
 	TouchSphere->SetGenerateOverlapEvents(true);
 }
 
-void UTouchPointer::OnPointerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+void UTouchPointer::OnPointerBeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	TryStartTouching(OtherComp);
+	TryStartTouching(OtherActor);
 }
 
-void UTouchPointer::OnPointerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+void UTouchPointer::OnPointerEndOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	TryStopTouching(OtherComp);
+	TryStopTouching(OtherActor);
 }
 
-bool UTouchPointer::TryStartTouching(USceneComponent *comp)
+bool UTouchPointer::TryStartTouching(AActor* actor)
 {
-	while (comp)
+	bool result = false;
+	const auto &components = actor->GetComponents();
+	for (UActorComponent *comp : components)
 	{
 		if (ImplementsTargetInterface(comp))
 		{
 			ITouchPointerTarget::Execute_TouchStarted(comp, this);
-			TouchedTargets.Add((UActorComponent*)comp);
-			return true;
+			TouchedTargets.Add(comp);
+			result = true;
 		}
-
-		comp = comp->GetAttachParent();
 	}
-	return false;
+	return result;
 }
 
-bool UTouchPointer::TryStopTouching(USceneComponent *comp)
+bool UTouchPointer::TryStopTouching(AActor* actor)
 {
-	while (comp)
+	bool result = false;
+	const auto &components = actor->GetComponents();
+	for (UActorComponent *comp : components)
 	{
-		if (TouchedTargets.Remove((UActorComponent*)comp) > 0)
+		if (TouchedTargets.Remove(comp) > 0)
 		{
 			if (ImplementsTargetInterface(comp))
 			{
 				ITouchPointerTarget::Execute_TouchEnded(comp, this);
 			}
 
-			return true;
+			result = true;
 		}
-
-		comp = comp->GetAttachParent();
 	}
-	return false;
+	return result;
 }
 
 void UTouchPointer::StopAllTouching()
@@ -86,8 +86,8 @@ void UTouchPointer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TouchSphere->OnComponentBeginOverlap.AddDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
-	TouchSphere->OnComponentEndOverlap.AddDynamic(this, &UTouchPointer::OnPointerEndOverlap);
+	GetOwner()->OnActorBeginOverlap.AddDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
+	GetOwner()->OnActorEndOverlap.AddDynamic(this, &UTouchPointer::OnPointerEndOverlap);
 
 	Pointers.Add(this);
 }
@@ -98,8 +98,8 @@ void UTouchPointer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	Pointers.Remove(this);
 
-	TouchSphere->OnComponentBeginOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
-	TouchSphere->OnComponentEndOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerEndOverlap);
+	GetOwner()->OnActorBeginOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
+	GetOwner()->OnActorEndOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerEndOverlap);
 
 	Super::EndPlay(EndPlayReason);
 }

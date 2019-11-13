@@ -59,21 +59,21 @@ public:
 
 protected:
 
-	/// Start touching the component.
-	/// Returns false if the component is not a valid touch target.
-	bool TryStartTouching(USceneComponent *comp);
+	/// Start touching the actor.
+	/// Returns false if the actor has no valid touch target.
+	bool TryStartTouching(AActor* actor);
 
-	/// Stop touching the component.
-	/// Returns false if the component was not touched.
-	bool TryStopTouching(USceneComponent *comp);
+	/// Stop touching the actor.
+	/// Returns false if the actor was not touched.
+	bool TryStopTouching(AActor* actor);
 
-	/// Stop touching all current components.
+	/// Stop touching all current targets.
 	void StopAllTouching();
 
 	UFUNCTION()
-	void OnPointerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+	void OnPointerBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
 	UFUNCTION()
-	void OnPointerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void OnPointerEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
