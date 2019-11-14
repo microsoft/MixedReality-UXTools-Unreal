@@ -26,16 +26,16 @@ public:
 
 	static void UpdateHand(UObject *controller, AMixedRealityHand *hand);
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Hand Controller")
 	bool IsTracked(EControllerHand Hand) const;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Hand Controller")
 	bool IsPinched(EControllerHand Hand) const;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Hand Controller")
 	FTransform GetRootTransform(EControllerHand Hand) const;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Hand Controller")
 	FVector GetTouchLocation(EControllerHand Hand) const;
 
 };

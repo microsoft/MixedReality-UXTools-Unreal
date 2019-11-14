@@ -37,11 +37,11 @@ public:
 	 * Returns the target that is closest to the pointer position or null if there is none. 
 	 * The closest point on the target surface is stored in OutPointOnTargetSurface.
 	 */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
 	UActorComponent* GetClosestPointOnTargets(FVector& OutPointOnTargetSurface) const;
 
 	/// Returns all active pointers.
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
 	static const TArray<UTouchPointer*>& GetAllPointers();
 
 	UFUNCTION(BlueprintGetter)
@@ -50,11 +50,11 @@ public:
 	void SetPinched(bool Enable);
 
 	/** Event raised when the pointer pinch starts. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
 	FTouchPointerBeginPinchDelegate OnBeginPinch;
 
 	/** Event raised when the pointer pinch ends. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
 	FTouchPointerEndPinchDelegate OnEndPinch;
 
 protected:
@@ -88,13 +88,13 @@ protected:
 
 private:
 
-	UPROPERTY(BlueprintGetter = "GetPinched", BlueprintSetter = "SetPinched")
+	UPROPERTY(BlueprintGetter = "GetPinched", BlueprintSetter = "SetPinched", Category = "Touch Pointer")
 	bool bIsPinched;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Touch Pointer", meta = (AllowPrivateAccess = "true"))
 	USphereComponent *TouchSphere;
 
-	UPROPERTY(EditAnywhere, BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius")
+	UPROPERTY(EditAnywhere, BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius", Category = "Touch Pointer")
 	float TouchRadius;
 
 	/** List with all active pointers. */

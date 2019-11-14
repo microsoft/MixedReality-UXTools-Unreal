@@ -21,16 +21,16 @@ public:
 
 	AMixedRealityHand();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Mixed Reality Hand")
 	void SetTouchPointerWorldLocation(FVector location);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Mixed Reality Hand")
 	void SetTouchPointerRelativeLocation(FVector location);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Mixed Reality Hand")
 	void DebugDraw();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mixed Reality Hand")
 	EControllerHand Handedness;
 
 protected:
@@ -39,7 +39,7 @@ protected:
 
 private:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mixed Reality Hand", meta = (AllowPrivateAccess = "true"))
 	UTouchPointer *TouchPointer;
 
 	FColor GetColor() const;

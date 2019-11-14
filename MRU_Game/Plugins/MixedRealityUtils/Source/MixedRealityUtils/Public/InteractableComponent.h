@@ -31,7 +31,7 @@ protected:
 	virtual bool GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface) override;
 
 	/** Returns a list of the pointers that are currently touching this actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="Interactable")
 	TArray<UTouchPointer*> GetActivePointers() const;
 
 private:
