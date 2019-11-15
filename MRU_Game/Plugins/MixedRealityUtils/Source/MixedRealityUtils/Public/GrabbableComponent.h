@@ -20,18 +20,18 @@ struct MIXEDREALITYUTILS_API FGrabPointerData
 	GENERATED_BODY()
 
 	/** The pointer that is interacting with the component. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	UTouchPointer *Pointer;
 
 	/** The time at which interaction started, in seconds since application start. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	float StartTime;
 
 	/**
 	 * Transform of the pointer when it started interacting, in the local space of the target component.
 	 * This allows computing pointer offset in relation to the current actor transform.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	FTransform LocalGrabPoint;
 };
 
@@ -106,27 +106,27 @@ public:
 	 * PointerData will contain the associated grab data for the pointer.
 	 * Index is the order in which pointers started grabbing.
 	 */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	void FindGrabPointer(UTouchPointer *Pointer, bool &Success, FGrabPointerData &PointerData, int &Index) const;
 
 	/** Returns the first active grab pointer.
 	 * If no pointer is grabbing the Valid output will be false.
 	 */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	void GetPrimaryGrabPointer(bool &Valid, FGrabPointerData &PointerData) const;
 
 	/** Returns the second active grab pointer.
 	 * If less than two pointers are grabbing the Valid output will be false.
 	 */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	void GetSecondaryGrabPointer(bool &Valid, FGrabPointerData &PointerData) const;
 
 	/** Compute the centroid of the grab points in world space. */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	FVector GetGrabPointCentroid(const FTransform &Transform) const;
 
 	/** Compute the centroid of the pointer targets in world space. */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	FVector GetTargetCentroid() const;
 
 protected:
@@ -136,7 +136,7 @@ protected:
 	virtual void TouchEnded_Implementation(UTouchPointer* Pointer) override;
 
 	/** Returns a list of all currently grabbing pointers. */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	const TArray<FGrabPointerData> &GetGrabPointers() const;
 
 	UFUNCTION()
@@ -170,7 +170,7 @@ public:
 private:
 
 	/** List of currently grabbing pointers. */
-	UPROPERTY(BlueprintGetter = "GetGrabPointers")
+	UPROPERTY(BlueprintGetter = "GetGrabPointers", Category = "Grabbable")
 	TArray<FGrabPointerData> GrabPointers;
 
 };

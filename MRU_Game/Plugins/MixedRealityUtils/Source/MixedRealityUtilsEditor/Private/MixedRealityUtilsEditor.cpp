@@ -1,7 +1,5 @@
 #include "MixedRealityUtilsEditor.h"
 #include "PressableButtonComponentVisualizer.h"
-#include "Modules/ModuleManager.h"
-#include "Modules/ModuleInterface.h"
 
 IMPLEMENT_GAME_MODULE(FMixedRealityUtilsEditorModule, MixedRealityUtilsEditor);
 
@@ -12,16 +10,6 @@ DEFINE_LOG_CATEGORY(MixedRealityUtilsEditor)
 
 void FMixedRealityUtilsEditorModule::StartupModule()
 {
-	FModuleStatus Status;
-	if (FModuleManager::Get().QueryModule("MixedRealityUtilsEditor", Status))
-	{
-		UE_LOG(MixedRealityUtilsEditor, Warning, TEXT("Startup from DLL %s"),*Status.FilePath);
-	}
-	else
-	{
-		UE_LOG(MixedRealityUtilsEditor, Warning, TEXT("Module not found"));
-	}
-
 	if (GUnrealEd)
 	{
 		TSharedPtr<FComponentVisualizer> Visualizer = MakeShareable(new FPressableButtonComponentVisualizer());
@@ -40,8 +28,6 @@ void FMixedRealityUtilsEditorModule::ShutdownModule()
 	{
 		GUnrealEd->UnregisterComponentVisualizer(UPressableButtonComponent::StaticClass()->GetFName());
 	}
-
-	UE_LOG(MixedRealityUtilsEditor, Warning, TEXT("Shutdown"));
 }
 
 #undef LOCTEXT_NAMESPACE

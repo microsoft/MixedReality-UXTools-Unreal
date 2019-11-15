@@ -24,21 +24,21 @@ public:
 	 * Translate the source transform such that grab points match targets.
 	 * If more than one pointer is used then the centroid of the grab points and targets is used.
 	 */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
 	void MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform) const;
 
 	/**
 	 * Rotates the source transform around the pivot point such that the pointers line up with current targets.
 	 * If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.
 	 */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
 	void RotateAroundPivot(const FTransform &SourceTransform, const FVector &Pivot, FTransform &TargetTransform) const;
 
 	/**
 	 * Rotates the source transform around the pivot point on the given axis such that the pointers line up with current targets.
 	 * If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.
 	 */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
 	void RotateAboutAxis(const FTransform &SourceTransform, const FVector &Pivot, const FVector &Axis, FTransform &TargetTransform) const;
 
 	/**
@@ -46,14 +46,14 @@ public:
 	 * Manipulation should be based on these initial transform for stable results.
 	 * If bAutoSetInitialTransform is true then the initial transform is updated when grabbed.
 	 */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
 	void SetInitialTransform();
 
 	/**
 	 * Apply the transform to the actor root scene component.
 	 * Relative transform between the manipulator component and the root scene component is preserved.
 	 */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
 	void ApplyTargetTransform(const FTransform &TargetTransform);
 
 protected:
@@ -67,14 +67,14 @@ private:
 
 public:
 
-	UPROPERTY(BlueprintReadonly)
+	UPROPERTY(BlueprintReadonly, Category = "Manipulator Component")
 	FTransform InitialTransform;
 
-	UPROPERTY(BlueprintReadonly)
+	UPROPERTY(BlueprintReadonly, Category = "Manipulator Component")
 	FTransform InitialCameraSpaceTransform;
 
 	/** If true the initial transform will be set automatically when the component is grabbed. */
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Manipulator Component")
 	bool bAutoSetInitialTransform = true;
 
 };

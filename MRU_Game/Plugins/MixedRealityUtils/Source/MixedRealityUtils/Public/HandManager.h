@@ -22,10 +22,10 @@ class MIXEDREALITYUTILS_API UHandManager : public UActorComponent
 public:	
 	UHandManager();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Manager")
 	TScriptInterface<UHandController> Controller;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Hand Manager")
 	bool UpdateHandActor(EControllerHand Handedness);
 
 public:	
