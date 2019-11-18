@@ -20,7 +20,7 @@ git clone https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUti
 
 ### Setup submodules
 
-We don't clone with --recurse-submodules because we don't need to bring our submodules dependencies. There's no harm in recursing though if you wish to do so instead.
+We setup submodules manually instead of cloning with --recurse-submodules because we don't need to bring our submodule dependencies which can take a bit to download.
 
 ```
 cd <repo_dir>
