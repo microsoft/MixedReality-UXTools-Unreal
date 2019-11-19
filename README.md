@@ -1,12 +1,20 @@
 # Introduction 
 
-Mixed Reality Tools for Unreal Engine is a collection of C++ classes, Blueprints and example assets created to help in the implementation of features commonly needed when developing mixed reality applications, like pressable buttons or direct manipulation.
+Mixed Reality Utils for Unreal Engine is a collection of C++ classes, Blueprints and example assets created to help in the implementation of features commonly needed when developing mixed reality applications, like pressable buttons or direct manipulation.
 
 This currently takes the form of a game plugin found in [MRU_Game/Plugins/MixedRealityUtils](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FMRU_Game%2FPlugins%2FMixedRealityUtils&version=GBmaster).
 
 # Getting Started
 
-## Installation process
+You can consume the utils via a prebuilt version of the plugin or building it yourself from sources. See the following sections for instructions.
+
+## Prebuilt Plugin
+
+Prebuilt versions of the plugin are left regularly in ` \\cognitionfs\PUBLIC\Unreal\MixedRealityUtils` . 
+To use one just unzip the file inside your games Plugin folder and enable the plugin via the Plugin menu in the editor. 
+You will need to use our internal version of UE (see 'Obtain our internal version of UE' below).
+
+## Working From Sources
 
 ### Obtain our internal version of UE
 
