@@ -24,16 +24,16 @@ UPressableButtonComponent::UPressableButtonComponent()
 
 USceneComponent* UPressableButtonComponent::GetVisuals() const 
 {
-	return VisualsWeak.Get();
+	return Cast<USceneComponent>(VisualsReference.GetComponent(GetOwner()));
 }
 
-void UPressableButtonComponent::SetVisuals(USceneComponent* NewVisuals)
+void UPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 {
-	VisualsWeak = NewVisuals;
+	VisualsReference.OverrideComponent = Visuals;
 
-	if (VisualsWeak.IsValid())
+	if (Visuals)
 	{
-		VisualsPositionLocal = NewVisuals->GetComponentLocation() - GetComponentLocation();
+		VisualsPositionLocal = Visuals->GetComponentLocation() - GetComponentLocation();
 	}
 }
 
@@ -145,7 +145,7 @@ void UPressableButtonComponent::BeginPlay()
 	ButtonHandler = new FButtonHandler(*this);
 	Button->Subscribe(ButtonHandler);
 
-	if (auto Visuals = VisualsWeak.Get())
+	if (auto Visuals = GetVisuals())
 	{
 		VisualsPositionLocal = Visuals->GetComponentLocation() - RestPosition;
 	}
@@ -215,7 +215,7 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	// Update button logic with all known pointers
 	Button->Update(DeltaTime, TouchPointers.data(), TouchPointers.size());
 
-	if (auto Visuals = VisualsWeak.Get())
+	if (auto Visuals = GetVisuals())
 	{
 		// Update visuals position
 		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsPositionLocal;

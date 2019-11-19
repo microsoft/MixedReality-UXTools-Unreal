@@ -105,12 +105,13 @@ public:
 
 private:
 
+	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
+	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"), Category = "Pressable Button")
+	FComponentReference VisualsReference;
+
     Microsoft::MixedReality::HandUtils::PressableButton* Button = nullptr;
     FButtonHandler* ButtonHandler = nullptr;
 	FVector VisualsPositionLocal;
-
-	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
-	TWeakObjectPtr<USceneComponent> VisualsWeak;
 
 	/** Shape defining the hover volume for the button. Pointers outside this volume will be ignored. */
 	TWeakObjectPtr<UShapeComponent> HoverVolumeShapeWeak;
