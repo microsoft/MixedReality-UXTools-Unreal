@@ -34,4 +34,5 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category = "MathUtils")
 	static FTransform RotateAboutPivotPoint(const FTransform &Transform, const FRotator &Rotation, const FVector &Pivot);
+
 };

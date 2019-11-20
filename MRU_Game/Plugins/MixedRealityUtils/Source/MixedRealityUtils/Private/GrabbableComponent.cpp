@@ -16,7 +16,7 @@ FRotator UGrabPointerDataFunctionLibrary::GetGrabRotation(const FTransform &Tran
 
 FTransform UGrabPointerDataFunctionLibrary::GetGrabTransform(const FTransform &Transform, const FGrabPointerData &PointerData)
 {
-	return Transform * PointerData.LocalGrabPoint;
+	return PointerData.LocalGrabPoint * Transform;
 }
 
 FVector UGrabPointerDataFunctionLibrary::GetTargetLocation(const FGrabPointerData &PointerData)
