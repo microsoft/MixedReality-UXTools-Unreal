@@ -9,6 +9,6 @@ public class MixedRealityToolsTarget : TargetRules
 	{
 		Type = TargetType.Game;
 
-		ExtraModuleNames.AddRange( new string[] { "MixedRealityTools" } );
+		ExtraModuleNames.AddRange( new string[] { "MixedRealityTools", "MixedRealityUtilsTests" } );
 	}
 }
