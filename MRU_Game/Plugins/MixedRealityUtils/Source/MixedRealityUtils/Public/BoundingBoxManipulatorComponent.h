@@ -48,33 +48,33 @@ struct MIXEDREALITYUTILS_API FBoundingBoxAffordanceInfo
 	FTransform GetWorldTransform(const FBox &Bounds, const FTransform &RootTransform) const;
 
 	/** Action to perform when the affordance is grabbed. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
 	EBoundingBoxAffordanceAction Action = EBoundingBoxAffordanceAction::Resize;
 
 	/** Location of the affordance in normalized bounding box space (-1..1). */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
 	FVector BoundsLocation;
 
 	/** Rotation of the affordance in bounding box space. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
 	FRotator BoundsRotation;
 
 	/**
 	 * Constraint matrix defining possible movement directions or rotation axes.
 	 * Drag vectors during interaction are multiplied with this matrix.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
 	FMatrix ConstraintMatrix;
 
 	/** Actor that will be spawned to represent the affordance. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
 	TSubclassOf<class AActor> ActorClass;
 
 	/**
 	 * Kind of actor class to use if no explicit actor class is set.
 	 * In this case the matching actor class from the bounding box component will be used.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
 	EBoundingBoxAffordanceKind Kind = EBoundingBoxAffordanceKind::Center;
 };
 
@@ -91,46 +91,46 @@ public:
 
 	UBoundingBoxManipulatorComponent();
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	const TArray<FBoundingBoxAffordanceInfo>& GetCustomAffordances() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	TSubclassOf<class AActor> GetCenterAffordanceClass() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	TSubclassOf<class AActor> GetFaceAffordanceClass() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	TSubclassOf<class AActor> GetEdgeAffordanceClass() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	TSubclassOf<class AActor> GetCornerAffordanceClass() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	bool UseCustomAffordances() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	EBoundingBoxManipulatorPreset GetPreset() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	bool GetInitBoundsFromActor() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	const FBox& GetBounds() const;
 
 	/**
 	 * Get the list of affordances that will be used for the bounding box.
 	 * This can be a based on a preset or a custom set of affordances.
 	 */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Bounding Box")
 	const TArray<FBoundingBoxAffordanceInfo>& GetUsedAffordances() const;
 
 	/** Actor class that will be instantiated for the given kind of affordance. */
-	UFUNCTION(BlueprintPure)
+	UFUNCTION(BlueprintPure, Category = "Bounding Box")
 	TSubclassOf<class AActor> GetAffordanceKindActorClass(EBoundingBoxAffordanceKind Kind) const;
 
 	/** Compute the bounding box based on the components of the bounding box actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Bounding Box")
 	void ComputeBoundsFromComponents();
 
 protected:
@@ -172,45 +172,45 @@ protected:
 private:
 
 	/** Actor class to instantiate for a center affordance. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCenterAffordanceClass")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCenterAffordanceClass", Category = "Bounding Box")
 	TSubclassOf<class AActor> CenterAffordanceClass;
 
 	/** Actor class to instantiate for a face affordances. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFaceAffordanceClass")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFaceAffordanceClass", Category = "Bounding Box")
 	TSubclassOf<class AActor> FaceAffordanceClass;
 
 	/** Actor class to instantiate for a edge affordances. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetEdgeAffordanceClass")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetEdgeAffordanceClass", Category = "Bounding Box")
 	TSubclassOf<class AActor> EdgeAffordanceClass;
 
 	/** Actor class to instantiate for a corner affordances. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCornerAffordanceClass")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCornerAffordanceClass", Category = "Bounding Box")
 	TSubclassOf<class AActor> CornerAffordanceClass;
 
 	/** Use a custom set of affordances instead of a preset. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "UseCustomAffordances")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "UseCustomAffordances", Category = "Bounding Box")
 	bool bUseCustomAffordances = false;
 
 	/**
 	 * Preset to use for the bounding box.
 	 * When set to Custom the list of affordances must be created by the user.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetPreset", meta = (EditCondition = "!bUseCustomAffordances"))
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetPreset", meta = (EditCondition = "!bUseCustomAffordances"), Category = "Bounding Box")
 	EBoundingBoxManipulatorPreset Preset = EBoundingBoxManipulatorPreset::Default;
 
 	/**
 	 * List of custom affordances.
 	 * These affordances will only be used when using the Custom preset.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCustomAffordances", meta = (EditCondition = "bUseCustomAffordances"))
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCustomAffordances", meta = (EditCondition = "bUseCustomAffordances"), Category = "Bounding Box")
 	TArray<FBoundingBoxAffordanceInfo> CustomAffordances;
 
 	/** Initialize bounds from actor content. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetInitBoundsFromActor")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetInitBoundsFromActor", Category = "Bounding Box")
 	bool bInitBoundsFromActor = true;
 
 	/** Current bounding box in the local space of the actor. */
-	UPROPERTY(Transient, BlueprintGetter = "GetBounds")
+	UPROPERTY(Transient, BlueprintGetter = "GetBounds", Category = "Bounding Box")
 	FBox Bounds;
 
 	/**
