@@ -60,6 +60,11 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	//
+	// ITouchPointerTarget interface
+
+	virtual bool GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface) override;
+
 private:
 
 	UFUNCTION()
