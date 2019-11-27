@@ -4,8 +4,6 @@
 
 #include "TouchPointerTarget.h"
 
-TArray<UTouchPointer*> UTouchPointer::Pointers;
-
 // Sets default values for this component's properties
 UTouchPointer::UTouchPointer()
 {
@@ -88,15 +86,11 @@ void UTouchPointer::BeginPlay()
 
 	GetOwner()->OnActorBeginOverlap.AddDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
 	GetOwner()->OnActorEndOverlap.AddDynamic(this, &UTouchPointer::OnPointerEndOverlap);
-
-	Pointers.Add(this);
 }
 
 void UTouchPointer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	StopAllTouching();
-
-	Pointers.Remove(this);
 
 	GetOwner()->OnActorBeginOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
 	GetOwner()->OnActorEndOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerEndOverlap);
@@ -141,11 +135,6 @@ UActorComponent* UTouchPointer::GetClosestPointOnTargets(FVector& OutPointOnTarg
 	}
 
 	return ClosestTarget;
-}
-
-const TArray<UTouchPointer*>& UTouchPointer::GetAllPointers()
-{
-	return Pointers;
 }
 
 bool UTouchPointer::GetPinched() const

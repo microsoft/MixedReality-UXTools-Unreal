@@ -40,10 +40,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
 	UActorComponent* GetClosestPointOnTargets(FVector& OutPointOnTargetSurface) const;
 
-	/// Returns all active pointers.
-	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
-	static const TArray<UTouchPointer*>& GetAllPointers();
-
 	UFUNCTION(BlueprintGetter)
 	bool GetPinched() const;
 	UFUNCTION(BlueprintSetter)
@@ -96,7 +92,4 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius", Category = "Touch Pointer")
 	float TouchRadius;
-
-	/** List with all active pointers. */
-	static TArray<UTouchPointer*> Pointers;
 };
