@@ -111,7 +111,9 @@ private:
 
     Microsoft::MixedReality::HandUtils::PressableButton* Button = nullptr;
     FButtonHandler* ButtonHandler = nullptr;
-	FVector VisualsPositionLocal;
+
+	/** Visuals offset in this component's space */
+	FVector VisualsOffsetLocal;
 
 	/** Shape defining the hover volume for the button. Pointers outside this volume will be ignored. */
 	TWeakObjectPtr<UShapeComponent> HoverVolumeShapeWeak;

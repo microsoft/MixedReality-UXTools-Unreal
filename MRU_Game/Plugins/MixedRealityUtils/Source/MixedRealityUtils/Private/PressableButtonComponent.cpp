@@ -33,7 +33,8 @@ void UPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 
 	if (Visuals)
 	{
-		VisualsPositionLocal = Visuals->GetComponentLocation() - GetComponentLocation();
+		const auto VisualsOffset = Visuals->GetComponentLocation() - GetComponentLocation();
+		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
 	}
 }
 
@@ -147,7 +148,8 @@ void UPressableButtonComponent::BeginPlay()
 
 	if (auto Visuals = GetVisuals())
 	{
-		VisualsPositionLocal = Visuals->GetComponentLocation() - RestPosition;
+		const auto VisualsOffset = Visuals->GetComponentLocation() - GetComponentLocation();
+		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
 	}
 
 	if (!HoverVolumeShapeWeak.IsValid())
@@ -218,7 +220,8 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	if (auto Visuals = GetVisuals())
 	{
 		// Update visuals position
-		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsPositionLocal;
+		const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
+		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsOffset;
 		Visuals->SetWorldLocation(NewLocation);
 	}
 
