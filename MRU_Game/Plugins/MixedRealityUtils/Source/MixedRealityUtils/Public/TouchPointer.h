@@ -41,9 +41,10 @@ public:
 	UActorComponent* GetClosestPointOnTargets(FVector& OutPointOnTargetSurface) const;
 
 	UFUNCTION(BlueprintGetter)
-	bool GetPinched() const;
+	bool GetGrasped() const;
+
 	UFUNCTION(BlueprintSetter)
-	void SetPinched(bool Enable);
+	void SetGrasped(bool Enable);
 
 	/** Event raised when the pointer pinch starts. */
 	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
@@ -84,8 +85,8 @@ protected:
 
 private:
 
-	UPROPERTY(BlueprintGetter = "GetPinched", BlueprintSetter = "SetPinched", Category = "Touch Pointer")
-	bool bIsPinched;
+	UPROPERTY(BlueprintGetter = "GetGrasped", BlueprintSetter = "SetGrasped", Category = "Touch Pointer")
+	bool bIsGrasped;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Touch Pointer", meta = (AllowPrivateAccess = "true"))
 	USphereComponent *TouchSphere;

@@ -131,8 +131,10 @@ public:
 
 protected:
 
-	virtual void TouchStarted_Implementation(UTouchPointer* Pointer) override;
+	//
+	// ITouchPointerTarget interface
 
+	virtual void TouchStarted_Implementation(UTouchPointer* Pointer) override;
 	virtual void TouchEnded_Implementation(UTouchPointer* Pointer) override;
 
 	/** Returns a list of all currently grabbing pointers. */

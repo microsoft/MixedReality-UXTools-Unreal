@@ -137,14 +137,14 @@ UActorComponent* UTouchPointer::GetClosestPointOnTargets(FVector& OutPointOnTarg
 	return ClosestTarget;
 }
 
-bool UTouchPointer::GetPinched() const
+bool UTouchPointer::GetGrasped() const
 {
-	return bIsPinched;
+	return bIsGrasped;
 }
 
-void UTouchPointer::SetPinched(bool Enable)
+void UTouchPointer::SetGrasped(bool Enable)
 {
-	if (bIsPinched != Enable)
+	if (bIsGrasped != Enable)
 	{
 		if (Enable)
 		{
@@ -154,6 +154,6 @@ void UTouchPointer::SetPinched(bool Enable)
 		{
 			OnEndPinch.Broadcast(this);
 		}
-		bIsPinched = Enable;
+		bIsGrasped = Enable;
 	}
 }

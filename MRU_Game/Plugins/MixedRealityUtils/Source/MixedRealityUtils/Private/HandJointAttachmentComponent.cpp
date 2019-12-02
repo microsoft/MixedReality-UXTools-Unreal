@@ -11,6 +11,9 @@
 UHandJointAttachmentComponent::UHandJointAttachmentComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
+	// Tick before physics as the tick could affect the transform of simulated actors.
+	PrimaryComponentTick.TickGroup = TG_PrePhysics;
 }
 
 void UHandJointAttachmentComponent::BeginPlay()
@@ -48,6 +51,40 @@ void UHandJointAttachmentComponent::BeginPlay()
 	}
 }
 
+void UHandJointAttachmentComponent::UpdateGraspState()
+{
+	FTransform IndexTipTransform;
+	FTransform ThumbTipTransform;
+	float JointRadius;
+
+	if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::IndexTip, IndexTipTransform, JointRadius) &&
+		UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::ThumbTip, ThumbTipTransform, JointRadius))
+	{
+		const float Distance = (IndexTipTransform.GetTranslation() - ThumbTipTransform.GetTranslation()).Size();
+		const float GraspStartDistance = 2;
+		const float GraspEndDistance = 4.5;
+
+		if (bIsGrasped)
+		{
+			if (Distance > GraspEndDistance)
+			{
+				bIsGrasped = false;
+				OnHandGraspEnded.Broadcast(this);
+			}
+		}
+		else if (Distance <= GraspStartDistance)
+		{
+			FTransform PalmTransform;
+			if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, PalmTransform, JointRadius))
+			{
+				bIsGrasped = true;
+				JointTransformInPalm = GetOwner()->GetTransform().GetRelativeTransform(PalmTransform);
+				OnHandGraspStarted.Broadcast(this);
+			}
+		}
+	}
+}
+
 void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -55,8 +92,19 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 	AActor* Owner = GetOwner();
 	FTransform Transform;
 	float JointRadius;
+	bool bIsTracked;
 
-	if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Joint, Transform, JointRadius))
+	if (bIsGrasped)
+	{
+		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, Transform, JointRadius);
+		Transform = JointTransformInPalm * Transform;
+	}
+	else
+	{
+		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Joint, Transform, JointRadius);
+	}
+
+	if (bIsTracked)
 	{
 		// Enable actor
 		Owner->SetActorHiddenInGame(false);
@@ -72,9 +120,17 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 		// Update transform
 		Owner->SetActorLocationAndRotation(Location, Rotation);
+
+		UpdateGraspState();
 	}
 	else
 	{
+		if (bIsGrasped)
+		{
+			bIsGrasped = false;
+			OnHandGraspEnded.Broadcast(this);
+		}
+
 		// Disable actor on hand tracking loss
 		Owner->SetActorHiddenInGame(true);
 		Owner->SetActorEnableCollision(false);
