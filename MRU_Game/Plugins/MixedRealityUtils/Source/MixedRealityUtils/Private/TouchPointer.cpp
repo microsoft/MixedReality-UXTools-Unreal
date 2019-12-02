@@ -14,7 +14,8 @@ UTouchPointer::UTouchPointer()
 	TouchSphere = CreateDefaultSubobject<USphereComponent>(TEXT("TouchSphere"));
 	TouchSphere->InitSphereRadius(TouchRadius);
 	TouchSphere->AttachToComponent(this, FAttachmentTransformRules::KeepRelativeTransform);
-	TouchSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	TouchSphere->SetCollisionProfileName(TEXT("OverlapAll"));
+	TouchSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	TouchSphere->SetGenerateOverlapEvents(true);
 }
 
