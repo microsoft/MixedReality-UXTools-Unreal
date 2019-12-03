@@ -8,12 +8,12 @@ UInteractableComponent::UInteractableComponent()
 {
 }
 
-void UInteractableComponent::TouchStarted_Implementation(UTouchPointer* Pointer)
+void UInteractableComponent::HoverStarted_Implementation(UTouchPointer* Pointer)
 {
     ActivePointers.Add(TWeakObjectPtr<UTouchPointer>(Pointer));
 }
 
-void UInteractableComponent::TouchEnded_Implementation(UTouchPointer* Pointer)
+void UInteractableComponent::HoverEnded_Implementation(UTouchPointer* Pointer)
 {
     ActivePointers.Remove(TWeakObjectPtr<UTouchPointer>(Pointer));
 }

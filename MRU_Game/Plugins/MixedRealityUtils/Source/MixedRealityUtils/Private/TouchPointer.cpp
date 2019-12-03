@@ -4,11 +4,23 @@
 
 #include "TouchPointerTarget.h"
 
+
+namespace
+{
+	bool IsTouchTarget(const UObject* Object)
+	{
+		// Cast<ITouchPointerTarget>(Object) doesn't work for BPs that implement the interface. This works for both C++ and BP implementers.
+		return Object->GetClass()->ImplementsInterface(UTouchPointerTarget::StaticClass());
+	}
+}
+
 // Sets default values for this component's properties
 UTouchPointer::UTouchPointer()
 {
-	// No ticking needed for pointers.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
+
+	// Tick after physics so overlaps reflect the latest physics state.
+	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
 	// Create a collision sphere for detecting interactables
 	TouchSphere = CreateDefaultSubobject<USphereComponent>(TEXT("TouchSphere"));
@@ -19,82 +31,62 @@ UTouchPointer::UTouchPointer()
 	TouchSphere->SetGenerateOverlapEvents(true);
 }
 
-void UTouchPointer::OnPointerBeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
+void UTouchPointer::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	TryStartTouching(OtherActor);
-}
+	// Get overlapping actors
+	TSet<AActor*> OverlappingActors;
+	GetOwner()->GetOverlappingActors(OverlappingActors);
 
-void UTouchPointer::OnPointerEndOverlap(AActor* OverlappedActor, AActor* OtherActor)
-{
-	TryStopTouching(OtherActor);
-}
+	const FVector PointerLocation = GetComponentLocation();
+	float MinDistanceSqr = MAX_FLT;
+	UActorComponent* ClosestTarget = nullptr;
+	FVector PointOnTarget;
 
-bool UTouchPointer::TryStartTouching(AActor* actor)
-{
-	bool result = false;
-	const auto &components = actor->GetComponents();
-	for (UActorComponent *comp : components)
+	// Find the closest touch target among all components in overlapping actors
+	for (const AActor* OverlappingActor : OverlappingActors)
 	{
-		if (ImplementsTargetInterface(comp))
+		for (UActorComponent* Component : OverlappingActor->GetComponents())
 		{
-			ITouchPointerTarget::Execute_TouchStarted(comp, this);
-			TouchedTargets.Add(comp);
-			result = true;
-		}
-	}
-	return result;
-}
-
-bool UTouchPointer::TryStopTouching(AActor* actor)
-{
-	bool result = false;
-	const auto &components = actor->GetComponents();
-	for (UActorComponent *comp : components)
-	{
-		if (TouchedTargets.Remove(comp) > 0)
-		{
-			if (ImplementsTargetInterface(comp))
+			if (IsTouchTarget(Component) && ITouchPointerTarget::Execute_GetClosestPointOnSurface(Component, PointerLocation, PointOnTarget))
 			{
-				ITouchPointerTarget::Execute_TouchEnded(comp, this);
+				float DistanceSqr = (PointerLocation - PointOnTarget).SizeSquared();
+				if (DistanceSqr < MinDistanceSqr)
+				{
+					MinDistanceSqr = DistanceSqr;
+					ClosestTarget = Component;
+					ClosestPointOnHoveredTarget = PointOnTarget;
+				}
 			}
-
-			result = true;
 		}
 	}
-	return result;
-}
 
-void UTouchPointer::StopAllTouching()
-{
-	for (UActorComponent* Target : TouchedTargets)
+	auto HoveredTarget = HoveredTargetWeak.Get();
+
+	// Update hovered target
+	if (ClosestTarget != HoveredTarget)
 	{
-		if (Target)
+		if (HoveredTarget)
 		{
-			ITouchPointerTarget::Execute_TouchEnded(Target, this);
+			ITouchPointerTarget::Execute_HoverEnded(HoveredTarget, this);
+		}
+
+		HoveredTargetWeak = ClosestTarget;
+
+		if (ClosestTarget)
+		{
+			ITouchPointerTarget::Execute_HoverStarted(ClosestTarget, this);
 		}
 	}
-	TouchedTargets.Empty();
-}
-
-bool UTouchPointer::ImplementsTargetInterface(const UObject *obj) const
-{
-	return obj->GetClass()->ImplementsInterface(UTouchPointerTarget::StaticClass()) || Cast<ITouchPointerTarget>(obj);
-}
-
-void UTouchPointer::BeginPlay()
-{
-	Super::BeginPlay();
-
-	GetOwner()->OnActorBeginOverlap.AddDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
-	GetOwner()->OnActorEndOverlap.AddDynamic(this, &UTouchPointer::OnPointerEndOverlap);
 }
 
 void UTouchPointer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	StopAllTouching();
+	if (auto HoveredTarget = HoveredTargetWeak.Get())
+	{
+		ITouchPointerTarget::Execute_HoverEnded(HoveredTarget, this);
+	}
 
-	GetOwner()->OnActorBeginOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerBeginOverlap);
-	GetOwner()->OnActorEndOverlap.RemoveDynamic(this, &UTouchPointer::OnPointerEndOverlap);
+	HoveredTargetWeak.Reset();
 
 	Super::EndPlay(EndPlayReason);
 }
@@ -110,32 +102,15 @@ float UTouchPointer::GetTouchRadius() const
 	return TouchRadius;
 }
 
-UActorComponent* UTouchPointer::GetClosestPointOnTargets(FVector& OutPointOnTargetSurface) const
+UActorComponent* UTouchPointer::GetHoveredTarget(FVector& OutClosestPointOnTarget) const
 {
-	UActorComponent* ClosestTarget = nullptr;
-	float DistanceSqr = MAX_flt;
-	const auto PointerPosition = GetComponentLocation();
-
-	// Iterate over all current targets obtaining their closest point to the pointer.
-	for (UActorComponent* TargetComponent : TouchedTargets)
+	if (auto Target = HoveredTargetWeak.Get())
 	{
-		if (TargetComponent)
-		{
-			FVector ClosestPoint;
-			if (ITouchPointerTarget::Execute_GetClosestPointOnSurface(TargetComponent, PointerPosition, ClosestPoint))
-			{
-				auto NewDistanceSqr = FVector::DistSquared(PointerPosition, ClosestPoint);
-				if (NewDistanceSqr < DistanceSqr)
-				{
-					DistanceSqr = NewDistanceSqr;
-					ClosestTarget = TargetComponent;
-					OutPointOnTargetSurface = ClosestPoint;
-				}
-			}
-		}
+		OutClosestPointOnTarget = ClosestPointOnHoveredTarget;
+		return Target;
 	}
 
-	return ClosestTarget;
+	return nullptr;
 }
 
 bool UTouchPointer::GetGrasped() const

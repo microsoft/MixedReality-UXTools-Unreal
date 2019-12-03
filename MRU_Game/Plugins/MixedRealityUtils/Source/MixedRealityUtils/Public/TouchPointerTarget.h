@@ -15,9 +15,7 @@ class UTouchPointerTarget : public UInterface
 	GENERATED_BODY()
 };
 
-/**
- * 
- */
+/** Interface a component must implement to interact with touch pointers. */
 class MIXEDREALITYUTILS_API ITouchPointerTarget
 {
 	GENERATED_BODY()
@@ -25,11 +23,13 @@ class MIXEDREALITYUTILS_API ITouchPointerTarget
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
+	/** Raised by touch pointers when they start hovering this target. A given touch pointer can only hover one pointer at any given time. */
 	UFUNCTION(BlueprintNativeEvent)
-	void TouchStarted(UTouchPointer* pointer);
+	void HoverStarted(UTouchPointer* pointer);
 
+	/** Raised by touch pointers when they end hovering this target */
 	UFUNCTION(BlueprintNativeEvent)
-	void TouchEnded(UTouchPointer* pointer);
+	void HoverEnded(UTouchPointer* pointer);
 
 	/** Calculates the point on the target surface that is closest to the point passed in. Return value indicates whether a point was found. */
 	UFUNCTION(BlueprintNativeEvent)

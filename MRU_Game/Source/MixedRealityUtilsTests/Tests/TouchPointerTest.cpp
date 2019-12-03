@@ -175,10 +175,10 @@ static void SetupTargets(UWorld *world, ETargetSetup TargetSetup, std::vector<UT
 			AddKeyframe(pStart);
 			AddKeyframe(p1);
 			EnterTarget(0);
-			EnterTarget(1);
 			AddKeyframe(p2);
-			AddKeyframe(pEnd);
 			ExitTarget(0);
+			EnterTarget(1);
+			AddKeyframe(pEnd);
 			ExitTarget(1);
 			break;
 		}
@@ -305,20 +305,14 @@ void FTouchPointerTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FS
 	// Single target
 	AddTestCase(1, EPointerMovement::Interpolate, ETargetSetup::Single);
 	AddTestCase(2, EPointerMovement::Interpolate, ETargetSetup::Single);
-	AddTestCase(1, EPointerMovement::Teleport, ETargetSetup::Single);
-	AddTestCase(2, EPointerMovement::Teleport, ETargetSetup::Single);
 
 	// Two separate targets
 	AddTestCase(1, EPointerMovement::Interpolate, ETargetSetup::TwoSeparate);
 	AddTestCase(2, EPointerMovement::Interpolate, ETargetSetup::TwoSeparate);
-	AddTestCase(1, EPointerMovement::Teleport, ETargetSetup::TwoSeparate);
-	AddTestCase(2, EPointerMovement::Teleport, ETargetSetup::TwoSeparate);
 
 	// Two overlapping targets
 	AddTestCase(1, EPointerMovement::Interpolate, ETargetSetup::TwoOverlapping);
 	AddTestCase(2, EPointerMovement::Interpolate, ETargetSetup::TwoOverlapping);
-	AddTestCase(1, EPointerMovement::Teleport, ETargetSetup::TwoOverlapping);
-	AddTestCase(2, EPointerMovement::Teleport, ETargetSetup::TwoOverlapping);
 }
 
 /** Util for parsing a parameter string into test settings. */

@@ -10,17 +10,18 @@ void UTestTouchPointerTarget::BeginPlay()
 	TouchEndedCount = 0;
 }
 
-void UTestTouchPointerTarget::TouchStarted_Implementation(UTouchPointer* Pointer)
+void UTestTouchPointerTarget::HoverStarted_Implementation(UTouchPointer* Pointer)
 {
 	++TouchStartedCount;
 }
 
-void UTestTouchPointerTarget::TouchEnded_Implementation(UTouchPointer* Pointer)
+void UTestTouchPointerTarget::HoverEnded_Implementation(UTouchPointer* Pointer)
 {
 	++TouchEndedCount;
 }
 
 bool UTestTouchPointerTarget::GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface)
 {
-	return false;
+	OutPointOnSurface = GetComponentLocation();
+	return true;
 }

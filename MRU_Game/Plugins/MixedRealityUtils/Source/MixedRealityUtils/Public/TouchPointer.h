@@ -15,8 +15,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTouchPointerEndPinchDelegate, UTouc
 
 /**
  * Turns an actor into a touch pointer.
- * Touch pointers confer focus to interactables (e.g. buttons) when they overlap with them. 
- * Interactables use the transform of pointers focusing them to drive their interactions.
+ * Touch pointers keep track of all overlapping touch targets and raise hover events on the closest one.
+ * Touch targets use the transform of touch pointers hovering them to drive their interactions.
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MIXEDREALITYUTILS_API UTouchPointer : public USceneComponent
@@ -34,11 +34,11 @@ public:
 	float GetTouchRadius() const;
 
 	/** 
-	 * Returns the target that is closest to the pointer position or null if there is none. 
-	 * The closest point on the target surface is stored in OutPointOnTargetSurface.
+	 * Returns currently hovered touch target or null if there is none. 
+	 * The closest point on the target surface is stored in OutClosestPointOnTarget.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
-	UActorComponent* GetClosestPointOnTargets(FVector& OutPointOnTargetSurface) const;
+	UActorComponent* GetHoveredTarget(FVector& OutClosestPointOnTarget) const;
 
 	UFUNCTION(BlueprintGetter)
 	bool GetGrasped() const;
@@ -56,32 +56,19 @@ public:
 
 protected:
 
-	/// Start touching the actor.
-	/// Returns false if the actor has no valid touch target.
-	bool TryStartTouching(AActor* actor);
+	// 
+	// UActorComponent interface
 
-	/// Stop touching the actor.
-	/// Returns false if the actor was not touched.
-	bool TryStopTouching(AActor* actor);
-
-	/// Stop touching all current targets.
-	void StopAllTouching();
-
-	UFUNCTION()
-	void OnPointerBeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
-	UFUNCTION()
-	void OnPointerEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
-
-	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-private:
-
-	bool ImplementsTargetInterface(const UObject *obj) const;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
 
-	TSet<UActorComponent*> TouchedTargets;
+	/** Weak reference to the currently hovered target. */
+	TWeakObjectPtr<UActorComponent> HoveredTargetWeak;
+
+	/** Closest point on the surface of the hovered target. */
+	FVector ClosestPointOnHoveredTarget;
 
 private:
 

@@ -134,8 +134,8 @@ protected:
 	//
 	// ITouchPointerTarget interface
 
-	virtual void TouchStarted_Implementation(UTouchPointer* Pointer) override;
-	virtual void TouchEnded_Implementation(UTouchPointer* Pointer) override;
+	virtual void HoverStarted_Implementation(UTouchPointer* Pointer) override;
+	virtual void HoverEnded_Implementation(UTouchPointer* Pointer) override;
 
 	/** Returns a list of all currently grabbing pointers. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")

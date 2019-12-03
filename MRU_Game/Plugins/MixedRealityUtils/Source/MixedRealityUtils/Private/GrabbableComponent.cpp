@@ -92,16 +92,16 @@ FVector UGrabbableComponent::GetTargetCentroid() const
 	return centroid;
 }
 
-void UGrabbableComponent::TouchStarted_Implementation(UTouchPointer* Pointer)
+void UGrabbableComponent::HoverStarted_Implementation(UTouchPointer* Pointer)
 {
-	Super::TouchStarted_Implementation(Pointer);
+	Super::HoverStarted_Implementation(Pointer);
 
 	Pointer->OnBeginPinch.AddDynamic(this, &UGrabbableComponent::OnPointerBeginPinch);
 }
 
-void UGrabbableComponent::TouchEnded_Implementation(UTouchPointer* Pointer)
+void UGrabbableComponent::HoverEnded_Implementation(UTouchPointer* Pointer)
 {
-	Super::TouchEnded_Implementation(Pointer);
+	Super::HoverEnded_Implementation(Pointer);
 
 	Pointer->OnBeginPinch.RemoveDynamic(this, &UGrabbableComponent::OnPointerBeginPinch);
 }
