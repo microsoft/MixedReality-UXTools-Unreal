@@ -46,14 +46,6 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetGrasped(bool Enable);
 
-	/** Event raised when the pointer pinch starts. */
-	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
-	FTouchPointerBeginPinchDelegate OnBeginPinch;
-
-	/** Event raised when the pointer pinch ends. */
-	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
-	FTouchPointerEndPinchDelegate OnEndPinch;
-
 protected:
 
 	// 
@@ -61,6 +53,23 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+public:
+
+	/** Event raised when the pointer pinch starts. */
+	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
+		FTouchPointerBeginPinchDelegate OnBeginPinch;
+
+	/** Event raised when the pointer pinch ends. */
+	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
+		FTouchPointerEndPinchDelegate OnEndPinch;
+
+	/**
+	 * Whether the pointer is locked on its current hovered target.
+	 * When locked, pointers won't change their hovered target even if they stop overlapping it.
+	 */
+	UPROPERTY(EditAnywhere, Category = "Touch Pointer")
+	bool bHoverLocked;
 
 protected:
 

@@ -33,6 +33,12 @@ UTouchPointer::UTouchPointer()
 
 void UTouchPointer::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
+	if (bHoverLocked)
+	{
+		// Don't update the hovered target if we're locked
+		return;
+	}
+
 	// Get overlapping actors
 	TSet<AActor*> OverlappingActors;
 	GetOwner()->GetOverlappingActors(OverlappingActors);
