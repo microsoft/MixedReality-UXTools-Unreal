@@ -124,18 +124,22 @@ bool UTouchPointer::GetGrasped() const
 	return bIsGrasped;
 }
 
-void UTouchPointer::SetGrasped(bool Enable)
+void UTouchPointer::SetGrasped(bool bValue)
 {
-	if (bIsGrasped != Enable)
+	if (bIsGrasped != bValue)
 	{
-		if (Enable)
+		bIsGrasped = bValue;
+
+		if (auto HoveredTarget = HoveredTargetWeak.Get())
 		{
-			OnBeginPinch.Broadcast(this);
+			if (bIsGrasped)
+			{
+				ITouchPointerTarget::Execute_GraspStarted(HoveredTarget, this);
+			}
+			else
+			{
+				ITouchPointerTarget::Execute_GraspEnded(HoveredTarget, this);
+			}
 		}
-		else
-		{
-			OnEndPinch.Broadcast(this);
-		}
-		bIsGrasped = Enable;
 	}
 }

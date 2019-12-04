@@ -10,8 +10,6 @@
 
 class UTouchPointer;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTouchPointerBeginPinchDelegate, UTouchPointer*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTouchPointerEndPinchDelegate, UTouchPointer*, Pointer);
 
 /**
  * Turns an actor into a touch pointer.
@@ -55,14 +53,6 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-
-	/** Event raised when the pointer pinch starts. */
-	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
-		FTouchPointerBeginPinchDelegate OnBeginPinch;
-
-	/** Event raised when the pointer pinch ends. */
-	UPROPERTY(BlueprintAssignable, Category = "Touch Pointer")
-		FTouchPointerEndPinchDelegate OnEndPinch;
 
 	/**
 	 * Whether the pointer is locked on its current hovered target.

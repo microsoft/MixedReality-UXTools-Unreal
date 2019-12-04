@@ -27,9 +27,17 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void HoverStarted(UTouchPointer* pointer);
 
-	/** Raised by touch pointers when they end hovering this target */
+	/** Raised by touch pointers when they end hovering this target. */
 	UFUNCTION(BlueprintNativeEvent)
 	void HoverEnded(UTouchPointer* pointer);
+
+	/** Raised by hovering touch pointers when they start grasping. */
+	UFUNCTION(BlueprintNativeEvent)
+	void GraspStarted(UTouchPointer* pointer);
+
+	/** Raised by hovering touch pointers when they end grasping. */
+	UFUNCTION(BlueprintNativeEvent)
+	void GraspEnded(UTouchPointer* pointer);
 
 	/** Calculates the point on the target surface that is closest to the point passed in. Return value indicates whether a point was found. */
 	UFUNCTION(BlueprintNativeEvent)

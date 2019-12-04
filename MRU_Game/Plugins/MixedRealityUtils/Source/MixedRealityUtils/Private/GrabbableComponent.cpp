@@ -92,34 +92,6 @@ FVector UGrabbableComponent::GetTargetCentroid() const
 	return centroid;
 }
 
-void UGrabbableComponent::HoverStarted_Implementation(UTouchPointer* Pointer)
-{
-	Super::HoverStarted_Implementation(Pointer);
-
-	Pointer->OnBeginPinch.AddDynamic(this, &UGrabbableComponent::OnPointerBeginPinch);
-}
-
-void UGrabbableComponent::HoverEnded_Implementation(UTouchPointer* Pointer)
-{
-	Super::HoverEnded_Implementation(Pointer);
-
-	Pointer->OnBeginPinch.RemoveDynamic(this, &UGrabbableComponent::OnPointerBeginPinch);
-}
-
-void UGrabbableComponent::OnPointerBeginPinch(UTouchPointer* Pointer)
-{
-	Pointer->OnEndPinch.AddDynamic(this, &UGrabbableComponent::OnPointerEndPinch);
-
-	BeginGrab(Pointer);
-}
-
-void UGrabbableComponent::OnPointerEndPinch(UTouchPointer* Pointer)
-{
-	Pointer->OnEndPinch.RemoveDynamic(this, &UGrabbableComponent::OnPointerEndPinch);
-
-	EndGrab(Pointer);
-}
-
 bool UGrabbableComponent::FindGrabPointerInternal(UTouchPointer *Pointer, FGrabPointerData const *&OutData, int &OutIndex) const
 {
 	for (int i = 0; i < GrabPointers.Num(); ++i)
@@ -174,14 +146,9 @@ void UGrabbableComponent::GetSecondaryGrabPointer(bool &Valid, FGrabPointerData 
 	}
 }
 
-void UGrabbableComponent::BeginGrab(UTouchPointer *Pointer)
+void UGrabbableComponent::GraspStarted_Implementation(UTouchPointer* Pointer)
 {
-	if (Pointer == nullptr)
-	{
-		return;
-	}
-
-	EndGrab(Pointer);
+	Super::GraspStarted_Implementation(Pointer);
 
 	FGrabPointerData data;
 	data.Pointer = Pointer;
@@ -201,7 +168,7 @@ void UGrabbableComponent::ResetLocalGrabPoint(FGrabPointerData &PointerData)
 	PointerData.LocalGrabPoint = PointerData.Pointer->GetComponentTransform() * GetComponentTransform().Inverse();
 }
 
-void UGrabbableComponent::EndGrab(UTouchPointer *Pointer)
+void UGrabbableComponent::GraspEnded_Implementation(UTouchPointer* Pointer)
 {
 	int numRemoved = GrabPointers.RemoveAll([this, Pointer](const FGrabPointerData &data)
 	{
@@ -213,4 +180,6 @@ void UGrabbableComponent::EndGrab(UTouchPointer *Pointer)
 		}
 		return false;
 	});
+
+	Super::GraspEnded_Implementation(Pointer);
 }

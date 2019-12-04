@@ -134,24 +134,14 @@ protected:
 	//
 	// ITouchPointerTarget interface
 
-	virtual void HoverStarted_Implementation(UTouchPointer* Pointer) override;
-	virtual void HoverEnded_Implementation(UTouchPointer* Pointer) override;
+	virtual void GraspStarted_Implementation(UTouchPointer* Pointer) override;
+	virtual void GraspEnded_Implementation(UTouchPointer* Pointer) override;
 
 	/** Returns a list of all currently grabbing pointers. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	const TArray<FGrabPointerData> &GetGrabPointers() const;
 
-	UFUNCTION()
-	void OnPointerBeginPinch(UTouchPointer* Pointer);
-	UFUNCTION()
-	void OnPointerEndPinch(UTouchPointer* Pointer);
-
 private:
-
-	/** Add a pointer to the active pointer list. */
-	void BeginGrab(UTouchPointer *Pointer);
-	/** Remove a pointer from the active pointer list. */
-	void EndGrab(UTouchPointer *Pointer);
 
 	/** Internal search function for finding active grabbing pointers */
 	bool FindGrabPointerInternal(UTouchPointer *Pointer, FGrabPointerData const *&OutData, int &OutIndex) const;
