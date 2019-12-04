@@ -22,6 +22,8 @@ void UHandJointAttachmentComponent::BeginPlay()
 
 	if (!UMixedRealityToolsFunctionLibrary::IsHandTrackingAvailable())
 	{
+		AActor* Owner = GetOwner();
+
 		// Attach to player camera
 		if (APlayerCameraManager* Manager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0))
 		{
@@ -36,8 +38,34 @@ void UHandJointAttachmentComponent::BeginPlay()
 				Location.Set(30, 10, 0);
 			}
 
-			GetOwner()->SetActorLocation(Location);
-			GetOwner()->AttachToActor(Manager, FAttachmentTransformRules::KeepRelativeTransform);
+			Owner->SetActorLocation(Location);
+			Owner->AttachToActor(Manager, FAttachmentTransformRules::KeepRelativeTransform);
+		}
+
+		// Bind to LMB to simulate grasp
+		if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+		{
+			// Enable input
+			Owner->EnableInput(PlayerController);
+
+			if (UInputComponent* InputComponent = Owner->FindComponentByClass<UInputComponent>())
+			{
+				FInputChord InputChord(EKeys::LeftMouseButton);
+
+				// Use modifier keys to discern between left and right
+				if (Hand == EControllerHand::Left)
+				{
+					InputChord.bShift = true;
+				}
+				else
+				{
+					InputChord.bAlt = true;
+				}
+				
+				// Bind to LMB press and release
+				InputComponent->BindKey(InputChord, EInputEvent::IE_Pressed, this, &UHandJointAttachmentComponent::OnLmbPressed);
+				InputComponent->BindKey(InputChord, EInputEvent::IE_Released, this, &UHandJointAttachmentComponent::OnLmbReleased);
+			}
 		}
 
 		SetComponentTickEnabled(false);
@@ -48,6 +76,24 @@ void UHandJointAttachmentComponent::BeginPlay()
 		{
 			UE_LOG(MixedRealityUtils, Error, TEXT("Could not normalize LocalAttachDirection. The calculated attachment position won't be on the skin"));
 		}
+	}
+}
+
+void UHandJointAttachmentComponent::OnLmbPressed()
+{
+	if (!bIsGrasped)
+	{
+		bIsGrasped = true;
+		OnHandGraspStarted.Broadcast(this);
+	}
+}
+
+void UHandJointAttachmentComponent::OnLmbReleased()
+{
+	if (bIsGrasped)
+	{
+		bIsGrasped = false;
+		OnHandGraspEnded.Broadcast(this);
 	}
 }
 

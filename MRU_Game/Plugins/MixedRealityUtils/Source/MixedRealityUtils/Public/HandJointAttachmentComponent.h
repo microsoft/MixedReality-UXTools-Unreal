@@ -34,6 +34,16 @@ protected:
 
 	void UpdateGraspState();
 
+private:
+
+	// TODO Remove these when we have hand simulation at platform level.
+
+	/** Simulate grasp start on LMB press + shift or alt when running in editor */
+	void OnLmbPressed();
+
+	/** Simulate grasp end on LMB release + shift or alt when running in editor */
+	void OnLmbReleased();
+
 public:
 
 	/** Hand to attach to (left or right). */
