@@ -158,7 +158,7 @@ void UGrabbableComponent::GraspStarted_Implementation(UTouchPointer* Pointer)
 	GrabPointers.Add(data);
 
 	// Lock the grabbing pointer so we remain the hovered target as it moves.
-	Pointer->bHoverLocked = true;
+	Pointer->SetHoverLocked(true);
 
 	OnBeginGrab.Broadcast(this, data);
 }
@@ -174,7 +174,7 @@ void UGrabbableComponent::GraspEnded_Implementation(UTouchPointer* Pointer)
 	{
 		if (data.Pointer == Pointer)
 		{
-			Pointer->bHoverLocked = false;
+			Pointer->SetHoverLocked(false);
 			OnEndGrab.Broadcast(this, data);
 			return true;
 		}

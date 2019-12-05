@@ -119,6 +119,16 @@ UActorComponent* UTouchPointer::GetHoveredTarget(FVector& OutClosestPointOnTarge
 	return nullptr;
 }
 
+bool UTouchPointer::GetHoverLocked() const
+{
+	return bHoverLocked;
+}
+
+void UTouchPointer::SetHoverLocked(bool Value)
+{
+	bHoverLocked = Value;
+}
+
 bool UTouchPointer::GetGrasped() const
 {
 	return bIsGrasped;

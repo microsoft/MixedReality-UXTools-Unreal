@@ -38,6 +38,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
 	UActorComponent* GetHoveredTarget(FVector& OutClosestPointOnTarget) const;
 
+	/** Returns whether the pointer is locked on the currently hovered target. */
+	UFUNCTION(BlueprintGetter)
+	bool GetHoverLocked() const;
+
+	/** Sets whether the pointer is locked on the currently hovered target. */
+	UFUNCTION(BlueprintSetter)
+	void SetHoverLocked(bool Value);
+
 	UFUNCTION(BlueprintGetter)
 	bool GetGrasped() const;
 
@@ -52,15 +60,6 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-public:
-
-	/**
-	 * Whether the pointer is locked on its current hovered target.
-	 * When locked, pointers won't change their hovered target even if they stop overlapping it.
-	 */
-	UPROPERTY(EditAnywhere, Category = "Touch Pointer")
-	bool bHoverLocked;
-
 protected:
 
 	/** Weak reference to the currently hovered target. */
@@ -70,6 +69,13 @@ protected:
 	FVector ClosestPointOnHoveredTarget;
 
 private:
+
+	/**
+	 * Whether the pointer is locked on its current hovered target.
+	 * When locked, pointers won't change their hovered target even if they stop overlapping it.
+	 */
+	UPROPERTY(BlueprintGetter = "GetHoverLocked", BlueprintSetter = "SetHoverLocked", Category = "Touch Pointer")
+	bool bHoverLocked;
 
 	UPROPERTY(BlueprintGetter = "GetGrasped", BlueprintSetter = "SetGrasped", Category = "Touch Pointer")
 	bool bIsGrasped;
