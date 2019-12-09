@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
+class UMaterialInterface;
+
 DECLARE_LOG_CATEGORY_EXTERN(MixedRealityUtils, All, All)
 
 class FMixedRealityUtilsModule : public IModuleInterface
@@ -14,4 +16,7 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
+
+	/// Returns the default cursor ring material
+	static UMaterialInterface* GetDefaultCursorRingMaterial();
 };

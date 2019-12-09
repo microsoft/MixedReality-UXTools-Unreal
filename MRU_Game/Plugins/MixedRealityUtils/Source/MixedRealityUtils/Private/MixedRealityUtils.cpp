@@ -17,6 +17,11 @@ void FMixedRealityUtilsModule::ShutdownModule()
 	// we call this function before unloading the module.
 }
 
+UMaterialInterface* FMixedRealityUtilsModule::GetDefaultCursorRingMaterial()
+{
+	return Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), NULL, TEXT("/MixedRealityUtils/Pointers/FingerCursorMaterial")));
+}
+
 #undef LOCTEXT_NAMESPACE
 	
 IMPLEMENT_MODULE(FMixedRealityUtilsModule, MixedRealityUtils)
