@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{C2A773EB-4735-A328-03B9-6B9705DC95C8}",
+	"EngineAssociation": "4.24",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -14,7 +14,7 @@
 		},
 		{
 			"Name": "MixedRealityUtilsTests",
-			"Type": "Developer",
+			"Type": "UncookedOnly",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine"

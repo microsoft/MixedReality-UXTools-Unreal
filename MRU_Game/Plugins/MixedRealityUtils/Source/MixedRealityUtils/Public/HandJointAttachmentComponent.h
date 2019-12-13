@@ -54,17 +54,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Joint Attachment")
 	EWMRHandKeypoint Joint;
 
-	/** If this is set the attachment point will be on the skin surface near the joint instead of the joint itself. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Joint Attachment")
-	bool bAttachOnSkin;
-
-	/** 
-	 * When attaching to the skin, this direction is used to compute the attachment point from the joint position.
-	 * -X indicates forward in the direction of the bone, +Y right and +Z down (towards the palm).
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Joint Attachment", meta = (EditCondition = "bAttachOnSkin"))
-	FVector LocalAttachDirection = { -1, 0, 0 };
-
 	/** If true, raise grasp events and use the joint transform relative to the palm while grasping to increase stability */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Joint Attachment")
 	bool bHandleGrasp = true;
