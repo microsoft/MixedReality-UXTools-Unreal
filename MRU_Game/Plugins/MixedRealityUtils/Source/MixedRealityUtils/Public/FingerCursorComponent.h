@@ -8,6 +8,7 @@
 
 class UTouchPointer;
 class UMaterialInterface;
+class UMaterialInstanceDynamic;
 
 /**
  * When added to an actor with a touch pointer, this component displays a ring cursor oriented towards the pointer target and 
