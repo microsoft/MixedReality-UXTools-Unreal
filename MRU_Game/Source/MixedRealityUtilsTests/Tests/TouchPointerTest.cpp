@@ -127,7 +127,7 @@ static void SetupTargets(UWorld *world, ETargetSetup TargetSetup, std::vector<UT
 	};
 
 	const FVector pStart(40, -50, 30);
-	const FVector pEnd(50, 40, -40);
+	const FVector pEnd(150, 40, -40);
 	switch (TargetSetup)
 	{
 		default:
@@ -187,16 +187,16 @@ static void SetupTargets(UWorld *world, ETargetSetup TargetSetup, std::vector<UT
 
 
 /** Test enter/exit events for all targets at the given keyframe position. */
-static void TestKeyframe(FAutomationTestBase *Test, const std::vector<UTouchPointer*> &Pointers, const std::vector<UTestTouchPointerTarget*> &Targets, const PointerKeyframe &keyframe)
+static void TestKeyframe(FAutomationTestBase *Test, const std::vector<UTouchPointer*> &Pointers, const std::vector<UTestTouchPointerTarget*> &Targets, const PointerKeyframe &Keyframe, int KeyframeIndex)
 {
 	for (int targetIndex = 0; targetIndex < Targets.size(); ++targetIndex)
 	{
 		const UTestTouchPointerTarget *target = Targets[targetIndex];
-		int expectedTouchStart = keyframe.TouchStartCountExpected[targetIndex] * Pointers.size();
-		int expectedTouchEnd = keyframe.TouchEndCountExpected[targetIndex] * Pointers.size();
+		int expectedTouchStart = Keyframe.TouchStartCountExpected[targetIndex] * Pointers.size();
+		int expectedTouchEnd = Keyframe.TouchEndCountExpected[targetIndex] * Pointers.size();
 
-		FString whatStarted; whatStarted.Appendf(TEXT("Target %d TouchStarted count"), targetIndex);
-		FString whatEnded; whatEnded.Appendf(TEXT("Target %d TouchEnded count"), targetIndex);
+		FString whatStarted; whatStarted.Appendf(TEXT("Keyframe %d: Target %d TouchStarted count"), KeyframeIndex, targetIndex);
+		FString whatEnded; whatEnded.Appendf(TEXT("Keyframe %d: Target %d TouchEnded count"), KeyframeIndex, targetIndex);
 		Test->TestEqual(whatStarted, target->TouchStartedCount, expectedTouchStart);
 		Test->TestEqual(whatEnded, target->TouchEndedCount, expectedTouchEnd);
 	}
@@ -243,7 +243,7 @@ public:
 		{
 			Section = NewSection;
 
-			TestKeyframe(Test, Pointers, Targets, Keyframes[Section]);
+			TestKeyframe(Test, Pointers, Targets, Keyframes[Section], Section);
 		}
 
 		if (Section < Keyframes.size() - 1)
@@ -375,7 +375,7 @@ bool FTouchPointerTest::RunTest(const FString& Parameters)
 					pointer->GetOwner()->SetActorLocation(keyframe.Location);
 				}
 
-				TestKeyframe(this, pointers, targets, keyframe);
+				TestKeyframe(this, pointers, targets, keyframe, Section);
 			}
 			break;
 	}
