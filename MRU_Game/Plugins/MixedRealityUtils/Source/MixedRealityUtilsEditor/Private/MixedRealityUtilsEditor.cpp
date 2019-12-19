@@ -1,5 +1,7 @@
 #include "MixedRealityUtilsEditor.h"
 #include "PressableButtonComponentVisualizer.h"
+#include "UnrealEdGlobals.h"
+#include "Editor/UnrealEdEngine.h"
 
 IMPLEMENT_GAME_MODULE(FMixedRealityUtilsEditorModule, MixedRealityUtilsEditor);
 
