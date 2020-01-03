@@ -70,6 +70,13 @@ void UHandJointAttachmentComponent::BeginPlay()
 
 		SetComponentTickEnabled(false);
 	}
+	else if (bAttachOnSkin)
+	{
+		if (!LocalAttachDirection.Normalize())
+		{
+			UE_LOG(MixedRealityUtils, Error, TEXT("Could not normalize LocalAttachDirection. The calculated attachment position won't be on the skin"));
+		}
+	}
 }
 
 void UHandJointAttachmentComponent::OnLmbPressed()
@@ -94,9 +101,10 @@ void UHandJointAttachmentComponent::UpdateGraspState()
 {
 	FTransform IndexTipTransform;
 	FTransform ThumbTipTransform;
+	float JointRadius;
 
-	if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::IndexTip, IndexTipTransform) &&
-		UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::ThumbTip, ThumbTipTransform))
+	if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::IndexTip, IndexTipTransform, JointRadius) &&
+		UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::ThumbTip, ThumbTipTransform, JointRadius))
 	{
 		const float Distance = (IndexTipTransform.GetTranslation() - ThumbTipTransform.GetTranslation()).Size();
 		const float GraspStartDistance = 2;
@@ -113,7 +121,7 @@ void UHandJointAttachmentComponent::UpdateGraspState()
 		else if (Distance <= GraspStartDistance)
 		{
 			FTransform PalmTransform;
-			if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, PalmTransform))
+			if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, PalmTransform, JointRadius))
 			{
 				bIsGrasped = true;
 				JointTransformInPalm = GetOwner()->GetTransform().GetRelativeTransform(PalmTransform);
@@ -129,16 +137,17 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 	AActor* Owner = GetOwner();
 	FTransform Transform;
+	float JointRadius;
 	bool bIsTracked;
 
 	if (bIsGrasped)
 	{
-		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, Transform);
+		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, Transform, JointRadius);
 		Transform = JointTransformInPalm * Transform;
 	}
 	else
 	{
-		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Joint, Transform);
+		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Joint, Transform, JointRadius);
 	}
 
 	if (bIsTracked)
@@ -149,6 +158,11 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 		FVector Location = Transform.GetLocation();
 		FQuat Rotation = Transform.GetRotation();
+
+		if (bAttachOnSkin)
+		{
+			Location += Rotation.RotateVector(LocalAttachDirection) * JointRadius;
+		}
 
 		// Update transform
 		Owner->SetActorLocationAndRotation(Location, Rotation);
