@@ -20,7 +20,7 @@ void UHandJointAttachmentComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!UMixedRealityToolsFunctionLibrary::IsHandTrackingAvailable())
+	if (UMixedRealityToolsFunctionLibrary::ShouldSimulateHands())
 	{
 		AActor* Owner = GetOwner();
 

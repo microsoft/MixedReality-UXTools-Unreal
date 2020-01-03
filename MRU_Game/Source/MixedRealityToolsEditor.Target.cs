@@ -8,7 +8,8 @@ public class MixedRealityToolsEditorTarget : TargetRules
 	public MixedRealityToolsEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
+        DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { "MixedRealityTools", "MixedRealityUtilsTests" } );
+        ExtraModuleNames.AddRange( new string[] { "MixedRealityTools", "MixedRealityUtilsTests" } );
 	}
 }

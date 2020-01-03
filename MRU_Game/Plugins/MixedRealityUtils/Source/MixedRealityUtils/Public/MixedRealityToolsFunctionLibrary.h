@@ -20,7 +20,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "MixedRealityTools", meta = (WorldContext = "WorldContextObject", UnsafeDuringActorConstruction = "true"))
 	static FTransform GetHeadPose(const UObject* WorldContextObject);
 
-	/** Returns true if hand tracking is available. Useful to decide whether hand tracking emulation is required. */
+	/** Returns true if articulated hands simulation is required. */
 	UFUNCTION(BlueprintPure, Category="MixedRealityTools")
-	static bool IsHandTrackingAvailable();
+	static bool ShouldSimulateHands();
 };

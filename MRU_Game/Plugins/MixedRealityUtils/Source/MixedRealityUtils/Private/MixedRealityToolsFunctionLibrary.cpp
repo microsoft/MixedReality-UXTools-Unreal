@@ -25,22 +25,17 @@ FTransform UMixedRealityToolsFunctionLibrary::GetHeadPose(const UObject* WorldCo
 	return FTransform(rot, pos);
 }
 
-bool UMixedRealityToolsFunctionLibrary::IsHandTrackingAvailable()
+bool UMixedRealityToolsFunctionLibrary::ShouldSimulateHands()
 {
-	if (UWindowsMixedRealityHandTrackingFunctionLibrary::SupportsHandTracking())
-	{
 #if WITH_EDITOR
-		if (GIsEditor)
-		{
-			// We take bUseVRPreviewForPlayWorld as an indication that we're running using Holographic Remoting
-			UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine);
-			return EdEngine->bUseVRPreviewForPlayWorld;
-		}
+	if (GIsEditor)
+	{
+		// We take bUseVRPreviewForPlayWorld as an indication that we're running using Holographic Remoting
+		UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine);
+		return !EdEngine->bUseVRPreviewForPlayWorld;
+	}
 #endif
 
-		// We assume hand tracking is always available in game mode
-		return true;
-	}
-
+	// We assume hand tracking is always available in game mode
 	return false;
 }

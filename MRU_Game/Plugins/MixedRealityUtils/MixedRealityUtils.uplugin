@@ -13,16 +13,27 @@
 	"CanContainContent": true,
 	"IsBetaVersion": true,
 	"Installed": false,
+	"SupportedTargetPlatforms": [
+		"Win64",
+		"HoloLens"
+	],
 	"Modules": [
 		{
 			"Name": "MixedRealityUtils",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
 		},
 		{
 			"Name": "MixedRealityUtilsEditor",
 			"Type": "Editor",
-			"LoadingPhase": "PostEngineInit"
+			"LoadingPhase": "PostEngineInit",
+			"WhitelistPlatforms": [
+				"Win64"
+			]
 		}
 	],
 	"Plugins": [
