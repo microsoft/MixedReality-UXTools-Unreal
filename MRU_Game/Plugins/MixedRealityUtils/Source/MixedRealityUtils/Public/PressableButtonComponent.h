@@ -48,14 +48,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetVisuals(USceneComponent* Visuals);
 
-	/** Get shape component used as hover volume shape */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
-	UShapeComponent* GetHoverVolumeShape() const;
-
-	/** Set shape component to be used as hover volume shape */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
-	void SetHoverVolumeShape(UShapeComponent* Shape);
-
 protected:
 
     //
@@ -114,7 +106,4 @@ private:
 
 	/** Visuals offset in this component's space */
 	FVector VisualsOffsetLocal;
-
-	/** Shape defining the hover volume for the button. Pointers outside this volume will be ignored. */
-	TWeakObjectPtr<UShapeComponent> HoverVolumeShapeWeak;
 };

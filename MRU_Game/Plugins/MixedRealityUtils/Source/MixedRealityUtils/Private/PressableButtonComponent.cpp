@@ -38,16 +38,6 @@ void UPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 	}
 }
 
-UShapeComponent* UPressableButtonComponent::GetHoverVolumeShape() const
-{
-	return HoverVolumeShapeWeak.Get();
-}
-
-void UPressableButtonComponent::SetHoverVolumeShape(UShapeComponent* Shape)
-{
-	HoverVolumeShapeWeak = Shape;
-}
-
 static XMVECTOR ToXM(const FVector& vectorUE)
 {
 	return XMLoadFloat3((const XMFLOAT3*)&vectorUE);
@@ -151,11 +141,6 @@ void UPressableButtonComponent::BeginPlay()
 		const auto VisualsOffset = Visuals->GetComponentLocation() - GetComponentLocation();
 		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
 	}
-
-	if (!HoverVolumeShapeWeak.IsValid())
-	{
-		HoverVolumeShapeWeak = GetOwner()->FindComponentByClass<UShapeComponent>();
-	}
 }
 
 void UPressableButtonComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -191,26 +176,18 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	std::vector<HandUtils::TouchPointer> TouchPointers;
 
-	if (UShapeComponent* HoverVolumeShape = HoverVolumeShapeWeak.Get())
+	// Collect all touch pointers
 	{
 		TArray<UTouchPointer*> Pointers = GetActivePointers();
 		TouchPointers.reserve(Pointers.Num());
 
-		// Collect all touch pointers interacting with the button
 		for (UTouchPointer* Pointer : Pointers)
 		{
+			HandUtils::TouchPointer TouchPointer;
 			const FVector PointerPosition = Pointer->GetComponentLocation();
-			float SquaredDistance;
-			FVector ClosestPoint;
-
-			// Check if the pointer is inside the hover volume
-			if (HoverVolumeShape->GetSquaredDistanceToCollision(PointerPosition, SquaredDistance, ClosestPoint) && SquaredDistance == 0.0)
-			{
-				HandUtils::TouchPointer TouchPointer;
-				TouchPointer.m_position = ToMRPosition(PointerPosition);
-				TouchPointer.m_id = (HandUtils::PointerId)Pointer;
-				TouchPointers.emplace_back(TouchPointer);
-			}
+			TouchPointer.m_position = ToMRPosition(PointerPosition);
+			TouchPointer.m_id = (HandUtils::PointerId)Pointer;
+			TouchPointers.emplace_back(TouchPointer);
 		}
 	}
 
