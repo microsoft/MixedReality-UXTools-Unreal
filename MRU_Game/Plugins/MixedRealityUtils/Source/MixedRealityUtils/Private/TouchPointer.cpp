@@ -46,13 +46,14 @@ void UTouchPointer::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	const FVector PointerLocation = GetComponentLocation();
 	float MinDistanceSqr = MAX_FLT;
 	UActorComponent* ClosestTarget = nullptr;
-	FVector PointOnTarget;
+	FVector ClosestPointOnTarget;
 
 	// Find the closest touch target among all components in overlapping actors
 	for (const AActor* OverlappingActor : OverlappingActors)
 	{
 		for (UActorComponent* Component : OverlappingActor->GetComponents())
 		{
+			FVector PointOnTarget;
 			if (IsTouchTarget(Component) && ITouchPointerTarget::Execute_GetClosestPointOnSurface(Component, PointerLocation, PointOnTarget))
 			{
 				float DistanceSqr = (PointerLocation - PointOnTarget).SizeSquared();
@@ -60,39 +61,18 @@ void UTouchPointer::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 				{
 					MinDistanceSqr = DistanceSqr;
 					ClosestTarget = Component;
-					ClosestPointOnHoveredTarget = PointOnTarget;
+					ClosestPointOnTarget = PointOnTarget;
 				}
 			}
 		}
 	}
 
-	auto HoveredTarget = HoveredTargetWeak.Get();
-
-	// Update hovered target
-	if (ClosestTarget != HoveredTarget)
-	{
-		if (HoveredTarget)
-		{
-			ITouchPointerTarget::Execute_HoverEnded(HoveredTarget, this);
-		}
-
-		HoveredTargetWeak = ClosestTarget;
-
-		if (ClosestTarget)
-		{
-			ITouchPointerTarget::Execute_HoverStarted(ClosestTarget, this);
-		}
-	}
+	ChangeHoveredTarget(ClosestTarget, ClosestPointOnTarget);
 }
 
 void UTouchPointer::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	if (auto HoveredTarget = HoveredTargetWeak.Get())
-	{
-		ITouchPointerTarget::Execute_HoverEnded(HoveredTarget, this);
-	}
-
-	HoveredTargetWeak.Reset();
+	ChangeHoveredTarget(nullptr, FVector::ZeroVector);
 
 	Super::EndPlay(EndPlayReason);
 }
@@ -117,6 +97,51 @@ UActorComponent* UTouchPointer::GetHoveredTarget(FVector& OutClosestPointOnTarge
 	}
 
 	return nullptr;
+}
+
+bool UTouchPointer::SetHoveredTarget(UActorComponent* NewHoveredTarget, bool bEnableHoverLock)
+{
+	if (!bHoverLocked)
+	{
+		FVector PointerLocation = GetComponentLocation();
+		FVector PointOnTarget;
+		if (IsTouchTarget(NewHoveredTarget) && ITouchPointerTarget::Execute_GetClosestPointOnSurface(NewHoveredTarget, PointerLocation, PointOnTarget))
+		{
+			ChangeHoveredTarget(NewHoveredTarget, PointOnTarget);
+		}
+
+		bHoverLocked = (NewHoveredTarget != nullptr && bEnableHoverLock);
+
+		return true;
+	}
+	return false;
+}
+
+void UTouchPointer::ChangeHoveredTarget(UActorComponent* NewHoveredTarget, const FVector& NewClosestPointOnTarget)
+{
+	auto HoveredTarget = HoveredTargetWeak.Get();
+
+	// If hovered target is unchanged, then update only the closest-point-on-target
+	if (NewHoveredTarget == HoveredTarget)
+	{
+		ClosestPointOnHoveredTarget = NewClosestPointOnTarget;
+	}
+	else
+	{
+		// Update hovered target
+		if (HoveredTarget)
+		{
+			ITouchPointerTarget::Execute_HoverEnded(HoveredTarget, this);
+		}
+
+		HoveredTargetWeak = NewHoveredTarget;
+		ClosestPointOnHoveredTarget = NewClosestPointOnTarget;
+
+		if (NewHoveredTarget)
+		{
+			ITouchPointerTarget::Execute_HoverStarted(NewHoveredTarget, this);
+		}
+	}
 }
 
 bool UTouchPointer::GetHoverLocked() const

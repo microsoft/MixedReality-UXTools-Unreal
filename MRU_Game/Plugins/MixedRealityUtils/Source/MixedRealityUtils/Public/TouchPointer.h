@@ -35,8 +35,15 @@ public:
 	 * Returns currently hovered touch target or null if there is none. 
 	 * The closest point on the target surface is stored in OutClosestPointOnTarget.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
+	UFUNCTION(BlueprintPure, Category = "Touch Pointer")
 	UActorComponent* GetHoveredTarget(FVector& OutClosestPointOnTarget) const;
+
+	/**
+	 * Set a hovered touch target explicitly which will receive grasp events.
+	 * If bEnableHoverLock is true, then the new hover target will be locked until released by calling SetHoverLocked.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
+	bool SetHoveredTarget(UActorComponent* NewHoveredTarget, bool bEnableHoverLock);
 
 	/** Returns whether the pointer is locked on the currently hovered target. */
 	UFUNCTION(BlueprintGetter)
@@ -52,6 +59,7 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetGrasped(bool Enable);
 
+
 protected:
 
 	// 
@@ -59,6 +67,11 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+private:
+
+	/** Change the hovered target. Does not check hover lock state. */
+	void ChangeHoveredTarget(UActorComponent* NewHoveredTarget, const FVector& NewClosestPointOnTarget);
 
 protected:
 
