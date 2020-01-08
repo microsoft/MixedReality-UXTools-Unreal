@@ -84,6 +84,40 @@ void UManipulatorComponentBase::RotateAboutAxis(const FTransform &SourceTransfor
 	TargetTransform *= FTransform(Pivot);
 }
 
+void UManipulatorComponentBase::SmoothTransform(const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds, FTransform& TargetTransform) const
+{
+	FVector SmoothLoc;
+	FQuat SmoothRot;
+
+	FTransform CurTransform = GetComponentTransform();
+
+	FVector CurLoc = CurTransform.GetLocation();
+	FVector SourceLoc = SourceTransform.GetLocation();
+	if (LocationSmoothing <= 0.0f)
+	{
+		SmoothLoc = CurLoc;
+	}
+	else
+	{
+		float Weight = FMath::Clamp(FMath::Exp(-LocationSmoothing * DeltaSeconds), 0.0f, 1.0f);
+		SmoothLoc = FMath::Lerp(CurLoc, SourceLoc, Weight);
+	}
+
+	FQuat CurRot = CurTransform.GetRotation();
+	FQuat SourceRot = SourceTransform.GetRotation();
+	if (RotationSmoothing <= 0.0f)
+	{
+		SmoothRot = CurRot;
+	}
+	else
+	{
+		float Weight = FMath::Clamp(FMath::Exp(-RotationSmoothing * DeltaSeconds), 0.0f, 1.0f);
+		SmoothRot = FMath::Lerp(CurRot, SourceRot, Weight);
+	}
+
+	TargetTransform.SetComponents(SmoothRot, SmoothLoc, SourceTransform.GetScale3D());
+}
+
 void UManipulatorComponentBase::SetInitialTransform()
 {
 	InitialTransform = GetComponentTransform();
