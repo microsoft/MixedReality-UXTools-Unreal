@@ -14,30 +14,39 @@ static const bool LoadMapsRecursive = true;
 static const bool IncludeOnlyOnDiskAssets = true;
 static const float StreamResourceTimeout = 10.0f;
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLoadAllMapsTest, "MixedRealityUtils.LoadAllMaps",
+IMPLEMENT_COMPLEX_AUTOMATION_TEST(FLoadAllMapsTest, "MixedRealityUtils.LoadAllMaps",
 	EAutomationTestFlags::EditorContext |
 	EAutomationTestFlags::ClientContext |
 	EAutomationTestFlags::ProductFilter)
 
-bool FLoadAllMapsTest::RunTest(const FString& Parameters)
+void FLoadAllMapsTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
 {
 	FAssetRegistryModule& AssetRegistryModule = FModuleManager::Get().LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));
 	TArray<FAssetData> PackageAssetData;
 	IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
 	AssetRegistry.GetAssetsByPath(MapsPathRoot, PackageAssetData, LoadMapsRecursive, IncludeOnlyOnDiskAssets);
 
-	for (const FAssetData &asset : PackageAssetData)
+	for (const FAssetData& asset : PackageAssetData)
 	{
 		if (asset.GetAsset()->IsA<UWorld>())
 		{
-			FString path = asset.PackageName.GetPlainNameString();
-			AutomationOpenMap(path);
+			FString Name = asset.AssetName.GetPlainNameString();
+			FString Path = asset.PackageName.GetPlainNameString();
 
-			ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
-			ADD_LATENT_AUTOMATION_COMMAND(FStreamAllResourcesLatentCommand(StreamResourceTimeout));
-			ADD_LATENT_AUTOMATION_COMMAND(FWaitForShadersToFinishCompilingInGame());
+			OutBeautifiedNames.Add(Path);
+			OutTestCommands.Add(Path);
 		}
 	}
+}
+
+bool FLoadAllMapsTest::RunTest(const FString& Parameters)
+{
+	FString Path = Parameters;
+	AutomationOpenMap(Path);
+
+	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
+	ADD_LATENT_AUTOMATION_COMMAND(FStreamAllResourcesLatentCommand(StreamResourceTimeout));
+	ADD_LATENT_AUTOMATION_COMMAND(FWaitForShadersToFinishCompilingInGame());
 
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 
