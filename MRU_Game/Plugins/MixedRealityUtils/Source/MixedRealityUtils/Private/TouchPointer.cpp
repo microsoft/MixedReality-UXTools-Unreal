@@ -88,7 +88,7 @@ float UTouchPointer::GetTouchRadius() const
 	return TouchRadius;
 }
 
-UActorComponent* UTouchPointer::GetHoveredTarget(FVector& OutClosestPointOnTarget) const
+UObject* UTouchPointer::GetHoveredTarget(FVector& OutClosestPointOnTarget) const
 {
 	if (auto Target = HoveredTargetWeak.Get())
 	{
@@ -119,7 +119,7 @@ bool UTouchPointer::SetHoveredTarget(UActorComponent* NewHoveredTarget, bool bEn
 
 void UTouchPointer::ChangeHoveredTarget(UActorComponent* NewHoveredTarget, const FVector& NewClosestPointOnTarget)
 {
-	auto HoveredTarget = HoveredTargetWeak.Get();
+	UObject* HoveredTarget = HoveredTargetWeak.Get();
 
 	// If hovered target is unchanged, then update only the closest-point-on-target
 	if (NewHoveredTarget == HoveredTarget)
@@ -134,12 +134,22 @@ void UTouchPointer::ChangeHoveredTarget(UActorComponent* NewHoveredTarget, const
 			ITouchPointerTarget::Execute_HoverEnded(HoveredTarget, this);
 		}
 
-		HoveredTargetWeak = NewHoveredTarget;
-		ClosestPointOnHoveredTarget = NewClosestPointOnTarget;
-
 		if (NewHoveredTarget)
 		{
-			ITouchPointerTarget::Execute_HoverStarted(NewHoveredTarget, this);
+			HoveredTargetWeak = NewHoveredTarget;
+			HoveredTarget = NewHoveredTarget;
+		}
+		else
+		{
+			// If the new target is null, use the default target instead.
+			HoveredTargetWeak = DefaultTargetWeak;
+			HoveredTarget = DefaultTargetWeak.Get();
+		}
+		ClosestPointOnHoveredTarget = NewClosestPointOnTarget;
+
+		if (HoveredTarget)
+		{
+			ITouchPointerTarget::Execute_HoverStarted(HoveredTarget, this);
 		}
 	}
 }
@@ -165,16 +175,32 @@ void UTouchPointer::SetGrasped(bool bValue)
 	{
 		bIsGrasped = bValue;
 
-		if (auto HoveredTarget = HoveredTargetWeak.Get())
+		if (bIsGrasped)
 		{
-			if (bIsGrasped)
+			if (auto Target = HoveredTargetWeak.Get())
 			{
-				ITouchPointerTarget::Execute_GraspStarted(HoveredTarget, this);
-			}
-			else
-			{
-				ITouchPointerTarget::Execute_GraspEnded(HoveredTarget, this);
+				ITouchPointerTarget::Execute_GraspStarted(Target, this);
 			}
 		}
+		else
+		{
+			if (auto Target = HoveredTargetWeak.Get())
+			{
+				ITouchPointerTarget::Execute_GraspEnded(Target, this);
+			}
+		}
+	}
+}
+
+UObject* UTouchPointer::GetDefaultTarget() const
+{
+	return DefaultTargetWeak.Get();
+}
+
+void UTouchPointer::SetDefaultTarget(UObject* NewDefaultTarget)
+{
+	if (ensureMsgf(IsTouchTarget(NewDefaultTarget), TEXT("Target object must implement TouchPointerTarget interface")))
+	{
+		DefaultTargetWeak = NewDefaultTarget;
 	}
 }

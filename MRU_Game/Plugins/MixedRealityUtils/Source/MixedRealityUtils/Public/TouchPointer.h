@@ -36,7 +36,7 @@ public:
 	 * The closest point on the target surface is stored in OutClosestPointOnTarget.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Touch Pointer")
-	UActorComponent* GetHoveredTarget(FVector& OutClosestPointOnTarget) const;
+	UObject* GetHoveredTarget(FVector& OutClosestPointOnTarget) const;
 
 	/**
 	 * Set a hovered touch target explicitly which will receive grasp events.
@@ -59,6 +59,19 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetGrasped(bool Enable);
 
+	/**
+	 * Get the default target object.
+	 * This object receives hover and grasp events when no other target is hovered.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Touch Pointer")
+	UObject* GetDefaultTarget() const;
+
+	/**
+	 * Set the default target object.
+	 * This object receives hover and grasp events when no other target is hovered.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
+	void SetDefaultTarget(UObject* NewDefaultTarget);
 
 protected:
 
@@ -76,7 +89,7 @@ private:
 protected:
 
 	/** Weak reference to the currently hovered target. */
-	TWeakObjectPtr<UActorComponent> HoveredTargetWeak;
+	TWeakObjectPtr<UObject> HoveredTargetWeak;
 
 	/** Closest point on the surface of the hovered target. */
 	FVector ClosestPointOnHoveredTarget;
@@ -98,4 +111,11 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius", Category = "Touch Pointer")
 	float TouchRadius;
+
+	/**
+	 * Optional weak reference to a default target object
+	 * that receives hover and grasp events if no other target is hovered.
+	 */
+	TWeakObjectPtr<UObject> DefaultTargetWeak;
+
 };

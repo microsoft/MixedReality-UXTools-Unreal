@@ -24,4 +24,7 @@ struct MixedRealityTestUtils
 
 	/** Create a touchable target actor. */
 	static UTestTouchPointerTarget* CreateTouchPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
+
+	/** Create a background target without a scene component or primitive. */
+	static UTestTouchPointerTarget* CreateTouchPointerBackgroundTarget(UWorld* World);
 };

@@ -7,7 +7,7 @@
 #include "EngineUtils.h"
 
 #include "TouchPointer.h"
-#include "TestTouchPointerTarget.h"
+#include "TouchPointerAnimUtils.h"
 
 // Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
 // Marked as temporary there, hence, this one is temporary, too.
@@ -70,7 +70,6 @@ UTestTouchPointerTarget* MixedRealityTestUtils::CreateTouchPointerTarget(UWorld 
 	root->RegisterComponent();
 
 	UTestTouchPointerTarget *testTarget = NewObject<UTestTouchPointerTarget>(actor);
-	testTarget->SetupAttachment(actor->GetRootComponent());
 	testTarget->RegisterComponent();
 
 	if (!meshFilename.IsEmpty())
@@ -87,6 +86,16 @@ UTestTouchPointerTarget* MixedRealityTestUtils::CreateTouchPointerTarget(UWorld 
 
 		mesh->RegisterComponent();
 	}
+
+	return testTarget;
+}
+
+UTestTouchPointerTarget* MixedRealityTestUtils::CreateTouchPointerBackgroundTarget(UWorld* World)
+{
+	AActor* actor = World->SpawnActor<AActor>();
+
+	UTestTouchPointerTarget* testTarget = NewObject<UTestTouchPointerTarget>(actor);
+	testTarget->RegisterComponent();
 
 	return testTarget;
 }
