@@ -6,19 +6,14 @@ This currently takes the form of a game plugin found in [MRU_Game/Plugins/MixedR
 
 # Getting Started
 
-You can consume the utils via a prebuilt version of the plugin or building it yourself from sources. See the following sections for instructions.
+Whether using the prebuilt plugin or building it yourself, you'll first need to obtain our internal version of UE. Vanilla UE 4.24 has HoloLens 2 support in beta but the plugin depends on internal changes that have not been released yet. You can find the latest binaries of our internal UE in  `\\cognitionfs\PUBLIC\Unreal\builds` (Redmond) or `\\havokfs\SelfHost\Sydney\UE4` (Dublin). Unzip it to a local folder and use it instead of Epic's version.
 
 ## Prebuilt Plugin
 
 Prebuilt versions of the plugin are left regularly in ` \\cognitionfs\PUBLIC\Unreal\MixedRealityUtils` . 
-To use one just unzip the file inside your games Plugin folder and enable the plugin via the Plugin menu in the editor. 
-You will need to use our internal version of UE (see 'Obtain our internal version of UE' below).
+To use one just unzip the file inside your game's Plugin folder and enable the plugin via the Plugin menu in the editor. 
 
 ## Working From Sources
-
-### Obtain our internal version of UE
-
-UE 4.23 has HoloLens 2 support in beta but we depend on the latest changes that have not been released yet. You can find the latest binaries of our UE in  `\\cognitionfs\PUBLIC\Unreal\builds` (Redmond) or `\\havokfs\SelfHost\Sydney\UE4` (Dublin)
 
 ### Clone this repository
 
@@ -28,7 +23,7 @@ git clone https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUti
 
 ### Setup submodules
 
-We setup submodules manually instead of cloning with --recurse-submodules because we don't need to bring our submodule dependencies which can take a bit to download.
+We setup submodules manually instead of cloning with --recurse-submodules because we don't need to bring our submodules' dependencies which can take a bit to download.
 
 ```
 cd <repo_dir>
