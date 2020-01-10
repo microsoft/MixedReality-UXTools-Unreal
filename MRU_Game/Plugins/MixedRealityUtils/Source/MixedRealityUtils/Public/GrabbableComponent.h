@@ -129,6 +129,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	FVector GetTargetCentroid() const;
 
+	UFUNCTION(BlueprintGetter)
+	bool GetTickOnlyWhileGrabbed() const;
+
+	UFUNCTION(BlueprintSetter)
+	void SetTickOnlyWhileGrabbed(bool bEnable);
+
 protected:
 
 	//
@@ -149,6 +155,8 @@ private:
 	/** Compute the grab transform relative to the current actor world transform. */
 	void ResetLocalGrabPoint(FGrabPointerData &PointerData);
 
+	void UpdateComponentTickEnabled();
+
 public:
 
 	/** Event raised when grab starts. */
@@ -164,5 +172,9 @@ private:
 	/** List of currently grabbing pointers. */
 	UPROPERTY(BlueprintGetter = "GetGrabPointers", Category = "Grabbable")
 	TArray<FGrabPointerData> GrabPointers;
+
+	/** If true the component tick is only enabled while the actor is being grabbed. */
+	UPROPERTY(BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed")
+	bool bTickOnlyWhileGrabbed = true;
 
 };

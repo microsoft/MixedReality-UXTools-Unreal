@@ -111,7 +111,7 @@ static void SetupTestCase(UWorld* world, const FString& TestCase, TouchAnimSeque
 }
 
 
-IMPLEMENT_COMPLEX_AUTOMATION_TEST(FBackgroundTouchTargetTest, "MixedRealityUtils.BackgroundTouchTargetTest",
+IMPLEMENT_COMPLEX_AUTOMATION_TEST(FBackgroundTouchTargetTest, "MixedRealityUtils.BackgroundTouchTarget",
 	EAutomationTestFlags::EditorContext |
 	EAutomationTestFlags::ClientContext |
 	EAutomationTestFlags::ProductFilter)

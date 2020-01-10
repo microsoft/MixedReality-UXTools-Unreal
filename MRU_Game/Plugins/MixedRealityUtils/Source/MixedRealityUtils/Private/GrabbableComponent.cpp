@@ -146,6 +146,33 @@ void UGrabbableComponent::GetSecondaryGrabPointer(bool &Valid, FGrabPointerData 
 	}
 }
 
+bool UGrabbableComponent::GetTickOnlyWhileGrabbed() const
+{
+	return bTickOnlyWhileGrabbed;
+}
+
+void UGrabbableComponent::SetTickOnlyWhileGrabbed(bool bEnable)
+{
+	bTickOnlyWhileGrabbed = bEnable;
+
+	if (bEnable)
+	{
+		UpdateComponentTickEnabled();
+	}
+	else
+	{
+		PrimaryComponentTick.SetTickFunctionEnable(true);
+	}
+}
+
+void UGrabbableComponent::UpdateComponentTickEnabled()
+{
+	if (bTickOnlyWhileGrabbed)
+	{
+		PrimaryComponentTick.SetTickFunctionEnable(GrabPointers.Num() > 0);
+	}
+}
+
 void UGrabbableComponent::GraspStarted_Implementation(UTouchPointer* Pointer)
 {
 	Super::GraspStarted_Implementation(Pointer);
@@ -161,6 +188,8 @@ void UGrabbableComponent::GraspStarted_Implementation(UTouchPointer* Pointer)
 	Pointer->SetHoverLocked(true);
 
 	OnBeginGrab.Broadcast(this, data);
+
+	UpdateComponentTickEnabled();
 }
 
 void UGrabbableComponent::ResetLocalGrabPoint(FGrabPointerData &PointerData)
@@ -180,6 +209,8 @@ void UGrabbableComponent::GraspEnded_Implementation(UTouchPointer* Pointer)
 		}
 		return false;
 	});
+
+	UpdateComponentTickEnabled();
 
 	Super::GraspEnded_Implementation(Pointer);
 }
