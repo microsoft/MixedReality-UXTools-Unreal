@@ -8,6 +8,11 @@
 
 #include "InteractableComponent.generated.h"
 
+class UInteractableComponent;
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FHoverStartedDelegate, UInteractableComponent*, Interactable, USceneComponent*, Pointer, bool, bWasHovered);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FHoverEndedDelegate, UInteractableComponent*, Interactable, USceneComponent*, Pointer, bool, bIsHovered);
 
 /**
  * Base class for pointer targets that keeps track of the currently touching pointers.
@@ -39,4 +44,11 @@ private:
 	/** List of pointers that are currently touching the actor. */
 	TSet<TWeakObjectPtr<UTouchPointer>> ActivePointers;
 
+	/** Event raised when a pointer starts hovering the interactable. WasHovered indicates if the interactable was already hovered by another pointer. */
+	UPROPERTY(BlueprintAssignable, Category = "Interactable")
+	FHoverStartedDelegate OnHoverStarted;
+
+	/** Event raised when a pointer ends hovering the interactable. IsHovered indicates if the interactable is still hovered by another pointer. */
+	UPROPERTY(BlueprintAssignable, Category = "Interactable")
+	FHoverEndedDelegate OnHoverEnded;
 };

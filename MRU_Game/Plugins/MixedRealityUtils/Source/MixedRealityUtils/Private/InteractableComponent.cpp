@@ -11,11 +11,15 @@ UInteractableComponent::UInteractableComponent()
 void UInteractableComponent::HoverStarted_Implementation(UTouchPointer* Pointer)
 {
     ActivePointers.Add(TWeakObjectPtr<UTouchPointer>(Pointer));
+	const bool bWasHovered = ActivePointers.Num() != 1;
+	OnHoverStarted.Broadcast(this, Pointer, bWasHovered);
 }
 
 void UInteractableComponent::HoverEnded_Implementation(UTouchPointer* Pointer)
 {
     ActivePointers.Remove(TWeakObjectPtr<UTouchPointer>(Pointer));
+	const bool bIsHovered = ActivePointers.Num() > 0;
+	OnHoverEnded.Broadcast(this, Pointer, bIsHovered);
 }
 
 bool UInteractableComponent::GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface)

@@ -22,8 +22,6 @@ class UPressableButtonComponent;
 class UShapeComponent;
 struct FButtonHandler;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FButtonHoverStartDelegate, UPressableButtonComponent*, Button, USceneComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FButtonHoverEndDelegate, UPressableButtonComponent*, Button, USceneComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonPressedDelegate, UPressableButtonComponent*, Button);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FButtonReleasedDelegate, UPressableButtonComponent*, Button);
 
@@ -73,14 +71,6 @@ public:
 	/** Fraction of the maximum travel distance at which a pressed button will raise the released event. */
     UPROPERTY(EditAnywhere, Category = "Pressable Button")
     float ReleasedFraction;
-
-	/** Event raised when the first pointer enters the button collision box. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
-	FButtonHoverStartDelegate OnButtonHoverStart;
-
-	/** Event raised when the last pointer leaves the button collision box. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
-	FButtonHoverEndDelegate OnButtonHoverEnd;
 
 	/** Event raised when the button reaches the pressed distance. */
 	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")

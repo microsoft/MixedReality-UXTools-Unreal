@@ -83,10 +83,6 @@ struct FButtonHandler : public HandUtils::IButtonHandler
 {
 	FButtonHandler(UPressableButtonComponent& PressableButtonComponent) : PressableButtonComponent(PressableButtonComponent) {}
 
-	virtual void OnButtonHoverStart(HandUtils::PressableButton& button, HandUtils::PointerId pointerId) override;
-
-	virtual void OnButtonHoverEnd(HandUtils::PressableButton& button, HandUtils::PointerId pointerId) override;
-
 	virtual void OnButtonPressed(
 		HandUtils::PressableButton& button,
 		HandUtils::PointerId pointerId,
@@ -98,17 +94,6 @@ struct FButtonHandler : public HandUtils::IButtonHandler
 
 	UPressableButtonComponent& PressableButtonComponent;
 };
-
-void FButtonHandler::OnButtonHoverStart(HandUtils::PressableButton& button, HandUtils::PointerId pointerId)
-{
-	// TODO Review use of raw pointers in events.
-	PressableButtonComponent.OnButtonHoverStart.Broadcast(&PressableButtonComponent, reinterpret_cast<USceneComponent*>(pointerId));
-}
-
-void FButtonHandler::OnButtonHoverEnd(HandUtils::PressableButton& button, HandUtils::PointerId pointerId)
-{
-	PressableButtonComponent.OnButtonHoverEnd.Broadcast(&PressableButtonComponent, reinterpret_cast<USceneComponent*>(pointerId));
-}
 
 void FButtonHandler::OnButtonPressed(HandUtils::PressableButton& button, HandUtils::PointerId pointerId, DirectX::FXMVECTOR touchPoint)
 {
