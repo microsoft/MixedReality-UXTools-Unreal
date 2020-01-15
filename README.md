@@ -10,8 +10,13 @@ Whether using the prebuilt plugin or building it yourself, you'll first need to 
 
 ## Prebuilt Plugin
 
-Prebuilt versions of the plugin are left regularly in ` \\cognitionfs\PUBLIC\Unreal\MixedRealityUtils` . 
-To use one just unzip the file inside your game's Plugin folder and enable the plugin via the Plugin menu in the editor. 
+Prebuilt versions of the plugin are left regularly in ` \\cognitionfs\PUBLIC\Unreal\MixedRealityUtils`. The file name reflects the plugin version and the internal UE version it was built for. For example `2020-01-03_MixedRealityUtils_0ffb6e01_UE_e3b93ec63.7z` contains plugin version `0ffb6e01` (commit number in this repository) built for internal UE version `e3b93ec63` (commit number in internal UE repository). 
+
+To use just unzip the file inside your game's Plugin folder and enable the plugin via the Plugin menu in the editor.
+
+If your engine version doesn't match exactly the one the plugin was built for, the editor will try to rebuild the plugin automatically when loading the project. If the project is blueprint-only the rebuild will fail because the project is not setup for building code.
+
+Because of this and the inability to package for HoloLens a blueprint-only project that uses external code plugins, we recommend that you always use the MRU plugin with code projects.
 
 ## Working From Sources
 
