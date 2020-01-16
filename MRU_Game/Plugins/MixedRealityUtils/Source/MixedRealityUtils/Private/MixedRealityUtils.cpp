@@ -19,7 +19,7 @@ void FMixedRealityUtilsModule::ShutdownModule()
 
 UMaterialInterface* FMixedRealityUtilsModule::GetDefaultCursorRingMaterial()
 {
-	return Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), NULL, TEXT("/MixedRealityUtils/Pointers/FingerCursorMaterial")));
+	return Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), NULL, TEXT("/MixedRealityUtils/FingerPointer/FingerCursorMaterial")));
 }
 
 #undef LOCTEXT_NAMESPACE
