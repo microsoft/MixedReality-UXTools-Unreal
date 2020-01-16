@@ -174,7 +174,6 @@ private:
 	TArray<FGrabPointerData> GrabPointers;
 
 	/** If true the component tick is only enabled while the actor is being grabbed. */
-	UPROPERTY(BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed")
+	UPROPERTY(BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed", Category = "Grabbable")
 	bool bTickOnlyWhileGrabbed = true;
-
 };
