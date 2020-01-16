@@ -2,7 +2,7 @@
 
 Mixed Reality Utils for Unreal Engine is a collection of C++ classes, Blueprints and example assets created to help in the implementation of features commonly needed when developing mixed reality applications, like pressable buttons or direct manipulation.
 
-This currently takes the form of a game plugin found in [MRU_Game/Plugins/MixedRealityUtils](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FMRU_Game%2FPlugins%2FMixedRealityUtils&version=GBmaster).
+This currently takes the form of a game plugin found in [MRU_Game/Plugins/MixedRealityUtils](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FMRU_Game%2FPlugins%2FMixedRealityUtils&version=GBmaster) and a collection of example maps in the containing game project [MRU_Game](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FMRU_Game).
 
 # Getting Started
 
@@ -17,6 +17,10 @@ To use just unzip the file inside your game's Plugin folder and enable the plugi
 If your engine version doesn't match exactly the one the plugin was built for, the editor will try to rebuild the plugin automatically when loading the project. If the project is blueprint-only the rebuild will fail because the project is not setup for building code.
 
 Because of this and the inability to package for HoloLens a blueprint-only project that uses external code plugins, we recommend that you always use the MRU plugin with code projects.
+
+### Example Maps
+
+Since `ed617442`, for each plugin version there is a corresponding zip with a game with example maps, e.g. `2020-01-16_Examples_ed617442.7z`. To use the examples, unzip them to a local folder and then unzip the corresponding plugin version to the Plugins folder inside the examples folder.
 
 ## Working From Sources
 
