@@ -7,12 +7,16 @@
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "GameFramework/Actor.h"
+#include "UObject/ConstructorHelpers.h"
 
 
 UFingerCursorComponent::UFingerCursorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	RingMaterial = FMixedRealityUtilsModule::GetDefaultCursorRingMaterial();
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> ObjectFinder(TEXT("/MixedRealityUtils/FingerPointer/FingerCursorMaterial"));
+	RingMaterial = ObjectFinder.Object;
+	check(RingMaterial);
 }
 
 void UFingerCursorComponent::OnRegister()
@@ -25,7 +29,6 @@ void UFingerCursorComponent::OnRegister()
 	check(Mesh);
 	MeshComponent->SetStaticMesh(Mesh);
 
-	check(RingMaterial);
 	MaterialInstance = MeshComponent->CreateDynamicMaterialInstance(0, RingMaterial);
 
 	// Scale plane to fit exactly the maximum outer diameter to avoid unnecessary pixel overdraw.

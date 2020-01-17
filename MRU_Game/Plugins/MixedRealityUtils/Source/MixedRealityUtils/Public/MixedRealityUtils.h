@@ -16,7 +16,4 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
-
-	/// Returns the default cursor ring material
-	static UMaterialInterface* GetDefaultCursorRingMaterial();
 };
