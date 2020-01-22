@@ -39,16 +39,9 @@ cd <repo_dir>
 git submodule update --init
 ```
 
-### Enable symlinks and recreate them
+### Setup symlinks
 
-Symlinks are required in order to include code from submodules in UE modules. If you don't have rights to create symlinks in your system, you can manually copy their contents instead.
-
-```
-git config core.symlinks true
-cd MRU-UE\MRU_Game\Plugins\MixedRealityUtils\Source\MixedRealityUtils\Private
-del Native
-mklink /D Native ..\..\..\..\..\..\External\MixedRealityUtils-Native\libs\UX\src
-```
+Run the `SetupSymlinks.bat` script located in the repo root to create the symlinks required to use submodule sources in plugin modules.
 
 ### Switch engine version for the MRU_Game project
 
