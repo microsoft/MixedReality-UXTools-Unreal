@@ -4,7 +4,7 @@ rem This script creates the necesary symlinks to include external source files i
 
 set RepoPath=%~dp0
 
-mklink /D "%RepoPath%\MRU_Game\Plugins\MixedRealityUtils\Source\MixedRealityUtils\Private\Native" "%RepoPath%\External\MixedRealityUtils-Native\libs\UX\src"
+mklink /D "%RepoPath%\MRU_Game\Plugins\MixedRealityUtils\Source\MixedRealityUtils\Private\Native" "%RepoPath%\External\UXT-Native\libs\UX\src"
 if %ErrorLevel% neq 0 (
     echo Failed to create symlink
 ) else (

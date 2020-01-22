@@ -11,7 +11,7 @@ namespace Microsoft
 {
     namespace MixedReality
     {
-        namespace HandUtils
+        namespace UX
         {
             class PressableButton;
         }
@@ -86,7 +86,7 @@ private:
 	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"), Category = "Pressable Button")
 	FComponentReference VisualsReference;
 
-    Microsoft::MixedReality::HandUtils::PressableButton* Button = nullptr;
+    Microsoft::MixedReality::UX::PressableButton* Button = nullptr;
     FButtonHandler* ButtonHandler = nullptr;
 
 	/** Visuals offset in this component's space */

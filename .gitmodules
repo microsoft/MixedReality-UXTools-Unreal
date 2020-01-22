@@ -1,3 +1,3 @@
-[submodule "External/MixedRealityUtils-Native"]
-	path = External/MixedRealityUtils-Native
-	url = https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-Native
+[submodule "External/UXT-Native"]
+	path = External/UXT-Native
+	url = https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat/_git/UXT-Native

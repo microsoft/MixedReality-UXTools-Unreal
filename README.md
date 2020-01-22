@@ -27,17 +27,9 @@ Since `ed617442`, for each plugin version there is a corresponding zip with a ga
 ### Clone this repository
 
 ```
-git clone https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE <repo_dir>
+git clone --recurse-submodules https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE <repo_dir>
 ```
-
-### Setup submodules
-
-We setup submodules manually instead of cloning with --recurse-submodules because we don't need to bring our submodules' dependencies which can take a bit to download.
-
-```
-cd <repo_dir>
-git submodule update --init
-```
+`--recurse-submodules` is required in order to bring in the UXT-Native repository we depend on.
 
 ### Setup symlinks
 

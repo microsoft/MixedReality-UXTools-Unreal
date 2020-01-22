@@ -7,7 +7,7 @@
 #include <DrawDebugHelpers.h>
 #include <Components/ShapeComponent.h>
 
-namespace HandUtils = Microsoft::MixedReality::HandUtils;
+namespace UX = Microsoft::MixedReality::UX;
 using namespace DirectX;
 
 
@@ -79,28 +79,28 @@ static XMVECTOR ToMRRotation(const FQuat& quatUE)
 	return XMVectorSwizzle<1, 2, 0, 3>(quatXM) * g_XMNegateX * g_XMNegateY;
 }
 
-struct FButtonHandler : public HandUtils::IButtonHandler
+struct FButtonHandler : public UX::IButtonHandler
 {
 	FButtonHandler(UPressableButtonComponent& PressableButtonComponent) : PressableButtonComponent(PressableButtonComponent) {}
 
 	virtual void OnButtonPressed(
-		HandUtils::PressableButton& button,
-		HandUtils::PointerId pointerId,
+		UX::PressableButton& button,
+		UX::PointerId pointerId,
 		DirectX::FXMVECTOR touchPoint) override;
 
 	virtual void OnButtonReleased(
-		HandUtils::PressableButton& button,
-		HandUtils::PointerId pointerId) override;
+		UX::PressableButton& button,
+		UX::PointerId pointerId) override;
 
 	UPressableButtonComponent& PressableButtonComponent;
 };
 
-void FButtonHandler::OnButtonPressed(HandUtils::PressableButton& button, HandUtils::PointerId pointerId, DirectX::FXMVECTOR touchPoint)
+void FButtonHandler::OnButtonPressed(UX::PressableButton& button, UX::PointerId pointerId, DirectX::FXMVECTOR touchPoint)
 {
 	PressableButtonComponent.OnButtonPressed.Broadcast(&PressableButtonComponent);
 }
 
-void FButtonHandler::OnButtonReleased(HandUtils::PressableButton& button, HandUtils::PointerId pointerId)
+void FButtonHandler::OnButtonReleased(UX::PressableButton& button, UX::PointerId pointerId)
 {
 	PressableButtonComponent.OnButtonReleased.Broadcast(&PressableButtonComponent);
 }
@@ -115,7 +115,7 @@ void UPressableButtonComponent::BeginPlay()
 	XMVECTOR Orientation = ToMRRotation(Transform.GetRotation());
 	const auto RestPosition = Transform.GetTranslation();
 
-	Button = new HandUtils::PressableButton(ToMRPosition(RestPosition), Orientation, WorldDimensions.Y, WorldDimensions.Z, WorldDimensions.X, PressedFraction * WorldDimensions.X, ReleasedFraction * WorldDimensions.X);
+	Button = new UX::PressableButton(ToMRPosition(RestPosition), Orientation, WorldDimensions.Y, WorldDimensions.Z, WorldDimensions.X, PressedFraction * WorldDimensions.X, ReleasedFraction * WorldDimensions.X);
 	Button->m_recoverySpeed = 50;
 
 	ButtonHandler = new FButtonHandler(*this);
@@ -159,7 +159,7 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		}
 	}
 
-	std::vector<HandUtils::TouchPointer> TouchPointers;
+	std::vector<UX::TouchPointer> TouchPointers;
 
 	// Collect all touch pointers
 	{
@@ -168,10 +168,10 @@ void UPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 		for (UTouchPointer* Pointer : Pointers)
 		{
-			HandUtils::TouchPointer TouchPointer;
+			UX::TouchPointer TouchPointer;
 			const FVector PointerPosition = Pointer->GetComponentLocation();
 			TouchPointer.m_position = ToMRPosition(PointerPosition);
-			TouchPointer.m_id = (HandUtils::PointerId)Pointer;
+			TouchPointer.m_id = (UX::PointerId)Pointer;
 			TouchPointers.emplace_back(TouchPointer);
 		}
 	}
