@@ -2,6 +2,9 @@
 pr:
 - master
 
+# Disable CI trigger (defaults to all branches)
+trigger: none
+
 variables:
 - template: settings/common.yml
 
