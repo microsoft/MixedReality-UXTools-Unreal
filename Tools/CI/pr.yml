@@ -1,4 +1,5 @@
-trigger:
+# PR triggers in ADO are configured using branch policies. This section is only for GitHub.
+pr:
 - master
 
 variables:

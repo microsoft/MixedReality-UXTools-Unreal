@@ -1,0 +1,3 @@
+variables:
+  AgentPool: UXT-UE
+  UnrealEngine: X:\UE4\2020-01-28_InstalledEngine_3047ad283
