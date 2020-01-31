@@ -52,6 +52,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Finger Cursor")
 	UMaterialInterface* RingMaterial;
 
+	/** Distance at which the cursor starts to align with touchable surfaces. */
+	UPROPERTY(EditAnywhere, Category = "Finger Cursor")
+	float AlignWithSurfaceDistance = 10.0f;
+
 	/** Mesh component created to display the cursor. */
 	UStaticMeshComponent* MeshComponent;
 
@@ -59,5 +63,5 @@ private:
 	UMaterialInstanceDynamic* MaterialInstance;
 
 	/** Touch pointer in use. */
-	UTouchPointer* TouchPointer;
+	TWeakObjectPtr<UTouchPointer> TouchPointerWeak;
 };

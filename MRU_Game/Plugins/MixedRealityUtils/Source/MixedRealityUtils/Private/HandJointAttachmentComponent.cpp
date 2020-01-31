@@ -7,6 +7,20 @@
 #include "WindowsMixedRealityHandTrackingFunctionLibrary.h"
 #include "MixedRealityUtils.h"
 
+namespace
+{
+	bool GetModifiedHandJointTransform(EControllerHand Hand, EWMRHandKeypoint Keypoint, FTransform& OutTransform, float& OutRadius)
+	{
+		// We need to rotate the hand joint transforms here so that they comply with UE standards.
+		// After rotating these transforms, if you have your hand flat on a table, palm down, the 
+		// positive x of each joint should point away from the wrist and the positive z should
+		// point away from the table.
+
+		bool success = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Keypoint, OutTransform, OutRadius);
+		OutTransform.SetRotation(OutTransform.GetRotation() * FQuat(FVector::RightVector, PI));
+		return success;
+	}
+}
 
 UHandJointAttachmentComponent::UHandJointAttachmentComponent()
 {
@@ -103,8 +117,8 @@ void UHandJointAttachmentComponent::UpdateGraspState()
 	FTransform ThumbTipTransform;
 	float JointRadius;
 
-	if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::IndexTip, IndexTipTransform, JointRadius) &&
-		UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::ThumbTip, ThumbTipTransform, JointRadius))
+	if (GetModifiedHandJointTransform(Hand, EWMRHandKeypoint::IndexTip, IndexTipTransform, JointRadius) &&
+		GetModifiedHandJointTransform(Hand, EWMRHandKeypoint::ThumbTip, ThumbTipTransform, JointRadius))
 	{
 		const float Distance = (IndexTipTransform.GetTranslation() - ThumbTipTransform.GetTranslation()).Size();
 		const float GraspStartDistance = 2;
@@ -121,7 +135,7 @@ void UHandJointAttachmentComponent::UpdateGraspState()
 		else if (Distance <= GraspStartDistance)
 		{
 			FTransform PalmTransform;
-			if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, PalmTransform, JointRadius))
+			if (GetModifiedHandJointTransform(Hand, EWMRHandKeypoint::Palm, PalmTransform, JointRadius))
 			{
 				bIsGrasped = true;
 				JointTransformInPalm = GetOwner()->GetTransform().GetRelativeTransform(PalmTransform);
@@ -142,12 +156,12 @@ void UHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 	if (bIsGrasped)
 	{
-		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Palm, Transform, JointRadius);
+		bIsTracked = GetModifiedHandJointTransform(Hand, EWMRHandKeypoint::Palm, Transform, JointRadius);
 		Transform = JointTransformInPalm * Transform;
 	}
 	else
 	{
-		bIsTracked = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Joint, Transform, JointRadius);
+		bIsTracked = GetModifiedHandJointTransform(Hand, Joint, Transform, JointRadius);
 	}
 
 	if (bIsTracked)

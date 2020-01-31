@@ -41,6 +41,7 @@ void UFingerCursorComponent::OnRegister()
 
 	MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	MeshComponent->SetupAttachment(this);
+	MeshComponent->SetRelativeRotation(FQuat(FVector::RightVector, PI / 2));
 	MeshComponent->RegisterComponent();
 }
 
@@ -49,7 +50,8 @@ void UFingerCursorComponent::BeginPlay()
 	Super::BeginPlay();
 
 	auto Owner = GetOwner();
-	TouchPointer = Owner->FindComponentByClass<UTouchPointer>();
+	UTouchPointer* TouchPointer = Owner->FindComponentByClass<UTouchPointer>();
+	TouchPointerWeak = TouchPointer;
 
 	if (TouchPointer)
 	{
@@ -66,29 +68,38 @@ void UFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (TouchPointer)
+	if (UTouchPointer* TouchPointer = TouchPointerWeak.Get())
 	{
 		FVector PointOnTarget;
 		if (auto Target = TouchPointer->GetHoveredTarget(PointOnTarget))
 		{
 			MeshComponent->SetVisibility(true);
 
-			const auto TargetToPointer = TouchPointer->GetComponentLocation() - PointOnTarget;
-			const auto DistanceToTarget = TargetToPointer.Size();
+			const auto PointerToTarget = PointOnTarget - TouchPointer->GetComponentLocation();
+			const auto DistanceToTarget = PointerToTarget.Size();
 
 			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
 			const float Epsilon = 0.000001;
 
 			if (DistanceToTarget > Epsilon)
 			{
-				// Orient cursor towards target
-				const FMatrix Rotation = FRotationMatrix::MakeFromZ(TargetToPointer);
-				SetWorldRotation(Rotation.ToQuat());
+				FTransform IndexTipTransform = TouchPointer->GetComponentTransform();
+
+				if (DistanceToTarget < AlignWithSurfaceDistance)
+				{
+					// Slerp between surface normal and index tip rotation
+					float slerpAmount = DistanceToTarget / AlignWithSurfaceDistance;
+					SetWorldRotation(FQuat::Slerp(PointerToTarget.ToOrientationQuat(), IndexTipTransform.GetRotation(), slerpAmount));
+				}
+				else
+				{
+					SetWorldRotation(IndexTipTransform.GetRotation());
+				}
 			}
 
 			// Scale outer radius with the distance to the target
 			FName OuterRadiusParameter(TEXT("OuterRadius"));
-			float Alpha = TargetToPointer.Size() / MaxDistanceToTarget;
+			float Alpha = DistanceToTarget / MaxDistanceToTarget;
 			float OuterRadius = FMath::Lerp(MinOuterRadius, MaxOuterRadius, Alpha);
 			MaterialInstance->SetScalarParameterValue(OuterRadiusParameter, OuterRadius);
 		}
