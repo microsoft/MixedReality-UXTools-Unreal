@@ -60,7 +60,7 @@ public:
 
 	/** 
 	 * When attaching to the skin, this direction is used to compute the attachment point from the joint position.
-	 * -X indicates forward in the direction of the bone, +Y right and +Z down (towards the palm).
+	 * +X indicates forward in the direction of the bone, +Y right and +Z up (away from the palm).
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Joint Attachment", meta = (EditCondition = "bAttachOnSkin"))
 	FVector LocalAttachDirection = { 1, 0, 0 };
