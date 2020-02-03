@@ -70,4 +70,4 @@ This is caused by an invalid symbolic link in <repo_dir>/MRU_Game/Plugins/MixedR
 
 # Contribute
 
-TODO: Explain how other users and developers can contribute to make your code better. 
+See UXT-Unreal's [contribution guidelines](Docs/ContributionGuidelines.md) for information on how to contribute.
