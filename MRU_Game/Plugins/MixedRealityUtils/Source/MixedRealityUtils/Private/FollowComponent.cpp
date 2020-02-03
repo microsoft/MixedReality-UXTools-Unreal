@@ -22,24 +22,25 @@ namespace
 		return Angle;
 	}
 
-	float AngleBetweenOnYXPlane(FVector From, FVector To)
+	float AngleBetweenOnPlane(FVector From, FVector To, FVector Normal)
 	{
-		float Angle = FMath::Atan2(To.X, To.Y) - FMath::Atan2(From.X, From.Y);
+		From.Normalize();
+		To.Normalize();
+		Normal.Normalize();
+
+		FVector Right = FVector::CrossProduct(Normal, From);
+		FVector Forward = FVector::CrossProduct(Right, Normal);
+
+		float Angle = FMath::Atan2(FVector::DotProduct(To, Right), FVector::DotProduct(To, Forward));
+
 		return SimplifyAngle(Angle);
 	}
 
-	float AngleBetweenOnYZPlane(FVector From, FVector To)
+	float AngleBetweenVectorAndPlane(FVector Vec, FVector Normal)
 	{
-		float Angle = FMath::Atan2(To.Z, To.Y) - FMath::Atan2(From.Z, From.Y);
-		return SimplifyAngle(Angle);
-	}
-
-	float AngleBetweenOnAxis(FVector From, FVector To, FVector Axis)
-	{
-		FQuat AxisQuat = Axis.ToOrientationQuat().Inverse();
-		FVector Vector1 = AxisQuat * From;
-		FVector Vector2 = AxisQuat * To;
-		return AngleBetweenOnYZPlane(Vector1, Vector2);
+		Vec.Normalize();
+		Normal.Normalize();
+		return (PI / 2) - FMath::Acos(FVector::DotProduct(Vec, Normal));
 	}
 
 	bool AngularClamp(
@@ -79,46 +80,40 @@ namespace
 		// Leashing around the reference's X axis only makes sense if the reference isn't gravity aligned.
 		if (bIgnoreVertical)
 		{
-			float Angle = AngleBetweenOnAxis(ToTarget, CurrentRefForward, RefRight);
+			float Angle = AngleBetweenOnPlane(ToTarget, CurrentRefForward, RefRight);
 			Rotation = FQuat(RefRight, Angle) * Rotation;
 		}
 		else
 		{
-			FVector Min = FQuat(RefRight, FMath::DegreesToRadians(MaxVerticalDegrees  * 0.5f)) * RefForward;
-			FVector Max = FQuat(RefRight, FMath::DegreesToRadians(-MaxVerticalDegrees * 0.5f)) * RefForward;
+			// These are negated because Unreal is left-handed
+			float Angle = -AngleBetweenOnPlane(ToTarget, CurrentRefForward, RefRight);
+			float MinMaxAngle = FMath::DegreesToRadians(MaxVerticalDegrees) * 0.5f;
 
-			float MinAngle = AngleBetweenOnAxis(ToTarget, Min, RefRight);
-			float MaxAngle = AngleBetweenOnAxis(ToTarget, Max, RefRight);
-
-			if (MinAngle < 0)
+			if (Angle < -MinMaxAngle)
 			{
-				Rotation = FQuat(RefRight, MinAngle) * Rotation;
+				Rotation = FQuat(RefRight, -MinMaxAngle - Angle) * Rotation;
 				bAngularClamped = true;
 			}
-			else if (MaxAngle > 0)
+			else if (Angle > MinMaxAngle)
 			{
-				Rotation = FQuat(RefRight, MaxAngle) * Rotation;
+				Rotation = FQuat(RefRight, MinMaxAngle - Angle) * Rotation;
 				bAngularClamped = true;
 			}
 		}
 
 		// Z-axis leashing
 		{
-			FVector Min = FQuat(FVector::UpVector, FMath::DegreesToRadians(-MaxHorizontalDegrees * 0.5f)) * RefForward;
-			FVector Max = FQuat(FVector::UpVector, FMath::DegreesToRadians(MaxHorizontalDegrees * 0.5f)) * RefForward;
+			float Angle = AngleBetweenVectorAndPlane(ToTarget, RefRight);
+			float MinMaxAngle = FMath::DegreesToRadians(MaxHorizontalDegrees) * 0.5f;
 
-			// These are negated because Unity is left-handed
-			float MinAngle = -AngleBetweenOnYXPlane(ToTarget, Min);
-			float MaxAngle = -AngleBetweenOnYXPlane(ToTarget, Max);
-
-			if (MinAngle > 0)
+			if (Angle < -MinMaxAngle)
 			{
-				Rotation = FQuat(FVector::UpVector, MinAngle) * Rotation;
+				Rotation = FQuat(FVector::UpVector, -MinMaxAngle - Angle) * Rotation;
 				bAngularClamped = true;
 			}
-			else if (MaxAngle < 0)
+			else if (Angle > MinMaxAngle)
 			{
-				Rotation = FQuat(FVector::UpVector, MaxAngle) * Rotation;
+				Rotation = FQuat(FVector::UpVector, MinMaxAngle - Angle) * Rotation;
 				bAngularClamped = true;
 			}
 		}
@@ -293,7 +288,7 @@ namespace
 			FVector NodeToCamera = GoalLocation - FollowPosition;
 			NodeToCamera.Normalize();
 
-			float Angle = FMath::Abs(AngleBetweenOnYXPlane(CamForward, NodeToCamera));
+			float Angle = FMath::Abs(AngleBetweenOnPlane(CamForward, NodeToCamera, FVector::UpVector));
 
 			if (FMath::RadiansToDegrees(Angle) > OrientToCameraDeadzoneDegrees)
 			{
