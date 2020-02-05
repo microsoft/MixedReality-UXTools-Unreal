@@ -8,6 +8,14 @@ trigger: none
 variables:
 - template: settings/common.yml
 
+resources:
+  repositories:
+  - repository: build-tools
+    type: git
+    endpoint: Analog
+    name: Analog/mixedrealitytoolkit.build
+    ref: mru-ue
+
 jobs:
 - job:
   pool:
@@ -18,4 +26,5 @@ jobs:
   - checkout: self
     clean: true
     submodules: true
+  - checkout: build-tools
   - template: templates/common.yml
