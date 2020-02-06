@@ -1,8 +1,8 @@
 # Introduction 
 
-Mixed Reality Utils for Unreal Engine is a collection of C++ classes, Blueprints and example assets created to help in the implementation of features commonly needed when developing mixed reality applications, like pressable buttons or direct manipulation.
+UX Tools for Unreal Engine is a collection of C++ classes, Blueprints and example assets created to help in the implementation of features commonly needed when developing mixed reality applications, like pressable buttons or direct manipulation.
 
-This currently takes the form of a game plugin found in [MRU_Game/Plugins/MixedRealityUtils](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FMRU_Game%2FPlugins%2FMixedRealityUtils&version=GBmaster) and a collection of example maps in the containing game project [MRU_Game](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FMRU_Game).
+This currently takes the form of a game plugin found in [UXToolsGames/Plugins/UXTools](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FUXToolsGames%2FPlugins%2FUXTools&version=GBmaster) and a collection of example maps in the containing game project [UXToolsGames](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FUXToolsGames).
 
 # Getting Started
 
@@ -10,7 +10,7 @@ Whether using the prebuilt plugin or building it yourself, you'll first need to 
 
 ## Prebuilt Plugin
 
-Prebuilt versions of the plugin are left regularly in ` \\cognitionfs\PUBLIC\Unreal\MixedRealityUtils`. The file name reflects the plugin version and the internal UE version it was built for. For example `2020-01-03_MixedRealityUtils_0ffb6e01_UE_e3b93ec63.7z` contains plugin version `0ffb6e01` (commit number in this repository) built for internal UE version `e3b93ec63` (commit number in internal UE repository). 
+Prebuilt versions of the plugin are left regularly in ` \\cognitionfs\PUBLIC\Unreal\UXTools`. The file name reflects the plugin version and the internal UE version it was built for. For example `2020-01-03_UXTools_0ffb6e01_UE_e3b93ec63.7z` contains plugin version `0ffb6e01` (commit number in this repository) built for internal UE version `e3b93ec63` (commit number in internal UE repository). 
 
 To use just unzip the file inside your game's Plugin folder and enable the plugin via the Plugin menu in the editor.
 
@@ -35,14 +35,14 @@ git clone --recurse-submodules https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat
 
 Run the `SetupSymlinks.bat` script located in the repo root to create the symlinks required to use submodule sources in plugin modules.
 
-### Switch engine version for the MRU_Game project
+### Switch engine version for the UXToolsGames project
 
-Right click on `MRU_Game/MRU_Game.uproject`, select _Switch Unreal Engine version..._ and choose the internal engine version you obtained before. This will generate the Visual Studio solution for the project.
+Right click on `UXToolsGames/UXToolsGames.uproject`, select _Switch Unreal Engine version..._ and choose the internal engine version you obtained before. This will generate the Visual Studio solution for the project.
 		
 		
 ## Software dependencies
 
-We depend on the [Native Mixed Reality Utils](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-Native) project and our [internal version of Unreal Engine](https://microsoft.visualstudio.com/Analog/_git/analog.internal.unrealengine?path=%2F&version=GB423_release).
+We depend on the [Native UX Tools](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-Native) project and our [internal version of Unreal Engine](https://microsoft.visualstudio.com/Analog/_git/analog.internal.unrealengine?path=%2F&version=GB423_release).
 
 ## Latest releases
 
@@ -55,7 +55,7 @@ No available yet.
 # Build and Test
 
 1. After getting latest, switch engine version in the game project to make sure the solution is up to date.
-2. Open solution, select Development Editor configuration, Win64 platform and set MRU_Game as startup project.
+2. Open solution, select Development Editor configuration, Win64 platform and set UXToolsGames as startup project.
 3. Press F5 to build and run the project. After no more than 5 minutes the editor should open with one of the example maps loaded.
 
 ## Troubleshooting
@@ -64,9 +64,9 @@ No available yet.
 
 For example: 
 
-1>C:/Code/MRU-UE/MRU_Game/Plugins/MixedRealityUtils/Source/MixedRealityUtils/Private/PressableButtonComponent.cpp(4): fatal error C1083: Cannot open include file: 'Native/PressableButton.h': No such file or directory
+1>C:/Code/MRU-UE/UXToolsGames/Plugins/UXTools/Source/UXTools/Private/PressableButtonComponent.cpp(4): fatal error C1083: Cannot open include file: 'Native/PressableButton.h': No such file or directory
 
-This is caused by an invalid symbolic link in <repo_dir>/MRU_Game/Plugins/MixedRealityUtils/Source/MixedRealityUtils/Private/Native. Try recreating it with mklink /D or copying its contents directly.
+This is caused by an invalid symbolic link in <repo_dir>/UXToolsGames/Plugins/UXTools/Source/UXTools/Private/Native. Try recreating it with mklink /D or copying its contents directly.
 
 # Contribute
 

@@ -2,22 +2,22 @@ steps:
 - script: |
     echo Enable git core.symlinks
     git config core.symlinks true
-    echo Remove $(Build.SourcesDirectory)\MRU_Game\Plugins\MixedRealityUtils\Source\MixedRealityUtils\Private\Native folder (if exists)
+    echo Remove $(Build.SourcesDirectory)\UXToolsGame\Plugins\UXTools\Source\UXTools\Private\Native folder (if exists)
     IF EXIST Native rmdir /Q Native
-  workingDirectory: '$(Build.SourcesDirectory)\MRU_Game\Plugins\MixedRealityUtils\Source\MixedRealityUtils\Private'
+  workingDirectory: '$(Build.SourcesDirectory)\UXToolsGame\Plugins\UXTools\Source\UXTools\Private'
   displayName: 'Remove symlink to Native submodule'
 
 - script: SetupSymlinks.bat
   workingDirectory: '$(Build.SourcesDirectory)'
   displayName: 'Setup Symlinks'
 
-- script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(Build.SourcesDirectory)\MRU_Game\MRU_Game.uproject -clean -cook -allmaps -build -stage -platform=Win64 -clientconfig=Development -serverconfig=Development'
+- script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(Build.SourcesDirectory)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=Win64 -clientconfig=Development -serverconfig=Development'
   displayName: 'Build Win64 Development'
 
-- script: '"$(UnrealEngine)\Engine\Binaries\Win64\UE4Editor.exe" $(Build.SourcesDirectory)\MRU_Game\MRU_Game.uproject -NoSound -ExecCmds="Automation RunTests MixedRealityUtils" -TestExit="Automation Test Queue Empty" -Log'
-  displayName: 'Test MixedRealityUtils in Editor'
+- script: '"$(UnrealEngine)\Engine\Binaries\Win64\UE4Editor.exe" $(Build.SourcesDirectory)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log'
+  displayName: 'Test UXTools in Editor'
 
-- powershell: 'Get-Content $(Build.SourcesDirectory)\MRU_Game\Saved\Logs\MRU_Game.log -Encoding utf8'
+- powershell: 'Get-Content $(Build.SourcesDirectory)\UXToolsGame\Saved\Logs\UXToolsGame.log -Encoding utf8'
   displayName: 'Test logs'
 
 - task: DownloadSecureFile@1
@@ -27,10 +27,10 @@ steps:
     secureFile: 'SigningCertificate.pfx'
 
 - script: |
-    IF NOT EXIST "$(Build.SourcesDirectory)\MRU_Game\Build" mkdir "$(Build.SourcesDirectory)\MRU_Game\Build"
-    IF NOT EXIST "$(Build.SourcesDirectory)\MRU_Game\Build\HoloLens" mkdir "$(Build.SourcesDirectory)\MRU_Game\Build\HoloLens"
-    copy "$(signingCertificate.secureFilePath)" "$(Build.SourcesDirectory)\MRU_Game\Build\HoloLens\SigningCertificate.pfx"
+    IF NOT EXIST "$(Build.SourcesDirectory)\UXToolsGame\Build" mkdir "$(Build.SourcesDirectory)\UXToolsGame\Build"
+    IF NOT EXIST "$(Build.SourcesDirectory)\UXToolsGame\Build\HoloLens" mkdir "$(Build.SourcesDirectory)\UXToolsGame\Build\HoloLens"
+    copy "$(signingCertificate.secureFilePath)" "$(Build.SourcesDirectory)\UXToolsGame\Build\HoloLens\SigningCertificate.pfx"
   displayName: 'Copy self-signing certificate (HoloLens)'
 
-- script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(Build.SourcesDirectory)\MRU_Game\MRU_Game.uproject -clean -cook -allmaps -build -stage -platform=HoloLens -clientconfig=Development -serverconfig=Development'
+- script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(Build.SourcesDirectory)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=HoloLens -clientconfig=Development -serverconfig=Development'
   displayName: 'Build HoloLens ARM64 Development'

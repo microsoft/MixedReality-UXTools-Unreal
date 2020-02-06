@@ -7,9 +7,9 @@ set SevenZPath=C:\Program Files\7-Zip
 set RepoPath=%~dp0\..
 set OutPath=%CD%
 set TmpPath=%OutPath%\TMP
-set PluginPathInRepo=MRU_Game\Plugins\MixedRealityUtils
+set PluginPathInRepo=UXToolsGame\Plugins\UXTools
 set PluginPath=%RepoPath%\%PluginPathInRepo%
-set PackagePath=%TmpPath%\MixedRealityUtils
+set PackagePath=%TmpPath%\UXTools
 set ExitCode=0
 
 if exist "%TmpPath%" (
@@ -23,9 +23,9 @@ echo -------------------
 echo Packaging plugin...
 echo.
 
-call "%UePath%\Engine\Build\BatchFiles\RunUAT.bat" BuildPlugin -Plugin="%PluginPath%\MixedRealityUtils.uplugin" -Package="%PackagePath%"
+call "%UePath%\Engine\Build\BatchFiles\RunUAT.bat" BuildPlugin -Plugin="%PluginPath%\UXTools.uplugin" -Package="%PackagePath%"
 if %ErrorLevel% neq 0  (
-    echo ERROR executing command: "%UePath%\Engine\Build\BatchFiles\RunUAT.bat" BuildPlugin -Plugin="%PluginPath%\MixedRealityUtils.uplugin" -Package="%PackagePath%"
+    echo ERROR executing command: "%UePath%\Engine\Build\BatchFiles\RunUAT.bat" BuildPlugin -Plugin="%PluginPath%\UXTools.uplugin" -Package="%PackagePath%"
     set ExitCode=1
     goto :Exit
 )
@@ -55,14 +55,14 @@ echo ---------------------
 echo Compressing plugin...
 echo.
 
-"%SevenZPath%\7z.exe" a "%OutPath%\MixedRealityUtils_%CommitId%.7z" "%PackagePath%"
+"%SevenZPath%\7z.exe" a "%OutPath%\UXTools_%CommitId%.7z" "%PackagePath%"
 if %ErrorLevel% neq 0 (
-    echo ERROR executing command: "%SevenZPath%\7z.exe" a "%OutPath%\MixedRealityUtils_%CommitId%.7z" "%PackagePath%"
+    echo ERROR executing command: "%SevenZPath%\7z.exe" a "%OutPath%\UXTools_%CommitId%.7z" "%PackagePath%"
     set ExitCode=1
     goto :Exit
 )
 echo.
-echo Plugin compressed into "%OutPath%\MixedRealityUtils_%CommitId%.7z"
+echo Plugin compressed into "%OutPath%\UXTools_%CommitId%.7z"
 echo ------------------------------------------------------------------
 echo.
 
@@ -72,29 +72,29 @@ echo ---------------------
 echo Cloning repository...
 echo.
 
-git clone "%RepoPath%" MRU
+git clone "%RepoPath%" UXT
 if %ErrorLevel% neq 0 (
-    echo ERROR executing command: git clone "%RepoPath%" MRU
+    echo ERROR executing command: git clone "%RepoPath%" UXT
     popd
     set ExitCode=1
     goto :Exit
 )
 
 echo.
-echo Repository cloned into "%TmpPath%\MRU"
+echo Repository cloned into "%TmpPath%\UXT"
 echo --------------------------------------
 echo.
 
-cd MRU
+cd UXT
 rmdir /s /q "%PluginPathInRepo%"
 
 echo -------------------------------
 echo Compressing examples project...
 echo.
 
-"%SevenZPath%\7z.exe" a "%OutPath%\Examples_%CommitId%.7z" MRU_Game
+"%SevenZPath%\7z.exe" a "%OutPath%\Examples_%CommitId%.7z" UXToolsGame
 if %ErrorLevel% neq 0 (
-    echo ERROR executing command: "%SevenZPath%\7z.exe" a "%OutPath%\Examples_%CommitId%.7z" MRU_Game
+    echo ERROR executing command: "%SevenZPath%\7z.exe" a "%OutPath%\Examples_%CommitId%.7z" UXToolsGame
     popd
     set ExitCode=1
     goto :Exit
