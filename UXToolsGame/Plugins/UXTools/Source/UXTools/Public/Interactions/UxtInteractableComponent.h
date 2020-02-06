@@ -17,7 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FHoverEndedDelegate, UUxtInteract
 /**
  * Base class for pointer targets that keeps track of the currently touching pointers.
  */
-UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtInteractableComponent : public USceneComponent, public IUxtTouchPointerTarget
 {
     GENERATED_BODY()

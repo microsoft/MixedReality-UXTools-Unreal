@@ -13,7 +13,7 @@
  * Touch pointers keep track of all overlapping touch targets and raise hover events on the closest one.
  * Touch targets use the transform of touch pointers hovering them to drive their interactions.
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtTouchPointer : public USceneComponent
 {
 	GENERATED_BODY()

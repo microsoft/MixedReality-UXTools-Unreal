@@ -17,7 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtHandGraspEndedDelegate, UUxtHand
  * Attaches an actor to a joint in the given hand, updating the actor translation and rotation to match the joint ones every frame.
  * The actor will be hidden and its collision disabled during hand tracking loss.
  */
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
 class UXTOOLS_API UUxtHandJointAttachmentComponent : public UActorComponent
 {
 	GENERATED_BODY()

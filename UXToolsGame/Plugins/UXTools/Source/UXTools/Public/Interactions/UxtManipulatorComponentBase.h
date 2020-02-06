@@ -13,7 +13,7 @@
  * to compute a target transform from grabbing pointers and call the ApplyTargetTransform method
  * to actually modify the actor.
  */
-UCLASS(Abstract, Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(Abstract, Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtManipulatorComponentBase : public UUxtGrabbableComponent
 {
 	GENERATED_BODY()

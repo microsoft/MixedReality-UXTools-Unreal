@@ -93,7 +93,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabbableC
  * 
  * The GrabbableComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation.
  */
-UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtGrabbableComponent : public UUxtInteractableComponent
 {
 	GENERATED_BODY()

@@ -29,7 +29,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonReleasedDelegate, UUxtPres
 /**
  * Component that turns the actor it is attached to into a pressable rectangular button.
  */
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
 class UXTOOLS_API UUxtPressableButtonComponent : public UUxtInteractableComponent
 {
 	GENERATED_BODY()

@@ -14,7 +14,7 @@ class UMaterialInstanceDynamic;
  * When added to an actor with a touch pointer, this component displays a ring cursor oriented towards the pointer target and 
  * scaled according to the distance.
  */
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
 class UXTOOLS_API UUxtFingerCursorComponent : public USceneComponent
 {
 	GENERATED_BODY()

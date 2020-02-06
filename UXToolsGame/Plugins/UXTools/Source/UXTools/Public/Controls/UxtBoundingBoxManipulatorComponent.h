@@ -82,7 +82,7 @@ struct UXTOOLS_API FUxtBoundingBoxAffordanceInfo
 /**
  * Manages a set of affordances that can be manipulated for changing the actor transform.
  */
-UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtBoundingBoxManipulatorComponent : public UActorComponent
 {
 	GENERATED_BODY()
