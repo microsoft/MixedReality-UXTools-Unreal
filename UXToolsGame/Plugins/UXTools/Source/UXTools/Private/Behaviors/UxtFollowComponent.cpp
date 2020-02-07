@@ -4,6 +4,7 @@
 #include "Behaviors/UxtFollowComponent.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"
 
 namespace
 {
