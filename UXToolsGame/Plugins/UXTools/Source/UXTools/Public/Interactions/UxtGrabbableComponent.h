@@ -137,6 +137,8 @@ public:
 
 protected:
 
+	virtual void BeginPlay() override;
+
 	//
 	// ITouchPointerTarget interface
 
@@ -174,6 +176,6 @@ private:
 	TArray<FUxtGrabPointerData> GrabPointers;
 
 	/** If true the component tick is only enabled while the actor is being grabbed. */
-	UPROPERTY(BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed", Category = "Grabbable")
-	bool bTickOnlyWhileGrabbed = true;
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed", Category = "Grabbable")
+	uint8 bTickOnlyWhileGrabbed : 1;
 };

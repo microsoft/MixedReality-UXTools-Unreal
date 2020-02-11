@@ -59,7 +59,7 @@ FRotator UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(const FTransform 
 
 UUxtGrabbableComponent::UUxtGrabbableComponent()
 {
-
+	bTickOnlyWhileGrabbed = true;
 }
 
 const TArray<FUxtGrabPointerData> &UUxtGrabbableComponent::GetGrabPointers() const
@@ -171,6 +171,14 @@ void UUxtGrabbableComponent::UpdateComponentTickEnabled()
 	{
 		PrimaryComponentTick.SetTickFunctionEnable(GrabPointers.Num() > 0);
 	}
+}
+
+void UUxtGrabbableComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Initialize component tick
+	UpdateComponentTickEnabled();
 }
 
 void UUxtGrabbableComponent::GraspStarted_Implementation(UUxtTouchPointer* Pointer)
