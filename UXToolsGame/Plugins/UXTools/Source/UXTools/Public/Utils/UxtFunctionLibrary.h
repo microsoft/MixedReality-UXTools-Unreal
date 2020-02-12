@@ -19,8 +19,4 @@ public:
 	/** Returns the world space position and orientation of the head. */
 	UFUNCTION(BlueprintPure, Category = "MixedRealityTools", meta = (WorldContext = "WorldContextObject", UnsafeDuringActorConstruction = "true"))
 	static FTransform GetHeadPose(const UObject* WorldContextObject);
-
-	/** Returns true if articulated hands simulation is required. */
-	UFUNCTION(BlueprintPure, Category="MixedRealityTools")
-	static bool ShouldSimulateHands();
 };

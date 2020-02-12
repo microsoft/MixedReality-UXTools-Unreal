@@ -2,6 +2,8 @@
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UnrealEdGlobals.h"
 #include "Editor/UnrealEdEngine.h"
+#include "ISettingsModule.h"
+#include "UxtRuntimeSettings.h"
 
 IMPLEMENT_GAME_MODULE(FUXToolsEditorModule, UXToolsEditor);
 
@@ -22,6 +24,19 @@ void FUXToolsEditorModule::StartupModule()
 			Visualizer->OnRegister();
 		}
 	}
+
+	// register settings
+	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
+	if (SettingsModule != nullptr)
+	{
+		{
+			SettingsModule->RegisterSettings("Project", "Plugins", "UXTools",
+				LOCTEXT("RuntimeSettingsName", "UX Tools"),
+				LOCTEXT("RuntimeSettingsDescription", "Project settings for UX Tools"),
+				GetMutableDefault<UUxtRuntimeSettings>()
+			);
+		}
+	}
 }
 
 void FUXToolsEditorModule::ShutdownModule()
@@ -29,6 +44,13 @@ void FUXToolsEditorModule::ShutdownModule()
 	if (GUnrealEd)
 	{
 		GUnrealEd->UnregisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName());
+	}
+
+	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
+
+	if (SettingsModule != nullptr)
+	{
+		SettingsModule->UnregisterSettings("Project", "Plugins", "UXTools");
 	}
 }
 

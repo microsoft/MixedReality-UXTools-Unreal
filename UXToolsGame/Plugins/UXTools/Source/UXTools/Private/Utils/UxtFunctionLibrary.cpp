@@ -24,18 +24,3 @@ FTransform UUxtFunctionLibrary::GetHeadPose(const UObject* WorldContextObject)
 
 	return FTransform(rot, pos);
 }
-
-bool UUxtFunctionLibrary::ShouldSimulateHands()
-{
-#if WITH_EDITOR
-	if (GIsEditor)
-	{
-		// We take bUseVRPreviewForPlayWorld as an indication that we're running using Holographic Remoting
-		UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine);
-		return !EdEngine->bUseVRPreviewForPlayWorld;
-	}
-#endif
-
-	// We assume hand tracking is always available in game mode
-	return false;
-}

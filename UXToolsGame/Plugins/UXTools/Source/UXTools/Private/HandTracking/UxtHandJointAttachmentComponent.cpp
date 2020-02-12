@@ -34,57 +34,7 @@ void UUxtHandJointAttachmentComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (UUxtFunctionLibrary::ShouldSimulateHands())
-	{
-		AActor* Owner = GetOwner();
-
-		// Attach to player camera
-		if (APlayerCameraManager* Manager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0))
-		{
-			FVector Location;
-
-			if (Hand == EControllerHand::Left)
-			{
-				Location.Set(30, -10, 0);
-			}
-			else
-			{
-				Location.Set(30, 10, 0);
-			}
-
-			Owner->SetActorLocation(Location);
-			Owner->AttachToActor(Manager, FAttachmentTransformRules::KeepRelativeTransform);
-		}
-
-		// Bind to LMB to simulate grasp
-		if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0))
-		{
-			// Enable input
-			Owner->EnableInput(PlayerController);
-
-			if (UInputComponent* InputComponent = Owner->FindComponentByClass<UInputComponent>())
-			{
-				FInputChord InputChord(EKeys::LeftMouseButton);
-
-				// Use modifier keys to discern between left and right
-				if (Hand == EControllerHand::Left)
-				{
-					InputChord.bShift = true;
-				}
-				else
-				{
-					InputChord.bAlt = true;
-				}
-				
-				// Bind to LMB press and release
-				InputComponent->BindKey(InputChord, EInputEvent::IE_Pressed, this, &UUxtHandJointAttachmentComponent::OnLmbPressed);
-				InputComponent->BindKey(InputChord, EInputEvent::IE_Released, this, &UUxtHandJointAttachmentComponent::OnLmbReleased);
-			}
-		}
-
-		SetComponentTickEnabled(false);
-	}
-	else if (bAttachOnSkin)
+	if (bAttachOnSkin)
 	{
 		if (!LocalAttachDirection.Normalize())
 		{

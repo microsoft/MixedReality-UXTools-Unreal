@@ -28,10 +28,28 @@
 			]
 		},
 		{
+			"Name": "UXToolsRuntimeSettings",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		},
+		{
 			"Name": "UXToolsEditor",
 			"Type": "Editor",
 			"LoadingPhase": "PostEngineInit",
 			"WhitelistPlatforms": [
+				"Win64"
+			]
+		},
+		{
+			"Name": "UXToolsInputSimulation",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"WhitelistPlatforms": [
+				"Win32",
 				"Win64"
 			]
 		}
