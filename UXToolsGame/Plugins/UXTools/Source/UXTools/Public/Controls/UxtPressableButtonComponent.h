@@ -46,6 +46,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetVisuals(USceneComponent* Visuals);
 
+	/** Get the current pressed state of the button */
+	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	bool IsPressed() const;
+
 protected:
 
     //

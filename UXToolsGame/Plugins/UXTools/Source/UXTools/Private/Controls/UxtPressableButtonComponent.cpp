@@ -38,6 +38,15 @@ void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 	}
 }
 
+bool UUxtPressableButtonComponent::IsPressed() const
+{
+	if (Button)
+	{
+		return Button->IsPressed();
+	}
+	return false;
+}
+
 static XMVECTOR ToXM(const FVector& vectorUE)
 {
 	return XMLoadFloat3((const XMFLOAT3*)&vectorUE);
