@@ -4,7 +4,7 @@ steps:
   inputs:
     targetType: 'filePath'
     filePath: $(ToolsDir)\scripts\install_package.ps1
-    arguments: -feedName ue4-internal -package analog.internal.unrealengine -versionFile $(UXTSourceDir)\EditorVersion.json -destination $(Agent.WorkFolder)\ue4 -artifactTool $(Agent.WorkFolder)\ArtifactTool_win10-x64_0.2.128\artifacttool.exe -pipelineVariableName UnrealEngine -PAT $(UE4FeedPAT)
+    arguments: -feedName ue4-internal -package analog.internal.unrealengine -versionFile $(UXTSourceDir)\EditorVersion.json -destination $(Agent.WorkFolder)\ue4 -artifactTool $(Agent.WorkFolder)\ArtifactTool_win10-x64_0.2.128\artifacttool.exe -pipelineVariableName UnrealEngine -PAT $(UE4FeedPAT) -RemovePackagesOlderThanDays 14 -IgnoreCleanUpErrors $false
 - script: |
     echo Enable git core.symlinks
     git config core.symlinks true
