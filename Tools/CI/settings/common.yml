@@ -1,5 +1,11 @@
 variables:
   AgentPool: UXT-UE
+  # paths to source code / build-tools scripts
   UXTSourceDir: $(Build.SourcesDirectory)\MixedRealityUtils-UE
-  ToolsDirName: build-tools
   ToolsDir: $(Build.SourcesDirectory)\mixedrealitytoolkit.build
+  # shortcuts to Unreal Engine tools
+  UAT: $(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat
+  UE4Editor: $(UnrealEngine)\Engine\Binaries\Win64\UE4Editor.exe
+  # paths to specific build folders
+  UXToolsPluginSourceDir: $(UXTSourceDir)\UXToolsGame\Plugins\UXTools
+  UXToolsPluginOutputDir: $(Build.ArtifactStagingDirectory)\UXTools

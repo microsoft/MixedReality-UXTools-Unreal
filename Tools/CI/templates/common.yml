@@ -1,10 +1,14 @@
 steps:
+# For the plugin build to succeed UE4 needs to be installed outside of the agent working directory.
+# The tools directory location needs to be manually set on the build agent using AGENT_TOOLSDIRECTORY environment variable.
+# This is due to UE4 using relative paths (between Engine and Source being built) for some of the identifiers in generated source files.
+# Without this we end up with invalid identifiers due to ADO Pipelines using numbers in the folder structure.
 - task: PowerShell@2
   displayName: 'Install UnrealEngine'
   inputs:
     targetType: 'filePath'
     filePath: $(ToolsDir)\scripts\install_package.ps1
-    arguments: -feedName ue4-internal -package analog.internal.unrealengine -versionFile $(UXTSourceDir)\EditorVersion.json -destination $(Agent.WorkFolder)\ue4 -artifactTool $(Agent.WorkFolder)\ArtifactTool_win10-x64_0.2.128\artifacttool.exe -pipelineVariableName UnrealEngine -PAT $(UE4FeedPAT) -RemovePackagesOlderThanDays 14 -IgnoreCleanUpErrors $false
+    arguments: -feedName ue4-internal -package analog.internal.unrealengine -versionFile $(UXTSourceDir)\EditorVersion.json -destination $(Agent.ToolsDirectory)\ue4 -artifactTool $(Agent.WorkFolder)\ArtifactTool_win10-x64_0.2.128\artifacttool.exe -pipelineVariableName UnrealEngine -PAT $(UE4FeedPAT) -RemovePackagesOlderThanDays 14 -IgnoreCleanUpErrors $false
 - script: |
     echo Enable git core.symlinks
     git config core.symlinks true
@@ -17,10 +21,35 @@ steps:
   workingDirectory: '$(UXTSourceDir)'
   displayName: 'Setup Symlinks'
 
-- script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=Win64 -clientconfig=Development -serverconfig=Development'
-  displayName: 'Build Win64 Development'
+- script: '$(UAT) BuildPlugin -Plugin="$(UXToolsPluginSourceDir)\UXTools.uplugin" -Package="$(UXToolsPluginOutputDir)"'
+  displayName: 'Build UXTools plugin'
 
-- script: '"$(UnrealEngine)\Engine\Binaries\Win64\UE4Editor.exe" $(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish UXTools plugin to build artifacts'
+  inputs:
+    ArtifactName: 'UXTools'
+    PathtoPublish: '$(UXToolsPluginOutputDir)'
+
+- powershell: |
+    # remove all folders that are symbolic links as they are incorrectly handled by Remove-Item in some versions of PowerShell
+    Write-Host "Deleting symbolic links under $(UXToolsPluginSourceDir)"
+    Get-ChildItem -Path "$(UXToolsPluginSourceDir)" -Recurse | Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint } | ForEach-Object { $_.Delete() }
+    Write-Host "Deleting folder $(UXToolsPluginSourceDir) with all of its contents"
+    Remove-Item -Path "$(UXToolsPluginSourceDir)" -Recurse -Force -ErrorAction Ignore | Out-Null
+    if (Test-Path $(UXToolsPluginSourceDir))
+    {
+      Write-Host "Not all items could be removed - remaining items:"
+      Get-ChildItem $(UXToolsPluginSourceDir)
+      exit 1
+    }
+    Write-Host "Copy the prebuilt plugin from $(UXToolsPluginOutputDir) to $(UXToolsPluginSourceDir)"
+    Copy-Item -Path $(UXToolsPluginOutputDir) -Destination $(UXToolsPluginSourceDir) -Recurse
+  displayName: 'Replace plugin source with prebuilt files'
+
+- script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=Win64 -clientconfig=Development -serverconfig=Development'
+  displayName: 'Build UXToolsGame (Win64|Development)'
+
+- script: '$(UE4Editor) $(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log'
   displayName: 'Test UXTools in Editor'
 
 - powershell: 'Get-Content $(UXTSourceDir)\UXToolsGame\Saved\Logs\UXToolsGame.log -Encoding utf8'
@@ -38,5 +67,5 @@ steps:
     copy "$(signingCertificate.secureFilePath)" "$(UXTSourceDir)\UXToolsGame\Build\HoloLens\SigningCertificate.pfx"
   displayName: 'Copy self-signing certificate (HoloLens)'
 
-- script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=HoloLens -clientconfig=Development -serverconfig=Development'
+- script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=HoloLens -clientconfig=Development -serverconfig=Development'
   displayName: 'Build HoloLens ARM64 Development'
