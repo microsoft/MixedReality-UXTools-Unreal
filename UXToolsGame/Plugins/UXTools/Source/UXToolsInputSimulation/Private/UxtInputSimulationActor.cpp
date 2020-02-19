@@ -157,12 +157,15 @@ void AUxtInputSimulationActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Attach to the player pawn so the start location matches the HMD camera, which is relative to the pawn.
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
 	{
 		if (APawn* Pawn = PC->GetPawn())
 		{
+			// Attach to the player pawn so the start location matches the HMD camera, which is relative to the pawn.
 			AttachToActor(Pawn, FAttachmentTransformRules::KeepRelativeTransform);
+
+			// Hide the pawn for the local player
+			Pawn->SetActorHiddenInGame(true);
 		}
 	}
 
