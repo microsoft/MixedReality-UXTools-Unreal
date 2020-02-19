@@ -89,6 +89,10 @@ void AUxtInputSimulationActor::SetupHandComponents()
 		LeftHand->SetAnimInstanceClass(Settings->HandAnimInstance.Get());
 		RightHand->SetAnimInstanceClass(Settings->HandAnimInstance.Get());
 	}
+
+	// Disable shadows
+	LeftHand->SetCastShadow(false);
+	RightHand->SetCastShadow(false);
 }
 
 namespace
