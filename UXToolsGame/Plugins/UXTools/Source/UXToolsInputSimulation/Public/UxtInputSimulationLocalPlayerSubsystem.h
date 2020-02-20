@@ -7,7 +7,7 @@
 #include "InputCoreTypes.h"
 #include "Subsystems/LocalPlayerSubsystem.h"
 #include "WindowsMixedRealityHandTrackingTypes.h"
-#include "UxtInputSimulationGameInstanceSubsystem.generated.h"
+#include "UxtInputSimulationLocalPlayerSubsystem.generated.h"
 
 class AGameModeBase;
 class APlayerController;
@@ -15,7 +15,7 @@ class UCameraComponent;
 
 /** Subsystem that creates an actor for simulation when a game is started. */
 UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationGameInstanceSubsystem
+class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationLocalPlayerSubsystem
 	: public ULocalPlayerSubsystem
 {
 	GENERATED_BODY()
@@ -31,26 +31,28 @@ public:
 
 private:
 
-	void CreateInputSimActor();
-	void DestroyInputSimActor();
+	void CreateActors(UWorld* World);
+	void CreateInputSimActor(UWorld* World);
+	void CreateHmdCameraActor(UWorld* World);
 
-	void CreateHmdCameraActor();
+	void DestroyInputSimActor();
 	void DestroyHmdCameraActor();
+
+	void SetPlayerCameraTarget(APlayerController* PlayerController);
 
 	void OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer);
 
+	void OnPostLoadMapWithWorld(UWorld* LoadedWorld);
 
 private:
 
 	/** Primary actor that performs input simulation and stores resulting data in the input simulation engine subsystem. */
-	AActor* InputSimActor;
+	TWeakObjectPtr<AActor> InputSimActorWeak;
 
 	/** Actor with a camera component that acts as the view target.
 	 * This is needed because in a non-stereo viewport the camera will not use the XRSystem HMD position on its own.
 	 * Using a separate camera component will use the HMD position though, even if the camera itself is not moved.
 	 */
-	AActor* HmdCameraActor;
-	/** Camera component for the HMD camera actor. */
-	UCameraComponent* HmdCameraComponent;
+	TWeakObjectPtr<AActor> HmdCameraActorWeak;
 
 };
