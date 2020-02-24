@@ -8,7 +8,6 @@
 #if WITH_EDITOR
 #include "Editor/EditorEngine.h"
 #endif
-#include "WindowsMixedRealityHandTrackingFunctionLibrary.h"
 
 
 FTransform UUxtFunctionLibrary::GetHeadPose(const UObject* WorldContextObject)

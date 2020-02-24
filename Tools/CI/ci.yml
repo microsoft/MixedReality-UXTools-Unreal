@@ -24,3 +24,6 @@ jobs:
     submodules: true
   - checkout: build-tools
   - template: templates/common.yml
+
+  - script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -targetplatform=Android -cookflavor=Multi -clientconfig=Development -serverconfig=Development'
+    displayName: 'Build Android Development'

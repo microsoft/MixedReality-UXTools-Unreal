@@ -11,7 +11,12 @@ public class UXTools : ModuleRules
 		// Required to avoid errors about undefined preprocessor macros (C4668) when building DirectXMath.h
         bEnableUndefinedIdentifierWarnings = false;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "WindowsMixedRealityHandTracking", "LiveLinkInterface" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "LiveLinkInterface" });
+
+		if (Target.Platform == UnrealTargetPlatform.Win64 || Target.Platform == UnrealTargetPlatform.HoloLens)
+        {
+            PublicDependencyModuleNames.Add("WindowsMixedRealityHandTracking");
+        }
 
 		// TODO Slate required for hand input simulation in hand joint attachment component. Remove once we have simulation at platform level.
         PrivateDependencyModuleNames.AddRange(new string[] { "Slate" });

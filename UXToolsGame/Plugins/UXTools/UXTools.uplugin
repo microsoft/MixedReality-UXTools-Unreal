@@ -15,7 +15,9 @@
 	"Installed": false,
 	"SupportedTargetPlatforms": [
 		"Win64",
-		"HoloLens"
+		"HoloLens",
+		"Android",
+		"IOS"
 	],
 	"Modules": [
 		{
@@ -24,7 +26,9 @@
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
 				"Win64",
-				"HoloLens"
+				"HoloLens",
+				"Android",
+				"IOS"
 			]
 		},
 		{
@@ -57,7 +61,11 @@
 	"Plugins": [
 		{
 			"Name": "WindowsMixedReality",
-			"Enabled": true
+			"Enabled": true,
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
 		}
 	]
 }

@@ -11,7 +11,7 @@ public class UXToolsGame : ModuleRules
 		// Required to avoid errors about undefined preprocessor macros (C4668) when building DirectXMath.h
         bEnableUndefinedIdentifierWarnings = false;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "WindowsMixedRealityHandTracking", "LiveLinkInterface" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "LiveLinkInterface" });
 
 		if (Target.bBuildEditor)
         {
