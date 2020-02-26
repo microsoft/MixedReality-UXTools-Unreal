@@ -196,6 +196,8 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(int32 PointerId, const
 		if (GrabData.PointerId == PointerId)
 		{
 			GrabData.PointerData = Data;
+
+			OnUpdateGrab.Broadcast(this, GrabData);
 		}
 	}
 }

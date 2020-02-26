@@ -186,6 +186,7 @@ void UUxtBoundingBoxManipulatorComponent::BeginPlay()
 				if (grabbable != nullptr)
 				{
 					grabbable->OnBeginGrab.AddDynamic(this, &UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab);
+					grabbable->OnUpdateGrab.AddDynamic(this, &UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab);
 					grabbable->OnEndGrab.AddDynamic(this, &UUxtBoundingBoxManipulatorComponent::OnPointerEndGrab);
 				}
 			}
@@ -326,12 +327,30 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabTargetCompo
 
 	FUxtGrabPointerData bboxGrabPointer;
 	bboxGrabPointer.PointerId = GrabPointer.PointerId;
+	bboxGrabPointer.PointerData = GrabPointer.PointerData;
 	bboxGrabPointer.StartTime = GrabPointer.StartTime;
 	// Transform into the bbox actor space
 	FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());
 	bboxGrabPointer.LocalGrabPoint = UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(relTransform, GrabPointer);
 
 	TryActivateGrabPointer(**pAffordance, bboxGrabPointer);
+}
+
+void UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
+{
+	const FUxtBoundingBoxAffordanceInfo** pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
+	check(pAffordance != nullptr);
+
+	FUxtGrabPointerData* pBBoxGrabPointer = FindGrabPointer(**pAffordance);
+	if (ensure(pBBoxGrabPointer))
+	{
+		pBBoxGrabPointer->PointerId = GrabPointer.PointerId;
+		pBBoxGrabPointer->PointerData = GrabPointer.PointerData;
+		pBBoxGrabPointer->StartTime = GrabPointer.StartTime;
+		// Transform into the bbox actor space
+		FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());
+		pBBoxGrabPointer->LocalGrabPoint = UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(relTransform, GrabPointer);
+	}
 }
 
 void UUxtBoundingBoxManipulatorComponent::OnPointerEndGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
@@ -362,6 +381,18 @@ bool UUxtBoundingBoxManipulatorComponent::TryReleaseGrabPointer(const FUxtBoundi
 			return item.Key == &Affordance;
 		});
 	return numRemoved > 0;
+}
+
+FUxtGrabPointerData* UUxtBoundingBoxManipulatorComponent::FindGrabPointer(const FUxtBoundingBoxAffordanceInfo& Affordance)
+{
+	for (auto& KeyValuePair : ActiveAffordanceGrabPointers)
+	{
+		if (KeyValuePair.Key == &Affordance)
+		{
+			return &KeyValuePair.Value;
+		}
+	}
+	return nullptr;
 }
 
 bool UUxtBoundingBoxManipulatorComponent::GetRelativeBoxTransform(const FBox &Box, const FBox &RelativeTo, FTransform &OutTransform)

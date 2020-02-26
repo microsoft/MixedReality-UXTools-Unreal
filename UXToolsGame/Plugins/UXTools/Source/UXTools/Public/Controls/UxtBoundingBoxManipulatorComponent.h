@@ -142,6 +142,9 @@ protected:
 	/** Callback when an affordance is being grabbed. */
 	UFUNCTION()
 	void OnPointerBeginGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	/** Callback when an affordance is being grabbed. */
+	UFUNCTION()
+	void OnPointerUpdateGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
 	/** Callback when an affordance is being released. */
 	UFUNCTION()
 	void OnPointerEndGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
@@ -156,6 +159,11 @@ protected:
 	 * Returns true if the pointer was grabbing and has been released.
 	 */
 	bool TryReleaseGrabPointer(const FUxtBoundingBoxAffordanceInfo &Affordance);
+	/**
+	 * Look up the grab pointer data for an affordance.
+	 * Returns null if the affordance is not currently grabbed.
+	 */
+	FUxtGrabPointerData* FindGrabPointer(const FUxtBoundingBoxAffordanceInfo& Affordance);
 
 	/** Compute new bounding box and rotation based on the currently active grab pointers. */
 	void ComputeModifiedBounds(const FUxtBoundingBoxAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation) const;

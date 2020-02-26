@@ -84,6 +84,8 @@ public:
 
 /** Delegate for handling a BeginGrab event. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtBeginGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
+/** Delegate for handling a UpdateGrab event. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
 /** Delegate for handling a EndGrab event. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
 
@@ -170,6 +172,10 @@ public:
 	/** Event raised when grab starts. */
 	UPROPERTY(BlueprintAssignable)
 	FUxtBeginGrabDelegate OnBeginGrab;
+
+	/** Event raised when grab updates. */
+	UPROPERTY(BlueprintAssignable)
+	FUxtUpdateGrabDelegate OnUpdateGrab;
 
 	/** Event raised when grab ends. */
 	UPROPERTY(BlueprintAssignable)
