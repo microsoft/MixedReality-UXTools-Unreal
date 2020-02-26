@@ -4,48 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "HandTracking/IUxtHandTracker.h"
 #include "InputCoreTypes.h"
 #include "UxtHandJointAttachmentComponent.generated.h"
 
 // TODO Remove these once we have a unified API to access joint transforms and hand "button" states.
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtHandGraspStartedDelegate, UUxtHandJointAttachmentComponent*, HandJointAttachment);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtHandGraspEndedDelegate, UUxtHandJointAttachmentComponent*, HandJointAttachment);
-
-/**
- * Enum for hand joints.
- * This is just a copy of EWMRHandKeypoint we use to avoid a dependency on the WMR plugin. 
- * Eventually we should have a proper hand abstraction in place.
- */
-UENUM(BlueprintType)
-enum class EUxtHandKeypoint : uint8
-{
-	Palm,
-	Wrist,
-	ThumbMetacarpal,
-	ThumbProximal,
-	ThumbDistal,
-	ThumbTip,
-	IndexMetacarpal,
-	IndexProximal,
-	IndexIntermediate,
-	IndexDistal,
-	IndexTip,
-	MiddleMetacarpal,
-	MiddleProximal,
-	MiddleIntermediate,
-	MiddleDistal,
-	MiddleTip,
-	RingMetacarpal,
-	RingProximal,
-	RingIntermediate,
-	RingDistal,
-	RingTip,
-	LittleMetacarpal,
-	LittleProximal,
-	LittleIntermediate,
-	LittleDistal,
-	LittleTip
-};
 
 /**
  * Attaches an actor to a joint in the given hand, updating the actor translation and rotation to match the joint ones every frame.
@@ -86,7 +51,7 @@ public:
 
 	/** Joint to attach to. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Joint Attachment")
-	EUxtHandKeypoint Joint;
+	EUxtHandJoint Joint;
 
 	/** If this is set the attachment point will be on the skin surface near the joint instead of the joint itself. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Joint Attachment")

@@ -32,6 +32,15 @@
 			]
 		},
 		{
+			"Name": "UXToolsWMR",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		},
+		{
 			"Name": "UXToolsRuntimeSettings",
 			"Type": "Runtime",
 			"LoadingPhase": "PostConfigInit",

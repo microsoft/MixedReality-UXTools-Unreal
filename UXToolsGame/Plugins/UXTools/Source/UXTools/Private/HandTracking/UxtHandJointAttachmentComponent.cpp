@@ -2,34 +2,32 @@
 
 
 #include "HandTracking/UxtHandJointAttachmentComponent.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "UXTools.h"
 
-#define UXT_WMR (PLATFORM_WINDOWS || PLATFORM_HOLOLENS)
-
-#if UXT_WMR
-#include "WindowsMixedRealityHandTrackingTypes.h"
-#include "WindowsMixedRealityHandTrackingFunctionLibrary.h"
-#endif
-
 namespace
 {
-	bool GetModifiedHandJointTransform(EControllerHand Hand, EUxtHandKeypoint Keypoint, FTransform& OutTransform, float& OutRadius)
+	bool GetModifiedHandJointTransform(EControllerHand Hand, EUxtHandJoint Keypoint, FTransform& OutTransform, float& OutRadius)
 	{
-#if UXT_WMR
-		// We need to rotate the hand joint transforms here so that they comply with UE standards.
-		// After rotating these transforms, if you have your hand flat on a table, palm down, the 
-		// positive x of each joint should point away from the wrist and the positive z should
-		// point away from the table.
+		FQuat Orientation;
+		FVector Position;
 
-		EWMRHandKeypoint KeypointWMR = (EWMRHandKeypoint)Keypoint;
-		bool success = UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, KeypointWMR, OutTransform, OutRadius);
-		OutTransform.SetRotation(OutTransform.GetRotation() * FQuat(FVector::RightVector, PI));
-		return success;
-#else
+		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, Keypoint, Orientation, Position, OutRadius))
+		{
+			OutTransform.SetTranslationAndScale3D(Position, FVector::OneVector);
+
+			// We need to rotate the hand joint transforms here so that they comply with UE standards.
+			// After rotating these transforms, if you have your hand flat on a table, palm down, the 
+			// positive x of each joint should point away from the wrist and the positive z should
+			// point away from the table.
+			OutTransform.SetRotation(Orientation * FQuat(FVector::RightVector, PI));
+
+			return true;
+		}
+
 		return false;
-#endif
 	}
 }
 
@@ -45,7 +43,6 @@ void UUxtHandJointAttachmentComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-#if UXT_WMR
 	if (bAttachOnSkin)
 	{
 		if (!LocalAttachDirection.Normalize())
@@ -53,7 +50,6 @@ void UUxtHandJointAttachmentComponent::BeginPlay()
 			UE_LOG(UXTools, Error, TEXT("Could not normalize LocalAttachDirection. The calculated attachment position won't be on the skin"));
 		}
 	}
-#endif // UXT_WMR
 }
 
 void UUxtHandJointAttachmentComponent::OnLmbPressed()
@@ -76,13 +72,12 @@ void UUxtHandJointAttachmentComponent::OnLmbReleased()
 
 void UUxtHandJointAttachmentComponent::UpdateGraspState()
 {
-#if UXT_WMR
 	FTransform IndexTipTransform;
 	FTransform ThumbTipTransform;
 	float JointRadius;
 
-	if (GetModifiedHandJointTransform(Hand, EUxtHandKeypoint::IndexTip, IndexTipTransform, JointRadius) &&
-		GetModifiedHandJointTransform(Hand, EUxtHandKeypoint::ThumbTip, ThumbTipTransform, JointRadius))
+	if (GetModifiedHandJointTransform(Hand, EUxtHandJoint::IndexTip, IndexTipTransform, JointRadius) &&
+		GetModifiedHandJointTransform(Hand, EUxtHandJoint::ThumbTip, ThumbTipTransform, JointRadius))
 	{
 		const float Distance = (IndexTipTransform.GetTranslation() - ThumbTipTransform.GetTranslation()).Size();
 		const float GraspStartDistance = 2;
@@ -99,7 +94,7 @@ void UUxtHandJointAttachmentComponent::UpdateGraspState()
 		else if (Distance <= GraspStartDistance)
 		{
 			FTransform PalmTransform;
-			if (GetModifiedHandJointTransform(Hand, EUxtHandKeypoint::Palm, PalmTransform, JointRadius))
+			if (GetModifiedHandJointTransform(Hand, EUxtHandJoint::Palm, PalmTransform, JointRadius))
 			{
 				bIsGrasped = true;
 				JointTransformInPalm = GetOwner()->GetTransform().GetRelativeTransform(PalmTransform);
@@ -107,14 +102,12 @@ void UUxtHandJointAttachmentComponent::UpdateGraspState()
 			}
 		}
 	}
-#endif
 }
 
 void UUxtHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-#if UXT_WMR
 	AActor* Owner = GetOwner();
 	FTransform Transform;
 	float JointRadius;
@@ -122,7 +115,7 @@ void UUxtHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick
 
 	if (bIsGrasped)
 	{
-		bIsTracked = GetModifiedHandJointTransform(Hand, EUxtHandKeypoint::Palm, Transform, JointRadius);
+		bIsTracked = GetModifiedHandJointTransform(Hand, EUxtHandJoint::Palm, Transform, JointRadius);
 		Transform = JointTransformInPalm * Transform;
 	}
 	else
@@ -161,5 +154,4 @@ void UUxtHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick
 		Owner->SetActorHiddenInGame(true);
 		Owner->SetActorEnableCollision(false);
 	}
-#endif // UXT_WMR
 }

@@ -13,14 +13,6 @@ public class UXTools : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "LiveLinkInterface" });
 
-		if (Target.Platform == UnrealTargetPlatform.Win64 || Target.Platform == UnrealTargetPlatform.HoloLens)
-        {
-            PublicDependencyModuleNames.Add("WindowsMixedRealityHandTracking");
-        }
-
-		// TODO Slate required for hand input simulation in hand joint attachment component. Remove once we have simulation at platform level.
-        PrivateDependencyModuleNames.AddRange(new string[] { "Slate" });
-
         if (Target.bBuildEditor)
         {
             PrivateDependencyModuleNames.Add("UnrealEd");
