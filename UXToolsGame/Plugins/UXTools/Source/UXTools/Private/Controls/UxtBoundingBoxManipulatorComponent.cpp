@@ -1,11 +1,58 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Controls/UxtBoundingBoxManipulatorComponent.h"
+#include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 #include "DrawDebugHelpers.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 
+
+static FBox CalculateNestedActorBoundsInGivenSpace(const AActor* Actor, const FTransform& WorldToCalcSpace, bool bNonColliding)
+{
+	FBox Box(ForceInit);
+
+	for (const UActorComponent* ActorComponent : Actor->GetComponents())
+	{
+		if (!ActorComponent->IsRegistered())
+		{
+			continue;
+		}
+
+		if (const UPrimitiveComponent* PrimitiveComponent = Cast<const UPrimitiveComponent>(ActorComponent))
+		{
+			// Only use collidable components to find collision bounding box.
+			if (bNonColliding || PrimitiveComponent->IsCollisionEnabled())
+			{
+				const FTransform& ComponentToWorld = PrimitiveComponent->GetComponentTransform();
+				const FTransform ComponentToCalcSpace = ComponentToWorld * WorldToCalcSpace;
+
+				const FBoxSphereBounds ComponentBoundsCalcSpace = PrimitiveComponent->CalcBounds(ComponentToCalcSpace);
+				const FBox ComponentBox = ComponentBoundsCalcSpace.GetBox();
+
+				Box += ComponentBox;
+			}
+		}
+
+		if (const UChildActorComponent* ChildActor = Cast<const UChildActorComponent>(ActorComponent))
+		{
+			if (const AActor* NestedActor = ChildActor->GetChildActor())
+			{
+				Box += CalculateNestedActorBoundsInGivenSpace(NestedActor, WorldToCalcSpace, bNonColliding);
+			}
+		}
+	}
+
+	return Box;
+}
+
+static FBox CalculateNestedActorBoundsInLocalSpace(const AActor* Actor, bool bNonColliding)
+{
+	const FTransform& ActorToWorld = Actor->GetTransform();
+	const FTransform WorldToActor = ActorToWorld.Inverse();
+
+	return CalculateNestedActorBoundsInGivenSpace(Actor, WorldToActor, true);
+}
 
 FTransform FUxtBoundingBoxAffordanceInfo::GetWorldTransform(const FBox &Bounds, const FTransform &RootTransform) const
 {
@@ -95,7 +142,9 @@ const FBox& UUxtBoundingBoxManipulatorComponent::GetBounds() const
 
 void UUxtBoundingBoxManipulatorComponent::ComputeBoundsFromComponents()
 {
-	Bounds = GetOwner()->CalculateComponentsBoundingBoxInLocalSpace(true);
+	Bounds = CalculateNestedActorBoundsInLocalSpace(GetOwner(), true);
+
+	UpdateAffordanceTransforms();
 }
 
 void UUxtBoundingBoxManipulatorComponent::UpdateAffordanceTransforms()
