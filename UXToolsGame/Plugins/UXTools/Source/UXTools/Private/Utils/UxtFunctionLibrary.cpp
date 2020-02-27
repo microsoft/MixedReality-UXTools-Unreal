@@ -23,3 +23,15 @@ FTransform UUxtFunctionLibrary::GetHeadPose(const UObject* WorldContextObject)
 
 	return FTransform(rot, pos);
 }
+
+bool UUxtFunctionLibrary::IsInEditor()
+{
+#if WITH_EDITOR
+	if (GIsEditor)
+	{
+		UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine);
+		return !EdEngine->bUseVRPreviewForPlayWorld;
+	}
+#endif
+	return false;
+}
