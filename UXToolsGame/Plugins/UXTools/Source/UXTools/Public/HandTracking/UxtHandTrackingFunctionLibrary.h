@@ -22,6 +22,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetHandJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius);
 
+	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is undefined. */
+	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
+	static bool GetHandPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition);
+
 	/** Obtain current grabbed state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is undefined. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetIsHandGrabbing(EControllerHand Hand, bool& OutIsGrabbing);

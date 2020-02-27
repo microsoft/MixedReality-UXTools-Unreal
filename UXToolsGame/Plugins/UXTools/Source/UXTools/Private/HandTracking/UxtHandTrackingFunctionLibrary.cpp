@@ -27,6 +27,16 @@ bool UUxtHandTrackingFunctionLibrary::GetHandJointState(EControllerHand Hand, EU
 	return false;
 }
 
+bool UUxtHandTrackingFunctionLibrary::GetHandPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition)
+{
+	if (IUxtHandTracker* HandTracker = GetHandTracker())
+	{
+		return HandTracker->GetPointerPose(Hand, OutOrientation, OutPosition);
+	}
+
+	return false;
+}
+
 bool UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(EControllerHand Hand, bool& OutIsGrabbing)
 {
 	if (IUxtHandTracker* HandTracker = GetHandTracker())

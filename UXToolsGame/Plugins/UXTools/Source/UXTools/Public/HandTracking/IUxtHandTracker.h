@@ -34,8 +34,7 @@ enum class EUxtHandJoint : uint8
 	LittleProximal,
 	LittleIntermediate,
 	LittleDistal,
-	LittleTip,
-	Pointer		// special joint used to obtain the pointer pose
+	LittleTip
 };
 
 /**
@@ -57,8 +56,11 @@ public:
 	virtual ~IUxtHandTracker() {}
 
 	/** Obtain state of the given joint. Returns false if the hand is not tracked this frame, in which case the values of the output parameters are undefined. */
-	virtual bool GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) = 0;
+	virtual bool GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const = 0;
+
+	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is undefined. */
+	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const = 0;
 
 	/** Obtain current grabbing state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is undefined. */
-	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) = 0;
+	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const = 0;
 };
