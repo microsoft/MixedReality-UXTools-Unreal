@@ -170,6 +170,7 @@ void AUxtInputSimulationActor::BeginPlay()
 
 			// Hide the pawn for the local player
 			Pawn->SetActorHiddenInGame(true);
+			Pawn->SetActorEnableCollision(false);
 		}
 	}
 
