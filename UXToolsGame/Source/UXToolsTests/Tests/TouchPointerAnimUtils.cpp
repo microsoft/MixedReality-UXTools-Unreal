@@ -61,7 +61,9 @@ namespace TouchPointerAnimUtils
 			: Test(Test)
 			, Sequence(Sequence)
 			, Duration(Duration)
+			, bIsFinished(false)
 			, Section(-1)
+			, TestKeyframeOnNextUpdate(false)
 		{
 			EventCountSequence = Sequence.ComputeTargetEventCounts();
 		}
@@ -76,14 +78,31 @@ namespace TouchPointerAnimUtils
 				return true;
 			}
 
-			const int NumSections = (int)(Sequence.GetKeyframes().size() - 1);
-			float Elapsed = FPlatformTime::Seconds() - StartTime;
-			float AnimTime = Elapsed / Duration;
-			int NewSection = FMath::Clamp((int)AnimTime, 0, NumSections);
-
-			if (NewSection != Section)
+			// Test the current keyframe if flagged in the previous update.
+			if (TestKeyframeOnNextUpdate)
 			{
-				Section = NewSection;
+				Sequence.TestKeyframe(Test, EventCountSequence[Section], Section);
+				TestKeyframeOnNextUpdate = false;
+			}
+			// One update for testing keyframe may be run after animation is finished.
+			// In that case exit here.
+			if (bIsFinished)
+			{
+				return true;
+			}
+
+			const int NumSections = (int)(Sequence.GetKeyframes().size() - 1);
+			const float Elapsed = FPlatformTime::Seconds() - StartTime;
+			bIsFinished = (Elapsed >= Duration * NumSections);
+			const float AnimTime = Elapsed / Duration;
+
+			{
+				int NewSection = FMath::Clamp((int)AnimTime, 0, NumSections);
+				if (NewSection != Section)
+				{
+					Section = NewSection;
+					TestKeyframeOnNextUpdate = true;
+				}
 			}
 
 			if (Section < Sequence.GetKeyframes().size() - 1)
@@ -108,12 +127,7 @@ namespace TouchPointerAnimUtils
 				}
 			}
 
-			if (NewSection != Section)
-			{
-				Sequence.TestKeyframe(Test, EventCountSequence[Section], Section);
-			}
-
-			return Elapsed >= Duration * NumSections;
+			return bIsFinished && !TestKeyframeOnNextUpdate;
 		}
 
 	private:
@@ -125,8 +139,14 @@ namespace TouchPointerAnimUtils
 		/** Time in seconds between each pair of keyframes. */
 		float Duration;
 
+		bool bIsFinished;
 		/** Current section of the keyframe list that is being interpolated. */
 		int Section;
+		/** Flag to enable testing of the keyframe in the next update.
+		 *  Pointer components need to tick once to update overlaps and focused targets,
+		 *  so delaying the keyframe test for one frame ensures the state is correctly updated.
+		 */
+		bool TestKeyframeOnNextUpdate;
 
 		/** Per-keyframe event counts for each target. */
 		std::vector<TargetEventCountMap> EventCountSequence;
@@ -146,17 +166,6 @@ namespace TouchPointerAnimUtils
 		const FString& targetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 		const float targetScale = 0.3f;
 		Targets.emplace_back(UXToolsTestUtils::CreateTouchPointerTarget(world, pos, targetFilename, targetScale));
-	}
-
-	void TouchAnimSequence::AddBackgroundTarget(UWorld* world)
-	{
-		auto Target = UXToolsTestUtils::CreateTouchPointerBackgroundTarget(world);
-		Targets.emplace_back(Target);
-
-		for (auto* Pointer : Pointers)
-		{
-			Pointer->SetDefaultTarget(Target);
-		}
 	}
 
 	// Enter/Exit events must be incremented separately based on expected behavior.

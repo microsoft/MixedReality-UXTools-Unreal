@@ -81,7 +81,6 @@ namespace TouchPointerAnimUtils
 		void CreatePointers(UWorld* world, int Count);
 
 		void AddTarget(UWorld* world, const FVector& pos);
-		void AddBackgroundTarget(UWorld* world);
 
 		void AddMovementKeyframe(const FVector& pos);
 		void AddGraspKeyframe(bool bEnableGrasp);

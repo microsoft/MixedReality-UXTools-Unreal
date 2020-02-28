@@ -121,7 +121,7 @@ void UUxtTouchPointer::ChangeHoveredTarget(UActorComponent* NewHoveredTarget, co
 {
 	UObject* HoveredTarget = HoveredTargetWeak.Get();
 
-	// If hovered target is unchanged, then update only the closest-point-on-target
+	// If hovered target is unchanged, then update only the closest-point-on-target.
 	if (NewHoveredTarget == HoveredTarget)
 	{
 		ClosestPointOnHoveredTarget = NewClosestPointOnTarget;
@@ -134,17 +134,8 @@ void UUxtTouchPointer::ChangeHoveredTarget(UActorComponent* NewHoveredTarget, co
 			IUxtTouchPointerTarget::Execute_HoverEnded(HoveredTarget, this);
 		}
 
-		if (NewHoveredTarget)
-		{
-			HoveredTargetWeak = NewHoveredTarget;
-			HoveredTarget = NewHoveredTarget;
-		}
-		else
-		{
-			// If the new target is null, use the default target instead.
-			HoveredTargetWeak = DefaultTargetWeak;
-			HoveredTarget = DefaultTargetWeak.Get();
-		}
+		HoveredTargetWeak = NewHoveredTarget;
+		HoveredTarget = NewHoveredTarget;
 		ClosestPointOnHoveredTarget = NewClosestPointOnTarget;
 
 		if (HoveredTarget)
@@ -189,18 +180,5 @@ void UUxtTouchPointer::SetGrasped(bool bValue)
 				IUxtTouchPointerTarget::Execute_GraspEnded(Target, this);
 			}
 		}
-	}
-}
-
-UObject* UUxtTouchPointer::GetDefaultTarget() const
-{
-	return DefaultTargetWeak.Get();
-}
-
-void UUxtTouchPointer::SetDefaultTarget(UObject* NewDefaultTarget)
-{
-	if (ensureMsgf(IsTouchTarget(NewDefaultTarget), TEXT("Target object must implement TouchPointerTarget interface")))
-	{
-		DefaultTargetWeak = NewDefaultTarget;
 	}
 }

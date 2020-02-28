@@ -56,20 +56,6 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetGrasped(bool Enable);
 
-	/**
-	 * Get the default target object.
-	 * This object receives hover and grasp events when no other target is hovered.
-	 */
-	UFUNCTION(BlueprintPure, Category = "Touch Pointer")
-	UObject* GetDefaultTarget() const;
-
-	/**
-	 * Set the default target object.
-	 * This object receives hover and grasp events when no other target is hovered.
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Touch Pointer")
-	void SetDefaultTarget(UObject* NewDefaultTarget);
-
 protected:
 
 	// 
@@ -108,10 +94,4 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintSetter = "SetTouchRadius", BlueprintGetter = "GetTouchRadius", Category = "Touch Pointer")
 	float TouchRadius = 10.0f;
-
-	/**
-	 * Optional weak reference to a default target object
-	 * that receives hover and grasp events if no other target is hovered.
-	 */
-	TWeakObjectPtr<UObject> DefaultTargetWeak;
 };
