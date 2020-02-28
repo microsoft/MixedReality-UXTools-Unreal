@@ -7,29 +7,6 @@
 #include "Utils/UxtFunctionLibrary.h"
 #include "UXTools.h"
 
-namespace
-{
-	bool GetModifiedHandJointTransform(EControllerHand Hand, EUxtHandJoint Keypoint, FTransform& OutTransform, float& OutRadius)
-	{
-		FQuat Orientation;
-		FVector Position;
-
-		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, Keypoint, Orientation, Position, OutRadius))
-		{
-			OutTransform.SetTranslationAndScale3D(Position, FVector::OneVector);
-
-			// We need to rotate the hand joint transforms here so that they comply with UE standards.
-			// After rotating these transforms, if you have your hand flat on a table, palm down, the 
-			// positive x of each joint should point away from the wrist and the positive z should
-			// point away from the table.
-			OutTransform.SetRotation(Orientation * FQuat(FVector::RightVector, PI));
-
-			return true;
-		}
-
-		return false;
-	}
-}
 
 UUxtHandJointAttachmentComponent::UUxtHandJointAttachmentComponent()
 {
@@ -72,14 +49,15 @@ void UUxtHandJointAttachmentComponent::OnLmbReleased()
 
 void UUxtHandJointAttachmentComponent::UpdateGraspState()
 {
-	FTransform IndexTipTransform;
-	FTransform ThumbTipTransform;
+	FQuat JointOrientation;
+	FVector IndexTipPosition;
+	FVector ThumbTipPosition;
 	float JointRadius;
 
-	if (GetModifiedHandJointTransform(Hand, EUxtHandJoint::IndexTip, IndexTipTransform, JointRadius) &&
-		GetModifiedHandJointTransform(Hand, EUxtHandJoint::ThumbTip, ThumbTipTransform, JointRadius))
+	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, JointOrientation, IndexTipPosition, JointRadius) &&
+		UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::ThumbTip, JointOrientation, ThumbTipPosition, JointRadius))
 	{
-		const float Distance = (IndexTipTransform.GetTranslation() - ThumbTipTransform.GetTranslation()).Size();
+		const float Distance = (IndexTipPosition - ThumbTipPosition).Size();
 		const float GraspStartDistance = 2;
 		const float GraspEndDistance = 4.5;
 
@@ -93,11 +71,11 @@ void UUxtHandJointAttachmentComponent::UpdateGraspState()
 		}
 		else if (Distance <= GraspStartDistance)
 		{
-			FTransform PalmTransform;
-			if (GetModifiedHandJointTransform(Hand, EUxtHandJoint::Palm, PalmTransform, JointRadius))
+			FVector PalmPosition;
+			if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Palm, JointOrientation, PalmPosition, JointRadius))
 			{
 				bIsGrasped = true;
-				JointTransformInPalm = GetOwner()->GetTransform().GetRelativeTransform(PalmTransform);
+				JointTransformInPalm = GetOwner()->GetTransform().GetRelativeTransform(FTransform(JointOrientation, PalmPosition));
 				OnHandGraspStarted.Broadcast(this);
 			}
 		}
@@ -109,18 +87,22 @@ void UUxtHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	AActor* Owner = GetOwner();
-	FTransform Transform;
+	FQuat JointOrientation;
+	FVector JointPosition;
+	FTransform JointTransform;
+
 	float JointRadius;
 	bool bIsTracked;
 
 	if (bIsGrasped)
 	{
-		bIsTracked = GetModifiedHandJointTransform(Hand, EUxtHandJoint::Palm, Transform, JointRadius);
-		Transform = JointTransformInPalm * Transform;
+		bIsTracked = UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Palm, JointOrientation, JointPosition, JointRadius);
+		JointTransform = JointTransformInPalm * FTransform(JointOrientation, JointPosition);
 	}
 	else
 	{
-		bIsTracked = GetModifiedHandJointTransform(Hand, Joint, Transform, JointRadius);
+		bIsTracked = UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, Joint, JointOrientation, JointPosition, JointRadius);
+		JointTransform = FTransform(JointOrientation, JointPosition);
 	}
 
 	if (bIsTracked)
@@ -129,8 +111,8 @@ void UUxtHandJointAttachmentComponent::TickComponent(float DeltaTime, ELevelTick
 		Owner->SetActorHiddenInGame(false);
 		Owner->SetActorEnableCollision(true);
 
-		FVector Location = Transform.GetLocation();
-		FQuat Rotation = Transform.GetRotation();
+		FVector Location = JointTransform.GetLocation();
+		FQuat Rotation = JointTransform.GetRotation();
 
 		if (bAttachOnSkin)
 		{
