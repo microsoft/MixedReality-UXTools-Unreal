@@ -16,9 +16,13 @@ FTransform UUxtFunctionLibrary::GetHeadPose(const UObject* WorldContextObject)
 	FVector pos;
 	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rot, pos);
 
-	if (APlayerCameraManager* Manager = UGameplayStatics::GetPlayerCameraManager(WorldContextObject, 0))
+	// Add camera position only when not playing in editor as input simulation already accounts for it in the head pose
+	if (!IsInEditor())
 	{
-		pos += Manager->GetTransformComponent()->GetComponentLocation();
+		if (APlayerCameraManager* Manager = UGameplayStatics::GetPlayerCameraManager(WorldContextObject, 0))
+		{
+			pos += Manager->GetTransformComponent()->GetComponentLocation();
+		}
 	}
 
 	return FTransform(rot, pos);
