@@ -8,6 +8,27 @@ Input simulation is not intended as a long term substitute for actual hardware, 
 iteration times and allow testing in case of limited hardware availability. Input simulation is only enabled in the
 Unreal editor.
 
+## Activation
+
+Input simulation will become active when playing in the Unreal editor and no head-mounted display (HMD) is connected. If a HMD is connected the input simulation is disabled and camera placement is controlled by the device.
+
+## Controls
+
+Default controls for moving the camera are based on the DefaultPawn:
+* W/S keys for moving forward/backward
+* A/D keys for moving sideways
+* Q/E keys for moving down/up
+* Mouse movement controls head rotation
+
+In addition to default pawn movement there are virtual hands that can be controlled for simulating hand tracking:
+* Hold Left Shift/Alt for controlling the left/right hand respectively.
+
+  This disables head rotation with the mouse and moves the hand instead. Both hands can be controlled together by holding both control keys.
+* Press the Left mouse button to perform a "Pinch" gesture. This also activates the "grasp" state of the hand controller, allowing object manipulation.
+* Press the Middle mouse button to perform a "Poke" gesture. This can be used for poking buttons.
+
+  Note that buttons can also be pressed by simply moving the hand towards the button, without performing any gestures.
+
 ## Hand Animation
 
 Hand input is simulated with skeletal meshes that are animated according to user input.
