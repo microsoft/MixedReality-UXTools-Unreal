@@ -18,15 +18,15 @@ class UXTOOLS_API UUxtHandTrackingFunctionLibrary : public UBlueprintFunctionLib
 
 public:
 
-	/** Obtain state of the given joint. Returns false if the hand is not currently tracked, in which case the values of the output parameters are undefined. */
+	/** Obtain the state of the given joint. Returns false if the hand is not currently tracked, in which case the values of the output parameters are unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetHandJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius);
 
-	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is undefined. */
+	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetHandPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition);
 
-	/** Obtain current grabbed state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is undefined. */
+	/** Obtain current grabbed state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetIsHandGrabbing(EControllerHand Hand, bool& OutIsGrabbing);
 

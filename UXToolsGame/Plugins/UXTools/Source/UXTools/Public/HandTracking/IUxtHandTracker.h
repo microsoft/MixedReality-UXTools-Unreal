@@ -55,12 +55,12 @@ public:
 
 	virtual ~IUxtHandTracker() {}
 
-	/** Obtain state of the given joint. Returns false if the hand is not tracked this frame, in which case the values of the output parameters are undefined. */
+	/** Obtain the state of the given joint. Returns false if the hand is not tracked this frame, in which case the values of the output parameters are unchanged. */
 	virtual bool GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const = 0;
 
-	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is undefined. */
+	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged. */
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const = 0;
 
-	/** Obtain current grabbing state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is undefined. */
+	/** Obtain current grabbing state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged. */
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const = 0;
 };
