@@ -25,17 +25,23 @@ bool FUxtWmrHandTracker::GetJointState(EControllerHand Hand, EUxtHandJoint Joint
 
 bool FUxtWmrHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
 {
-	if (UUxtFunctionLibrary::IsInEditor())
+#if !PLATFORM_HOLOLENS
+	if (UWindowsMixedRealityInputSimulationEngineSubsystem* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
 	{
-		// Simulate pointer pose using the wrist. Workaround BUG 233.
+		// Simulate pointer pose using the wrist when running with input simulation. Workaround BUG 233.
 		FTransform Transform;
 		float Radius;
-		UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Wrist, Transform, Radius);
 
-		OutPosition = Transform.GetTranslation();
-		OutOrientation = Transform.GetRotation()* FQuat(FVector::RightVector, 0.75f * HALF_PI);
+		if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, EWMRHandKeypoint::Wrist, Transform, Radius))
+		{
+			OutPosition = Transform.GetTranslation();
+			OutOrientation = Transform.GetRotation() * FQuat(FVector::RightVector, 0.75f * HALF_PI);
+
+			return true;
+		}
 	}
 	else
+#endif
 	{
 		FPointerPoseInfo Info = UWindowsMixedRealityFunctionLibrary::GetPointerPoseInfo(Hand);
 
