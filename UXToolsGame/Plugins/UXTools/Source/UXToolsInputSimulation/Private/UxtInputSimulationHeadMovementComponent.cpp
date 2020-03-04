@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "UxtInputSimulationHeadMovementComponent.h"
+#include "UxtRuntimeSettings.h"
 
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -12,18 +13,18 @@
 
 #define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
 
-void UxtInputSimulationHeadMovementComponent::AddRotationInput(const FRotator& Rotation)
+void UUxtInputSimulationHeadMovementComponent::AddRotationInput(const FRotator& Rotation)
 {
 	RotationInput += Rotation;
 }
 
-void UxtInputSimulationHeadMovementComponent::AddMovementInput(const FVector& Movement)
+void UUxtInputSimulationHeadMovementComponent::AddMovementInput(const FVector& Movement)
 {
 	MovementInput += Movement;
 }
 
 // Copied from APlayerCameraManager::ProcessViewRotation
-void UxtInputSimulationHeadMovementComponent::ApplyRotationInput(float DeltaTime)
+void UUxtInputSimulationHeadMovementComponent::ApplyRotationInput(float DeltaTime)
 {
 	// Calculate Delta to be applied on rotation
 	FRotator DeltaRot(RotationInput);
@@ -50,7 +51,7 @@ void UxtInputSimulationHeadMovementComponent::ApplyRotationInput(float DeltaTime
 }
 
 // Copied from UFloatingPawnMovement
-void UxtInputSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
+void UUxtInputSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
 {
 	const float MaxSpeed = 1200.f;
 	const float Acceleration = 4000.f;
@@ -96,7 +97,7 @@ void UxtInputSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime
 	Velocity = Velocity.GetClampedToMaxSize(NewMaxSpeed);
 }
 
-void UxtInputSimulationHeadMovementComponent::BeginPlay()
+void UUxtInputSimulationHeadMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -106,49 +107,76 @@ void UxtInputSimulationHeadMovementComponent::BeginPlay()
 	MovementInput = FVector::ZeroVector;
 }
 
-void UxtInputSimulationHeadMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UUxtInputSimulationHeadMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	const auto* Settings = UUxtRuntimeSettings::Get();
+	check(Settings);
 
 	if (!UpdatedComponent || ShouldSkipUpdate(DeltaTime))
 	{
 		return;
 	}
 
-	// Apply accumulated axis input
-	ApplyRotationInput(DeltaTime);
-	ApplyMovementInput(DeltaTime);
-	// Reset axis input
-	RotationInput = FRotator::ZeroRotator;
-	MovementInput = FVector::ZeroVector;
+	// Rotate actor
+	{
+		// Apply and then zero the rotation input
+		ApplyRotationInput(DeltaTime);
+		RotationInput = FRotator::ZeroRotator;
 
-	// Rotate view
-	UpdatedComponent->SetWorldRotation(ViewOrientation);
+		UpdatedComponent->SetWorldRotation(ViewOrientation);
+	}
 
 	// Move actor
-	FVector Delta = Velocity * DeltaTime;
-	if (!Delta.IsNearlyZero(1e-6f))
+	if (bEnableHeadMovement)
 	{
-		const FVector OldLocation = UpdatedComponent->GetComponentLocation();
-		const FQuat Rotation = UpdatedComponent->GetComponentQuat();
+		// Apply and then zero the movement input
+		ApplyMovementInput(DeltaTime);
+		MovementInput = FVector::ZeroVector;
 
-		FHitResult Hit(1.f);
-		SafeMoveUpdatedComponent(Delta, Rotation, true, Hit);
-
-		if (Hit.IsValidBlockingHit())
+		FVector Delta = Velocity * DeltaTime;
+		if (!Delta.IsNearlyZero(1e-6f))
 		{
-			HandleImpact(Hit, DeltaTime, Delta);
-			// Try to slide the remaining distance along the surface.
-			SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
-		}
+			const FVector OldLocation = UpdatedComponent->GetComponentLocation();
+			const FQuat Rotation = UpdatedComponent->GetComponentQuat();
 
-		// Update velocity
-		const FVector NewLocation = UpdatedComponent->GetComponentLocation();
-		Velocity = ((NewLocation - OldLocation) / DeltaTime);
+			FHitResult Hit(1.f);
+			SafeMoveUpdatedComponent(Delta, Rotation, true, Hit);
+
+			if (Hit.IsValidBlockingHit())
+			{
+				HandleImpact(Hit, DeltaTime, Delta);
+				// Try to slide the remaining distance along the surface.
+				SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
+			}
+
+			// Update velocity
+			const FVector NewLocation = UpdatedComponent->GetComponentLocation();
+			Velocity = ((NewLocation - OldLocation) / DeltaTime);
+		}
+	}
+	else
+	{
+		// Ignore movement input if positional movement is disabled
+		Velocity = FVector::ZeroVector;
+		MovementInput = FVector::ZeroVector;
+
+		UpdatedComponent->SetWorldLocation(FVector::ZeroVector);
 	}
 
 	// Finalize
 	UpdateComponentVelocity();
+}
+
+bool UUxtInputSimulationHeadMovementComponent::IsHeadMovementEnabled() const
+{
+	return bEnableHeadMovement;
+}
+
+void UUxtInputSimulationHeadMovementComponent::SetHeadMovementEnabled(bool bEnable)
+{
+	bEnableHeadMovement = bEnable;
 }
 
 #undef LOCTEXT_NAMESPACE

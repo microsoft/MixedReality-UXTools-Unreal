@@ -33,6 +33,9 @@ public:
 	//
 	// Input Simulation Settings
 
+	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Start With Positional Head Tracking", Tooltip = "Enable positional head tracking on game start."))
+	bool bStartWithPositionalHeadTracking = true;
+
 	/** Default pose when no button is pressed. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Default Hand Pose", Tooltip = "Default pose when no button is pressed."))
 	FName DefaultHandPose = TEXT("Flat");

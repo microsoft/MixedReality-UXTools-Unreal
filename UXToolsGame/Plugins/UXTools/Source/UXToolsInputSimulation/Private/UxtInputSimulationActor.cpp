@@ -38,10 +38,16 @@ AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& Obj
 
 void AUxtInputSimulationActor::SetupHeadComponents()
 {
-	HeadMovement = CreateDefaultSubobject<UxtInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
+	const auto* Settings = UUxtRuntimeSettings::Get();
+
+	HeadMovement = CreateDefaultSubobject<UUxtInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
 	AddOwnedComponent(HeadMovement);
 	// Add tick dependency so the head movement happens before the actor copies the result
 	AddTickPrerequisiteComponent(HeadMovement);
+
+	// Initialize runtime state
+
+	HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
 }
 
 void AUxtInputSimulationActor::SetupHandComponents()
@@ -203,7 +209,6 @@ void AUxtInputSimulationActor::BeginPlay()
 
 void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 {
-	// Copy Simulated input data to the engine subsystem
 
 	auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
 	if (!InputSim)
@@ -211,8 +216,12 @@ void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 		return;
 	}
 
-	// TODO Simulate this
-	bool bHasPositionalTracking = true;
+	const auto* Settings = UUxtRuntimeSettings::Get();
+	check(Settings);
+
+	// Copy Simulated input data to the engine subsystem
+
+	bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
 
 	FQuat HeadRotation = GetActorRotation().Quaternion();
 	FVector HeadLocation = GetActorLocation();
@@ -457,7 +466,6 @@ void AUxtInputSimulationActor::AddHandInputImpl(EAxis::Type Axis, float Value)
 		{
 			if (USkeletalMeshComponent* Comp = GetHandMesh(Hand))
 			{
-
 				Comp->MoveComponent(Dir * Value, Comp->GetComponentRotation(), true);
 			}
 		}

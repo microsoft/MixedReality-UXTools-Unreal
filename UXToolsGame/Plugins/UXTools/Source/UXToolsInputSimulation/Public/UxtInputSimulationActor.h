@@ -9,7 +9,7 @@
 #include "UxtInputSimulationActor.generated.h"
 
 struct FWindowsMixedRealityInputSimulationHandState;
-class UxtInputSimulationHeadMovementComponent;
+class UUxtInputSimulationHeadMovementComponent;
 
 /** Actor that produces head pose and hand animations for the input simulation subsystem. */
 UCLASS(ClassGroup = UXTools)
@@ -42,7 +42,7 @@ public:
 	void PopTargetPose(FName Name);
 
 	UFUNCTION(BlueprintGetter)
-	UxtInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
+	UUxtInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
 
 	UFUNCTION(BlueprintGetter)
 	USkeletalMeshComponent* GetLeftHand() const { return LeftHand; }
@@ -95,7 +95,7 @@ private:
 
 	/** Movement component for interpreting user input as head movement. */
 	UPROPERTY(Category = UxTools, VisibleAnywhere, BlueprintGetter = GetHeadMovement)
-	UxtInputSimulationHeadMovementComponent* HeadMovement;
+	UUxtInputSimulationHeadMovementComponent* HeadMovement;
 
 	/** Skeletal mesh component for the left hand. */
 	UPROPERTY(Category = UxTools, VisibleAnywhere, BlueprintGetter = GetLeftHand)

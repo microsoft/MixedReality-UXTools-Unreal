@@ -11,7 +11,7 @@
  *  Works similar to UFloatingPawnMovement, but does not require a APawn actor.
  */
 UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API UxtInputSimulationHeadMovementComponent
+class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationHeadMovementComponent
 	: public UMovementComponent
 {
 	GENERATED_BODY()
@@ -25,6 +25,11 @@ public:
 	void AddRotationInput(const FRotator& Rotation);
 	/** Add cumulative movement input in world space. */
 	void AddMovementInput(const FVector& Movement);
+
+	UFUNCTION(BlueprintGetter)
+	bool IsHeadMovementEnabled() const;
+	UFUNCTION(BlueprintSetter)
+	void SetHeadMovementEnabled(bool bEnable);
 
 private:
 
@@ -44,5 +49,9 @@ private:
 	FRotator RotationInput;
 	/** Input axes values, accumulated each tick. */
 	FVector MovementInput;
+
+	/** Enable linear movement of the head position. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "IsHeadMovementEnabled", BlueprintSetter = "SetHeadMovementEnabled", Category = InputSimulation)
+	bool bEnableHeadMovement = true;
 
 };
