@@ -33,8 +33,17 @@ public:
 	//
 	// Input Simulation Settings
 
+	/** Enable positional head tracking on game start. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Start With Positional Head Tracking", Tooltip = "Enable positional head tracking on game start."))
 	bool bStartWithPositionalHeadTracking = true;
+
+	/** Start With Hands Enabled. */
+	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Start With Hands Enabled", Tooltip = "If true, hands will start with tracking enabled."))
+	bool bStartWithHandsEnabled = true;
+
+	/** Default position of the right hand in camera space. */
+	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Default Hand Position", Tooltip = "Default position of the right hand in camera space."))
+	FVector DefaultHandPosition = FVector(40, 20, 0);
 
 	/** Default pose when no button is pressed. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Default Hand Pose", Tooltip = "Default pose when no button is pressed."))

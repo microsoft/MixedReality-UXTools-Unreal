@@ -24,6 +24,9 @@ In addition to default pawn movement there are virtual hands that can be control
 * Hold Left Shift/Alt for controlling the left/right hand respectively.
 
   This disables head rotation with the mouse and moves the hand instead. Both hands can be controlled together by holding both control keys.
+* T/Y keys for toggling hand visibility.
+
+  UX Tools project settings contain an option to "Start with Hands Enabled". Hands can still be enabled with the T/Y keys even if they are not initially visible.
 * Press the Left mouse button to perform a "Pinch" gesture. This also activates the "grasp" state of the hand controller, allowing object manipulation.
 * Press the Middle mouse button to perform a "Poke" gesture. This can be used for poking buttons.
 

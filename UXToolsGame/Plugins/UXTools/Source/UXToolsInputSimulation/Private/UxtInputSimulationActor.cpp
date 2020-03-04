@@ -68,14 +68,6 @@ void AUxtInputSimulationActor::SetupHandComponents()
 	LeftHand->SetCollisionProfileName(TEXT("NoCollision"));
 	RightHand->SetCollisionProfileName(TEXT("NoCollision"));
 
-	// Initial location
-	LeftHand->SetRelativeLocation(FVector(40, -20, 0));
-	RightHand->SetRelativeLocation(FVector(40, 20, 0));
-
-	// Mirror the left hand.
-	LeftHand->SetRelativeScale3D(FVector(1, -1, 1));
-	RightHand->SetRelativeScale3D(FVector(1, 1, 1));
-
 	// Tag mesh components, so the anim BP knows what target pose to use.
 	LeftHand->ComponentTags.Add(TEXT("Left"));
 	RightHand->ComponentTags.Add(TEXT("Right"));
@@ -99,10 +91,26 @@ void AUxtInputSimulationActor::SetupHandComponents()
 	// Disable shadows
 	LeftHand->SetCastShadow(false);
 	RightHand->SetCastShadow(false);
+
+	// Mirror the left hand.
+	LeftHand->SetRelativeScale3D(FVector(1, -1, 1));
+	RightHand->SetRelativeScale3D(FVector(1, 1, 1));
+
+	//
+	// Init runtime state
+
+	SetHandVisibility(EControllerHand::Left, Settings->bStartWithHandsEnabled);
+	SetHandVisibility(EControllerHand::Right, Settings->bStartWithHandsEnabled);
+
+	// Initial location
+	SetDefaultHandLocation(EControllerHand::Left);
+	SetDefaultHandLocation(EControllerHand::Right);
 }
 
 namespace
 {
+	const FName Action_ToggleLeftHand = TEXT("InputSimulation_ToggleLeftHand");
+	const FName Action_ToggleRightHand = TEXT("InputSimulation_ToggleRightHand");
 	const FName Action_ControlLeftHand = TEXT("InputSimulation_ControlLeftHand");
 	const FName Action_ControlRightHand = TEXT("InputSimulation_ControlRightHand");
 	const FName Action_PrimaryHandPose = TEXT("InputSimulation_PrimaryHandPose");
@@ -124,6 +132,9 @@ static void InitializeDefaultInputSimulationMappings()
 	if (!bMappingsAdded)
 	{
 		bMappingsAdded = true;
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ToggleLeftHand, EKeys::T));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ToggleRightHand, EKeys::Y));
 
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlLeftHand, EKeys::LeftShift));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlRightHand, EKeys::LeftAlt));
@@ -186,6 +197,9 @@ void AUxtInputSimulationActor::BeginPlay()
 		{
 			InitializeDefaultInputSimulationMappings();
 
+			InputComponent->BindAction(Action_ToggleLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleLeftHandPressed);
+			InputComponent->BindAction(Action_ToggleRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleRightHandPressed);
+
 			InputComponent->BindAction(Action_ControlLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlLeftHandPressed);
 			InputComponent->BindAction(Action_ControlLeftHand, IE_Released, this, &AUxtInputSimulationActor::OnControlLeftHandReleased);
 			InputComponent->BindAction(Action_ControlRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlRightHandPressed);
@@ -227,8 +241,8 @@ void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 	FVector HeadLocation = GetActorLocation();
 
 	FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
-	CopySimulatedHandState(EControllerHand::Left, LeftHandState);
-	CopySimulatedHandState(EControllerHand::Right, RightHandState);
+	UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
+	UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
 
 	InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadRotation, HeadLocation, LeftHandState, RightHandState);
 }
@@ -277,20 +291,41 @@ void AUxtInputSimulationActor::PopTargetPose(FName Name)
 	TargetPoseStack.Remove(Name);
 }
 
-void AUxtInputSimulationActor::CopySimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const
+bool AUxtInputSimulationActor::IsHandVisible(EControllerHand Hand) const
+{
+	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
+	{
+		return HandMesh->IsVisible();
+	}
+	return false;
+}
+
+bool AUxtInputSimulationActor::IsHandControlled(EControllerHand Hand) const
+{
+	return ControlledHands.Contains(Hand);
+}
+
+void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const
 {
 	typedef FWindowsMixedRealityInputSimulationHandState::ButtonStateArray ButtonStateArray;
 
 	const auto* Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
+	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
 
-	// TODO Simulate this
-	bool IsTracking = true;
-	HandState.TrackingStatus = IsTracking ? ETrackingStatus::Tracked : ETrackingStatus::NotTracked;
+	// Visible hands are considered tracked
+	bool IsTracked = IsHandVisible(Hand);
+
+	HandState.TrackingStatus = IsTracked ? ETrackingStatus::Tracked : ETrackingStatus::NotTracked;
+
+	// Toggle hand mesh visibility based on simulated tracking state
+	if (MeshComp)
+	{
+		MeshComp->SetVisibility(IsTracked);
+	}
 
 	// Copy joint poses from the bone transforms of the skeletal mesh if available
-	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
-	if (!IsTracking || !MeshComp || !ensureAsRuntimeWarning(MeshComp != nullptr))
+	if (!IsTracked || !MeshComp || !ensureAsRuntimeWarning(MeshComp != nullptr))
 	{
 		HandState.bHasJointPoses = false;
 	}
@@ -349,24 +384,34 @@ void AUxtInputSimulationActor::CopySimulatedHandState(EControllerHand Hand, FWin
 	}
 }
 
+void AUxtInputSimulationActor::OnToggleLeftHandPressed()
+{
+	SetHandVisibility(EControllerHand::Left, !IsHandVisible(EControllerHand::Left));
+}
+
+void AUxtInputSimulationActor::OnToggleRightHandPressed()
+{
+	SetHandVisibility(EControllerHand::Right, !IsHandVisible(EControllerHand::Right));
+}
+
 void AUxtInputSimulationActor::OnControlLeftHandPressed()
 {
-	ControlledHands.Add(EControllerHand::Left);
+	SetHandControlEnabled(EControllerHand::Left, true);
 }
 
 void AUxtInputSimulationActor::OnControlLeftHandReleased()
 {
-	ControlledHands.Remove(EControllerHand::Left);
+	SetHandControlEnabled(EControllerHand::Left, false);
 }
 
 void AUxtInputSimulationActor::OnControlRightHandPressed()
 {
-	ControlledHands.Add(EControllerHand::Right);
+	SetHandControlEnabled(EControllerHand::Right, true);
 }
 
 void AUxtInputSimulationActor::OnControlRightHandReleased()
 {
-	ControlledHands.Remove(EControllerHand::Right);
+	SetHandControlEnabled(EControllerHand::Right, false);
 }
 
 void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
@@ -469,6 +514,65 @@ void AUxtInputSimulationActor::AddHandInputImpl(EAxis::Type Axis, float Value)
 				Comp->MoveComponent(Dir * Value, Comp->GetComponentRotation(), true);
 			}
 		}
+	}
+}
+
+void AUxtInputSimulationActor::SetDefaultHandLocation(EControllerHand Hand)
+{
+	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
+	{
+		const auto* Settings = UUxtRuntimeSettings::Get();
+		check(Settings);
+
+		FVector DefaultPos = Settings->DefaultHandPosition;
+		if (Hand == EControllerHand::Left)
+		{
+			DefaultPos.Y = -DefaultPos.Y;
+		}
+
+		HandMesh->SetRelativeLocation(DefaultPos);
+	}
+}
+
+void AUxtInputSimulationActor::SetHandVisibility(EControllerHand Hand, bool bIsVisible)
+{
+	if (bIsVisible)
+	{
+		// Reset hand position when it becomes visible
+		if (!IsHandVisible(Hand))
+		{
+			SetDefaultHandLocation(Hand);
+		}
+	}
+	else
+	{
+		// Untracked hands can not be controlled.
+		SetHandControlEnabled(Hand, false);
+	}
+
+	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
+	{
+		HandMesh->SetVisibility(bIsVisible);
+	}
+}
+
+bool AUxtInputSimulationActor::SetHandControlEnabled(EControllerHand Hand, bool bEnabled)
+{
+	if (bEnabled)
+	{
+		// Only allow control when the hand is visible.
+		if (!IsHandVisible(Hand))
+		{
+			return false;
+		}
+
+		ControlledHands.Add(Hand);
+		return true;
+	}
+	else
+	{
+		ControlledHands.Remove(Hand);
+		return true;
 	}
 }
 

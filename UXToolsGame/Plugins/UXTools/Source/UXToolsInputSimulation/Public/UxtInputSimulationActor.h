@@ -27,18 +27,18 @@ public:
 	 *  If the hand is currently controlled by user input it will use the current target pose,
 	 *  otherwise the default pose is used.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Windows Mixed Reality")
+	UFUNCTION(BlueprintPure, Category = InputSimulation)
 	FName GetTargetPose(EControllerHand Hand) const;
 
 	/** Set the target animation pose for all controlled hands. */
-	UFUNCTION(BlueprintCallable, Category = "Windows Mixed Reality")
+	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	void PushTargetPose(FName Name);
 
 	/** Remove the current target animation pose for all controlled hands.
 	 *  If another target pose is on the stack it will become the current target pose,
 	 *  otherwise hand animation returns to the default pose.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Windows Mixed Reality")
+	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	void PopTargetPose(FName Name);
 
 	UFUNCTION(BlueprintGetter)
@@ -50,7 +50,18 @@ public:
 	UFUNCTION(BlueprintGetter)
 	USkeletalMeshComponent* GetRightHand() const { return RightHand; }
 
+	/** True if the hand is currently visible. */
+	UFUNCTION(BlueprintPure, Category = InputSimulation)
+	bool IsHandVisible(EControllerHand Hand) const;
+
+	/** True if the hand is currently controlled by the user. */
+	UFUNCTION(BlueprintPure, Category = InputSimulation)
+	bool IsHandControlled(EControllerHand Hand) const;
+
 private:
+
+	void OnToggleLeftHandPressed();
+	void OnToggleRightHandPressed();
 
 	void OnControlLeftHandPressed();
 	void OnControlLeftHandReleased();
@@ -75,6 +86,17 @@ private:
 	/** Add hand movement input along a local axis. */
 	void AddHandInputImpl(EAxis::Type Axis, float Value);
 
+	/** Set the mesh for the given hand to the default location. */
+	void SetDefaultHandLocation(EControllerHand Hand);
+
+	/** Set the hand visibility. */
+	void SetHandVisibility(EControllerHand Hand, bool bIsVisible);
+
+	/** Enable control of a simulated hand by the user.
+	 *  Returns true if hand control was successfully changed.
+	 */
+	bool SetHandControlEnabled(EControllerHand Hand, bool bEnabled);
+
 	/** Create actor components for HMD simulation. */
 	void SetupHeadComponents();
 	/** Create actor components for hand simulation. */
@@ -83,26 +105,26 @@ private:
 	USkeletalMeshComponent* GetHandMesh(EControllerHand Hand) const;
 
 	/** Copy results of hand animation into the hand state. */
-	void CopySimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const;
+	void UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const;
 
 public:
 
 	/** If true, adds default input bindings for input simulation. */
-	UPROPERTY(Category = InputSimulation, EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = InputSimulation)
 	uint32 bAddDefaultInputBindings : 1;
 
 private:
 
 	/** Movement component for interpreting user input as head movement. */
-	UPROPERTY(Category = UxTools, VisibleAnywhere, BlueprintGetter = GetHeadMovement)
+	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetHeadMovement, Category = InputSimulation)
 	UUxtInputSimulationHeadMovementComponent* HeadMovement;
 
 	/** Skeletal mesh component for the left hand. */
-	UPROPERTY(Category = UxTools, VisibleAnywhere, BlueprintGetter = GetLeftHand)
+	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetLeftHand, Category = InputSimulation)
 	USkeletalMeshComponent* LeftHand;
 
 	/** Skeletal mesh component for the right hand. */
-	UPROPERTY(Category = UxTools, VisibleAnywhere, BlueprintGetter = GetRightHand)
+	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetRightHand, Category = InputSimulation)
 	USkeletalMeshComponent* RightHand;
 
 	/** Set of hands that are actively controlled by user input. */
