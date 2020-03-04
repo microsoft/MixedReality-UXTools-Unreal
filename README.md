@@ -2,7 +2,7 @@
 
 UX Tools for Unreal Engine is a collection of C++ classes, Blueprints and example assets created to help in the implementation of features commonly needed when developing mixed reality applications, like pressable buttons or direct manipulation.
 
-This currently takes the form of a game plugin found in [UXToolsGames/Plugins/UXTools](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FUXToolsGames%2FPlugins%2FUXTools&version=GBmaster) and a collection of example maps in the containing game project [UXToolsGames](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FUXToolsGames).
+This currently takes the form of a game plugin found in [UXToolsGame/Plugins/UXTools](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FUXToolsGame%2FPlugins%2FUXTools&version=GBmaster) and a collection of example maps in the containing game project [UXToolsGame](https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE?path=%2FUXToolsGame).
 
 # Getting Started
 
