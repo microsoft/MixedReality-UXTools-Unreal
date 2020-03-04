@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -47,11 +50,10 @@ class UXTOOLS_API IUxtHandTracker : public IModularFeature
 {
 public:
 
-	static FName GetModularFeatureName()
-	{
-		static FName FeatureName = FName(TEXT("UxtHandTracker"));
-		return FeatureName;
-	}
+	static FName GetModularFeatureName();
+
+	/** Returns the currently registered hand tracker or nullptr if none */
+	static IUxtHandTracker* GetHandTracker();
 
 	virtual ~IUxtHandTracker() {}
 
