@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #pragma once
 
@@ -33,7 +34,4 @@ public:
 	/** Returns whether the given hand is tracked. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool IsHandTracked(EControllerHand Hand);
-
-	/** Returns the current registered hand tracker or nullptr if none */
-	static IUxtHandTracker* GetHandTracker();
 };
