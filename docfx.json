@@ -1,0 +1,48 @@
+{
+  "build": {
+    "content": [
+      {
+        // generate html for api docs
+        "files": [ "**/*.yml"],
+        "src": "temp/docs/api", // temp meta data folder from previous step
+        "dest": "api"
+      },
+      {
+        // generate html for conceptual docs
+        "files": ["*.md", "*.yml", //root dir md and toc files
+					"Docs/**/*.md", "Docs/**/*.yml"]
+      }
+    ],
+    "resource": [
+      // resource files that will be copied over without modifications
+      {
+        "files": ["**/*.png", "**/*.svg", "**/*.ico"]
+      },
+	  {
+        // website related resource files
+        "files": ["index.html", "web/**"],
+      },
+    ],
+    "template": [
+        // gets default template (html/css/jscript) from docfx and copies subsequent templates on top
+        "default",
+        "templates/uxt"
+    ],
+    "globalMetadata": {
+      // global docfx config - see docfx documentation for more config params (https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html)
+      "_appTitle": "UXT Documentation",
+      "_enableSearch": true,
+      "_disableNavbar": false,
+      "_appLogoPath": "Docs/images/uxt_logo_icon.png",
+      "_appFaviconPath": "Docs/images/uxt_favicon.ico"
+      // re-add this section if you want to publish a version of the docs that keeps the "improve this doc" link pointing to mrtk_development branch
+      //"_gitContribute": {
+      //  "repo": "https://github.com/Microsoft/MixedReality-WebRTC",
+      //  "branch": "mrtk_development"
+      //}
+    },
+    "markdownEngineName": "markdig",
+    "dest": "generated",
+    "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ] //msdn xref service for resolving crefs
+  }
+}

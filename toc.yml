@@ -1,0 +1,5 @@
+- name: Guides
+  href: Docs/
+  homepage: Docs/Contributing/DocumentationGuidelines.md
+- name: API Documentation
+  href: temp/docs/api/
