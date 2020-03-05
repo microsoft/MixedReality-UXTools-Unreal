@@ -38,7 +38,7 @@ Hand input is simulated with skeletal meshes that are animated according to user
 
 1. The main input simulation actor adds two instances of the skeletal hand mesh for the left and right hand
   respectively. The mesh asset is expected to model the right hand, while the left hand mesh is mirrored on the Y axis.
-1. An animation blueprint is used to toggle between different possible hand poses, such as a default flat hand, poking
+1. An animation blueprint is used to toggle between different possible hand poses, such as a default relaxed hand, poking
   with the index finger, or pinching between thumb and index finger. Changing the current pose is bound to user input,
   usually the left and middle mouse buttons. The animation blueprint handles transition and blending between poses.
 1. After the mesh animation, the input simulation actor reads the position and rotation of bones matching the relevant
@@ -55,11 +55,11 @@ Hand input is simulated with skeletal meshes that are animated according to user
 
      Note that these bones do not necessarily have to deform the mesh, they only define the simulated joint positions.
      However, the joint bones should be aligned with the visible mesh to avoid confusion.
-   * Animation poses for the relevant hand gestures: Flat, Poke, Pinch, Grab, PalmUp, etc.
+   * Animation poses for the relevant hand gestures: Flat, Relaxed, Poke, Pinch, Grab, PalmUp, etc.
 1. The FBX file is imported, generating a mesh, skeleton, material(s), and animation assets.
 1. Open the hand animation asset that contains the desired hand poses. With `Create Asset > Create PoseAsset > Current
     Animation` create a pose asset that can blend between the various hand poses.
-1. Open the new pose asset and rename the relevant poses with meaningful names, e.g. "Flat", "Pinch", "Poke".
+1. Open the new pose asset and rename the relevant poses with meaningful names, e.g. "Flat", "Relaxed", "Pinch", "Poke".
 1. Open the `InputSimulationHands_AnimInstance` asset. This is the animation blueprint that drives the skeletal
     animation. In the AnimGraph find the PoseAsset blend node and in the Details panel change the linked pose asset to the one
     created above.

@@ -47,7 +47,7 @@ public:
 
 	/** Default pose when no button is pressed. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Default Hand Pose", Tooltip = "Default pose when no button is pressed."))
-	FName DefaultHandPose = TEXT("Flat");
+	FName DefaultHandPose = TEXT("Relaxed");
 
 	/** Pose mapped to the primary pose action. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Primary Hand Pose", Tooltip = "Pose mapped to the primary pose action."))
