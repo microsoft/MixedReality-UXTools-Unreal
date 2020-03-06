@@ -33,8 +33,8 @@
       "_appTitle": "UXT Documentation",
       "_enableSearch": true,
       "_disableNavbar": false,
-      "_appLogoPath": "Docs/images/uxt_logo_icon.png",
-      "_appFaviconPath": "Docs/images/uxt_favicon.ico"
+      "_appLogoPath": "Docs/Images/uxt_logo_icon.png",
+      "_appFaviconPath": "Docs/Images/uxt_favicon.ico"
       // re-add this section if you want to publish a version of the docs that keeps the "improve this doc" link pointing to mrtk_development branch
       //"_gitContribute": {
       //  "repo": "https://github.com/Microsoft/MixedReality-WebRTC",
@@ -42,7 +42,7 @@
       //}
     },
     "markdownEngineName": "markdig",
-    "dest": "generated",
+    "dest": "doc",
     "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ] //msdn xref service for resolving crefs
   }
 }

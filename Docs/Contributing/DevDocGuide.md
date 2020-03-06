@@ -1,13 +1,13 @@
 # Developer portal generation guide
 
-UXT uses [docfx](https://dotnet.github.io/docfx/index.html) to generate html documentation out of triple slash comments in code and .md files in the UXT repository. Docfx documentation generation is automatically triggered by CI on completed PRs in the master branch.
-The current state of the developer documentation can be found on the [UXT github.io page](https://microsoft.github.io/MixedRealityToolkit-Unity/)
+UXT uses [code2yaml]("https://github.com/docascode/code2yaml") and [docfx](https://dotnet.github.io/docfx/index.html) to generate html documentation out of c++ code and comments and .md files in the UXT repository. #TODO: Documentation generation is automatically triggered by CI on completed PRs in the master branch.
+The current state of the developer documentation can be found on the [UXT docs page](http://hk-mrtk.corp.microsoft.com/_site/)
 
 Docfx supports DFM Docfx Flavored Markdown which includes GFM Github Flavored Markdown. The full documentation and feature list can be found [here](https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html)
 
 Docfx is not only converting but also checking all used local links in the documentation. If a path can't be resolved it won't be converted into its html equivalent. Therefor it's important to only use relative paths when referring to other local files.
 
-## Building docfx locally
+## Building UXT docs locally
 
 The docfx build files in the UXT repo can be used to create a local version of the developer documentation in a doc/ subfolder in the root of the project.
 
@@ -26,6 +26,44 @@ The docfx build files in the UXT repo can be used to create a local version of t
 
 Note that on executing the docfx command on the json build file docfx will show any broken links in the documentation as warning.
 Please make sure whenever you perform changes on any of the documentation files or API to update all links pointing to these articles or code.
+
+## Linking in .md documentation files
+
+Docfx is translating and validating all relative local links on generation, there's no special syntax required. Referring to another documentation article should always be done by referring to the corresponding .md file, never the auto generated .html file. Please note that all links to local files need to be relative to the file you're modifying.
+
+Linking to the API documentation can be done by using [cross references](https://dotnet.github.io/docfx/tutorial/links_and_cross_references.html). Code2Yaml automatically generated UIDs for all API docs by mangling the signature separated by and starting with an '_'.
+
+Example:
+
+This links to the [Input Simulation Local Player Subsystem](xref:_u_uxt_input_simulation_local_player_subsystem) API Documentation
+as well as this short version: <xref:_u_uxt_input_simulation_local_player_subsystem>
+
+```md
+This links to the [Input Simulation Local Player Subsystem](xref:_u_uxt_input_simulation_local_player_subsystem) API Documentation
+as well as this short version: <xref:_u_uxt_input_simulation_local_player_subsystem>
+```
+
+## Enumerating available xrefs
+
+Xref syntax can be difficult to remember - it's possible to enumerate all of the available xref IDs by first running the uxt doc build locally:
+
+
+> TODO docfx docfx.json
+
+This will generate an xrefmap.yml file, which will be located in docs/xrefmap.yml.
+
+For example, in order to link to the method GetHoveredTarget in TouchPointer, the syntax is fairly arcane:
+
+```yml
+- uid: _u_uxt_touch_pointer.GetHoveredTarget(FVector &)
+  name: GetHoveredTarget(FVector &OutClosestPointOnTarget)
+  href: api/_u_uxt_touch_pointer.html#_u_uxt_touch_pointer_GetHoveredTarget_FVector___
+  fullName: UObject * UUxtTouchPointer::GetHoveredTarget(FVector &OutClosestPointOnTarget)
+  nameWithType: UUxtTouchPointer::GetHoveredTarget(FVector &OutClosestPointOnTarget)
+```
+
+It's easy, however, to search for the name and then use the entire **uid field** as the xref.
+In this example, the xref would look like: <xref:_u_uxt_touch_pointer.GetHoveredTarget(FVector &)>
 
 ## Adding new .md files to developer docs
 
@@ -74,7 +112,25 @@ CI will pick up the changes done to the version.js file and update the version d
 
 The versioning system can also be used for showing doc versions from other dev branches that are built by CI. When setting up CI for one of those branches make sure your powershell script on CI copies the contents of the generated docfx output into a version folder named after your branch and add the corresponding version entry into the web/version.js file.
 
+## Good practices for developers
 
+* Use **relative paths** whenever referring to MRTK internal pages
+* Use **cross references** for linking to any MRTK API page by using the **mangled UID**
+* Use **crefs and hrefs** to link to internal or external documentation in **/// comments**
+* Use the indicated folders in this doc for resource files
+* **Run docfx locally** and check for warnings in the output whenever you modify existing APIs or update documentation pages
+* Watch out for docfx **warnings on CI** after completing and merging your PR into one of the official MRTK branches
+
+## Common errors when generating docs
+
+* toc.yml errors: usually happens when an .md file gets moved/renamed or removed but the table of content file (toc.yml) pointing to that file wasn't updated accordingly. On the website this will result in a broken link on our top level or side navigation
+* /// comments errors
+  * xml tag errors - docfx like any other xml parser can't handle malformed xml tags.
+  * typos in crefs
+  * incomplete namespace identifiers - docfx won't need the full namespace to the symbol you're referring to but the relative part of the namespace that's not included in the surrounding namespace of the cref.
+    * Example: if you're in a namespace Microsoft.MixedReality.Toolkit.Core.Providers.UnityInput and the file you want to link in is Microsoft.MixedReality.Toolkit.Core.Interfaces.IMixedRealityServiceRegistrar your cref can look like this: cref="Interfaces.IMixedRealityServiceRegistrar"
+  * External crefs - As long as there's no xref service available (and listed in the docfx build file) crefs to external libraries won't work. If you still want to link to a specific external symbol that doesn't have xref service but an online api documentation you can use a href instead. Example: linking to EditorPrefs of Unity: `<see href="https://docs.unity3d.com/ScriptReference/EditorPrefs.html">EditorPrefs</see>`
+  
 ## See also
 
 * [UXT documentation guide](DocumentationGuidelines.md)

@@ -9,6 +9,8 @@
     href: Contributing/DocumentationGuidelines.md
   - name: Coding Guidelines
     href: Contributing/CodingGuidelines.md
+  - name: Generating UXT Documentation
+    href: Contributing/DevDocGuide.md
 - name: Feature Overview
   items:
   - name: Follow Component
