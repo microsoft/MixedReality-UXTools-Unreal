@@ -1,37 +1,33 @@
 # Developer portal generation guide
 
-UXT uses [code2yaml]("https://github.com/docascode/code2yaml") and [docfx](https://dotnet.github.io/docfx/index.html) to generate html documentation out of c++ code and comments and .md files in the UXT repository. #TODO: Documentation generation is automatically triggered by CI on completed PRs in the master branch.
-The current state of the developer documentation can be found on the [UXT docs page](http://hk-mrtk.corp.microsoft.com/_site/)
+The UXT documentation build script uses [code2yaml]("https://github.com/docascode/code2yaml") and [docfx](https://dotnet.github.io/docfx/index.html) to generate html documentation out of C++ code and comments and .md files in the UXT repository. 
 
 Docfx supports DFM Docfx Flavored Markdown which includes GFM Github Flavored Markdown. The full documentation and feature list can be found [here](https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html)
 
-Docfx is not only converting but also checking all used local links in the documentation. If a path can't be resolved it won't be converted into its html equivalent. Therefor it's important to only use relative paths when referring to other local files.
+The build script is not only converting but also checking all used local links in the documentation. If a path can't be resolved it won't be converted into its html equivalent. Therefor it's important to only use relative paths when referring to other local files.
 
 ## Building UXT docs locally
 
-The docfx build files in the UXT repo can be used to create a local version of the developer documentation in a doc/ subfolder in the root of the project.
+Before executing the UXT documentation build script in DocGen/generateDocs.ps1 to create a local version of the developer documentation, code2yaml and docfx need to be installed.
 
 ### Setup
 
-* get the latest version of [docfx](https://dotnet.github.io/docfx/index.html)
+* get the latest version of [docfx](https://dotnet.github.io/docfx/index.html) and [code2yaml]("https://github.com/docascode/code2yaml")
 * extract the files in a folder on your computer
 * add the folder to your PATH in your environment variables
 
 ### Generation
 
-* open a powershell or cmd prompt in the root of the UXT project
-* execute `docfx docfx.json` (optionally with the -f option to force a rebuild of doc files)
-* execute `docfx serve doc` (optionally with -p *portnumber* if you don't want to use the 8888 default port)
-* open a web browser with localhost:*portnumber*
+Execute powershell script DocGen/generateDocs.ps1 to generate a local version of the UXT docs in DocGen/doc and output any documentation build or link errors. 
+This script can be executed with an optional -serve to host the website on localhost port 8080 and display the result in the machines default web browser. 
 
-Note that on executing the docfx command on the json build file docfx will show any broken links in the documentation as warning.
-Please make sure whenever you perform changes on any of the documentation files or API to update all links pointing to these articles or code.
+Please make sure whenever there's a change on any of the documentation files or API to run this script and make sure there's no errors or warnings that will break any existing links.
 
 ## Linking in .md documentation files
 
 Docfx is translating and validating all relative local links on generation, there's no special syntax required. Referring to another documentation article should always be done by referring to the corresponding .md file, never the auto generated .html file. Please note that all links to local files need to be relative to the file you're modifying.
 
-Linking to the API documentation can be done by using [cross references](https://dotnet.github.io/docfx/tutorial/links_and_cross_references.html). Code2Yaml automatically generated UIDs for all API docs by mangling the signature separated by and starting with an '_'.
+Linking to the API documentation can be done by using [cross references](https://dotnet.github.io/docfx/tutorial/links_and_cross_references.html) based on UIDs. Code2Yaml automatically generates UIDs for all API docs by mangling the signature.
 
 Example:
 
@@ -45,12 +41,9 @@ as well as this short version: <xref:_u_uxt_input_simulation_local_player_subsys
 
 ## Enumerating available xrefs
 
-Xref syntax can be difficult to remember - it's possible to enumerate all of the available xref IDs by first running the uxt doc build locally:
+Xref syntax can be difficult to remember - it's possible to enumerate all of the available xref IDs by first running the uxt doc build script DocGen/generateDocs.ps1 locally.
 
-
-> TODO docfx docfx.json
-
-This will generate an xrefmap.yml file, which will be located in docs/xrefmap.yml.
+This will generate an xrefmap.yml file, which will be located in the root of the generated doc folder (doc/xrefmap.yml).
 
 For example, in order to link to the method GetHoveredTarget in TouchPointer, the syntax is fairly arcane:
 
@@ -83,54 +76,47 @@ Currently there's a definition for the following resource types:
 
 | ResourceType | Path |
 | --- | --- |
-| Images | Documentation/Images/ |
+| Images | Docs/Images/ |
 
-## Releasing a new version
+## Releasing a new version - Coming soon (github move)
 
-Multiple versions of developer docs are supported and can be switched by the version drop down in the top menu bar. If you're releasing a new version perform the following steps to have your version on the developer docs page.
+Multiple versions of developer docs are supported and can be switched by the version drop down in the top menu bar. When releasing a new version perform the following steps to have that version on the developer docs page.
 
 1. Optional: Adjusting your docfx.json  
-Depending on whether you want to have the "Improve this doc" to point to a specific version of the github repo you will have to add the following entry to the globalMetaData section in the docfx.json file before calling the docfx command:
+Depending on whether you want to have the "Improve this doc" to point to a specific version of the github repo the following entry to the globalMetaData section in the docfx.json file needs to be adjusted before executing the build script:
 
     ```json
     "_gitContribute": {
-        "repo": "UXT_GITHUB_URL_TODO",
+        "repo": "https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE",
         "branch": "master"
     }
     ```
 
-    If you don't set this up docfx will default to the branch and repo of the current folder you're calling docfx from.
+    If this is not set up docfx will default to the branch and repo of the current folder the build script is called from.
 
-1. Create your docfx docs by calling docfx docfx.json in the root of the repo
+1. Create docs via build script DocGen/generateDocs.ps1
 1. Create a folder with the name of your version in the version folder of the gh-pages branch and copy the contents of the generated doc folder into that folder
-1. Add your version number into the versionArray in web/version.js
+1. Add the new version number into the versionArray in web/version.js
 1. Push the modified version.js to master branch and the changes in gh-pages branch
 
 CI will pick up the changes done to the version.js file and update the version dropdown automatically.
 
-### Supporting development branches on CI
+### Supporting development branches on CI - Coming soon (github move)
 
-The versioning system can also be used for showing doc versions from other dev branches that are built by CI. When setting up CI for one of those branches make sure your powershell script on CI copies the contents of the generated docfx output into a version folder named after your branch and add the corresponding version entry into the web/version.js file.
+The versioning system can also be used for showing doc versions from other dev branches that are built by CI. When setting up CI for one of those branches make sure your powershell script on CI copies the contents of the generated docfx output into a version folder named after the new branch and add the corresponding version entry into the web/version.js file.
 
 ## Good practices for developers
 
-* Use **relative paths** whenever referring to MRTK internal pages
-* Use **cross references** for linking to any MRTK API page by using the **mangled UID**
-* Use **crefs and hrefs** to link to internal or external documentation in **/// comments**
+* Use **relative paths** whenever referring to UXT internal pages
+* Use **cross references** for linking to any UXT API page by using the **mangled UID**
 * Use the indicated folders in this doc for resource files
-* **Run docfx locally** and check for warnings in the output whenever you modify existing APIs or update documentation pages
-* Watch out for docfx **warnings on CI** after completing and merging your PR into one of the official MRTK branches
+* **Run the build script locally** and check for warnings in the output whenever existing APIs are modified or documentation pages are updated
+* Coming soon (github move): Watch out for docfx **warnings on CI** after completing and merging your PR into one of the official UXT branches
 
 ## Common errors when generating docs
 
 * toc.yml errors: usually happens when an .md file gets moved/renamed or removed but the table of content file (toc.yml) pointing to that file wasn't updated accordingly. On the website this will result in a broken link on our top level or side navigation
-* /// comments errors
-  * xml tag errors - docfx like any other xml parser can't handle malformed xml tags.
-  * typos in crefs
-  * incomplete namespace identifiers - docfx won't need the full namespace to the symbol you're referring to but the relative part of the namespace that's not included in the surrounding namespace of the cref.
-    * Example: if you're in a namespace Microsoft.MixedReality.Toolkit.Core.Providers.UnityInput and the file you want to link in is Microsoft.MixedReality.Toolkit.Core.Interfaces.IMixedRealityServiceRegistrar your cref can look like this: cref="Interfaces.IMixedRealityServiceRegistrar"
-  * External crefs - As long as there's no xref service available (and listed in the docfx build file) crefs to external libraries won't work. If you still want to link to a specific external symbol that doesn't have xref service but an online api documentation you can use a href instead. Example: linking to EditorPrefs of Unity: `<see href="https://docs.unity3d.com/ScriptReference/EditorPrefs.html">EditorPrefs</see>`
-  
+
 ## See also
 
 * [UXT documentation guide](DocumentationGuidelines.md)
