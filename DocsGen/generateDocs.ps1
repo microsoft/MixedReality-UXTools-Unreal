@@ -8,6 +8,7 @@ param(
     # The docs are not completely static, so will not work if not served.
     [switch]$serve = $false
 )
+Push-Location (Split-Path $MyInvocation.MyCommand.Path)
 
 # Clear output dir
 Write-Host "Deleting previously generated doc folder"
@@ -32,4 +33,4 @@ if ($serve)
 	docfx serve doc
 }
 
-
+Pop-Location
