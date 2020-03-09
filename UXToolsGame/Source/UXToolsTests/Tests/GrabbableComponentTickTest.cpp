@@ -7,9 +7,7 @@
 #include "Engine.h"
 #include "EngineUtils.h"
 
-#include <vector>
-
-#include "UXToolsTestUtils.h"
+#include "UxtTestUtils.h"
 #include "Input/UxtTouchPointer.h"
 
 static UGrabbableTickTestComponent* CreateTestComponent(UWorld* World, const FVector& Location)
@@ -45,48 +43,52 @@ static UGrabbableTickTestComponent* CreateTestComponent(UWorld* World, const FVe
 }
 
 
-class FSetPointerGraspCommand : public IAutomationLatentCommand
-{
-public:
-	FSetPointerGraspCommand(UUxtTouchPointer* Pointer, bool bEnableGrasp)
-		: Pointer(Pointer)
-		, bEnableGrasp(bEnableGrasp)
-	{}
-
-	virtual bool Update() override
-	{
-		Pointer->SetGrasped(bEnableGrasp);
-		return true;
-	}
-
-private:
-
-	UUxtTouchPointer* Pointer;
-	bool bEnableGrasp;
-};
-
 class FTestGrabbableComponentTickingCommand : public IAutomationLatentCommand
 {
 public:
-	FTestGrabbableComponentTickingCommand(FAutomationTestBase* Test, UGrabbableTickTestComponent* Target, bool bExpectTicking)
+	FTestGrabbableComponentTickingCommand(FAutomationTestBase* Test, UUxtTouchPointer* Pointer, UGrabbableTickTestComponent* Target, bool bEnableGrasp, bool bExpectTicking)
 		: Test(Test)
+		, Pointer(Pointer)
 		, Target(Target)
+		, bEnableGrasp(bEnableGrasp)
 		, bExpectTicking(bExpectTicking)
+		, UpdateCount(0)
 	{}
 
 	virtual bool Update() override
 	{
-		bool bWasTicked = Target->GetNumTicks() > 0;
-		Test->TestEqual(TEXT("Grabbable component ticked"), bExpectTicking, bWasTicked);
-		Target->Reset();
-		return true;
+		// Two step update:
+		// 
+		// 1. First update the pointer grasp state.
+		//    Return false, so the pointer has one frame to update overlaps and raise events.
+		// 2. Test the expected tick behaviour of the target component.
+
+		switch (UpdateCount)
+		{
+			case 0:
+				Pointer->SetGrasped(bEnableGrasp);
+				break;
+
+			case 1:
+				bool bWasTicked = Target->GetNumTicks() > 0;
+				Test->TestEqual(TEXT("Grabbable component ticked"), bExpectTicking, bWasTicked);
+				Target->Reset();
+				break;
+		}
+
+		++UpdateCount;
+		return (UpdateCount >= 1);
 	}
 
 private:
 
 	FAutomationTestBase* Test;
+	UUxtTouchPointer* Pointer;
 	UGrabbableTickTestComponent* Target;
+	bool bEnableGrasp;
 	bool bExpectTicking;
+
+	int UpdateCount;
 };
 
 
@@ -115,10 +117,10 @@ bool FGrabbableComponentTickTest::RunTest(const FString& Parameters)
 	// Load the empty test map to run the test in.
 	AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty"));
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
-	UWorld *World = UXToolsTestUtils::GetTestWorld();
+	UWorld *World = UxtTestUtils::GetTestWorld();
 
 	FVector Center(150, 0, 0);
-	UUxtTouchPointer* Pointer = UXToolsTestUtils::CreateTouchPointer(World, Center + FVector(-15, 0, 0));
+	UUxtTouchPointer* Pointer = UxtTestUtils::CreateTouchPointer(World, Center + FVector(-15, 0, 0));
 	Pointer->SetTouchRadius(30);
 	UGrabbableTickTestComponent* Target = CreateTestComponent(World, Center);
 
@@ -151,13 +153,11 @@ bool FGrabbableComponentTickTest::RunTest(const FString& Parameters)
 	// Have to update overlaps explicitly because the pointer doesn't move.
 	Pointer->GetOwner()->UpdateOverlaps();
 
-	ADD_LATENT_AUTOMATION_COMMAND(FSetPointerGraspCommand(Pointer, false));
-	ADD_LATENT_AUTOMATION_COMMAND(FWaitLatentCommand(0.2f));
-	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabbableComponentTickingCommand(this, Target, bExpectUngraspedTicks));
+	// Test without grasping
+	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabbableComponentTickingCommand(this, Pointer, Target, false, bExpectUngraspedTicks));
 
-	ADD_LATENT_AUTOMATION_COMMAND(FSetPointerGraspCommand(Pointer, true));
-	ADD_LATENT_AUTOMATION_COMMAND(FWaitLatentCommand(0.2f));
-	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabbableComponentTickingCommand(this, Target, bExpectGraspedTicks));
+	// Test with grasping
+	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabbableComponentTickingCommand(this, Pointer, Target, true, bExpectGraspedTicks));
 
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 

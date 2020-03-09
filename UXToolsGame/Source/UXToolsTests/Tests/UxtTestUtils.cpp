@@ -1,4 +1,4 @@
-#include "UXToolsTestUtils.h"
+#include "UxtTestUtils.h"
 
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/Actor.h"
@@ -7,11 +7,11 @@
 #include "EngineUtils.h"
 
 #include "Input/UxtTouchPointer.h"
-#include "TouchPointerAnimUtils.h"
+#include "PointerTestSequence.h"
 
 // Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
 // Marked as temporary there, hence, this one is temporary, too.
-UWorld* UXToolsTestUtils::GetTestWorld() {
+UWorld* UxtTestUtils::GetTestWorld() {
 	const TIndirectArray<FWorldContext>& WorldContexts = GEngine->GetWorldContexts();
 	for (const FWorldContext& Context : WorldContexts) {
 		if (((Context.WorldType == EWorldType::PIE) || (Context.WorldType == EWorldType::Game))
@@ -23,13 +23,13 @@ UWorld* UXToolsTestUtils::GetTestWorld() {
 	return nullptr;
 }
 
-UWorld* UXToolsTestUtils::CreateTestWorld()
+UWorld* UxtTestUtils::CreateTestWorld()
 {
 	UWorld *world = UWorld::CreateWorld(EWorldType::PIE, true, TEXT("TestWorld"));
 	return world;
 }
 
-UUxtTouchPointer* UXToolsTestUtils::CreateTouchPointer(UWorld *World, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
+UUxtTouchPointer* UxtTestUtils::CreateTouchPointer(UWorld *World, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
 {
 	AActor *hand = World->SpawnActor<AActor>();
 
@@ -60,7 +60,7 @@ UUxtTouchPointer* UXToolsTestUtils::CreateTouchPointer(UWorld *World, const FVec
 	return pointer;
 }
 
-UTestTouchPointerTarget* UXToolsTestUtils::CreateTouchPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename, float meshScale)
+UTestTouchPointerTarget* UxtTestUtils::CreateTouchPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename, float meshScale)
 {
 	AActor *actor = World->SpawnActor<AActor>();
 
@@ -90,7 +90,7 @@ UTestTouchPointerTarget* UXToolsTestUtils::CreateTouchPointerTarget(UWorld *Worl
 	return testTarget;
 }
 
-UTestTouchPointerTarget* UXToolsTestUtils::CreateTouchPointerBackgroundTarget(UWorld* World)
+UTestTouchPointerTarget* UxtTestUtils::CreateTouchPointerBackgroundTarget(UWorld* World)
 {
 	AActor* actor = World->SpawnActor<AActor>();
 

@@ -3,15 +3,12 @@
 #include "CoreMinimal.h"
 #include "Misc/AutomationTest.h"
 
-#include <functional>
-#include <vector>
-
 class UTestTouchPointerTarget;
 class UUxtTouchPointer;
 class UWorld;
 
 /** Utility functions for UXTools testing. */
-struct UXToolsTestUtils
+struct UxtTestUtils
 {
 	// Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
 	// Marked as temporary there, hence, this one is temporary, too.

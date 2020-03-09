@@ -5,22 +5,18 @@
 #include "Engine.h"
 #include "EngineUtils.h"
 
-#include <vector>
-
-#include "UXToolsTestUtils.h"
+#include "UxtTestUtils.h"
 #include "Input/UxtTouchPointer.h"
-#include "TouchPointerAnimUtils.h"
+#include "PointerTestSequence.h"
 
-using namespace TouchPointerAnimUtils;
-
-static float KeyframeDuration = 0.2f;
+using namespace UxtPointerTests;
 
 const FString TestCase_HoverEnterExit = TEXT("HoverEnterExit");
 const FString TestCase_GraspTarget = TEXT("GraspTarget");
 const FString TestCase_HoverLockTarget = TEXT("HoverLockTarget");
 
 /** Creates a number of target actors as well as a list of keyframes that the pointer should pass through. */
-static void SetupTestCase(UWorld* world, const FString& TestCase, TouchAnimSequence& OutSequence)
+static void SetupTestCase(UWorld* world, const FString& TestCase, PointerTestSequence& OutSequence)
 {
 	const FVector pTarget(120, -20, -5);
 	const FVector pInside(113, -24, -8);
@@ -99,9 +95,9 @@ bool FBackgroundTouchTargetTest::RunTest(const FString& Parameters)
 	// Load the empty test map to run the test in.
 	AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty"));
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
-	UWorld *world = UXToolsTestUtils::GetTestWorld();
+	UWorld *world = UxtTestUtils::GetTestWorld();
 
-	TouchAnimSequence sequence;
+	PointerTestSequence sequence;
 
 	// Create pointers.
 	sequence.CreatePointers(world, 1);
@@ -112,7 +108,7 @@ bool FBackgroundTouchTargetTest::RunTest(const FString& Parameters)
 	// Register all new components.
 	world->UpdateWorldComponents(false, false);
 
-	sequence.RunInterpolatedPointersTest(this, KeyframeDuration);
+	sequence.EnqueueTestSequence(this);
 
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 

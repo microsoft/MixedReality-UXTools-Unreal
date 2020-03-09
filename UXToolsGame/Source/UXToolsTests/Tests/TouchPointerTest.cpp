@@ -5,15 +5,11 @@
 #include "Engine.h"
 #include "EngineUtils.h"
 
-#include <vector>
-
-#include "UXToolsTestUtils.h"
+#include "UxtTestUtils.h"
 #include "Input/UxtTouchPointer.h"
-#include "TouchPointerAnimUtils.h"
+#include "PointerTestSequence.h"
 
-using namespace TouchPointerAnimUtils;
-
-static float KeyframeDuration = 0.2f;
+using namespace UxtPointerTests;
 
 /** No target. */
 const FString TargetSetup_None = TEXT("None");
@@ -25,7 +21,7 @@ const FString TargetSetup_TwoSeparate = TEXT("TwoSeparate");
 const FString TargetSetup_TwoOverlapping = TEXT("TwoOverlapping");
 
 /** Creates a number of target actors as well as a list of keyframes that the pointer should pass through. */
-static void SetupTargets(UWorld *world, const FString& TargetSetup, TouchAnimSequence& OutSequence, int NumPointers)
+static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestSequence& OutSequence, int NumPointers)
 {
 	const FVector pStart(40, -50, 30);
 	const FVector pEnd(150, 40, -40);
@@ -143,9 +139,9 @@ bool FTouchPointerTest::RunTest(const FString& Parameters)
 	// Load the empty test map to run the test in.
 	AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty"));
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
-	UWorld *world = UXToolsTestUtils::GetTestWorld();
+	UWorld *world = UxtTestUtils::GetTestWorld();
 
-	TouchAnimSequence sequence;
+	PointerTestSequence sequence;
 
 	// Create pointers.
 	sequence.CreatePointers(world, NumPointers);
@@ -156,7 +152,7 @@ bool FTouchPointerTest::RunTest(const FString& Parameters)
 	// Register all new components.
 	world->UpdateWorldComponents(false, false);
 
-	sequence.RunInterpolatedPointersTest(this, KeyframeDuration);
+	sequence.EnqueueTestSequence(this);
 
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 

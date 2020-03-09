@@ -4,12 +4,9 @@
 #include "Components/SceneComponent.h"
 #include "Misc/AutomationTest.h"
 
-#include <functional>
-#include <vector>
-
 #include "Interactions/UxtTouchPointerTarget.h"
 
-#include "TouchPointerAnimUtils.generated.h"
+#include "PointerTestSequence.generated.h"
 
 /**
  * Target for touch pointer tests that counts touch events.
@@ -42,7 +39,7 @@ public:
 
 };
 
-namespace TouchPointerAnimUtils
+namespace UxtPointerTests
 {
 
 	struct TargetEventCount
@@ -54,7 +51,7 @@ namespace TouchPointerAnimUtils
 	};
 
 	/** Contains event counts for each target index */
-	typedef std::vector<TargetEventCount> TargetEventCountMap;
+	typedef TArray<TargetEventCount> TargetEventCountMap;
 
 	/** Position in space for moving the pointer, with a list of expected enter/exit event counts for each target. */
 	struct PointerKeyframe
@@ -72,11 +69,11 @@ namespace TouchPointerAnimUtils
 		bool bExpectEvents = true;
 	};
 
-	struct TouchAnimSequence
+	struct PointerTestSequence
 	{
-		const std::vector<UUxtTouchPointer*>& GetPointers() const { return Pointers; }
-		const std::vector<UTestTouchPointerTarget*>& GetTargets() const { return Targets; }
-		const std::vector<PointerKeyframe>& GetKeyframes() const { return Keyframes; }
+		const TArray<UUxtTouchPointer*>& GetPointers() const { return Pointers; }
+		const TArray<UTestTouchPointerTarget*>& GetTargets() const { return Targets; }
+		const TArray<PointerKeyframe>& GetKeyframes() const { return Keyframes; }
 
 		void CreatePointers(UWorld* world, int Count);
 
@@ -89,12 +86,11 @@ namespace TouchPointerAnimUtils
 		void ExpectHoverTargetNone(bool bExpectEvents = true);
 
 		/** Compute a keyframe sequence with event counts for each target. */
-		std::vector<TargetEventCountMap> ComputeTargetEventCounts() const;
+		TArray<TargetEventCountMap> ComputeTargetEventCounts() const;
 
 		void TestKeyframe(FAutomationTestBase* Test, const TargetEventCountMap& EventCounts, int KeyframeIndex) const;
 
-		void RunInterpolatedPointersTest(FAutomationTestBase* Test, float KeyframeDuration) const;
-		void RunTeleportingPointersTest(FAutomationTestBase* Test) const;
+		void EnqueueTestSequence(FAutomationTestBase* Test) const;
 
 	private:
 
@@ -102,9 +98,9 @@ namespace TouchPointerAnimUtils
 
 	private:
 
-		std::vector<UUxtTouchPointer*> Pointers;
-		std::vector<UTestTouchPointerTarget*> Targets;
-		std::vector<PointerKeyframe> Keyframes;
+		TArray<UUxtTouchPointer*> Pointers;
+		TArray<UTestTouchPointerTarget*> Targets;
+		TArray<PointerKeyframe> Keyframes;
 	};
 
 }
