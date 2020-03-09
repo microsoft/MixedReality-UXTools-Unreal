@@ -15,18 +15,35 @@ Write-Host "Deleting previously generated doc folder"
 Remove-Item -Force -Recurse -ErrorAction Ignore .\doc
 
 # Generate YAML from C++ files
-code2yaml.exe
+Invoke-Expression code2yaml.exe
 
 # Generate website via docfx
-docfx
-Write-Host "Documentation generated in doc folder"
+$error = 0
+$output = ""
+Invoke-Expression "docfx -f" | Tee-Object -Variable output | Write-Host
+$results = $output | Out-String
+if ($results -match "(?<warningCount>\d*) Warning\(s\)\s*(?<errorCount>\d*) Error\(s\)")
+{
+    if ($Matches.errorCount -gt 0 -or $Matches.warningCount -gt 0)
+    {
+        Write-Host "Broken reference found in documentation - Build validation failed." -ForegroundColor red
+		$error = 1;
+    }
+}
 
+if ($error -eq 0)
+{
+	Write-Host "Success! Documentation generated in doc folder" -ForegroundColor green
+}
+
+#delete temp folders
 Write-Host "Deleting code2yaml temp folder"
 Remove-Item -Force -Recurse -ErrorAction Ignore ..\..\tempcode2yaml
 
 Write-Host "Deleting docfx obj folder"
 Remove-Item -Force -Recurse -ErrorAction Ignore .\obj
 
+# optional serve on localhost
 if ($serve)
 {
 	start 'http://localhost:8080'
@@ -34,3 +51,5 @@ if ($serve)
 }
 
 Pop-Location
+
+exit $error
