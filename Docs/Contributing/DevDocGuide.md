@@ -4,11 +4,11 @@ The UXT documentation build script uses [code2yaml]("https://github.com/docascod
 
 Docfx supports DFM Docfx Flavored Markdown which includes GFM Github Flavored Markdown. The full documentation and feature list can be found [here](https://dotnet.github.io/docfx/tutorial/docfx.exe_user_manual.html)
 
-The build script is not only converting but also checking all used local links in the documentation. If a path can't be resolved it won't be converted into its html equivalent. Therefor it's important to only use relative paths when referring to other local files.
+The build script is not only converting but also checking all used local links in the documentation. If a path can't be resolved it won't be converted into its html equivalent. Therefore it's important to only use relative paths when referring to other local files.
 
 ## Building UXT docs locally
 
-Before executing the UXT documentation build script in DocGen/generateDocs.ps1 to create a local version of the developer documentation, code2yaml and docfx need to be installed.
+Before executing the UXT documentation build script in Tools/DocGen/generateDocs.ps1 to create a local version of the developer documentation, code2yaml and docfx need to be installed.
 
 ### Setup
 
@@ -18,7 +18,7 @@ Before executing the UXT documentation build script in DocGen/generateDocs.ps1 t
 
 ### Generation
 
-Execute powershell script DocGen/generateDocs.ps1 to generate a local version of the UXT docs in DocGen/doc and output any documentation build or link errors. 
+Execute powershell script Tools/DocGen/generateDocs.ps1 to generate a local version of the UXT docs in DocGen/doc and output any documentation build or link errors. 
 This script can be executed with an optional -serve to host the website on localhost port 8080 and display the result in the machines default web browser. 
 
 Please make sure whenever there's a change on any of the documentation files or API to run this script and make sure there's no errors or warnings that will break any existing links.
@@ -31,32 +31,32 @@ Linking to the API documentation can be done by using [cross references](https:/
 
 Example:
 
-This links to the [Input Simulation Local Player Subsystem](xref:_u_uxt_input_simulation_local_player_subsystem) API Documentation
-as well as this short version: <xref:_u_uxt_input_simulation_local_player_subsystem>
+This links to the [Pressable Button Component](xref:_u_uxt_pressable_button_component) API Documentation
+as well as this short version: <xref:_u_uxt_pressable_button_component>
 
 ```md
-This links to the [Input Simulation Local Player Subsystem](xref:_u_uxt_input_simulation_local_player_subsystem) API Documentation
-as well as this short version: <xref:_u_uxt_input_simulation_local_player_subsystem>
+This links to the [Pressable Button Component](xref:_u_uxt_pressable_button_component) API Documentation
+as well as this short version: <xref:_u_uxt_pressable_button_component>
 ```
 
 ## Enumerating available xrefs
 
-Xref syntax can be difficult to remember - it's possible to enumerate all of the available xref IDs by first running the uxt doc build script DocGen/generateDocs.ps1 locally.
+Xref syntax can be difficult to remember - it's possible to enumerate all of the available xref IDs by first running the uxt doc build script Tools/DocGen/generateDocs.ps1 locally.
 
 This will generate an xrefmap.yml file, which will be located in the root of the generated doc folder (doc/xrefmap.yml).
 
-For example, in order to link to the method GetHoveredTarget in TouchPointer, the syntax is fairly arcane:
+For example, in order to link to the method GetPointerPose in IUxtHandTracker, the syntax is fairly arcane:
 
 ```yml
-- uid: _u_uxt_touch_pointer.GetHoveredTarget(FVector &)
-  name: GetHoveredTarget(FVector &OutClosestPointOnTarget)
-  href: api/_u_uxt_touch_pointer.html#_u_uxt_touch_pointer_GetHoveredTarget_FVector___
-  fullName: UObject * UUxtTouchPointer::GetHoveredTarget(FVector &OutClosestPointOnTarget)
-  nameWithType: UUxtTouchPointer::GetHoveredTarget(FVector &OutClosestPointOnTarget)
+- uid: _i_uxt_hand_tracker.GetPointerPose(EControllerHand,FQuat &,FVector &)
+  name: GetPointerPose(EControllerHand Hand, FQuat &OutOrientation, FVector &OutPosition)
+  href: api/_i_uxt_hand_tracker.html#_i_uxt_hand_tracker_GetPointerPose_EControllerHand_FQuat___FVector___
+  fullName: virtual bool IUxtHandTracker::GetPointerPose(EControllerHand Hand, FQuat &OutOrientation, FVector &OutPosition)
+  nameWithType: IUxtHandTracker::GetPointerPose(EControllerHand Hand, FQuat &OutOrientation, FVector &OutPosition)
 ```
 
 It's easy, however, to search for the name and then use the entire **uid field** as the xref.
-In this example, the xref would look like: <xref:_u_uxt_touch_pointer.GetHoveredTarget(FVector &)>
+In this example, the xref would look like: <xref:_i_uxt_hand_tracker.GetPointerPose(EControllerHand,FQuat &,FVector &)>
 
 ## Adding new .md files to developer docs
 
@@ -94,7 +94,7 @@ Depending on whether you want to have the "Improve this doc" to point to a speci
 
     If this is not set up docfx will default to the branch and repo of the current folder the build script is called from.
 
-1. Create docs via build script DocGen/generateDocs.ps1
+1. Create docs via build script Tools/DocGen/generateDocs.ps1
 1. Create a folder with the name of your version in the version folder of the gh-pages branch and copy the contents of the generated doc folder into that folder
 1. Add the new version number into the versionArray in web/version.js
 1. Push the modified version.js to master branch and the changes in gh-pages branch

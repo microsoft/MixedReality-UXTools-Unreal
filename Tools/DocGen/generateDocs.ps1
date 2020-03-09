@@ -22,7 +22,7 @@ docfx
 Write-Host "Documentation generated in doc folder"
 
 Write-Host "Deleting code2yaml temp folder"
-Remove-Item -Force -Recurse -ErrorAction Ignore ..\tempcode2yaml
+Remove-Item -Force -Recurse -ErrorAction Ignore ..\..\tempcode2yaml
 
 Write-Host "Deleting docfx obj folder"
 Remove-Item -Force -Recurse -ErrorAction Ignore .\obj
