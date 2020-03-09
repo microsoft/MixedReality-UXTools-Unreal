@@ -1,0 +1,5 @@
+{
+  "input_paths": ["../../UXToolsGame/Plugins/UXTools/Source"],
+  "output_path": "../../tempcode2yaml/api",
+  "language": "cplusplus"
+}

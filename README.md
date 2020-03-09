@@ -7,6 +7,7 @@ This currently takes the form of a game plugin found in [UXToolsGame/Plugins/UXT
 # Getting Started
 
 Whether using the prebuilt plugin or building it yourself, you'll first need to obtain our internal version of UE. Vanilla UE 4.24 has HoloLens 2 support in beta but the plugin depends on internal changes that have not been released yet. You can find the latest binaries of our internal UE in  `\\cognitionfs\PUBLIC\Unreal\builds` (Redmond) or `\\havokfs\SelfHost\Sydney\UE4` (Dublin). Unzip it to a local folder and use it instead of Epic's version.
+Note that DirectX SDK (Jun 10) needs to be installed before launching Unreal Editor in `Engine\Binaries\Win64\UE4Editor.exe`.
 
 ## Prebuilt Plugin
 
@@ -35,9 +36,11 @@ git clone --recurse-submodules https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat
 
 Run the `SetupSymlinks.bat` script located in the repo root to create the symlinks required to use submodule sources in plugin modules.
 
-### Switch engine version for the UXToolsGames project
+### Switch engine version for the UXToolsGame project
 
-Right click on `UXToolsGames/UXToolsGames.uproject`, select _Switch Unreal Engine version..._ and choose the internal engine version you obtained before. This will generate the Visual Studio solution for the project.
+Right click on `UXToolsGame/UXToolsGame.uproject`, select _Switch Unreal Engine version..._ and choose the internal engine version you obtained before. This will generate the Visual Studio solution for the project.
+> [!NOTE]
+> If you don't have the context menu for switching the version of Unreal Engine make sure you've got at least one official version of Unreal Engine installed on your machine.
 		
 		
 ## Software dependencies
@@ -55,7 +58,7 @@ No available yet.
 # Build and Test
 
 1. After getting latest, switch engine version in the game project to make sure the solution is up to date.
-2. Open solution, select Development Editor configuration, Win64 platform and set UXToolsGames as startup project.
+2. Open solution, select Development Editor configuration, Win64 platform and set UXToolsGame as startup project.
 3. Press F5 to build and run the project. After no more than 5 minutes the editor should open with one of the example maps loaded.
 
 ## Troubleshooting
@@ -64,10 +67,10 @@ No available yet.
 
 For example: 
 
-1>C:/Code/MRU-UE/UXToolsGames/Plugins/UXTools/Source/UXTools/Private/PressableButtonComponent.cpp(4): fatal error C1083: Cannot open include file: 'Native/PressableButton.h': No such file or directory
+1>C:/Code/MRU-UE/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/PressableButtonComponent.cpp(4): fatal error C1083: Cannot open include file: 'Native/PressableButton.h': No such file or directory
 
-This is caused by an invalid symbolic link in <repo_dir>/UXToolsGames/Plugins/UXTools/Source/UXTools/Private/Native. Try recreating it with mklink /D or copying its contents directly.
+This is caused by an invalid symbolic link in <repo_dir>/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native. Try recreating it with mklink /D or copying its contents directly.
 
 # Contribute
 
-See UXT-Unreal's [contribution guidelines](Docs/ContributionGuidelines.md) for information on how to contribute.
+See UXT-Unreal's [contribution guidelines](Docs/Contributing/ContributionGuidelines.md) for information on how to contribute.

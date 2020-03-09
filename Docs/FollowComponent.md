@@ -8,7 +8,7 @@ Place a FollowComponent on your actor. In this example, we created an empty acto
 and text to make a panel that we want to keep in front of the user.
 Since we also want it to always face the user, we've set the "Orientation Type" to "FaceCamera".
 
-![FollowComponent](FollowComponent.png )
+![FollowComponent](Images/FollowComponent.png )
 
 **Hint:** The camera looks down the +X axis, so you may want the front face of your content be in the -X direction.
 
