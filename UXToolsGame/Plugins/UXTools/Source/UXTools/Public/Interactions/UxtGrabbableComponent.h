@@ -134,6 +134,10 @@ public:
 
 	UFUNCTION(BlueprintSetter)
 	void SetTickOnlyWhileGrabbed(bool bEnable);
+	
+	/** Returns a list of all currently grabbing pointers. */
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	const TArray<FUxtGrabPointerData> &GetGrabPointers() const;
 
 protected:
 
@@ -144,10 +148,6 @@ protected:
 
 	virtual void GraspStarted_Implementation(UUxtTouchPointer* Pointer) override;
 	virtual void GraspEnded_Implementation(UUxtTouchPointer* Pointer) override;
-
-	/** Returns a list of all currently grabbing pointers. */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	const TArray<FUxtGrabPointerData> &GetGrabPointers() const;
 
 private:
 
@@ -176,6 +176,6 @@ private:
 	TArray<FUxtGrabPointerData> GrabPointers;
 
 	/** If true the component tick is only enabled while the actor is being grabbed. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed", Category = "Grabbable")
+	UPROPERTY(EditAnywhere, AdvancedDisplay, BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed", Category = "Grabbable")
 	uint8 bTickOnlyWhileGrabbed : 1;
 };

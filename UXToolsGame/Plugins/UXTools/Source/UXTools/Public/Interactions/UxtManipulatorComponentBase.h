@@ -81,7 +81,7 @@ public:
 	FTransform InitialCameraSpaceTransform;
 
 	/** If true the initial transform will be set automatically when the component is grabbed. */
-	UPROPERTY(EditAnywhere, Category = "Manipulator Component")
+	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Manipulator Component")
 	bool bAutoSetInitialTransform = true;
 
 };
