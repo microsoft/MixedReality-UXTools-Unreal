@@ -30,16 +30,13 @@ public:
 	UFUNCTION(BlueprintPure, Category = InputSimulation)
 	FName GetTargetPose(EControllerHand Hand) const;
 
-	/** Set the target animation pose for all controlled hands. */
+	/** Set the target animation pose for a hand. */
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
-	void PushTargetPose(FName Name);
+	void SetTargetPose(EControllerHand Hand, FName PoseName);
 
-	/** Remove the current target animation pose for all controlled hands.
-	 *  If another target pose is on the stack it will become the current target pose,
-	 *  otherwise hand animation returns to the default pose.
-	 */
+	/** Reset the default target animation pose for a hand. */
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
-	void PopTargetPose(FName Name);
+	void ResetTargetPose(EControllerHand Hand);
 
 	UFUNCTION(BlueprintGetter)
 	UUxtInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
@@ -69,9 +66,7 @@ private:
 	void OnControlRightHandReleased();
 
 	void OnPrimaryHandPosePressed();
-	void OnPrimaryHandPoseReleased();
 	void OnSecondaryHandPosePressed();
-	void OnSecondaryHandPoseReleased();
 
 	void AddInputMoveForward(float Value);
 	void AddInputMoveRight(float Value);
@@ -96,6 +91,12 @@ private:
 	 *  Returns true if hand control was successfully changed.
 	 */
 	bool SetHandControlEnabled(EControllerHand Hand, bool bEnabled);
+
+	/** Toggle the target pose for all currently active hands.
+	 *  - If all hands use the target pose already, all hands will reset to the default pose.
+	 *  - If any hand does NOT use the target pose already, all hands will use it.
+	 */
+	void TogglePoseForControlledHands(FName PoseName);
 
 	/** Create actor components for HMD simulation. */
 	void SetupHeadComponents();
@@ -130,7 +131,7 @@ private:
 	/** Set of hands that are actively controlled by user input. */
 	TSet<EControllerHand> ControlledHands;
 
-	/** Stack of poses that have been activated by the user. */
-	TArray<FName> TargetPoseStack;
+	/** Current target pose for each hand. */
+	TMap<EControllerHand, FName> TargetPoses;
 
 };

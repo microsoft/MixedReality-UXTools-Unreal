@@ -206,9 +206,7 @@ void AUxtInputSimulationActor::BeginPlay()
 			InputComponent->BindAction(Action_ControlRightHand, IE_Released, this, &AUxtInputSimulationActor::OnControlRightHandReleased);
 
 			InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnPrimaryHandPosePressed);
-			InputComponent->BindAction(Action_PrimaryHandPose, IE_Released, this, &AUxtInputSimulationActor::OnPrimaryHandPoseReleased);
 			InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnSecondaryHandPosePressed);
-			InputComponent->BindAction(Action_SecondaryHandPose, IE_Released, this, &AUxtInputSimulationActor::OnSecondaryHandPoseReleased);
 
 			InputComponent->BindAxis(Axis_MoveForward, this, &AUxtInputSimulationActor::AddInputMoveForward);
 			InputComponent->BindAxis(Axis_MoveRight, this, &AUxtInputSimulationActor::AddInputMoveRight);
@@ -265,30 +263,18 @@ FName AUxtInputSimulationActor::GetTargetPose(EControllerHand Hand) const
 	const auto* Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
-	if (!ControlledHands.Contains(Hand))
-	{
-		return Settings->DefaultHandPose;
-	}
-
-	return TargetPoseStack.Num() > 0 ? TargetPoseStack.Last() : Settings->DefaultHandPose;
+	const FName *HandTargetPose = TargetPoses.Find(Hand);
+	return HandTargetPose ? *HandTargetPose : Settings->DefaultHandPose;
 }
 
-void AUxtInputSimulationActor::PushTargetPose(FName Name)
+void AUxtInputSimulationActor::SetTargetPose(EControllerHand Hand, FName PoseName)
 {
-	if (TargetPoseStack.Num() > 0 && TargetPoseStack.Last() == Name)
-	{
-		// Already top pose, nothing to do
-		return;
-	}
-
-	// Reinsert the pose at the top
-	TargetPoseStack.Remove(Name);
-	TargetPoseStack.Add(Name);
+	TargetPoses.FindOrAdd(Hand) = PoseName;
 }
 
-void AUxtInputSimulationActor::PopTargetPose(FName Name)
+void AUxtInputSimulationActor::ResetTargetPose(EControllerHand Hand)
 {
-	TargetPoseStack.Remove(Name);
+	TargetPoses.Remove(Hand);
 }
 
 bool AUxtInputSimulationActor::IsHandVisible(EControllerHand Hand) const
@@ -414,32 +400,49 @@ void AUxtInputSimulationActor::OnControlRightHandReleased()
 	SetHandControlEnabled(EControllerHand::Right, false);
 }
 
+void AUxtInputSimulationActor::TogglePoseForControlledHands(FName PoseName)
+{
+	// Check if all hands are using the pose
+	bool bAllHandsUsingPose = true;
+	for (EControllerHand Hand : ControlledHands)
+	{
+		if (GetTargetPose(Hand) != PoseName)
+		{
+			bAllHandsUsingPose = false;
+			break;
+		}
+	}
+
+	if (bAllHandsUsingPose)
+	{
+		// All hands currently using the target pose, toggle "off" by resetting to default
+		for (EControllerHand Hand : ControlledHands)
+		{
+			ResetTargetPose(Hand);
+		}
+	}
+	else
+	{
+		// Not all hands using the target pose, toggle "on" by setting it
+		for (EControllerHand Hand : ControlledHands)
+		{
+			SetTargetPose(Hand, PoseName);
+		}
+	}
+}
+
 void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
 {
 	const auto* Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
-	PushTargetPose(Settings->PrimaryHandPose);
-}
-
-void AUxtInputSimulationActor::OnPrimaryHandPoseReleased()
-{
-	const auto* Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-	PopTargetPose(Settings->PrimaryHandPose);
+	TogglePoseForControlledHands(Settings->PrimaryHandPose);
 }
 
 void AUxtInputSimulationActor::OnSecondaryHandPosePressed()
 {
 	const auto* Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
-	PushTargetPose(Settings->SecondaryHandPose);
-}
-
-void AUxtInputSimulationActor::OnSecondaryHandPoseReleased()
-{
-	const auto* Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-	PopTargetPose(Settings->SecondaryHandPose);
+	TogglePoseForControlledHands(Settings->SecondaryHandPose);
 }
 
 void AUxtInputSimulationActor::AddInputMoveForward(float Value)
