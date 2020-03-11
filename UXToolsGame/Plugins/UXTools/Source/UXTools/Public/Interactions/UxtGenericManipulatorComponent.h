@@ -60,7 +60,7 @@ ENUM_CLASS_FLAGS(EUxtTwoHandTransformMode)
  * Two-handed interaction moves the object based on the center between hands.
  * The actor can be rotated based on the line between both hands and scaled based on the distance.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = UXTools, HideCategories = (Grabbable, ManipulatorComponent), meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtGenericManipulatorComponent : public UUxtManipulatorComponentBase
 {
 	GENERATED_BODY()
