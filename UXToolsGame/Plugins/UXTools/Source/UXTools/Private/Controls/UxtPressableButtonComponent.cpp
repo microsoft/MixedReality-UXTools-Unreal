@@ -9,9 +9,7 @@
 
 namespace UX = Microsoft::MixedReality::UX;
 
-// DirectXMath doesn't build in Android when using gcc so we disable most button code to avoid build breaks.
-// See Task 218: Investigate building DirectXMath for Android and iOS.
-#if !(PLATFORM_ANDROID)
+#if (UXT_DIRECTXMATH_SUPPORTED)
 using namespace DirectX;
 #endif
 
@@ -44,7 +42,7 @@ void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 
 bool UUxtPressableButtonComponent::IsPressed() const
 {
-#if !(PLATFORM_ANDROID)
+#if (UXT_DIRECTXMATH_SUPPORTED)
 	if (Button)
 	{
 		return Button->IsPressed();
@@ -53,7 +51,7 @@ bool UUxtPressableButtonComponent::IsPressed() const
 	return false;
 }
 
-#if !(PLATFORM_ANDROID)
+#if (UXT_DIRECTXMATH_SUPPORTED)
 static XMVECTOR ToXM(const FVector& vectorUE)
 {
 	return XMLoadFloat3((const XMFLOAT3*)&vectorUE);
@@ -121,14 +119,14 @@ void FButtonHandler::OnButtonReleased(UX::PressableButton& button, UX::PointerId
 	UxtPressableButtonComponent.OnButtonReleased.Broadcast(&UxtPressableButtonComponent);
 }
 
-#endif // #if !(PLATFORM_ANDROID)
+#endif // #if (UXT_DIRECTXMATH_SUPPORTED)
 
 // Called when the game starts
 void UUxtPressableButtonComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-#if !(PLATFORM_ANDROID)
+#if (UXT_DIRECTXMATH_SUPPORTED)
 	const FTransform& Transform = GetComponentTransform();
 	const auto WorldDimensions = 2 * Extents * Transform.GetScale3D();
 	XMVECTOR Orientation = ToMRRotation(Transform.GetRotation());
@@ -150,7 +148,7 @@ void UUxtPressableButtonComponent::BeginPlay()
 
 void UUxtPressableButtonComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-#if !(PLATFORM_ANDROID)
+#if (UXT_DIRECTXMATH_SUPPORTED)
 	Button->Unsubscribe(ButtonHandler);
 	delete ButtonHandler;
 	ButtonHandler = nullptr;
@@ -166,7 +164,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-#if !(PLATFORM_ANDROID)
+#if (UXT_DIRECTXMATH_SUPPORTED)
 	// Update the button rest transform if the component one has changed
 	{
 		const FTransform& Transform = GetComponentTransform();
@@ -234,5 +232,5 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 		}
 	}
 #endif
-#endif // #if !(PLATFORM_ANDROID)
+#endif // #if (UXT_DIRECTXMATH_SUPPORTED)
 }

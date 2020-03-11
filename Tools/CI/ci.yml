@@ -12,18 +12,95 @@ resources:
     name: Analog/mixedrealitytoolkit.build
     ref: mru-ue
 
-jobs:
-- job:
+stages:
+- stage: Windows
+  dependsOn: []
   pool:
     name: $(AgentPool)
-  workspace:
-    clean: all
-  steps:
-  - checkout: self
-    clean: true
-    submodules: true
-  - checkout: build-tools
-  - template: templates/common.yml
+  jobs:
+  - job:
+    workspace:
+      clean: all
+    steps:
+    - checkout: self
+      clean: true
+      submodules: true
+    - checkout: build-tools
+    - template: templates/common.yml
 
-  - script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -targetplatform=Android -cookflavor=Multi -clientconfig=Development -serverconfig=Development'
-    displayName: 'Build Android Development'
+    - script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -targetplatform=Android -cookflavor=Multi -clientconfig=Development -serverconfig=Development'
+      displayName: 'Build Android Development'
+
+- stage: iOS
+  condition: false
+  dependsOn: []
+  pool:
+    vmImage: macOS-10.14
+  variables:
+    UnrealEngine: '$(Build.SourcesDirectory)/Unreal'
+    UAT: $(UAT_mac)
+    UE4Editor: $(UE4Editor_mac) 
+  jobs:
+  - job:
+    workspace:
+      clean: all
+    steps:
+    - checkout: self
+      clean: true
+      submodules: true
+    # check out build-tools even if unused to preserve the same folder layout for each pipeline stage
+    - checkout: build-tools
+
+    # Install Unreal Engine
+    - task: UniversalPackages@0
+      displayName: 'Install Unreal Engine'
+      inputs:
+        command: 'download'
+        downloadDirectory: '$(UnrealEngine)'
+        feedsToUse: 'external'
+        packageDownloadExternal: 'unreal-drop-macos'
+        versionDownloadExternal: 1.0.0
+    - bash: |
+        chmod -R 0744 "$UE4BATCHFILESDIR"
+        chmod -R 0744 "$UE4BINARIESDIR"
+      displayName: 'Update permissions for Unreal Engine'
+
+    # copy native component
+    - script: |
+        echo "copy files from $(Build.SourcesDirectory)/MixedRealityUtils-UE/External/UXT-Native/libs/UX/src to $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native"
+        rm -rf $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native
+        mkdir -p $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native
+        cp -R -v $(Build.SourcesDirectory)/MixedRealityUtils-UE/External/UXT-Native/libs/UX/src/* $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native
+      displayName: 'Copy Native source'
+
+    # Build UXTools
+    - script: '$(UAT) BuildPlugin -Plugin="$(UXToolsPluginSourceDir)/UXTools.uplugin" -Package="$(UXToolsPluginOutputDir)"'
+      displayName: 'Build UXTools plugin'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish UXTools plugin (iOS) to build artifacts'
+      inputs:
+        ArtifactName: 'UXTools-iOS'
+        PathtoPublish: '$(UXToolsPluginOutputDir)'
+
+    - script: |
+        echo "Removing Plugin source from UXGame: $(UXToolsPluginSourceDir)"
+        rm -rf "$(UXToolsPluginSourceDir)"
+        echo "Copy the prebuilt plugin from $(UXToolsPluginOutputDir) to $(UXToolsPluginSourceDir)"
+        cp -r "$(UXToolsPluginOutputDir)" "$(UXToolsPluginSourceDir)"
+        echo "ls the target dir"
+        ls -R "$(UXToolsPluginSourceDir)"
+      displayName: 'Replace plugin source with prebuilt files'
+
+    - script: '$(UE4BatchFilesDir)/Mac/RunMono.sh $(UE4BinariesDir)/DotNET/UnrealBuildTool.exe Development Mac -Project=$(UXTSourceDir)/UXToolsGame/UXToolsGame.uproject -TargetType=Editor'
+      displayName: 'Build Mac Development Editor'
+
+    - script: '"$(UAT)" -ScriptsForProject=$(UXTSourceDir)/UXToolsGame/UXToolsGame.uproject BuildCookRun -nocompile -nocompileeditor -installed -nop4 -project=$(UXTSourceDir)/UXToolsGame/UXToolsGame.uproject -cook -stage -pak -prereqs -targetplatform=IOS -build -target=UXToolsGame -clientconfig=Development -utf8output'
+      displayName: 'Build iOS Development'
+
+    - task: PublishBuildArtifacts@1
+      condition: always()
+      displayName: 'Publish build logs (iOS) to build artifacts'
+      inputs:
+        ArtifactName: 'iOS-Logs'
+        PathtoPublish: '/Users/runner/Library/Logs/Unreal Engine/LocalBuildLogs'

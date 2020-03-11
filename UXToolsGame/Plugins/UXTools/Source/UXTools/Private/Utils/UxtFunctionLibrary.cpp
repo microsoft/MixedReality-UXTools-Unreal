@@ -4,7 +4,7 @@
 #include "Utils/UxtFunctionLibrary.h"
 #include "AudioDevice.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
-#include "Kismet\GameplayStatics.h"
+#include "Kismet/GameplayStatics.h"
 #if WITH_EDITOR
 #include "Editor/EditorEngine.h"
 #endif
