@@ -8,10 +8,7 @@ else
 	against=$(git hash-object -t tree /dev/null)
 fi
 
-# Redirect output to stderr.
-exec 1>&2
-
-disallowed=$(git show private:disallowed.txt) || { echo "$0 could not read disallowed file"; exit 1; }
+disallowed=$(git show origin/private:disallowed.txt) || { echo "$0 could not read disallowed file"; exit 1; }
 
 # GREP full Word, Ignore case, Extended regex
 if git diff --cached "$against" | grep -wiE "$disallowed"; then
