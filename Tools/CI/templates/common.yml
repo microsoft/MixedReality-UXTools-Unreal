@@ -17,7 +17,7 @@ steps:
   workingDirectory: '$(UXTSourceDir)\UXToolsGame\Plugins\UXTools\Source\UXTools\Private'
   displayName: 'Remove symlink to Native submodule'
 
-- script: SetupSymlinks.bat
+- script: Tools/scripts/SetupSymlinks.bat
   workingDirectory: '$(UXTSourceDir)'
   displayName: 'Setup Symlinks'
 

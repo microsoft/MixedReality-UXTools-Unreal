@@ -34,7 +34,7 @@ git clone --recurse-submodules https://MRDevPlat@dev.azure.com/MRDevPlat/DevPlat
 
 ### Setup symlinks
 
-Run the `SetupSymlinks.bat` script located in the repo root to create the symlinks required to use submodule sources in plugin modules.
+Run the `Setup.bat` script located in the repo root to create the symlinks required to use submodule sources in plugin modules.
 
 ### Switch engine version for the UXToolsGame project
 
