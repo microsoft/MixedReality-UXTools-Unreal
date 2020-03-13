@@ -32,7 +32,6 @@ stages:
       displayName: 'Build Android Development'
 
 - stage: iOS
-  condition: false
   dependsOn: []
   pool:
     vmImage: macOS-10.14
@@ -57,9 +56,10 @@ stages:
       inputs:
         command: 'download'
         downloadDirectory: '$(UnrealEngine)'
-        feedsToUse: 'external'
-        packageDownloadExternal: 'unreal-drop-macos'
-        versionDownloadExternal: 1.0.0
+        feedsToUse: 'internal'
+        vstsFeed: 'DevPlat/CI-utils'
+        vstsFeedPackage: 'unreal-drop-macos'
+        vstsPackageVersion: 1.0.0
     - bash: |
         chmod -R 0744 "$UE4BATCHFILESDIR"
         chmod -R 0744 "$UE4BINARIESDIR"
