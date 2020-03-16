@@ -318,6 +318,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 	if (!IsTracked || !MeshComp || !ensureAsRuntimeWarning(MeshComp != nullptr))
 	{
 		HandState.bHasJointPoses = false;
+		HandState.bHasPointerPose = false;
 	}
 	else
 	{
@@ -327,6 +328,10 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 		check(KeypointEnum);
 		TArray<FName> BoneNames;
 		MeshComp->GetBoneNames(BoneNames);
+
+		// Transforms for pointer pose
+		FTransform WristTransform = FTransform::Identity;
+		FTransform IndexKnuckleTransform = FTransform::Identity;
 
 		const TArray<FTransform>& ComponentSpaceTMs = MeshComp->GetComponentSpaceTransforms();
 		for (int32 iKeypoint = 0; iKeypoint < EWMRHandKeypointCount; ++iKeypoint)
@@ -352,6 +357,39 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 
 			HandState.KeypointTransforms[(uint32)Keypoint] = KeypointTransform;
 			HandState.KeypointRadii[(uint32)Keypoint] = KeypointRadius;
+
+			if (Keypoint == EWMRHandKeypoint::Wrist)
+			{
+				WristTransform = KeypointTransform;
+			}
+			if (Keypoint == EWMRHandKeypoint::IndexProximal)
+			{
+				IndexKnuckleTransform = KeypointTransform;
+			}
+		}
+
+		// Build pointer pose from bones
+		{
+			HandState.bHasPointerPose = true;
+
+			USceneComponent* ParentComp = MeshComp->GetAttachParent();
+			FVector ShoulderPos = (Hand == EControllerHand::Left ? Settings->ShoulderPosition.MirrorByVector(FVector::RightVector) : Settings->ShoulderPosition);
+			if (ParentComp)
+			{
+				ShoulderPos = ParentComp->GetComponentTransform().TransformPosition(ShoulderPos);
+			}
+
+			HandState.PointerPose.Origin = IndexKnuckleTransform.GetLocation();
+
+			HandState.PointerPose.Direction = (MeshComp->GetComponentLocation() - ShoulderPos);
+			HandState.PointerPose.Direction.Normalize();
+
+			FVector HandAxis = WristTransform.GetRotation().GetRightVector();
+			HandAxis.Normalize();
+			HandState.PointerPose.Up = FVector::CrossProduct(HandState.PointerPose.Direction, HandAxis);
+			HandState.PointerPose.Up.Normalize();
+
+			HandState.PointerPose.Orientation = FRotationMatrix::MakeFromXY(HandState.PointerPose.Direction, HandAxis).ToQuat();
 		}
 	}
 

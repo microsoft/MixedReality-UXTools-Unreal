@@ -45,6 +45,10 @@ public:
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Default Hand Position", Tooltip = "Default position of the right hand in camera space."))
 	FVector DefaultHandPosition = FVector(40, 20, 0);
 
+	/** Position of the right shoulder in camera space. */
+	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Shoulder Position", Tooltip = "Position of the right shoulder in camera space."))
+	FVector ShoulderPosition = FVector(0, 10, -15);
+
 	/** Default pose when no button is pressed. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Default Hand Pose", Tooltip = "Default pose when no button is pressed."))
 	FName DefaultHandPose = TEXT("Relaxed");
