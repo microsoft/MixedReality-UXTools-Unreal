@@ -11,4 +11,6 @@ if($bad) {
 	Write-Host $bad
 	exit 1
 }
+
+Write-Host "History check completed successfully."
 exit 0
