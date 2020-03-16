@@ -180,6 +180,10 @@ void AUxtInputSimulationActor::BeginPlay()
 
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
 	{
+		// Explicitly enable input: The input sim actor may be created after loading a map,
+		// in which case auto-enabling input does not work.
+		EnableInput(PC);
+
 		if (APawn* Pawn = PC->GetPawn())
 		{
 			// Attach to the player pawn so the start location matches the HMD camera, which is relative to the pawn.

@@ -69,9 +69,6 @@ void UUxtInputSimulationLocalPlayerSubsystem::CreateInputSimActor(UWorld* World)
 		p.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		AActor* InputSimActor = World->SpawnActor<AUxtInputSimulationActor>(p);
-#if WITH_EDITOR
-		InputSimActor->SetActorLabel(TEXT("InputSimulation"));
-#endif
 
 		InputSimActorWeak = InputSimActor;
 	}
