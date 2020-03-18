@@ -73,9 +73,8 @@ jobs:
           exit 1
       }
       
-      git config --local --add "http.https://dev.azure.com.extraheader" "AUTHORIZATION: Bearer $Authorization"
       git config --local user.email $(ADO.email)
-      git config --local user.name $(ADO.username)
+      git config --local user.name "$(ADO.username)"
 
       git config --local core.autocrlf false
 
@@ -95,9 +94,17 @@ jobs:
       git add -A
       git commit -m "Docs for commit $(Build.SourceVersion) ($Build.SourceVersionMessage)"
 
-      Write-Host "Push changes to origin"
-      git push origin docs
     displayName: 'Commit docs'
+    condition: |
+      and(succeeded(),
+          not(eq(variables['Build.Reason'], 'PullRequest')),
+          eq(variables['Build.SourceBranch'], variables['source_branch_for_commit']))
+
+  - powershell: |
+      Write-Host "Push changes to origin"
+      git push origin $(DocsBranchName)
+    displayName: 'Push docs branch'
+    workingDirectory: $(DocsRepoDir)
     condition: |
       and(succeeded(),
           not(eq(variables['Build.Reason'], 'PullRequest')),
