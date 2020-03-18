@@ -18,7 +18,7 @@ Remove-Item -Force -Recurse -ErrorAction Ignore .\doc
 Invoke-Expression code2yaml.exe
 
 # Generate website via docfx
-$error = 0
+$errors = 0
 $output = ""
 Invoke-Expression "docfx -f" | Tee-Object -Variable output | Write-Host
 $results = $output | Out-String
@@ -27,11 +27,11 @@ if ($results -match "(?<warningCount>\d*) Warning\(s\)\s*(?<errorCount>\d*) Erro
     if ($Matches.errorCount -gt 0 -or $Matches.warningCount -gt 0)
     {
         Write-Host "Broken reference found in documentation - Build validation failed." -ForegroundColor red
-		$error = 1;
+		$errors = 1;
     }
 }
 
-if ($error -eq 0)
+if ($errors -eq 0)
 {
 	Write-Host "Success! Documentation generated in doc folder" -ForegroundColor green
 }
@@ -52,4 +52,4 @@ if ($serve)
 
 Pop-Location
 
-exit $error
+exit $errors

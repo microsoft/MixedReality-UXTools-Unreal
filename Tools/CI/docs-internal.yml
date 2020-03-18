@@ -1,0 +1,104 @@
+# PR triggers in ADO are configured using branch policies. This section is only for GitHub.
+# pr:
+# - master
+
+trigger:
+- master
+
+variables:
+- template: settings/common.yml
+- name: CIUtils.NugetFeed
+  value: https://mrdevplat.pkgs.visualstudio.com/DevPlat/_packaging/CI-utils/nuget/v3/index.json
+- name: DocFX.Version
+  value: '2.48.1'
+- name: code2yaml.Version
+  value: '1.0.69'
+
+resources:
+  repositories:
+  - repository: build-tools
+    type: git
+    endpoint: Analog
+    name: Analog/mixedrealitytoolkit.build
+    ref: mru-ue
+
+jobs:
+- job:
+  pool:
+    vmImage: windows-latest
+  workspace:
+    clean: all
+  variables:
+    DocsRepoDir: $(Build.SourcesDirectory)\docs
+    DocsSourceDir: $(UXTSourceDir)\Tools\DocGen\doc
+    DocsBranchName: docs
+    source_branch_for_commit: refs/heads/master  # only commit if running from this branch
+  steps:
+  - checkout: self
+    clean: true
+    submodules: true
+  - checkout: build-tools
+
+  - task: NuGetToolInstaller@1
+    displayName: 'Ensure NuGet.exe is installed and in PATH'
+
+  - task: NuGetCommand@2
+    displayName: 'Install docfx'
+    inputs:
+      command: custom
+      arguments: 'install docfx.console -Version $(DocFX.Version) -OutputDirectory $(Build.ArtifactStagingDirectory)'
+
+  - task: NuGetCommand@2
+    displayName: 'Install code2yaml'
+    inputs:
+      command: custom
+      arguments: 'install code2yaml -Version $(code2yaml.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)'
+
+  - powershell: |
+      $env:Path += ";$(Build.ArtifactStagingDirectory)/docfx.console.$(DocFX.Version)/tools;$(Build.ArtifactStagingDirectory)/code2yaml.$(code2yaml.Version)"
+      . $(UXTSourceDir)\Tools\DocGen\generateDocs.ps1
+    displayName: "Generate docs"
+
+  - powershell: |
+      Write-Host "Clone repo under $(DocsRepoDir)"
+      git clone "https://user:$(ADO.PAT)@dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE" $(DocsRepoDir) -b $(DocsBranchName)
+
+      Push-Location -Path $(DocsRepoDir)
+
+      # sanity check
+      $DocsRepoBranch = (git rev-parse --abbrev-ref HEAD)
+      if ($DocsRepoBranch -ne "$(DocsBranchName)")
+      {
+          Write-Host -ForegroundColor Red "Branch set to '$DocsRepoBranch' instead of '$(DocsBranchName)'"
+          exit 1
+      }
+      
+      git config --local --add "http.https://dev.azure.com.extraheader" "AUTHORIZATION: Bearer $Authorization"
+      git config --local user.email $(ADO.email)
+      git config --local user.name $(ADO.username)
+
+      git config --local core.autocrlf false
+
+      Write-Host "Delete files in $(DocsRepoDir)"
+      (Get-ChildItem -Path $(DocsRepoDir) | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
+
+      if ((Get-ChildItem -Path "$(DocsRepoDir)\") -ne $null)
+      {
+          Write-Host "Not all files were deleted."
+          exit 1
+      }
+     
+      Write-Host "Copy new generated docs from $(DocsSourceDir)"
+      Copy-Item -Recurse -Force -Path $(DocsSourceDir)\* -Destination $(DocsRepoDir)
+
+      Write-Host "Commit updated files"
+      git add -A
+      git commit -m "Docs for commit $(Build.SourceVersion) ($Build.SourceVersionMessage)"
+
+      Write-Host "Push changes to origin"
+      git push origin docs
+    displayName: 'Commit docs'
+    condition: |
+      and(succeeded(),
+          not(eq(variables['Build.Reason'], 'PullRequest')),
+          eq(variables['Build.SourceBranch'], variables['source_branch_for_commit']))
