@@ -69,6 +69,12 @@ public:
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Hand Movement Range", Tooltip = "Allowed range of hand movement in camera space."))
 	FBox HandMovementBox = FBox(FVector(10, -40, -40), FVector(60, 40, 40));
 
+	/** Orientation of the right hand in the default pose.
+	 *  This is used to determine limits when rotating the hand.
+	 */
+	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Hand Rest Orientation", Tooltip = "Orientation of the right hand in the default pose."))
+	FRotator HandRestOrientation = FRotator(58.991508, -45.549568, -44.187847);
+
 	/** Skeletal mesh for animating hands.
 	 *  The skeleton should contain bones that match the names in the EWMRHandKeypoint enum.
 	 *  For more details see the documentation on input simulation.

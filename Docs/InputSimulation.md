@@ -31,6 +31,12 @@ In addition to default pawn movement there are virtual hands that can be control
 * Press the Middle mouse button to perform a "Poke" gesture. This can be used for poking buttons.
 
   Note that buttons can also be pressed by simply moving the hand towards the button, without performing any gestures.
+* Holding the Right mouse button enables rotation of the controlled hands:
+    * X axis changes yaw angle.
+    * Y axis changes pitch angle.
+    * Scroll wheel changes roll angle.
+
+  To reset the hand rotation press the visibility keys (T/Y) twice. This will reset the hand location and rotation to defaults.
 
 ## Hand Animation
 
