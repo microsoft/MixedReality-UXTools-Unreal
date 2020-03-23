@@ -65,15 +65,15 @@ namespace
 
 		FVector Extents = Primitive->GetCollisionShape().GetExtent();
 
-		FVector Min = -Extents - FVector(Radius, Radius, Radius);
+		FVector Min = -Extents;
 
-		FVector FrontFaceMax = Extents; // depth is measured from the front face
-		FrontFaceMax.X = -FrontFaceMax.X;
-		FVector Max = FrontFaceMax + FVector(Depth + Radius, Radius, Radius);
+		FVector Max = Extents;
+		Max.X = -Max.X + Depth; // depth is measured from the front face
 
 		FBox TouchableVolume(Min, Max);
+		FSphere TouchSphere(LocalPosition, Radius);
 
-		return !TouchableVolume.IsInside(LocalPosition);
+		return !FMath::SphereAABBIntersection(TouchSphere, TouchableVolume);
 	}
 }
 UUxtNearPointerComponent::UUxtNearPointerComponent()
