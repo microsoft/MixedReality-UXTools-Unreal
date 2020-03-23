@@ -8,7 +8,72 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "GameFramework/Actor.h"
 #include "UObject/ConstructorHelpers.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 
+namespace
+{
+	/**
+	 * The cursor interpolates between two different transforms as it approaches the target.
+	 * The first transform, which has a greater influence further away from the target, is 
+	 * constructed as follows:
+	 * - Location: (fingertip pos) + (tip radius) * (dir from knuckle to fingertip)
+	 * - Rotation: (fingertip rot)
+	 * 
+	 * The second transform, Which has a greater influence closer to the target, is constructed 
+	 * as follows:
+	 * - Location: (fingertip pos) + (tip radius) * (dir from fingertip to point on target)
+	 * - Rotation: (rot corresponding to dir from fingertip to point on target)
+	 */
+	FTransform GetCursorTransform(EControllerHand Hand, FVector PointOnTarget, float AlignWithSurfaceDistance)
+	{
+		bool foundValues = true;
+
+		FQuat IndexTipOrientation;
+		FVector IndexTipPosition;
+		float IndexTipRadius;
+		
+		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+
+		FQuat IndexKnuckleOrientation;
+		FVector IndexKnucklePosition;
+		float IndexKnuckleRadius;
+
+		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexProximal, IndexKnuckleOrientation, IndexKnucklePosition, IndexKnuckleRadius);
+
+		if (!foundValues)
+		{
+			return FTransform::Identity;
+		}
+
+		auto FingerDir = (IndexTipPosition - IndexKnucklePosition);
+		FingerDir.Normalize();
+
+		auto ToTargetDir = PointOnTarget - IndexTipPosition;
+		const auto DistanceToTarget = ToTargetDir.Size();
+		ToTargetDir.Normalize();
+
+		FVector Location;
+		FQuat Rotation;
+
+		if (DistanceToTarget < AlignWithSurfaceDistance)
+		{
+			float SlerpAmount = DistanceToTarget / AlignWithSurfaceDistance;
+
+			FQuat FullRotation = FQuat::FindBetweenNormals(FingerDir, ToTargetDir);
+			FVector Dir = FQuat::Slerp(FullRotation, FQuat::Identity, SlerpAmount) * FingerDir;
+
+			Location = IndexTipPosition + Dir * IndexTipRadius;
+			Rotation = FQuat::Slerp(ToTargetDir.ToOrientationQuat(), IndexTipOrientation, SlerpAmount);
+		}
+		else
+		{
+			Location = IndexTipPosition + FingerDir * IndexTipRadius;
+			Rotation = IndexTipOrientation;
+		}
+
+		return FTransform(Rotation, Location);
+	}
+}
 
 UUxtFingerCursorComponent::UUxtFingerCursorComponent()
 {
@@ -76,26 +141,14 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			MeshComponent->SetVisibility(true);
 
 			FTransform TouchPointerTransform = HandPointer->GetTouchPointerTransform();
-			SetWorldLocation(TouchPointerTransform.GetLocation());
-
-			const auto PointerToTarget = PointOnTarget - TouchPointerTransform.GetLocation();
-			const auto DistanceToTarget = PointerToTarget.Size();
+			const auto DistanceToTarget = FVector::Dist(PointOnTarget, TouchPointerTransform.GetLocation());
 
 			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
 			const float Epsilon = 0.000001;
 
 			if (DistanceToTarget > Epsilon)
 			{
-				if (DistanceToTarget < AlignWithSurfaceDistance)
-				{
-					// Slerp between surface normal and index tip rotation
-					float slerpAmount = DistanceToTarget / AlignWithSurfaceDistance;
-					SetWorldRotation(FQuat::Slerp(PointerToTarget.ToOrientationQuat(), TouchPointerTransform.GetRotation(), slerpAmount));
-				}
-				else
-				{
-					SetWorldRotation(TouchPointerTransform.GetRotation());
-				}
+				SetWorldTransform(GetCursorTransform(HandPointer->GetHand(), PointOnTarget, AlignWithSurfaceDistance));
 			}
 
 			// Scale outer radius with the distance to the target
