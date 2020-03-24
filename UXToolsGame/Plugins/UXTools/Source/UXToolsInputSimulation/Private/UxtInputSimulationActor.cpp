@@ -400,22 +400,28 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 		}
 	}
 
+	//
 	// Update the button press states
+
+	HandState.IsButtonPressed = 0;
+
 	FName TargetPose = GetTargetPose(Hand);
-	const EHMDInputControllerButtons* pTargetAction = Settings->HandPoseButtonMappings.Find(TargetPose);
-	EHMDInputControllerButtons TargetAction = pTargetAction ? *pTargetAction : (EHMDInputControllerButtons)(-1);
-	for (uint32 iButton = 0; iButton < (uint32)EHMDInputControllerButtons::Count; ++iButton)
+	const FUxtRuntimeSettingsButtonSet* pTargetActions = Settings->HandPoseButtonMappings.Find(TargetPose);
+	if (pTargetActions)
 	{
-		EHMDInputControllerButtons Button = (EHMDInputControllerButtons)iButton;
-		ButtonStateArray ButtonMask(true, iButton);
-		if (Button == TargetAction)
+		for (uint32 iButton = 0; iButton < (uint32)EHMDInputControllerButtons::Count; ++iButton)
 		{
-			HandState.IsButtonPressed |= ButtonMask;
+			EHMDInputControllerButtons Button = (EHMDInputControllerButtons)iButton;
+			ButtonStateArray ButtonMask(true, iButton);
+			if (pTargetActions->Buttons.Contains(Button))
+			{
+				HandState.IsButtonPressed |= ButtonMask;
+			}
 		}
-		else
-		{
-			HandState.IsButtonPressed &= ~ButtonMask;
-		}
+	}
+	else
+	{
+		HandState.IsButtonPressed = 0;
 	}
 }
 

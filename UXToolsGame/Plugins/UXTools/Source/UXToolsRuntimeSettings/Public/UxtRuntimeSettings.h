@@ -13,6 +13,15 @@
 class UAnimInstance;
 class USkeletalMesh;
 
+USTRUCT()
+struct UXTOOLSRUNTIMESETTINGS_API FUxtRuntimeSettingsButtonSet
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Buttons", Tooltip = "Buttons that are triggered by a simulated hand gesture."))
+	TSet<EHMDInputControllerButtons> Buttons;
+};
+
 /**
  * Settings for UXTools.
  */
@@ -63,7 +72,7 @@ public:
 
 	/** Controller buttons that are pressed along with certain hand poses. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Hand Pose Buttons", Tooltip = "Controller buttons that are pressed along with certain hand poses."))
-	TMap<FName, EHMDInputControllerButtons> HandPoseButtonMappings;
+	TMap<FName, FUxtRuntimeSettingsButtonSet> HandPoseButtonMappings;
 
 	/** Allowed range of hand movement in camera space. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Hand Movement Range", Tooltip = "Allowed range of hand movement in camera space."))
