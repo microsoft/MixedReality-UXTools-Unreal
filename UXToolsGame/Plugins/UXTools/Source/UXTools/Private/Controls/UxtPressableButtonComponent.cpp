@@ -1,8 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Controls/UxtPressableButtonComponent.h"
 #include "Native/PressableButton.h"
 #include "Input/UxtTouchPointer.h"
+#include "Input/UxtFarPointerComponent.h"
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 #include <Components/ShapeComponent.h>
@@ -12,6 +14,7 @@ namespace UX = Microsoft::MixedReality::UX;
 #if (UXT_DIRECTXMATH_SUPPORTED)
 using namespace DirectX;
 #endif
+
 
 // Sets default values for this component's properties
 UUxtPressableButtonComponent::UUxtPressableButtonComponent()
@@ -165,47 +168,51 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 #if (UXT_DIRECTXMATH_SUPPORTED)
-	// Update the button rest transform if the component one has changed
+	// Update touch if we're not currently pressed via a far pointer
+	if (!FarPointerWeak.IsValid())
 	{
-		const FTransform& Transform = GetComponentTransform();
-		const auto NewRestPosition = ToMRPosition(Transform.GetTranslation());
-		const auto NewOrientation = ToMRRotation(Transform.GetRotation());
-		const auto LinearEpsilon = XMVectorReplicate(0.01f);	// in cm
-		const auto AngularEpsilon = XMVectorReplicate(0.0001f);
-
-		if (!XMVector3NearEqual(Button->GetRestPosition(), NewRestPosition, LinearEpsilon) || 
-			!XMVector4NearEqual(Button->GetOrientation(), NewOrientation, AngularEpsilon))
+		// Update the button rest transform if the component one has changed
 		{
-			Button->SetRestTransform(NewRestPosition, NewOrientation);
+			const FTransform& Transform = GetComponentTransform();
+			const auto NewRestPosition = ToMRPosition(Transform.GetTranslation());
+			const auto NewOrientation = ToMRRotation(Transform.GetRotation());
+			const auto LinearEpsilon = XMVectorReplicate(0.01f);	// in cm
+			const auto AngularEpsilon = XMVectorReplicate(0.0001f);
+
+			if (!XMVector3NearEqual(Button->GetRestPosition(), NewRestPosition, LinearEpsilon) ||
+				!XMVector4NearEqual(Button->GetOrientation(), NewOrientation, AngularEpsilon))
+			{
+				Button->SetRestTransform(NewRestPosition, NewOrientation);
+			}
 		}
-	}
 
-	std::vector<UX::TouchPointer> TouchPointers;
+		std::vector<UX::TouchPointer> TouchPointers;
 
-	// Collect all touch pointers
-	{
-		TArray<UUxtTouchPointer*> Pointers = GetActivePointers();
-		TouchPointers.reserve(Pointers.Num());
-
-		for (UUxtTouchPointer* Pointer : Pointers)
+		// Collect all touch pointers
 		{
-			UX::TouchPointer TouchPointer;
-			const FVector PointerPosition = Pointer->GetComponentLocation();
-			TouchPointer.m_position = ToMRPosition(PointerPosition);
-			TouchPointer.m_id = (UX::PointerId)Pointer;
-			TouchPointers.emplace_back(TouchPointer);
+			TArray<UUxtTouchPointer*> Pointers = GetActiveTouchPointers();
+			TouchPointers.reserve(Pointers.Num());
+
+			for (UUxtTouchPointer* Pointer : Pointers)
+			{
+				UX::TouchPointer TouchPointer;
+				const FVector PointerPosition = Pointer->GetComponentLocation();
+				TouchPointer.m_position = ToMRPosition(PointerPosition);
+				TouchPointer.m_id = (UX::PointerId)Pointer;
+				TouchPointers.emplace_back(TouchPointer);
+			}
 		}
-	}
 
-	// Update button logic with all known pointers
-	Button->Update(DeltaTime, TouchPointers.data(), TouchPointers.size());
+		// Update button logic with all known pointers
+		Button->Update(DeltaTime, TouchPointers.data(), TouchPointers.size());
 
-	if (auto Visuals = GetVisuals())
-	{
-		// Update visuals position
-		const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
-		FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsOffset;
-		Visuals->SetWorldLocation(NewLocation);
+		if (auto Visuals = GetVisuals())
+		{
+			// Update visuals position
+			const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
+			FVector NewLocation = ToUEPosition(Button->GetCurrentPosition()) + VisualsOffset;
+			Visuals->SetWorldLocation(NewLocation);
+		}
 	}
 
 #if 0
@@ -233,4 +240,43 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	}
 #endif
 #endif // #if (UXT_DIRECTXMATH_SUPPORTED)
+}
+
+FVector UUxtPressableButtonComponent::GetVisualsRestPosition() const
+{
+	const auto& Transform = GetComponentTransform();
+	return Transform.GetLocation() + Transform.TransformVector(VisualsOffsetLocal);
+}
+
+void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	if (!FarPointerWeak.IsValid())
+	{
+		if (auto Visuals = GetVisuals())
+		{
+			FQuat Orientation = GetComponentTransform().GetRotation();
+			const float PressedDistance = PressedFraction * 2.0f * Extents.X * GetComponentScale().X;
+			Visuals->SetWorldLocation(GetVisualsRestPosition() + Orientation.GetForwardVector() * PressedDistance);
+		}
+
+		FarPointerWeak = Pointer;
+		Pointer->SetFocusLocked(true);
+		OnButtonPressed.Broadcast(this);
+	}
+}
+
+void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	auto FarPointer = FarPointerWeak.Get();
+	if (Pointer == FarPointer)
+	{
+		if (auto Visuals = GetVisuals())
+		{
+			Visuals->SetWorldLocation(GetVisualsRestPosition());
+		}
+
+		OnButtonReleased.Broadcast(this);
+		Pointer->SetFocusLocked(false);
+		FarPointerWeak = nullptr;
+	}
 }

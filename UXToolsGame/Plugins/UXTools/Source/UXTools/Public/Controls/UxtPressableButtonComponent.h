@@ -1,10 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Interactions/UxtInteractableComponent.h"
-
 #include "UxtPressableButtonComponent.generated.h"
 
 namespace Microsoft
@@ -19,6 +19,7 @@ namespace Microsoft
 }
 
 class UUxtPressableButtonComponent;
+class UUxtFarPointerComponent;
 class UShapeComponent;
 struct FButtonHandler;
 
@@ -59,6 +60,12 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//
+	// IUxtFarTarget interface
+
+	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+
 public:
 
 	/** 
@@ -86,9 +93,14 @@ public:
 
 private:
 
+	FVector GetVisualsRestPosition() const;
+
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
 	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"), Category = "Pressable Button")
 	FComponentReference VisualsReference;
+
+	/** Far pointer currently pressing the button if any */
+	TWeakObjectPtr<UUxtFarPointerComponent> FarPointerWeak;
 
     Microsoft::MixedReality::UX::PressableButton* Button = nullptr;
     FButtonHandler* ButtonHandler = nullptr;

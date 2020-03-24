@@ -1,48 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Controls/UxtFingerCursorComponent.h"
 #include "Input/UxtTouchPointer.h"
 #include "UXTools.h"
-#include "Engine/StaticMesh.h"
-#include "Components/StaticMeshComponent.h"
-#include "Materials/MaterialInstanceDynamic.h"
 #include "GameFramework/Actor.h"
-#include "UObject/ConstructorHelpers.h"
 
 
 UUxtFingerCursorComponent::UUxtFingerCursorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	RingThickness = 0.3f;
+	BorderThickness = 0.02f;
 
-	static ConstructorHelpers::FObjectFinder<UMaterialInterface> ObjectFinder(TEXT("/UXTools/FingerPointer/FingerCursorMaterial"));
-	RingMaterial = ObjectFinder.Object;
-	check(RingMaterial);
-}
+	// We want the ring to remain a constant thickness regardless of the radius
+	bUseAbsoluteThickness = true;
 
-void UUxtFingerCursorComponent::OnRegister()
-{
-	Super::OnRegister();
-
-	MeshComponent = NewObject<UStaticMeshComponent>(this, TEXT("CursorMesh"));
-
-	auto Mesh = Cast<UStaticMesh>(StaticLoadObject(UStaticMesh::StaticClass(), NULL, TEXT("/Engine/BasicShapes/Plane")));
-	check(Mesh);
-	MeshComponent->SetStaticMesh(Mesh);
-
-	MaterialInstance = MeshComponent->CreateDynamicMaterialInstance(0, RingMaterial);
-
-	// Scale plane to fit exactly the maximum outer diameter to avoid unnecessary pixel overdraw.
-	{
-		const float DefaultPlaneSide = 100.0f;
-		const float MaxOuterDiameter = 2 * MaxOuterRadius;
-		FVector PlaneScale(MaxOuterDiameter / DefaultPlaneSide);
-		MeshComponent->SetWorldScale3D(PlaneScale);
-	}
-
-	MeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	MeshComponent->SetupAttachment(this);
-	MeshComponent->SetRelativeRotation(FQuat(FVector::RightVector, PI / 2));
-	MeshComponent->RegisterComponent();
+	// Remain hidden until we see a valid touch target
+	SetHiddenInGame(true);
 }
 
 void UUxtFingerCursorComponent::BeginPlay()
@@ -73,8 +48,6 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		FVector PointOnTarget;
 		if (auto Target = TouchPointer->GetHoveredTarget(PointOnTarget))
 		{
-			MeshComponent->SetVisibility(true);
-
 			const auto PointerToTarget = PointOnTarget - TouchPointer->GetComponentLocation();
 			const auto DistanceToTarget = PointerToTarget.Size();
 
@@ -97,16 +70,20 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				}
 			}
 
-			// Scale outer radius with the distance to the target
-			FName OuterRadiusParameter(TEXT("OuterRadius"));
+			// Scale radius with the distance to the target
 			float Alpha = DistanceToTarget / MaxDistanceToTarget;
-			float OuterRadius = FMath::Lerp(MinOuterRadius, MaxOuterRadius, Alpha);
-			MaterialInstance->SetScalarParameterValue(OuterRadiusParameter, OuterRadius);
+			float NewRadius = FMath::Lerp(MinRadius, MaxRadius, Alpha);
+			SetRadius(NewRadius);
+
+			if (bHiddenInGame)
+			{
+				SetHiddenInGame(false);
+			}
 		}
-		else
+		else if(!bHiddenInGame)
 		{
 			// Hide mesh when the pointer has no target
-			MeshComponent->SetVisibility(false);
+			SetHiddenInGame(true);
 		}
 	}
 }

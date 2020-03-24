@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Input/UxtTouchPointer.h"
 
@@ -68,6 +69,17 @@ void UUxtTouchPointer::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	}
 
 	ChangeHoveredTarget(ClosestTarget, ClosestPointOnTarget);
+}
+
+void UUxtTouchPointer::SetActive(bool bNewActive, bool bReset)
+{
+	bool bOldActive = IsActive();
+	Super::SetActive(bNewActive, bReset);
+
+	if (bOldActive && !bNewActive)
+	{
+		ChangeHoveredTarget(nullptr, FVector::ZeroVector);
+	}
 }
 
 void UUxtTouchPointer::EndPlay(const EEndPlayReason::Type EndPlayReason)

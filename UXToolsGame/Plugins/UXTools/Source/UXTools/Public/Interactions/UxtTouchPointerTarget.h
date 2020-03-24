@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #pragma once
 
@@ -21,7 +22,6 @@ class UXTOOLS_API IUxtTouchPointerTarget
 {
 	GENERATED_BODY()
 
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
 	/** Raised by touch pointers when they start hovering this target. A given touch pointer can only hover one pointer at any given time. */

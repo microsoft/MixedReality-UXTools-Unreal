@@ -1,7 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Interactions/UxtInteractableComponent.h"
 #include "Input/UxtTouchPointer.h"
+#include "Input/UxtFarPointerComponent.h"
 
 
 UUxtInteractableComponent::UUxtInteractableComponent()
@@ -10,15 +12,33 @@ UUxtInteractableComponent::UUxtInteractableComponent()
 
 void UUxtInteractableComponent::HoverStarted_Implementation(UUxtTouchPointer* Pointer)
 {
-    ActivePointers.Add(TWeakObjectPtr<UUxtTouchPointer>(Pointer));
-	const bool bWasHovered = ActivePointers.Num() != 1;
+	NumPointersFocusing++;
+    ActiveTouchPointers.Add(TWeakObjectPtr<UUxtTouchPointer>(Pointer));
+	const bool bWasHovered = NumPointersFocusing > 1;
 	OnHoverStarted.Broadcast(this, Pointer, bWasHovered);
 }
 
 void UUxtInteractableComponent::HoverEnded_Implementation(UUxtTouchPointer* Pointer)
 {
-    ActivePointers.Remove(TWeakObjectPtr<UUxtTouchPointer>(Pointer));
-	const bool bIsHovered = ActivePointers.Num() > 0;
+	NumPointersFocusing--;
+    ActiveTouchPointers.Remove(TWeakObjectPtr<UUxtTouchPointer>(Pointer));
+	const bool bIsHovered = NumPointersFocusing > 0;
+	OnHoverEnded.Broadcast(this, Pointer, bIsHovered);
+}
+
+void UUxtInteractableComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	NumPointersFocusing++;
+	ActiveFarPointers.Add(TWeakObjectPtr<UUxtFarPointerComponent>(Pointer));
+	const bool bWasHovered = NumPointersFocusing > 1;
+	OnHoverStarted.Broadcast(this, Pointer, bWasHovered);
+}
+
+void UUxtInteractableComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	NumPointersFocusing--;
+	ActiveFarPointers.Remove(TWeakObjectPtr<UUxtFarPointerComponent>(Pointer));
+	const bool bIsHovered = NumPointersFocusing > 0;
 	OnHoverEnded.Broadcast(this, Pointer, bIsHovered);
 }
 
@@ -63,11 +83,11 @@ bool UUxtInteractableComponent::GetClosestPointOnSurface_Implementation(const FV
 	return ClosestPointDistanceSqr >= 0.f;
 }
 
-TArray<UUxtTouchPointer*> UUxtInteractableComponent::GetActivePointers() const
+TArray<UUxtTouchPointer*> UUxtInteractableComponent::GetActiveTouchPointers() const
 {
 	TArray<UUxtTouchPointer*> result;
-	result.Reserve(ActivePointers.Num());
-	for (const TWeakObjectPtr<UUxtTouchPointer> &wPtr : ActivePointers)
+	result.Reserve(ActiveTouchPointers.Num());
+	for (const TWeakObjectPtr<UUxtTouchPointer> &wPtr : ActiveTouchPointers)
 	{
 		if (UUxtTouchPointer *ptr = wPtr.Get())
 		{

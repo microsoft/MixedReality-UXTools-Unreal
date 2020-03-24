@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #pragma once
 
@@ -56,11 +57,10 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetGrasped(bool Enable);
 
-protected:
-
 	// 
 	// UActorComponent interface
 
+	virtual void SetActive(bool bNewActive, bool bReset = false) override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
