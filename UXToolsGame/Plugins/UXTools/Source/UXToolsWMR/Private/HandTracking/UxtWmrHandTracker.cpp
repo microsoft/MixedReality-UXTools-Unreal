@@ -35,13 +35,23 @@ bool FUxtWmrHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrientat
 
 bool FUxtWmrHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const
 {
-	bool bTracked;
-
-	bTracked = UWindowsMixedRealityFunctionLibrary::GetControllerTrackingStatus(Hand) != EHMDTrackingStatus::NotTracked;
+	bool bTracked = UWindowsMixedRealityFunctionLibrary::GetControllerTrackingStatus(Hand) != EHMDTrackingStatus::NotTracked;
 
 	if (bTracked)
 	{
 		OutIsGrabbing = UWindowsMixedRealityFunctionLibrary::IsGrasped(Hand);
+	}
+
+	return bTracked;
+}
+
+bool FUxtWmrHandTracker::GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const
+{
+	bool bTracked = UWindowsMixedRealityFunctionLibrary::GetControllerTrackingStatus(Hand) != EHMDTrackingStatus::NotTracked;
+
+	if (bTracked)
+	{
+		OutIsSelectPressed = UWindowsMixedRealityFunctionLibrary::IsSelectPressed(Hand);
 	}
 
 	return bTracked;

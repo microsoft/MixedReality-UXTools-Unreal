@@ -65,4 +65,7 @@ public:
 
 	/** Obtain current grabbing state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged. */
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const = 0;
+
+	/** Obtain current selection state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged. */
+	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const = 0;
 };

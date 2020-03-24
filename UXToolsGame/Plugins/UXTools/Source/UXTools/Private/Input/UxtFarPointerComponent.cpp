@@ -43,7 +43,7 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 		OnPointerPoseUpdated(NewOrientation, NewOrigin);
 
 		bool bNewPressed;
-		if (UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(Hand, bNewPressed))
+		if (UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(Hand, bNewPressed))
 		{
 			SetPressed(bNewPressed);
 		}
