@@ -26,14 +26,14 @@ public:
 	//
 	// IUxtGrabTarget interface
 
-	virtual void OnEnterGrabFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
-	virtual void OnUpdateGrabFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
-	virtual void OnExitGrabFocus_Implementation(int32 PointerId) override;
+	virtual void OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 	virtual bool GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 
-	virtual void OnBeginGrab_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
-	virtual void OnEndGrab_Implementation(int32 PointerId) override;
+	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 	int BeginFocusCount;
 	int EndFocusCount;

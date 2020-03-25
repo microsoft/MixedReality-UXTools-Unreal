@@ -4,6 +4,7 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Engine/World.h"
 #include "Interactions/UxtInteractionUtils.h"
+#include "Input/UxtNearPointerComponent.h"
 
 FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform &Transform, const FUxtGrabPointerData &GrabData)
 {
@@ -78,12 +79,12 @@ FVector UUxtGrabTargetComponent::GetTargetCentroid() const
 	return centroid;
 }
 
-bool UUxtGrabTargetComponent::FindGrabPointerInternal(int32 PointerId, FUxtGrabPointerData const *&OutData, int &OutIndex) const
+bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* Pointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const
 {
 	for (int i = 0; i < GrabPointers.Num(); ++i)
 	{
 		const FUxtGrabPointerData &GrabData = GrabPointers[i];
-		if (GrabData.PointerId == PointerId)
+		if (GrabData.Pointer == Pointer)
 		{
 			OutData = &GrabData;
 			OutIndex = i;
@@ -96,10 +97,10 @@ bool UUxtGrabTargetComponent::FindGrabPointerInternal(int32 PointerId, FUxtGrabP
 	return false;
 }
 
-void UUxtGrabTargetComponent::FindGrabPointer(int32 PointerId, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const
+void UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent* Pointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const
 {
 	FUxtGrabPointerData const *pData;
-	Success = FindGrabPointerInternal(PointerId, pData, Index);
+	Success = FindGrabPointerInternal(Pointer, pData, Index);
 	if (Success)
 	{
 		PointerData = *pData;
@@ -173,27 +174,30 @@ bool UUxtGrabTargetComponent::GetClosestGrabPoint_Implementation(const UPrimitiv
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
 }
 
-void UUxtGrabTargetComponent::OnBeginGrab_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data)
+void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
 {
 	FUxtGrabPointerData GrabData;
-	GrabData.PointerId = PointerId;
+	GrabData.Pointer = Pointer;
 	GrabData.PointerData = Data;
 	GrabData.StartTime = GetWorld()->GetTimeSeconds();
 	GrabData.LocalGrabPoint = FTransform(Data.Rotation, Data.Location) * GetComponentTransform().Inverse();
 
 	GrabPointers.Add(GrabData);
 
+	// Lock the grabbing pointer so we remain the focused target as it moves.
+	Pointer->SetFocusLocked(true);
+
 	OnBeginGrab.Broadcast(this, GrabData);
 
 	UpdateComponentTickEnabled();
 }
 
-void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data)
+void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
 {
 	// Update the copy of the pointer data in the grab pointer array
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
 	{
-		if (GrabData.PointerId == PointerId)
+		if (GrabData.Pointer == Pointer)
 		{
 			GrabData.PointerData = Data;
 
@@ -203,12 +207,15 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(int32 PointerId, const
 }
 
 
-void UUxtGrabTargetComponent::OnEndGrab_Implementation(int32 PointerId)
+void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	int numRemoved = GrabPointers.RemoveAll([this, PointerId](const FUxtGrabPointerData& GrabData)
+	int numRemoved = GrabPointers.RemoveAll([this, Pointer](const FUxtGrabPointerData& GrabData)
 		{
-			if (GrabData.PointerId == PointerId)
+			if (GrabData.Pointer == Pointer)
 			{
+				// Unlock the pointer focus so that another target can be selected.
+				Pointer->SetFocusLocked(false);
+
 				OnEndGrab.Broadcast(this, GrabData);
 				return true;
 			}

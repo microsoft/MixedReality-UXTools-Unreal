@@ -185,7 +185,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 	// Collect all touch pointers
 	{
-		const TMap<int32, FUxtPointerInteractionData> Pointers = GetFocusedPointers();
+		const TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData> Pointers = GetFocusedPointers();
 		TouchPointers.reserve(Pointers.Num());
 
 		for (const auto& PointerData : Pointers)

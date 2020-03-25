@@ -29,15 +29,14 @@ UUxtNearPointerComponent::~UUxtNearPointerComponent()
 
 void UUxtNearPointerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	GrabFocus->ClearFocus((int32)GetUniqueID());
-	TouchFocus->ClearFocus((int32)GetUniqueID());
+	GrabFocus->ClearFocus(this);
+	TouchFocus->ClearFocus(this);
 
 	Super::EndPlay(EndPlayReason);
 }
 
 void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	int32 PointerId = (int32)GetUniqueID();
 	const FTransform GrabTransform = GetGrabPointerTransform();
 	const FTransform TouchTransform = GetTouchPointerTransform();
 
@@ -46,21 +45,21 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	{
 		const FVector ProximityCenter = GrabTransform.GetLocation();
 
-		FCollisionQueryParams QueryParams(false);
+		FCollisionQueryParams QueryParams(NAME_None, false);
 
 		TArray<FOverlapResult> Overlaps;
 		/*bool HasBlockingOverlap = */ GetWorld()->OverlapMultiByChannel(Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius), QueryParams);
 
-		GrabFocus->SelectClosestTarget(PointerId, GrabTransform, Overlaps);
-		TouchFocus->SelectClosestTarget(PointerId, TouchTransform, Overlaps);
+		GrabFocus->SelectClosestTarget(this, GrabTransform, Overlaps);
+		TouchFocus->SelectClosestTarget(this, TouchTransform, Overlaps);
 	}
 
 	// Update focused targets
 
-	GrabFocus->UpdateFocus(PointerId, GrabTransform);
-	GrabFocus->UpdateGrab(PointerId, GrabTransform);
+	GrabFocus->UpdateFocus(this, GrabTransform);
+	GrabFocus->UpdateGrab(this, GrabTransform);
 
-	TouchFocus->UpdateFocus(PointerId, TouchTransform);
+	TouchFocus->UpdateFocus(this, TouchTransform);
 
 	// Update the grab state
 
@@ -71,17 +70,11 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		{
 			if (bHandIsGrabbing)
 			{
-				GrabFocus->BeginGrab((int32)GetUniqueID(), GetGrabPointerTransform());
-
-				// Lock the grabbing pointer so the target remains focused as it moves.
-				SetFocusLocked(true);
+				GrabFocus->BeginGrab(this, GetGrabPointerTransform());
 			}
 			else
 			{
-				GrabFocus->EndGrab((int32)GetUniqueID());
-
-				// Unlock the focused target selection
-				SetFocusLocked(false);
+				GrabFocus->EndGrab(this);
 			}
 		}
 	}
@@ -153,7 +146,7 @@ bool UUxtNearPointerComponent::SetFocusedGrabTarget(UActorComponent* NewFocusedT
 {
 	if (!bFocusLocked)
 	{
-		GrabFocus->SelectClosestPointOnTarget((int32)GetUniqueID(), GetGrabPointerTransform(), NewFocusedTarget);
+		GrabFocus->SelectClosestPointOnTarget(this, GetGrabPointerTransform(), NewFocusedTarget);
 
 		bFocusLocked = (NewFocusedTarget != nullptr && bEnableFocusLock);
 
@@ -166,7 +159,7 @@ bool UUxtNearPointerComponent::SetFocusedTouchTarget(UActorComponent* NewFocused
 {
 	if (!bFocusLocked)
 	{
-		TouchFocus->SelectClosestPointOnTarget((int32)GetUniqueID(), GetTouchPointerTransform(), NewFocusedTarget);
+		TouchFocus->SelectClosestPointOnTarget(this, GetTouchPointerTransform(), NewFocusedTarget);
 
 		bFocusLocked = (NewFocusedTarget != nullptr && bEnableFocusLock);
 

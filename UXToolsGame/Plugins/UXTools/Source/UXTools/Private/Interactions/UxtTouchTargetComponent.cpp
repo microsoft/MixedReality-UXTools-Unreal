@@ -8,24 +8,24 @@ UUxtTouchTargetComponent::UUxtTouchTargetComponent()
 {
 }
 
-void UUxtTouchTargetComponent::OnEnterTouchFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data)
+void UUxtTouchTargetComponent::OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
 {
-	FocusedPointers.Add(PointerId, Data);
+	FocusedPointers.Add(Pointer, Data);
 	const bool bWasFocused = FocusedPointers.Num() != 1;
-	OnBeginFocus.Broadcast(this, PointerId, Data, bWasFocused);
+	OnBeginFocus.Broadcast(this, Pointer, Data, bWasFocused);
 }
 
-void UUxtTouchTargetComponent::OnUpdateTouchFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data)
+void UUxtTouchTargetComponent::OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
 {
-	FocusedPointers.FindChecked(PointerId) = Data;
-	OnUpdateFocus.Broadcast(this, PointerId, Data);
+	FocusedPointers.FindChecked(Pointer) = Data;
+	OnUpdateFocus.Broadcast(this, Pointer, Data);
 }
 
-void UUxtTouchTargetComponent::OnExitTouchFocus_Implementation(int32 PointerId)
+void UUxtTouchTargetComponent::OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	FocusedPointers.Remove(PointerId);
+	FocusedPointers.Remove(Pointer);
 	const bool bIsFocused = FocusedPointers.Num() > 0;
-	OnEndFocus.Broadcast(this, PointerId, bIsFocused);
+	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
 bool UUxtTouchTargetComponent::GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
@@ -34,7 +34,7 @@ bool UUxtTouchTargetComponent::GetClosestTouchPoint_Implementation(const UPrimit
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
 }
 
-const TMap<int32, FUxtPointerInteractionData>& UUxtTouchTargetComponent::GetFocusedPointers() const
+const TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData>& UUxtTouchTargetComponent::GetFocusedPointers() const
 {
 	return FocusedPointers;
 }

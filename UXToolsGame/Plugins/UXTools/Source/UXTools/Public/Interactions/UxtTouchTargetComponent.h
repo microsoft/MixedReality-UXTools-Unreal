@@ -12,9 +12,9 @@
 class UUxtTouchTargetComponent;
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FBeginFocusDelegate, UUxtTouchTargetComponent*, Interactable, int32, Pointer, FUxtPointerInteractionData, Data, bool, bWasFocused);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUpdateFocusDelegate, UUxtTouchTargetComponent*, Interactable, int32, Pointer, FUxtPointerInteractionData, Data);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FEndFocusDelegate, UUxtTouchTargetComponent*, Interactable, int32, Pointer, bool, bIsFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FBeginFocusDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data, bool, bWasFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUpdateFocusDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FEndFocusDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, bool, bIsFocused);
 
 /**
  * Base class for pointer targets that keeps track of the currently touching pointers.
@@ -32,19 +32,19 @@ protected:
 	//
 	// IUxtTouchTarget interface
 
-	virtual void OnEnterTouchFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
-	virtual void OnUpdateTouchFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
-	virtual void OnExitTouchFocus_Implementation(int32 PointerId) override;
+	virtual void OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 	virtual bool GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 
 	/** Returns a list of the pointers that are currently touching this actor. */
-	const TMap<int32, FUxtPointerInteractionData>& GetFocusedPointers() const;
+	const TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData>& GetFocusedPointers() const;
 
 private:
 
 	/** List of pointers that are currently touching the actor. */
-	TMap<int32, FUxtPointerInteractionData> FocusedPointers;
+	TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData> FocusedPointers;
 
 	/** Event raised when a pointer starts focusing the interactable. WasFocused indicates if the interactable was already focused by another pointer. */
 	UPROPERTY(BlueprintAssignable, Category = "Interactable")

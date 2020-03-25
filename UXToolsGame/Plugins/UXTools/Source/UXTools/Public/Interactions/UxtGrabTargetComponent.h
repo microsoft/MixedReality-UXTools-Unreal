@@ -20,7 +20,7 @@ struct UXTOOLS_API FUxtGrabPointerData
 
 	/** The pointer that is interacting with the component. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
-	int32 PointerId;
+	UUxtNearPointerComponent* Pointer;
 
 	/** Last updated data of the pointer. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
@@ -112,7 +112,7 @@ public:
 	 * Index is the order in which pointers started grabbing.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	void FindGrabPointer(int32 PointerId, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
+	void FindGrabPointer(UUxtNearPointerComponent* Pointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
 
 	/** Returns the first active grab pointer.
 	 * If no pointer is grabbing the Valid output will be false.
@@ -153,14 +153,14 @@ protected:
 
 	virtual bool GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 
-	virtual void OnBeginGrab_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
-	virtual void OnUpdateGrab_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
-	virtual void OnEndGrab_Implementation(int32 PointerId) override;
+	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 private:
 
 	/** Internal search function for finding active grabbing pointers */
-	bool FindGrabPointerInternal(int32 PointerId, FUxtGrabPointerData const *&OutData, int &OutIndex) const;
+	bool FindGrabPointerInternal(UUxtNearPointerComponent* Pointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const;
 
 	/** Compute the grab transform relative to the current actor world transform. */
 	void ResetLocalGrabPoint(FUxtGrabPointerData &PointerData);

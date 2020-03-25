@@ -6,6 +6,8 @@
 #include "CoreMinimal.h"
 #include "Input/UxtPointerTypes.h"
 
+class UUxtNearPointerComponent;
+
 /** Result of closest point search functions. */
 struct FUxtPointerFocusSearchResult
 {
@@ -45,18 +47,18 @@ public:
 	// TODO get hand joints from WMR => no need to pass PointerTransform
 
 	/** Select and set the focused target among the list of overlaps. */
-	void SelectClosestTarget(int32 PointerId, const FTransform& PointerTransform, const TArray<FOverlapResult>& Overlaps);
+	void SelectClosestTarget(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform, const TArray<FOverlapResult>& Overlaps);
 
 	/** Select the closest primitive from the owner of the given target component.
 	 *  The target component will be the new focus, unless no usable primitive can be found.
 	 */
-	void SelectClosestPointOnTarget(int32 PointerId, const FTransform& PointerTransform, UActorComponent* NewTarget);
+	void SelectClosestPointOnTarget(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform, UActorComponent* NewTarget);
 
 	/** Clear the focused target. */
-	void ClearFocus(int32 PointerId);
+	void ClearFocus(UUxtNearPointerComponent* Pointer);
 
 	/** Notify the focused target of a pointer update. */
-	void UpdateFocus(int32 PointerId, const FTransform& PointerTransform) const;
+	void UpdateFocus(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform) const;
 
 	/**
 	 * Get the default target object.
@@ -74,7 +76,7 @@ protected:
 
 	/** Set the focus to the given target object, primitive, and point on the target. */
 	void SetFocus(
-		int32 PointerId,
+		UUxtNearPointerComponent* Pointer,
 		const FTransform& PointerTransform,
 		UObject* NewTarget,
 		UPrimitiveComponent* NewPrimitive,
@@ -99,11 +101,11 @@ protected:
 	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const = 0;
 
 	/** Notify the target object that it has entered focus. */
-	virtual void RaiseEnterFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const = 0;
+	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const = 0;
 	/** Notify the focused target object that the pointer has been updated. */
-	virtual void RaiseUpdateFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const = 0;
+	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const = 0;
 	/** Notify the target object that it has exited focus. */
-	virtual void RaiseExitFocusEvent(UObject* Target, int32 PointerId) const = 0;
+	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
 
 private:
 
@@ -130,11 +132,11 @@ struct FUxtGrabPointerFocus : public FUxtPointerFocus
 public:
 
 	/** Notify the target object that grab has started. */
-	void BeginGrab(int32 PointerId, const FTransform& PointerTransform);
+	void BeginGrab(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform);
 	/** Notify the grabbed target object that the pointer has been updated. */
-	void UpdateGrab(int32 PointerId, const FTransform& PointerTransform);
+	void UpdateGrab(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform);
 	/** Notify the target object that grab has ended. */
-	void EndGrab(int32 PointerId);
+	void EndGrab(UUxtNearPointerComponent* Pointer);
 
 	bool IsGrabbing() const;
 
@@ -146,9 +148,9 @@ protected:
 
 	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const override;
 
-	virtual void RaiseEnterFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const override;
-	virtual void RaiseUpdateFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const override;
-	virtual void RaiseExitFocusEvent(UObject* Target, int32 PointerId) const override;
+	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
+	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
+	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 
 private:
 
@@ -168,7 +170,7 @@ protected:
 
 	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const override;
 
-	virtual void RaiseEnterFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const override;
-	virtual void RaiseUpdateFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const override;
-	virtual void RaiseExitFocusEvent(UObject* Target, int32 PointerId) const override;
+	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
+	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
+	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 };

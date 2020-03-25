@@ -8,6 +8,8 @@
 #include "Input/UxtPointerTypes.h"
 #include "UxtTouchTarget.generated.h"
 
+class UUxtNearPointerComponent;
+
 UINTERFACE(BlueprintType)
 class UUxtTouchTarget : public UInterface
 {
@@ -23,15 +25,15 @@ public:
 
 	/** Raised when a pointer focuses the actor. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnEnterTouchFocus(int32 PointerId, const FUxtPointerInteractionData& Data);
+	void OnEnterTouchFocus(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
 
 	/** Raised when a pointer has been updated while focused. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdateTouchFocus(int32 PointerId, const FUxtPointerInteractionData& Data);
+	void OnUpdateTouchFocus(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
 
 	/** Raised when a pointer stops focusing the actor. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnExitTouchFocus(int32 PointerId);
+	void OnExitTouchFocus(UUxtNearPointerComponent* Pointer);
 
 	/** Calculates the point on the target surface that is closest to the point passed in.
 	 *  Return value indicates whether a point was found.
@@ -42,9 +44,9 @@ public:
 	// TODO have no functional general touch detection mechanism yet
 	///** Raised when a pointer touch volume starts overlapping the actor. */
 	//UFUNCTION(BlueprintNativeEvent)
-	//void OnBeginTouch(int32 PointerId);
+	//void OnBeginTouch(UUxtNearPointerComponent* Pointer);
 
 	///** Raised when a pointer touch volume stops overlapping the actor. */
 	//UFUNCTION(BlueprintNativeEvent)
-	//void OnEndTouch(int32 PointerId);
+	//void OnEndTouch(UUxtNearPointerComponent* Pointer);
 };
