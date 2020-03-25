@@ -37,7 +37,7 @@ public:
 	 *  Return value indicates whether a point was found.
 	 */
 	UFUNCTION(BlueprintNativeEvent)
-	bool GetClosestGrabPoint(const FVector& Point, FVector& OutPointOnSurface) const;
+	bool GetClosestGrabPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const;
 
 	/** Raised when a pointer starts grabbing while overlapping the actor. */
 	UFUNCTION(BlueprintNativeEvent)

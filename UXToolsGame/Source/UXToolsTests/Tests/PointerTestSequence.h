@@ -29,7 +29,7 @@ public:
 	virtual void OnUpdateGrabFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
 	virtual void OnExitGrabFocus_Implementation(int32 PointerId) override;
 
-	virtual bool GetClosestGrabPoint_Implementation(const FVector& Point, FVector& OutPointOnSurface) const override;
+	virtual bool GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 
 	virtual void OnBeginGrab_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
 	virtual void OnEndGrab_Implementation(int32 PointerId) override;

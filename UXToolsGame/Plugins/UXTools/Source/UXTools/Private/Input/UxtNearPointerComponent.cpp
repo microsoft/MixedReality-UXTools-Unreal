@@ -2,102 +2,12 @@
 // Licensed under the MIT License.
 
 #include "Input/UxtNearPointerComponent.h"
+#include "Input/UxtPointerFocus.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtTouchTarget.h"
 
 #include "Engine/World.h"
-
-namespace
-{
-	/** Find a component of the actor that implements the given interface type. */
-	template <class InterfaceClass>
-	UActorComponent* FindInterfaceComponent(AActor* Owner)
-	{
-		for (UActorComponent* Component : Owner->GetComponents())
-		{
-			if (Component->Implements<typename InterfaceClass::UClassType>())
-			{
-				return Component;
-			}
-		}
-
-		return nullptr;
-	}
-
-	/** Generic function for finding the closest point using the given interface. */
-	template <class InterfaceClass>
-	bool GetClosestPointOnTarget(const UActorComponent* Target, const FVector& Point, FVector& OutClosestPoint);
-
-	/** Specialization of the closest point function for the GrabTarget interface. */
-	template <>
-	bool GetClosestPointOnTarget<IUxtGrabTarget>(const UActorComponent* Target, const FVector& Point, FVector& OutClosestPoint)
-	{
-		return IUxtGrabTarget::Execute_GetClosestGrabPoint(Target, Point, OutClosestPoint);
-	}
-
-	/** Specialization of the closest point function for the TouchTarget interface. */
-	template <>
-	bool GetClosestPointOnTarget<IUxtTouchTarget>(const UActorComponent* Target, const FVector& Point, FVector& OutClosestPoint)
-	{
-		return IUxtTouchTarget::Execute_GetClosestTouchPoint(Target, Point, OutClosestPoint);
-	}
-
-	/** Generic function for finding the closest point using the given interface.
-	 *  Checks if the target actually implements the interface.
-	 */
-	template <class InterfaceClass>
-	bool GetClosestPointOnTargetChecked(const UActorComponent* Target, const FVector& Point, FVector& OutClosestPoint)
-	{
-		if (Target->Implements<typename InterfaceClass::UClassType>())
-		{
-			return GetClosestPointOnTarget<InterfaceClass>(Target, Point, OutClosestPoint);
-		}
-		return false;
-	}
-
-	/** Generic function for selecting the closest target to the given point, using the given interface for the distance function. */
-	template <class InterfaceClass>
-	bool FindClosestTarget(const TArray<FOverlapResult>& Overlaps, const FVector& Point, UActorComponent*& OutClosestTarget, FVector& OutClosestPointOnTarget, float& OutMinDistance)
-	{
-		float MinDistanceSqr = MAX_FLT;
-		UActorComponent* ClosestTarget = nullptr;
-		FVector ClosestPointOnTarget = FVector::ZeroVector;
-
-		for (const FOverlapResult& Overlap : Overlaps)
-		{
-			if (UActorComponent* Target = FindInterfaceComponent<InterfaceClass>(Overlap.GetActor()))
-			{
-				FVector PointOnTarget;
-				if (GetClosestPointOnTarget<InterfaceClass>(Target, Point, PointOnTarget))
-				{
-					float DistanceSqr = (Point - PointOnTarget).SizeSquared();
-					if (DistanceSqr < MinDistanceSqr)
-					{
-						MinDistanceSqr = DistanceSqr;
-						ClosestTarget = Target;
-						ClosestPointOnTarget = PointOnTarget;
-					}
-				}
-			}
-		}
-
-		if (ClosestTarget != nullptr)
-		{
-			OutClosestTarget = ClosestTarget;
-			OutClosestPointOnTarget = ClosestPointOnTarget;
-			OutMinDistance = FMath::Sqrt(MinDistanceSqr);
-			return true;
-		}
-		else
-		{
-			OutClosestTarget = nullptr;
-			OutClosestPointOnTarget = FVector::ZeroVector;
-			OutMinDistance = MAX_FLT;
-			return false;
-		}
-	}
-}
-
+#include "Components/PrimitiveComponent.h"
 
 UUxtNearPointerComponent::UUxtNearPointerComponent()
 {
@@ -105,64 +15,49 @@ UUxtNearPointerComponent::UUxtNearPointerComponent()
 
 	// Tick after physics so overlaps reflect the latest physics state.
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
+
+	GrabFocus = new FUxtGrabPointerFocus();
+	TouchFocus = new FUxtTouchPointerFocus();
+}
+
+UUxtNearPointerComponent::~UUxtNearPointerComponent()
+{
+	delete GrabFocus;
+	delete TouchFocus;
 }
 
 void UUxtNearPointerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	ChangeFocusedGrabTarget(nullptr, FVector::ZeroVector);
-	ChangeFocusedTouchTarget(nullptr, FVector::ZeroVector);
+	GrabFocus->ClearFocus((int32)GetUniqueID());
+	TouchFocus->ClearFocus((int32)GetUniqueID());
 
 	Super::EndPlay(EndPlayReason);
 }
 
 void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
+	int32 PointerId = (int32)GetUniqueID();
+	const FTransform GrabTransform = GetGrabPointerTransform();
+	const FTransform TouchTransform = GetTouchPointerTransform();
+
 	// Don't update the focused target if locked
 	if (!bFocusLocked)
 	{
-		const FVector ProximityCenter = GetGrabPointerTransform().GetLocation();
-		const FVector GrabCenter = GetGrabPointerTransform().GetLocation();
-		const FVector TouchCenter = GetTouchPointerTransform().GetLocation();
+		const FVector ProximityCenter = GrabTransform.GetLocation();
 
 		TArray<FOverlapResult> Overlaps;
 		/*bool HasBlockingOverlap = */ GetWorld()->OverlapMultiByChannel(Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius));
 
-		FocusClosestGrabTarget(Overlaps, GrabCenter);
-		FocusClosestTouchTarget(Overlaps, TouchCenter);
+		GrabFocus->SelectClosestTarget(PointerId, GrabTransform, Overlaps);
+		TouchFocus->SelectClosestTarget(PointerId, TouchTransform, Overlaps);
 	}
 
-	// Update focused grab target
-	if (UObject* Target = FocusedGrabTargetWeak.Get())
-	{
-		if (Target->Implements<UUxtGrabTarget>())
-		{
-			FUxtPointerInteractionData Data;
-			FTransform Transform = GetGrabPointerTransform();
-			Data.Location = Transform.GetLocation();
-			Data.Rotation = Transform.GetRotation();
+	// Update focused targets
 
-			IUxtGrabTarget::Execute_OnUpdateGrabFocus(Target, (int32)GetUniqueID(), Data);
+	GrabFocus->UpdateFocus(PointerId, GrabTransform);
+	GrabFocus->UpdateGrab(PointerId, GrabTransform);
 
-			if (bIsGrabbing)
-			{
-				IUxtGrabTarget::Execute_OnUpdateGrab(Target, (int32)GetUniqueID(), Data);
-			}
-		}
-	}
-
-	// Update focused touch target
-	if (UObject* Target = FocusedTouchTargetWeak.Get())
-	{
-		if (Target->Implements<UUxtTouchTarget>())
-		{
-			FUxtPointerInteractionData Data;
-			FTransform Transform = GetTouchPointerTransform();
-			Data.Location = Transform.GetLocation();
-			Data.Rotation = Transform.GetRotation();
-
-			IUxtTouchTarget::Execute_OnUpdateTouchFocus(Target, (int32)GetUniqueID(), Data);
-		}
-	}
+	TouchFocus->UpdateFocus(PointerId, TouchTransform);
 }
 
 EControllerHand UUxtNearPointerComponent::GetHand() const
@@ -217,36 +112,21 @@ void UUxtNearPointerComponent::SetGrabRadius(float Radius)
 
 UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const
 {
-	if (auto Target = FocusedGrabTargetWeak.Get())
-	{
-		OutClosestPointOnTarget = ClosestGrabTargetPoint;
-		return Target;
-	}
-
-	return nullptr;
+	OutClosestPointOnTarget = GrabFocus->GetClosestTargetPoint();
+	return GrabFocus->GetFocusedTarget();
 }
 
 UObject* UUxtNearPointerComponent::GetFocusedTouchTarget(FVector& OutClosestPointOnTarget) const
 {
-	if (auto Target = FocusedTouchTargetWeak.Get())
-	{
-		OutClosestPointOnTarget = ClosestTouchTargetPoint;
-		return Target;
-	}
-
-	return nullptr;
+	OutClosestPointOnTarget = TouchFocus->GetClosestTargetPoint();
+	return TouchFocus->GetFocusedTarget();
 }
 
 bool UUxtNearPointerComponent::SetFocusedGrabTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock)
 {
 	if (!bFocusLocked)
 	{
-		FVector PointerLocation = GetGrabPointerTransform().GetLocation();
-		FVector PointOnTarget;
-		if (GetClosestPointOnTargetChecked<IUxtGrabTarget>(NewFocusedTarget, PointerLocation, PointOnTarget))
-		{
-			ChangeFocusedGrabTarget(NewFocusedTarget, PointOnTarget);
-		}
+		GrabFocus->SelectClosestPointOnTarget((int32)GetUniqueID(), GetGrabPointerTransform(), NewFocusedTarget);
 
 		bFocusLocked = (NewFocusedTarget != nullptr && bEnableFocusLock);
 
@@ -259,122 +139,13 @@ bool UUxtNearPointerComponent::SetFocusedTouchTarget(UActorComponent* NewFocused
 {
 	if (!bFocusLocked)
 	{
-		FVector PointerLocation = GetTouchPointerTransform().GetLocation();
-		FVector PointOnTarget;
-		if (GetClosestPointOnTargetChecked<IUxtTouchTarget>(NewFocusedTarget, PointerLocation, PointOnTarget))
-		{
-			ChangeFocusedTouchTarget(NewFocusedTarget, PointOnTarget);
-		}
+		TouchFocus->SelectClosestPointOnTarget((int32)GetUniqueID(), GetTouchPointerTransform(), NewFocusedTarget);
 
 		bFocusLocked = (NewFocusedTarget != nullptr && bEnableFocusLock);
 
 		return true;
 	}
 	return false;
-}
-
-void UUxtNearPointerComponent::FocusClosestGrabTarget(const TArray<FOverlapResult>& Overlaps, const FVector& Point)
-{
-	UActorComponent* ClosestTarget;
-	FVector ClosestPointOnTarget;
-	float MinDistance;
-	FindClosestTarget<IUxtGrabTarget>(Overlaps, Point, ClosestTarget, ClosestPointOnTarget, MinDistance);
-
-	ChangeFocusedGrabTarget(ClosestTarget, ClosestPointOnTarget);
-}
-
-void UUxtNearPointerComponent::FocusClosestTouchTarget(const TArray<FOverlapResult>& Overlaps, const FVector& Point)
-{
-	UActorComponent* ClosestTarget;
-	FVector ClosestPointOnTarget;
-	float MinDistance;
-	FindClosestTarget<IUxtTouchTarget>(Overlaps, Point, ClosestTarget, ClosestPointOnTarget, MinDistance);
-
-	ChangeFocusedTouchTarget(ClosestTarget, ClosestPointOnTarget);
-}
-
-void UUxtNearPointerComponent::ChangeFocusedGrabTarget(UActorComponent* NewFocusedTarget, const FVector& NewClosestPointOnTarget)
-{
-	UObject* FocusedTarget = FocusedGrabTargetWeak.Get();
-
-	// If focused target is unchanged, then update only the closest-point-on-target
-	if (NewFocusedTarget == FocusedTarget)
-	{
-		ClosestGrabTargetPoint = NewClosestPointOnTarget;
-	}
-	else
-	{
-		// Update focused target
-		if (FocusedTarget && FocusedTarget->Implements<UUxtGrabTarget>())
-		{
-			IUxtGrabTarget::Execute_OnExitGrabFocus(FocusedTarget, (int32)GetUniqueID());
-		}
-
-		if (NewFocusedTarget)
-		{
-			FocusedGrabTargetWeak = NewFocusedTarget;
-			FocusedTarget = NewFocusedTarget;
-		}
-		else
-		{
-			// If the new target is null, use the default target instead.
-			FocusedGrabTargetWeak = DefaultTargetWeak;
-			FocusedTarget = DefaultTargetWeak.Get();
-		}
-		ClosestGrabTargetPoint = NewClosestPointOnTarget;
-
-		if (FocusedTarget && FocusedTarget->Implements<UUxtGrabTarget>())
-		{
-			FUxtPointerInteractionData Data;
-			FTransform Transform = GetGrabPointerTransform();
-			Data.Location = Transform.GetLocation();
-			Data.Rotation = Transform.GetRotation();
-
-			IUxtGrabTarget::Execute_OnEnterGrabFocus(FocusedTarget, (int32)GetUniqueID(), Data);
-		}
-	}
-}
-
-void UUxtNearPointerComponent::ChangeFocusedTouchTarget(UActorComponent* NewFocusedTarget, const FVector& NewClosestPointOnTarget)
-{
-	UObject* FocusedTarget = FocusedTouchTargetWeak.Get();
-
-	// If focused target is unchanged, then update only the closest-point-on-target
-	if (NewFocusedTarget == FocusedTarget)
-	{
-		ClosestTouchTargetPoint = NewClosestPointOnTarget;
-	}
-	else
-	{
-		// Update focused target
-		if (FocusedTarget && FocusedTarget->Implements<UUxtTouchTarget>())
-		{
-			IUxtTouchTarget::Execute_OnExitTouchFocus(FocusedTarget, (int32)GetUniqueID());
-		}
-
-		if (NewFocusedTarget)
-		{
-			FocusedTouchTargetWeak = NewFocusedTarget;
-			FocusedTarget = NewFocusedTarget;
-		}
-		else
-		{
-			// If the new target is null, use the default target instead.
-			FocusedTouchTargetWeak = DefaultTargetWeak;
-			FocusedTarget = DefaultTargetWeak.Get();
-		}
-		ClosestTouchTargetPoint = NewClosestPointOnTarget;
-
-		if (FocusedTarget && FocusedTarget->Implements<UUxtTouchTarget>())
-		{
-			FUxtPointerInteractionData Data;
-			FTransform Transform = GetTouchPointerTransform();
-			Data.Location = Transform.GetLocation();
-			Data.Rotation = Transform.GetRotation();
-
-			IUxtTouchTarget::Execute_OnEnterTouchFocus(FocusedTarget, (int32)GetUniqueID(), Data);
-		}
-	}
 }
 
 bool UUxtNearPointerComponent::GetFocusLocked() const
@@ -398,31 +169,19 @@ void UUxtNearPointerComponent::SetGrabbing(bool bValue)
 	{
 		bIsGrabbing = bValue;
 
-		if (auto Target = FocusedGrabTargetWeak.Get())
+		if (bIsGrabbing)
 		{
-			if (Target->Implements<UUxtGrabTarget>())
-			{
-				if (bIsGrabbing)
-				{
-					FUxtPointerInteractionData Data;
-					FTransform Transform = GetGrabPointerTransform();
-					Data.Location = Transform.GetLocation();
-					Data.Rotation = Transform.GetRotation();
+			GrabFocus->BeginGrab((int32)GetUniqueID(), GetGrabPointerTransform());
 
-					IUxtGrabTarget::Execute_OnBeginGrab(Target, (int32)GetUniqueID(), Data);
+			// Lock the grabbing pointer so the target remains focused as it moves.
+			SetFocusLocked(true);
+		}
+		else
+		{
+			GrabFocus->EndGrab((int32)GetUniqueID());
 
-					// Lock the grabbing pointer so the target remains focused as it moves.
-					SetFocusLocked(true);
-				}
-				else
-				{
-					IUxtGrabTarget::Execute_OnEndGrab(Target, (int32)GetUniqueID());
-
-					// Unlock the focused target selection
-					SetFocusLocked(false);
-				}
-
-			}
+			// Unlock the focused target selection
+			SetFocusLocked(false);
 		}
 	}
 }
@@ -447,16 +206,6 @@ void UUxtNearPointerComponent::SetThumbTipTransform(const FTransform& NewTransfo
 	ThumbTipTransform = NewTransform;
 }
 
-UObject* UUxtNearPointerComponent::GetDefaultTarget() const
-{
-	return DefaultTargetWeak.Get();
-}
-
-void UUxtNearPointerComponent::SetDefaultTarget(UObject* NewDefaultTarget)
-{
-	DefaultTargetWeak = NewDefaultTarget;
-}
-
 FTransform UUxtNearPointerComponent::GetGrabPointerTransform() const
 {
 	// Use the midway point between the thumb and index finger tips for grab
@@ -473,4 +222,24 @@ FTransform UUxtNearPointerComponent::GetGrabPointerTransform() const
 FTransform UUxtNearPointerComponent::GetTouchPointerTransform() const
 {
 	return IndexTipTransform;
+}
+
+UObject* UUxtNearPointerComponent::GetDefaultGrabTarget() const
+{
+	return GrabFocus->GetDefaultTarget();
+}
+
+void UUxtNearPointerComponent::SetDefaultGrabTarget(UObject* NewDefaultTarget)
+{
+	GrabFocus->SetDefaultTarget(NewDefaultTarget);
+}
+
+UObject* UUxtNearPointerComponent::GetDefaultTouchTarget() const
+{
+	return TouchFocus->GetDefaultTarget();
+}
+
+void UUxtNearPointerComponent::SetDefaultTouchTarget(UObject* NewDefaultTarget)
+{
+	TouchFocus->SetDefaultTarget(NewDefaultTarget);
 }

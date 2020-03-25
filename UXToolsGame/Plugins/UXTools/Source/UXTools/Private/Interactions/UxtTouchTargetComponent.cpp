@@ -28,9 +28,10 @@ void UUxtTouchTargetComponent::OnExitTouchFocus_Implementation(int32 PointerId)
 	OnEndFocus.Broadcast(this, PointerId, bIsFocused);
 }
 
-bool UUxtTouchTargetComponent::GetClosestTouchPoint_Implementation(const FVector& Point, FVector& OutPointOnSurface) const
+bool UUxtTouchTargetComponent::GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
 {
-	return FUxtInteractionUtils::GetDefaultClosestPoint(GetOwner(), Point, OutPointOnSurface);
+	float DistanceSqr;
+	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
 }
 
 const TMap<int32, FUxtPointerInteractionData>& UUxtTouchTargetComponent::GetFocusedPointers() const

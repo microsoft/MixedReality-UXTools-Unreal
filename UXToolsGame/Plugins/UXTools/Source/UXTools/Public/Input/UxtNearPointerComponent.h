@@ -8,6 +8,9 @@
 #include "Input/UxtPointerTypes.h"
 #include "UxtNearPointerComponent.generated.h"
 
+struct FUxtGrabPointerFocus;
+struct FUxtTouchPointerFocus;
+
 /**
  * Adds touch and grab interactions to an actor.
  * It keeps track of all overlapping touch targets and raises focus events on the closest one.
@@ -19,8 +22,9 @@ class UXTOOLS_API UUxtNearPointerComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
+
 	UUxtNearPointerComponent();
+	virtual ~UUxtNearPointerComponent();
 
 	UFUNCTION(BlueprintGetter)
 	EControllerHand GetHand() const;
@@ -92,24 +96,36 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetThumbTipTransform(const FTransform& NewTransform);
 
-	/**
-	 * Get the default target object.
-	 * This object receives focus and grasp events when no other target is focused.
-	 */
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetDefaultTarget() const;
-
-	/**
-	 * Set the default target object.
-	 * This object receives focus and grasp events when no other target is focused.
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
-	void SetDefaultTarget(UObject* NewDefaultTarget);
-
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetGrabPointerTransform() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetTouchPointerTransform() const;
+
+	/**
+	 * Get the default target object of the grab pointer.
+	 * This object receives focus and grab events when no other target is focused.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UObject* GetDefaultGrabTarget() const;
+	/**
+	 * Set the default target object of the grab pointer.
+	 * This object receives focus and grab events when no other target is focused.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
+	void SetDefaultGrabTarget(UObject* NewDefaultTarget);
+
+	/**
+	 * Get the default target object of the touch pointer.
+	 * This object receives focus and touch events when no other target is focused.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UObject* GetDefaultTouchTarget() const;
+	/**
+	 * Set the default target object of the grab pointer.
+	 * This object receives focus and touch events when no other target is focused.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
+	void SetDefaultTouchTarget(UObject* NewDefaultTarget);
 
 protected:
 
@@ -119,29 +135,13 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-private:
-
-	/** Change the focused target. Does not check focus lock state. */
-	void ChangeFocusedGrabTarget(UActorComponent* NewFocusedTarget, const FVector& NewClosestPointOnTarget);
-	/** Change the focused target. Does not check focus lock state. */
-	void ChangeFocusedTouchTarget(UActorComponent* NewFocusedTarget, const FVector& NewClosestPointOnTarget);
-
-	/** Change the focused target to the closest target among the given overlaps. Does not check focus lock state. */
-	void FocusClosestGrabTarget(const TArray<FOverlapResult>& Overlaps, const FVector& Point);
-	/** Change the focused target to the closest target among the given overlaps. Does not check focus lock state. */
-	void FocusClosestTouchTarget(const TArray<FOverlapResult>& Overlaps, const FVector& Point);
-
 protected:
 
-	/** Weak reference to the currently focused grab target. */
-	TWeakObjectPtr<UObject> FocusedGrabTargetWeak;
-	/** Weak reference to the currently focused touch target. */
-	TWeakObjectPtr<UObject> FocusedTouchTargetWeak;
+	/** Focus of the grab pointer */
+	FUxtGrabPointerFocus* GrabFocus;
 
-	/** Closest point on the surface of the focused grab target. */
-	FVector ClosestGrabTargetPoint = FVector::ZeroVector;
-	/** Closest point on the surface of the focused touch target. */
-	FVector ClosestTouchTargetPoint = FVector::ZeroVector;
+	/** Focus of the touch pointer */
+	FUxtTouchPointerFocus* TouchFocus;
 
 private:
 
@@ -176,9 +176,4 @@ private:
 	UPROPERTY(BlueprintGetter = "GetThumbTipTransform", BlueprintSetter = "SetThumbTipTransform", Category = "Hand Pointer")
 	FTransform ThumbTipTransform;
 
-	/**
-	 * Optional weak reference to a default target object
-	 * that receives focus and grab events if no other target is focused.
-	 */
-	TWeakObjectPtr<UObject> DefaultTargetWeak;
 };

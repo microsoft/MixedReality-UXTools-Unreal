@@ -36,7 +36,7 @@ protected:
 	virtual void OnUpdateTouchFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data) override;
 	virtual void OnExitTouchFocus_Implementation(int32 PointerId) override;
 
-	virtual bool GetClosestTouchPoint_Implementation(const FVector& Point, FVector& OutPointOnSurface) const override;
+	virtual bool GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 
 	/** Returns a list of the pointers that are currently touching this actor. */
 	const TMap<int32, FUxtPointerInteractionData>& GetFocusedPointers() const;

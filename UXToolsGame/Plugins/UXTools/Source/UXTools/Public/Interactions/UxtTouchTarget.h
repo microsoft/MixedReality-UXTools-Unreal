@@ -37,7 +37,7 @@ public:
 	 *  Return value indicates whether a point was found.
 	 */
 	UFUNCTION(BlueprintNativeEvent)
-	bool GetClosestTouchPoint(const FVector& Point, FVector& OutPointOnSurface) const;
+	bool GetClosestTouchPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const;
 
 	// TODO have no functional general touch detection mechanism yet
 	///** Raised when a pointer touch volume starts overlapping the actor. */

@@ -167,9 +167,10 @@ void UUxtGrabTargetComponent::BeginPlay()
 	UpdateComponentTickEnabled();
 }
 
-bool UUxtGrabTargetComponent::GetClosestGrabPoint_Implementation(const FVector& Point, FVector& OutPointOnSurface) const
+bool UUxtGrabTargetComponent::GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
 {
-	return FUxtInteractionUtils::GetDefaultClosestPoint(GetOwner(), Point, OutPointOnSurface);
+	float DistanceSqr;
+	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
 }
 
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data)

@@ -5,7 +5,7 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "UxtTestUtils.h"
 
-#include "GameFramework/Actor.h"
+#include "Components/PrimitiveComponent.h"
 
 void UTestTouchPointerTarget::BeginPlay()
 {
@@ -39,14 +39,9 @@ void UTestTouchPointerTarget::OnEndGrab_Implementation(int32 PointerId)
 	++EndGrabCount;
 }
 
-bool UTestTouchPointerTarget::GetClosestGrabPoint_Implementation(const FVector& Point, FVector& OutPointOnSurface) const
+bool UTestTouchPointerTarget::GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
 {
-	if (GetOwner()->GetRootComponent() == nullptr)
-	{
-		return false;
-	}
-
-	OutPointOnSurface = GetOwner()->GetActorLocation();
+	OutPointOnSurface = Primitive->GetComponentLocation();
 	return true;
 }
 
