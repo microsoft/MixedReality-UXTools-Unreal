@@ -27,6 +27,14 @@ public:
 
 	UUxtInteractableComponent();
 
+	/** Event raised when a pointer starts hovering the interactable. WasHovered indicates if the interactable was already hovered by another pointer. */
+	UPROPERTY(BlueprintAssignable, Category = "Interactable")
+	FHoverStartedDelegate OnHoverStarted;
+
+	/** Event raised when a pointer ends hovering the interactable. IsHovered indicates if the interactable is still hovered by another pointer. */
+	UPROPERTY(BlueprintAssignable, Category = "Interactable")
+	FHoverEndedDelegate OnHoverEnded;
+
 protected:
 	//
 	// ITouchPointerTarget interface
@@ -53,14 +61,6 @@ private:
 
 	/** List of far pointers that are currently focusing the actor. */
 	TSet<TWeakObjectPtr<UUxtFarPointerComponent>> ActiveFarPointers;
-
-	/** Event raised when a pointer starts hovering the interactable. WasHovered indicates if the interactable was already hovered by another pointer. */
-	UPROPERTY(BlueprintAssignable, Category = "Interactable")
-	FHoverStartedDelegate OnHoverStarted;
-
-	/** Event raised when a pointer ends hovering the interactable. IsHovered indicates if the interactable is still hovered by another pointer. */
-	UPROPERTY(BlueprintAssignable, Category = "Interactable")
-	FHoverEndedDelegate OnHoverEnded;
 
 	int NumPointersFocusing = 0;
 };
