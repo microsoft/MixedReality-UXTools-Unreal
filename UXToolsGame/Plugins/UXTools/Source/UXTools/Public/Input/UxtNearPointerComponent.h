@@ -51,6 +51,11 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetGrabRadius(float radius);
 
+	UFUNCTION(BlueprintGetter)
+	float GetTouchDepth() const;
+	UFUNCTION(BlueprintSetter)
+	void SetTouchDepth(float depth);
+
 	/** Returns currently focused grab target or null if there is none. */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const;
@@ -83,37 +88,15 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	bool IsGrabbing() const;
-
+    
+	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	bool GetIsTouching() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetGrabPointerTransform() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetTouchPointerTransform() const;
-
-	/**
-	 * Get the default target object of the grab pointer.
-	 * This object receives focus and grab events when no other target is focused.
-	 */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetDefaultGrabTarget() const;
-	/**
-	 * Set the default target object of the grab pointer.
-	 * This object receives focus and grab events when no other target is focused.
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
-	void SetDefaultGrabTarget(UObject* NewDefaultTarget);
-
-	/**
-	 * Get the default target object of the touch pointer.
-	 * This object receives focus and touch events when no other target is focused.
-	 */
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetDefaultTouchTarget() const;
-	/**
-	 * Set the default target object of the grab pointer.
-	 * This object receives focus and touch events when no other target is focused.
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
-	void SetDefaultTouchTarget(UObject* NewDefaultTarget);
+	float GetTouchPointerRadius() const;
 
 protected:
 
@@ -130,6 +113,12 @@ protected:
 
 	/** Focus of the touch pointer */
 	FUxtTouchPointerFocus* TouchFocus;
+    
+    /** Weak reference to the currently touched target. */
+	TWeakObjectPtr<UActorComponent> TouchTargetWeak;
+
+	/** Weak reference to the currently touched target primitive. */
+	TWeakObjectPtr<UPrimitiveComponent> TouchPrimitiveWeak;
 
 private:
 
@@ -140,7 +129,7 @@ private:
 	EControllerHand Hand = EControllerHand::Right;
 
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetTraceChannel", BlueprintSetter = "SetTraceChannel", Category = "Hand Pointer")
-	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_WorldDynamic;
+	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
 	UPROPERTY(EditAnywhere, BlueprintSetter = "SetProximityRadius", BlueprintGetter = "GetProximityRadius", Category = "Hand Pointer")
 	float ProximityRadius = 11.0f;
@@ -150,10 +139,23 @@ private:
 	float GrabRadius = 3.5f;
 
 	/**
+	 * The depth beyond the front face at which a front face touchable no longer recieves touch events.
+	 * While touching a front face touchable, if the near pointer moves beyond this depth, the touchable
+	 * will receive a touch end event.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintSetter = "SetTouchDepth", BlueprintGetter = "GetTouchDepth", Category = "Hand Pointer")
+	float TouchDepth = 20.0f;
+
+	/**
 	 * Whether the pointer is locked on its current focused target.
 	 * When locked, pointers won't change their focused target even if they stop overlapping it.
 	 */
 	UPROPERTY(BlueprintGetter = "GetFocusLocked", BlueprintSetter = "SetFocusLocked", Category = "Hand Pointer")
 	bool bFocusLocked = false;
 
+	bool bIsTouching = false;
+
+	FVector PreviousTouchPointerLocation;
+
+	bool bWasBehindFrontFace = false;
 };

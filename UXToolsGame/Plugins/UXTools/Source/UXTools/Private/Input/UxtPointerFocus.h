@@ -39,6 +39,9 @@ public:
 	/** Get the currently focused target object. */
 	UObject* GetFocusedTarget() const;
 
+	/** Get the currently focused primitive component */
+	UPrimitiveComponent* GetFocusedPrimitive() const;
+
 	/** Get the currently focused target object.
 	 *  Returns null if the target does not implement the expected interface.
 	 */
@@ -59,6 +62,9 @@ public:
 
 	/** Notify the focused target of a pointer update. */
 	void UpdateFocus(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform) const;
+
+	/** Find a component of the actor that implements the required interface. */
+	UActorComponent* FindInterfaceComponent(AActor* Owner) const;
 
 	/**
 	 * Get the default target object.
@@ -81,9 +87,6 @@ protected:
 		UObject* NewTarget,
 		UPrimitiveComponent* NewPrimitive,
 		const FVector& NewClosestPointOnTarget);
-
-	/** Find a component of the actor that implements the required interface. */
-	UActorComponent* FindInterfaceComponent(AActor* Owner) const;
 
 	/** Find the closest target object, primitive, and point among the overlaps. */
 	FUxtPointerFocusSearchResult FindClosestTarget(const TArray<FOverlapResult>& Overlaps, const FVector& Point) const;

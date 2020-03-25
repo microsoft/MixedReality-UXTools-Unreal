@@ -25,6 +25,11 @@ UObject* FUxtPointerFocus::GetFocusedTarget() const
 	return FocusedTargetWeak.Get();
 }
 
+UPrimitiveComponent* FUxtPointerFocus::GetFocusedPrimitive() const
+{
+	return FocusedPrimitiveWeak.Get();
+}
+
 UObject* FUxtPointerFocus::GetFocusedTargetChecked() const
 {
 	if (UObject* Target = FocusedTargetWeak.Get())

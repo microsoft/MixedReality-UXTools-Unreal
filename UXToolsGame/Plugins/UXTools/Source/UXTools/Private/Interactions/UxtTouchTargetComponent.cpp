@@ -34,7 +34,31 @@ bool UUxtTouchTargetComponent::GetClosestTouchPoint_Implementation(const UPrimit
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
 }
 
+void UUxtTouchTargetComponent::OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	TouchPointers.Add(Pointer, Data);
+	OnBeginTouch.Broadcast(this, Pointer, Data);
+}
+
+void UUxtTouchTargetComponent::OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	// Update the copy of the pointer data in the grab pointer array
+	TouchPointers.FindChecked(Pointer) = Data;
+	OnUpdateTouch.Broadcast(this, Pointer, Data);
+}
+
+void UUxtTouchTargetComponent::OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	TouchPointers.Remove(Pointer);
+	OnEndTouch.Broadcast(this, Pointer);
+}
+
 const TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData>& UUxtTouchTargetComponent::GetFocusedPointers() const
 {
 	return FocusedPointers;
+}
+
+const TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData>& UUxtTouchTargetComponent::GetTouchPointers() const
+{
+	return TouchPointers;
 }

@@ -10,6 +10,15 @@
 
 class UUxtNearPointerComponent;
 
+UENUM(BlueprintType)
+enum class EUxtTouchBehaviour : uint8
+{
+	/** Target represents a plane, only touchable from the front face */
+	FrontFace,
+	/** Target represents a mesh volume, touchable from all sides */
+	Volume,
+};
+
 UINTERFACE(BlueprintType)
 class UUxtTouchTarget : public UInterface
 {
@@ -41,12 +50,21 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	bool GetClosestTouchPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const;
 
-	// TODO have no functional general touch detection mechanism yet
-	///** Raised when a pointer touch volume starts overlapping the actor. */
-	//UFUNCTION(BlueprintNativeEvent)
-	//void OnBeginTouch(UUxtNearPointerComponent* Pointer);
+	/** 
+	 * Returns which touch behaviour this target supports
+	 */
+	UFUNCTION(BlueprintNativeEvent)
+	EUxtTouchBehaviour GetTouchBehaviour() const;
 
-	///** Raised when a pointer touch volume stops overlapping the actor. */
-	//UFUNCTION(BlueprintNativeEvent)
-	//void OnEndTouch(UUxtNearPointerComponent* Pointer);
+	/** Raised when a pointer touch volume starts overlapping the actor. */
+	UFUNCTION(BlueprintNativeEvent)
+	void OnBeginTouch(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+
+	/** Raised while a pointer touch volume is overlapping the actor. */
+	UFUNCTION(BlueprintNativeEvent)
+	void OnUpdateTouch(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+
+	/** Raised when a pointer touch volume stops overlapping the actor. */
+	UFUNCTION(BlueprintNativeEvent)
+	void OnEndTouch(UUxtNearPointerComponent* Pointer);
 };

@@ -19,8 +19,8 @@ namespace Microsoft
 }
 
 class UUxtPressableButtonComponent;
+class UBoxComponent;
 class UShapeComponent;
-struct FButtonHandler;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button);
@@ -50,23 +50,40 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	bool IsPressed() const;
 
+	/** Get the current woldspace extents of the touchable button surface */
+	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	FVector2D GetButtonExtents() const;
+
+	/** The maximum distance the button can be pushed */
+	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	float GetScaleAdjustedMaxPushDistance() const;
+
 protected:
 
     //
     // UActorComponent interface
 
 	virtual void BeginPlay() override;
-    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	//
+	// IUxtTouchTarget interface
+
+	virtual void OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+
+	virtual EUxtTouchBehaviour GetTouchBehaviour_Implementation() const override;
+	
+	virtual void OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 public:
 
-	/** 
-	 * The extents (i.e. half the dimensions) of the button movement box.
-	 * The X extent is the maximum travel distance for the button, Y and Z are the button width and height respectively.
-	 */
+	/** Collision profile used by the button collider */
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
-	FVector Extents;
+	FName CollisionProfile = TEXT("UI");
+
+	/** The maximum distance the button can be pushed */
+	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	float MaxPushDistance;
 
 	/** Fraction of the maximum travel distance at which the button will raise the pressed event. */
     UPROPERTY(EditAnywhere, Category = "Pressable Button")
@@ -75,6 +92,10 @@ public:
 	/** Fraction of the maximum travel distance at which a pressed button will raise the released event. */
     UPROPERTY(EditAnywhere, Category = "Pressable Button")
     float ReleasedFraction;
+
+	/** Button movement speed while recovering */
+    UPROPERTY(EditAnywhere, Category = "Pressable Button")
+    float RecoverySpeed;
 
 	/** Event raised when the button reaches the pressed distance. */
 	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
@@ -87,12 +108,36 @@ public:
 private:
 
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
-	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"), Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pressable Button")
 	FComponentReference VisualsReference;
 
-    Microsoft::MixedReality::UX::PressableButton* Button = nullptr;
-    FButtonHandler* ButtonHandler = nullptr;
+	/** Returns the distance a given pointer is pushing the button to. */
+	float CalculatePushDistance(const UUxtNearPointerComponent* pointer) const;
+
+	/** Get the current pushed position of the button */
+	FVector GetCurrentButtonLocation() const;
+
+	/** Collision volume used for determining touch events */
+	UBoxComponent* BoxComponent;
 
 	/** Visuals offset in this component's space */
 	FVector VisualsOffsetLocal;
+
+	/** Visuals offset in this component's space */
+	FVector ColliderOffsetLocal;
+
+	/** True if the button is currently pressed */
+	bool bIsPressed = false;
+
+	/** Position of the button while not being touched by any pointer */
+	FVector RestPosition;
+
+	/** The distance at which the button will fire a pressed event */
+	float PressedDistance;
+
+	/** The distance at which the button will fire a released event */
+	float ReleasedDistance;
+
+	/** The current pushed distance of from touching pointers */
+	float CurrentPushDistance;
 };

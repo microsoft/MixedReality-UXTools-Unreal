@@ -9,7 +9,73 @@
 
 #include "Engine/World.h"
 #include "Components/PrimitiveComponent.h"
+#include "Components/BoxComponent.h"
 
+namespace
+{
+	/**
+	 * Used for checking on which side of a front face touchable's front face the pointer
+	 * sphere is. This is important as BeginTouch can only be called if the pointer sphere
+	 * was not behind in the previous tick and is now behind in this tick.
+	 * 
+	 * This function assumes that the given primitive has a box collider.
+	 */
+	bool IsBehindFrontFace(UPrimitiveComponent* Primitive, FVector PointerPosition, float Radius)
+	{
+		check(Primitive != nullptr);
+
+		// Front face touchables should have use a box collider
+		check(Primitive->GetCollisionShape().IsBox());
+
+		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
+		
+		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
+
+		FVector Extents = Primitive->GetCollisionShape().GetExtent();
+
+		if (LocalPosition.X + Radius > -Extents.X)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/** 
+	 * Used to determine whether if touch has ended with a front face touchable. A touch
+	 * ends if:
+	 * - The pointer sphere moves back in front of the front face of the touchable
+	 * - The pointer spher moves left/right/up/down beyond the touchable primitive
+	 *   extents
+	 * - The perpendicular distance from the pointer sphere to the front face exceeds the
+	 *   given depth.
+	 *
+	 * This function assumes that the given primitive has a box collider.
+	 */
+	bool IsFrontFaceTouchEnded(UPrimitiveComponent* Primitive, FVector PointerPosition, float Radius, float Depth)
+	{
+		check(Primitive != nullptr);
+
+		// Front face touchables should have use a box collider
+		check(Primitive->GetCollisionShape().IsBox());
+
+		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
+
+		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
+
+		FVector Extents = Primitive->GetCollisionShape().GetExtent();
+
+		FVector Min = -Extents - FVector(Radius, Radius, Radius);
+
+		FVector FrontFaceMax = Extents; // depth is measured from the front face
+		FrontFaceMax.X = -FrontFaceMax.X;
+		FVector Max = FrontFaceMax + FVector(Depth + Radius, Radius, Radius);
+
+		FBox TouchableVolume(Min, Max);
+
+		return !TouchableVolume.IsInside(LocalPosition);
+	}
+}
 UUxtNearPointerComponent::UUxtNearPointerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -52,6 +118,99 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 		GrabFocus->SelectClosestTarget(this, GrabTransform, Overlaps);
 		TouchFocus->SelectClosestTarget(this, TouchTransform, Overlaps);
+	}
+	
+	// Update touch
+	{
+		FVector TouchPointerLocation = GetTouchPointerTransform().GetLocation();
+
+		if (bIsTouching)
+		{
+			auto Target = TouchTargetWeak.Get();
+			auto Primitive = TouchPrimitiveWeak.Get();
+			
+			check(Target != nullptr);
+			check(Primitive != nullptr);
+
+			bool endedTouching = false;
+
+			switch (IUxtTouchTarget::Execute_GetTouchBehaviour(Target))
+			{
+			case EUxtTouchBehaviour::FrontFace:
+				endedTouching = IsFrontFaceTouchEnded(Primitive, TouchPointerLocation, GetTouchPointerRadius(), TouchDepth);
+				break;
+			case EUxtTouchBehaviour::Volume:
+				endedTouching = !Primitive->OverlapComponent(TouchPointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetTouchPointerRadius()));
+				break;
+			}
+
+			if (endedTouching) 
+			{
+				bIsTouching = false;
+				TouchTargetWeak = nullptr;
+
+				IUxtTouchTarget::Execute_OnEndTouch(Target, this);
+			}
+			else
+			{
+				FUxtPointerInteractionData Data;
+				FTransform Transform = GetTouchPointerTransform();
+				Data.Location = Transform.GetLocation();
+				Data.Rotation = Transform.GetRotation();
+
+				IUxtTouchTarget::Execute_OnUpdateTouch(Target, this, Data);
+			}
+		}
+		else
+		{
+			FVector Start = PreviousTouchPointerLocation;
+			FVector End = TouchPointerLocation;
+
+			bool isBehind = bWasBehindFrontFace;
+			if (auto FocusTarget = TouchFocus->GetFocusedPrimitive())
+			{
+				isBehind = IsBehindFrontFace(FocusTarget, End, GetTouchPointerRadius());
+			}
+
+			FHitResult HitResult;
+			GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetTouchPointerRadius()));
+
+			if (HitResult.GetActor())
+			{
+				if (auto HitTarget = TouchFocus->FindInterfaceComponent(HitResult.GetActor()))
+				{
+					bool startedTouching = false;
+
+					switch (IUxtTouchTarget::Execute_GetTouchBehaviour(HitTarget))
+					{
+					case EUxtTouchBehaviour::FrontFace:
+						startedTouching = !bWasBehindFrontFace && isBehind;
+						break;
+					case EUxtTouchBehaviour::Volume:
+						startedTouching = true;
+						break;
+					}
+
+					if (startedTouching)
+					{
+						bIsTouching = true;
+						TouchTargetWeak = HitTarget;
+						TouchPrimitiveWeak = HitResult.GetComponent();
+
+						FUxtPointerInteractionData Data;
+						FTransform Transform = GetTouchPointerTransform();
+						Data.Location = Transform.GetLocation();
+						Data.Rotation = Transform.GetRotation();
+
+						IUxtTouchTarget::Execute_OnBeginTouch(HitTarget, this, Data);
+					}
+				}
+			}
+
+			bWasBehindFrontFace = isBehind;
+		}
+
+		PreviousTouchPointerLocation = TouchPointerLocation;
 	}
 
 	// Update focused targets
@@ -130,6 +289,16 @@ void UUxtNearPointerComponent::SetGrabRadius(float Radius)
 	this->GrabRadius = Radius;
 }
 
+float UUxtNearPointerComponent::GetTouchDepth() const
+{
+	return TouchDepth;
+}
+
+void UUxtNearPointerComponent::SetTouchDepth(float depth)
+{
+	TouchDepth = depth;
+}
+
 UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const
 {
 	OutClosestPointOnTarget = GrabFocus->GetClosestTargetPoint();
@@ -183,6 +352,11 @@ bool UUxtNearPointerComponent::IsGrabbing() const
 	return GrabFocus->IsGrabbing();
 }
 
+bool UUxtNearPointerComponent::GetIsTouching() const
+{
+	return bIsTouching;
+}
+
 FTransform UUxtNearPointerComponent::GetGrabPointerTransform() const
 {
 	FQuat IndexTipOrientation, ThumbTipOrientation;
@@ -210,22 +384,14 @@ FTransform UUxtNearPointerComponent::GetTouchPointerTransform() const
 	return FTransform::Identity;
 }
 
-UObject* UUxtNearPointerComponent::GetDefaultGrabTarget() const
+float UUxtNearPointerComponent::GetTouchPointerRadius() const
 {
-	return GrabFocus->GetDefaultTarget();
-}
-
-void UUxtNearPointerComponent::SetDefaultGrabTarget(UObject* NewDefaultTarget)
-{
-	GrabFocus->SetDefaultTarget(NewDefaultTarget);
-}
-
-UObject* UUxtNearPointerComponent::GetDefaultTouchTarget() const
-{
-	return TouchFocus->GetDefaultTarget();
-}
-
-void UUxtNearPointerComponent::SetDefaultTouchTarget(UObject* NewDefaultTarget)
-{
-	TouchFocus->SetDefaultTarget(NewDefaultTarget);
+	FQuat IndexTipOrientation;
+	FVector IndexTipPosition;
+	float IndexTipRadius;
+	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	{
+		return IndexTipRadius;
+	}
+	return 0;
 }

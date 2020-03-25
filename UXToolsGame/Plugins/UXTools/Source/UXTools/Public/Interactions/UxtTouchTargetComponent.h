@@ -11,10 +11,13 @@
 
 class UUxtTouchTargetComponent;
 
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FBeginFocusDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data, bool, bWasFocused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUpdateFocusDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FEndFocusDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, bool, bIsFocused);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FBeginTouchDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUpdateTouchDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEndTouchDelegate, UUxtTouchTargetComponent*, Interactable, UUxtNearPointerComponent*, Pointer);
 
 /**
  * Base class for pointer targets that keeps track of the currently touching pointers.
@@ -38,13 +41,17 @@ protected:
 
 	virtual bool GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 
+	virtual void OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
+
 	/** Returns a list of the pointers that are currently touching this actor. */
 	const TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData>& GetFocusedPointers() const;
 
-private:
+	/** Returns a list of all currently grabbing pointers. */
+	const TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData>& GetTouchPointers() const;
 
-	/** List of pointers that are currently touching the actor. */
-	TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData> FocusedPointers;
+public:	
 
 	/** Event raised when a pointer starts focusing the interactable. WasFocused indicates if the interactable was already focused by another pointer. */
 	UPROPERTY(BlueprintAssignable, Category = "Interactable")
@@ -57,4 +64,24 @@ private:
 	/** Event raised when a pointer ends focusing the interactable. IsFocused indicates if the interactable is still focused by another pointer. */
 	UPROPERTY(BlueprintAssignable, Category = "Interactable")
 	FEndFocusDelegate OnEndFocus;
+
+	/** Event raised when a pointer starts touching the interactable. */
+	UPROPERTY(BlueprintAssignable, Category = "Interactable")
+	FBeginTouchDelegate OnBeginTouch;
+
+	/** Event raised while a pointer is touching the interactable. */
+	UPROPERTY(BlueprintAssignable, Category = "Interactable")
+	FUpdateTouchDelegate OnUpdateTouch;
+
+	/** Event raised when a pointer ends touching the interactable. */
+	UPROPERTY(BlueprintAssignable, Category = "Interactable")
+	FEndTouchDelegate OnEndTouch;
+
+private:
+
+	/** List of pointers that are currently touching the actor. */
+	TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData> FocusedPointers;
+
+	/** List of currently grabbing pointers. */
+	TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData> TouchPointers;
 };
