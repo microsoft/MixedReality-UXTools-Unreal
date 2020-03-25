@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #pragma once
 
@@ -19,6 +20,7 @@ namespace Microsoft
 }
 
 class UUxtPressableButtonComponent;
+class UUxtFarPointerComponent;
 class UBoxComponent;
 class UShapeComponent;
 
@@ -74,6 +76,12 @@ protected:
 	virtual EUxtTouchBehaviour GetTouchBehaviour_Implementation() const override;
 	
 	virtual void OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
+	
+	//
+	// IUxtFarTarget interface
+
+	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
 
 public:
 
@@ -107,6 +115,8 @@ public:
 
 private:
 
+	FVector GetVisualsRestPosition() const;
+
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
 	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pressable Button")
 	FComponentReference VisualsReference;
@@ -116,6 +126,10 @@ private:
 
 	/** Get the current pushed position of the button */
 	FVector GetCurrentButtonLocation() const;
+	
+	/** Far pointer currently pressing the button if any */
+	TWeakObjectPtr<UUxtFarPointerComponent> FarPointerWeak;
+
 
 	/** Collision volume used for determining touch events */
 	UBoxComponent* BoxComponent;

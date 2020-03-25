@@ -31,6 +31,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetIsHandGrabbing(EControllerHand Hand, bool& OutIsGrabbing);
 
+	/** Obtain current selection state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is unchanged. */
+	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
+	static bool GetIsHandSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed);
+
 	/** Returns whether the given hand is tracked. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool IsHandTracked(EControllerHand Hand);

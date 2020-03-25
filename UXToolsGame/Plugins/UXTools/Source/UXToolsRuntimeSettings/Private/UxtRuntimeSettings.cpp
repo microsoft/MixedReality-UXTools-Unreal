@@ -12,7 +12,7 @@ UUxtRuntimeSettings* UUxtRuntimeSettings::UXToolsSettingsSingleton = nullptr;
 UUxtRuntimeSettings::UUxtRuntimeSettings(const FObjectInitializer& ObjectInitializer)
 {
 	// Default hand pose button mappings
-	HandPoseButtonMappings.Add(TEXT("Pinch"), EHMDInputControllerButtons::Grasp);
+	HandPoseButtonMappings.Add(TEXT("Pinch"), { { EHMDInputControllerButtons::Grasp, EHMDInputControllerButtons::Select } });
 
 	// Default hand mesh and animation assets
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> HandMeshFinder(TEXT("/UXTools/InputSimulation/InputSimulationHands"));

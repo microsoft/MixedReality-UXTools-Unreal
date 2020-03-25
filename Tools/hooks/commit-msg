@@ -1,0 +1,8 @@
+#!/bin/sh
+
+disallowed=$(git show origin/private:disallowed.txt) || { echo "$0 could not read disallowed file"; exit 1; }
+
+if grep -wiE "$disallowed" "$1"; then
+    echo "Aborting - commit message matches $disallowed"
+    exit 1
+fi

@@ -65,6 +65,9 @@ private:
 	void OnControlRightHandPressed();
 	void OnControlRightHandReleased();
 
+	void OnHandRotatePressed();
+	void OnHandRotateReleased();
+
 	void OnPrimaryHandPosePressed();
 	void OnSecondaryHandPosePressed();
 
@@ -77,12 +80,20 @@ private:
 	void AddInputScroll(float Value);
 
 	/** Add head movement input along a local axis. */
-	void AddMovementInputImpl(EAxis::Type Axis, float Value);
+	void AddHeadMovementInputImpl(EAxis::Type Axis, float Value);
 	/** Add hand movement input along a local axis. */
-	void AddHandInputImpl(EAxis::Type Axis, float Value);
+	void AddHandMovementInputImpl(EAxis::Type TranslationAxis, float Value);
+	/** Add hand rotation input about a local axis. */
+	void AddHandRotationInputImpl(EAxis::Type RotationAxis, float Value);
 
 	/** Set the mesh for the given hand to the default location. */
 	void SetDefaultHandLocation(EControllerHand Hand);
+
+	/** Set the rotation for the given hand to the rest rotation. */
+	void SetDefaultHandRotation(EControllerHand Hand);
+
+	/** Update the hand mesh rotation based on the rotation offset. */
+	void UpdateHandRotation(EControllerHand Hand);
 
 	/** Set the hand visibility. */
 	void SetHandVisibility(EControllerHand Hand, bool bIsVisible);
@@ -91,6 +102,9 @@ private:
 	 *  Returns true if hand control was successfully changed.
 	 */
 	bool SetHandControlEnabled(EControllerHand Hand, bool bEnabled);
+
+	/** Set rotation option to interpret look rotation as rotation of hands instead */
+	void SetHandRotationEnabled(bool bEnabled);
 
 	/** Toggle the target pose for all currently active hands.
 	 *  - If all hands use the target pose already, all hands will reset to the default pose.
@@ -131,7 +145,13 @@ private:
 	/** Set of hands that are actively controlled by user input. */
 	TSet<EControllerHand> ControlledHands;
 
+	/** If true, the look rotation will be interpreted as hand rotation instead. */
+	bool bEnableHandRotation = false;
+
 	/** Current target pose for each hand. */
 	TMap<EControllerHand, FName> TargetPoses;
+
+	/** Rotation offset for each hand. */
+	TMap<EControllerHand, FRotator> HandRotations;
 
 };

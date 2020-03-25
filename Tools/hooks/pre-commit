@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+disallowed=$(git show origin/private:disallowed.txt) || { echo "$0 could not read disallowed file"; exit 1; }
+
+# GREP full Word, Ignore case, Extended regex
+if git diff --cached "$against" | grep -wiE "$disallowed"; then
+	echo "Aborting - commit contents matches $disallowed"
+	exit 1
+fi
+exit 0

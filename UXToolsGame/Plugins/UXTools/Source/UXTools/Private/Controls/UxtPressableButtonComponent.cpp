@@ -1,7 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Controls/UxtPressableButtonComponent.h"
 #include "Input/UxtNearPointerComponent.h"
+#include "Input/UxtFarPointerComponent.h"
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 #include <Components/BoxComponent.h>
@@ -108,57 +110,61 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// Update button logic with all known pointers
-	UUxtNearPointerComponent* NewTouchingPointer = nullptr;
-	float targetDistance = 0;
-
-	for (const auto& Pointer : GetTouchPointers())
+	// Update touch if we're not currently pressed via a far pointer
+	if (!FarPointerWeak.IsValid())
 	{
-		float pushDistance = CalculatePushDistance(Pointer.Key);
-		if (pushDistance > targetDistance)
+		// Update button logic with all known pointers
+		UUxtNearPointerComponent* NewTouchingPointer = nullptr;
+		float targetDistance = 0;
+
+		for (const auto& Pointer : GetTouchPointers())
 		{
-			NewTouchingPointer = Pointer.Key;
-			targetDistance = pushDistance;
+			float pushDistance = CalculatePushDistance(Pointer.Key);
+			if (pushDistance > targetDistance)
+			{
+				NewTouchingPointer = Pointer.Key;
+				targetDistance = pushDistance;
+			}
 		}
-	}
 
-	check(targetDistance >= 0 && targetDistance <= GetScaleAdjustedMaxPushDistance());
+		check(targetDistance >= 0 && targetDistance <= GetScaleAdjustedMaxPushDistance());
 
-	const auto previousPushDistance = CurrentPushDistance;
+		const auto previousPushDistance = CurrentPushDistance;
 
-	// Update push distance and raise events
-	if (targetDistance > CurrentPushDistance)
-	{
-		CurrentPushDistance = targetDistance;
-
-		if (!bIsPressed && CurrentPushDistance >= PressedDistance && previousPushDistance < PressedDistance)
+		// Update push distance and raise events
+		if (targetDistance > CurrentPushDistance)
 		{
-			bIsPressed = true;
-			OnButtonPressed.Broadcast(this);
-		}
-	}
-	else
-	{
-		CurrentPushDistance = FMath::Max(targetDistance, CurrentPushDistance - DeltaTime * RecoverySpeed);
+			CurrentPushDistance = targetDistance;
 
-		// Raise button released if we're pressed and crossed the released distance
-		if (bIsPressed && (CurrentPushDistance <= ReleasedDistance && previousPushDistance > ReleasedDistance))
+			if (!bIsPressed && CurrentPushDistance >= PressedDistance && previousPushDistance < PressedDistance)
+			{
+				bIsPressed = true;
+				OnButtonPressed.Broadcast(this);
+			}
+		}
+		else
 		{
-			bIsPressed = false;
-			OnButtonReleased.Broadcast(this);
+			CurrentPushDistance = FMath::Max(targetDistance, CurrentPushDistance - DeltaTime * RecoverySpeed);
+
+			// Raise button released if we're pressed and crossed the released distance
+			if (bIsPressed && (CurrentPushDistance <= ReleasedDistance && previousPushDistance > ReleasedDistance))
+			{
+				bIsPressed = false;
+				OnButtonReleased.Broadcast(this);
+			}
 		}
-	}
 
-	// Update visuals position
-	if (auto Visuals = GetVisuals())
-	{
-		const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
-		FVector NewVisualsLocation = VisualsOffset + GetCurrentButtonLocation();
-		Visuals->SetWorldLocation(NewVisualsLocation);
+		// Update visuals position
+		if (auto Visuals = GetVisuals())
+		{
+			const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
+			FVector NewVisualsLocation = VisualsOffset + GetCurrentButtonLocation();
+			Visuals->SetWorldLocation(NewVisualsLocation);
 
-		const auto ColliderOffset = GetComponentTransform().TransformVector(ColliderOffsetLocal);
-		FVector NewColliderLocation = ColliderOffset + GetCurrentButtonLocation();
-		BoxComponent->SetWorldLocation(NewColliderLocation);
+			const auto ColliderOffset = GetComponentTransform().TransformVector(ColliderOffsetLocal);
+			FVector NewColliderLocation = ColliderOffset + GetCurrentButtonLocation();
+			BoxComponent->SetWorldLocation(NewColliderLocation);
+		}
 	}
 
 #if 0
@@ -238,4 +244,43 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
 	return RestPosition + (GetComponentTransform().GetUnitAxis(EAxis::X) * CurrentPushDistance);
+}
+
+FVector UUxtPressableButtonComponent::GetVisualsRestPosition() const
+{
+	const auto& Transform = GetComponentTransform();
+	return Transform.GetLocation() + Transform.TransformVector(VisualsOffsetLocal);
+}
+
+void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	if (!FarPointerWeak.IsValid())
+	{
+		if (auto Visuals = GetVisuals())
+		{
+			FQuat Orientation = GetComponentTransform().GetRotation();
+			const float PressedDistance = PressedFraction * 2.0f * Extents.X * GetComponentScale().X;
+			Visuals->SetWorldLocation(GetVisualsRestPosition() + Orientation.GetForwardVector() * PressedDistance);
+		}
+
+		FarPointerWeak = Pointer;
+		Pointer->SetFocusLocked(true);
+		OnButtonPressed.Broadcast(this);
+	}
+}
+
+void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	auto FarPointer = FarPointerWeak.Get();
+	if (Pointer == FarPointer)
+	{
+		if (auto Visuals = GetVisuals())
+		{
+			Visuals->SetWorldLocation(GetVisualsRestPosition());
+		}
+
+		OnButtonReleased.Broadcast(this);
+		Pointer->SetFocusLocked(false);
+		FarPointerWeak = nullptr;
+	}
 }

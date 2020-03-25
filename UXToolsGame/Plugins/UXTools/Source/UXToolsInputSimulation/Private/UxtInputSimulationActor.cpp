@@ -105,6 +105,8 @@ void AUxtInputSimulationActor::SetupHandComponents()
 	// Initial location
 	SetDefaultHandLocation(EControllerHand::Left);
 	SetDefaultHandLocation(EControllerHand::Right);
+	SetDefaultHandRotation(EControllerHand::Left);
+	SetDefaultHandRotation(EControllerHand::Right);
 }
 
 namespace
@@ -113,6 +115,7 @@ namespace
 	const FName Action_ToggleRightHand = TEXT("InputSimulation_ToggleRightHand");
 	const FName Action_ControlLeftHand = TEXT("InputSimulation_ControlLeftHand");
 	const FName Action_ControlRightHand = TEXT("InputSimulation_ControlRightHand");
+	const FName Action_HandRotate = TEXT("InputSimulation_HandRotate");
 	const FName Action_PrimaryHandPose = TEXT("InputSimulation_PrimaryHandPose");
 	const FName Action_SecondaryHandPose = TEXT("InputSimulation_SecondaryHandPose");
 	const FName Axis_MoveForward = TEXT("InputSimulation_MoveForward");
@@ -138,6 +141,8 @@ static void InitializeDefaultInputSimulationMappings()
 
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlLeftHand, EKeys::LeftShift));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlRightHand, EKeys::LeftAlt));
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_HandRotate, EKeys::RightMouseButton));
 
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_PrimaryHandPose, EKeys::LeftMouseButton));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_SecondaryHandPose, EKeys::MiddleMouseButton));
@@ -180,6 +185,10 @@ void AUxtInputSimulationActor::BeginPlay()
 
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
 	{
+		// Explicitly enable input: The input sim actor may be created after loading a map,
+		// in which case auto-enabling input does not work.
+		EnableInput(PC);
+
 		if (APawn* Pawn = PC->GetPawn())
 		{
 			// Attach to the player pawn so the start location matches the HMD camera, which is relative to the pawn.
@@ -205,6 +214,9 @@ void AUxtInputSimulationActor::BeginPlay()
 			InputComponent->BindAction(Action_ControlRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlRightHandPressed);
 			InputComponent->BindAction(Action_ControlRightHand, IE_Released, this, &AUxtInputSimulationActor::OnControlRightHandReleased);
 
+			InputComponent->BindAction(Action_HandRotate, IE_Pressed, this, &AUxtInputSimulationActor::OnHandRotatePressed);
+			InputComponent->BindAction(Action_HandRotate, IE_Released, this, &AUxtInputSimulationActor::OnHandRotateReleased);
+
 			InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnPrimaryHandPosePressed);
 			InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnSecondaryHandPosePressed);
 
@@ -221,7 +233,6 @@ void AUxtInputSimulationActor::BeginPlay()
 
 void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 {
-
 	auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
 	if (!InputSim)
 	{
@@ -314,6 +325,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 	if (!IsTracked || !MeshComp || !ensureAsRuntimeWarning(MeshComp != nullptr))
 	{
 		HandState.bHasJointPoses = false;
+		HandState.bHasPointerPose = false;
 	}
 	else
 	{
@@ -323,6 +335,10 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 		check(KeypointEnum);
 		TArray<FName> BoneNames;
 		MeshComp->GetBoneNames(BoneNames);
+
+		// Transforms for pointer pose
+		FTransform WristTransform = FTransform::Identity;
+		FTransform IndexKnuckleTransform = FTransform::Identity;
 
 		const TArray<FTransform>& ComponentSpaceTMs = MeshComp->GetComponentSpaceTransforms();
 		for (int32 iKeypoint = 0; iKeypoint < EWMRHandKeypointCount; ++iKeypoint)
@@ -348,25 +364,64 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 
 			HandState.KeypointTransforms[(uint32)Keypoint] = KeypointTransform;
 			HandState.KeypointRadii[(uint32)Keypoint] = KeypointRadius;
+
+			if (Keypoint == EWMRHandKeypoint::Wrist)
+			{
+				WristTransform = KeypointTransform;
+			}
+			if (Keypoint == EWMRHandKeypoint::IndexProximal)
+			{
+				IndexKnuckleTransform = KeypointTransform;
+			}
+		}
+
+		// Build pointer pose from bones
+		{
+			HandState.bHasPointerPose = true;
+
+			USceneComponent* ParentComp = MeshComp->GetAttachParent();
+			FVector ShoulderPos = (Hand == EControllerHand::Left ? Settings->ShoulderPosition.MirrorByVector(FVector::RightVector) : Settings->ShoulderPosition);
+			if (ParentComp)
+			{
+				ShoulderPos = ParentComp->GetComponentTransform().TransformPosition(ShoulderPos);
+			}
+
+			HandState.PointerPose.Origin = IndexKnuckleTransform.GetLocation();
+
+			HandState.PointerPose.Direction = (MeshComp->GetComponentLocation() - ShoulderPos);
+			HandState.PointerPose.Direction.Normalize();
+
+			FVector HandAxis = WristTransform.GetRotation().GetRightVector();
+			HandAxis.Normalize();
+			HandState.PointerPose.Up = FVector::CrossProduct(HandState.PointerPose.Direction, HandAxis);
+			HandState.PointerPose.Up.Normalize();
+
+			HandState.PointerPose.Orientation = FRotationMatrix::MakeFromXY(HandState.PointerPose.Direction, HandAxis).ToQuat();
 		}
 	}
 
+	//
 	// Update the button press states
+
+	HandState.IsButtonPressed = 0;
+
 	FName TargetPose = GetTargetPose(Hand);
-	const EHMDInputControllerButtons* pTargetAction = Settings->HandPoseButtonMappings.Find(TargetPose);
-	EHMDInputControllerButtons TargetAction = pTargetAction ? *pTargetAction : (EHMDInputControllerButtons)(-1);
-	for (uint32 iButton = 0; iButton < (uint32)EHMDInputControllerButtons::Count; ++iButton)
+	const FUxtRuntimeSettingsButtonSet* pTargetActions = Settings->HandPoseButtonMappings.Find(TargetPose);
+	if (pTargetActions)
 	{
-		EHMDInputControllerButtons Button = (EHMDInputControllerButtons)iButton;
-		ButtonStateArray ButtonMask(true, iButton);
-		if (Button == TargetAction)
+		for (uint32 iButton = 0; iButton < (uint32)EHMDInputControllerButtons::Count; ++iButton)
 		{
-			HandState.IsButtonPressed |= ButtonMask;
+			EHMDInputControllerButtons Button = (EHMDInputControllerButtons)iButton;
+			ButtonStateArray ButtonMask(true, iButton);
+			if (pTargetActions->Buttons.Contains(Button))
+			{
+				HandState.IsButtonPressed |= ButtonMask;
+			}
 		}
-		else
-		{
-			HandState.IsButtonPressed &= ~ButtonMask;
-		}
+	}
+	else
+	{
+		HandState.IsButtonPressed = 0;
 	}
 }
 
@@ -398,6 +453,16 @@ void AUxtInputSimulationActor::OnControlRightHandPressed()
 void AUxtInputSimulationActor::OnControlRightHandReleased()
 {
 	SetHandControlEnabled(EControllerHand::Right, false);
+}
+
+void AUxtInputSimulationActor::OnHandRotatePressed()
+{
+	SetHandRotationEnabled(true);
+}
+
+void AUxtInputSimulationActor::OnHandRotateReleased()
+{
+	SetHandRotationEnabled(false);
 }
 
 void AUxtInputSimulationActor::TogglePoseForControlledHands(FName PoseName)
@@ -447,27 +512,39 @@ void AUxtInputSimulationActor::OnSecondaryHandPosePressed()
 
 void AUxtInputSimulationActor::AddInputMoveForward(float Value)
 {
-	AddMovementInputImpl(EAxis::X, Value);
+	AddHeadMovementInputImpl(EAxis::X, Value);
 }
 
 void AUxtInputSimulationActor::AddInputMoveRight(float Value)
 {
-	AddMovementInputImpl(EAxis::Y, Value);
+	AddHeadMovementInputImpl(EAxis::Y, Value);
 }
 
 void AUxtInputSimulationActor::AddInputMoveUp(float Value)
 {
-	AddMovementInputImpl(EAxis::Z, Value);
+	AddHeadMovementInputImpl(EAxis::Z, Value);
 }
 
-const float InputYawScale = 2.5;
-const float InputPitchScale = 1.75;
+namespace
+{
+	const float InputYawScale = 2.5;
+	const float InputPitchScale = 1.75;
+	const float InputRollScale = 5.0;
+}
 
 void AUxtInputSimulationActor::AddInputLookUp(float Value)
 {
 	if (ControlledHands.Num() > 0)
 	{
-		AddHandInputImpl(EAxis::Z, Value);
+		if (bEnableHandRotation)
+		{
+			// Y axis changes hand pitch.
+			AddHandRotationInputImpl(EAxis::Y, Value);
+		}
+		else
+		{
+			AddHandMovementInputImpl(EAxis::Z, Value);
+		}
 	}
 	else
 	{
@@ -479,7 +556,15 @@ void AUxtInputSimulationActor::AddInputTurn(float Value)
 {
 	if (ControlledHands.Num() > 0)
 	{
-		AddHandInputImpl(EAxis::Y, Value);
+		if (bEnableHandRotation)
+		{
+			// X axis changes hand yaw.
+			AddHandRotationInputImpl(EAxis::Z, Value);
+		}
+		else
+		{
+			AddHandMovementInputImpl(EAxis::Y, Value);
+		}
 	}
 	else
 	{
@@ -491,7 +576,15 @@ void AUxtInputSimulationActor::AddInputScroll(float Value)
 {
 	if (ControlledHands.Num() > 0)
 	{
-		AddHandInputImpl(EAxis::X, Value);
+		if (bEnableHandRotation)
+		{
+			// Scroll changes hand roll.
+			AddHandRotationInputImpl(EAxis::X, Value * InputRollScale);
+		}
+		else
+		{
+			AddHandMovementInputImpl(EAxis::X, Value);
+		}
 	}
 	else
 	{
@@ -499,23 +592,50 @@ void AUxtInputSimulationActor::AddInputScroll(float Value)
 	}
 }
 
-void AUxtInputSimulationActor::AddMovementInputImpl(EAxis::Type Axis, float Value)
+void AUxtInputSimulationActor::AddHeadMovementInputImpl(EAxis::Type Axis, float Value)
 {
 	FVector Dir = FRotationMatrix(GetActorRotation()).GetScaledAxis(Axis);
 	HeadMovement->AddMovementInput(Dir * Value);
 }
 
-void AUxtInputSimulationActor::AddHandInputImpl(EAxis::Type Axis, float Value)
+void AUxtInputSimulationActor::AddHandMovementInputImpl(EAxis::Type TranslationAxis, float Value)
 {
 	if (Value != 0.f)
 	{
-		FVector Dir = FRotationMatrix(GetActorRotation()).GetScaledAxis(Axis);
+		FVector Dir = FRotationMatrix(GetActorRotation()).GetScaledAxis(TranslationAxis);
 		for (EControllerHand Hand : ControlledHands)
 		{
 			if (USkeletalMeshComponent* Comp = GetHandMesh(Hand))
 			{
 				Comp->MoveComponent(Dir * Value, Comp->GetComponentRotation(), true);
 			}
+		}
+	}
+}
+
+void AUxtInputSimulationActor::AddHandRotationInputImpl(EAxis::Type RotationAxis, float Value)
+{
+	if (Value != 0.f)
+	{
+		const UUxtRuntimeSettings* Settings = UUxtRuntimeSettings::Get();
+		check(Settings);
+
+		for (EControllerHand Hand : ControlledHands)
+		{
+			FRotator DeltaRot = FRotator::ZeroRotator;
+			DeltaRot.SetComponentForAxis(RotationAxis, Value);
+			// Mirror roll value so hands turn in opposite directions for symmetry.
+			if (Hand == EControllerHand::Left)
+			{
+				DeltaRot.Roll = -DeltaRot.Roll;
+			}
+
+			FRotator& HandRot = HandRotations.FindChecked(Hand);
+			HandRot += DeltaRot;
+
+			HandRot.Pitch = FMath::ClampAngle(HandRot.Pitch, -90.0f, 90.0f);
+
+			UpdateHandRotation(Hand);
 		}
 	}
 }
@@ -537,6 +657,45 @@ void AUxtInputSimulationActor::SetDefaultHandLocation(EControllerHand Hand)
 	}
 }
 
+void AUxtInputSimulationActor::SetDefaultHandRotation(EControllerHand Hand)
+{
+	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
+	{
+		const auto* Settings = UUxtRuntimeSettings::Get();
+		check(Settings);
+
+		FRotator DefaultRot = Settings->HandRestOrientation;
+		if (Hand == EControllerHand::Left)
+		{
+			DefaultRot.Yaw = -DefaultRot.Yaw;
+			DefaultRot.Roll = -DefaultRot.Roll;
+		}
+		HandRotations.Emplace(Hand) = DefaultRot;
+
+		UpdateHandRotation(Hand);
+	}
+}
+
+void AUxtInputSimulationActor::UpdateHandRotation(EControllerHand Hand)
+{
+	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
+	{
+		const auto* Settings = UUxtRuntimeSettings::Get();
+		check(Settings);
+
+		FRotator RestRotation = Settings->HandRestOrientation;
+		if (Hand == EControllerHand::Left)
+		{
+			RestRotation.Yaw = -RestRotation.Yaw;
+			RestRotation.Roll = -RestRotation.Roll;
+		}
+
+		FQuat NewHandRot = HandRotations.FindRef(Hand).Quaternion() * RestRotation.Quaternion().Inverse();
+
+		HandMesh->SetRelativeRotation(NewHandRot);
+	}
+}
+
 void AUxtInputSimulationActor::SetHandVisibility(EControllerHand Hand, bool bIsVisible)
 {
 	if (bIsVisible)
@@ -545,6 +704,7 @@ void AUxtInputSimulationActor::SetHandVisibility(EControllerHand Hand, bool bIsV
 		if (!IsHandVisible(Hand))
 		{
 			SetDefaultHandLocation(Hand);
+			SetDefaultHandRotation(Hand);
 		}
 	}
 	else
@@ -577,6 +737,11 @@ bool AUxtInputSimulationActor::SetHandControlEnabled(EControllerHand Hand, bool 
 		ControlledHands.Remove(Hand);
 		return true;
 	}
+}
+
+void AUxtInputSimulationActor::SetHandRotationEnabled(bool bEnabled)
+{
+	bEnableHandRotation = bEnabled;
 }
 
 #undef LOCTEXT_NAMESPACE

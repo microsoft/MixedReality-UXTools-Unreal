@@ -2,7 +2,7 @@
 
 rem This script creates the necesary symlinks to include external source files in the UXT plugin
 
-set RepoPath=%~dp0
+set RepoPath=%~dp0\..\..
 set SymlinkPath="%RepoPath%\UXToolsGame\Plugins\UXTools\Source\UXTools\Private\Native"
 
 if exist "%SymlinkPath%" (

@@ -35,6 +35,16 @@ bool UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(EControllerHand Hand, bo
 	return false;
 }
 
+bool UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed)
+{
+	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	{
+		return HandTracker->GetIsSelectPressed(Hand, OutIsSelectPressed);
+	}
+
+	return false;
+}
+
 bool UUxtHandTrackingFunctionLibrary::IsHandTracked(EControllerHand Hand)
 {
 	bool NotUsed = false;
