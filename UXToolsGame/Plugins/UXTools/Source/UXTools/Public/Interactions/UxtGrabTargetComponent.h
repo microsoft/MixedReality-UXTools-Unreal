@@ -22,6 +22,9 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	UUxtNearPointerComponent* Pointer;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UUxtFarPointerComponent* FarPointer = nullptr; // temp far pointer todo: berni needs to move after implementation works
+
 	/** Last updated pointer transform. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	FTransform PointerTransform;
@@ -111,8 +114,8 @@ public:
 	 * PointerData will contain the associated grab data for the pointer.
 	 * Index is the order in which pointers started grabbing.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	void FindGrabPointer(UUxtNearPointerComponent* Pointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
+	UFUNCTION(BlueprintPure, Category = "Grabbable") // TODO BERNI - needs to be both pointers
+	void FindGrabPointer(UUxtNearPointerComponent *Pointer, UUxtFarPointerComponent* farPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
 
 	/** Returns the first active grab pointer.
 	 * If no pointer is grabbing the Valid output will be false.
@@ -155,10 +158,15 @@ protected:
 	virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 
+	//
+	// IUxtFarTarget interface
+	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+
 private:
 
 	/** Internal search function for finding active grabbing pointers */
-	bool FindGrabPointerInternal(UUxtNearPointerComponent* Pointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const;
+	bool FindGrabPointerInternal(UUxtNearPointerComponent *Pointer, UUxtFarPointerComponent* farPointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const;
 
 	/** Compute the grab transform relative to the current actor world transform. */
 	void ResetLocalGrabPoint(FUxtGrabPointerData &PointerData);
