@@ -9,6 +9,7 @@
 #include "PointerTestSequence.generated.h"
 
 class UUxtNearPointerComponent;
+class FUxtTestHandTracker;
 
 /**
  * Target for touch pointer tests that counts touch events.

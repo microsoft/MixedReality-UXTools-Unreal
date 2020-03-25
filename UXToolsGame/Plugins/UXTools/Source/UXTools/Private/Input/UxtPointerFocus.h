@@ -130,11 +130,13 @@ struct FUxtGrabPointerFocus : public FUxtPointerFocus
 public:
 
 	/** Notify the target object that grab has started. */
-	void BeginGrab(int32 PointerId, const FTransform& PointerTransform) const;
+	void BeginGrab(int32 PointerId, const FTransform& PointerTransform);
 	/** Notify the grabbed target object that the pointer has been updated. */
-	void UpdateGrab(int32 PointerId, const FTransform& PointerTransform) const;
+	void UpdateGrab(int32 PointerId, const FTransform& PointerTransform);
 	/** Notify the target object that grab has ended. */
-	void EndGrab(int32 PointerId) const;
+	void EndGrab(int32 PointerId);
+
+	bool IsGrabbing() const;
 
 protected:
 
@@ -147,6 +149,11 @@ protected:
 	virtual void RaiseEnterFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const override;
 	virtual void RaiseUpdateFocusEvent(UObject* Target, int32 PointerId, const FUxtPointerInteractionData& Data) const override;
 	virtual void RaiseExitFocusEvent(UObject* Target, int32 PointerId) const override;
+
+private:
+
+	bool bIsGrabbing = false;
+
 };
 
 

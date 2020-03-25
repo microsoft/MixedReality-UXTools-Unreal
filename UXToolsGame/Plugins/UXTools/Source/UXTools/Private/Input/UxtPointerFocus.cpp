@@ -233,7 +233,7 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestPointOnComponent(UActo
 }
 
 
-void FUxtGrabPointerFocus::BeginGrab(int32 PointerId, const FTransform& PointerTransform) const
+void FUxtGrabPointerFocus::BeginGrab(int32 PointerId, const FTransform& PointerTransform)
 {
 	if (UObject* Target = GetFocusedTargetChecked())
 	{
@@ -241,9 +241,11 @@ void FUxtGrabPointerFocus::BeginGrab(int32 PointerId, const FTransform& PointerT
 
 		IUxtGrabTarget::Execute_OnBeginGrab(Target, PointerId, Data);
 	}
+
+	bIsGrabbing = true;
 }
 
-void FUxtGrabPointerFocus::UpdateGrab(int32 PointerId, const FTransform& PointerTransform) const
+void FUxtGrabPointerFocus::UpdateGrab(int32 PointerId, const FTransform& PointerTransform)
 {
 	if (UObject* Target = GetFocusedTargetChecked())
 	{
@@ -253,12 +255,19 @@ void FUxtGrabPointerFocus::UpdateGrab(int32 PointerId, const FTransform& Pointer
 	}
 }
 
-void FUxtGrabPointerFocus::EndGrab(int32 PointerId) const
+void FUxtGrabPointerFocus::EndGrab(int32 PointerId)
 {
+	bIsGrabbing = false;
+
 	if (UObject* Target = GetFocusedTargetChecked())
 	{
 		IUxtGrabTarget::Execute_OnEndGrab(Target, PointerId);
 	}
+}
+
+bool FUxtGrabPointerFocus::IsGrabbing() const
+{
+	return bIsGrabbing;
 }
 
 UClass* FUxtGrabPointerFocus::GetInterfaceClass() const

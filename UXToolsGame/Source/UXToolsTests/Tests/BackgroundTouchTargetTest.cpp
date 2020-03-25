@@ -7,6 +7,7 @@
 
 #include "UxtTestUtils.h"
 #include "PointerTestSequence.h"
+#include "UxtTestHandTracker.h"
 
 using namespace UxtPointerTests;
 
@@ -32,6 +33,7 @@ static void SetupTestCase(UWorld* world, const FString& TestCase, PointerTestSeq
 		OutSequence.AddMovementKeyframe(pOutside);
 		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(pInside);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(pOutside);
 		OutSequence.ExpectFocusTargetNone();
 	}
@@ -95,6 +97,8 @@ bool FBackgroundTouchTargetTest::RunTest(const FString& Parameters)
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
 	UWorld *world = UxtTestUtils::GetTestWorld();
 
+	UxtTestUtils::EnableTestHandTracker();
+
 	PointerTestSequence sequence;
 
 	// Create pointers.
@@ -108,6 +112,7 @@ bool FBackgroundTouchTargetTest::RunTest(const FString& Parameters)
 
 	sequence.EnqueueTestSequence(this);
 
+	ADD_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 
 	return true;

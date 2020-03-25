@@ -83,18 +83,6 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	bool IsGrabbing() const;
-	UFUNCTION(BlueprintSetter)
-	void SetGrabbing(bool Enable);
-
-	UFUNCTION(BlueprintGetter)
-	FTransform GetIndexTipTransform() const;
-	UFUNCTION(BlueprintSetter)
-	void SetIndexTipTransform(const FTransform& NewTransform);
-
-	UFUNCTION(BlueprintGetter)
-	FTransform GetThumbTipTransform() const;
-	UFUNCTION(BlueprintSetter)
-	void SetThumbTipTransform(const FTransform& NewTransform);
 
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetGrabPointerTransform() const;
@@ -167,13 +155,5 @@ private:
 	 */
 	UPROPERTY(BlueprintGetter = "GetFocusLocked", BlueprintSetter = "SetFocusLocked", Category = "Hand Pointer")
 	bool bFocusLocked = false;
-
-	UPROPERTY(BlueprintGetter = "IsGrabbing", BlueprintSetter = "SetGrabbing", Category = "Hand Pointer")
-	bool bIsGrabbing = false;
-
-	UPROPERTY(BlueprintGetter = "GetIndexTipTransform", BlueprintSetter = "SetIndexTipTransform", Category = "Hand Pointer")
-	FTransform IndexTipTransform;
-	UPROPERTY(BlueprintGetter = "GetThumbTipTransform", BlueprintSetter = "SetThumbTipTransform", Category = "Hand Pointer")
-	FTransform ThumbTipTransform;
 
 };

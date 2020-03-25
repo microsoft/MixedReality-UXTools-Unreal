@@ -5,6 +5,7 @@
 #include "Input/UxtPointerFocus.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtTouchTarget.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 
 #include "Engine/World.h"
 #include "Components/PrimitiveComponent.h"
@@ -45,8 +46,10 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	{
 		const FVector ProximityCenter = GrabTransform.GetLocation();
 
+		FCollisionQueryParams QueryParams(false);
+
 		TArray<FOverlapResult> Overlaps;
-		/*bool HasBlockingOverlap = */ GetWorld()->OverlapMultiByChannel(Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius));
+		/*bool HasBlockingOverlap = */ GetWorld()->OverlapMultiByChannel(Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius), QueryParams);
 
 		GrabFocus->SelectClosestTarget(PointerId, GrabTransform, Overlaps);
 		TouchFocus->SelectClosestTarget(PointerId, TouchTransform, Overlaps);
@@ -58,6 +61,30 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	GrabFocus->UpdateGrab(PointerId, GrabTransform);
 
 	TouchFocus->UpdateFocus(PointerId, TouchTransform);
+
+	// Update the grab state
+
+	bool bHandIsGrabbing;
+	if (UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(Hand, bHandIsGrabbing))
+	{
+		if (bHandIsGrabbing != GrabFocus->IsGrabbing())
+		{
+			if (bHandIsGrabbing)
+			{
+				GrabFocus->BeginGrab((int32)GetUniqueID(), GetGrabPointerTransform());
+
+				// Lock the grabbing pointer so the target remains focused as it moves.
+				SetFocusLocked(true);
+			}
+			else
+			{
+				GrabFocus->EndGrab((int32)GetUniqueID());
+
+				// Unlock the focused target selection
+				SetFocusLocked(false);
+			}
+		}
+	}
 }
 
 EControllerHand UUxtNearPointerComponent::GetHand() const
@@ -160,68 +187,34 @@ void UUxtNearPointerComponent::SetFocusLocked(bool Value)
 
 bool UUxtNearPointerComponent::IsGrabbing() const
 {
-	return bIsGrabbing;
-}
-
-void UUxtNearPointerComponent::SetGrabbing(bool bValue)
-{
-	if (bIsGrabbing != bValue)
-	{
-		bIsGrabbing = bValue;
-
-		if (bIsGrabbing)
-		{
-			GrabFocus->BeginGrab((int32)GetUniqueID(), GetGrabPointerTransform());
-
-			// Lock the grabbing pointer so the target remains focused as it moves.
-			SetFocusLocked(true);
-		}
-		else
-		{
-			GrabFocus->EndGrab((int32)GetUniqueID());
-
-			// Unlock the focused target selection
-			SetFocusLocked(false);
-		}
-	}
-}
-
-FTransform UUxtNearPointerComponent::GetIndexTipTransform() const
-{
-	return IndexTipTransform;
-}
-
-void UUxtNearPointerComponent::SetIndexTipTransform(const FTransform& NewTransform)
-{
-	IndexTipTransform = NewTransform;
-}
-
-FTransform UUxtNearPointerComponent::GetThumbTipTransform() const
-{
-	return ThumbTipTransform;
-}
-
-void UUxtNearPointerComponent::SetThumbTipTransform(const FTransform& NewTransform)
-{
-	ThumbTipTransform = NewTransform;
+	return GrabFocus->IsGrabbing();
 }
 
 FTransform UUxtNearPointerComponent::GetGrabPointerTransform() const
 {
-	// Use the midway point between the thumb and index finger tips for grab
-	const float LerpFactor = 0.5f;
-	FTransform GrabTransform = FTransform(
-		FMath::Lerp(ThumbTipTransform.GetRotation(), IndexTipTransform.GetRotation(), LerpFactor),
-		FMath::Lerp(ThumbTipTransform.GetLocation(), IndexTipTransform.GetLocation(), LerpFactor),
-		FVector::OneVector
-	);
-
-	return GrabTransform;
+	FQuat IndexTipOrientation, ThumbTipOrientation;
+	FVector IndexTipPosition, ThumbTipPosition;
+	float IndexTipRadius, ThumbTipRadius;
+	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius)
+		&& UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
+	{
+		// Use the midway point between the thumb and index finger tips for grab
+		const float LerpFactor = 0.5f;
+		return FTransform(FMath::Lerp(IndexTipOrientation, ThumbTipOrientation, LerpFactor), FMath::Lerp(IndexTipPosition, ThumbTipPosition, LerpFactor));
+	}
+	return FTransform::Identity;
 }
 
 FTransform UUxtNearPointerComponent::GetTouchPointerTransform() const
 {
-	return IndexTipTransform;
+	FQuat IndexTipOrientation;
+	FVector IndexTipPosition;
+	float IndexTipRadius;
+	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	{
+		return FTransform(IndexTipOrientation, IndexTipPosition);
+	}
+	return FTransform::Identity;
 }
 
 UObject* UUxtNearPointerComponent::GetDefaultGrabTarget() const

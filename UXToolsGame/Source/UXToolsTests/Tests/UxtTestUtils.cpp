@@ -5,9 +5,16 @@
 #include "Tests/AutomationCommon.h"
 #include "Engine.h"
 #include "EngineUtils.h"
+#include "Features/IModularFeatures.h"
 
 #include "Input/UxtNearPointerComponent.h"
 #include "PointerTestSequence.h"
+#include "UxtTestHandTracker.h"
+
+FUxtTestHandTracker UxtTestUtils::TestHandTracker;
+
+/** Cached hand tracker implementation to restore after tests are completed. */
+IUxtHandTracker* UxtTestUtils::MainHandTracker = nullptr;
 
 // Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
 // Marked as temporary there, hence, this one is temporary, too.
@@ -29,17 +36,52 @@ UWorld* UxtTestUtils::CreateTestWorld()
 	return world;
 }
 
-UUxtNearPointerComponent* UxtTestUtils::CreateTouchPointer(UWorld *World, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
+FUxtTestHandTracker& UxtTestUtils::GetTestHandTracker()
 {
-	AActor *hand = World->SpawnActor<AActor>();
+	return TestHandTracker;
+}
+
+FUxtTestHandTracker& UxtTestUtils::EnableTestHandTracker()
+{
+	check(MainHandTracker == nullptr);
+
+	// Remove and cache current hand tracker.
+	MainHandTracker = &IModularFeatures::Get().GetModularFeature<IUxtHandTracker>(IUxtHandTracker::GetModularFeatureName());
+	if (MainHandTracker)
+	{
+		IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), MainHandTracker);
+	}
+
+	// Register the test hand tracker.
+	IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &TestHandTracker);
+
+	return TestHandTracker;
+}
+
+void UxtTestUtils::DisableTestHandTracker()
+{
+	// Unregister the test hand tracker.
+	IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &TestHandTracker);
+
+	// Re-register the original hand tracker implementation
+	if (MainHandTracker)
+	{
+		IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), MainHandTracker);
+		MainHandTracker = nullptr;
+	}
+}
+
+UUxtNearPointerComponent* UxtTestUtils::CreateTouchPointer(UWorld *World, FName Name, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
+{
+	FActorSpawnParameters p;
+	p.Name = Name;
+	AActor *hand = World->SpawnActor<AActor>(p);
 
 	UUxtNearPointerComponent* pointer = NewObject<UUxtNearPointerComponent>(hand);
-	pointer->SetGrabbing(IsGrasped);
 	pointer->RegisterComponent();
 
-	FTransform Transform(Location);
-	pointer->SetIndexTipTransform(Transform);
-	pointer->SetThumbTipTransform(Transform);
+	UxtTestUtils::GetTestHandTracker().bIsGrabbing = IsGrasped;
+	UxtTestUtils::GetTestHandTracker().TestPosition = Location;
 
 	if (AddMeshVisualizer)
 	{
@@ -95,4 +137,11 @@ UTestTouchPointerTarget* UxtTestUtils::CreateTouchPointerBackgroundTarget(UWorld
 	testTarget->RegisterComponent();
 
 	return testTarget;
+}
+
+
+bool FUxtDisableTestHandTrackerCommand::Update()
+{
+	UxtTestUtils::DisableTestHandTracker();
+	return true;
 }

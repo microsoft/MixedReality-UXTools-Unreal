@@ -7,6 +7,7 @@
 
 #include "UxtTestUtils.h"
 #include "PointerTestSequence.h"
+#include "UxtTestHandTracker.h"
 
 using namespace UxtPointerTests;
 
@@ -140,7 +141,10 @@ bool FTouchPointerTest::RunTest(const FString& Parameters)
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
 	UWorld *world = UxtTestUtils::GetTestWorld();
 
+	UxtTestUtils::EnableTestHandTracker();
+
 	PointerTestSequence sequence;
+
 
 	// Create pointers.
 	sequence.CreatePointers(world, NumPointers);
@@ -153,6 +157,7 @@ bool FTouchPointerTest::RunTest(const FString& Parameters)
 
 	sequence.EnqueueTestSequence(this);
 
+	ADD_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 
 	return true;

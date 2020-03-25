@@ -4,6 +4,7 @@
 
 #include "Input/UxtNearPointerComponent.h"
 #include "UxtTestUtils.h"
+#include "UxtTestHandTracker.h"
 
 #include "Components/PrimitiveComponent.h"
 
@@ -74,7 +75,7 @@ namespace UxtPointerTests
 		{
 			// Two step update:
 			// 
-			// 1. First move the pointer(s) to the keyframe location.
+			// 1. First move the hand(s) to the keyframe location.
 			//    Return false, so the pointer has one frame to update overlaps and raise events.
 			// 2. Test the expected event counts on targets after the pointer update.
 
@@ -82,11 +83,8 @@ namespace UxtPointerTests
 			switch (UpdateCount)
 			{
 				case 0:
-					for (UUxtNearPointerComponent* Pointer : Sequence.GetPointers())
-					{
-						Pointer->GetOwner()->SetActorLocation(Keyframe.Location);
-						Pointer->SetGrabbing(Keyframe.bIsGrabbing);
-					}
+					UxtTestUtils::GetTestHandTracker().TestPosition = Keyframe.Location;
+					UxtTestUtils::GetTestHandTracker().bIsGrabbing = Keyframe.bIsGrabbing;
 					// Wait for one frame to update pointer overlap.
 					break;
 
@@ -114,7 +112,7 @@ namespace UxtPointerTests
 		Pointers.SetNum(Count);
 		for (int i = 0; i < Count; ++i)
 		{
-			Pointers[i] = UxtTestUtils::CreateTouchPointer(world, FVector::ZeroVector);
+			Pointers[i] = UxtTestUtils::CreateTouchPointer(world, TEXT("TestPointer"), FVector::ZeroVector);
 		}
 	}
 
