@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UxtGrabbableComponent.h"
+#include "Interactions/UxtGrabTargetComponent.h"
 #include "UxtManipulatorComponentBase.generated.h"
 
 /**
@@ -14,7 +14,7 @@
  * to actually modify the actor.
  */
 UCLASS(Abstract, Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtManipulatorComponentBase : public UUxtGrabbableComponent
+class UXTOOLS_API UUxtManipulatorComponentBase : public UUxtGrabTargetComponent
 {
 	GENERATED_BODY()
 
@@ -70,7 +70,7 @@ protected:
 private:
 
 	UFUNCTION()
-	void InitTransformOnFirstPointer(UUxtGrabbableComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	void InitTransformOnFirstPointer(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
 
 public:
 

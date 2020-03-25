@@ -2,38 +2,44 @@
 
 #include "PointerTestSequence.h"
 
-#include "Input/UxtTouchPointer.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "UxtTestUtils.h"
+
+#include "GameFramework/Actor.h"
 
 void UTestTouchPointerTarget::BeginPlay()
 {
 	Super::BeginPlay();
 
-	HoverStartedCount = 0;
-	HoverEndedCount = 0;
+	BeginFocusCount = 0;
+	EndFocusCount = 0;
 }
 
-void UTestTouchPointerTarget::HoverStarted_Implementation(UUxtTouchPointer* Pointer)
+void UTestTouchPointerTarget::OnEnterGrabFocus_Implementation(int32 PointeId, const FUxtPointerInteractionData& Data)
 {
-	++HoverStartedCount;
+	++BeginFocusCount;
 }
 
-void UTestTouchPointerTarget::HoverEnded_Implementation(UUxtTouchPointer* Pointer)
+void UTestTouchPointerTarget::OnUpdateGrabFocus_Implementation(int32 PointerId, const FUxtPointerInteractionData& Data)
 {
-	++HoverEndedCount;
 }
 
-void UTestTouchPointerTarget::GraspStarted_Implementation(UUxtTouchPointer* Pointer)
+void UTestTouchPointerTarget::OnExitGrabFocus_Implementation(int32 PointerId)
 {
-	++GraspStartedCount;
+	++EndFocusCount;
 }
 
-void UTestTouchPointerTarget::GraspEnded_Implementation(UUxtTouchPointer* Pointer)
+void UTestTouchPointerTarget::OnBeginGrab_Implementation(int32 PointeId, const FUxtPointerInteractionData& Data)
 {
-	++GraspEndedCount;
+	++BeginGrabCount;
 }
 
-bool UTestTouchPointerTarget::GetClosestPointOnSurface_Implementation(const FVector& Point, FVector& OutPointOnSurface)
+void UTestTouchPointerTarget::OnEndGrab_Implementation(int32 PointerId)
+{
+	++EndGrabCount;
+}
+
+bool UTestTouchPointerTarget::GetClosestGrabPoint_Implementation(const FVector& Point, FVector& OutPointOnSurface) const
 {
 	if (GetOwner()->GetRootComponent() == nullptr)
 	{
@@ -81,10 +87,10 @@ namespace UxtPointerTests
 			switch (UpdateCount)
 			{
 				case 0:
-					for (UUxtTouchPointer* Pointer : Sequence.GetPointers())
+					for (UUxtNearPointerComponent* Pointer : Sequence.GetPointers())
 					{
 						Pointer->GetOwner()->SetActorLocation(Keyframe.Location);
-						Pointer->SetGrasped(Keyframe.bIsGrasped);
+						Pointer->SetGrabbing(Keyframe.bIsGrabbing);
 					}
 					// Wait for one frame to update pointer overlap.
 					break;
@@ -131,10 +137,10 @@ namespace UxtPointerTests
 		keyframe.Location = pos;
 	};
 
-	void PointerTestSequence::AddGraspKeyframe(bool bEnableGrasp)
+	void PointerTestSequence::AddGrabKeyframe(bool bEnableGrasp)
 	{
 		PointerKeyframe& keyframe = CreateKeyframe();
-		keyframe.bIsGrasped = bEnableGrasp;
+		keyframe.bIsGrabbing = bEnableGrasp;
 	}
 
 	PointerKeyframe& PointerTestSequence::CreateKeyframe()
@@ -143,14 +149,14 @@ namespace UxtPointerTests
 		if (Keyframes.Num() == 0)
 		{
 			keyframe.Location = FVector::ZeroVector;
-			keyframe.bIsGrasped = false;
-			keyframe.ExpectedHoverTargetIndex = -1;
+			keyframe.bIsGrabbing = false;
+			keyframe.ExpectedFocusTargetIndex = -1;
 		}
 		else
 		{
 			keyframe.Location = Keyframes.Last().Location;
-			keyframe.bIsGrasped = Keyframes.Last().bIsGrasped;
-			keyframe.ExpectedHoverTargetIndex = Keyframes.Last().ExpectedHoverTargetIndex;
+			keyframe.bIsGrabbing = Keyframes.Last().bIsGrabbing;
+			keyframe.ExpectedFocusTargetIndex = Keyframes.Last().ExpectedFocusTargetIndex;
 		}
 
 		Keyframes.Add(keyframe);
@@ -158,15 +164,15 @@ namespace UxtPointerTests
 		return Keyframes.Last();
 	}
 
-	void PointerTestSequence::ExpectHoverTargetIndex(int TargetIndex, bool bExpectEvents)
+	void PointerTestSequence::ExpectFocusTargetIndex(int TargetIndex, bool bExpectEvents)
 	{
-		Keyframes.Last().ExpectedHoverTargetIndex = TargetIndex;
+		Keyframes.Last().ExpectedFocusTargetIndex = TargetIndex;
 		Keyframes.Last().bExpectEvents = bExpectEvents;
 	}
 
-	void PointerTestSequence::ExpectHoverTargetNone(bool bExpectEvents)
+	void PointerTestSequence::ExpectFocusTargetNone(bool bExpectEvents)
 	{
-		ExpectHoverTargetIndex(-1, bExpectEvents);
+		ExpectFocusTargetIndex(-1, bExpectEvents);
 	}
 
 	TArray<TargetEventCountMap> PointerTestSequence::ComputeTargetEventCounts() const
@@ -175,7 +181,7 @@ namespace UxtPointerTests
 
 		result.Reserve(Keyframes.Num());
 
-		int PrevHoverTarget = -1;
+		int PrevFocusTarget = -1;
 		bool bPrevIsGrasped = false;
 		for (const auto& Keyframe : Keyframes)
 		{
@@ -189,25 +195,25 @@ namespace UxtPointerTests
 				KeyframeEventCounts = result.Last();
 			}
 
-			const int HoverTarget = Keyframe.ExpectedHoverTargetIndex;
-			const bool bIsGrasped = Keyframe.bIsGrasped;
+			const int FocusTarget = Keyframe.ExpectedFocusTargetIndex;
+			const bool bIsGrasped = Keyframe.bIsGrabbing;
 
 			// Increment expected event counts if the keyframe is expected to trigger events
 			if (Keyframe.bExpectEvents)
 			{
-				if (HoverTarget != PrevHoverTarget)
+				if (FocusTarget != PrevFocusTarget)
 				{
-					// Hovered target changed: Increment the HoverEndCount of the previous target and the HoverStartCount of the new target.
+					// Focused target changed: Increment the FocusEndCount of the previous target and the FocusStartCount of the new target.
 
 					for (int Target = 0; Target < Targets.Num(); ++Target)
 					{
-						if (Target == PrevHoverTarget)
+						if (Target == PrevFocusTarget)
 						{
-							KeyframeEventCounts[Target].HoverEndCount += Pointers.Num();
+							KeyframeEventCounts[Target].EndFocusCount += Pointers.Num();
 						}
-						if (Target == HoverTarget)
+						if (Target == FocusTarget)
 						{
-							KeyframeEventCounts[Target].HoverStartCount += Pointers.Num();
+							KeyframeEventCounts[Target].BeginFocusCount += Pointers.Num();
 						}
 					}
 				}
@@ -218,20 +224,20 @@ namespace UxtPointerTests
 
 					for (int Target = 0; Target < Targets.Num(); ++Target)
 					{
-						if (!bIsGrasped && Target == PrevHoverTarget)
+						if (!bIsGrasped && Target == PrevFocusTarget)
 						{
-							KeyframeEventCounts[Target].GraspEndCount += Pointers.Num();
+							KeyframeEventCounts[Target].EndGrabCount += Pointers.Num();
 						}
-						if (bIsGrasped && Target == HoverTarget)
+						if (bIsGrasped && Target == FocusTarget)
 						{
-							KeyframeEventCounts[Target].GraspStartCount += Pointers.Num();
+							KeyframeEventCounts[Target].BeginGrabCount += Pointers.Num();
 						}
 					}
 				}
 			}
 
 			result.Add(KeyframeEventCounts);
-			PrevHoverTarget = HoverTarget;
+			PrevFocusTarget = FocusTarget;
 			bPrevIsGrasped = bIsGrasped;
 		}
 
@@ -247,14 +253,14 @@ namespace UxtPointerTests
 
 			const TargetEventCount& ExpectedEventCounts = EventCounts[TargetIndex];
 
-			FString whatHoverStarted; whatHoverStarted.Appendf(TEXT("Keyframe %d: Target %d HoverStarted count"), KeyframeIndex, TargetIndex);
-			FString whatHoverEnded; whatHoverEnded.Appendf(TEXT("Keyframe %d: Target %d HoverEnded count"), KeyframeIndex, TargetIndex);
-			FString whatGraspStarted; whatGraspStarted.Appendf(TEXT("Keyframe %d: Target %d GraspStarted count"), KeyframeIndex, TargetIndex);
-			FString whatGraspEnded; whatGraspEnded.Appendf(TEXT("Keyframe %d: Target %d GraspEnded count"), KeyframeIndex, TargetIndex);
-			Test->TestEqual(whatHoverStarted, Target->HoverStartedCount, ExpectedEventCounts.HoverStartCount);
-			Test->TestEqual(whatHoverEnded, Target->HoverEndedCount, ExpectedEventCounts.HoverEndCount);
-			Test->TestEqual(whatGraspStarted, Target->GraspStartedCount, ExpectedEventCounts.GraspStartCount);
-			Test->TestEqual(whatGraspEnded, Target->GraspEndedCount, ExpectedEventCounts.GraspEndCount);
+			FString whatFocusStarted; whatFocusStarted.Appendf(TEXT("Keyframe %d: Target %d EnterFocus count"), KeyframeIndex, TargetIndex);
+			FString whatFocusEnded; whatFocusEnded.Appendf(TEXT("Keyframe %d: Target %d ExitFocus count"), KeyframeIndex, TargetIndex);
+			FString whatGraspStarted; whatGraspStarted.Appendf(TEXT("Keyframe %d: Target %d BeginGrab count"), KeyframeIndex, TargetIndex);
+			FString whatGraspEnded; whatGraspEnded.Appendf(TEXT("Keyframe %d: Target %d EndGrab count"), KeyframeIndex, TargetIndex);
+			Test->TestEqual(whatFocusStarted, Target->BeginFocusCount, ExpectedEventCounts.BeginFocusCount);
+			Test->TestEqual(whatFocusEnded, Target->EndFocusCount, ExpectedEventCounts.EndFocusCount);
+			Test->TestEqual(whatGraspStarted, Target->BeginGrabCount, ExpectedEventCounts.BeginGrabCount);
+			Test->TestEqual(whatGraspEnded, Target->EndGrabCount, ExpectedEventCounts.EndGrabCount);
 		}
 	}
 

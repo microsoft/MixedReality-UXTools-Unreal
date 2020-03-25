@@ -2,18 +2,18 @@
 
 #include "CoreMinimal.h"
 
-#include "Interactions/UxtGrabbableComponent.h"
+#include "Interactions/UxtGrabTargetComponent.h"
 
-#include "GrabbableComponentTickTest.generated.h"
+#include "GrabComponentTickTest.generated.h"
 
 UCLASS()
-class UXTOOLSTESTS_API UGrabbableTickTestComponent : public UUxtGrabbableComponent
+class UXTOOLSTESTS_API UGrabTickTestComponent : public UUxtGrabTargetComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	UGrabbableTickTestComponent()
+	UGrabTickTestComponent()
 	{
 		PrimaryComponentTick.bCanEverTick = true;
 	}

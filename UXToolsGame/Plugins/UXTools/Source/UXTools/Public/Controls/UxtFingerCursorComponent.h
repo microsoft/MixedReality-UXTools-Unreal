@@ -6,7 +6,7 @@
 #include "Components/SceneComponent.h"
 #include "UxtFingerCursorComponent.generated.h"
 
-class UUxtTouchPointer;
+class UUxtNearPointerComponent;
 class UMaterialInterface;
 class UMaterialInstanceDynamic;
 
@@ -63,5 +63,5 @@ private:
 	UMaterialInstanceDynamic* MaterialInstance;
 
 	/** Touch pointer in use. */
-	TWeakObjectPtr<UUxtTouchPointer> TouchPointerWeak;
+	TWeakObjectPtr<UUxtNearPointerComponent> HandPointerWeak;
 };

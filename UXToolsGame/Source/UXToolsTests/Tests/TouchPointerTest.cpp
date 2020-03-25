@@ -6,7 +6,6 @@
 #include "EngineUtils.h"
 
 #include "UxtTestUtils.h"
-#include "Input/UxtTouchPointer.h"
 #include "PointerTestSequence.h"
 
 using namespace UxtPointerTests;
@@ -37,11 +36,11 @@ static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestS
 		OutSequence.AddTarget(world, p1);
 
 		OutSequence.AddMovementKeyframe(pStart);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(p1);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(pEnd);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 	}
 
 	if (TargetSetup == TargetSetup_TwoSeparate)
@@ -52,13 +51,13 @@ static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestS
 		OutSequence.AddTarget(world, p2);
 
 		OutSequence.AddMovementKeyframe(pStart);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(p1);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(p2);
-		OutSequence.ExpectHoverTargetIndex(1);
+		OutSequence.ExpectFocusTargetIndex(1);
 		OutSequence.AddMovementKeyframe(pEnd);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 	}
 
 	if (TargetSetup == TargetSetup_TwoOverlapping)
@@ -69,13 +68,13 @@ static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestS
 		OutSequence.AddTarget(world, p2);
 
 		OutSequence.AddMovementKeyframe(pStart);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(p1);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(p2);
-		OutSequence.ExpectHoverTargetIndex(1);
+		OutSequence.ExpectFocusTargetIndex(1);
 		OutSequence.AddMovementKeyframe(pEnd);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 	}
 }
 

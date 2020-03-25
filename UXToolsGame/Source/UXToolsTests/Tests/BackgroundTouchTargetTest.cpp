@@ -6,14 +6,13 @@
 #include "EngineUtils.h"
 
 #include "UxtTestUtils.h"
-#include "Input/UxtTouchPointer.h"
 #include "PointerTestSequence.h"
 
 using namespace UxtPointerTests;
 
-const FString TestCase_HoverEnterExit = TEXT("HoverEnterExit");
+const FString TestCase_FocusEnterExit = TEXT("FocusEnterExit");
 const FString TestCase_GraspTarget = TEXT("GraspTarget");
-const FString TestCase_HoverLockTarget = TEXT("HoverLockTarget");
+const FString TestCase_FocusLockTarget = TEXT("FocusLockTarget");
 
 /** Creates a number of target actors as well as a list of keyframes that the pointer should pass through. */
 static void SetupTestCase(UWorld* world, const FString& TestCase, PointerTestSequence& OutSequence)
@@ -22,20 +21,19 @@ static void SetupTestCase(UWorld* world, const FString& TestCase, PointerTestSeq
 	const FVector pInside(113, -24, -8);
 	const FVector pOutside(150, 40, -40);
 
-	if (TestCase == TestCase_HoverEnterExit)
+	if (TestCase == TestCase_FocusEnterExit)
 	{
 		OutSequence.AddTarget(world, pTarget);
 
 		OutSequence.AddMovementKeyframe(pOutside);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(pInside);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(pOutside);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(pInside);
-		OutSequence.ExpectHoverTargetIndex(0);
 		OutSequence.AddMovementKeyframe(pOutside);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 	}
 
 	if (TestCase == TestCase_GraspTarget)
@@ -43,29 +41,29 @@ static void SetupTestCase(UWorld* world, const FString& TestCase, PointerTestSeq
 		OutSequence.AddTarget(world, pTarget);
 
 		OutSequence.AddMovementKeyframe(pInside);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 
-		OutSequence.AddGraspKeyframe(true);
+		OutSequence.AddGrabKeyframe(true);
 
-		OutSequence.AddGraspKeyframe(false);
+		OutSequence.AddGrabKeyframe(false);
 	}
 
-	if (TestCase == TestCase_HoverLockTarget)
+	if (TestCase == TestCase_FocusLockTarget)
 	{
 		OutSequence.AddTarget(world, pTarget);
 
 		OutSequence.AddMovementKeyframe(pOutside);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 
 		OutSequence.AddMovementKeyframe(pInside);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 
-		OutSequence.AddGraspKeyframe(true);
+		OutSequence.AddGrabKeyframe(true);
 
 		OutSequence.AddMovementKeyframe(pOutside);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 
-		OutSequence.AddGraspKeyframe(false);
+		OutSequence.AddGrabKeyframe(false);
 	}
 }
 
@@ -84,7 +82,7 @@ void FBackgroundTouchTargetTest::GetTests(TArray<FString>& OutBeautifiedNames, T
 		OutTestCommands.Add(TestCase);
 	};
 
-	AddTestCase(TestCase_HoverEnterExit);
+	AddTestCase(TestCase_FocusEnterExit);
 	AddTestCase(TestCase_GraspTarget);
 }
 

@@ -6,7 +6,7 @@
 #include "Engine.h"
 #include "EngineUtils.h"
 
-#include "Input/UxtTouchPointer.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "PointerTestSequence.h"
 
 // Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
@@ -29,20 +29,17 @@ UWorld* UxtTestUtils::CreateTestWorld()
 	return world;
 }
 
-UUxtTouchPointer* UxtTestUtils::CreateTouchPointer(UWorld *World, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
+UUxtNearPointerComponent* UxtTestUtils::CreateTouchPointer(UWorld *World, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
 {
 	AActor *hand = World->SpawnActor<AActor>();
 
-	USceneComponent *root = NewObject<USceneComponent>(hand);
-	hand->SetRootComponent(root);
-	root->SetWorldLocation(Location);
-	root->RegisterComponent();
-
-	UUxtTouchPointer *pointer = NewObject<UUxtTouchPointer>(hand);
-	pointer->SetupAttachment(hand->GetRootComponent());
-	pointer->SetGrasped(IsGrasped);
-	pointer->SetTouchRadius(0.1f);
+	UUxtNearPointerComponent* pointer = NewObject<UUxtNearPointerComponent>(hand);
+	pointer->SetGrabbing(IsGrasped);
 	pointer->RegisterComponent();
+
+	FTransform Transform(Location);
+	pointer->SetIndexTipTransform(Transform);
+	pointer->SetThumbTipTransform(Transform);
 
 	if (AddMeshVisualizer)
 	{

@@ -2,8 +2,8 @@
 
 #include "Interactions/UxtManipulatorComponentBase.h"
 #include "Utils/UxtFunctionLibrary.h"
-#include "Interactions/UxtGrabbableComponent.h"
-#include "Input/UxtTouchPointer.h"
+#include "Interactions/UxtGrabTargetComponent.h"
+#include "Engine/World.h"
 
 void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform) const
 {
@@ -24,11 +24,6 @@ void UUxtManipulatorComponentBase::RotateAroundPivot(const FTransform &SourceTra
 	if (GetGrabPointers().Num() > 1)
 	{
 		// TODO this will require solving an Eigenvalue problem (SVD) to find the least-squares solution
-		return;
-	}
-
-	if (!ensure(GetGrabPointers()[0].Pointer != nullptr))
-	{
 		return;
 	}
 
@@ -59,11 +54,6 @@ void UUxtManipulatorComponentBase::RotateAboutAxis(const FTransform &SourceTrans
 	if (GetGrabPointers().Num() > 1)
 	{
 		// TODO this will require solving an Eigenvalue problem (SVD) to find the least-squares solution
-		return;
-	}
-
-	if (!ensure(GetGrabPointers()[0].Pointer != nullptr))
-	{
 		return;
 	}
 
@@ -144,7 +134,7 @@ void UUxtManipulatorComponentBase::BeginPlay()
 	}
 }
 
-void UUxtManipulatorComponentBase::InitTransformOnFirstPointer(UUxtGrabbableComponent *Grabbable, FUxtGrabPointerData GrabPointer)
+void UUxtManipulatorComponentBase::InitTransformOnFirstPointer(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
 {
 	if (GetGrabPointers().Num() == 1)
 	{

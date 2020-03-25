@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Controls/UxtFingerCursorComponent.h"
-#include "Input/UxtTouchPointer.h"
 #include "UXTools.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -50,13 +50,13 @@ void UUxtFingerCursorComponent::BeginPlay()
 	Super::BeginPlay();
 
 	auto Owner = GetOwner();
-	UUxtTouchPointer* TouchPointer = Owner->FindComponentByClass<UUxtTouchPointer>();
-	TouchPointerWeak = TouchPointer;
+	UUxtNearPointerComponent* HandPointer = Owner->FindComponentByClass<UUxtNearPointerComponent>();
+	HandPointerWeak = HandPointer;
 
-	if (TouchPointer)
+	if (HandPointer)
 	{
 		// Tick after the pointer so we use its latest state
-		AddTickPrerequisiteComponent(TouchPointer);
+		AddTickPrerequisiteComponent(HandPointer);
 	}
 	else
 	{
@@ -68,14 +68,17 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (UUxtTouchPointer* TouchPointer = TouchPointerWeak.Get())
+	if (UUxtNearPointerComponent* HandPointer = HandPointerWeak.Get())
 	{
 		FVector PointOnTarget;
-		if (auto Target = TouchPointer->GetHoveredTarget(PointOnTarget))
+		if (auto Target = HandPointer->GetFocusedTouchTarget(PointOnTarget))
 		{
 			MeshComponent->SetVisibility(true);
 
-			const auto PointerToTarget = PointOnTarget - TouchPointer->GetComponentLocation();
+			FTransform TouchPointerTransform = HandPointer->GetTouchPointerTransform();
+			SetWorldLocation(TouchPointerTransform.GetLocation());
+
+			const auto PointerToTarget = PointOnTarget - TouchPointerTransform.GetLocation();
 			const auto DistanceToTarget = PointerToTarget.Size();
 
 			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
@@ -83,17 +86,15 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 			if (DistanceToTarget > Epsilon)
 			{
-				FTransform IndexTipTransform = TouchPointer->GetComponentTransform();
-
 				if (DistanceToTarget < AlignWithSurfaceDistance)
 				{
 					// Slerp between surface normal and index tip rotation
 					float slerpAmount = DistanceToTarget / AlignWithSurfaceDistance;
-					SetWorldRotation(FQuat::Slerp(PointerToTarget.ToOrientationQuat(), IndexTipTransform.GetRotation(), slerpAmount));
+					SetWorldRotation(FQuat::Slerp(PointerToTarget.ToOrientationQuat(), TouchPointerTransform.GetRotation(), slerpAmount));
 				}
 				else
 				{
-					SetWorldRotation(IndexTipTransform.GetRotation());
+					SetWorldRotation(TouchPointerTransform.GetRotation());
 				}
 			}
 

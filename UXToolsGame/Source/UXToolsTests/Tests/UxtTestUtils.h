@@ -4,7 +4,7 @@
 #include "Misc/AutomationTest.h"
 
 class UTestTouchPointerTarget;
-class UUxtTouchPointer;
+class UUxtNearPointerComponent;
 class UWorld;
 
 /** Utility functions for UXTools testing. */
@@ -17,7 +17,7 @@ struct UxtTestUtils
 	static UWorld* CreateTestWorld();
 
 	/** Create a basic touch pointer actor. */
-	static UUxtTouchPointer* CreateTouchPointer(UWorld *World, const FVector &Position, bool IsGrasped = false, bool AddMeshVisualizer = true);
+	static UUxtNearPointerComponent* CreateTouchPointer(UWorld *World, const FVector &Position, bool IsGrasped = false, bool AddMeshVisualizer = true);
 
 	/** Create a touchable target actor. */
 	static UTestTouchPointerTarget* CreateTouchPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);

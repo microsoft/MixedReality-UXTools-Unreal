@@ -2,7 +2,6 @@
 
 #include "Controls/UxtPressableButtonComponent.h"
 #include "Native/PressableButton.h"
-#include "Input/UxtTouchPointer.h"
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 #include <Components/ShapeComponent.h>
@@ -186,15 +185,15 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 
 	// Collect all touch pointers
 	{
-		TArray<UUxtTouchPointer*> Pointers = GetActivePointers();
+		const TMap<int32, FUxtPointerInteractionData> Pointers = GetFocusedPointers();
 		TouchPointers.reserve(Pointers.Num());
 
-		for (UUxtTouchPointer* Pointer : Pointers)
+		for (const auto& PointerData : Pointers)
 		{
 			UX::TouchPointer TouchPointer;
-			const FVector PointerPosition = Pointer->GetComponentLocation();
+			const FVector PointerPosition = PointerData.Value.Location;
 			TouchPointer.m_position = ToMRPosition(PointerPosition);
-			TouchPointer.m_id = (UX::PointerId)Pointer;
+			TouchPointer.m_id = (UX::PointerId)PointerData.Key;
 			TouchPointers.emplace_back(TouchPointer);
 		}
 	}

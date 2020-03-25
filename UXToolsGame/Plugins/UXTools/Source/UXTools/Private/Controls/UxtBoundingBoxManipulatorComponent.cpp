@@ -182,7 +182,7 @@ void UUxtBoundingBoxManipulatorComponent::BeginPlay()
 			{
 				ActorAffordanceMap.Add(affordanceActor, &affordance);
 
-				UUxtGrabbableComponent *grabbable = affordanceActor->FindComponentByClass<UUxtGrabbableComponent>();
+				UUxtGrabTargetComponent *grabbable = affordanceActor->FindComponentByClass<UUxtGrabTargetComponent>();
 				if (grabbable != nullptr)
 				{
 					grabbable->OnBeginGrab.AddDynamic(this, &UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab);
@@ -319,13 +319,13 @@ void UUxtBoundingBoxManipulatorComponent::ComputeModifiedBounds(const FUxtBoundi
 	}
 }
 
-void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabbableComponent *Grabbable, FUxtGrabPointerData GrabPointer)
+void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
 {
 	const FUxtBoundingBoxAffordanceInfo **pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
 	check(pAffordance != nullptr);
 
 	FUxtGrabPointerData bboxGrabPointer;
-	bboxGrabPointer.Pointer = GrabPointer.Pointer;
+	bboxGrabPointer.PointerId = GrabPointer.PointerId;
 	bboxGrabPointer.StartTime = GrabPointer.StartTime;
 	// Transform into the bbox actor space
 	FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());
@@ -334,7 +334,7 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabbableCompon
 	TryActivateGrabPointer(**pAffordance, bboxGrabPointer);
 }
 
-void UUxtBoundingBoxManipulatorComponent::OnPointerEndGrab(UUxtGrabbableComponent *Grabbable, FUxtGrabPointerData GrabPointer)
+void UUxtBoundingBoxManipulatorComponent::OnPointerEndGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
 {
 	const FUxtBoundingBoxAffordanceInfo **pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
 	check(pAffordance != nullptr);
