@@ -31,3 +31,14 @@ bool FUxtTestHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbin
 
 	return false;
 }
+
+bool FUxtTestHandTracker::GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const
+{
+	if (bIsTracked)
+	{
+		OutIsSelectPressed = bIsSelectPressed;
+		return true;
+	}
+
+	return false;
+}

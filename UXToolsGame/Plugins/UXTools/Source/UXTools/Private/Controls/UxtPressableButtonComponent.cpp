@@ -252,35 +252,36 @@ FVector UUxtPressableButtonComponent::GetVisualsRestPosition() const
 	return Transform.GetLocation() + Transform.TransformVector(VisualsOffsetLocal);
 }
 
-void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
-{
-	if (!FarPointerWeak.IsValid())
-	{
-		if (auto Visuals = GetVisuals())
-		{
-			FQuat Orientation = GetComponentTransform().GetRotation();
-			const float PressedDistance = PressedFraction * 2.0f * Extents.X * GetComponentScale().X;
-			Visuals->SetWorldLocation(GetVisualsRestPosition() + Orientation.GetForwardVector() * PressedDistance);
-		}
-
-		FarPointerWeak = Pointer;
-		Pointer->SetFocusLocked(true);
-		OnButtonPressed.Broadcast(this);
-	}
-}
-
-void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
-{
-	auto FarPointer = FarPointerWeak.Get();
-	if (Pointer == FarPointer)
-	{
-		if (auto Visuals = GetVisuals())
-		{
-			Visuals->SetWorldLocation(GetVisualsRestPosition());
-		}
-
-		OnButtonReleased.Broadcast(this);
-		Pointer->SetFocusLocked(false);
-		FarPointerWeak = nullptr;
-	}
-}
+// TODO.LV
+//void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+//{
+//	if (!FarPointerWeak.IsValid())
+//	{
+//		if (auto Visuals = GetVisuals())
+//		{
+//			FQuat Orientation = GetComponentTransform().GetRotation();
+//			const float PressedDistance = PressedFraction * 2.0f * Extents.X * GetComponentScale().X;
+//			Visuals->SetWorldLocation(GetVisualsRestPosition() + Orientation.GetForwardVector() * PressedDistance);
+//		}
+//
+//		FarPointerWeak = Pointer;
+//		Pointer->SetFocusLocked(true);
+//		OnButtonPressed.Broadcast(this);
+//	}
+//}
+//
+//void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+//{
+//	auto FarPointer = FarPointerWeak.Get();
+//	if (Pointer == FarPointer)
+//	{
+//		if (auto Visuals = GetVisuals())
+//		{
+//			Visuals->SetWorldLocation(GetVisualsRestPosition());
+//		}
+//
+//		OnButtonReleased.Broadcast(this);
+//		Pointer->SetFocusLocked(false);
+//		FarPointerWeak = nullptr;
+//	}
+//}

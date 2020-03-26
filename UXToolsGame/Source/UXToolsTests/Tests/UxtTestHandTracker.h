@@ -14,6 +14,7 @@ public:
 	virtual bool GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override;
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override;
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const override;
+	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const override;
 
 	/** Enable hand tracking. */
 	bool bIsTracked = true;
@@ -29,4 +30,6 @@ public:
 	/** Enable grab state. */
 	bool bIsGrabbing = false;
 
+	/** Enable select state. */
+	bool bIsSelectPressed = false;
 };
