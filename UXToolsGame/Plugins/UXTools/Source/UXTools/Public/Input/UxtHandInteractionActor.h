@@ -7,7 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "UxtHandInteractionActor.generated.h"
 
-class UUxtTouchPointer;
+class UUxtNearPointerComponent;
 class UUxtFarPointerComponent;
 class UMaterialParameterCollection;
 
@@ -89,9 +89,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetTraceChannel", BlueprintSetter = "SetTraceChannel", Category = "Hand Interaction")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
-
 	UPROPERTY(Transient)
-	UUxtTouchPointer* NearPointer;
+	UUxtNearPointerComponent* NearPointer;
 
 	UPROPERTY(Transient)
 	UUxtFarPointerComponent* FarPointer;

@@ -26,6 +26,13 @@ public:
 	UUxtNearPointerComponent();
 	virtual ~UUxtNearPointerComponent();
 
+	// 
+	// UActorComponent interface
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void SetActive(bool bNewActive, bool bReset = false) override;
+
 	UFUNCTION(BlueprintGetter)
 	EControllerHand GetHand() const;
 	UFUNCTION(BlueprintSetter)
@@ -97,14 +104,6 @@ public:
 	FTransform GetTouchPointerTransform() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	float GetTouchPointerRadius() const;
-
-protected:
-
-	// 
-	// UActorComponent interface
-
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
 

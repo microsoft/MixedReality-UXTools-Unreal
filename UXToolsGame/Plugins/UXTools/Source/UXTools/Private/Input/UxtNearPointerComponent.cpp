@@ -239,6 +239,18 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	}
 }
 
+void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
+{
+	bool bOldActive = IsActive();
+	Super::SetActive(bNewActive, bReset);
+
+	if (bOldActive && !bNewActive)
+	{
+		GrabFocus->ClearFocus(this);
+		TouchFocus->ClearFocus(this);
+	}
+}
+
 EControllerHand UUxtNearPointerComponent::GetHand() const
 {
 	return Hand;
