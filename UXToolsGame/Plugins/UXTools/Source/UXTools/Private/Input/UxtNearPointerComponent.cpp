@@ -129,36 +129,45 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			auto Target = TouchTargetWeak.Get();
 			auto Primitive = TouchPrimitiveWeak.Get();
 			
-			check(Target != nullptr);
-			check(Primitive != nullptr);
-
-			bool endedTouching = false;
-
-			switch (IUxtTouchTarget::Execute_GetTouchBehaviour(Target))
+			if (Primitive && Target)
 			{
-			case EUxtTouchBehaviour::FrontFace:
-				endedTouching = IsFrontFaceTouchEnded(Primitive, TouchPointerLocation, GetTouchPointerRadius(), TouchDepth);
-				break;
-			case EUxtTouchBehaviour::Volume:
-				endedTouching = !Primitive->OverlapComponent(TouchPointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetTouchPointerRadius()));
-				break;
-			}
+				bool endedTouching = false;
 
-			if (endedTouching) 
-			{
-				bIsTouching = false;
-				TouchTargetWeak = nullptr;
+				switch (IUxtTouchTarget::Execute_GetTouchBehaviour(Target))
+				{
+				case EUxtTouchBehaviour::FrontFace:
+					endedTouching = IsFrontFaceTouchEnded(Primitive, TouchPointerLocation, GetTouchPointerRadius(), TouchDepth);
+					break;
+				case EUxtTouchBehaviour::Volume:
+					endedTouching = !Primitive->OverlapComponent(TouchPointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetTouchPointerRadius()));
+					break;
+				}
 
-				IUxtTouchTarget::Execute_OnEndTouch(Target, this);
+				if (endedTouching)
+				{
+					bIsTouching = false;
+					TouchTargetWeak = nullptr;
+					TouchPrimitiveWeak = nullptr;
+
+					IUxtTouchTarget::Execute_OnEndTouch(Target, this);
+				}
+				else
+				{
+					FUxtPointerInteractionData Data;
+					FTransform Transform = GetTouchPointerTransform();
+					Data.Location = Transform.GetLocation();
+					Data.Rotation = Transform.GetRotation();
+
+					IUxtTouchTarget::Execute_OnUpdateTouch(Target, this, Data);
+				}
 			}
 			else
 			{
-				FUxtPointerInteractionData Data;
-				FTransform Transform = GetTouchPointerTransform();
-				Data.Location = Transform.GetLocation();
-				Data.Rotation = Transform.GetRotation();
+				bIsTouching = false;
+				bFocusLocked = false;
 
-				IUxtTouchTarget::Execute_OnUpdateTouch(Target, this, Data);
+				TouchTargetWeak = nullptr;
+				TouchPrimitiveWeak = nullptr;
 			}
 		}
 		else

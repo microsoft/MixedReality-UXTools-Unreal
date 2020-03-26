@@ -3,6 +3,7 @@
 
 #include "Interactions/UxtTouchTargetComponent.h"
 #include "Interactions/UxtInteractionUtils.h"
+#include "Input/UxtNearPointerComponent.h"
 
 UUxtTouchTargetComponent::UUxtTouchTargetComponent()
 {
@@ -37,6 +38,10 @@ bool UUxtTouchTargetComponent::GetClosestTouchPoint_Implementation(const UPrimit
 void UUxtTouchTargetComponent::OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
 {
 	TouchPointers.Add(Pointer, Data);
+
+	// Lock the touching pointer so we remain the focused target as it moves.
+	Pointer->SetFocusLocked(true);
+
 	OnBeginTouch.Broadcast(this, Pointer, Data);
 }
 
@@ -50,6 +55,10 @@ void UUxtTouchTargetComponent::OnUpdateTouch_Implementation(UUxtNearPointerCompo
 void UUxtTouchTargetComponent::OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	TouchPointers.Remove(Pointer);
+
+	// Unlock the pointer focus so that another target can be selected.
+	Pointer->SetFocusLocked(false);
+
 	OnEndTouch.Broadcast(this, Pointer);
 }
 
