@@ -4,6 +4,8 @@
 #include "Controls/UxtPressableButtonComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
+#include "Interactions/UxtInteractionUtils.h"
+
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
 #include <Components/BoxComponent.h>
@@ -117,7 +119,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 		UUxtNearPointerComponent* NewTouchingPointer = nullptr;
 		float targetDistance = 0;
 
-		for (const auto& Pointer : GetTouchPointers())
+		for (const auto& Pointer : TouchPointers)
 		{
 			float pushDistance = CalculatePushDistance(Pointer.Key);
 			if (pushDistance > targetDistance)
@@ -192,12 +194,22 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 #endif
 }
 
+void UUxtPressableButtonComponent::OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	const bool bWasFocused = ++NumPointersFocusing > 1;
+	OnBeginFocus.Broadcast(this, Pointer, Data, bWasFocused);
+}
+
+void UUxtPressableButtonComponent::OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	OnUpdateFocus.Broadcast(this, Pointer, Data);
+}
 
 void UUxtPressableButtonComponent::OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	Super::OnExitTouchFocus_Implementation(Pointer);
+	const bool bIsFocused = --NumPointersFocusing > 0;
 
-	if (GetFocusedPointers().Num() == 0)
+	if (!bIsFocused)
 	{
 		if (bIsPressed)
 		{
@@ -205,25 +217,50 @@ void UUxtPressableButtonComponent::OnExitTouchFocus_Implementation(UUxtNearPoint
 			OnButtonReleased.Broadcast(this);
 		}
 	}
+
+	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
+}
+
+bool UUxtPressableButtonComponent::GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
+{
+	float DistanceSqr;
+	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
+}
+
+void UUxtPressableButtonComponent::OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	// Lock the touching pointer so we remain the focused target as it moves.
+	Pointer->SetFocusLocked(true);
+
+	TouchPointers.Add(Pointer, Data);
+	OnBeginTouch.Broadcast(this, Pointer, Data);
+}
+
+void UUxtPressableButtonComponent::OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	// Update the copy of the pointer data in the grab pointer array
+	TouchPointers.FindChecked(Pointer) = Data;
+	OnUpdateTouch.Broadcast(this, Pointer, Data);
+}
+
+void UUxtPressableButtonComponent::OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	if (bIsPressed && NumPointersFocusing == 0)
+	{
+		bIsPressed = false;
+		OnButtonReleased.Broadcast(this);
+	}
+
+	// Unlock the pointer focus so that another target can be selected.
+	Pointer->SetFocusLocked(false);
+
+	TouchPointers.Remove(Pointer);
+	OnEndTouch.Broadcast(this, Pointer);
 }
 
 EUxtTouchBehaviour UUxtPressableButtonComponent::GetTouchBehaviour_Implementation() const
 {
 	return EUxtTouchBehaviour::FrontFace;
-}
-
-void UUxtPressableButtonComponent::OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer)
-{
-	Super::OnEndTouch_Implementation(Pointer);
-
-	if (GetFocusedPointers().Num() == 0)
-	{
-		if (bIsPressed)
-		{
-			bIsPressed = false;
-			OnButtonReleased.Broadcast(this);
-		}
-	}
 }
 
 float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerComponent* pointer) const

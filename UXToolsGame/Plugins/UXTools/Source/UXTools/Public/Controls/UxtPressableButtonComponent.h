@@ -4,7 +4,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactions/UxtTouchTargetComponent.h"
+#include "Components/SceneComponent.h"
+#include "Interactions/UxtTouchTarget.h"
 
 #include "UxtPressableButtonComponent.generated.h"
 
@@ -24,6 +25,15 @@ class UUxtFarPointerComponent;
 class UBoxComponent;
 class UShapeComponent;
 
+//
+// Delegates
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FUxtButtonBeginFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data, bool, bWasFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonUpdateFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonEndFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, bool, bIsFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonBeginTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonUpdateTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonEndTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button);
 
@@ -32,11 +42,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonReleasedDelegate, UUxtPres
  * Component that turns the actor it is attached to into a pressable rectangular button.
  */
 UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtPressableButtonComponent : public UUxtTouchTargetComponent
+class UXTOOLS_API UUxtPressableButtonComponent : public USceneComponent, public IUxtTouchTarget
 {
 	GENERATED_BODY()
 
-public:	
+public:
 
 	UUxtPressableButtonComponent();
 
@@ -60,31 +70,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	float GetScaleAdjustedMaxPushDistance() const;
 
-protected:
-
-    //
-    // UActorComponent interface
-
-	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	//
-	// IUxtTouchTarget interface
-
-	virtual void OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
-
-	virtual EUxtTouchBehaviour GetTouchBehaviour_Implementation() const override;
-	
-	virtual void OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
-	
-	//
-	// IUxtFarTarget interface
-
-	// TODO.LV
-	//virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
-	//virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
-
-public:
 
 	/** Collision profile used by the button collider */
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
@@ -106,6 +91,33 @@ public:
     UPROPERTY(EditAnywhere, Category = "Pressable Button")
     float RecoverySpeed;
 
+	//
+	// Events
+
+	/** Event raised when a pointer starts focusing the button. WasFocused indicates if the button was already focused by another pointer. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonBeginFocusDelegate OnBeginFocus;
+
+	/** Event raised when a focusing pointer updates. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonUpdateFocusDelegate OnUpdateFocus;
+
+	/** Event raised when a pointer ends focusing the Pressable Button. IsFocused indicates if the Pressable Button is still focused by another pointer. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonEndFocusDelegate OnEndFocus;
+
+	/** Event raised when a pointer starts touching the Pressable Button. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonBeginTouchDelegate OnBeginTouch;
+
+	/** Event raised while a pointer is touching the Pressable Button. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonUpdateTouchDelegate OnUpdateTouch;
+
+	/** Event raised when a pointer ends touching the Pressable Button. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonEndTouchDelegate OnEndTouch;
+
 	/** Event raised when the button reaches the pressed distance. */
 	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
 	FUxtButtonPressedDelegate OnButtonPressed;
@@ -113,6 +125,33 @@ public:
 	/** Event raised when the a pressed button reaches the released distance. */
 	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
 	FUxtButtonReleasedDelegate OnButtonReleased;
+
+protected:
+
+	//
+	// UActorComponent interface
+
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	//
+	// IUxtTouchTarget interface
+
+	virtual void OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual bool GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
+	virtual void OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual EUxtTouchBehaviour GetTouchBehaviour_Implementation() const override;
+
+	//
+	// IUxtFarTarget interface
+
+	// TODO.LV
+	//virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	//virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
 
 private:
 
@@ -127,10 +166,15 @@ private:
 
 	/** Get the current pushed position of the button */
 	FVector GetCurrentButtonLocation() const;
+
+	/** Number of pointers currently focusing the button. */
+	int NumPointersFocusing = 0;
+
+	/** List of currently touching pointers. */
+	TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData> TouchPointers;
 	
 	/** Far pointer currently pressing the button if any */
 	TWeakObjectPtr<UUxtFarPointerComponent> FarPointerWeak;
-
 
 	/** Collision volume used for determining touch events */
 	UBoxComponent* BoxComponent;
