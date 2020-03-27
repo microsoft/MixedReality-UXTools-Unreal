@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "Interactions/UxtTouchTarget.h"
+#include "Interactions/UxtFarTarget.h"
 
 #include "UxtPressableButtonComponent.generated.h"
 
@@ -28,9 +29,9 @@ class UShapeComponent;
 //
 // Delegates
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FUxtButtonBeginFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data, bool, bWasFocused);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonUpdateFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonEndFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, bool, bIsFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonBeginFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer, bool, bWasAlreadyFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdateFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonEndFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer, bool, bIsStillFocused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonBeginTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonUpdateTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonEndTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
@@ -42,7 +43,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonReleasedDelegate, UUxtPres
  * Component that turns the actor it is attached to into a pressable rectangular button.
  */
 UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtPressableButtonComponent : public USceneComponent, public IUxtTouchTarget
+class UXTOOLS_API UUxtPressableButtonComponent : public USceneComponent, public IUxtTouchTarget, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
@@ -149,13 +150,19 @@ protected:
 	//
 	// IUxtFarTarget interface
 
-	// TODO.LV
-	//virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
-	//virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
 
 private:
 
-	FVector GetVisualsRestPosition() const;
+	/** Generic handler for enter focus events. */
+	void OnEnterFocus(UObject* Pointer);
+
+	/** Generic handler for exit focus events. */
+	void OnExitFocus(UObject* Pointer);
 
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
 	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pressable Button")

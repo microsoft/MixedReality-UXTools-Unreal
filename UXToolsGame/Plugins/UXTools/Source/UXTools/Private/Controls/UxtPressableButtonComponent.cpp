@@ -155,18 +155,18 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 				OnButtonReleased.Broadcast(this);
 			}
 		}
+	}
 
-		// Update visuals position
-		if (auto Visuals = GetVisuals())
-		{
-			const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
-			FVector NewVisualsLocation = VisualsOffset + GetCurrentButtonLocation();
-			Visuals->SetWorldLocation(NewVisualsLocation);
+	// Update visuals position
+	if (auto Visuals = GetVisuals())
+	{
+		const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
+		FVector NewVisualsLocation = VisualsOffset + GetCurrentButtonLocation();
+		Visuals->SetWorldLocation(NewVisualsLocation);
 
-			const auto ColliderOffset = GetComponentTransform().TransformVector(ColliderOffsetLocal);
-			FVector NewColliderLocation = ColliderOffset + GetCurrentButtonLocation();
-			BoxComponent->SetWorldLocation(NewColliderLocation);
-		}
+		const auto ColliderOffset = GetComponentTransform().TransformVector(ColliderOffsetLocal);
+		FVector NewColliderLocation = ColliderOffset + GetCurrentButtonLocation();
+		BoxComponent->SetWorldLocation(NewColliderLocation);
 	}
 
 #if 0
@@ -194,18 +194,13 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 #endif
 }
 
-void UUxtPressableButtonComponent::OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UUxtPressableButtonComponent::OnEnterFocus(UObject* Pointer)
 {
 	const bool bWasFocused = ++NumPointersFocusing > 1;
-	OnBeginFocus.Broadcast(this, Pointer, Data, bWasFocused);
+	OnBeginFocus.Broadcast(this, Pointer, bWasFocused);
 }
 
-void UUxtPressableButtonComponent::OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
-{
-	OnUpdateFocus.Broadcast(this, Pointer, Data);
-}
-
-void UUxtPressableButtonComponent::OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
+void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
 {
 	const bool bIsFocused = --NumPointersFocusing > 0;
 
@@ -219,6 +214,21 @@ void UUxtPressableButtonComponent::OnExitTouchFocus_Implementation(UUxtNearPoint
 	}
 
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
+}
+
+void UUxtPressableButtonComponent::OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	OnEnterFocus(Pointer);
+}
+
+void UUxtPressableButtonComponent::OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+{
+	OnUpdateFocus.Broadcast(this, Pointer);
+}
+
+void UUxtPressableButtonComponent::OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	OnExitFocus(Pointer);
 }
 
 bool UUxtPressableButtonComponent::GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
@@ -283,42 +293,40 @@ FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 	return RestPosition + (GetComponentTransform().GetUnitAxis(EAxis::X) * CurrentPushDistance);
 }
 
-FVector UUxtPressableButtonComponent::GetVisualsRestPosition() const
+void UUxtPressableButtonComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
 {
-	const auto& Transform = GetComponentTransform();
-	return Transform.GetLocation() + Transform.TransformVector(VisualsOffsetLocal);
+	OnEnterFocus(Pointer);
 }
 
-// TODO.LV
-//void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
-//{
-//	if (!FarPointerWeak.IsValid())
-//	{
-//		if (auto Visuals = GetVisuals())
-//		{
-//			FQuat Orientation = GetComponentTransform().GetRotation();
-//			const float PressedDistance = PressedFraction * 2.0f * Extents.X * GetComponentScale().X;
-//			Visuals->SetWorldLocation(GetVisualsRestPosition() + Orientation.GetForwardVector() * PressedDistance);
-//		}
-//
-//		FarPointerWeak = Pointer;
-//		Pointer->SetFocusLocked(true);
-//		OnButtonPressed.Broadcast(this);
-//	}
-//}
-//
-//void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
-//{
-//	auto FarPointer = FarPointerWeak.Get();
-//	if (Pointer == FarPointer)
-//	{
-//		if (auto Visuals = GetVisuals())
-//		{
-//			Visuals->SetWorldLocation(GetVisualsRestPosition());
-//		}
-//
-//		OnButtonReleased.Broadcast(this);
-//		Pointer->SetFocusLocked(false);
-//		FarPointerWeak = nullptr;
-//	}
-//}
+void UUxtPressableButtonComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	OnUpdateFocus.Broadcast(this, Pointer);
+}
+
+void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	OnExitFocus(Pointer);
+}
+
+void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	if (!FarPointerWeak.IsValid())
+	{
+		CurrentPushDistance = PressedDistance;
+		FarPointerWeak = Pointer;
+		Pointer->SetFocusLocked(true);
+		OnButtonPressed.Broadcast(this);
+	}
+}
+
+void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+{
+	auto FarPointer = FarPointerWeak.Get();
+	if (Pointer == FarPointer)
+	{
+		CurrentPushDistance = 0;
+		FarPointerWeak = nullptr;
+		Pointer->SetFocusLocked(false);
+		OnButtonReleased.Broadcast(this);
+	}
+}
