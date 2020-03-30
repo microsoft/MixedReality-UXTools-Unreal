@@ -7,8 +7,6 @@
 #include "Components/ActorComponent.h"
 #include "UxtFollowComponent.generated.h"
 
-class APlayerCameraManager;
-
 UENUM(BlueprintType)
 enum EUxtFollowOrientBehavior
 {
@@ -57,6 +55,11 @@ public:
 	void Recenter();
 
 public:
+
+	/** Actor that this component will follow. If null, this component will follow the camera */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	AActor* ActorToFollow;
+
 	/** Orientation Type */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
 	TEnumAsByte<EUxtFollowOrientBehavior> OrientationType = EUxtFollowOrientBehavior::WorldLock;
@@ -101,6 +104,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
 	bool bIgnoreCameraPitchAndRoll = false;
 
+	/** Option to ignore interpolation between follow poses */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	bool bInterpolatePose = true;
+
 	/** Pitch offset from camera (relative to Max Distance) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
 	float PitchOffset = 0.0f;
@@ -117,8 +124,6 @@ private:
 	void UpdateTransformToGoal(float DeltaTime);
 
 private:
-	UPROPERTY(Transient)
-	APlayerCameraManager* PlayerCameraManager;
 
 	FVector GoalPosition;
 	FVector WorkingPosition;

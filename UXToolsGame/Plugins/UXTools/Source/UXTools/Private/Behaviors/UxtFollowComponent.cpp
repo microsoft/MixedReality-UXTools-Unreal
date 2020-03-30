@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 #include "Behaviors/UxtFollowComponent.h"
-#include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 namespace
 {
@@ -321,13 +321,6 @@ void UUxtFollowComponent::BeginPlay()
 	WorkingRotation = GetOwner()->GetTransform().GetRotation();
 	PreviousReferencePosition = FVector::ZeroVector;
 
-	PlayerCameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
-	if (PlayerCameraManager == nullptr)
-	{
-		UE_LOG(LogClass, Error, TEXT("No PlayerCameraManager"));
-		return;
-	}
-
 	bSkipInterpolation = true;
 }
 
@@ -335,13 +328,19 @@ void UUxtFollowComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (PlayerCameraManager == nullptr)
+	FTransform FollowTransform;
+
+	if (ActorToFollow)
 	{
-		return;
+		FollowTransform = ActorToFollow->GetTransform();
+	}
+	else
+	{
+		FollowTransform = UUxtFunctionLibrary::GetHeadPose(GetWorld());
 	}
 
-	FVector FollowPosition = PlayerCameraManager->GetCameraLocation();
-	FQuat FollowRotation = FQuat(PlayerCameraManager->GetCameraRotation());
+	FVector FollowPosition = FollowTransform.GetLocation();
+	FQuat FollowRotation = FollowTransform.GetRotation();
 
 	if (!bHaveValidCamera)
 	{
@@ -420,7 +419,7 @@ void UUxtFollowComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 		bAngularClamped,
 		bDistanceClamped,
 		WorkingRotation.GetForwardVector(),
-		ReferenceForward,
+		CurrentReferencePosition,
 		OrientToCameraDeadzoneDegrees,
 		OrientationType);
 
@@ -440,7 +439,7 @@ void UUxtFollowComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	bRecenterNextUpdate = false;
 
 	UpdateTransformToGoal(DeltaTime);
-	bSkipInterpolation = false;
+	bSkipInterpolation = !bInterpolatePose;
 }
 
 void UUxtFollowComponent::UpdateTransformToGoal(float DeltaTime)
