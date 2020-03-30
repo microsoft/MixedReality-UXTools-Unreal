@@ -10,22 +10,17 @@
 #endif
 
 
-FTransform UUxtFunctionLibrary::GetHeadPose(const UObject* WorldContextObject)
+FTransform UUxtFunctionLibrary::GetHeadPose(UObject* WorldContextObject)
 {
 	FRotator rot;
 	FVector pos;
 	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rot, pos);
 
-	// Add camera position only when not playing in editor as input simulation already accounts for it in the head pose
-	if (!IsInEditor())
-	{
-		if (APlayerCameraManager* Manager = UGameplayStatics::GetPlayerCameraManager(WorldContextObject, 0))
-		{
-			pos += Manager->GetTransformComponent()->GetComponentLocation();
-		}
-	}
-
-	return FTransform(rot, pos);
+	FTransform TrackingSpaceTransform(rot, pos);
+	FTransform TrackingToWorld = UHeadMountedDisplayFunctionLibrary::GetTrackingToWorldTransform(WorldContextObject);
+	FTransform Result;
+	FTransform::Multiply(&Result, &TrackingSpaceTransform, &TrackingToWorld);
+	return Result;
 }
 
 bool UUxtFunctionLibrary::IsInEditor()
