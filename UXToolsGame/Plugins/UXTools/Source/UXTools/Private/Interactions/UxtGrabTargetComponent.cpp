@@ -168,12 +168,6 @@ void UUxtGrabTargetComponent::BeginPlay()
 	UpdateComponentTickEnabled();
 }
 
-bool UUxtGrabTargetComponent::GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
-{
-	float DistanceSqr;
-	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
-}
-
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	FUxtGrabPointerData GrabData;

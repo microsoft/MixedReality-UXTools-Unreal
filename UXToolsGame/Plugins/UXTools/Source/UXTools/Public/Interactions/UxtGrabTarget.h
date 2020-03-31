@@ -34,12 +34,6 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void OnExitGrabFocus(UUxtNearPointerComponent* Pointer);
 
-	/** Calculates the point on the target surface that is closest to the point passed in.
-	 *  Return value indicates whether a point was found.
-	 */
-	UFUNCTION(BlueprintNativeEvent)
-	bool GetClosestGrabPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const;
-
 	/** Raised when a pointer starts grabbing while overlapping the actor. */
 	UFUNCTION(BlueprintNativeEvent)
 	void OnBeginGrab(UUxtNearPointerComponent* Pointer);

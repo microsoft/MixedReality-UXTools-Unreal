@@ -231,12 +231,6 @@ void UUxtPressableButtonComponent::OnExitTouchFocus_Implementation(UUxtNearPoint
 	OnExitFocus(Pointer);
 }
 
-bool UUxtPressableButtonComponent::GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
-{
-	float DistanceSqr;
-	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
-}
-
 void UUxtPressableButtonComponent::OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	// Lock the touching pointer so we remain the focused target as it moves.

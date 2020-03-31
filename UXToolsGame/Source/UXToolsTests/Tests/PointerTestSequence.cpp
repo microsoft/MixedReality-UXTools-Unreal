@@ -40,12 +40,6 @@ void UTestTouchPointerTarget::OnEndGrab_Implementation(UUxtNearPointerComponent*
 	++EndGrabCount;
 }
 
-bool UTestTouchPointerTarget::GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const
-{
-	OutPointOnSurface = Primitive->GetComponentLocation();
-	return true;
-}
-
 namespace UxtPointerTests
 {
 

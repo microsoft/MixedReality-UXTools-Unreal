@@ -5,6 +5,7 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtTouchTarget.h"
+#include "Interactions/UxtInteractionUtils.h"
 
 #include "Components/PrimitiveComponent.h"
 
@@ -280,7 +281,8 @@ bool FUxtGrabPointerFocus::ImplementsTargetInterface(UObject* Target) const
 
 bool FUxtGrabPointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
 {
-	return IUxtGrabTarget::Execute_GetClosestGrabPoint(Target, Primitive, Point, OutClosestPoint);
+	float NotUsed;
+	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
 void FUxtGrabPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
@@ -311,7 +313,8 @@ bool FUxtTouchPointerFocus::ImplementsTargetInterface(UObject* Target) const
 
 bool FUxtTouchPointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
 {
-	return IUxtTouchTarget::Execute_GetClosestTouchPoint(Target, Primitive, Point, OutClosestPoint);
+	float NotUsed;
+	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
 void FUxtTouchPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const

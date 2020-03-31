@@ -141,7 +141,6 @@ protected:
 	virtual void OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
-	virtual bool GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 	virtual void OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer) override;

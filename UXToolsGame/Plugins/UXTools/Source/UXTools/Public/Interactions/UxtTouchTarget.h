@@ -43,15 +43,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void OnExitTouchFocus(UUxtNearPointerComponent* Pointer);
 
-	/** Calculates the point on the target surface that is closest to the point passed in.
-	 *  Return value indicates whether a point was found.
-	 */
-	UFUNCTION(BlueprintNativeEvent)
-	bool GetClosestTouchPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const;
-
-	/** 
-	 * Returns which touch behaviour this target supports
-	 */
+	/** Returns which touch behaviour this target supports. */
 	UFUNCTION(BlueprintNativeEvent)
 	EUxtTouchBehaviour GetTouchBehaviour() const;
 
