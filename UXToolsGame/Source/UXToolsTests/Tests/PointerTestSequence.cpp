@@ -16,12 +16,12 @@ void UTestTouchPointerTarget::BeginPlay()
 	EndFocusCount = 0;
 }
 
-void UTestTouchPointerTarget::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UTestTouchPointerTarget::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++BeginFocusCount;
 }
 
-void UTestTouchPointerTarget::OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UTestTouchPointerTarget::OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 }
 
@@ -30,7 +30,7 @@ void UTestTouchPointerTarget::OnExitGrabFocus_Implementation(UUxtNearPointerComp
 	++EndFocusCount;
 }
 
-void UTestTouchPointerTarget::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UTestTouchPointerTarget::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++BeginGrabCount;
 }

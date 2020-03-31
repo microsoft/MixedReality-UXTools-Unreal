@@ -117,28 +117,28 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	{
 		// Update button logic with all known pointers
 		UUxtNearPointerComponent* NewTouchingPointer = nullptr;
-		float targetDistance = 0;
+		float TargetDistance = 0;
 
 		for (const auto& Pointer : TouchPointers)
 		{
-			float pushDistance = CalculatePushDistance(Pointer.Key);
-			if (pushDistance > targetDistance)
+			float PushDistance = CalculatePushDistance(Pointer);
+			if (PushDistance > TargetDistance)
 			{
-				NewTouchingPointer = Pointer.Key;
-				targetDistance = pushDistance;
+				NewTouchingPointer = Pointer;
+				TargetDistance = PushDistance;
 			}
 		}
 
-		check(targetDistance >= 0 && targetDistance <= GetScaleAdjustedMaxPushDistance());
+		check(TargetDistance >= 0 && TargetDistance <= GetScaleAdjustedMaxPushDistance());
 
-		const auto previousPushDistance = CurrentPushDistance;
+		const auto PreviousPushDistance = CurrentPushDistance;
 
 		// Update push distance and raise events
-		if (targetDistance > CurrentPushDistance)
+		if (TargetDistance > CurrentPushDistance)
 		{
-			CurrentPushDistance = targetDistance;
+			CurrentPushDistance = TargetDistance;
 
-			if (!bIsPressed && CurrentPushDistance >= PressedDistance && previousPushDistance < PressedDistance)
+			if (!bIsPressed && CurrentPushDistance >= PressedDistance && PreviousPushDistance < PressedDistance)
 			{
 				bIsPressed = true;
 				OnButtonPressed.Broadcast(this);
@@ -146,10 +146,10 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 		}
 		else
 		{
-			CurrentPushDistance = FMath::Max(targetDistance, CurrentPushDistance - DeltaTime * RecoverySpeed);
+			CurrentPushDistance = FMath::Max(TargetDistance, CurrentPushDistance - DeltaTime * RecoverySpeed);
 
 			// Raise button released if we're pressed and crossed the released distance
-			if (bIsPressed && (CurrentPushDistance <= ReleasedDistance && previousPushDistance > ReleasedDistance))
+			if (bIsPressed && (CurrentPushDistance <= ReleasedDistance && PreviousPushDistance > ReleasedDistance))
 			{
 				bIsPressed = false;
 				OnButtonReleased.Broadcast(this);
@@ -216,12 +216,12 @@ void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
-void UUxtPressableButtonComponent::OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UUxtPressableButtonComponent::OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnEnterFocus(Pointer);
 }
 
-void UUxtPressableButtonComponent::OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UUxtPressableButtonComponent::OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnUpdateFocus.Broadcast(this, Pointer);
 }
@@ -237,20 +237,18 @@ bool UUxtPressableButtonComponent::GetClosestTouchPoint_Implementation(const UPr
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutPointOnSurface, DistanceSqr);
 }
 
-void UUxtPressableButtonComponent::OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UUxtPressableButtonComponent::OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	// Lock the touching pointer so we remain the focused target as it moves.
 	Pointer->SetFocusLocked(true);
 
-	TouchPointers.Add(Pointer, Data);
-	OnBeginTouch.Broadcast(this, Pointer, Data);
+	TouchPointers.Add(Pointer);
+	OnBeginTouch.Broadcast(this, Pointer);
 }
 
-void UUxtPressableButtonComponent::OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data)
+void UUxtPressableButtonComponent::OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	// Update the copy of the pointer data in the grab pointer array
-	TouchPointers.FindChecked(Pointer) = Data;
-	OnUpdateTouch.Broadcast(this, Pointer, Data);
+	OnUpdateTouch.Broadcast(this, Pointer);
 }
 
 void UUxtPressableButtonComponent::OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer)

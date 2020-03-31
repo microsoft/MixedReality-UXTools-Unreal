@@ -94,13 +94,11 @@ void FUxtPointerFocus::ClearFocus(UUxtNearPointerComponent* Pointer)
 	ClosestTargetPoint = FVector::ZeroVector;
 }
 
-void FUxtPointerFocus::UpdateFocus(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform) const
+void FUxtPointerFocus::UpdateFocus(UUxtNearPointerComponent* Pointer) const
 {
 	if (UObject* FocusedTarget = GetFocusedTargetChecked())
 	{
-		FUxtPointerInteractionData Data = { PointerTransform.GetLocation(), PointerTransform.GetRotation() };
-
-		RaiseUpdateFocusEvent(FocusedTarget, Pointer, Data);
+		RaiseUpdateFocusEvent(FocusedTarget, Pointer);
 	}
 }
 
@@ -144,9 +142,7 @@ void FUxtPointerFocus::SetFocus(
 
 		if (FocusedTarget && ImplementsTargetInterface(FocusedTarget))
 		{
-			FUxtPointerInteractionData Data = { PointerTransform.GetLocation(), PointerTransform.GetRotation() };
-
-			RaiseEnterFocusEvent(FocusedTarget, Pointer, Data);
+			RaiseEnterFocusEvent(FocusedTarget, Pointer);
 		}
 	}
 }
@@ -239,25 +235,21 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestPointOnComponent(UActo
 }
 
 
-void FUxtGrabPointerFocus::BeginGrab(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform)
+void FUxtGrabPointerFocus::BeginGrab(UUxtNearPointerComponent* Pointer)
 {
 	if (UObject* Target = GetFocusedTargetChecked())
 	{
-		FUxtPointerInteractionData Data = { PointerTransform.GetLocation(), PointerTransform.GetRotation() };
-
-		IUxtGrabTarget::Execute_OnBeginGrab(Target, Pointer, Data);
+		IUxtGrabTarget::Execute_OnBeginGrab(Target, Pointer);
 	}
 
 	bIsGrabbing = true;
 }
 
-void FUxtGrabPointerFocus::UpdateGrab(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform)
+void FUxtGrabPointerFocus::UpdateGrab(UUxtNearPointerComponent* Pointer)
 {
 	if (UObject* Target = GetFocusedTargetChecked())
 	{
-		FUxtPointerInteractionData Data = { PointerTransform.GetLocation(), PointerTransform.GetRotation() };
-
-		IUxtGrabTarget::Execute_OnUpdateGrab(Target, Pointer, Data);
+		IUxtGrabTarget::Execute_OnUpdateGrab(Target, Pointer);
 	}
 }
 
@@ -291,14 +283,14 @@ bool FUxtGrabPointerFocus::GetClosestPointOnTarget(const UActorComponent* Target
 	return IUxtGrabTarget::Execute_GetClosestGrabPoint(Target, Primitive, Point, OutClosestPoint);
 }
 
-void FUxtGrabPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const
+void FUxtGrabPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
 {
-	IUxtGrabTarget::Execute_OnEnterGrabFocus(Target, Pointer, Data);
+	IUxtGrabTarget::Execute_OnEnterGrabFocus(Target, Pointer);
 }
 
-void FUxtGrabPointerFocus::RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const
+void FUxtGrabPointerFocus::RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
 {
-	IUxtGrabTarget::Execute_OnUpdateGrabFocus(Target, Pointer, Data);
+	IUxtGrabTarget::Execute_OnUpdateGrabFocus(Target, Pointer);
 }
 
 void FUxtGrabPointerFocus::RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
@@ -322,14 +314,14 @@ bool FUxtTouchPointerFocus::GetClosestPointOnTarget(const UActorComponent* Targe
 	return IUxtTouchTarget::Execute_GetClosestTouchPoint(Target, Primitive, Point, OutClosestPoint);
 }
 
-void FUxtTouchPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const
+void FUxtTouchPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
 {
-	IUxtTouchTarget::Execute_OnEnterTouchFocus(Target, Pointer, Data);
+	IUxtTouchTarget::Execute_OnEnterTouchFocus(Target, Pointer);
 }
 
-void FUxtTouchPointerFocus::RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const
+void FUxtTouchPointerFocus::RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
 {
-	IUxtTouchTarget::Execute_OnUpdateTouchFocus(Target, Pointer, Data);
+	IUxtTouchTarget::Execute_OnUpdateTouchFocus(Target, Pointer);
 }
 
 void FUxtTouchPointerFocus::RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const

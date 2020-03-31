@@ -5,7 +5,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "Input/UxtPointerTypes.h"
 #include "UxtGrabTarget.generated.h"
 
 class UUxtNearPointerComponent;
@@ -25,11 +24,11 @@ public:
 
 	/** Raised when a pointer focuses the actor. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnEnterGrabFocus(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnEnterGrabFocus(UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer has been updated while focused. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdateGrabFocus(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnUpdateGrabFocus(UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer stops focusing the actor. */
 	UFUNCTION(BlueprintNativeEvent)
@@ -43,11 +42,11 @@ public:
 
 	/** Raised when a pointer starts grabbing while overlapping the actor. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnBeginGrab(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnBeginGrab(UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer has been updated while grabbing. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdateGrab(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnUpdateGrab(UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer stops grabbing or stops overlapping the actor while grabbing. */
 	UFUNCTION(BlueprintNativeEvent)

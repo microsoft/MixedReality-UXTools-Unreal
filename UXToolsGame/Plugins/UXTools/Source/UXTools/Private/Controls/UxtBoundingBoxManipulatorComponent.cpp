@@ -327,7 +327,7 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabTargetCompo
 
 	FUxtGrabPointerData bboxGrabPointer;
 	bboxGrabPointer.Pointer = GrabPointer.Pointer;
-	bboxGrabPointer.PointerData = GrabPointer.PointerData;
+	bboxGrabPointer.PointerTransform = GrabPointer.PointerTransform;
 	bboxGrabPointer.StartTime = GrabPointer.StartTime;
 	// Transform into the bbox actor space
 	FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());
@@ -345,7 +345,7 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab(UUxtGrabTargetComp
 	if (ensure(pBBoxGrabPointer))
 	{
 		pBBoxGrabPointer->Pointer = GrabPointer.Pointer;
-		pBBoxGrabPointer->PointerData = GrabPointer.PointerData;
+		pBBoxGrabPointer->PointerTransform = GrabPointer.PointerTransform;
 		pBBoxGrabPointer->StartTime = GrabPointer.StartTime;
 		// Transform into the bbox actor space
 		FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());

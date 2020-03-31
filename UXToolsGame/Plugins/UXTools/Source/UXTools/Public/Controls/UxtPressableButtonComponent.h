@@ -32,8 +32,8 @@ class UShapeComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonBeginFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer, bool, bWasAlreadyFocused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdateFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonEndFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer, bool, bIsStillFocused);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonBeginTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonUpdateTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer, FUxtPointerInteractionData, Data);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonBeginTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdateTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonEndTouchDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button);
@@ -138,12 +138,12 @@ protected:
 	//
 	// IUxtTouchTarget interface
 
-	virtual void OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
-	virtual void OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual bool GetClosestTouchPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
-	virtual void OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
-	virtual void OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual EUxtTouchBehaviour GetTouchBehaviour_Implementation() const override;
 
@@ -178,7 +178,7 @@ private:
 	int NumPointersFocusing = 0;
 
 	/** List of currently touching pointers. */
-	TMap<UUxtNearPointerComponent*, FUxtPointerInteractionData> TouchPointers;
+	TSet<UUxtNearPointerComponent*> TouchPointers;
 	
 	/** Far pointer currently pressing the button if any */
 	TWeakObjectPtr<UUxtFarPointerComponent> FarPointerWeak;

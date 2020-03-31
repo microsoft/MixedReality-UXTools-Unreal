@@ -5,7 +5,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Input/UxtPointerTypes.h"
 #include "UxtNearPointerComponent.generated.h"
 
 struct FUxtGrabPointerFocus;
@@ -151,6 +150,10 @@ private:
 	 */
 	UPROPERTY(BlueprintGetter = "GetFocusLocked", BlueprintSetter = "SetFocusLocked", Category = "Hand Pointer")
 	bool bFocusLocked = false;
+
+	FTransform GrabPointerTransform;
+
+	FTransform TouchPointerTransform;
 
 	bool bIsTouching = false;
 

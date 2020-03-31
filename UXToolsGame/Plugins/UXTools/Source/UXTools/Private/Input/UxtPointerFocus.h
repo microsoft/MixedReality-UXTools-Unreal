@@ -4,7 +4,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Input/UxtPointerTypes.h"
 
 class UUxtNearPointerComponent;
 
@@ -61,7 +60,7 @@ public:
 	void ClearFocus(UUxtNearPointerComponent* Pointer);
 
 	/** Notify the focused target of a pointer update. */
-	void UpdateFocus(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform) const;
+	void UpdateFocus(UUxtNearPointerComponent* Pointer) const;
 
 	/** Find a component of the actor that implements the required interface. */
 	UActorComponent* FindInterfaceComponent(AActor* Owner) const;
@@ -104,9 +103,9 @@ protected:
 	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const = 0;
 
 	/** Notify the target object that it has entered focus. */
-	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const = 0;
+	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
 	/** Notify the focused target object that the pointer has been updated. */
-	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const = 0;
+	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
 	/** Notify the target object that it has exited focus. */
 	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
 
@@ -135,9 +134,9 @@ struct FUxtGrabPointerFocus : public FUxtPointerFocus
 public:
 
 	/** Notify the target object that grab has started. */
-	void BeginGrab(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform);
+	void BeginGrab(UUxtNearPointerComponent* Pointer);
 	/** Notify the grabbed target object that the pointer has been updated. */
-	void UpdateGrab(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform);
+	void UpdateGrab(UUxtNearPointerComponent* Pointer);
 	/** Notify the target object that grab has ended. */
 	void EndGrab(UUxtNearPointerComponent* Pointer);
 
@@ -151,8 +150,8 @@ protected:
 
 	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const override;
 
-	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
-	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
+	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 
 private:
@@ -173,7 +172,7 @@ protected:
 
 	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const override;
 
-	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
-	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) const override;
+	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 };

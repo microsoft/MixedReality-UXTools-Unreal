@@ -22,9 +22,9 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	UUxtNearPointerComponent* Pointer;
 
-	/** Last updated data of the pointer. */
+	/** Last updated pointer transform. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
-	FUxtPointerInteractionData PointerData;
+	FTransform PointerTransform;
 
 	/** The time at which interaction started, in seconds since application start. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
@@ -153,8 +153,8 @@ protected:
 
 	virtual bool GetClosestGrabPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface) const override;
 
-	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
-	virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data) override;
+	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 private:

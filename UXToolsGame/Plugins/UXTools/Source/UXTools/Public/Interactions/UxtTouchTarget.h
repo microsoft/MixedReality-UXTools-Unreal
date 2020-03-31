@@ -5,7 +5,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "Input/UxtPointerTypes.h"
 #include "UxtTouchTarget.generated.h"
 
 class UUxtNearPointerComponent;
@@ -34,11 +33,11 @@ public:
 
 	/** Raised when a pointer focuses the actor. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnEnterTouchFocus(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnEnterTouchFocus(UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer has been updated while focused. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdateTouchFocus(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnUpdateTouchFocus(UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer stops focusing the actor. */
 	UFUNCTION(BlueprintNativeEvent)
@@ -58,11 +57,11 @@ public:
 
 	/** Raised when a pointer touch volume starts overlapping the actor. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnBeginTouch(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnBeginTouch(UUxtNearPointerComponent* Pointer);
 
 	/** Raised while a pointer touch volume is overlapping the actor. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdateTouch(UUxtNearPointerComponent* Pointer, const FUxtPointerInteractionData& Data);
+	void OnUpdateTouch(UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer touch volume stops overlapping the actor. */
 	UFUNCTION(BlueprintNativeEvent)
