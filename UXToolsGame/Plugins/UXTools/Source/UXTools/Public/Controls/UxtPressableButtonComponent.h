@@ -150,11 +150,11 @@ protected:
 	//
 	// IUxtFarTarget interface
 
-	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
-	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
-	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
-	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
-	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
+	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
+	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
+	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override;
+	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
 
 private:
 

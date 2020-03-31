@@ -107,12 +107,7 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 			{
 				if (UObject* FarTarget = GetFarTarget())
 				{
-					FUxtFarFocusEvent FocusEvent;
-					FocusEvent.Primitive = OldPrimitive;
-					FocusEvent.HitPoint = HitPoint;
-					FocusEvent.HitNormal = HitNormal;
-
-					IUxtFarTarget::Execute_OnExitFarFocus(FarTarget, this, FocusEvent);
+					IUxtFarTarget::Execute_OnExitFarFocus(FarTarget, this);
 				}
 			}
 
@@ -139,19 +134,14 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 	{
 		if (UObject* FarTarget = GetFarTarget())
 		{
-			FUxtFarFocusEvent FocusEvent;
-			FocusEvent.Primitive = NewPrimitive;
-			FocusEvent.HitPoint = HitPoint;
-			FocusEvent.HitNormal = HitNormal;
-
 			// Focus events
 			if (NewPrimitive == OldPrimitive)
 			{
-				IUxtFarTarget::Execute_OnUpdatedFarFocus(FarTarget, this, FocusEvent);
+				IUxtFarTarget::Execute_OnUpdatedFarFocus(FarTarget, this);
 			}
 			else
 			{
-				IUxtFarTarget::Execute_OnEnterFarFocus(FarTarget, this, FocusEvent);
+				IUxtFarTarget::Execute_OnEnterFarFocus(FarTarget, this);
 			}
 		}
 	}
@@ -165,18 +155,13 @@ void UUxtFarPointerComponent::SetPressed(bool bNewPressed)
 
 		if (UObject* FarTarget = GetFarTarget())
 		{
-			FUxtFarFocusEvent FocusEvent;
-			FocusEvent.Primitive = GetHitPrimitive();
-			FocusEvent.HitPoint = HitPoint;
-			FocusEvent.HitNormal = HitNormal;
-
 			if (bPressed)
 			{
-				IUxtFarTarget::Execute_OnFarPressed(FarTarget, this, FocusEvent);
+				IUxtFarTarget::Execute_OnFarPressed(FarTarget, this);
 			}
 			else
 			{
-				IUxtFarTarget::Execute_OnFarReleased(FarTarget, this, FocusEvent);
+				IUxtFarTarget::Execute_OnFarReleased(FarTarget, this);
 			}
 		}
 	}
@@ -200,12 +185,7 @@ void UUxtFarPointerComponent::SetEnabled(bool bNewEnabled)
 			// Raise focus exit on the current target
 			if (UObject* FarTarget = GetFarTarget())
 			{
-				FUxtFarFocusEvent FocusEvent;
-				FocusEvent.Primitive = GetHitPrimitive();
-				FocusEvent.HitNormal = HitNormal;
-				FocusEvent.HitPoint = HitPoint;
-
-				IUxtFarTarget::Execute_OnExitFarFocus(FarTarget, this, FocusEvent);
+				IUxtFarTarget::Execute_OnExitFarFocus(FarTarget, this);
 			}
 
 			HitPrimitiveWeak = nullptr;

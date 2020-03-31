@@ -291,22 +291,22 @@ FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 	return RestPosition + (GetComponentTransform().GetUnitAxis(EAxis::X) * CurrentPushDistance);
 }
 
-void UUxtPressableButtonComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+void UUxtPressableButtonComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	OnEnterFocus(Pointer);
 }
 
-void UUxtPressableButtonComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+void UUxtPressableButtonComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	OnUpdateFocus.Broadcast(this, Pointer);
 }
 
-void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	OnExitFocus(Pointer);
 }
 
-void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	if (!FarPointerWeak.IsValid())
 	{
@@ -317,7 +317,7 @@ void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerCom
 	}
 }
 
-void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent)
+void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	auto FarPointer = FarPointerWeak.Get();
 	if (Pointer == FarPointer)
