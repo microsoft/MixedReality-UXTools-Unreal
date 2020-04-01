@@ -36,5 +36,14 @@ public class UXToolsRuntimeSettings : ModuleRules
 				"Engine"
 			}
 		);
+
+		if (Target.Platform == UnrealTargetPlatform.Win64 && Target.bBuildEditor == true)
+		{
+			PrivateDefinitions.Add("WITH_INPUT_SIMULATION=1");
+		}
+		else
+		{
+			PrivateDefinitions.Add("WITH_INPUT_SIMULATION=0");
+		}
 	}
 }
