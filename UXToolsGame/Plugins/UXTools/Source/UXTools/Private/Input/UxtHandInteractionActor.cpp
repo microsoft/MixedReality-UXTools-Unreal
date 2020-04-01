@@ -43,7 +43,9 @@ void AUxtHandInteractionActor::BeginPlay()
 	Super::BeginPlay();
 
 	// Apply actor settings to pointers
-	NearPointer->SetTouchRadius(TouchRadius);
+	NearPointer->Hand = Hand;
+	NearPointer->TraceChannel = TraceChannel;
+	NearPointer->TouchRadius = TouchRadius;
 	FarPointer->Hand = Hand;
 	FarPointer->TraceChannel = TraceChannel;
 	FarPointer->RayStartOffset = RayStartOffset;
@@ -161,19 +163,21 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 void AUxtHandInteractionActor::SetHand(EControllerHand NewHand)
 {
 	Hand = NewHand;
+	NearPointer->Hand = NewHand;
 	FarPointer->Hand = NewHand;
 }
 
 void AUxtHandInteractionActor::SetTraceChannel(ECollisionChannel NewTraceChannel)
 {
 	TraceChannel = NewTraceChannel;
+	NearPointer->TraceChannel = NewTraceChannel;
 	FarPointer->TraceChannel = NewTraceChannel;
 }
 
 void AUxtHandInteractionActor::SetTouchRadius(float NewTouchRadius)
 {
 	TouchRadius = NewTouchRadius;
-	NearPointer->SetTouchRadius(NewTouchRadius);
+	NearPointer->TouchRadius = NewTouchRadius;
 }
 
 void AUxtHandInteractionActor::SetRayStartOffset(float NewRayStartOffset)

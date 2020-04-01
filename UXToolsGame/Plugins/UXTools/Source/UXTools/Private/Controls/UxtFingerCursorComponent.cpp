@@ -121,7 +121,7 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 			if (DistanceToTarget > Epsilon)
 			{
-				SetWorldTransform(GetCursorTransform(HandPointer->GetHand(), PointOnTarget, AlignWithSurfaceDistance));
+				SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, AlignWithSurfaceDistance));
 			}
 
 			// Scale radius with the distance to the target

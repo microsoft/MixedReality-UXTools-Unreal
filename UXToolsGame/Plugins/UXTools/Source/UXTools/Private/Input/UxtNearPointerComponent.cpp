@@ -278,66 +278,6 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 	}
 }
 
-EControllerHand UUxtNearPointerComponent::GetHand() const
-{
-	return Hand;
-}
-
-void UUxtNearPointerComponent::SetHand(EControllerHand NewHand)
-{
-	Hand = NewHand;
-}
-
-ECollisionChannel UUxtNearPointerComponent::GetTraceChannel() const
-{
-	return TraceChannel;
-}
-
-void UUxtNearPointerComponent::SetTraceChannel(ECollisionChannel NewTraceChannel)
-{
-	TraceChannel = NewTraceChannel;
-}
-
-float UUxtNearPointerComponent::GetProximityRadius() const
-{
-	return ProximityRadius;
-}
-
-void UUxtNearPointerComponent::SetProximityRadius(float Radius)
-{
-	this->ProximityRadius = Radius;
-}
-
-float UUxtNearPointerComponent::GetTouchRadius() const
-{
-	return TouchRadius;
-}
-
-void UUxtNearPointerComponent::SetTouchRadius(float Radius)
-{
-	this->TouchRadius = Radius;
-}
-
-float UUxtNearPointerComponent::GetGrabRadius() const
-{
-	return GrabRadius;
-}
-
-void UUxtNearPointerComponent::SetGrabRadius(float Radius)
-{
-	this->GrabRadius = Radius;
-}
-
-float UUxtNearPointerComponent::GetTouchDepth() const
-{
-	return TouchDepth;
-}
-
-void UUxtNearPointerComponent::SetTouchDepth(float depth)
-{
-	TouchDepth = depth;
-}
-
 UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const
 {
 	OutClosestPointOnTarget = GrabFocus->GetClosestTargetPoint();
