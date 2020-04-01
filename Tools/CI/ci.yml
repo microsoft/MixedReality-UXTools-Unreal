@@ -65,14 +65,6 @@ stages:
         chmod -R 0744 "$UE4BINARIESDIR"
       displayName: 'Update permissions for Unreal Engine'
 
-    # copy native component
-    - script: |
-        echo "copy files from $(Build.SourcesDirectory)/MixedRealityUtils-UE/External/UXT-Native/libs/UX/src to $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native"
-        rm -rf $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native
-        mkdir -p $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native
-        cp -R -v $(Build.SourcesDirectory)/MixedRealityUtils-UE/External/UXT-Native/libs/UX/src/* $(UXTSourceDir)/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Native
-      displayName: 'Copy Native source'
-
     # Build UXTools
     - script: '$(UAT) BuildPlugin -Plugin="$(UXToolsPluginSourceDir)/UXTools.uplugin" -Package="$(UXToolsPluginOutputDir)"'
       displayName: 'Build UXTools plugin'

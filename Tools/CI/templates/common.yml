@@ -9,17 +9,6 @@ steps:
     targetType: 'filePath'
     filePath: $(ToolsDir)\scripts\install_package.ps1
     arguments: -feedName ue4-internal -package analog.internal.unrealengine -versionFile $(UXTSourceDir)\EditorVersion.json -destination $(Agent.ToolsDirectory)\ue4 -artifactTool $(Agent.WorkFolder)\ArtifactTool_win10-x64_0.2.128\artifacttool.exe -pipelineVariableName UnrealEngine -PAT $(UE4FeedPAT) -RemovePackagesOlderThanDays 14 -IgnoreCleanUpErrors $false
-- script: |
-    echo Enable git core.symlinks
-    git config core.symlinks true
-    echo Remove $(UXTSourceDir)\UXToolsGame\Plugins\UXTools\Source\UXTools\Private\Native folder (if exists)
-    IF EXIST Native rmdir /Q Native
-  workingDirectory: '$(UXTSourceDir)\UXToolsGame\Plugins\UXTools\Source\UXTools\Private'
-  displayName: 'Remove symlink to Native submodule'
-
-- script: Tools/scripts/SetupSymlinks.bat
-  workingDirectory: '$(UXTSourceDir)'
-  displayName: 'Setup Symlinks'
 
 - script: '$(UAT) BuildPlugin -Plugin="$(UXToolsPluginSourceDir)\UXTools.uplugin" -Package="$(UXToolsPluginOutputDir)"'
   displayName: 'Build UXTools plugin'
