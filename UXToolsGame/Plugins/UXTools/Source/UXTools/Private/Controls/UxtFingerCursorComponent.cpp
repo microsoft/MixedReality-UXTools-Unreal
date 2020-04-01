@@ -81,7 +81,7 @@ UUxtFingerCursorComponent::UUxtFingerCursorComponent()
 	// We want the ring to remain a constant thickness regardless of the radius
 	bUseAbsoluteThickness = true;
 
-	// Remain hidden until we see a valid touch target
+	// Remain hidden until we see a valid poke target
 	SetHiddenInGame(true);
 }
 
@@ -100,7 +100,7 @@ void UUxtFingerCursorComponent::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(UXTools, Error, TEXT("Could not find a touch pointer in actor '%s'. Finger cursor won't work properly."), *Owner->GetName());
+		UE_LOG(UXTools, Error, TEXT("Could not find a near pointer in actor '%s'. Finger cursor won't work properly."), *Owner->GetName());
 	}
 }
 
@@ -111,10 +111,10 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	if (UUxtNearPointerComponent* HandPointer = HandPointerWeak.Get())
 	{
 		FVector PointOnTarget;
-		if (auto Target = HandPointer->GetFocusedTouchTarget(PointOnTarget))
+		if (auto Target = HandPointer->GetFocusedPokeTarget(PointOnTarget))
 		{
-			FTransform TouchPointerTransform = HandPointer->GetTouchPointerTransform();
-			const auto DistanceToTarget = FVector::Dist(PointOnTarget, TouchPointerTransform.GetLocation());
+			FTransform PokePointerTransform = HandPointer->GetPokePointerTransform();
+			const auto DistanceToTarget = FVector::Dist(PointOnTarget, PokePointerTransform.GetLocation());
 
 			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
 			const float Epsilon = 0.000001;

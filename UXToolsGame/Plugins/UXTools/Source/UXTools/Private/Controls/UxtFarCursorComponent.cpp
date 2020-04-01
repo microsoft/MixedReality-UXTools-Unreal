@@ -46,7 +46,7 @@ void UUxtFarCursorComponent::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(UXTools, Error, TEXT("Could not find a touch pointer in actor '%s'. Finger cursor won't work properly."), *Owner->GetName());
+		UE_LOG(UXTools, Error, TEXT("Could not find a far pointer in actor '%s'. Far cursor won't work properly."), *Owner->GetName());
 	}
 }
 

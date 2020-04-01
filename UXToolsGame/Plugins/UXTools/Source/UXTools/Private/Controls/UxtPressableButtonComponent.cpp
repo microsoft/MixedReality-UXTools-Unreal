@@ -48,13 +48,13 @@ bool UUxtPressableButtonComponent::IsPressed() const
 
 FVector2D UUxtPressableButtonComponent::GetButtonExtents() const
 {
-	if (auto Touchable = Cast<UStaticMeshComponent>(GetVisuals()))
+	if (auto Pokeable = Cast<UStaticMeshComponent>(GetVisuals()))
 	{
 		FVector Min, Max;
-		Touchable->GetLocalBounds(Min, Max);
+		Pokeable->GetLocalBounds(Min, Max);
 
 		FVector Extents = (Max - Min) * 0.5f;
-		Extents *= Touchable->GetComponentTransform().GetScale3D();
+		Extents *= Pokeable->GetComponentTransform().GetScale3D();
 
 		return FVector2D(Extents.Y, Extents.Z);
 	}
@@ -77,16 +77,16 @@ void UUxtPressableButtonComponent::BeginPlay()
 	BoxComponent->SetupAttachment(this);
 	BoxComponent->RegisterComponent();
 
-	if (auto Touchable = Cast<UStaticMeshComponent>(GetVisuals()))
+	if (auto Pokeable = Cast<UStaticMeshComponent>(GetVisuals()))
 	{
-		Touchable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Pokeable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 		FVector Min, Max;
-		Touchable->GetLocalBounds(Min, Max);
+		Pokeable->GetLocalBounds(Min, Max);
 
 		BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
 
-		BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Touchable->GetComponentTransform());
+		BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Pokeable->GetComponentTransform());
 
 		BoxComponent->SetCollisionProfileName(CollisionProfile);
 
@@ -112,19 +112,19 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// Update touch if we're not currently pressed via a far pointer
+	// Update poke if we're not currently pressed via a far pointer
 	if (!FarPointerWeak.IsValid())
 	{
 		// Update button logic with all known pointers
-		UUxtNearPointerComponent* NewTouchingPointer = nullptr;
+		UUxtNearPointerComponent* NewPokeingPointer = nullptr;
 		float TargetDistance = 0;
 
-		for (const auto& Pointer : TouchPointers)
+		for (const auto& Pointer : PokePointers)
 		{
 			float PushDistance = CalculatePushDistance(Pointer);
 			if (PushDistance > TargetDistance)
 			{
-				NewTouchingPointer = Pointer;
+				NewPokeingPointer = Pointer;
 				TargetDistance = PushDistance;
 			}
 		}
@@ -181,9 +181,9 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 		}
 
 		// Pointers
-		for (const auto& Pointer : GetTouchPointers())
+		for (const auto& Pointer : GetPokePointers())
 		{
-			auto Position = Pointer.Key->GetTouchPointerTransform().GetLocation();
+			auto Position = Pointer.Key->GetPokePointerTransform().GetLocation();
 
 			// Shift it up a bit so it is not hidden by the pointer visuals.
 			Position.Z += 2;
@@ -216,36 +216,36 @@ void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
-void UUxtPressableButtonComponent::OnEnterTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
+void UUxtPressableButtonComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnEnterFocus(Pointer);
 }
 
-void UUxtPressableButtonComponent::OnUpdateTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
+void UUxtPressableButtonComponent::OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnUpdateFocus.Broadcast(this, Pointer);
 }
 
-void UUxtPressableButtonComponent::OnExitTouchFocus_Implementation(UUxtNearPointerComponent* Pointer)
+void UUxtPressableButtonComponent::OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnExitFocus(Pointer);
 }
 
-void UUxtPressableButtonComponent::OnBeginTouch_Implementation(UUxtNearPointerComponent* Pointer)
+void UUxtPressableButtonComponent::OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	// Lock the touching pointer so we remain the focused target as it moves.
+	// Lock the poking pointer so we remain the focused target as it moves.
 	Pointer->SetFocusLocked(true);
 
-	TouchPointers.Add(Pointer);
-	OnBeginTouch.Broadcast(this, Pointer);
+	PokePointers.Add(Pointer);
+	OnBeginPoke.Broadcast(this, Pointer);
 }
 
-void UUxtPressableButtonComponent::OnUpdateTouch_Implementation(UUxtNearPointerComponent* Pointer)
+void UUxtPressableButtonComponent::OnUpdatePoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	OnUpdateTouch.Broadcast(this, Pointer);
+	OnUpdatePoke.Broadcast(this, Pointer);
 }
 
-void UUxtPressableButtonComponent::OnEndTouch_Implementation(UUxtNearPointerComponent* Pointer)
+void UUxtPressableButtonComponent::OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	if (bIsPressed && NumPointersFocusing == 0)
 	{
@@ -256,13 +256,13 @@ void UUxtPressableButtonComponent::OnEndTouch_Implementation(UUxtNearPointerComp
 	// Unlock the pointer focus so that another target can be selected.
 	Pointer->SetFocusLocked(false);
 
-	TouchPointers.Remove(Pointer);
-	OnEndTouch.Broadcast(this, Pointer);
+	PokePointers.Remove(Pointer);
+	OnEndPoke.Broadcast(this, Pointer);
 }
 
-EUxtTouchBehaviour UUxtPressableButtonComponent::GetTouchBehaviour_Implementation() const
+EUxtPokeBehaviour UUxtPressableButtonComponent::GetPokeBehaviour_Implementation() const
 {
-	return EUxtTouchBehaviour::FrontFace;
+	return EUxtPokeBehaviour::FrontFace;
 }
 
 float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerComponent* pointer) const
@@ -272,7 +272,7 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 	// Calculate current pointer position in local space
 	{
 		const auto InvOrientation = BoxComponent->GetComponentQuat().Inverse();
-		RayEndLocal = InvOrientation * (pointer->GetTouchPointerTransform().GetLocation() - RestPosition);
+		RayEndLocal = InvOrientation * (pointer->GetPokePointerTransform().GetLocation() - RestPosition);
 	}
 
 	const auto endDistance = RayEndLocal.X;

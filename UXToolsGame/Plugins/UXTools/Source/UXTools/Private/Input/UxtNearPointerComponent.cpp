@@ -4,7 +4,7 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtPointerFocus.h"
 #include "Interactions/UxtGrabTarget.h"
-#include "Interactions/UxtTouchTarget.h"
+#include "Interactions/UxtPokeTarget.h"
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 
 #include "Engine/World.h"
@@ -14,8 +14,8 @@
 namespace
 {
 	/**
-	 * Used for checking on which side of a front face touchable's front face the pointer
-	 * sphere is. This is important as BeginTouch can only be called if the pointer sphere
+	 * Used for checking on which side of a front face pokable's front face the pointer
+	 * sphere is. This is important as BeginPoke can only be called if the pointer sphere
 	 * was not behind in the previous tick and is now behind in this tick.
 	 * 
 	 * This function assumes that the given primitive has a box collider.
@@ -24,7 +24,7 @@ namespace
 	{
 		check(Primitive != nullptr);
 
-		// Front face touchables should have use a box collider
+		// Front face pokables should have use a box collider
 		check(Primitive->GetCollisionShape().IsBox());
 
 		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
@@ -42,21 +42,21 @@ namespace
 	}
 
 	/** 
-	 * Used to determine whether if touch has ended with a front face touchable. A touch
+	 * Used to determine whether if poke has ended with a front face pokable. A poke
 	 * ends if:
-	 * - The pointer sphere moves back in front of the front face of the touchable
-	 * - The pointer spher moves left/right/up/down beyond the touchable primitive
+	 * - The pointer sphere moves back in front of the front face of the pokable
+	 * - The pointer spher moves left/right/up/down beyond the pokable primitive
 	 *   extents
 	 * - The perpendicular distance from the pointer sphere to the front face exceeds the
 	 *   given depth.
 	 *
 	 * This function assumes that the given primitive has a box collider.
 	 */
-	bool IsFrontFaceTouchEnded(UPrimitiveComponent* Primitive, FVector PointerPosition, float Radius, float Depth)
+	bool IsFrontFacePokeEnded(UPrimitiveComponent* Primitive, FVector PointerPosition, float Radius, float Depth)
 	{
 		check(Primitive != nullptr);
 
-		// Front face touchables should have use a box collider
+		// Front face pokables should have use a box collider
 		check(Primitive->GetCollisionShape().IsBox());
 
 		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
@@ -70,10 +70,10 @@ namespace
 		FVector Max = Extents;
 		Max.X = -Max.X + Depth; // depth is measured from the front face
 
-		FBox TouchableVolume(Min, Max);
-		FSphere TouchSphere(LocalPosition, Radius);
+		FBox PokeableVolume(Min, Max);
+		FSphere PokeSphere(LocalPosition, Radius);
 
-		return !FMath::SphereAABBIntersection(TouchSphere, TouchableVolume);
+		return !FMath::SphereAABBIntersection(PokeSphere, PokeableVolume);
 	}
 }
 UUxtNearPointerComponent::UUxtNearPointerComponent()
@@ -84,19 +84,19 @@ UUxtNearPointerComponent::UUxtNearPointerComponent()
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
 	GrabFocus = new FUxtGrabPointerFocus();
-	TouchFocus = new FUxtTouchPointerFocus();
+	PokeFocus = new FUxtPokePointerFocus();
 }
 
 UUxtNearPointerComponent::~UUxtNearPointerComponent()
 {
 	delete GrabFocus;
-	delete TouchFocus;
+	delete PokeFocus;
 }
 
 void UUxtNearPointerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	GrabFocus->ClearFocus(this);
-	TouchFocus->ClearFocus(this);
+	PokeFocus->ClearFocus(this);
 
 	Super::EndPlay(EndPlayReason);
 }
@@ -116,7 +116,7 @@ static FTransform CalcGrabPointerTransform(EControllerHand Hand)
 	return FTransform::Identity;
 }
 
-static FTransform CalcTouchPointerTransform(EControllerHand Hand)
+static FTransform CalcPokePointerTransform(EControllerHand Hand)
 {
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;
@@ -132,7 +132,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 {
 	// Update cached transforms
 	GrabPointerTransform = CalcGrabPointerTransform(Hand);
-	TouchPointerTransform = CalcTouchPointerTransform(Hand);
+	PokePointerTransform = CalcPokePointerTransform(Hand);
 
 	// Don't update the focused target if locked
 	if (!bFocusLocked)
@@ -145,91 +145,91 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		/*bool HasBlockingOverlap = */ GetWorld()->OverlapMultiByChannel(Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius), QueryParams);
 
 		GrabFocus->SelectClosestTarget(this, GrabPointerTransform, Overlaps);
-		TouchFocus->SelectClosestTarget(this, TouchPointerTransform, Overlaps);
+		PokeFocus->SelectClosestTarget(this, PokePointerTransform, Overlaps);
 	}
 	
-	// Update touch
+	// Update poke
 	{
-		FVector TouchPointerLocation = GetTouchPointerTransform().GetLocation();
+		FVector PokePointerLocation = GetPokePointerTransform().GetLocation();
 
-		if (bIsTouching)
+		if (bIsPoking)
 		{
-			auto Target = TouchTargetWeak.Get();
-			auto Primitive = TouchPrimitiveWeak.Get();
+			auto Target = PokeTargetWeak.Get();
+			auto Primitive = PokePrimitiveWeak.Get();
 			
 			if (Primitive && Target)
 			{
-				bool endedTouching = false;
+				bool endedPokeing = false;
 
-				switch (IUxtTouchTarget::Execute_GetTouchBehaviour(Target))
+				switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 				{
-				case EUxtTouchBehaviour::FrontFace:
-					endedTouching = IsFrontFaceTouchEnded(Primitive, TouchPointerLocation, GetTouchPointerRadius(), TouchDepth);
+				case EUxtPokeBehaviour::FrontFace:
+					endedPokeing = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius(), PokeDepth);
 					break;
-				case EUxtTouchBehaviour::Volume:
-					endedTouching = !Primitive->OverlapComponent(TouchPointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetTouchPointerRadius()));
+				case EUxtPokeBehaviour::Volume:
+					endedPokeing = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius()));
 					break;
 				}
 
-				if (endedTouching)
+				if (endedPokeing)
 				{
-					bIsTouching = false;
-					TouchTargetWeak = nullptr;
-					TouchPrimitiveWeak = nullptr;
+					bIsPoking = false;
+					PokeTargetWeak = nullptr;
+					PokePrimitiveWeak = nullptr;
 
-					IUxtTouchTarget::Execute_OnEndTouch(Target, this);
+					IUxtPokeTarget::Execute_OnEndPoke(Target, this);
 				}
 				else
 				{
-					IUxtTouchTarget::Execute_OnUpdateTouch(Target, this);
+					IUxtPokeTarget::Execute_OnUpdatePoke(Target, this);
 				}
 			}
 			else
 			{
-				bIsTouching = false;
+				bIsPoking = false;
 				bFocusLocked = false;
 
-				TouchTargetWeak = nullptr;
-				TouchPrimitiveWeak = nullptr;
+				PokeTargetWeak = nullptr;
+				PokePrimitiveWeak = nullptr;
 			}
 		}
 		else
 		{
-			FVector Start = PreviousTouchPointerLocation;
-			FVector End = TouchPointerLocation;
+			FVector Start = PreviousPokePointerLocation;
+			FVector End = PokePointerLocation;
 
 			bool isBehind = bWasBehindFrontFace;
-			if (auto FocusTarget = TouchFocus->GetFocusedPrimitive())
+			if (auto FocusTarget = PokeFocus->GetFocusedPrimitive())
 			{
-				isBehind = IsBehindFrontFace(FocusTarget, End, GetTouchPointerRadius());
+				isBehind = IsBehindFrontFace(FocusTarget, End, GetPokePointerRadius());
 			}
 
 			FHitResult HitResult;
-			GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetTouchPointerRadius()));
+			GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetPokePointerRadius()));
 
 			if (HitResult.GetActor())
 			{
-				if (auto HitTarget = TouchFocus->FindInterfaceComponent(HitResult.GetActor()))
+				if (auto HitTarget = PokeFocus->FindInterfaceComponent(HitResult.GetActor()))
 				{
-					bool startedTouching = false;
+					bool startedPokeing = false;
 
-					switch (IUxtTouchTarget::Execute_GetTouchBehaviour(HitTarget))
+					switch (IUxtPokeTarget::Execute_GetPokeBehaviour(HitTarget))
 					{
-					case EUxtTouchBehaviour::FrontFace:
-						startedTouching = !bWasBehindFrontFace && isBehind;
+					case EUxtPokeBehaviour::FrontFace:
+						startedPokeing = !bWasBehindFrontFace && isBehind;
 						break;
-					case EUxtTouchBehaviour::Volume:
-						startedTouching = true;
+					case EUxtPokeBehaviour::Volume:
+						startedPokeing = true;
 						break;
 					}
 
-					if (startedTouching)
+					if (startedPokeing)
 					{
-						bIsTouching = true;
-						TouchTargetWeak = HitTarget;
-						TouchPrimitiveWeak = HitResult.GetComponent();
+						bIsPoking = true;
+						PokeTargetWeak = HitTarget;
+						PokePrimitiveWeak = HitResult.GetComponent();
 
-						IUxtTouchTarget::Execute_OnBeginTouch(HitTarget, this);
+						IUxtPokeTarget::Execute_OnBeginPoke(HitTarget, this);
 					}
 				}
 			}
@@ -237,7 +237,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			bWasBehindFrontFace = isBehind;
 		}
 
-		PreviousTouchPointerLocation = TouchPointerLocation;
+		PreviousPokePointerLocation = PokePointerLocation;
 	}
 
 	// Update focused targets
@@ -245,7 +245,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	GrabFocus->UpdateFocus(this);
 	GrabFocus->UpdateGrab(this);
 
-	TouchFocus->UpdateFocus(this);
+	PokeFocus->UpdateFocus(this);
 
 	// Update the grab state
 
@@ -274,7 +274,7 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 	if (bOldActive && !bNewActive)
 	{
 		GrabFocus->ClearFocus(this);
-		TouchFocus->ClearFocus(this);
+		PokeFocus->ClearFocus(this);
 	}
 }
 
@@ -284,10 +284,10 @@ UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPoint
 	return GrabFocus->GetFocusedTarget();
 }
 
-UObject* UUxtNearPointerComponent::GetFocusedTouchTarget(FVector& OutClosestPointOnTarget) const
+UObject* UUxtNearPointerComponent::GetFocusedPokeTarget(FVector& OutClosestPointOnTarget) const
 {
-	OutClosestPointOnTarget = TouchFocus->GetClosestTargetPoint();
-	return TouchFocus->GetFocusedTarget();
+	OutClosestPointOnTarget = PokeFocus->GetClosestTargetPoint();
+	return PokeFocus->GetFocusedTarget();
 }
 
 bool UUxtNearPointerComponent::SetFocusedGrabTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock)
@@ -303,11 +303,11 @@ bool UUxtNearPointerComponent::SetFocusedGrabTarget(UActorComponent* NewFocusedT
 	return false;
 }
 
-bool UUxtNearPointerComponent::SetFocusedTouchTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock)
+bool UUxtNearPointerComponent::SetFocusedPokeTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock)
 {
 	if (!bFocusLocked)
 	{
-		TouchFocus->SelectClosestPointOnTarget(this, GetTouchPointerTransform(), NewFocusedTarget);
+		PokeFocus->SelectClosestPointOnTarget(this, GetPokePointerTransform(), NewFocusedTarget);
 
 		bFocusLocked = (NewFocusedTarget != nullptr && bEnableFocusLock);
 
@@ -331,9 +331,9 @@ bool UUxtNearPointerComponent::IsGrabbing() const
 	return GrabFocus->IsGrabbing();
 }
 
-bool UUxtNearPointerComponent::GetIsTouching() const
+bool UUxtNearPointerComponent::GetIsPoking() const
 {
-	return bIsTouching;
+	return bIsPoking;
 }
 
 FTransform UUxtNearPointerComponent::GetGrabPointerTransform() const
@@ -341,12 +341,12 @@ FTransform UUxtNearPointerComponent::GetGrabPointerTransform() const
 	return GrabPointerTransform;
 }
 
-FTransform UUxtNearPointerComponent::GetTouchPointerTransform() const
+FTransform UUxtNearPointerComponent::GetPokePointerTransform() const
 {
-	return TouchPointerTransform;
+	return PokePointerTransform;
 }
 
-float UUxtNearPointerComponent::GetTouchPointerRadius() const
+float UUxtNearPointerComponent::GetPokePointerRadius() const
 {
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;

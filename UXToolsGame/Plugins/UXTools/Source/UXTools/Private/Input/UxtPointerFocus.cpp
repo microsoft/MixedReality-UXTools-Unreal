@@ -4,7 +4,7 @@
 #include "Input/UxtPointerFocus.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtGrabTarget.h"
-#include "Interactions/UxtTouchTarget.h"
+#include "Interactions/UxtPokeTarget.h"
 #include "Interactions/UxtInteractionUtils.h"
 
 #include "Components/PrimitiveComponent.h"
@@ -301,33 +301,33 @@ void FUxtGrabPointerFocus::RaiseExitFocusEvent(UObject* Target, UUxtNearPointerC
 }
 
 
-UClass* FUxtTouchPointerFocus::GetInterfaceClass() const
+UClass* FUxtPokePointerFocus::GetInterfaceClass() const
 {
-	return UUxtTouchTarget::StaticClass();
+	return UUxtPokeTarget::StaticClass();
 }
 
-bool FUxtTouchPointerFocus::ImplementsTargetInterface(UObject* Target) const
+bool FUxtPokePointerFocus::ImplementsTargetInterface(UObject* Target) const
 {
-	return Target->Implements<UUxtTouchTarget>();
+	return Target->Implements<UUxtPokeTarget>();
 }
 
-bool FUxtTouchPointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
+bool FUxtPokePointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
 {
 	float NotUsed;
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
-void FUxtTouchPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
+void FUxtPokePointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
 {
-	IUxtTouchTarget::Execute_OnEnterTouchFocus(Target, Pointer);
+	IUxtPokeTarget::Execute_OnEnterPokeFocus(Target, Pointer);
 }
 
-void FUxtTouchPointerFocus::RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
+void FUxtPokePointerFocus::RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
 {
-	IUxtTouchTarget::Execute_OnUpdateTouchFocus(Target, Pointer);
+	IUxtPokeTarget::Execute_OnUpdatePokeFocus(Target, Pointer);
 }
 
-void FUxtTouchPointerFocus::RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
+void FUxtPokePointerFocus::RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
 {
-	IUxtTouchTarget::Execute_OnExitTouchFocus(Target, Pointer);
+	IUxtPokeTarget::Execute_OnExitPokeFocus(Target, Pointer);
 }

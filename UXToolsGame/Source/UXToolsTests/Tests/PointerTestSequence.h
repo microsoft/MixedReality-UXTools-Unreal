@@ -12,10 +12,10 @@ class UUxtNearPointerComponent;
 class FUxtTestHandTracker;
 
 /**
- * Target for touch pointer tests that counts touch events.
+ * Target for grab tests that counts grab events.
  */
 UCLASS()
-class UXTOOLSTESTS_API UTestTouchPointerTarget : public UActorComponent, public IUxtGrabTarget
+class UXTOOLSTESTS_API UTestGrabTarget : public UActorComponent, public IUxtGrabTarget
 {
 	GENERATED_BODY()
 
@@ -74,7 +74,7 @@ namespace UxtPointerTests
 	struct PointerTestSequence
 	{
 		const TArray<UUxtNearPointerComponent*>& GetPointers() const { return Pointers; }
-		const TArray<UTestTouchPointerTarget*>& GetTargets() const { return Targets; }
+		const TArray<UTestGrabTarget*>& GetTargets() const { return Targets; }
 		const TArray<PointerKeyframe>& GetKeyframes() const { return Keyframes; }
 
 		void CreatePointers(UWorld* world, int Count);
@@ -101,7 +101,7 @@ namespace UxtPointerTests
 	private:
 
 		TArray<UUxtNearPointerComponent*> Pointers;
-		TArray<UTestTouchPointerTarget*> Targets;
+		TArray<UTestGrabTarget*> Targets;
 		TArray<PointerKeyframe> Keyframes;
 	};
 

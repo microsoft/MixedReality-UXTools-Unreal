@@ -121,7 +121,7 @@ bool FGrabComponentTickTest::RunTest(const FString& Parameters)
 	UxtTestUtils::EnableTestHandTracker();
 
 	FVector Center(150, 0, 0);
-	UUxtNearPointerComponent* Pointer = UxtTestUtils::CreateTouchPointer(World, TEXT("GrabTestPointer"), Center + FVector(-15, 0, 0));
+	UUxtNearPointerComponent* Pointer = UxtTestUtils::CreateNearPointer(World, TEXT("GrabTestPointer"), Center + FVector(-15, 0, 0));
 	UGrabTickTestComponent* Target = CreateTestComponent(World, Center);
 
 	bool bExpectUngraspedTicks = false;

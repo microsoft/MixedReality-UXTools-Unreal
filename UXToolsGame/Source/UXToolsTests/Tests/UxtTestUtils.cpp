@@ -71,11 +71,16 @@ void UxtTestUtils::DisableTestHandTracker()
 	}
 }
 
-UUxtNearPointerComponent* UxtTestUtils::CreateTouchPointer(UWorld *World, FName Name, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
+UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName Name, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
 {
 	FActorSpawnParameters p;
 	p.Name = Name;
 	AActor *hand = World->SpawnActor<AActor>(p);
+
+	USceneComponent* root = NewObject<USceneComponent>(hand);
+	hand->SetRootComponent(root);
+	root->SetWorldLocation(Location);
+	root->RegisterComponent();
 
 	UUxtNearPointerComponent* pointer = NewObject<UUxtNearPointerComponent>(hand);
 	pointer->RegisterComponent();
@@ -86,7 +91,7 @@ UUxtNearPointerComponent* UxtTestUtils::CreateTouchPointer(UWorld *World, FName 
 	if (AddMeshVisualizer)
 	{
 		UStaticMeshComponent *mesh = NewObject<UStaticMeshComponent>(hand);
-		mesh->SetupAttachment(hand->GetRootComponent());
+		mesh->SetupAttachment(root);
 		mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 		UStaticMesh *meshAsset = LoadObject<UStaticMesh>(hand, TEXT("/Engine/BasicShapes/Cube.Cube"));
@@ -99,7 +104,7 @@ UUxtNearPointerComponent* UxtTestUtils::CreateTouchPointer(UWorld *World, FName 
 	return pointer;
 }
 
-UTestTouchPointerTarget* UxtTestUtils::CreateTouchPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename, float meshScale)
+UTestGrabTarget* UxtTestUtils::CreateNearPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename, float meshScale)
 {
 	AActor *actor = World->SpawnActor<AActor>();
 
@@ -108,7 +113,7 @@ UTestTouchPointerTarget* UxtTestUtils::CreateTouchPointerTarget(UWorld *World, c
 	root->SetWorldLocation(Location);
 	root->RegisterComponent();
 
-	UTestTouchPointerTarget *testTarget = NewObject<UTestTouchPointerTarget>(actor);
+	UTestGrabTarget *testTarget = NewObject<UTestGrabTarget>(actor);
 	testTarget->RegisterComponent();
 
 	if (!meshFilename.IsEmpty())
@@ -129,11 +134,11 @@ UTestTouchPointerTarget* UxtTestUtils::CreateTouchPointerTarget(UWorld *World, c
 	return testTarget;
 }
 
-UTestTouchPointerTarget* UxtTestUtils::CreateTouchPointerBackgroundTarget(UWorld* World)
+UTestGrabTarget* UxtTestUtils::CreateNearPointerBackgroundTarget(UWorld* World)
 {
 	AActor* actor = World->SpawnActor<AActor>();
 
-	UTestTouchPointerTarget* testTarget = NewObject<UTestTouchPointerTarget>(actor);
+	UTestGrabTarget* testTarget = NewObject<UTestGrabTarget>(actor);
 	testTarget->RegisterComponent();
 
 	return testTarget;

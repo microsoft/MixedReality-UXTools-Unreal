@@ -8,11 +8,11 @@
 #include "UxtNearPointerComponent.generated.h"
 
 struct FUxtGrabPointerFocus;
-struct FUxtTouchPointerFocus;
+struct FUxtPokePointerFocus;
 
 /**
- * Adds touch and grab interactions to an actor.
- * It keeps track of all overlapping touch targets and raises focus events on the closest one.
+ * Adds poke and grab interactions to an actor.
+ * It keeps track of all overlapping poke targets and raises focus events on the closest one.
  * Targets use the transform of pointers focusing them to drive their interactions.
  */
 UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
@@ -36,9 +36,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const;
 
-	/** Returns currently focused touch target or null if there is none. */
+	/** Returns currently focused poke target or null if there is none. */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetFocusedTouchTarget(FVector& OutClosestPointOnTarget) const;
+	UObject* GetFocusedPokeTarget(FVector& OutClosestPointOnTarget) const;
 
 	/**
 	 * Set a focused grab target explicitly which will receive grasp events.
@@ -48,11 +48,11 @@ public:
 	bool SetFocusedGrabTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock);
 
 	/**
-	 * Set a focused touch target explicitly which will receive grasp events.
+	 * Set a focused poke target explicitly which will receive grasp events.
 	 * If bEnableFocusLock is true, then the new focus target will be locked until released by calling SetFocusLocked.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
-	bool SetFocusedTouchTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock);
+	bool SetFocusedPokeTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock);
 
 	/** Returns whether the pointer is locked on the currently focused target. */
 	UFUNCTION(BlueprintGetter)
@@ -66,29 +66,13 @@ public:
 	bool IsGrabbing() const;
     
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	bool GetIsTouching() const;
+	bool GetIsPoking() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetGrabPointerTransform() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	FTransform GetTouchPointerTransform() const;
+	FTransform GetPokePointerTransform() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	float GetTouchPointerRadius() const;
-
-protected:
-
-	/** Focus of the grab pointer */
-	FUxtGrabPointerFocus* GrabFocus;
-
-	/** Focus of the touch pointer */
-	FUxtTouchPointerFocus* TouchFocus;
-    
-    /** Weak reference to the currently touched target. */
-	TWeakObjectPtr<UActorComponent> TouchTargetWeak;
-
-	/** Weak reference to the currently touched target primitive. */
-	TWeakObjectPtr<UPrimitiveComponent> TouchPrimitiveWeak;
-
-public:
+	float GetPokePointerRadius() const;
 
 	/** The hand that this component represents.
 	 *  Determines the position of touch and grab pointers.
@@ -102,17 +86,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	float ProximityRadius = 11.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
-	float TouchRadius = 0.75f;
+	float PokeRadius = 0.75f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	float GrabRadius = 3.5f;
 
 	/**
-	 * The depth beyond the front face at which a front face touchable no longer recieves touch events.
-	 * While touching a front face touchable, if the near pointer moves beyond this depth, the touchable
-	 * will receive a touch end event.
+	 * The depth beyond the front face at which a front face pokable no longer recieves poke events.
+	 * While poking a front face pokeable, if the near pointer moves beyond this depth, the pokeable
+	 * will receive a poke end event.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
-	float TouchDepth = 20.0f;
+	float PokeDepth = 20.0f;
 
 	/**
 	 * Whether the pointer is locked on its current focused target.
@@ -121,15 +105,29 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Hand Pointer")
 	bool bFocusLocked = false;
 
+protected:
+
+	/** Focus of the grab pointer */
+	FUxtGrabPointerFocus* GrabFocus;
+
+	/** Focus of the poke pointer */
+	FUxtPokePointerFocus* PokeFocus;
+    
+    /** Weak reference to the currently poked target. */
+	TWeakObjectPtr<UActorComponent> PokeTargetWeak;
+
+	/** Weak reference to the currently poked target primitive. */
+	TWeakObjectPtr<UPrimitiveComponent> PokePrimitiveWeak;
+
 private:
 
 	FTransform GrabPointerTransform;
 
-	FTransform TouchPointerTransform;
+	FTransform PokePointerTransform;
 
-	bool bIsTouching = false;
+	bool bIsPoking = false;
 
-	FVector PreviousTouchPointerLocation;
+	FVector PreviousPokePointerLocation;
 
 	bool bWasBehindFrontFace = false;
 };

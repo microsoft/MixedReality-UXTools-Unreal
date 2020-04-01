@@ -10,7 +10,7 @@
 #include "Controls/UxtFarBeamComponent.h"
 #include "HandTracking/IUxtHandTracker.h"
 #include "Interactions/UxtGrabTarget.h"
-#include "Interactions/UxtTouchTarget.h"
+#include "Interactions/UxtPokeTarget.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
@@ -45,7 +45,7 @@ void AUxtHandInteractionActor::BeginPlay()
 	// Apply actor settings to pointers
 	NearPointer->Hand = Hand;
 	NearPointer->TraceChannel = TraceChannel;
-	NearPointer->TouchRadius = TouchRadius;
+	NearPointer->PokeRadius = PokeRadius;
 	FarPointer->Hand = Hand;
 	FarPointer->TraceChannel = TraceChannel;
 	FarPointer->RayStartOffset = RayStartOffset;
@@ -73,7 +73,7 @@ static bool IsNearTarget(const UPrimitiveComponent* Primitive)
 {
 	for (const UActorComponent* Component : Primitive->GetOwner()->GetComponents())
 	{
-		if (Component->Implements<UUxtGrabTarget>() || Component->Implements<UUxtTouchTarget>())
+		if (Component->Implements<UUxtGrabTarget>() || Component->Implements<UUxtPokeTarget>())
 		{
 			return true;
 		}
@@ -174,10 +174,10 @@ void AUxtHandInteractionActor::SetTraceChannel(ECollisionChannel NewTraceChannel
 	FarPointer->TraceChannel = NewTraceChannel;
 }
 
-void AUxtHandInteractionActor::SetTouchRadius(float NewTouchRadius)
+void AUxtHandInteractionActor::SetPokeRadius(float NewPokeRadius)
 {
-	TouchRadius = NewTouchRadius;
-	NearPointer->TouchRadius = NewTouchRadius;
+	PokeRadius = NewPokeRadius;
+	NearPointer->PokeRadius = NewPokeRadius;
 }
 
 void AUxtHandInteractionActor::SetRayStartOffset(float NewRayStartOffset)

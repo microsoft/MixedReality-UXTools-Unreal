@@ -80,18 +80,18 @@ static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestS
 }
 
 
-IMPLEMENT_COMPLEX_AUTOMATION_TEST(FTouchPointerTest, "UXTools.TouchPointer",
+IMPLEMENT_COMPLEX_AUTOMATION_TEST(FNearPointerTest, "UXTools.NearPointer",
 	EAutomationTestFlags::EditorContext |
 	EAutomationTestFlags::ClientContext |
 	EAutomationTestFlags::ProductFilter)
 
-void FTouchPointerTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
+void FNearPointerTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
 {
 	// Util for adding a test combination.
 	auto AddTestCase = [&OutBeautifiedNames, &OutTestCommands](int NumPointers, const FString& TargetSetup)
 	{
 		FString name;
-		name.Appendf(TEXT("TouchPointerTest_%d_%s"), NumPointers, *TargetSetup);
+		name.Appendf(TEXT("NearPointerTest_%d_%s"), NumPointers, *TargetSetup);
 		FString command;
 		command.Appendf(TEXT("%d %s"), NumPointers, *TargetSetup);
 
@@ -127,7 +127,7 @@ static bool ParseTestCase(const FString& Parameters, int& OutNumPointers, FStrin
 	return true;
 }
 
-bool FTouchPointerTest::RunTest(const FString& Parameters)
+bool FNearPointerTest::RunTest(const FString& Parameters)
 {
 	int NumPointers;
 	FString TargetSetup;

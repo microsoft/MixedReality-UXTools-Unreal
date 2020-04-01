@@ -91,10 +91,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTarget
 
 
 /**
- * Interactable component that listens to pinch events from touching pointers.
+ * Interactable component that listens to grab events from near pointers.
  * 
- * A pointer that starts pinching while touching the actor is considered a grabbing pointer.
- * The grab is released when the pointer stops pinching, regardless of whether it is still touching or not.
+ * A pointer that starts grabing while near the actor is considered a grabbing pointer.
+ * The grab is released when the pointer stops grabing, regardless of whether it is still near or not.
  * 
  * The GrabComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation.
  */

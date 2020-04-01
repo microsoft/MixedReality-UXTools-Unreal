@@ -161,8 +161,8 @@ private:
 };
 
 
-/** Focus implementation for the touch pointers. */
-struct FUxtTouchPointerFocus : public FUxtPointerFocus
+/** Focus implementation for the poke pointers. */
+struct FUxtPokePointerFocus : public FUxtPointerFocus
 {
 protected:
 

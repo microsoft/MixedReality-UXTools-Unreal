@@ -10,7 +10,7 @@
 class UUxtNearPointerComponent;
 
 /**
- * When added to an actor with a touch pointer, this component displays a ring cursor oriented towards the pointer target and 
+ * When added to an actor with a near pointer, this component displays a ring cursor oriented towards the current poke target and 
  * scaled according to the distance.
  */
 UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
@@ -41,10 +41,10 @@ protected:
 
 private:
 
-	/** Distance at which the cursor starts to align with touchable surfaces. */
+	/** Distance at which the cursor starts to align with pokable surfaces. */
 	UPROPERTY(EditAnywhere, Category = "Finger Cursor")
 	float AlignWithSurfaceDistance = 10.0f;
 
-	/** Touch pointer in use. */
+	/** Near pointer in use. */
 	TWeakObjectPtr<UUxtNearPointerComponent> HandPointerWeak;
 };

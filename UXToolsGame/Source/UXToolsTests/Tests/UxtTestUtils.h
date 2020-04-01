@@ -5,7 +5,7 @@
 
 class FUxtTestHandTracker;
 class IUxtHandTracker;
-class UTestTouchPointerTarget;
+class UTestGrabTarget;
 class UUxtNearPointerComponent;
 class UWorld;
 
@@ -20,14 +20,14 @@ public:
 
 	static UWorld* CreateTestWorld();
 
-	/** Create a basic touch pointer actor. */
-	static UUxtNearPointerComponent* CreateTouchPointer(UWorld *World, FName Name, const FVector &Position, bool IsGrasped = false, bool AddMeshVisualizer = true);
+	/** Create a basic near pointer actor. */
+	static UUxtNearPointerComponent* CreateNearPointer(UWorld *World, FName Name, const FVector &Position, bool IsGrasped = false, bool AddMeshVisualizer = true);
 
-	/** Create a touchable target actor. */
-	static UTestTouchPointerTarget* CreateTouchPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
+	/** Create a grabbable target actor. */
+	static UTestGrabTarget* CreateNearPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
 
 	/** Create a background target without a scene component or primitive. */
-	static UTestTouchPointerTarget* CreateTouchPointerBackgroundTarget(UWorld* World);
+	static UTestGrabTarget* CreateNearPointerBackgroundTarget(UWorld* World);
 
 
 	//

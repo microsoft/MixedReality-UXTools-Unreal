@@ -8,7 +8,7 @@
 
 #include "Components/PrimitiveComponent.h"
 
-void UTestTouchPointerTarget::BeginPlay()
+void UTestGrabTarget::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -16,26 +16,26 @@ void UTestTouchPointerTarget::BeginPlay()
 	EndFocusCount = 0;
 }
 
-void UTestTouchPointerTarget::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
+void UTestGrabTarget::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++BeginFocusCount;
 }
 
-void UTestTouchPointerTarget::OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
+void UTestGrabTarget::OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 }
 
-void UTestTouchPointerTarget::OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
+void UTestGrabTarget::OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++EndFocusCount;
 }
 
-void UTestTouchPointerTarget::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
+void UTestGrabTarget::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++BeginGrabCount;
 }
 
-void UTestTouchPointerTarget::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer)
+void UTestGrabTarget::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++EndGrabCount;
 }
@@ -106,7 +106,7 @@ namespace UxtPointerTests
 		Pointers.SetNum(Count);
 		for (int i = 0; i < Count; ++i)
 		{
-			Pointers[i] = UxtTestUtils::CreateTouchPointer(world, TEXT("TestPointer"), FVector::ZeroVector);
+			Pointers[i] = UxtTestUtils::CreateNearPointer(world, TEXT("TestPointer"), FVector::ZeroVector);
 		}
 	}
 
@@ -114,7 +114,7 @@ namespace UxtPointerTests
 	{
 		const FString& targetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 		const float targetScale = 0.3f;
-		Targets.Add(UxtTestUtils::CreateTouchPointerTarget(world, pos, targetFilename, targetScale));
+		Targets.Add(UxtTestUtils::CreateNearPointerTarget(world, pos, targetFilename, targetScale));
 	}
 
 	// Enter/Exit events must be incremented separately based on expected behavior.
@@ -236,7 +236,7 @@ namespace UxtPointerTests
 	{
 		for (int TargetIndex = 0; TargetIndex < Targets.Num(); ++TargetIndex)
 		{
-			const UTestTouchPointerTarget* Target = Targets[TargetIndex];
+			const UTestGrabTarget* Target = Targets[TargetIndex];
 
 			const TargetEventCount& ExpectedEventCounts = EventCounts[TargetIndex];
 
