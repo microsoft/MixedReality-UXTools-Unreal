@@ -7,17 +7,17 @@
 #include "GameFramework/Actor.h"
 #include "UxtHandInteractionActor.generated.h"
 
-class UUxtTouchPointer;
+class UUxtNearPointerComponent;
 class UUxtFarPointerComponent;
 class UMaterialParameterCollection;
 
 
 /**
- * Actor that drives hand interactions with components that implement the far and touch target interfaces.
+ * Actor that drives hand interactions with components that implement the far, grab and poke target interfaces.
  * A hand has two interaction modes:
- * - Near: interactions performed by poking at or grabbing touch targets directly.
+ * - Near: interactions performed by poking or grabbing targets directly.
  * - Far: interactions performed by pointing at far targets from a distance via a hand ray.
- * The actor transitions between modes depending on whether there is a touch target within the near activation distance.
+ * The actor transitions between modes depending on whether there is a grab or poke target within the near activation distance.
  */
 UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtHandInteractionActor : public AActor
@@ -45,9 +45,9 @@ public:
 	void SetTraceChannel(ECollisionChannel NewTraceChannel);
 
 	UFUNCTION(BlueprintGetter)
-	float GetTouchRadius() const { return TouchRadius; }
+	float GetPokeRadius() const { return PokeRadius; }
 	UFUNCTION(BlueprintSetter)
-	void SetTouchRadius(float NewTouchRadius);
+	void SetPokeRadius(float NewPokeRadius);
 
 	UFUNCTION(BlueprintGetter)
 	float GetRayStartOffset() const { return RayStartOffset; }
@@ -59,8 +59,8 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetRayLength(float NewRayLength);
 
-	/** Distance from the hand to the closest touch target at which near interaction activates. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (DisplayAfter = "TouchRadius"))
+	/** Distance from the hand to the closest grab or poke target at which near interaction activates. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (DisplayAfter = "PokeRadius"))
 	float NearActivationDistance = 20.0f;
 
 	/** When set create default visuals automatically for near and far cursors and far beam */
@@ -81,17 +81,16 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetRayLength", BlueprintSetter = "SetRayLength", Category = "Hand Interaction")
 	float RayLength = 500.0f;
 
-	/** Maximum distance around the finger tip at which we look for touch targets. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetTouchRadius", BlueprintSetter = "SetTouchRadius", Category = "Hand Interaction")
-	float TouchRadius = 20.0f;
+	/** Maximum distance around the finger tip at which we look for poke targets. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetPokeRadius", BlueprintSetter = "SetPokeRadius", Category = "Hand Interaction")
+	float PokeRadius = 20.0f;
 
 	/** Trace channel used for targeting queries. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetTraceChannel", BlueprintSetter = "SetTraceChannel", Category = "Hand Interaction")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
-
 	UPROPERTY(Transient)
-	UUxtTouchPointer* NearPointer;
+	UUxtNearPointerComponent* NearPointer;
 
 	UPROPERTY(Transient)
 	UUxtFarPointerComponent* FarPointer;

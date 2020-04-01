@@ -6,8 +6,8 @@
 #include "EngineUtils.h"
 
 #include "UxtTestUtils.h"
-#include "Input/UxtTouchPointer.h"
 #include "PointerTestSequence.h"
+#include "UxtTestHandTracker.h"
 
 using namespace UxtPointerTests;
 
@@ -37,11 +37,11 @@ static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestS
 		OutSequence.AddTarget(world, p1);
 
 		OutSequence.AddMovementKeyframe(pStart);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(p1);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(pEnd);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 	}
 
 	if (TargetSetup == TargetSetup_TwoSeparate)
@@ -52,13 +52,13 @@ static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestS
 		OutSequence.AddTarget(world, p2);
 
 		OutSequence.AddMovementKeyframe(pStart);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(p1);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(p2);
-		OutSequence.ExpectHoverTargetIndex(1);
+		OutSequence.ExpectFocusTargetIndex(1);
 		OutSequence.AddMovementKeyframe(pEnd);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 	}
 
 	if (TargetSetup == TargetSetup_TwoOverlapping)
@@ -69,29 +69,29 @@ static void SetupTargets(UWorld *world, const FString& TargetSetup, PointerTestS
 		OutSequence.AddTarget(world, p2);
 
 		OutSequence.AddMovementKeyframe(pStart);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 		OutSequence.AddMovementKeyframe(p1);
-		OutSequence.ExpectHoverTargetIndex(0);
+		OutSequence.ExpectFocusTargetIndex(0);
 		OutSequence.AddMovementKeyframe(p2);
-		OutSequence.ExpectHoverTargetIndex(1);
+		OutSequence.ExpectFocusTargetIndex(1);
 		OutSequence.AddMovementKeyframe(pEnd);
-		OutSequence.ExpectHoverTargetNone();
+		OutSequence.ExpectFocusTargetNone();
 	}
 }
 
 
-IMPLEMENT_COMPLEX_AUTOMATION_TEST(FTouchPointerTest, "UXTools.TouchPointer",
+IMPLEMENT_COMPLEX_AUTOMATION_TEST(FNearPointerTest, "UXTools.NearPointer",
 	EAutomationTestFlags::EditorContext |
 	EAutomationTestFlags::ClientContext |
 	EAutomationTestFlags::ProductFilter)
 
-void FTouchPointerTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
+void FNearPointerTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
 {
 	// Util for adding a test combination.
 	auto AddTestCase = [&OutBeautifiedNames, &OutTestCommands](int NumPointers, const FString& TargetSetup)
 	{
 		FString name;
-		name.Appendf(TEXT("TouchPointerTest_%d_%s"), NumPointers, *TargetSetup);
+		name.Appendf(TEXT("NearPointerTest_%d_%s"), NumPointers, *TargetSetup);
 		FString command;
 		command.Appendf(TEXT("%d %s"), NumPointers, *TargetSetup);
 
@@ -127,7 +127,7 @@ static bool ParseTestCase(const FString& Parameters, int& OutNumPointers, FStrin
 	return true;
 }
 
-bool FTouchPointerTest::RunTest(const FString& Parameters)
+bool FNearPointerTest::RunTest(const FString& Parameters)
 {
 	int NumPointers;
 	FString TargetSetup;
@@ -141,7 +141,10 @@ bool FTouchPointerTest::RunTest(const FString& Parameters)
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
 	UWorld *world = UxtTestUtils::GetTestWorld();
 
+	UxtTestUtils::EnableTestHandTracker();
+
 	PointerTestSequence sequence;
+
 
 	// Create pointers.
 	sequence.CreatePointers(world, NumPointers);
@@ -154,6 +157,7 @@ bool FTouchPointerTest::RunTest(const FString& Parameters)
 
 	sequence.EnqueueTestSequence(this);
 
+	ADD_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 
 	return true;

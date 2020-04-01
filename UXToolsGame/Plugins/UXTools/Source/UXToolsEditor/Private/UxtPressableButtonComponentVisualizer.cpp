@@ -34,20 +34,20 @@ void FUxtPressableButtonComponentVisualizer::DrawVisualization(const UActorCompo
 {
 	if (const UUxtPressableButtonComponent* Button = Cast<const UUxtPressableButtonComponent>(Component))
 	{
-		FVector Extents = Button->GetComponentScale() * Button->Extents;
+		FVector2D Extents = Button->GetButtonExtents();
 		FMatrix Matrix = Button->GetComponentTransform().ToMatrixNoScale();
 		
 		// Rest position
-		DrawQuad(PDI, Extents.Y, Extents.Z, 0, Matrix, FLinearColor::White);
+		DrawQuad(PDI, Extents.X, Extents.Y, 0, Matrix, FLinearColor::White);
 
 		// Maximum push distance
-		const float MaxPushDistance = 2 * Extents.X;
+		const float MaxPushDistance = Button->GetScaleAdjustedMaxPushDistance();
 		FLinearColor DarkGray(.25f, .25f, .25f);
-		DrawQuad(PDI, Extents.Y, Extents.Z, MaxPushDistance, Matrix, DarkGray);
+		DrawQuad(PDI, Extents.X, Extents.Y, MaxPushDistance, Matrix, DarkGray);
 
 		// Pressed distance
 		float PressedDistance = MaxPushDistance * Button->PressedFraction;
 		FLinearColor LightGray(.75f, .75f, .75f);
-		DrawQuad(PDI, Extents.Y, Extents.Z, PressedDistance, Matrix, LightGray, true);
+		DrawQuad(PDI, Extents.X, Extents.Y, PressedDistance, Matrix, LightGray, true);
 	}
 }

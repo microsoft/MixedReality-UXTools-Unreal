@@ -1,4 +1,4 @@
-#include "GrabbableComponentTickTest.h"
+#include "GrabComponentTickTest.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -8,9 +8,10 @@
 #include "EngineUtils.h"
 
 #include "UxtTestUtils.h"
-#include "Input/UxtTouchPointer.h"
+#include "Input/UxtNearPointerComponent.h"
+#include "UxtTestHandTracker.h"
 
-static UGrabbableTickTestComponent* CreateTestComponent(UWorld* World, const FVector& Location)
+static UGrabTickTestComponent* CreateTestComponent(UWorld* World, const FVector& Location)
 {
 	AActor* actor = World->SpawnActor<AActor>();
 
@@ -19,7 +20,7 @@ static UGrabbableTickTestComponent* CreateTestComponent(UWorld* World, const FVe
 	root->SetWorldLocation(Location);
 	root->RegisterComponent();
 
-	UGrabbableTickTestComponent* testTarget = NewObject<UGrabbableTickTestComponent>(actor);
+	UGrabTickTestComponent* testTarget = NewObject<UGrabTickTestComponent>(actor);
 	testTarget->RegisterComponent();
 
 	FString meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
@@ -43,12 +44,11 @@ static UGrabbableTickTestComponent* CreateTestComponent(UWorld* World, const FVe
 }
 
 
-class FTestGrabbableComponentTickingCommand : public IAutomationLatentCommand
+class FTestGrabComponentTickingCommand : public IAutomationLatentCommand
 {
 public:
-	FTestGrabbableComponentTickingCommand(FAutomationTestBase* Test, UUxtTouchPointer* Pointer, UGrabbableTickTestComponent* Target, bool bEnableGrasp, bool bExpectTicking)
+	FTestGrabComponentTickingCommand(FAutomationTestBase* Test, UGrabTickTestComponent* Target, bool bExpectTicking)
 		: Test(Test)
-		, Pointer(Pointer)
 		, Target(Target)
 		, bEnableGrasp(bEnableGrasp)
 		, bExpectTicking(bExpectTicking)
@@ -59,14 +59,14 @@ public:
 	{
 		// Two step update:
 		// 
-		// 1. First update the pointer grasp state.
+		// 1. First update the hand grasp state.
 		//    Return false, so the pointer has one frame to update overlaps and raise events.
 		// 2. Test the expected tick behaviour of the target component.
 
 		switch (UpdateCount)
 		{
 			case 0:
-				Pointer->SetGrasped(bEnableGrasp);
+				UxtTestUtils::GetTestHandTracker().bIsGrabbing = bEnableGrasp;
 				break;
 
 			case 1:
@@ -83,8 +83,7 @@ public:
 private:
 
 	FAutomationTestBase* Test;
-	UUxtTouchPointer* Pointer;
-	UGrabbableTickTestComponent* Target;
+	UGrabTickTestComponent* Target;
 	bool bEnableGrasp;
 	bool bExpectTicking;
 
@@ -92,7 +91,7 @@ private:
 };
 
 
-IMPLEMENT_COMPLEX_AUTOMATION_TEST(FGrabbableComponentTickTest, "UXTools.GrabbableComponentTick",
+IMPLEMENT_COMPLEX_AUTOMATION_TEST(FGrabComponentTickTest, "UXTools.GrabComponentTick",
 	EAutomationTestFlags::EditorContext |
 	EAutomationTestFlags::ClientContext |
 	EAutomationTestFlags::ProductFilter)
@@ -101,7 +100,7 @@ static const FString TestCase_ComponentTickDisabled = TEXT("ComponentTickDisable
 static const FString TestCase_TickAlways = TEXT("TickAlways");
 static const FString TestCase_TickOnlyWhileGrabbed = TEXT("TickOnlyWhileGrabbed");
 
-void FGrabbableComponentTickTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
+void FGrabComponentTickTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
 {
 	OutBeautifiedNames.Add(TestCase_ComponentTickDisabled);
 	OutBeautifiedNames.Add(TestCase_TickAlways);
@@ -112,17 +111,18 @@ void FGrabbableComponentTickTest::GetTests(TArray<FString>& OutBeautifiedNames, 
 	OutTestCommands.Add(TestCase_TickOnlyWhileGrabbed);
 }
 
-bool FGrabbableComponentTickTest::RunTest(const FString& Parameters)
+bool FGrabComponentTickTest::RunTest(const FString& Parameters)
 {
 	// Load the empty test map to run the test in.
 	AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty"));
 	ADD_LATENT_AUTOMATION_COMMAND(FWaitForMapToLoadCommand());
 	UWorld *World = UxtTestUtils::GetTestWorld();
 
+	UxtTestUtils::EnableTestHandTracker();
+
 	FVector Center(150, 0, 0);
-	UUxtTouchPointer* Pointer = UxtTestUtils::CreateTouchPointer(World, Center + FVector(-15, 0, 0));
-	Pointer->SetTouchRadius(30);
-	UGrabbableTickTestComponent* Target = CreateTestComponent(World, Center);
+	UUxtNearPointerComponent* Pointer = UxtTestUtils::CreateNearPointer(World, TEXT("GrabTestPointer"), Center + FVector(-15, 0, 0));
+	UGrabTickTestComponent* Target = CreateTestComponent(World, Center);
 
 	bool bExpectUngraspedTicks = false;
 	bool bExpectGraspedTicks = false;
@@ -154,11 +154,12 @@ bool FGrabbableComponentTickTest::RunTest(const FString& Parameters)
 	Pointer->GetOwner()->UpdateOverlaps();
 
 	// Test without grasping
-	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabbableComponentTickingCommand(this, Pointer, Target, false, bExpectUngraspedTicks));
+	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabComponentTickingCommand(this, Target, bExpectUngraspedTicks));
 
 	// Test with grasping
-	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabbableComponentTickingCommand(this, Pointer, Target, true, bExpectGraspedTicks));
+	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabComponentTickingCommand(this, Target, bExpectGraspedTicks));
 
+	ADD_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());
 
 	return true;

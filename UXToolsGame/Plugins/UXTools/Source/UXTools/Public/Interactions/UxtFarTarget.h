@@ -7,20 +7,6 @@
 #include "UObject/Interface.h"
 #include "UxtFarTarget.generated.h"
 
-USTRUCT(BlueprintType)
-struct UXTOOLS_API FUxtFarFocusEvent
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Focus")
-	UPrimitiveComponent* Primitive;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Focus")
-	FVector HitPoint;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Focus")
-	FVector HitNormal;
-};
 
 UINTERFACE(BlueprintType)
 class UUxtFarTarget : public UInterface
@@ -37,17 +23,17 @@ class UXTOOLS_API IUxtFarTarget
 public:
 
 	UFUNCTION(BlueprintNativeEvent)
-	void OnEnterFarFocus(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent);
+	void OnEnterFarFocus(UUxtFarPointerComponent* Pointer);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdatedFarFocus(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent);
+	void OnUpdatedFarFocus(UUxtFarPointerComponent* Pointer);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void OnExitFarFocus(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent);
+	void OnExitFarFocus(UUxtFarPointerComponent* Pointer);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void OnFarPressed(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent);
+	void OnFarPressed(UUxtFarPointerComponent* Pointer);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void OnFarReleased(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent);
+	void OnFarReleased(UUxtFarPointerComponent* Pointer);
 };

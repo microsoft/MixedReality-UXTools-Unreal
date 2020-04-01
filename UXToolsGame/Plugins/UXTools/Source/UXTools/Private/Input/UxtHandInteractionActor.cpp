@@ -3,13 +3,14 @@
 
 
 #include "Input/UxtHandInteractionActor.h"
-#include "Input/UxtTouchPointer.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Controls/UxtFingerCursorComponent.h"
 #include "Controls/UxtFarCursorComponent.h"
 #include "Controls/UxtFarBeamComponent.h"
 #include "HandTracking/IUxtHandTracker.h"
-#include "Interactions/UxtTouchPointerTarget.h"
+#include "Interactions/UxtGrabTarget.h"
+#include "Interactions/UxtPokeTarget.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
@@ -21,10 +22,11 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
-	NearPointer = CreateDefaultSubobject<UUxtTouchPointer>(TEXT("NearPointer"));
+	SetRootComponent(CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent")));
+
+	NearPointer = CreateDefaultSubobject<UUxtNearPointerComponent>(TEXT("NearPointer"));
 	NearPointer->PrimaryComponentTick.bStartWithTickEnabled = false;
 	NearPointer->AddTickPrerequisiteActor(this);
-	SetRootComponent(NearPointer);
 
 	FarPointer = CreateDefaultSubobject<UUxtFarPointerComponent>(TEXT("FarPointer"));
 	FarPointer->PrimaryComponentTick.bStartWithTickEnabled = false;
@@ -41,7 +43,9 @@ void AUxtHandInteractionActor::BeginPlay()
 	Super::BeginPlay();
 
 	// Apply actor settings to pointers
-	NearPointer->SetTouchRadius(TouchRadius);
+	NearPointer->Hand = Hand;
+	NearPointer->TraceChannel = TraceChannel;
+	NearPointer->PokeRadius = PokeRadius;
 	FarPointer->Hand = Hand;
 	FarPointer->TraceChannel = TraceChannel;
 	FarPointer->RayStartOffset = RayStartOffset;
@@ -51,7 +55,7 @@ void AUxtHandInteractionActor::BeginPlay()
 	if (bUseDefaultVisuals)
 	{
 		UUxtFingerCursorComponent* NearCursor = NewObject<UUxtFingerCursorComponent>(this);
-		NearCursor->AttachToComponent(NearPointer, FAttachmentTransformRules::KeepRelativeTransform);
+		NearCursor->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		NearCursor->RegisterComponent();
 
 		UUxtFarCursorComponent* FarCursor = NewObject<UUxtFarCursorComponent>(this);
@@ -64,13 +68,12 @@ void AUxtHandInteractionActor::BeginPlay()
 	}
 }
 
-
 // Returns true if the given primitive is part of a near target
 static bool IsNearTarget(const UPrimitiveComponent* Primitive)
 {
 	for (const UActorComponent* Component : Primitive->GetOwner()->GetComponents())
 	{
-		if (Component->Implements<UUxtTouchPointerTarget>())
+		if (Component->Implements<UUxtGrabTarget>() || Component->Implements<UUxtPokeTarget>())
 		{
 			return true;
 		}
@@ -110,7 +113,7 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 			const FVector FingerTipPositionOnSkin = FingerTipPosition + Forward * JointRadius;
 
 			// Only switch between near and far if none of the pointers is locked
-			if (!NearPointer->GetHoverLocked() && !FarPointer->GetFocusLocked())
+			if (!NearPointer->GetFocusLocked() && !FarPointer->GetFocusLocked())
 			{
 				// Near-far activation query
 				TArray<FOverlapResult> Overlaps;
@@ -141,15 +144,6 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 					FarPointer->SetActive(!bHasNearTarget);
 				}
 			}
-
-			// Update near pointer transform and grab state
-			if (NearPointer->IsActive())
-			{
-				NearPointer->SetWorldLocationAndRotation(FingerTipPositionOnSkin, FingerTipOrientation);
-				bool bIsGrabbing = false;
-				HandTracker->GetIsGrabbing(Hand, bIsGrabbing);
-				NearPointer->SetGrasped(bIsGrabbing);
-			}
 		}
 		else
 		{
@@ -169,19 +163,21 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 void AUxtHandInteractionActor::SetHand(EControllerHand NewHand)
 {
 	Hand = NewHand;
+	NearPointer->Hand = NewHand;
 	FarPointer->Hand = NewHand;
 }
 
 void AUxtHandInteractionActor::SetTraceChannel(ECollisionChannel NewTraceChannel)
 {
 	TraceChannel = NewTraceChannel;
+	NearPointer->TraceChannel = NewTraceChannel;
 	FarPointer->TraceChannel = NewTraceChannel;
 }
 
-void AUxtHandInteractionActor::SetTouchRadius(float NewTouchRadius)
+void AUxtHandInteractionActor::SetPokeRadius(float NewPokeRadius)
 {
-	TouchRadius = NewTouchRadius;
-	NearPointer->SetTouchRadius(NewTouchRadius);
+	PokeRadius = NewPokeRadius;
+	NearPointer->PokeRadius = NewPokeRadius;
 }
 
 void AUxtHandInteractionActor::SetRayStartOffset(float NewRayStartOffset)
