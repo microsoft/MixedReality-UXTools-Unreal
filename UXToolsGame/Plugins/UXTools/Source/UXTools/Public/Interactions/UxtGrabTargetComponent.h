@@ -39,6 +39,8 @@ struct UXTOOLS_API FUxtGrabPointerData
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	FTransform LocalGrabPoint;
+
+	FTransform FarRayHitPointInPointer;
 };
 
 /**

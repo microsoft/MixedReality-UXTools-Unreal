@@ -28,7 +28,7 @@ FVector UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(const FUxtGrabPoin
 	}
 	else if (ensure(PointerData.FarPointer != nullptr))
 	{
-		return PointerData.FarPointer->GetHitPoint();
+		return UUxtGrabPointerDataFunctionLibrary::GetTargetTransform(PointerData).GetLocation();
 	}
 	return FVector::ZeroVector;
 }
@@ -41,6 +41,7 @@ FRotator UUxtGrabPointerDataFunctionLibrary::GetTargetRotation(const FUxtGrabPoi
 	}
 	else if (ensure(PointerData.FarPointer != nullptr))
 	{
+		
 		return PointerData.FarPointer->GetPointerOrientation().Rotator();
 	}
 	return FRotator::ZeroRotator;
@@ -54,11 +55,11 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetTargetTransform(const FUxtGrab
 	}
 	else if (ensure(PointerData.FarPointer != nullptr))
 	{
-		FTransform transformAtRayEnd;
-		transformAtRayEnd.SetTranslation(PointerData.FarPointer->GetHitPoint());
-		transformAtRayEnd.SetRotation(PointerData.FarPointer->GetPointerOrientation());
-		transformAtRayEnd.SetScale3D(FVector::OneVector);
-		return transformAtRayEnd;
+		FTransform pointerTransform;
+		pointerTransform.SetRotation(PointerData.FarPointer->GetPointerOrientation());
+		pointerTransform.SetTranslation(PointerData.FarPointer->GetPointerOrigin());
+		pointerTransform.SetScale3D(FVector::OneVector);
+		return PointerData.FarRayHitPointInPointer * pointerTransform;
 	}
 	return FTransform::Identity;
 }
@@ -100,10 +101,7 @@ FVector UUxtGrabbableComponent::GetTargetCentroid() const
 	FVector centroid = FVector::ZeroVector;
 	for (const FUxtGrabPointerData &data : GrabPointers)
 	{
-		if (ensure(data.Pointer != nullptr))
-		{
-			centroid += UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(data);
-		}
+		centroid += UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(data);
 	}
 	centroid /= FMath::Max(GrabPointers.Num(), 1);
 	return centroid;
@@ -248,12 +246,20 @@ void UUxtGrabbableComponent::OnFarPressed_Implementation(UUxtFarPointerComponent
 	data.FarPointer = Pointer;
 	data.StartTime = GetWorld()->GetTimeSeconds();
 	
-	FTransform transformAtRayEnd;
-	transformAtRayEnd.SetTranslation(Pointer->GetHitPoint());
-	transformAtRayEnd.SetRotation(Pointer->GetPointerOrientation());
-	transformAtRayEnd.SetScale3D(FVector::OneVector);
-	data.LocalGrabPoint = transformAtRayEnd * GetComponentTransform().Inverse();
 
+
+	FQuat inversePointerRotation = Pointer->GetPointerOrientation().Inverse();
+	FVector InitialGrabPointInPointer = inversePointerRotation * (Pointer->GetHitPoint() - Pointer->GetPointerOrigin());
+
+	FTransform transformAtRayEnd;
+	transformAtRayEnd.SetRotation(Pointer->GetPointerOrientation());
+	transformAtRayEnd.SetTranslation(Pointer->GetHitPoint());
+	data.LocalGrabPoint = transformAtRayEnd *GetComponentTransform().Inverse();
+
+	FTransform pointerTransform = transformAtRayEnd;
+	pointerTransform.SetTranslation(Pointer->GetPointerOrigin());
+
+	data.FarRayHitPointInPointer = transformAtRayEnd * pointerTransform.Inverse();
 	GrabPointers.Add(data);
 
 	// Lock the grabbing pointer so we remain the hovered target as it moves.
