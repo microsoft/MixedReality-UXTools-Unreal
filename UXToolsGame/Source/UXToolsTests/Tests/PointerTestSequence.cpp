@@ -106,7 +106,7 @@ namespace UxtPointerTests
 		Pointers.SetNum(Count);
 		for (int i = 0; i < Count; ++i)
 		{
-			Pointers[i] = UxtTestUtils::CreateNearPointer(world, TEXT("TestPointer"), FVector::ZeroVector);
+			Pointers[i] = UxtTestUtils::CreateNearPointer(world, *FString::Printf(TEXT("TestPointer%d"), i), FVector::ZeroVector);
 		}
 	}
 
