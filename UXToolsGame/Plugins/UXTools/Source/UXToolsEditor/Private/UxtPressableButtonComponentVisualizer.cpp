@@ -1,6 +1,7 @@
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UXToolsEditor.h"
 #include <SceneManagement.h>
+#include <Components/StaticMeshComponent.h>
 
 namespace
 {
@@ -34,20 +35,29 @@ void FUxtPressableButtonComponentVisualizer::DrawVisualization(const UActorCompo
 {
 	if (const UUxtPressableButtonComponent* Button = Cast<const UUxtPressableButtonComponent>(Component))
 	{
-		FVector2D Extents = Button->GetButtonExtents();
-		FMatrix Matrix = Button->GetComponentTransform().ToMatrixNoScale();
-		
-		// Rest position
-		DrawQuad(PDI, Extents.X, Extents.Y, 0, Matrix, FLinearColor::White);
+		if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(Button->GetVisuals()))
+		{
+			FVector Min, Max;
+			Mesh->GetLocalBounds(Min, Max);
 
-		// Maximum push distance
-		const float MaxPushDistance = Button->GetScaleAdjustedMaxPushDistance();
-		FLinearColor DarkGray(.25f, .25f, .25f);
-		DrawQuad(PDI, Extents.X, Extents.Y, MaxPushDistance, Matrix, DarkGray);
+			FTransform ToFrontFace = FTransform(FVector(Min.X, 0, 0));
+			FMatrix FrontFaceMatrix = (ToFrontFace * Mesh->GetComponentTransform()).ToMatrixNoScale();
 
-		// Pressed distance
-		float PressedDistance = MaxPushDistance * Button->PressedFraction;
-		FLinearColor LightGray(.75f, .75f, .75f);
-		DrawQuad(PDI, Extents.X, Extents.Y, PressedDistance, Matrix, LightGray, true);
+			FVector Extents = (Max - Min) * 0.5f;
+			Extents *= Mesh->GetComponentTransform().GetScale3D();
+
+			// Rest position
+			DrawQuad(PDI, Extents.Y, Extents.Z, 0, FrontFaceMatrix, FLinearColor::White);
+
+			// Maximum push distance
+			const float MaxPushDistance = Button->MaxPushDistance;
+			FLinearColor DarkGray(.25f, .25f, .25f);
+			DrawQuad(PDI, Extents.Y, Extents.Z, MaxPushDistance, FrontFaceMatrix, DarkGray);
+
+			// Pressed distance
+			float PressedDistance = MaxPushDistance * Button->PressedFraction;
+			FLinearColor LightGray(.75f, .75f, .75f);
+			DrawQuad(PDI, Extents.Y, Extents.Z, PressedDistance, FrontFaceMatrix, LightGray, true);
+		}
 	}
 }
