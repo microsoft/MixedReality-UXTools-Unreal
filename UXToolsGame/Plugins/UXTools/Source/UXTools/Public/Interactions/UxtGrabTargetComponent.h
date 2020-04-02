@@ -119,7 +119,7 @@ public:
 	 * PointerData will contain the associated grab data for the pointer.
 	 * Index is the order in which pointers started grabbing.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Grabbable") // TODO BERNI - needs to be both pointers
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	void FindGrabPointer(UUxtNearPointerComponent *Pointer, UUxtFarPointerComponent* farPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
 
 	/** Returns the first active grab pointer.
