@@ -40,7 +40,10 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	FTransform LocalGrabPoint;
 
-	FTransform FarRayHitPointInPointer;
+	/** Far pointer only property -> describes the relative transform of the grab point to the pointer transform (pointer origin / orientation)
+	  * This is needed to calculate the new grab point on the object on pointer translations / rotations */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	FTransform FarRayHitPointInPointer = FTransform::Identity;
 };
 
 /**

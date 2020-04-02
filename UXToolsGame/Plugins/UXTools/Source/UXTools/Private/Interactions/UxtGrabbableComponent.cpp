@@ -55,10 +55,7 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetTargetTransform(const FUxtGrab
 	}
 	else if (ensure(PointerData.FarPointer != nullptr))
 	{
-		FTransform pointerTransform;
-		pointerTransform.SetRotation(PointerData.FarPointer->GetPointerOrientation());
-		pointerTransform.SetTranslation(PointerData.FarPointer->GetPointerOrigin());
-		pointerTransform.SetScale3D(FVector::OneVector);
+		FTransform pointerTransform(PointerData.FarPointer->GetPointerOrientation(), PointerData.FarPointer->GetPointerOrigin());
 		return PointerData.FarRayHitPointInPointer * pointerTransform;
 	}
 	return FTransform::Identity;
@@ -246,20 +243,14 @@ void UUxtGrabbableComponent::OnFarPressed_Implementation(UUxtFarPointerComponent
 	data.FarPointer = Pointer;
 	data.StartTime = GetWorld()->GetTimeSeconds();
 	
+	// store initial grab point in object space
+	FTransform transformAtRayEnd(Pointer->GetPointerOrientation(), Pointer->GetHitPoint());
+	data.LocalGrabPoint = transformAtRayEnd * GetComponentTransform().Inverse();
 
-
-	FQuat inversePointerRotation = Pointer->GetPointerOrientation().Inverse();
-	FVector InitialGrabPointInPointer = inversePointerRotation * (Pointer->GetHitPoint() - Pointer->GetPointerOrigin());
-
-	FTransform transformAtRayEnd;
-	transformAtRayEnd.SetRotation(Pointer->GetPointerOrientation());
-	transformAtRayEnd.SetTranslation(Pointer->GetHitPoint());
-	data.LocalGrabPoint = transformAtRayEnd *GetComponentTransform().Inverse();
-
-	FTransform pointerTransform = transformAtRayEnd;
-	pointerTransform.SetTranslation(Pointer->GetPointerOrigin());
-
+	// store ray hit point in pointer space
+	FTransform pointerTransform(Pointer->GetPointerOrientation(), Pointer->GetPointerOrigin());
 	data.FarRayHitPointInPointer = transformAtRayEnd * pointerTransform.Inverse();
+
 	GrabPointers.Add(data);
 
 	// Lock the grabbing pointer so we remain the hovered target as it moves.
