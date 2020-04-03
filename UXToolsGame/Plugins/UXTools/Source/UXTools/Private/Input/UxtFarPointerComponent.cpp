@@ -88,6 +88,11 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 			HitPoint = TargetTransform.TransformPosition(HitPointLocal);
 			HitNormal = TargetTransform.TransformVectorNoScale(HitNormalLocal);
 		}
+
+		if (UObject* FarTarget = GetFarTarget())
+		{
+			IUxtFarTarget::Execute_OnFarDragged(FarTarget, this);
+		}
 	}
 	else
 	{

@@ -7,7 +7,6 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Components/SceneComponent.h"
 #include "Interactions/UxtGrabTarget.h"
-#include "Interactions/UxtFarTarget.h"
 
 #include "UxtGrabTargetComponent.generated.h"
 
@@ -108,7 +107,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTarget
  * The GrabComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation.
  */
 UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtGrabTargetComponent : public USceneComponent, public IUxtGrabTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtGrabTargetComponent : public USceneComponent, public IUxtGrabTarget
 {
 	GENERATED_BODY()
 
@@ -120,8 +119,13 @@ public:
 	 * PointerData will contain the associated grab data for the pointer.
 	 * Index is the order in which pointers started grabbing.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
+<<<<<<< HEAD:UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h
+	UFUNCTION(BlueprintPure, Category = "Grabbable") // TODO BERNI - needs to be both pointers
 	void FindGrabPointer(UUxtNearPointerComponent *Pointer, UUxtFarPointerComponent* farPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
+=======
+	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	void FindGrabPointer(UUxtTouchPointer *Pointer, UUxtFarPointerComponent* farPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
+>>>>>>> removed obsolete todo:UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabbableComponent.h
 
 	/** Returns the first active grab pointer.
 	 * If no pointer is grabbing the Valid output will be false.
@@ -166,9 +170,8 @@ protected:
 
 	//
 	// IUxtFarTarget interface
-	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override;
-	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
-	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;
+	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
+	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer, const FUxtFarFocusEvent& FarFocusEvent) override;
 
 private:
 

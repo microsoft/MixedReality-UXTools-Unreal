@@ -36,4 +36,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void OnFarReleased(UUxtFarPointerComponent* Pointer);
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnFarDragged(UUxtFarPointerComponent* Pointer);
 };
