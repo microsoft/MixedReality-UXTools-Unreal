@@ -19,12 +19,13 @@ struct UXTOOLS_API FUxtGrabPointerData
 {
 	GENERATED_BODY()
 
-	/** The pointer that is interacting with the component. */
+	/** The near pointer that is interacting with the component. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
-	UUxtNearPointerComponent* Pointer;
+	UUxtNearPointerComponent* NearPointer;
 
+	/** The far pointer that is interacting with the component */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
-	UUxtFarPointerComponent* FarPointer = nullptr; // temp far pointer todo: berni needs to move after implementation works
+	UUxtFarPointerComponent* FarPointer = nullptr;
 
 	/** Last updated pointer transform. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")

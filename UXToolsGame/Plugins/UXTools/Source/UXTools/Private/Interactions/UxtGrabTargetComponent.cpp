@@ -85,7 +85,7 @@ bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* 
 	for (int i = 0; i < GrabPointers.Num(); ++i)
 	{
 		const FUxtGrabPointerData& GrabData = GrabPointers[i];
-		if ((Pointer != nullptr && GrabData.Pointer == Pointer) || (FarPointer != nullptr && GrabData.FarPointer == FarPointer))
+		if ((Pointer != nullptr && GrabData.NearPointer == Pointer) || (FarPointer != nullptr && GrabData.FarPointer == FarPointer))
 		{
 			OutData = &GrabData;
 			OutIndex = i;
@@ -172,7 +172,7 @@ void UUxtGrabTargetComponent::BeginPlay()
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	FUxtGrabPointerData GrabData;
-	GrabData.Pointer = Pointer;
+	GrabData.NearPointer = Pointer;
 	GrabData.PointerTransform = Pointer->GetGrabPointerTransform();
 	GrabData.StartTime = GetWorld()->GetTimeSeconds();
 	GrabData.LocalGrabPoint = GrabData.PointerTransform * GetComponentTransform().Inverse();
@@ -192,7 +192,7 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompone
 	// Update the copy of the pointer data in the grab pointer array
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
 	{
-		if (GrabData.Pointer == Pointer)
+		if (GrabData.NearPointer == Pointer)
 		{
 			GrabData.PointerTransform = Pointer->GetGrabPointerTransform();
 
@@ -206,7 +206,7 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 {
 	int numRemoved = GrabPointers.RemoveAll([this, Pointer](const FUxtGrabPointerData& GrabData)
 		{
-			if (GrabData.Pointer == Pointer)
+			if (GrabData.NearPointer == Pointer)
 			{
 				// Unlock the pointer focus so that another target can be selected.
 				Pointer->SetFocusLocked(false);
