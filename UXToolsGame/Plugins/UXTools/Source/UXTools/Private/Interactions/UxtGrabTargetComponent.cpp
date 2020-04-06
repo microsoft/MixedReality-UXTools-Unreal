@@ -222,34 +222,34 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 
 void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	FUxtGrabPointerData data;
-	data.FarPointer = Pointer;
-	data.StartTime = GetWorld()->GetTimeSeconds();
+	FUxtGrabPointerData PointerData;
+	PointerData.FarPointer = Pointer;
+	PointerData.StartTime = GetWorld()->GetTimeSeconds();
 
 	// store initial grab point in object space
-	FTransform transformAtRayEnd(Pointer->GetPointerOrientation(), Pointer->GetHitPoint());
-	data.PointerTransform = transformAtRayEnd;
-	data.LocalGrabPoint = transformAtRayEnd * GetComponentTransform().Inverse();
+	FTransform TransformAtRayEnd(Pointer->GetPointerOrientation(), Pointer->GetHitPoint());
+	PointerData.PointerTransform = TransformAtRayEnd;
+	PointerData.LocalGrabPoint = TransformAtRayEnd * GetComponentTransform().Inverse();
 
 	// store ray hit point in pointer space
-	FTransform pointerTransform(Pointer->GetPointerOrientation(), Pointer->GetPointerOrigin());
-	data.FarRayHitPointInPointer = transformAtRayEnd * pointerTransform.Inverse();
-	GrabPointers.Add(data);
+	FTransform PointerTransform(Pointer->GetPointerOrientation(), Pointer->GetPointerOrigin());
+	PointerData.FarRayHitPointInPointer = TransformAtRayEnd * PointerTransform.Inverse();
+	GrabPointers.Add(PointerData);
 
 	// Lock the grabbing pointer so we remain the hovered target as it moves.
 	Pointer->SetFocusLocked(true);
-	OnBeginGrab.Broadcast(this, data);
+	OnBeginGrab.Broadcast(this, PointerData);
 	UpdateComponentTickEnabled();
 }
 
 void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	int numRemoved = GrabPointers.RemoveAll([this, Pointer](const FUxtGrabPointerData& data)
+	int numRemoved = GrabPointers.RemoveAll([this, Pointer](const FUxtGrabPointerData& PointerData)
 		{
-			if (data.FarPointer == Pointer)
+			if (PointerData.FarPointer == Pointer)
 			{
 				Pointer->SetFocusLocked(false);
-				OnEndGrab.Broadcast(this, data);
+				OnEndGrab.Broadcast(this, PointerData);
 				return true;
 			}
 			return false;
@@ -265,8 +265,8 @@ void UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponen
 	{
 		if (GrabData.FarPointer == Pointer)
 		{
-			FTransform pointerTransform(GrabData.FarPointer->GetPointerOrientation(), GrabData.FarPointer->GetPointerOrigin());
-			GrabData.PointerTransform = GrabData.FarRayHitPointInPointer * pointerTransform;
+			FTransform PointerTransform(GrabData.FarPointer->GetPointerOrientation(), GrabData.FarPointer->GetPointerOrigin());
+			GrabData.PointerTransform = GrabData.FarRayHitPointInPointer * PointerTransform;
 
 			OnUpdateGrab.Broadcast(this, GrabData);
 		}
