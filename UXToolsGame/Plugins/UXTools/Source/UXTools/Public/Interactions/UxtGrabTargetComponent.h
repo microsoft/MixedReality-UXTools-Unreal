@@ -122,7 +122,7 @@ public:
 	 * Index is the order in which pointers started grabbing.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	void FindGrabPointer(UUxtNearPointerComponent *NearPointer, UUxtFarPointerComponent* FarPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
+	void FindGrabPointer(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
 
 	/** Returns the first active grab pointer.
 	 * If no pointer is grabbing the Valid output will be false.
@@ -174,7 +174,7 @@ protected:
 private:
 
 	/** Internal search function for finding active grabbing pointers */
-	bool FindGrabPointerInternal(UUxtNearPointerComponent *NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const;
+	bool FindGrabPointerInternal(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const;
 
 	/** Compute the grab transform relative to the current actor world transform. */
 	void ResetLocalGrabPoint(FUxtGrabPointerData &PointerData);
