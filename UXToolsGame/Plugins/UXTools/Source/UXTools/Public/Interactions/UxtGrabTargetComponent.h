@@ -21,7 +21,7 @@ struct UXTOOLS_API FUxtGrabPointerData
 
 	/** The near pointer that is interacting with the component. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
-	UUxtNearPointerComponent* NearPointer;
+	UUxtNearPointerComponent* NearPointer = nullptr;
 
 	/** The far pointer that is interacting with the component */
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
