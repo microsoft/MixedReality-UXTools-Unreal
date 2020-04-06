@@ -81,11 +81,11 @@ void UUxtPressableButtonComponent::BeginPlay()
 
 	if (USceneComponent* Visuals = GetVisuals())
 	{
-		if (UStaticMeshComponent* Pokeable = Cast<UStaticMeshComponent>(Visuals))
+		if (UStaticMeshComponent* Pokable = Cast<UStaticMeshComponent>(Visuals))
 		{
-			Pokeable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Pokable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-			ConfigureBoxComponent(Pokeable);
+			ConfigureBoxComponent(Pokable);
 		}
 
 		const FVector VisualsOffset = Visuals->GetComponentLocation() - RestPosition;
@@ -102,7 +102,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	if (!FarPointerWeak.IsValid())
 	{
 		// Update button logic with all known pointers
-		UUxtNearPointerComponent* NewPokeingPointer = nullptr;
+		UUxtNearPointerComponent* NewPokingPointer = nullptr;
 		float TargetDistance = 0;
 
 		for (UUxtNearPointerComponent* Pointer : PokePointers)
@@ -110,7 +110,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 			float PushDistance = CalculatePushDistance(Pointer);
 			if (PushDistance > TargetDistance)
 			{
-				NewPokeingPointer = Pointer;
+				NewPokingPointer = Pointer;
 				TargetDistance = PushDistance;
 			}
 		}

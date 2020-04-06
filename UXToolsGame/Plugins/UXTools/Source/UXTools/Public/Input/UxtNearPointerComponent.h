@@ -92,7 +92,7 @@ public:
 
 	/**
 	 * The depth beyond the front face at which a front face pokable no longer recieves poke events.
-	 * While poking a front face pokeable, if the near pointer moves beyond this depth, the pokeable
+	 * While poking a front face pokable, if the near pointer moves beyond this depth, the pokable
 	 * will receive a poke end event.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")

@@ -70,10 +70,10 @@ namespace
 		FVector Max = Extents;
 		Max.X = -Max.X + Depth; // depth is measured from the front face
 
-		FBox PokeableVolume(Min, Max);
+		FBox PokableVolume(Min, Max);
 		FSphere PokeSphere(LocalPosition, Radius);
 
-		return !FMath::SphereAABBIntersection(PokeSphere, PokeableVolume);
+		return !FMath::SphereAABBIntersection(PokeSphere, PokableVolume);
 	}
 }
 UUxtNearPointerComponent::UUxtNearPointerComponent()
@@ -159,19 +159,19 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			
 			if (Primitive && Target)
 			{
-				bool endedPokeing = false;
+				bool endedPoking = false;
 
 				switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 				{
 				case EUxtPokeBehaviour::FrontFace:
-					endedPokeing = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius(), PokeDepth);
+					endedPoking = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius(), PokeDepth);
 					break;
 				case EUxtPokeBehaviour::Volume:
-					endedPokeing = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius()));
+					endedPoking = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius()));
 					break;
 				}
 
-				if (endedPokeing)
+				if (endedPoking)
 				{
 					bIsPoking = false;
 					PokeTargetWeak = nullptr;
@@ -211,19 +211,19 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			{
 				if (auto HitTarget = PokeFocus->FindInterfaceComponent(HitResult.GetActor()))
 				{
-					bool startedPokeing = false;
+					bool startedPoking = false;
 
 					switch (IUxtPokeTarget::Execute_GetPokeBehaviour(HitTarget))
 					{
 					case EUxtPokeBehaviour::FrontFace:
-						startedPokeing = !bWasBehindFrontFace && isBehind;
+						startedPoking = !bWasBehindFrontFace && isBehind;
 						break;
 					case EUxtPokeBehaviour::Volume:
-						startedPokeing = true;
+						startedPoking = true;
 						break;
 					}
 
-					if (startedPokeing)
+					if (startedPoking)
 					{
 						bIsPoking = true;
 						PokeTargetWeak = HitTarget;
