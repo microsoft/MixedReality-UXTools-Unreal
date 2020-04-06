@@ -1,5 +1,6 @@
 trigger:
 - master
+- release/0.8.0
 
 variables:
 - template: settings/common.yml
@@ -17,6 +18,9 @@ stages:
   dependsOn: []
   pool:
     name: $(AgentPool)
+  # uncomment after switching to UE4.25
+  # variables:
+  #   - template: settings/ue425undefs.yml
   jobs:
   - job:
     workspace:
@@ -58,8 +62,8 @@ stages:
         downloadDirectory: '$(UnrealEngine)'
         feedsToUse: 'internal'
         vstsFeed: 'DevPlat/CI-utils'
-        vstsFeedPackage: 'unreal-drop-macos'
-        vstsPackageVersion: 1.0.0
+        vstsFeedPackage: $(UE4PackageNameMac)
+        vstsPackageVersion: $(UE4PackageVersionMac)
     - bash: |
         chmod -R 0744 "$UE4BATCHFILESDIR"
         chmod -R 0744 "$UE4BINARIESDIR"
