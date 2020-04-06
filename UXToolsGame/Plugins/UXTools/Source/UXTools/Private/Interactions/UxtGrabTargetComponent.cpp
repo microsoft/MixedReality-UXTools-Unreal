@@ -80,12 +80,12 @@ FVector UUxtGrabTargetComponent::GetTargetCentroid() const
 	return centroid;
 }
 
-bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* Pointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const
+bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const
 {
 	for (int i = 0; i < GrabPointers.Num(); ++i)
 	{
 		const FUxtGrabPointerData& GrabData = GrabPointers[i];
-		if ((Pointer != nullptr && GrabData.NearPointer == Pointer) || (FarPointer != nullptr && GrabData.FarPointer == FarPointer))
+		if ((NearPointer != nullptr && GrabData.NearPointer == NearPointer) || (FarPointer != nullptr && GrabData.FarPointer == FarPointer))
 		{
 			OutData = &GrabData;
 			OutIndex = i;
@@ -98,10 +98,10 @@ bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* 
 	return false;
 }
 
-void UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent* Pointer, UUxtFarPointerComponent* FarPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const
+void UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const
 {
 	FUxtGrabPointerData const *pData;
-	Success = FindGrabPointerInternal(Pointer, FarPointer, pData, Index);
+	Success = FindGrabPointerInternal(NearPointer, FarPointer, pData, Index);
 	if (Success)
 	{
 		PointerData = *pData;
