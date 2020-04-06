@@ -13,3 +13,5 @@ variables:
   # paths to specific build folders
   UXToolsPluginSourceDir: $(UXTSourceDir)/UXToolsGame/Plugins/UXTools
   UXToolsPluginOutputDir: $(Build.ArtifactStagingDirectory)/UXTools
+  UE4PackageNameMac: unreal-drop-macos
+  UE4PackageVersionMac: 1.0.0

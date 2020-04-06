@@ -1,0 +1,10 @@
+# Settings necessary to run UE4.25 on a machine with UE4.24 installed
+# due to a conflict in Android build tools set up
+variables:
+  ANDROID_HOME: $(Agent.ToolsDirectory)\android-sdk
+  ANDROID_NDK_ROOT: $(Agent.ToolsDirectory)\android-ndk-r21
+  NDKROOT: $(Agent.ToolsDirectory)\android-ndk-r21
+  NDK_ROOT: $(Agent.ToolsDirectory)\android-ndk-r21
+  NVPACK_NDK_TOOL_VERSION: ""
+  NVPACK_NDK_VERSION: ""
+  NVPACK_ROOT: ""
