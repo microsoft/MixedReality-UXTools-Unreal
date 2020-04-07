@@ -334,7 +334,10 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabTargetCompo
 	FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());
 	bboxGrabPointer.LocalGrabPoint = UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(relTransform, GrabPointer);
 
-	TryActivateGrabPointer(**pAffordance, bboxGrabPointer);
+	if (TryActivateGrabPointer(**pAffordance, bboxGrabPointer))
+	{
+		OnManipulationStarted.Broadcast(this, **pAffordance, Grabbable);
+	}
 }
 
 void UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
@@ -361,7 +364,10 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerEndGrab(UUxtGrabTargetCompone
 	const FUxtBoundingBoxAffordanceInfo **pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
 	check(pAffordance != nullptr);
 
-	TryReleaseGrabPointer(**pAffordance);
+	if (TryReleaseGrabPointer(**pAffordance))
+	{
+		OnManipulationEnded.Broadcast(this, **pAffordance, Grabbable);
+	}
 }
 
 bool UUxtBoundingBoxManipulatorComponent::TryActivateGrabPointer(const FUxtBoundingBoxAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer)
