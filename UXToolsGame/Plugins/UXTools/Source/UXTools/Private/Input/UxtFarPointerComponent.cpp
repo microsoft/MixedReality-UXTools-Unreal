@@ -149,6 +149,12 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 			{
 				IUxtFarTarget::Execute_OnEnterFarFocus(FarTarget, this);
 			}
+
+			// Dragged event
+			if (IsPressed())
+			{
+				IUxtFarTarget::Execute_OnFarDragged(FarTarget, this);
+			}
 		}
 	}
 }
