@@ -30,7 +30,7 @@
       },
 	  {
         // website related resource files
-        "files": ["index.html", "web/**"],
+        "files": ["index.html", ".nojekyll", "web/**"],
 		"dest": "./"
       },
     ],

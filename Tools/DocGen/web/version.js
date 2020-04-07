@@ -1,7 +1,7 @@
 function createDropdown()
 {
 	// configurable values:
-	var defaultTitle = "master"; // title in the dropdown for the root version of the docs
+	var defaultTitle = "release/0.8.0"; // title in the dropdown for the root version of the docs
 	var versionArray = []; // list of all versions in the version folder
 	
 	//--------------------------------------
