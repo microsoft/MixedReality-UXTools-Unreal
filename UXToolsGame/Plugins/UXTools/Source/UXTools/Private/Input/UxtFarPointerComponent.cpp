@@ -88,6 +88,12 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 			HitPoint = TargetTransform.TransformPosition(HitPointLocal);
 			HitNormal = TargetTransform.TransformVectorNoScale(HitNormalLocal);
 		}
+		else
+		{
+			HitPrimitiveWeak = nullptr;
+			FarTargetWeak = nullptr;
+			bFocusLocked = false;
+		}
 	}
 	else
 	{
@@ -142,6 +148,12 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 			else
 			{
 				IUxtFarTarget::Execute_OnEnterFarFocus(FarTarget, this);
+			}
+
+			// Dragged event
+			if (IsPressed())
+			{
+				IUxtFarTarget::Execute_OnFarDragged(FarTarget, this);
 			}
 		}
 	}

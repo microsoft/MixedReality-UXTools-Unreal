@@ -4,6 +4,7 @@
 #include "Controls/UxtPressableButtonComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
+#include "UXTools.h"
 #include "Interactions/UxtInteractionUtils.h"
 
 #include <GameFramework/Actor.h>
@@ -35,8 +36,25 @@ void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 
 	if (Visuals)
 	{
-		const auto VisualsOffset = Visuals->GetComponentLocation() - GetComponentLocation();
+		if (UStaticMeshComponent* Touchable = Cast<UStaticMeshComponent>(GetVisuals()))
+		{
+			Touchable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+			ConfigureBoxComponent(Touchable);
+		}
+
+		const FVector VisualsOffset = Visuals->GetComponentLocation() - RestPosition;
 		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
+	}
+}
+
+
+void UUxtPressableButtonComponent::SetCollisionProfile(FName Profile)
+{
+	CollisionProfile = Profile;
+	if (BoxComponent)
+	{
+		BoxComponent->SetCollisionProfileName(CollisionProfile);
 	}
 }
 
@@ -44,23 +62,6 @@ bool UUxtPressableButtonComponent::IsPressed() const
 {
 	return bIsPressed;
 }
-
-
-FVector2D UUxtPressableButtonComponent::GetButtonExtents() const
-{
-	if (auto Pokeable = Cast<UStaticMeshComponent>(GetVisuals()))
-	{
-		FVector Min, Max;
-		Pokeable->GetLocalBounds(Min, Max);
-
-		FVector Extents = (Max - Min) * 0.5f;
-		Extents *= Pokeable->GetComponentTransform().GetScale3D();
-
-		return FVector2D(Extents.Y, Extents.Z);
-	}
-	return FVector2D::UnitVector;
-}
-
 
 float UUxtPressableButtonComponent::GetScaleAdjustedMaxPushDistance() const
 {
@@ -77,32 +78,17 @@ void UUxtPressableButtonComponent::BeginPlay()
 	BoxComponent->SetupAttachment(this);
 	BoxComponent->RegisterComponent();
 
-	if (auto Pokeable = Cast<UStaticMeshComponent>(GetVisuals()))
+
+	if (USceneComponent* Visuals = GetVisuals())
 	{
-		Pokeable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		if (UStaticMeshComponent* Pokable = Cast<UStaticMeshComponent>(Visuals))
+		{
+			Pokable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-		FVector Min, Max;
-		Pokeable->GetLocalBounds(Min, Max);
+			ConfigureBoxComponent(Pokable);
+		}
 
-		BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
-
-		BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Pokeable->GetComponentTransform());
-
-		BoxComponent->SetCollisionProfileName(CollisionProfile);
-
-		const auto ColliderOffset = BoxComponent->GetComponentLocation() - GetComponentLocation();
-		ColliderOffsetLocal = GetComponentTransform().InverseTransformVector(ColliderOffset);
-	}
-
-	const FTransform& Transform = GetComponentTransform();
-
-	RestPosition = Transform.GetTranslation();
-	PressedDistance = GetScaleAdjustedMaxPushDistance() * PressedFraction;
-	ReleasedDistance = GetScaleAdjustedMaxPushDistance() * ReleasedFraction;
-
-	if (auto Visuals = GetVisuals())
-	{
-		const auto VisualsOffset = Visuals->GetComponentLocation() - GetComponentLocation();
+		const FVector VisualsOffset = Visuals->GetComponentLocation() - RestPosition;
 		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
 	}
 }
@@ -116,27 +102,28 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	if (!FarPointerWeak.IsValid())
 	{
 		// Update button logic with all known pointers
-		UUxtNearPointerComponent* NewPokeingPointer = nullptr;
+		UUxtNearPointerComponent* NewPokingPointer = nullptr;
 		float TargetDistance = 0;
 
-		for (const auto& Pointer : PokePointers)
+		for (UUxtNearPointerComponent* Pointer : PokePointers)
 		{
 			float PushDistance = CalculatePushDistance(Pointer);
 			if (PushDistance > TargetDistance)
 			{
-				NewPokeingPointer = Pointer;
+				NewPokingPointer = Pointer;
 				TargetDistance = PushDistance;
 			}
 		}
 
 		check(TargetDistance >= 0 && TargetDistance <= GetScaleAdjustedMaxPushDistance());
 
-		const auto PreviousPushDistance = CurrentPushDistance;
+		const float PreviousPushDistance = CurrentPushDistance;
 
 		// Update push distance and raise events
 		if (TargetDistance > CurrentPushDistance)
 		{
 			CurrentPushDistance = TargetDistance;
+			float PressedDistance = GetPressedDistance();
 
 			if (!bIsPressed && CurrentPushDistance >= PressedDistance && PreviousPushDistance < PressedDistance)
 			{
@@ -147,6 +134,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 		else
 		{
 			CurrentPushDistance = FMath::Max(TargetDistance, CurrentPushDistance - DeltaTime * RecoverySpeed);
+			float ReleasedDistance = GetReleasedDistance();
 
 			// Raise button released if we're pressed and crossed the released distance
 			if (bIsPressed && (CurrentPushDistance <= ReleasedDistance && PreviousPushDistance > ReleasedDistance))
@@ -158,13 +146,13 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	}
 
 	// Update visuals position
-	if (auto Visuals = GetVisuals())
+	if (USceneComponent* Visuals = GetVisuals())
 	{
-		const auto VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
+		const FVector VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
 		FVector NewVisualsLocation = VisualsOffset + GetCurrentButtonLocation();
 		Visuals->SetWorldLocation(NewVisualsLocation);
 
-		const auto ColliderOffset = GetComponentTransform().TransformVector(ColliderOffsetLocal);
+		const FVector ColliderOffset = GetComponentTransform().TransformVector(ColliderOffsetLocal);
 		FVector NewColliderLocation = ColliderOffset + GetCurrentButtonLocation();
 		BoxComponent->SetWorldLocation(NewColliderLocation);
 	}
@@ -271,11 +259,11 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 
 	// Calculate current pointer position in local space
 	{
-		const auto InvOrientation = BoxComponent->GetComponentQuat().Inverse();
+		const FQuat InvOrientation = BoxComponent->GetComponentQuat().Inverse();
 		RayEndLocal = InvOrientation * (pointer->GetPokePointerTransform().GetLocation() - RestPosition);
 	}
 
-	const auto endDistance = RayEndLocal.X;
+	const float endDistance = RayEndLocal.X;
 
 	return endDistance > 0 ? FMath::Min(endDistance, GetScaleAdjustedMaxPushDistance()) : 0;
 }
@@ -295,6 +283,42 @@ void UUxtPressableButtonComponent::OnUpdatedFarFocus_Implementation(UUxtFarPoint
 	OnUpdateFocus.Broadcast(this, Pointer);
 }
 
+
+float UUxtPressableButtonComponent::GetPressedDistance() const
+{
+	return GetScaleAdjustedMaxPushDistance() * PressedFraction;
+}
+
+
+float UUxtPressableButtonComponent::GetReleasedDistance() const
+{
+	return GetScaleAdjustedMaxPushDistance() * ReleasedFraction;
+}
+
+void UUxtPressableButtonComponent::ConfigureBoxComponent(const UStaticMeshComponent* Mesh)
+{
+	if (!BoxComponent)
+	{
+		UE_LOG(UXTools, Error, TEXT("Attempting to configure the box component for '%s' before it is initialised, the button will not work properly."), *GetOwner()->GetName());
+		return;
+	}
+
+	FVector Min, Max;
+	Mesh->GetLocalBounds(Min, Max);
+
+	BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
+
+	BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Mesh->GetComponentTransform());
+
+	BoxComponent->SetCollisionProfileName(CollisionProfile);
+
+	RestPosition = BoxComponent->GetComponentLocation();
+	RestPosition.X -= BoxComponent->GetScaledBoxExtent().X;
+
+	const FVector ColliderOffset = BoxComponent->GetComponentLocation() - RestPosition;
+	ColliderOffsetLocal = GetComponentTransform().InverseTransformVector(ColliderOffset);
+}
+
 void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	OnExitFocus(Pointer);
@@ -304,7 +328,7 @@ void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerCom
 {
 	if (!FarPointerWeak.IsValid())
 	{
-		CurrentPushDistance = PressedDistance;
+		CurrentPushDistance = GetPressedDistance();
 		FarPointerWeak = Pointer;
 		Pointer->SetFocusLocked(true);
 		OnButtonPressed.Broadcast(this);
@@ -313,7 +337,7 @@ void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerCom
 
 void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	auto FarPointer = FarPointerWeak.Get();
+	UUxtFarPointerComponent* FarPointer = FarPointerWeak.Get();
 	if (Pointer == FarPointer)
 	{
 		CurrentPushDistance = 0;

@@ -47,7 +47,7 @@ static UGrabTickTestComponent* CreateTestComponent(UWorld* World, const FVector&
 class FTestGrabComponentTickingCommand : public IAutomationLatentCommand
 {
 public:
-	FTestGrabComponentTickingCommand(FAutomationTestBase* Test, UGrabTickTestComponent* Target, bool bExpectTicking)
+	FTestGrabComponentTickingCommand(FAutomationTestBase* Test, UGrabTickTestComponent* Target, bool bEnableGrasp, bool bExpectTicking)
 		: Test(Test)
 		, Target(Target)
 		, bEnableGrasp(bEnableGrasp)
@@ -154,10 +154,10 @@ bool FGrabComponentTickTest::RunTest(const FString& Parameters)
 	Pointer->GetOwner()->UpdateOverlaps();
 
 	// Test without grasping
-	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabComponentTickingCommand(this, Target, bExpectUngraspedTicks));
+	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabComponentTickingCommand(this, Target, false, bExpectUngraspedTicks));
 
 	// Test with grasping
-	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabComponentTickingCommand(this, Target, bExpectGraspedTicks));
+	ADD_LATENT_AUTOMATION_COMMAND(FTestGrabComponentTickingCommand(this, Target, true, bExpectGraspedTicks));
 
 	ADD_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FExitGameCommand());

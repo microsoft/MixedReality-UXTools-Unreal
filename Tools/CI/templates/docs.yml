@@ -1,0 +1,107 @@
+parameters:
+  DocsRepoDir: $(Build.SourcesDirectory)\docs  # folder on build agent into which the repo will be cloned before submitting
+  DocsBranchName: ""  # branch to which docs should be committed
+  PAT: ""
+  email: ""
+  username: ""
+  DestRepoUrl: ""
+  commit: false
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: 'Ensure NuGet.exe is installed and in PATH'
+
+- task: NuGetCommand@2
+  displayName: 'Install docfx'
+  inputs:
+    command: custom
+    arguments: 'install docfx.console -Version $(DocFX.Version) -OutputDirectory $(Build.ArtifactStagingDirectory)'
+
+- task: NuGetCommand@2
+  displayName: 'Install code2yaml'
+  inputs:
+    command: custom
+    arguments: 'install code2yaml -Version $(code2yaml.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)'
+
+- powershell: |
+    $env:Path += ";$(Build.ArtifactStagingDirectory)/docfx.console.$(DocFX.Version)/tools;$(Build.ArtifactStagingDirectory)/code2yaml.$(code2yaml.Version)"
+    . $(UXTSourceDir)\Tools\DocGen\generateDocs.ps1
+  displayName: "Generate docs"
+
+- powershell: |
+    Write-Host "Clone repo under ${{ parameters.DocsRepoDir }}"
+    $protocol, $url = "${{ parameters.DestRepoUrl }}".Split("//", 2)
+    $protocol = ($protocol.TrimEnd("/")) + "//"
+    $url = ($url.TrimStart("/"))
+
+    git clone "$($protocol)user:${{ parameters.PAT }}@$($url)" ${{ parameters.DocsRepoDir }} -b ${{ parameters.DocsBranchName }}
+
+    Push-Location -Path ${{ parameters.DocsRepoDir }}
+
+    # sanity check
+    $DocsRepoBranch = (git rev-parse --abbrev-ref HEAD)
+    if ($DocsRepoBranch -ne "${{ parameters.DocsBranchName }}")
+    {
+        Write-Host -ForegroundColor Red "Branch set to '$DocsRepoBranch' instead of '${{ parameters.DocsBranchName }}'"
+        exit 1
+    }
+    
+    git config --local user.email "${{ parameters.email }}"
+    git config --local user.name "${{ parameters.username }}"
+
+    git config --local core.autocrlf false
+
+    $SourceBranch = "$(Build.SourceBranch)".Replace("refs/heads/", "")
+    $DocsDestDir = $null
+    # files from main branch are copied into the root folder
+    if ($SourceBranch -eq "master")
+    {
+        Write-Host "Delete all files apart from 'version' folder"
+        (Get-ChildItem -Path "${{ parameters.DocsRepoDir }}" -Exclude "version" | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
+        if ((Get-ChildItem -Path "${{ parameters.DocsRepoDir }}\" -Exclude "version") -ne $null)
+        {
+            Write-Host "Not all files were deleted."
+            exit 1
+        }
+        $DocsDestDir = "${{ parameters.DocsRepoDir }}"
+    }
+    else 
+    {
+        $DocsDestDir = "${{ parameters.DocsRepoDir }}\version\$SourceBranch"
+
+        if (Test-Path $DocsDestDir)
+        {
+            Write-Host "Delete files in $DocsDestDir"
+            (Get-ChildItem -Path $DocsDestDir | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
+
+            if ((Get-ChildItem -Path "$DocsDestDir\") -ne $null)
+            {
+                Write-Host "Not all files were deleted."
+                exit 1
+            }
+
+            Get-ChildItem $DocsDestDir | Remove-Item -Force -Recurse
+        }
+        else
+        {
+            Write-Host "Creating directory for current branch: $DocsDestDir"
+            New-Item -ItemType directory -Path $DocsDestDir
+        }
+    }
+    
+    Write-Host "Copy new generated docs from $(DocsSourceDir) to $DocsDestDir"
+    Copy-Item -Recurse -Force -Path $(DocsSourceDir)\* -Destination $DocsDestDir
+
+    Write-Host "Commit updated files"
+    git add -A
+    git commit -m "Docs for commit $(Build.SourceVersion) $(Build.SourceVersionMessage)"
+
+  displayName: 'Commit docs'
+  condition: ${{ parameters.commit }}
+
+- powershell: |
+    Write-Host "Push changes to origin"
+    git push origin ${{ parameters.DocsBranchName }}
+  displayName: 'Push docs branch'
+  workingDirectory: ${{ parameters.DocsRepoDir }}
+  condition: ${{ parameters.commit }}

@@ -59,22 +59,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetVisuals(USceneComponent* Visuals);
 
+	/** Set scene component to be used for the moving visuals */
+	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	void SetCollisionProfile(FName Profile);
+
 	/** Get the current pressed state of the button */
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	bool IsPressed() const;
-
-	/** Get the current woldspace extents of the pokable button surface */
-	UFUNCTION(BlueprintPure, Category = "Pressable Button")
-	FVector2D GetButtonExtents() const;
 
 	/** The maximum distance the button can be pushed */
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	float GetScaleAdjustedMaxPushDistance() const;
 
-
-	/** Collision profile used by the button collider */
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
-	FName CollisionProfile = TEXT("UI");
 
 	/** The maximum distance the button can be pushed */
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
@@ -163,9 +159,22 @@ private:
 	/** Generic handler for exit focus events. */
 	void OnExitFocus(UObject* Pointer);
 
+	/** The distance at which the button will fire a pressed event */
+	float GetPressedDistance() const;
+
+	/** The distance at which the button will fire a released event */
+	float GetReleasedDistance() const;
+
+	/** Use the given mesh to adjust the box component extents. */
+	void ConfigureBoxComponent(const UStaticMeshComponent* Mesh);
+
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
 	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pressable Button")
 	FComponentReference VisualsReference;
+
+	/** Collision profile used by the button collider */
+	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	FName CollisionProfile = TEXT("UI");
 
 	/** Returns the distance a given pointer is pushing the button to. */
 	float CalculatePushDistance(const UUxtNearPointerComponent* pointer) const;
@@ -194,14 +203,8 @@ private:
 	/** True if the button is currently pressed */
 	bool bIsPressed = false;
 
-	/** Position of the button while not being poked by any pointer */
+	/** Position of the button front face while not being poked by any pointer */
 	FVector RestPosition;
-
-	/** The distance at which the button will fire a pressed event */
-	float PressedDistance;
-
-	/** The distance at which the button will fire a released event */
-	float ReleasedDistance;
 
 	/** The current pushed distance of from poking pointers */
 	float CurrentPushDistance;
