@@ -103,16 +103,6 @@ void FUxtPointerFocus::UpdateFocus(UUxtNearPointerComponent* Pointer) const
 	}
 }
 
-UObject* FUxtPointerFocus::GetDefaultTarget() const
-{
-	return DefaultTargetWeak.Get();
-}
-
-void FUxtPointerFocus::SetDefaultTarget(UObject* NewDefaultTarget)
-{
-	DefaultTargetWeak = NewDefaultTarget;
-}
-
 void FUxtPointerFocus::SetFocus(
 	UUxtNearPointerComponent* Pointer,
 	const FTransform& PointerTransform,
