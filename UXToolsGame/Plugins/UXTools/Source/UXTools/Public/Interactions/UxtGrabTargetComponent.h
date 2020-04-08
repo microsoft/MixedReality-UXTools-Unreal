@@ -27,9 +27,9 @@ struct UXTOOLS_API FUxtGrabPointerData
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	UUxtFarPointerComponent* FarPointer = nullptr;
 
-	/** Last updated pointer transform. */
+	/** Last updated grab point transform. (Pointer transform in near pointer case, ray hit transform in far pointer case) */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
-	FTransform PointerTransform;
+	FTransform GrabPointTransform;
 
 	/** The time at which interaction started, in seconds since application start. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
@@ -179,6 +179,7 @@ protected:
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;
 
+	/** Compute the average transform of currently grabbing pointers */
 	FTransform GetPointersTransformCentroid() const;
 private:
 

@@ -19,12 +19,13 @@ void UxtManipulationMoveLogic::Setup(const FTransform& PointerCentroidPose, cons
 	GrabToObject = ObjectTransform.GetLocation() - GrabCentroid;
 }
 
-FVector UxtManipulationMoveLogic::Update(const FTransform& PointerCentroidPose, const FQuat& ObjectRotation, const FVector& ObjectScale, bool UsePointerRotation, const FVector& HeadPosition)
+FVector UxtManipulationMoveLogic::Update(const FTransform& PointerCentroidPose, const FQuat& ObjectRotation, const FVector& ObjectScale, bool UsePointerRotation, const FVector& HeadPosition) const
 {
 	float DistanceRatio = 1.0f;
 
 	if (PointerPosIndependenOfHead)
 	{
+		// Compute how far away the object should be based on the ratio of the current to original hand distance
 		float CurrentHandDistance = GetDistanceToBody(PointerCentroidPose.GetLocation(), HeadPosition);
 		DistanceRatio = CurrentHandDistance / PointerRefDistance;
 	}
@@ -43,8 +44,12 @@ FVector UxtManipulationMoveLogic::Update(const FTransform& PointerCentroidPose, 
 	}
 }
 
-float UxtManipulationMoveLogic::GetDistanceToBody(const FVector& PointerCentroidPosition, const FVector& HeadPosition)
+float UxtManipulationMoveLogic::GetDistanceToBody(const FVector& PointerCentroidPosition, const FVector& HeadPosition) const
 {
+	// The body is treated as a ray, parallel to the y-axis, where the start is head position.
+	// This means that moving your hand down such that is the same distance from the body will
+	// not cause the manipulated object to move further away from your hand. However, when you
+	// move your hand upward, away from your head, the manipulated object will be pushed away.
 	if (PointerCentroidPosition.Z > HeadPosition.Z)
 	{
 		return FVector::Dist(PointerCentroidPosition, HeadPosition);

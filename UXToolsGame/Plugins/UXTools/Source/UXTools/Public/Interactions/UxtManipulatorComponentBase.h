@@ -69,8 +69,8 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	mutable UxtManipulationMoveLogic MoveLogic; // util class for performing move for one and two hands;
-	UxtTwoHandManipulationRotateLogic TwoHandRotateLogic;
+	UxtManipulationMoveLogic MoveLogic; // computes move for one and two hands
+	UxtTwoHandManipulationRotateLogic TwoHandRotateLogic; // computes rotation for two hands
 private:
 
 	UFUNCTION()
