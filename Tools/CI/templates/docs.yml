@@ -93,8 +93,9 @@ steps:
     Copy-Item -Recurse -Force -Path $(DocsSourceDir)\* -Destination $DocsDestDir
 
     Write-Host "Commit updated files"
+    $CommitMessage = "$(Build.SourceVersionMessage)"
     git add -A
-    git commit -m "Docs for commit $(Build.SourceVersion) $(Build.SourceVersionMessage)"
+    git commit -m "Docs for commit $(Build.SourceVersion) ($CommitMessage)"
 
   displayName: 'Commit docs'
   condition: ${{ parameters.commit }}
