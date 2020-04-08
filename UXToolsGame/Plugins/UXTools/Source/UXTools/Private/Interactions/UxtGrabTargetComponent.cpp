@@ -47,6 +47,33 @@ FRotator UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(const FTransform 
 	return (FQuat(UUxtGrabPointerDataFunctionLibrary::GetTargetRotation(GrabData)) * FQuat(UUxtGrabPointerDataFunctionLibrary::GetGrabRotation(Transform, GrabData).GetInverse())).Rotator();
 }
 
+FTransform UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(const FUxtGrabPointerData& GrabData)
+{
+	if (GrabData.FarPointer != nullptr)
+	{
+		return FTransform(GrabData.FarPointer->GetPointerOrientation(), GrabData.FarPointer->GetPointerOrigin());
+	}
+	else if (ensure(GrabData.NearPointer != nullptr))
+	{
+		return GrabData.NearPointer->GetGrabPointerTransform();
+	}
+
+	return FTransform();
+}
+
+FVector UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(const FUxtGrabPointerData& GrabData)
+{
+	if (GrabData.FarPointer != nullptr)
+	{
+		return GrabData.FarPointer->GetPointerOrigin();
+	}
+	else if (ensure(GrabData.NearPointer != nullptr))
+	{
+		return GrabData.NearPointer->GetGrabPointerTransform().GetLocation();
+	}
+
+	return FVector::ZeroVector;
+}
 
 UUxtGrabTargetComponent::UUxtGrabTargetComponent()
 {
@@ -67,6 +94,24 @@ FVector UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform &Transfor
 	}
 	centroid /= FMath::Max(GrabPointers.Num(), 1);
 	return centroid;
+}
+
+FTransform UUxtGrabTargetComponent::GetPointersTransformCentroid() const
+{
+	if (GrabPointers.Num() > 0)
+	{
+		FTransform blendedTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[0]);
+		for (int i = 1; i < GrabPointers.Num(); ++i)
+		{
+			FTransform pointerTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[i]);
+			blendedTransform.BlendWith(pointerTransform, 1 / (i + 1));
+		}
+
+		blendedTransform.NormalizeRotation();
+		return blendedTransform;
+	}
+
+	return FTransform::Identity;
 }
 
 FVector UUxtGrabTargetComponent::GetTargetCentroid() const

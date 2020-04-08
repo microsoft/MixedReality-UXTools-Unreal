@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Interactions/UxtGrabTargetComponent.h"
+#include "Manipulation/UxtManipulationMoveLogic.h"
+#include "Manipulation/UxtTwoHandRotateLogic.h"
 #include "UxtManipulatorComponentBase.generated.h"
 
 /**
@@ -25,7 +27,7 @@ public:
 	 * If more than one pointer is used then the centroid of the grab points and targets is used.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
-	void MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform) const;
+	void MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const;
 
 	/**
 	 * Rotates the source transform around the pivot point such that the pointers line up with current targets.
@@ -67,10 +69,12 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	mutable UxtManipulationMoveLogic MoveLogic; // util class for performing move for one and two hands;
+	UxtTwoHandManipulationRotateLogic TwoHandRotateLogic;
 private:
 
 	UFUNCTION()
-	void InitTransformOnFirstPointer(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	void OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
 
 public:
 
@@ -83,5 +87,6 @@ public:
 	/** If true the initial transform will be set automatically when the component is grabbed. */
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Manipulator Component")
 	bool bAutoSetInitialTransform = true;
+
 
 };
