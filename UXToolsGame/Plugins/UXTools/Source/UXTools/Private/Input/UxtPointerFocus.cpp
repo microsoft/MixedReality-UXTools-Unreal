@@ -103,16 +103,6 @@ void FUxtPointerFocus::UpdateFocus(UUxtNearPointerComponent* Pointer) const
 	}
 }
 
-UObject* FUxtPointerFocus::GetDefaultTarget() const
-{
-	return DefaultTargetWeak.Get();
-}
-
-void FUxtPointerFocus::SetDefaultTarget(UObject* NewDefaultTarget)
-{
-	DefaultTargetWeak = NewDefaultTarget;
-}
-
 void FUxtPointerFocus::SetFocus(
 	UUxtNearPointerComponent* Pointer,
 	const FTransform& PointerTransform,
@@ -170,18 +160,25 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 
 	for (const FOverlapResult& Overlap : Overlaps)
 	{
-		if (UActorComponent* Target = FindInterfaceComponent(Overlap.GetActor()))
+		Primitive = Overlap.GetComponent();
+
+		for (UActorComponent* Component : Overlap.GetActor()->GetComponents())
 		{
-			FVector PointOnTarget;
-			if (GetClosestPointOnTarget(Target, Overlap.GetComponent(), Point, PointOnTarget))
+			if (ImplementsTargetInterface(Component))
 			{
-				float DistanceSqr = (Point - PointOnTarget).SizeSquared();
-				if (DistanceSqr < MinDistanceSqr)
+				FVector PointOnTarget;
+				if (GetClosestPointOnTarget(Component, Primitive, Point, PointOnTarget))
 				{
-					MinDistanceSqr = DistanceSqr;
-					ClosestTarget = Target;
-					Primitive = Overlap.GetComponent();
-					ClosestPointOnTarget = PointOnTarget;
+					float DistanceSqr = (Point - PointOnTarget).SizeSquared();
+					if (DistanceSqr < MinDistanceSqr)
+					{
+						MinDistanceSqr = DistanceSqr;
+						ClosestTarget = Component;
+						ClosestPointOnTarget = PointOnTarget;
+					}
+
+					// We keep the first target component that takes ownership of the primitive.
+					break;
 				}
 			}
 		}
@@ -282,7 +279,9 @@ bool FUxtGrabPointerFocus::ImplementsTargetInterface(UObject* Target) const
 bool FUxtGrabPointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
 {
 	float NotUsed;
-	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
+	return 
+		IUxtGrabTarget::Execute_IsGrabFocusable((UObject*)Target, Primitive) &&
+		FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
 void FUxtGrabPointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const
@@ -314,7 +313,9 @@ bool FUxtPokePointerFocus::ImplementsTargetInterface(UObject* Target) const
 bool FUxtPokePointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
 {
 	float NotUsed;
-	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
+	return 
+		IUxtPokeTarget::Execute_IsPokeFocusable((UObject*)Target, Primitive) && 
+		FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
 void FUxtPokePointerFocus::RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const

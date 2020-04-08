@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Controls/UxtBoundingBoxManipulatorComponent.h"
 #include "Components/PrimitiveComponent.h"
@@ -405,3 +406,4 @@ bool UUxtBoundingBoxManipulatorComponent::GetRelativeBoxTransform(const FBox &Bo
 	OutTransform = FTransform(FRotator::ZeroRotator, Box.GetCenter() - RelativeTo.GetCenter() * scale, scale);
 	return valid;
 }
+

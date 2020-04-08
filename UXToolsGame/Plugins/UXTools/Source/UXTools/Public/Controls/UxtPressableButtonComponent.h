@@ -134,6 +134,7 @@ protected:
 	//
 	// IUxtPokeTarget interface
 
+	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
@@ -145,6 +146,7 @@ protected:
 	//
 	// IUxtFarTarget interface
 
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;

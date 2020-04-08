@@ -65,18 +65,6 @@ public:
 	/** Find a component of the actor that implements the required interface. */
 	UActorComponent* FindInterfaceComponent(AActor* Owner) const;
 
-	/**
-	 * Get the default target object.
-	 * This object receives events when no other target is focused.
-	 */
-	UObject* GetDefaultTarget() const;
-
-	/**
-	 * Set the default target object.
-	 * This object receives events when no other target is focused.
-	 */
-	void SetDefaultTarget(UObject* NewDefaultTarget);
-
 protected:
 
 	/** Set the focus to the given target object, primitive, and point on the target. */
@@ -113,12 +101,6 @@ private:
 
 	/** Weak reference to the currently focused target. */
 	TWeakObjectPtr<UObject> FocusedTargetWeak;
-
-	/**
-	 * Optional weak reference to a default target object
-	 * that receives events if no other target is focused.
-	 */
-	TWeakObjectPtr<UObject> DefaultTargetWeak;
 
 	/** Weak reference to the focused grab target primitive. */
 	TWeakObjectPtr<UPrimitiveComponent> FocusedPrimitiveWeak;

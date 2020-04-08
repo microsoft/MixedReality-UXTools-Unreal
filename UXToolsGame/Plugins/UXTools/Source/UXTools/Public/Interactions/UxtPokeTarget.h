@@ -7,6 +7,7 @@
 #include "UObject/Interface.h"
 #include "UxtPokeTarget.generated.h"
 
+class UPrimitiveComponent;
 class UUxtNearPointerComponent;
 
 UENUM(BlueprintType)
@@ -30,6 +31,10 @@ class UXTOOLS_API IUxtPokeTarget
 	GENERATED_BODY()
 
 public:
+
+	/** Returns true if the given primitive should be considerered a valid focus target. */
+	UFUNCTION(BlueprintNativeEvent)
+	bool IsPokeFocusable(const UPrimitiveComponent* Primitive);
 
 	/** Raised when a pointer focuses the actor. */
 	UFUNCTION(BlueprintNativeEvent)

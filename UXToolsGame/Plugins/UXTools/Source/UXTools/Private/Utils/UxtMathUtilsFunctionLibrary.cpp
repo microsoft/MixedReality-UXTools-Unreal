@@ -1,5 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 
@@ -24,3 +24,4 @@ FTransform UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(const FTransform 
 	result.SetLocation(result.GetLocation() + Pivot);
 	return result;
 }
+

@@ -59,7 +59,7 @@ static UObject* FindFarTarget(UPrimitiveComponent* Primitive)
 	{
 		for (UActorComponent* Component : Primitive->GetOwner()->GetComponents())
 		{
-			if (Component->Implements<UUxtFarTarget>())
+			if (Component->Implements<UUxtFarTarget>() && IUxtFarTarget::Execute_IsFarFocusable(Component, Primitive))
 			{
 				return Component;
 			}

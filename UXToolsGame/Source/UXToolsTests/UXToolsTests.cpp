@@ -1,4 +1,5 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "UXToolsTests.h"
 

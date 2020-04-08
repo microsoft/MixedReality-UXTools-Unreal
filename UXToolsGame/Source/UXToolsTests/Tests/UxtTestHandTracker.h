@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #pragma once
 
 #include "HandTracking/IUxtHandTracker.h"
-
 
 /** WMR implementation of the hand tracker interface */
 class FUxtTestHandTracker : public IUxtHandTracker
@@ -33,3 +35,4 @@ public:
 	/** Enable select state. */
 	bool bIsSelectPressed = false;
 };
+

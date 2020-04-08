@@ -22,6 +22,10 @@ class UXTOOLS_API IUxtGrabTarget
 
 public:
 
+	/** Returns true if the given primitive should be considerered a valid focus target. */
+	UFUNCTION(BlueprintNativeEvent)
+	bool IsGrabFocusable(const UPrimitiveComponent* Primitive);
+
 	/** Raised when a pointer focuses the actor. */
 	UFUNCTION(BlueprintNativeEvent)
 	void OnEnterGrabFocus(UUxtNearPointerComponent* Pointer);

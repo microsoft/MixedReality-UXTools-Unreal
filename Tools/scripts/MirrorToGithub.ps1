@@ -1,4 +1,5 @@
-#!/bin/bash
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 
 # Array of release branches to sync. We assume the branch name is "release/$name"
 # Comma separates each element

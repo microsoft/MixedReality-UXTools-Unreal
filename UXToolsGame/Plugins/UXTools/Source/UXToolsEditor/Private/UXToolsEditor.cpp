@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "UXToolsEditor.h"
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UnrealEdGlobals.h"

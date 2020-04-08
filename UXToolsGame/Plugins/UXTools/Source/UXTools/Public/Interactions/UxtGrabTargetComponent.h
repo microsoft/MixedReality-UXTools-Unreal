@@ -160,13 +160,14 @@ protected:
 
 	//
 	// IUxtGrabTarget interface
-
+	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 	//
 	// IUxtFarTarget interface
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;

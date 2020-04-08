@@ -1,5 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Utils/UxtFunctionLibrary.h"
 #include "AudioDevice.h"

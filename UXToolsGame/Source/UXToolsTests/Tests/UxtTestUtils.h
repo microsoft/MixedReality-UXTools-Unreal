@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -53,3 +56,4 @@ public:
 
 /** Latent command to ensure the hand tracker is restored after a test is completed */
 DEFINE_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand);
+

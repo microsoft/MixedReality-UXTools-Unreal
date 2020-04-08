@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "UxtTestUtils.h"
 
 #include "Components/StaticMeshComponent.h"
