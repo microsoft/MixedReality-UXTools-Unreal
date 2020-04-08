@@ -112,12 +112,6 @@ protected:
 
 	/** Focus of the poke pointer */
 	FUxtPokePointerFocus* PokeFocus;
-    
-    /** Weak reference to the currently poked target. */
-	TWeakObjectPtr<UActorComponent> PokeTargetWeak;
-
-	/** Weak reference to the currently poked target primitive. */
-	TWeakObjectPtr<UPrimitiveComponent> PokePrimitiveWeak;
 
 private:
 

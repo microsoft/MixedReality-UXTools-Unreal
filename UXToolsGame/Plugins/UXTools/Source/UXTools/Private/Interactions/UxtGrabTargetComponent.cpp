@@ -169,6 +169,12 @@ void UUxtGrabTargetComponent::BeginPlay()
 	UpdateComponentTickEnabled();
 }
 
+bool UUxtGrabTargetComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive)
+{
+	// We treat all primitives in the actor as grabbable by default.
+	return true;
+}
+
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	FUxtGrabPointerData GrabData;
@@ -218,6 +224,12 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 		});
 
 	UpdateComponentTickEnabled();
+}
+
+bool UUxtGrabTargetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+{
+	// We treat all primitives in the actor as far targets by default.
+	return true;
 }
 
 void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)

@@ -151,12 +151,12 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	// Update poke
 	{
 		FVector PokePointerLocation = GetPokePointerTransform().GetLocation();
+		UActorComponent* Target = Cast<UActorComponent>(PokeFocus->GetFocusedTarget());
+		UPrimitiveComponent* Primitive = PokeFocus->GetFocusedPrimitive();
+
 
 		if (bIsPoking)
 		{
-			auto Target = PokeTargetWeak.Get();
-			auto Primitive = PokePrimitiveWeak.Get();
-			
 			if (Primitive && Target)
 			{
 				bool endedPoking = false;
@@ -174,9 +174,6 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 				if (endedPoking)
 				{
 					bIsPoking = false;
-					PokeTargetWeak = nullptr;
-					PokePrimitiveWeak = nullptr;
-
 					IUxtPokeTarget::Execute_OnEndPoke(Target, this);
 				}
 				else
@@ -188,49 +185,40 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			{
 				bIsPoking = false;
 				bFocusLocked = false;
-
-				PokeTargetWeak = nullptr;
-				PokePrimitiveWeak = nullptr;
 			}
 		}
-		else
+		else if (Target)
 		{
 			FVector Start = PreviousPokePointerLocation;
 			FVector End = PokePointerLocation;
 
 			bool isBehind = bWasBehindFrontFace;
-			if (auto FocusTarget = PokeFocus->GetFocusedPrimitive())
+			if (Primitive)
 			{
-				isBehind = IsBehindFrontFace(FocusTarget, End, GetPokePointerRadius());
+				isBehind = IsBehindFrontFace(Primitive, End, GetPokePointerRadius());
 			}
 
 			FHitResult HitResult;
 			GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetPokePointerRadius()));
 
-			if (HitResult.GetActor())
+			if (HitResult.GetComponent() == Primitive)
 			{
-				if (auto HitTarget = PokeFocus->FindInterfaceComponent(HitResult.GetActor()))
+				bool startedPoking = false;
+
+				switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 				{
-					bool startedPoking = false;
+				case EUxtPokeBehaviour::FrontFace:
+					startedPoking = !bWasBehindFrontFace && isBehind;
+					break;
+				case EUxtPokeBehaviour::Volume:
+					startedPoking = true;
+					break;
+				}
 
-					switch (IUxtPokeTarget::Execute_GetPokeBehaviour(HitTarget))
-					{
-					case EUxtPokeBehaviour::FrontFace:
-						startedPoking = !bWasBehindFrontFace && isBehind;
-						break;
-					case EUxtPokeBehaviour::Volume:
-						startedPoking = true;
-						break;
-					}
-
-					if (startedPoking)
-					{
-						bIsPoking = true;
-						PokeTargetWeak = HitTarget;
-						PokePrimitiveWeak = HitResult.GetComponent();
-
-						IUxtPokeTarget::Execute_OnBeginPoke(HitTarget, this);
-					}
+				if (startedPoking)
+				{
+					bIsPoking = true;
+					IUxtPokeTarget::Execute_OnBeginPoke(Target, this);
 				}
 			}
 

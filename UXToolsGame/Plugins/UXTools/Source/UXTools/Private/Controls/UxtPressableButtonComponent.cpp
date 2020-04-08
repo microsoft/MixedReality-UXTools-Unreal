@@ -204,6 +204,11 @@ void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
+bool UUxtPressableButtonComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
+{
+	return Primitive == BoxComponent;
+}
+
 void UUxtPressableButtonComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnEnterFocus(Pointer);
@@ -271,6 +276,11 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
 	return RestPosition + (GetComponentTransform().GetUnitAxis(EAxis::X) * CurrentPushDistance);
+}
+
+bool UUxtPressableButtonComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+{
+	return Primitive == BoxComponent;
 }
 
 void UUxtPressableButtonComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
