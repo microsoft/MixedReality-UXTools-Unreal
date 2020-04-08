@@ -140,33 +140,7 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 bool UUxtGenericManipulatorComponent::GetTwoHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
 {
 	OutTargetTransform = InSourceTransform;
-//	OutTargetTransform.SetRotation(GetComponentRotation().Quaternion());
-	OutTargetTransform.SetRotation(TwoHandRotateLogic.Update(GetGrabPointers(), GetComponentRotation().Quaternion()));
-	
-	
-	//bool bHasPrimaryPointer, bHasSecondaryPointer;
-	//FUxtGrabPointerData PrimaryPointerData, SecondaryPointerData;
-	//GetPrimaryGrabPointer(bHasPrimaryPointer, PrimaryPointerData);
-	//GetSecondaryGrabPointer(bHasSecondaryPointer, SecondaryPointerData);
-
-	//if (!bHasPrimaryPointer || !bHasSecondaryPointer)
-	//{
-	//	return false;
-	//}
-
-	//FVector PrimarySourceLoc = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, PrimaryPointerData);
-	//FVector SecondarySourceLoc = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, SecondaryPointerData);
-	//FVector PrimaryTargetLoc = UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(PrimaryPointerData);
-	//FVector SecondaryTargetLoc = UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(SecondaryPointerData);
-
-	//// Compute minimal rotation to align the line between hands from the source to the target points.
-	//FVector SourceDelta = SecondarySourceLoc - PrimarySourceLoc;
-	//FVector TargetDelta = SecondaryTargetLoc - PrimaryTargetLoc;
-	//FRotator DeltaRot = FQuat::FindBetween(SourceDelta, TargetDelta).Rotator();
-
-	//// Rotate transform with target centroid as the pivot point.
-	//FVector Centroid = 0.5 * (PrimaryTargetLoc + SecondaryTargetLoc);
-	//OutTargetTransform = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, Centroid);
+	OutTargetTransform.SetRotation(TwoHandRotateLogic.Update(GetGrabPointers()));
 	return true;
 }
 

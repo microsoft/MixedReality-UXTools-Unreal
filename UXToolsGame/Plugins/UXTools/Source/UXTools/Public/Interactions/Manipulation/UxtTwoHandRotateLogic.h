@@ -4,9 +4,8 @@
 #pragma once
 #include "CoreMinimal.h"
 #include <vector>
-#include "../UxtGrabTargetComponent.h"
+#include "Interactions/UxtGrabTargetComponent.h"
 
-//struct FUxtGrabPointerData;
 
 class UxtTwoHandManipulationRotateLogic
 {
@@ -14,7 +13,7 @@ public:
 	typedef const TArray<FUxtGrabPointerData>& GrabPointers;
 	void Setup(GrabPointers PointerData, const FQuat& HostRotation);
 
-	FQuat Update(GrabPointers PointerData, const FQuat& CurrentRotation) const;
+	FQuat Update(GrabPointers PointerData) const;
 
 private:
 

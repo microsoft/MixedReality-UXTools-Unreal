@@ -7,18 +7,12 @@ void UxtTwoHandManipulationRotateLogic::Setup(GrabPointers PointerData, const FQ
 	StartRotation = HostRotation;
 }
 
-FQuat UxtTwoHandManipulationRotateLogic::Update(GrabPointers PointerData, const FQuat& CurrentRotation) const
+FQuat UxtTwoHandManipulationRotateLogic::Update(GrabPointers PointerData) const
 {
-	FQuat Rot = FQuat::FindBetweenVectors(StartHandleBar, GetHandleBarDirection(PointerData));
-
-	//FVector axis = FVector::CrossProduct(StartHandleBar, GetHandleBarDirection(PointerData));
-	//float angle = FVector::Angle(StartHandleBar, GetHandleBarDirection(PointerData));
-	//return FQuat::AngleAxis(angle, axis.normalized);
-
-	//Rot.Normalize();
-	Rot = Rot * StartRotation;
+	FVector UpdatedHandleBar = GetHandleBarDirection(PointerData);
+	FQuat Rot = FQuat::FindBetween(StartHandleBar, UpdatedHandleBar);
 	Rot.Normalize();
-	return Rot;
+	return Rot * StartRotation;
 }
 
 FVector UxtTwoHandManipulationRotateLogic::GetHandleBarDirection(GrabPointers PointerData)
