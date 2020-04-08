@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "AssetRegistryModule.h"
 #include "CoreMinimal.h"
 #include "Engine.h"
@@ -52,3 +55,4 @@ bool FLoadAllMapsTest::RunTest(const FString& Parameters)
 
 	return true;
 }
+

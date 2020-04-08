@@ -1,5 +1,7 @@
-#include "UxtTestHandTracker.h"
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
+#include "UxtTestHandTracker.h"
 
 bool FUxtTestHandTracker::GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "CoreMinimal.h"
 #include "Engine.h"
 #include "EngineUtils.h"
@@ -402,3 +405,4 @@ bool FFollowComponentTest::RunTest(const FString& Parameters)
 
 	return true;
 }
+

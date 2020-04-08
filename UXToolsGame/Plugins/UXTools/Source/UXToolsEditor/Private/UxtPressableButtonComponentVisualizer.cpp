@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UXToolsEditor.h"
 #include <SceneManagement.h>

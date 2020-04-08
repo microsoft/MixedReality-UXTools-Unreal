@@ -1,3 +1,5 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 
 $disallowed=(git show origin/private:disallowed.txt)
 if(!$disallowed) {

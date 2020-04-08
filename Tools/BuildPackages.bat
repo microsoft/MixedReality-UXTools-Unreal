@@ -1,4 +1,6 @@
 @ECHO OFF
+rem Copyright (c) Microsoft Corporation.
+rem Licensed under the MIT License.
 
 rem Machine-dependent paths
 set UePath=F:\2020-01-13_InstalledEngine_87e56d188

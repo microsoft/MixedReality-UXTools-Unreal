@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 using UnrealBuildTool;
 using System.Collections.Generic;
@@ -13,3 +14,4 @@ public class UXToolsGameEditorTarget : TargetRules
         ExtraModuleNames.AddRange(new string[] { "UXToolsGame", "UXToolsTests" } );
 	}
 }
+

@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #include "Controls/UxtBoundingBoxManipulatorPresets.h"
 #include "Controls/UxtBoundingBoxManipulatorComponent.h"
@@ -402,3 +403,4 @@ const TArray<FUxtBoundingBoxAffordanceInfo> &FUxtBoundingBoxPresetUtils::GetPres
 	}
 	return Preset_Empty;
 }
+

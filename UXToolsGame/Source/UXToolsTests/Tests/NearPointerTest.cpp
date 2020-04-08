@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Misc/AutomationTest.h"
@@ -162,3 +165,4 @@ bool FNearPointerTest::RunTest(const FString& Parameters)
 
 	return true;
 }
+

@@ -1,4 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 #pragma once
 
@@ -36,3 +37,4 @@ public:
 	static FTransform RotateAboutPivotPoint(const FTransform &Transform, const FRotator &Rotation, const FVector &Pivot);
 
 };
+

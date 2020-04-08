@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #pragma once
 
 #include "HandTracking/IUxtHandTracker.h"
@@ -16,3 +19,4 @@ public:
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const;
 	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const;
 };
+

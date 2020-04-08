@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "GrabComponentTickTest.h"
 
 #include "CoreMinimal.h"
@@ -164,3 +167,4 @@ bool FGrabComponentTickTest::RunTest(const FString& Parameters)
 
 	return true;
 }
+
