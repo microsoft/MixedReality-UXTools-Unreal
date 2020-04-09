@@ -58,7 +58,7 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(const FUxtGra
 		return GrabData.NearPointer->GetGrabPointerTransform();
 	}
 
-	return FTransform();
+	return FTransform::Identity;
 }
 
 FVector UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(const FUxtGrabPointerData& GrabData)
@@ -100,14 +100,14 @@ FTransform UUxtGrabTargetComponent::GetPointersTransformCentroid() const
 {
 	if (GrabPointers.Num() > 0)
 	{
-		FTransform blendedTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[0]);
+		FTransform BlendedTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[0]);
 		for (int i = 1; i < GrabPointers.Num(); ++i)
 		{
-			FTransform pointerTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[i]);
-			blendedTransform.BlendWith(pointerTransform, 1 / (i + 1));
+			FTransform PointerTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[i]);
+			BlendedTransform.BlendWith(PointerTransform, 1 / (i + 1));
 		}
 
-		return blendedTransform;
+		return BlendedTransform;
 	}
 
 	return FTransform::Identity;

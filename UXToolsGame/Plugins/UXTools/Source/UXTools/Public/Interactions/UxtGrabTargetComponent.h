@@ -92,7 +92,7 @@ public:
 
 	/** Returns the world space pointer transform (at pointer origin). */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
-    static FTransform GetPointerTransform(const FUxtGrabPointerData& GrabData);
+	static FTransform GetPointerTransform(const FUxtGrabPointerData& GrabData);
 
 	/** Returns the world space pointer location */
 	UFUNCTION(BluePrintPure, Category = "GrabPointer")
@@ -190,7 +190,6 @@ private:
 	void ResetLocalGrabPoint(FUxtGrabPointerData &PointerData);
 
 	void UpdateComponentTickEnabled();
-
 
 public:
 

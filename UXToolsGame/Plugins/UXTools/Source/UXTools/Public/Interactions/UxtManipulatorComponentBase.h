@@ -88,5 +88,4 @@ public:
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Manipulator Component")
 	bool bAutoSetInitialTransform = true;
 
-
 };
