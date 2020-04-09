@@ -27,8 +27,6 @@ public:
 
 private:
 
-	static FVector GetHandleBarDirection(GrabPointers PointerData);
-
 	FVector StartHandleBar;
 	FQuat StartRotation;
 };

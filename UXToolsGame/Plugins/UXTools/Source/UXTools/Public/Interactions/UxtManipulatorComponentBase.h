@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Interactions/UxtGrabTargetComponent.h"
-#include "Manipulation/UxtManipulationMoveLogic.h"
-#include "Manipulation/UxtTwoHandRotateLogic.h"
 #include "UxtManipulatorComponentBase.generated.h"
+
+class UxtManipulationMoveLogic;
+class UxtTwoHandManipulationRotateLogic;
 
 /**
  * Base class for manipulation components that react to pointer interactions.
@@ -21,6 +22,9 @@ class UXTOOLS_API UUxtManipulatorComponentBase : public UUxtGrabTargetComponent
 	GENERATED_BODY()
 
 public:
+
+	UUxtManipulatorComponentBase();
+	~UUxtManipulatorComponentBase();
 
 	/**
 	 * Translate the source transform such that grab points match targets.
@@ -69,8 +73,8 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	UxtManipulationMoveLogic MoveLogic; // computes move for one and two hands
-	UxtTwoHandManipulationRotateLogic TwoHandRotateLogic; // computes rotation for two hands
+	UxtManipulationMoveLogic* MoveLogic; // computes move for one and two hands
+	UxtTwoHandManipulationRotateLogic* TwoHandRotateLogic; // computes rotation for two hands
 private:
 
 	UFUNCTION()

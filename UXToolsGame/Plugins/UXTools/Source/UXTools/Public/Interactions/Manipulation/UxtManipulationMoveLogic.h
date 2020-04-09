@@ -23,9 +23,6 @@ public:
 	FVector Update(const FTransform& PointerCentroidPose, const FQuat& ObjectRotation, const FVector& ObjectScale, bool UsePointerRotation, const FVector& HeadPosition) const;
 
 private:
-
-	float GetDistanceToBody(const FVector& PointerCentroidPosition, const FVector& HeadPosition) const;
-
 	float PointerRefDistance;
 	bool PointerPosIndependenOfHead = true;
 	FVector PointerLocalGrabPoint;

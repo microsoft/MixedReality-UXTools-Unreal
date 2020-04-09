@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "Interactions/UxtGenericManipulatorComponent.h"
+#include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 #include "Utils/UxtFunctionLibrary.h"
 
@@ -140,7 +141,7 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 bool UUxtGenericManipulatorComponent::GetTwoHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
 {
 	OutTargetTransform = InSourceTransform;
-	OutTargetTransform.SetRotation(TwoHandRotateLogic.Update(GetGrabPointers()));
+	OutTargetTransform.SetRotation(TwoHandRotateLogic->Update(GetGrabPointers()));
 	return true;
 }
 

@@ -3,11 +3,25 @@
 #include "Interactions/UxtManipulatorComponentBase.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "Interactions/UxtGrabTargetComponent.h"
+#include "Interactions/Manipulation/UxtManipulationMoveLogic.h"
+#include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
 #include "Engine/World.h"
+
+UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
+{
+	MoveLogic = new UxtManipulationMoveLogic();
+	TwoHandRotateLogic = new UxtTwoHandManipulationRotateLogic();
+}
+
+UUxtManipulatorComponentBase::~UUxtManipulatorComponentBase()
+{
+	delete MoveLogic;
+	delete TwoHandRotateLogic;
+}
 
 void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const
 {
-	FVector NewObjectLocation = MoveLogic.Update(GetPointersTransformCentroid(),
+	FVector NewObjectLocation = MoveLogic->Update(GetPointersTransformCentroid(),
 		SourceTransform.Rotator().Quaternion(),
 		SourceTransform.GetScale3D(),
 		UsePointerRotation,
@@ -147,14 +161,14 @@ void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent
 			SetInitialTransform();
 		}
 
-		MoveLogic.Setup(GetPointersTransformCentroid(),
+		MoveLogic->Setup(GetPointersTransformCentroid(),
 			GetGrabPointCentroid(GetComponentTransform()),
 			GetComponentTransform(),
 			UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
 
 		if (NumGrabPointers > 1)
 		{
-			TwoHandRotateLogic.Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
+			TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
 		}
 	}
 }

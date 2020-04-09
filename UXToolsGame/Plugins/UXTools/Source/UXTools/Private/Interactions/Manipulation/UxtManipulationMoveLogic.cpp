@@ -5,6 +5,28 @@
 #include "Utils/UxtFunctionLibrary.h"
 #include "CoreMinimal.h"
 
+namespace
+{
+	float GetDistanceToBody(const FVector& PointerCentroidPosition, const FVector& HeadPosition)
+	{
+		// The body is treated as a ray, parallel to the y-axis, where the start is head position.
+		// This means that moving your hand down such that is the same distance from the body will
+		// not cause the manipulated object to move further away from your hand. However, when you
+		// move your hand upward, away from your head, the manipulated object will be pushed away.
+		if (PointerCentroidPosition.Z > HeadPosition.Z)
+		{
+			return FVector::Dist(PointerCentroidPosition, HeadPosition);
+		}
+		else
+		{
+			FVector2D HeadPosXZ(HeadPosition.X, HeadPosition.Y);
+			FVector2D PointerPosXZ(PointerCentroidPosition.X, PointerCentroidPosition.Y);
+
+			return FVector2D::Distance(PointerPosXZ, HeadPosXZ);
+		}
+	}
+}
+
 void UxtManipulationMoveLogic::Setup(const FTransform& PointerCentroidPose, const FVector& GrabCentroid, const FTransform& ObjectTransform, const FVector& HeadPosition)
 {
 	PointerRefDistance = GetDistanceToBody(PointerCentroidPose.GetLocation(), HeadPosition);
@@ -43,24 +65,3 @@ FVector UxtManipulationMoveLogic::Update(const FTransform& PointerCentroidPose, 
 		return PointerCentroidPose.GetLocation() + (PointerCentroidPose.GetRotation() * PointerLocalGrabPoint + GrabToObject) * DistanceRatio;
 	}
 }
-
-float UxtManipulationMoveLogic::GetDistanceToBody(const FVector& PointerCentroidPosition, const FVector& HeadPosition) const
-{
-	// The body is treated as a ray, parallel to the y-axis, where the start is head position.
-	// This means that moving your hand down such that is the same distance from the body will
-	// not cause the manipulated object to move further away from your hand. However, when you
-	// move your hand upward, away from your head, the manipulated object will be pushed away.
-	if (PointerCentroidPosition.Z > HeadPosition.Z)
-	{
-		return FVector::Dist(PointerCentroidPosition, HeadPosition);
-	}
-	else
-	{
-		FVector2D HeadPosXZ(HeadPosition.X, HeadPosition.Y);
-		FVector2D PointerPosXZ(PointerCentroidPosition.X, PointerCentroidPosition.Y);
-
-		return FVector2D::Distance(PointerPosXZ, HeadPosXZ);
-	}
-}
-
-
