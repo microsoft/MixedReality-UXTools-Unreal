@@ -7,6 +7,7 @@
 #include "Components/SceneComponent.h"
 #include "Misc/AutomationTest.h"
 
+#include "FrameQueue.h"
 #include "Interactions/UxtGrabTarget.h"
 
 #include "PointerTestSequence.generated.h"
@@ -33,6 +34,7 @@ public:
 	virtual void OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 
+	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 
@@ -41,6 +43,9 @@ public:
 
 	int BeginGrabCount;
 	int EndGrabCount;
+
+	// If the target should enable focus lock on the pointer while grabbed.
+	bool bUseFocusLock = false;
 
 };
 
@@ -80,22 +85,24 @@ namespace UxtPointerTests
 		const TArray<UTestGrabTarget*>& GetTargets() const { return Targets; }
 		const TArray<PointerKeyframe>& GetKeyframes() const { return Keyframes; }
 
-		void CreatePointers(UWorld* world, int Count);
+		void Init(UWorld* World, int NumPointers);
 
-		void AddTarget(UWorld* world, const FVector& pos);
+		void AddTarget(UWorld* World, const FVector& Location);
 
-		void AddMovementKeyframe(const FVector& pos);
+		void AddMovementKeyframe(const FVector& PointerLocation);
 		void AddGrabKeyframe(bool bEnableGrabbing);
 
 		void ExpectFocusTargetIndex(int TargetIndex, bool bExpectEvents = true);
 		void ExpectFocusTargetNone(bool bExpectEvents = true);
+
+		void Reset();
 
 		/** Compute a keyframe sequence with event counts for each target. */
 		TArray<TargetEventCountMap> ComputeTargetEventCounts() const;
 
 		void TestKeyframe(FAutomationTestBase* Test, const TargetEventCountMap& EventCounts, int KeyframeIndex) const;
 
-		void EnqueueTestSequence(FAutomationTestBase* Test) const;
+		void EnqueueFrames(FAutomationTestBase* Test, const FDoneDelegate& Done);
 
 	private:
 
@@ -106,6 +113,7 @@ namespace UxtPointerTests
 		TArray<UUxtNearPointerComponent*> Pointers;
 		TArray<UTestGrabTarget*> Targets;
 		TArray<PointerKeyframe> Keyframes;
+		FFrameQueue FrameQueue;
 	};
 
 }

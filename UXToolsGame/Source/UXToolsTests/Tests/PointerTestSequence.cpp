@@ -31,98 +31,57 @@ void UTestGrabTarget::OnExitGrabFocus_Implementation(UUxtNearPointerComponent* P
 	++EndFocusCount;
 }
 
+bool UTestGrabTarget::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive)
+{
+	return true;
+}
+
 void UTestGrabTarget::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++BeginGrabCount;
+
+	if (bUseFocusLock)
+	{
+		Pointer->SetFocusLocked(true);
+	}
 }
 
 void UTestGrabTarget::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++EndGrabCount;
+
+	if (bUseFocusLock)
+	{
+		Pointer->SetFocusLocked(false);
+	}
 }
 
 namespace UxtPointerTests
 {
 
-	/**
-	 * Latent command that moves pointers to a specific keyframe and tests expected conditions.
-	 */
-	class FTestPointerKeyframeCommand : public IAutomationLatentCommand
+	void PointerTestSequence::Init(UWorld* World, int NumPointers)
 	{
-	public:
-		FTestPointerKeyframeCommand(
-			FAutomationTestBase* Test,
-			const PointerTestSequence& Sequence,
-			int KeyframeIndex,
-			const TargetEventCountMap& ExpectedEventCounts)
-			: Test(Test)
-			, Sequence(Sequence)
-			, KeyframeIndex(KeyframeIndex)
-			, ExpectedEventCounts(ExpectedEventCounts)
-			, UpdateCount(0)
+		FrameQueue.Init(World->GetGameInstance()->TimerManager);
+
+		Pointers.SetNum(NumPointers);
+		for (int i = 0; i < NumPointers; ++i)
 		{
-		}
-
-		virtual ~FTestPointerKeyframeCommand()
-		{}
-
-		virtual bool Update() override
-		{
-			// Two step update:
-			// 
-			// 1. First move the hand(s) to the keyframe location.
-			//    Return false, so the pointer has one frame to update overlaps and raise events.
-			// 2. Test the expected event counts on targets after the pointer update.
-
-			const PointerKeyframe& Keyframe = Sequence.GetKeyframes()[KeyframeIndex];
-			switch (UpdateCount)
-			{
-				case 0:
-					UxtTestUtils::GetTestHandTracker().TestPosition = Keyframe.Location;
-					UxtTestUtils::GetTestHandTracker().bIsGrabbing = Keyframe.bIsGrabbing;
-					// Wait for one frame to update pointer overlap.
-					break;
-
-				case 1:
-					Sequence.TestKeyframe(Test, ExpectedEventCounts, KeyframeIndex);
-					break;
-			}
-
-			++UpdateCount;
-			return (UpdateCount >= 1);
-		}
-
-	private:
-
-		FAutomationTestBase* Test;
-		const PointerTestSequence Sequence;
-		const int KeyframeIndex;
-		const TargetEventCountMap ExpectedEventCounts;
-
-		int32 UpdateCount;
-	};
-
-	void PointerTestSequence::CreatePointers(UWorld* world, int Count)
-	{
-		Pointers.SetNum(Count);
-		for (int i = 0; i < Count; ++i)
-		{
-			Pointers[i] = UxtTestUtils::CreateNearPointer(world, *FString::Printf(TEXT("TestPointer%d"), i), FVector::ZeroVector);
+			Pointers[i] = UxtTestUtils::CreateNearPointer(World, *FString::Printf(TEXT("TestPointer%d"), i), FVector::ZeroVector);
 		}
 	}
 
-	void PointerTestSequence::AddTarget(UWorld* world, const FVector& pos)
+	void PointerTestSequence::AddTarget(UWorld* World, const FVector& Location)
 	{
 		const FString& targetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 		const float targetScale = 0.3f;
-		Targets.Add(UxtTestUtils::CreateNearPointerTarget(world, pos, targetFilename, targetScale));
+		Targets.Add(UxtTestUtils::CreateNearPointerTarget(World, Location, targetFilename, targetScale));
 	}
 
 	// Enter/Exit events must be incremented separately based on expected behavior.
-	void PointerTestSequence::AddMovementKeyframe(const FVector& pos)
+	void PointerTestSequence::AddMovementKeyframe(const FVector& PointerLocation)
 	{
 		PointerKeyframe& keyframe = CreateKeyframe();
-		keyframe.Location = pos;
+		keyframe.Location = PointerLocation;
 	};
 
 	void PointerTestSequence::AddGrabKeyframe(bool bEnableGrasp)
@@ -161,6 +120,25 @@ namespace UxtPointerTests
 	void PointerTestSequence::ExpectFocusTargetNone(bool bExpectEvents)
 	{
 		ExpectFocusTargetIndex(-1, bExpectEvents);
+	}
+
+	void PointerTestSequence::Reset()
+	{
+		for (UUxtNearPointerComponent* Pointer : Pointers)
+		{
+			Pointer->GetOwner()->Destroy();
+		}
+		Pointers.Empty();
+
+		for (UTestGrabTarget* Target : Targets)
+		{
+			Target->GetOwner()->Destroy();
+		}
+		Targets.Empty();
+
+		Keyframes.Empty();
+
+		FrameQueue.Reset();
 	}
 
 	TArray<TargetEventCountMap> PointerTestSequence::ComputeTargetEventCounts() const
@@ -252,13 +230,34 @@ namespace UxtPointerTests
 		}
 	}
 
-	void PointerTestSequence::EnqueueTestSequence(FAutomationTestBase* Test) const
+	void PointerTestSequence::EnqueueFrames(FAutomationTestBase* Test, const FDoneDelegate& Done)
 	{
 		auto EventCountSequence = ComputeTargetEventCounts();
 
-		for (int iKeyframe = 0; iKeyframe < Keyframes.Num(); ++iKeyframe)
+		// Iterating over n+1 frames.
+		// Frame n+1 for checking the result of the last keyframe.
+		const int NumKeyframes = Keyframes.Num();
+		for (int iKeyframe = 0; iKeyframe <= NumKeyframes; ++iKeyframe)
 		{
-			ADD_LATENT_AUTOMATION_COMMAND(FTestPointerKeyframeCommand(Test, *this, iKeyframe, EventCountSequence[iKeyframe]));
+			FrameQueue.Enqueue([this, Test, Done, EventCountSequence, iKeyframe, NumKeyframes]
+				{
+					if (iKeyframe > 0)
+					{
+						// Test state of targets after update from the previous keyframe.
+						TestKeyframe(Test, EventCountSequence[iKeyframe - 1], iKeyframe - 1);
+					}
+
+					if (iKeyframe < NumKeyframes)
+					{
+						const PointerKeyframe& Keyframe = Keyframes[iKeyframe];
+						UxtTestUtils::GetTestHandTracker().TestPosition = Keyframe.Location;
+						UxtTestUtils::GetTestHandTracker().bIsGrabbing = Keyframe.bIsGrabbing;
+					}
+					else
+					{
+						Done.Execute();
+					}
+				});
 		}
 	}
 

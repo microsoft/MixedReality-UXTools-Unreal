@@ -7,7 +7,7 @@
 
 #include "Interactions/UxtGrabTargetComponent.h"
 
-#include "GrabComponentTickTest.generated.h"
+#include "GrabTickTestComponent.generated.h"
 
 UCLASS()
 class UXTOOLSTESTS_API UGrabTickTestComponent : public UUxtGrabTargetComponent
