@@ -29,6 +29,9 @@ steps:
   displayName: "Generate docs"
 
 - powershell: |
+    Push-Location $(SourceRepoDir)
+    $CommitMessage = (git log -1 --pretty=%s)
+
     Write-Host "Clone repo under ${{ parameters.DocsRepoDir }}"
     $protocol, $url = "${{ parameters.DestRepoUrl }}".Split("//", 2)
     $protocol = ($protocol.TrimEnd("/")) + "//"
@@ -93,7 +96,6 @@ steps:
     Copy-Item -Recurse -Force -Path $(DocsSourceDir)\* -Destination $DocsDestDir
 
     Write-Host "Commit updated files"
-    $CommitMessage = "$(Build.SourceVersionMessage)"
     git add -A
     git commit -m "Docs for commit $(Build.SourceVersion) ($CommitMessage)"
 
