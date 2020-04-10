@@ -134,6 +134,16 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	GrabPointerTransform = CalcGrabPointerTransform(Hand);
 	PokePointerTransform = CalcPokePointerTransform(Hand);
 
+	// Unlock focus if targets have been removed,
+	// e.g. if target actors are destroyed while focus locked.
+	if (bFocusLocked)
+	{
+		if (!GrabFocus->GetFocusedTarget() && !PokeFocus->GetFocusedTarget())
+		{
+			bFocusLocked = false;
+		}
+	}
+
 	// Don't update the focused target if locked
 	if (!bFocusLocked)
 	{
