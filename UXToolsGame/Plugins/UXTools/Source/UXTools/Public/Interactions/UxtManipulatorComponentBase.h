@@ -83,6 +83,9 @@ private:
 	UFUNCTION()
 	void OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
 
+	UFUNCTION()
+	void OnManipulationEnd(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
+
 public:
 
 	UPROPERTY(BlueprintReadonly, Category = "Manipulator Component")

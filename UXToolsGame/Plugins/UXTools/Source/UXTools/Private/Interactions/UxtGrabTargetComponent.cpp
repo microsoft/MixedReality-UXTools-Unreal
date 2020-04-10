@@ -223,9 +223,8 @@ void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponen
 {
 	FUxtGrabPointerData GrabData;
 	GrabData.NearPointer = Pointer;
-	GrabData.GrabPointTransform = Pointer->GetGrabPointerTransform();
 	GrabData.StartTime = GetWorld()->GetTimeSeconds();
-	GrabData.LocalGrabPoint = GrabData.GrabPointTransform * GetComponentTransform().Inverse();
+	InitGrabTransform(GrabData);
 
 	GrabPointers.Add(GrabData);
 
@@ -267,6 +266,13 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 			return false;
 		});
 
+	// make sure to update initial ptr transforms once a pointer gets removed to ensure
+	// calculations are performed on the correct starting values
+	for (FUxtGrabPointerData& GrabData : GrabPointers)
+	{
+		InitGrabTransform(GrabData);
+	}
+
 	UpdateComponentTickEnabled();
 }
 
@@ -276,20 +282,33 @@ bool UUxtGrabTargetComponent::IsFarFocusable_Implementation(const UPrimitiveComp
 	return true;
 }
 
+void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) const
+{
+	if (GrabData.NearPointer != nullptr)
+	{
+		GrabData.GrabPointTransform = GrabData.NearPointer->GetGrabPointerTransform();
+		GrabData.LocalGrabPoint = GrabData.GrabPointTransform * GetComponentTransform().Inverse();
+	}
+	else if (ensure(GrabData.FarPointer != nullptr))
+	{
+		// store initial grab point in object space
+		FTransform TransformAtRayEnd(GrabData.FarPointer->GetPointerOrientation(), GrabData.FarPointer->GetHitPoint());
+		GrabData.GrabPointTransform = TransformAtRayEnd;
+		GrabData.LocalGrabPoint = TransformAtRayEnd * GetComponentTransform().Inverse();
+
+		// store ray hit point in pointer space
+		FTransform PointerTransform(GrabData.FarPointer->GetPointerOrientation(), GrabData.FarPointer->GetPointerOrigin());
+		GrabData.FarRayHitPointInPointer = TransformAtRayEnd * PointerTransform.Inverse();
+	}
+}
+
 void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	FUxtGrabPointerData PointerData;
 	PointerData.FarPointer = Pointer;
 	PointerData.StartTime = GetWorld()->GetTimeSeconds();
 
-	// store initial grab point in object space
-	FTransform TransformAtRayEnd(Pointer->GetPointerOrientation(), Pointer->GetHitPoint());
-	PointerData.GrabPointTransform = TransformAtRayEnd;
-	PointerData.LocalGrabPoint = TransformAtRayEnd * GetComponentTransform().Inverse();
-
-	// store ray hit point in pointer space
-	FTransform PointerTransform(Pointer->GetPointerOrientation(), Pointer->GetPointerOrigin());
-	PointerData.FarRayHitPointInPointer = TransformAtRayEnd * PointerTransform.Inverse();
+	InitGrabTransform(PointerData);
 	GrabPointers.Add(PointerData);
 
 	// Lock the grabbing pointer so we remain the hovered target as it moves.
@@ -310,6 +329,13 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 			}
 			return false;
 		});
+
+	// make sure to update initial ptr transforms once a pointer gets removed to ensure
+	// calculations are performed on the correct starting values
+	for (FUxtGrabPointerData& GrabData : GrabPointers)
+	{
+		InitGrabTransform(GrabData);
+	}
 
 	UpdateComponentTickEnabled();
 }
