@@ -29,7 +29,7 @@ steps:
   displayName: "Generate docs"
 
 - powershell: |
-    Push-Location $(SourceRepoDir)
+    Push-Location $(Build.Repository.LocalPath)
     $CommitMessage = (git log -1 --pretty=%s)
 
     Write-Host "Clone repo under ${{ parameters.DocsRepoDir }}"
