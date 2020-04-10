@@ -4,21 +4,21 @@ namespace
 {
 	float GetMinDistanceBetweenHands(UxtTwoHandManipulationScaleLogic::GrabPointers PointerData)
 	{
-		float result = TNumericLimits<float>::Max();
+		float Result = TNumericLimits<float>::Max();
 		for (int i = 0; i < PointerData.Num(); i++)
 		{
 			for (int j = i + 1; j < PointerData.Num(); j++)
 			{
-				FVector handLocationFirst = UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[i]);
-				FVector handLocationSecond = UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[j]);
-				float distance = FVector::Dist(handLocationFirst, handLocationSecond);
-				if (distance < result)
+				FVector HandLocationFirst = UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[i]);
+				FVector HandLocationSecond = UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[j]);
+				float Distance = FVector::Dist(HandLocationFirst, HandLocationSecond);
+				if (Distance < Result)
 				{
-					result = distance;
+					Result = Distance;
 				}
 			}
 		}
-		return result;
+		return Result;
 	}
 }
 
