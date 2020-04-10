@@ -9,6 +9,7 @@
 
 class UxtManipulationMoveLogic;
 class UxtTwoHandManipulationRotateLogic;
+class UxtTwoHandManipulationScaleLogic;
 
 /**
  * Base class for manipulation components that react to pointer interactions.
@@ -76,6 +77,7 @@ protected:
 
 	UxtManipulationMoveLogic* MoveLogic; // computes move for one and two hands
 	UxtTwoHandManipulationRotateLogic* TwoHandRotateLogic; // computes rotation for two hands
+	UxtTwoHandManipulationScaleLogic* TwoHandScaleLogic; // computes scale for two hands
 private:
 
 	UFUNCTION()

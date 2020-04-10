@@ -6,18 +6,21 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Interactions/Manipulation/UxtManipulationMoveLogic.h"
 #include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
+#include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
 #include "Engine/World.h"
 
 UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
 {
 	MoveLogic = new UxtManipulationMoveLogic();
 	TwoHandRotateLogic = new UxtTwoHandManipulationRotateLogic();
+	TwoHandScaleLogic = new UxtTwoHandManipulationScaleLogic();
 }
 
 UUxtManipulatorComponentBase::~UUxtManipulatorComponentBase()
 {
-	delete MoveLogic;
+	delete TwoHandScaleLogic;
 	delete TwoHandRotateLogic;
+	delete MoveLogic;
 }
 
 void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const
@@ -170,6 +173,7 @@ void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent
 		if (NumGrabPointers > 1)
 		{
 			TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
+			TwoHandScaleLogic->Setup(GetGrabPointers(), GetComponentScale());
 		}
 	}
 }
