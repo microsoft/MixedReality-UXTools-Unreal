@@ -4,13 +4,30 @@
 #include "Interactions/UxtManipulatorComponentBase.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "Interactions/UxtGrabTargetComponent.h"
+#include "Interactions/Manipulation/UxtManipulationMoveLogic.h"
+#include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
 #include "Engine/World.h"
 
-void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform) const
+UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
 {
-	FVector centerGrab = GetGrabPointCentroid(SourceTransform);
-	FVector centerTarget = GetTargetCentroid();
-	TargetTransform = SourceTransform * FTransform(centerTarget - centerGrab);
+	MoveLogic = new UxtManipulationMoveLogic();
+	TwoHandRotateLogic = new UxtTwoHandManipulationRotateLogic();
+}
+
+UUxtManipulatorComponentBase::~UUxtManipulatorComponentBase()
+{
+	delete MoveLogic;
+	delete TwoHandRotateLogic;
+}
+
+void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const
+{
+	FVector NewObjectLocation = MoveLogic->Update(GetPointersTransformCentroid(),
+		SourceTransform.Rotator().Quaternion(),
+		SourceTransform.GetScale3D(),
+		UsePointerRotation,
+		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
+	TargetTransform = FTransform(SourceTransform.GetRotation(), NewObjectLocation, SourceTransform.GetScale3D());
 }
 
 void UUxtManipulatorComponentBase::RotateAroundPivot(const FTransform &SourceTransform, const FVector &Pivot, FTransform &TargetTransform) const
@@ -131,15 +148,29 @@ void UUxtManipulatorComponentBase::BeginPlay()
 
 	if (bAutoSetInitialTransform)
 	{
-		OnBeginGrab.AddDynamic(this, &UUxtManipulatorComponentBase::InitTransformOnFirstPointer);
+		OnBeginGrab.AddDynamic(this, &UUxtManipulatorComponentBase::OnManipulationStarted);
 	}
 }
 
-void UUxtManipulatorComponentBase::InitTransformOnFirstPointer(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
+void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
 {
-	if (GetGrabPointers().Num() == 1)
+	int NumGrabPointers = GetGrabPointers().Num();
+	if (NumGrabPointers != 0)
 	{
-		SetInitialTransform();
+		if (NumGrabPointers == 1)
+		{
+			SetInitialTransform();
+		}
+
+		MoveLogic->Setup(GetPointersTransformCentroid(),
+			GetGrabPointCentroid(GetComponentTransform()),
+			GetComponentTransform(),
+			UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
+
+		if (NumGrabPointers > 1)
+		{
+			TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
+		}
 	}
 }
 

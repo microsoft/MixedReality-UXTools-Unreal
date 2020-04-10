@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "Interactions/UxtGenericManipulatorComponent.h"
+#include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 #include "Utils/UxtFunctionLibrary.h"
 
@@ -58,43 +59,40 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 	FUxtGrabPointerData PrimaryPointerData;
 	GetPrimaryGrabPointer(bHasPrimaryPointer, PrimaryPointerData);
 	
-	// make sure to rotate the offset from object center to grab point
-	// this needs to be done in every mode except rotate around object center else the object will drift off our hands
-	FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
-	FVector GrabPointAsPivot = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, PrimaryPointerData);
-	FTransform RotatedGrabPoint = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, GrabPointAsPivot);
-
 	if (!bHasPrimaryPointer)
 	{
 		return false;
 	}
 
+	OutTargetTransform = InSourceTransform;
 	switch (OneHandRotationMode)
 	{
 		case EUxtOneHandRotationMode::MaintainOriginalRotation:
 		{
-			OutTargetTransform = InSourceTransform;
-			OutTargetTransform.SetLocation(RotatedGrabPoint.GetLocation());
 			return true;
 		}
 
 		case EUxtOneHandRotationMode::RotateAboutObjectCenter:
 		{
 			FVector objectCenterAsPivot = InSourceTransform.GetLocation();
-			OutTargetTransform = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, objectCenterAsPivot);
+			FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
+			OutTargetTransform.SetRotation(UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, objectCenterAsPivot).GetRotation());
 			return true;
 		}
 
 		case EUxtOneHandRotationMode::RotateAboutGrabPoint:
 		{
-			OutTargetTransform = RotatedGrabPoint;
+			FVector GrabPointAsPivot = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, PrimaryPointerData);
+			FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
+			FQuat Orientation = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, GrabPointAsPivot).GetRotation();
+			OutTargetTransform.SetRotation(Orientation);
 			return true;
 		}
 
 		case EUxtOneHandRotationMode::MaintainRotationToUser:
 		{
 			FQuat Orientation = GetViewInvariantRotation();
-			OutTargetTransform = FTransform(Orientation, RotatedGrabPoint.GetLocation(), InSourceTransform.GetScale3D());
+			OutTargetTransform.SetRotation(Orientation);
 			return true;
 		}
 
@@ -106,33 +104,33 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 			FQuat OrientationSwing, OrientationTwist;
 			Orientation.ToSwingTwist(FVector::UpVector, OrientationSwing, OrientationTwist);
 
-			OutTargetTransform = FTransform(OrientationTwist, RotatedGrabPoint.GetLocation(), InSourceTransform.GetScale3D());
+			OutTargetTransform.SetRotation(Orientation);
 			return true;
 		}
 
 		case EUxtOneHandRotationMode::FaceUser:
 		{
 			FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
-			FVector ObjectLoc = RotatedGrabPoint.GetLocation();
+			FVector ObjectLoc = InSourceTransform.GetLocation();
 
 			// Make the object face the user
 			FVector Forward = HeadLoc - ObjectLoc;
 			FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
 
-			OutTargetTransform = FTransform(Orientation, ObjectLoc, InSourceTransform.GetScale3D());
+			OutTargetTransform.SetRotation(Orientation);
 			return true;
 		}
 
 		case EUxtOneHandRotationMode::FaceAwayFromUser:
 		{
 			FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
-			FVector ObjectLoc = RotatedGrabPoint.GetLocation();
+			FVector ObjectLoc = InSourceTransform.GetLocation();
 
 			// Make the object face away from the user
 			FVector Forward = ObjectLoc - HeadLoc;
 			FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
 
-			OutTargetTransform = FTransform(Orientation, ObjectLoc, InSourceTransform.GetScale3D());
+			OutTargetTransform.SetRotation(Orientation); 
 			return true;
 		}
 	}
@@ -142,29 +140,8 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 
 bool UUxtGenericManipulatorComponent::GetTwoHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
 {
-	bool bHasPrimaryPointer, bHasSecondaryPointer;
-	FUxtGrabPointerData PrimaryPointerData, SecondaryPointerData;
-	GetPrimaryGrabPointer(bHasPrimaryPointer, PrimaryPointerData);
-	GetSecondaryGrabPointer(bHasSecondaryPointer, SecondaryPointerData);
-
-	if (!bHasPrimaryPointer || !bHasSecondaryPointer)
-	{
-		return false;
-	}
-
-	FVector PrimarySourceLoc = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, PrimaryPointerData);
-	FVector SecondarySourceLoc = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, SecondaryPointerData);
-	FVector PrimaryTargetLoc = UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(PrimaryPointerData);
-	FVector SecondaryTargetLoc = UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(SecondaryPointerData);
-
-	// Compute minimal rotation to align the line between hands from the source to the target points.
-	FVector SourceDelta = SecondarySourceLoc - PrimarySourceLoc;
-	FVector TargetDelta = SecondaryTargetLoc - PrimaryTargetLoc;
-	FRotator DeltaRot = FQuat::FindBetween(SourceDelta, TargetDelta).Rotator();
-
-	// Rotate transform with target centroid as the pivot point.
-	FVector Centroid = 0.5 * (PrimaryTargetLoc + SecondaryTargetLoc);
-	OutTargetTransform = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, Centroid);
+	OutTargetTransform = InSourceTransform;
+	OutTargetTransform.SetRotation(TwoHandRotateLogic->Update(GetGrabPointers()));
 	return true;
 }
 
@@ -177,7 +154,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 
 	FTransform TargetTransform = InitialTransform;
 
-	MoveToTargets(TargetTransform, TargetTransform);
+	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 
 	GetOneHandRotation(TargetTransform, TargetTransform);
 
@@ -197,7 +174,7 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 
 	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Translation)))
 	{
-		MoveToTargets(TargetTransform, TargetTransform);
+		MoveToTargets(TargetTransform, TargetTransform, true);
 	}
 
 	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Rotation)))
