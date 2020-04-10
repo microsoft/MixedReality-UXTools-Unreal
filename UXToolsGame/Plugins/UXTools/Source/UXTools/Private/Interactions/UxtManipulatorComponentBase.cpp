@@ -6,18 +6,21 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Interactions/Manipulation/UxtManipulationMoveLogic.h"
 #include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
+#include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
 #include "Engine/World.h"
 
 UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
 {
 	MoveLogic = new UxtManipulationMoveLogic();
 	TwoHandRotateLogic = new UxtTwoHandManipulationRotateLogic();
+	TwoHandScaleLogic = new UxtTwoHandManipulationScaleLogic();
 }
 
 UUxtManipulatorComponentBase::~UUxtManipulatorComponentBase()
 {
-	delete MoveLogic;
+	delete TwoHandScaleLogic;
 	delete TwoHandRotateLogic;
+	delete MoveLogic;
 }
 
 void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const
@@ -149,6 +152,7 @@ void UUxtManipulatorComponentBase::BeginPlay()
 	if (bAutoSetInitialTransform)
 	{
 		OnBeginGrab.AddDynamic(this, &UUxtManipulatorComponentBase::OnManipulationStarted);
+		OnEndGrab.AddDynamic(this, &UUxtManipulatorComponentBase::OnManipulationEnd);
 	}
 }
 
@@ -157,10 +161,7 @@ void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent
 	int NumGrabPointers = GetGrabPointers().Num();
 	if (NumGrabPointers != 0)
 	{
-		if (NumGrabPointers == 1)
-		{
-			SetInitialTransform();
-		}
+		SetInitialTransform();
 
 		MoveLogic->Setup(GetPointersTransformCentroid(),
 			GetGrabPointCentroid(GetComponentTransform()),
@@ -170,7 +171,18 @@ void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent
 		if (NumGrabPointers > 1)
 		{
 			TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
+			TwoHandScaleLogic->Setup(GetGrabPointers(), GetComponentScale());
 		}
+	}
+}
+
+void UUxtManipulatorComponentBase::OnManipulationEnd(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
+{
+	int NumGrabPointers = GetGrabPointers().Num();
+	if (NumGrabPointers != 1)
+	{
+		// make sure to update the initial transform when we switch the hand mode (currently only two to one hand supported)
+		SetInitialTransform();
 	}
 }
 

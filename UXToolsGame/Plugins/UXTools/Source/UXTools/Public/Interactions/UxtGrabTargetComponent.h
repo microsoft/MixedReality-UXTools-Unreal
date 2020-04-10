@@ -192,6 +192,8 @@ private:
 
 	void UpdateComponentTickEnabled();
 
+	void InitGrabTransform(FUxtGrabPointerData& GrabData) const;
+
 public:
 
 	/** Event raised when grab starts. */

@@ -1,5 +1,4 @@
-#include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
-#include "Interactions/UxtGrabTargetComponent.h"
+#include "UxtTwoHandRotateLogic.h"
 
 namespace
 {

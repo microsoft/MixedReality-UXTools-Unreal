@@ -3,6 +3,7 @@
 
 #include "Interactions/UxtGenericManipulatorComponent.h"
 #include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
+#include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 #include "Utils/UxtFunctionLibrary.h"
 
@@ -145,6 +146,13 @@ bool UUxtGenericManipulatorComponent::GetTwoHandRotation(const FTransform& InSou
 	return true;
 }
 
+bool UUxtGenericManipulatorComponent::GetTwoHandScale(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
+{
+	OutTargetTransform = InSourceTransform;
+	OutTargetTransform.SetScale3D(TwoHandScaleLogic->Update(GetGrabPointers()));
+	return true;
+}
+
 void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 {
 	if (!(ManipulationModes & (1 << (uint8)EUxtGenericManipulationMode::OneHanded)))
@@ -172,15 +180,21 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 
 	FTransform TargetTransform = InitialTransform;
 
-	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Translation)))
+	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Scaling)))
 	{
-		MoveToTargets(TargetTransform, TargetTransform, true);
+		GetTwoHandScale(TargetTransform, TargetTransform);
 	}
 
 	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Rotation)))
 	{
 		GetTwoHandRotation(TargetTransform, TargetTransform);
 	}
+
+	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Translation)))
+	{
+		MoveToTargets(TargetTransform, TargetTransform, true);
+	}
+
 
 	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
 
