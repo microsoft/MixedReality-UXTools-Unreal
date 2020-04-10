@@ -6,7 +6,7 @@ Features:
 - [Input simulation](Docs/InputSimulation.md): simulated articulated hands and head pose for use in-editor. Great for improving development iteration times.
 - [Hand interaction actor](Docs/HandInteraction.md): used to interact with our UX components with articulated hands.
 - [Pressable button component](Docs/PressableButton.md): low level component used to drive the state of button blueprints. An example button blueprint is provided.
-- [Manipulator component](Docs/ManipulatorComponent.md): allows moving and rotating an actor via one or two hand manipulation.
+- [Manipulator component](Docs/Manipulator.md): allows moving and rotating an actor via one or two hand manipulation.
 - [Follow behaviour component](Docs/FollowComponent.md): keeps an actor or component within sight of another component, usually the camera.
 
 ![Features](Docs/Images/Features.png)
