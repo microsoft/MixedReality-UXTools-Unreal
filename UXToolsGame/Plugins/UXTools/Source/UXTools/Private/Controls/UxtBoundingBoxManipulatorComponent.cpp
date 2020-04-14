@@ -343,7 +343,9 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab(UUxtGrabTargetComp
 	check(pAffordance != nullptr);
 
 	FUxtGrabPointerData* pBBoxGrabPointer = FindGrabPointer(**pAffordance);
-	if (ensure(pBBoxGrabPointer))
+	// Only the first grabbing pointer is supported by bounding box at this point.
+	// Other pointers may still be grabbing, but will not have a grab pointer entry.
+	if (pBBoxGrabPointer)
 	{
 		pBBoxGrabPointer->NearPointer = GrabPointer.NearPointer;
 		pBBoxGrabPointer->GrabPointTransform = GrabPointer.GrabPointTransform;
