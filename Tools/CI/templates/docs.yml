@@ -37,8 +37,9 @@ steps:
     $protocol, $url = "${{ parameters.DestRepoUrl }}".Split("//", 2)
     $protocol = ($protocol.TrimEnd("/")) + "//"
     $url = ($url.TrimStart("/"))
+    $CloneURL = "$($protocol)user:${{ parameters.PAT }}@$($url)"
 
-    git clone "$($protocol)user:${{ parameters.PAT }}@$($url)" ${{ parameters.DocsRepoDir }} -b ${{ parameters.DocsBranchName }}
+    git clone -q $CloneURL ${{ parameters.DocsRepoDir }} -b ${{ parameters.DocsBranchName }}
 
     Push-Location -Path ${{ parameters.DocsRepoDir }}
 
