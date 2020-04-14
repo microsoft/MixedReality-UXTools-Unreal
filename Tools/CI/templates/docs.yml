@@ -1,4 +1,5 @@
 parameters:
+  SourceRepoDir: $(UXTSourceDir)
   DocsRepoDir: $(Build.SourcesDirectory)\docs  # folder on build agent into which the repo will be cloned before submitting
   DocsBranchName: ""  # branch to which docs should be committed
   PAT: ""
@@ -29,8 +30,7 @@ steps:
   displayName: "Generate docs"
 
 - powershell: |
-    Set-PSDebug -Trace 1
-    Push-Location "$(Build.Repository.LocalPath)"
+    Push-Location "${{ parameters.SourceRepoDir }}"
     $CommitMessage = (git log -1 --pretty=%s)
 
     Write-Host "Clone repo under ${{ parameters.DocsRepoDir }}"
