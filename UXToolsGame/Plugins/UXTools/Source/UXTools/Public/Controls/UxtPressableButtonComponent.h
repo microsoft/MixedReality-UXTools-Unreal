@@ -184,6 +184,9 @@ private:
 	/** Get the current pushed position of the button */
 	FVector GetCurrentButtonLocation() const;
 
+	/** Position of the button front face while not being poked by any pointer */
+	FVector GetRestPosition() const;
+
 	/** Number of pointers currently focusing the button. */
 	int NumPointersFocusing = 0;
 
@@ -205,8 +208,8 @@ private:
 	/** True if the button is currently pressed */
 	bool bIsPressed = false;
 
-	/** Position of the button front face while not being poked by any pointer */
-	FVector RestPosition;
+	/** Local position of the button front face while not being poked by any pointer */
+	FVector RestPositionLocal;
 
 	/** The current pushed distance of from poking pointers */
 	float CurrentPushDistance;
