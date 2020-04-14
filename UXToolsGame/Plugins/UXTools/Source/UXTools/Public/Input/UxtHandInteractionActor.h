@@ -70,7 +70,7 @@ public:
 private:
 
 	/** Articulated hand used to drive interactions. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
 	EControllerHand Hand;
 
 	/** Offset from the hand ray origin at which the far ray used for far target selection starts. */
