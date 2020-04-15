@@ -25,7 +25,7 @@ BEGIN_DEFINE_SPEC(PointerActivationSpec, "UXTools.HandPointers", EAutomationTest
 	UTestGrabTarget* Target;
 	FFrameQueue FrameQueue;
 
-	const FString& TargetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
+	const FString TargetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 	const float TargetScale = 0.3f;
 	const FVector TargetLocation = FVector(150, 0, 0);
 	const FVector NearPoint = FVector(135, 0, 0);
