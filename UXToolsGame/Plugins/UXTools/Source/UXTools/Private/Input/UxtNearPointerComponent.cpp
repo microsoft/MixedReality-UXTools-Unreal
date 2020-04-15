@@ -149,6 +149,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	{
 		const FVector ProximityCenter = GrabPointerTransform.GetLocation();
 
+		// Disable complex collision to enable overlap from inside primitives
 		FCollisionQueryParams QueryParams(NAME_None, false);
 
 		TArray<FOverlapResult> Overlaps;
@@ -273,6 +274,7 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 	{
 		GrabFocus->ClearFocus(this);
 		PokeFocus->ClearFocus(this);
+		bFocusLocked = false;
 	}
 }
 

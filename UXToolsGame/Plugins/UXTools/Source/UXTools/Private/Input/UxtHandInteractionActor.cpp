@@ -117,10 +117,12 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 			{
 				// Near-far activation query
 				TArray<FOverlapResult> Overlaps;
+				// Disable complex collision to enable overlap from inside primitives
+				FCollisionQueryParams QueryParams(NAME_None, false);
 				const float SphereRadius = 0.5f * NearActivationDistance;
 				FVector QueryPosition = FingerTipPositionOnSkin + Forward * SphereRadius;
 				FCollisionShape QuerySphere = FCollisionShape::MakeSphere(SphereRadius);
-				GetWorld()->OverlapMultiByChannel(Overlaps, QueryPosition, FQuat::Identity, TraceChannel, QuerySphere);
+				GetWorld()->OverlapMultiByChannel(Overlaps, QueryPosition, FQuat::Identity, TraceChannel, QuerySphere, QueryParams);
 
 				// Look for a near target in the overlaps
 				bool bHasNearTarget = false;
