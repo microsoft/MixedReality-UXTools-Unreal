@@ -21,8 +21,8 @@ jobs:
   pool:
     name: $(AgentPool)
   # uncomment after switching to UE4.25
-  variables:
-    - template: settings/ue425undefs.yml
+  #variables:
+  #  - template: settings/ue425undefs.yml
   workspace:
     clean: all
   steps:
