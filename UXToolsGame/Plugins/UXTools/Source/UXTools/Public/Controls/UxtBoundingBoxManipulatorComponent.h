@@ -83,13 +83,13 @@ struct UXTOOLS_API FUxtBoundingBoxAffordanceInfo
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
-	FUxtManipulationStartedDelegate,
+	FUxtBoundingBoxManipulationStartedDelegate,
 	UUxtBoundingBoxManipulatorComponent*, Manipulator,
 	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
 	UUxtGrabbableComponent*, GrabbedComponent);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
-	FUxtManipulationEndedDelegate,
+	FUxtBoundingBoxManipulationEndedDelegate,
 	UUxtBoundingBoxManipulatorComponent*, Manipulator,
 	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
 	UUxtGrabbableComponent*, GrabbedComponent);
@@ -151,11 +151,11 @@ public:
 
 	/** Event raised when a manipulation is started. */
 	UPROPERTY(BlueprintAssignable, Category = "Bounding Box")
-	FUxtManipulationStartedDelegate OnManipulationStarted;
+	FUxtBoundingBoxManipulationStartedDelegate OnManipulationStarted;
 
 	/** Event raised when a manipulation is ended. */
 	UPROPERTY(BlueprintAssignable, Category = "Bounding Box")
-	FUxtManipulationEndedDelegate OnManipulationEnded;
+	FUxtBoundingBoxManipulationEndedDelegate OnManipulationEnded;
 
 protected:
 
