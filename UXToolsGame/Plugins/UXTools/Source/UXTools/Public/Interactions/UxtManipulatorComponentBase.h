@@ -7,6 +7,10 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "UxtManipulatorComponentBase.generated.h"
 
+class UxtManipulationMoveLogic;
+class UxtTwoHandManipulationRotateLogic;
+class UxtTwoHandManipulationScaleLogic;
+
 /**
  * Base class for manipulation components that react to pointer interactions.
  *
@@ -21,12 +25,15 @@ class UXTOOLS_API UUxtManipulatorComponentBase : public UUxtGrabTargetComponent
 
 public:
 
+	UUxtManipulatorComponentBase();
+	~UUxtManipulatorComponentBase();
+
 	/**
 	 * Translate the source transform such that grab points match targets.
 	 * If more than one pointer is used then the centroid of the grab points and targets is used.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
-	void MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform) const;
+	void MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const;
 
 	/**
 	 * Rotates the source transform around the pivot point such that the pointers line up with current targets.
@@ -68,10 +75,16 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	UxtManipulationMoveLogic* MoveLogic; // computes move for one and two hands
+	UxtTwoHandManipulationRotateLogic* TwoHandRotateLogic; // computes rotation for two hands
+	UxtTwoHandManipulationScaleLogic* TwoHandScaleLogic; // computes scale for two hands
 private:
 
 	UFUNCTION()
-	void InitTransformOnFirstPointer(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	void OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+
+	UFUNCTION()
+	void OnManipulationEnd(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
 public:
 

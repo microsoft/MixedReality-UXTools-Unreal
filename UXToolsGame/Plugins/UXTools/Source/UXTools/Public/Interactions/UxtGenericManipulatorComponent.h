@@ -83,6 +83,7 @@ protected:
 
 	bool GetOneHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const;
 	bool GetTwoHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const;
+	bool GetTwoHandScale(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const;
 
 	/** Compute orientation that invariant in camera space. */
 	FQuat GetViewInvariantRotation() const;
@@ -112,5 +113,4 @@ private:
 	 */
 	UPROPERTY(EditAnywhere, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = GenericManipulator, meta = (ClampMin = "0.0"))
 	float Smoothing;
-
 };

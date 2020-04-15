@@ -43,7 +43,7 @@ void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 			ConfigureBoxComponent(Touchable);
 		}
 
-		const FVector VisualsOffset = Visuals->GetComponentLocation() - RestPosition;
+		const FVector VisualsOffset = Visuals->GetComponentLocation() - GetRestPosition();
 		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
 	}
 }
@@ -88,7 +88,7 @@ void UUxtPressableButtonComponent::BeginPlay()
 			ConfigureBoxComponent(Pokable);
 		}
 
-		const FVector VisualsOffset = Visuals->GetComponentLocation() - RestPosition;
+		const FVector VisualsOffset = Visuals->GetComponentLocation() - GetRestPosition();
 		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
 	}
 }
@@ -260,22 +260,22 @@ EUxtPokeBehaviour UUxtPressableButtonComponent::GetPokeBehaviour_Implementation(
 
 float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerComponent* pointer) const
 {
-	FVector RayEndLocal;
+	const FVector PointerPos = pointer->GetPokePointerTransform().GetLocation();
+	const FVector PointerLocal = GetComponentTransform().InverseTransformPositionNoScale(PointerPos);
+	const float EndDistance = PointerLocal.X - RestPositionLocal.X;
 
-	// Calculate current pointer position in local space
-	{
-		const FQuat InvOrientation = BoxComponent->GetComponentQuat().Inverse();
-		RayEndLocal = InvOrientation * (pointer->GetPokePointerTransform().GetLocation() - RestPosition);
-	}
-
-	const float endDistance = RayEndLocal.X;
-
-	return endDistance > 0 ? FMath::Min(endDistance, GetScaleAdjustedMaxPushDistance()) : 0;
+	return EndDistance > 0 ? FMath::Min(EndDistance, GetScaleAdjustedMaxPushDistance()) : 0;
 }
 
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
-	return RestPosition + (GetComponentTransform().GetUnitAxis(EAxis::X) * CurrentPushDistance);
+	return GetRestPosition() + (GetComponentTransform().GetUnitAxis(EAxis::X) * CurrentPushDistance);
+}
+
+
+FVector UUxtPressableButtonComponent::GetRestPosition() const
+{
+	return GetComponentTransform().TransformPosition(RestPositionLocal);
 }
 
 bool UUxtPressableButtonComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
@@ -317,13 +317,14 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(const UStaticMeshCompon
 	Mesh->GetLocalBounds(Min, Max);
 
 	BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
-
-	BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Mesh->GetComponentTransform());
+	
+	FTransform BoxTransform = FTransform((Max + Min) / 2) * Mesh->GetComponentTransform();
+	BoxComponent->SetWorldTransform(BoxTransform);
 
 	BoxComponent->SetCollisionProfileName(CollisionProfile);
 
-	RestPosition = BoxComponent->GetComponentLocation();
-	RestPosition.X -= BoxComponent->GetScaledBoxExtent().X;
+	FVector RestPosition = BoxTransform.GetLocation() - BoxTransform.GetUnitAxis(EAxis::X) * BoxComponent->GetScaledBoxExtent().X;
+	RestPositionLocal = GetComponentTransform().InverseTransformPosition(RestPosition);
 
 	const FVector ColliderOffset = BoxComponent->GetComponentLocation() - RestPosition;
 	ColliderOffsetLocal = GetComponentTransform().InverseTransformVector(ColliderOffset);

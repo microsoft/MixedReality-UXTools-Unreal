@@ -58,6 +58,9 @@ FUxtTestHandTracker& UxtTestUtils::EnableTestHandTracker()
 	// Register the test hand tracker.
 	IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &TestHandTracker);
 
+	// Reset test hand tracker defaults
+	TestHandTracker = FUxtTestHandTracker();
+
 	return TestHandTracker;
 }
 

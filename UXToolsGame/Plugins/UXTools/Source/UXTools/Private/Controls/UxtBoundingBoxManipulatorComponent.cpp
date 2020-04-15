@@ -328,7 +328,7 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabTargetCompo
 
 	FUxtGrabPointerData bboxGrabPointer;
 	bboxGrabPointer.NearPointer = GrabPointer.NearPointer;
-	bboxGrabPointer.PointerTransform = GrabPointer.PointerTransform;
+	bboxGrabPointer.GrabPointTransform = GrabPointer.GrabPointTransform;
 	bboxGrabPointer.StartTime = GrabPointer.StartTime;
 	// Transform into the bbox actor space
 	FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());
@@ -343,10 +343,12 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab(UUxtGrabTargetComp
 	check(pAffordance != nullptr);
 
 	FUxtGrabPointerData* pBBoxGrabPointer = FindGrabPointer(**pAffordance);
-	if (ensure(pBBoxGrabPointer))
+	// Only the first grabbing pointer is supported by bounding box at this point.
+	// Other pointers may still be grabbing, but will not have a grab pointer entry.
+	if (pBBoxGrabPointer)
 	{
 		pBBoxGrabPointer->NearPointer = GrabPointer.NearPointer;
-		pBBoxGrabPointer->PointerTransform = GrabPointer.PointerTransform;
+		pBBoxGrabPointer->GrabPointTransform = GrabPointer.GrabPointTransform;
 		pBBoxGrabPointer->StartTime = GrabPointer.StartTime;
 		// Transform into the bbox actor space
 		FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());

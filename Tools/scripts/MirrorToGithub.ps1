@@ -3,7 +3,7 @@
 
 # Array of release branches to sync. We assume the branch name is "release/$name"
 # Comma separates each element
-$branches=@("0.1.0")
+$branches=@("0.8.0")
 #
 $github="https://github.com/microsoft/MixedReality-UXTools-Unreal"
 
