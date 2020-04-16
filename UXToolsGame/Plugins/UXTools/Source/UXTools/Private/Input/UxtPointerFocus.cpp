@@ -155,12 +155,12 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 {
 	float MinDistanceSqr = MAX_FLT;
 	UActorComponent* ClosestTarget = nullptr;
-	UPrimitiveComponent* Primitive = nullptr;
+	UPrimitiveComponent* ClosestPrimitive = nullptr;
 	FVector ClosestPointOnTarget = FVector::ZeroVector;
 
 	for (const FOverlapResult& Overlap : Overlaps)
 	{
-		Primitive = Overlap.GetComponent();
+		UPrimitiveComponent* Primitive = Overlap.GetComponent();
 
 		for (UActorComponent* Component : Overlap.GetActor()->GetComponents())
 		{
@@ -174,6 +174,7 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 					{
 						MinDistanceSqr = DistanceSqr;
 						ClosestTarget = Component;
+						ClosestPrimitive = Primitive;
 						ClosestPointOnTarget = PointOnTarget;
 					}
 
@@ -186,7 +187,7 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 
 	if (ClosestTarget != nullptr)
 	{
-		return { ClosestTarget, Primitive, ClosestPointOnTarget, FMath::Sqrt(MinDistanceSqr) };
+		return { ClosestTarget, ClosestPrimitive, ClosestPointOnTarget, FMath::Sqrt(MinDistanceSqr) };
 	}
 	else
 	{
