@@ -14,7 +14,7 @@ resources:
     type: github
     endpoint: github
     name: microsoft/MixedReality-UXTools-Unreal
-    ref: $(Build.SourceBranchName)
+    ref: $(Build.SourceBranch)
 
 jobs:
 - job:
@@ -26,18 +26,13 @@ jobs:
     DestRepoUrl: https://github.com/microsoft/MixedReality-UXTools-Unreal.git
     SrcRepoDir: $(Build.SourcesDirectory)\MixedReality-UXTools-Unreal
     DstRepoDir: $(Build.SourcesDirectory)\dstrepo
-    SrcBranch: $(Build.SourceBranch)
   steps:
   - checkout: self
     clean: true
     submodules: true
 
   - checkout: github
-  - powershell: |
-      Write-Host "Changing GitHub branch to $(SrcBranch)"
-      Push-Location "$(SrcRepoDir)"
-      git checkout $(SrcBranch)
-    displayName: "Change source branch"
+    clean: true
 
   - template: templates\docs.yml
     parameters:
