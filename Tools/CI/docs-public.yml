@@ -35,9 +35,10 @@ jobs:
     clean: true
 
   - powershell: |
-      Write-Host "Changing GitHub branch to $(SrcBranch)"
+      $SrcBranchShort = "$(SrcBranch)" -replace "^refs/heads/",""
+      Write-Host "Changing GitHub branch to $SrcBranchShort"
       Push-Location "$(SrcRepoDir)"
-      git checkout $(SrcBranch)
+      git checkout $SrcBranchShort 
     displayName: "Change source branch"
 
   - template: templates\docs.yml
