@@ -51,17 +51,22 @@ void AUxtHandInteractionActor::BeginPlay()
 	FarPointer->RayStartOffset = RayStartOffset;
 	FarPointer->RayLength = RayLength;
 
-	// Create default visuals
-	if (bUseDefaultVisuals)
+	if (bUseDefaultNearCursor)
 	{
 		UUxtFingerCursorComponent* NearCursor = NewObject<UUxtFingerCursorComponent>(this);
 		NearCursor->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		NearCursor->RegisterComponent();
+	}
 
+	if (bUseDefaultFarCursor)
+	{
 		UUxtFarCursorComponent* FarCursor = NewObject<UUxtFarCursorComponent>(this);
 		FarCursor->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		FarCursor->RegisterComponent();
+	}
 
+	if (bUseDefaultFarBeam)
+	{
 		UUxtFarBeamComponent* FarBeam = NewObject<UUxtFarBeamComponent>(this);
 		FarBeam->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		FarBeam->RegisterComponent();
