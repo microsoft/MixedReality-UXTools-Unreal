@@ -7,6 +7,8 @@ parameters:
   username: ""
   DestRepoUrl: ""
   commit: false
+  RootBranch: master  # name of the branch that will be published into the root dir (outside of "versions" subfolder)
+  WebScriptsBranch: ""  # if running against the root folder, copy only javascript/web folder instead of full docs
 
 steps:
 - task: NuGetToolInstaller@1
@@ -26,7 +28,7 @@ steps:
 
 - powershell: |
     $env:Path += ";$(Build.ArtifactStagingDirectory)/docfx.console.$(DocFX.Version)/tools;$(Build.ArtifactStagingDirectory)/code2yaml.$(code2yaml.Version)"
-    . $(UXTSourceDir)\Tools\DocGen\generateDocs.ps1
+    . ${{ parameters.SourceRepoDir }}\Tools\DocGen\generateDocs.ps1
   displayName: "Generate docs"
 
 - powershell: |
@@ -59,7 +61,7 @@ steps:
     $SourceBranch = "$(Build.SourceBranch)".Replace("refs/heads/", "")
     $DocsDestDir = $null
     # files from main branch are copied into the root folder
-    if ($SourceBranch -eq "master")
+    if ($SourceBranch -eq "${{ parameters.RootBranch }}")
     {
         Write-Host "Delete all files apart from 'version' folder"
         (Get-ChildItem -Path "${{ parameters.DocsRepoDir }}" -Exclude "version" | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
@@ -94,12 +96,32 @@ steps:
         }
     }
     
-    Write-Host "Copy new generated docs from $(DocsSourceDir) to $DocsDestDir"
-    Copy-Item -Recurse -Force -Path $(DocsSourceDir)\* -Destination $DocsDestDir
+    if ($SourceBranch -eq "${{ parameters.WebScriptsBranch }}")
+    {
+        Write-Host "Copying modified index and web scripts"
+        Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web_root\index.html" -Destination $DocsRepoDir -Verbose
+        Copy-Item -Recurse -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web" -Destination $DocsRepoDir -Verbose
+    }
 
-    Write-Host "Commit updated files"
+    if (($SourceBranch -ne "${{ parameters.RootBranch }}") -or ("${{ parameters.WebScriptsBeanch }}" -eq ""))
+    {
+        $DocsSourceDir = "${{ parameters.SourceRepoDir }}\Tools\DocGen\doc"
+        Write-Host "Copy new generated docs from $DocsSourceDir to $DocsDestDir"
+        Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $DocsDestDir
+    }
+
     git add -A
-    git commit -m "Docs for commit $(Build.SourceVersion) ($CommitMessage)"
+    $FilesStaged = (git diff-index --no-ext-diff --cached HEAD) -ne $null
+
+    if ($FilesStaged)
+    {
+        Write-Host "Commit updated files"
+        git commit -m "Docs for commit $(Build.SourceVersion) ($CommitMessage)"
+    }
+    else
+    {
+        Write-Host "No files updated."
+    }
 
   displayName: 'Commit docs'
   condition: ${{ parameters.commit }}
