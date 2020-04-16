@@ -1,0 +1,54 @@
+# PR triggers in ADO are configured using branch policies. This section is only for GitHub.
+# pr: none
+
+trigger:
+- release/0.8.0
+
+variables:
+- template: settings/common.yml
+- template: settings/docs.yml
+
+resources:
+  repositories:
+  - repository: github
+    type: github
+    endpoint: github
+    name: microsoft/MixedReality-UXTools-Unreal
+    ref: $(Build.SourceBranchName)
+
+jobs:
+- job:
+  pool:
+    vmImage: windows-latest
+  workspace:
+    clean: all
+  variables:
+    DestRepoUrl: https://github.com/microsoft/MixedReality-UXTools-Unreal.git
+    SrcRepoDir: $(Build.SourcesDirectory)\MixedReality-UXTools-Unreal
+    DstRepoDir: $(Build.SourcesDirectory)\dstrepo
+    SrcBranch: $(Build.SourceBranch)
+  steps:
+  - checkout: self
+    clean: true
+    submodules: true
+
+  - checkout: github
+  - powershell: |
+      Write-Host "Changing GitHub branch to $(SrcBranch)"
+      Push-Location "$(SrcRepoDir)"
+      git checkout $(SrcBranch)
+    displayName: "Change source branch"
+
+  - template: templates\docs.yml
+    parameters:
+      SourceRepoDir: $(SrcRepoDir)
+      DocsRepoDir: $(DstRepoDir)
+      DocsBranchName: gh-pages  # branch to which docs should be committed
+      PAT: $(GitHub.PAT)
+      email: $(GitHub.email)
+      username: $(GitHub.username)
+      DestRepoUrl: $(DestRepoUrl)
+      WebScriptsBranch: release/0.8.0  # branch with the latest index.html and web folder (TODO: switch back to master when merged)
+      PublishOnlyWebScripts: true
+      commit: and(succeeded(),
+                  not(eq(variables['Build.Reason'], 'PullRequest')))

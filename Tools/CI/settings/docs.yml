@@ -6,5 +6,3 @@ variables:
   value: '2.48.1'
 - name: code2yaml.Version
   value: '1.0.69'
-- name: DocsSourceDir
-  value: $(UXTSourceDir)\Tools\DocGen\doc

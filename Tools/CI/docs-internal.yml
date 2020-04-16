@@ -25,7 +25,6 @@ jobs:
   workspace:
     clean: all
   variables:
-    source_branch_for_commit: refs/heads/master  # only commit if running from this branch
     dest_repo_url: https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE
   steps:
   - checkout: self
