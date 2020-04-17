@@ -205,16 +205,16 @@ void UUxtBoundingBoxManipulatorComponent::EndPlay(const EEndPlayReason::Type End
 		// Only one grab at a time supported for now
 		check(ActiveAffordanceGrabPointers.Num() == 1);
 
-		const FUxtBoundingBoxAffordanceInfo *affordanceInfo = ActiveAffordanceGrabPointers[0].Key;
-		const FUxtGrabPointerData &grabPointer = ActiveAffordanceGrabPointers[0].Value;
+		const FUxtBoundingBoxAffordanceInfo* affordanceInfo = ActiveAffordanceGrabPointers[0].Key;
+		const FUxtGrabPointerData& grabPointer = ActiveAffordanceGrabPointers[0].Value;
 
 		// Find the Grabbable in use by this pointer
-		UUxtGrabbableComponent *grabbable = nullptr;
+		UUxtGrabbableComponent* grabbable = nullptr;
 		for (auto item : ActorAffordanceMap)
 		{
 			if (item.Value == affordanceInfo)
 			{
-				AActor *affordanceActor = item.Key;
+				AActor* affordanceActor = item.Key;
 				grabbable = affordanceActor->FindComponentByClass<UUxtGrabbableComponent>();
 				break;
 			}
