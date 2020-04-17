@@ -86,13 +86,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
 	FUxtBoundingBoxManipulationStartedDelegate,
 	UUxtBoundingBoxManipulatorComponent*, Manipulator,
 	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
-	UUxtGrabbableComponent*, GrabbedComponent);
+	UUxtGrabTargetComponent*, GrabbedComponent);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
 	FUxtBoundingBoxManipulationEndedDelegate,
 	UUxtBoundingBoxManipulatorComponent*, Manipulator,
 	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
-	UUxtGrabbableComponent*, GrabbedComponent);
+	UUxtGrabTargetComponent*, GrabbedComponent);
 
 
 /**
