@@ -199,8 +199,33 @@ void UUxtBoundingBoxManipulatorComponent::BeginPlay()
 
 void UUxtBoundingBoxManipulatorComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	// Drop active grab pointers.
-	ActiveAffordanceGrabPointers.Empty();
+	// If any grab pointers are still active, end the interaction.
+	if (ActiveAffordanceGrabPointers.Num() > 0)
+	{
+		// Only one grab at a time supported for now
+		check(ActiveAffordanceGrabPointers.Num() == 1);
+
+		const FUxtBoundingBoxAffordanceInfo *affordanceInfo = ActiveAffordanceGrabPointers[0].Key;
+		const FUxtGrabPointerData &grabPointer = ActiveAffordanceGrabPointers[0].Value;
+
+		// Find the Grabbable in use by this pointer
+		UUxtGrabbableComponent *grabbable = nullptr;
+		for (auto item : ActorAffordanceMap)
+		{
+			if (item.Value == affordanceInfo)
+			{
+				AActor *affordanceActor = item.Key;
+				grabbable = affordanceActor->FindComponentByClass<UUxtGrabbableComponent>();
+				break;
+			}
+		}
+		check(grabbable != nullptr);
+
+		OnManipulationEnded.Broadcast(this, *affordanceInfo, grabbable);
+
+		// Drop active grab pointers.
+		ActiveAffordanceGrabPointers.Empty();
+	}
 
 	// Destroy affordances
 	for (const auto &item : ActorAffordanceMap)
