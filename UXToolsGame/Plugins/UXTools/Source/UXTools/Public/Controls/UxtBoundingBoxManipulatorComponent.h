@@ -10,6 +10,8 @@
 #include "UxtBoundingBoxManipulatorComponent.generated.h"
 
 
+class UUxtBoundingBoxManipulatorComponent;
+
 /** Defines the kind of actor that should be spawned for an affordance. */
 UENUM()
 enum class EUxtBoundingBoxAffordanceKind : uint8
@@ -80,6 +82,19 @@ struct UXTOOLS_API FUxtBoundingBoxAffordanceInfo
 };
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FUxtBoundingBoxManipulationStartedDelegate,
+	UUxtBoundingBoxManipulatorComponent*, Manipulator,
+	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
+	UUxtGrabTargetComponent*, GrabbedComponent);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FUxtBoundingBoxManipulationEndedDelegate,
+	UUxtBoundingBoxManipulatorComponent*, Manipulator,
+	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
+	UUxtGrabTargetComponent*, GrabbedComponent);
+
+
 /**
  * Manages a set of affordances that can be manipulated for changing the actor transform.
  */
@@ -133,6 +148,14 @@ public:
 	/** Compute the bounding box based on the components of the bounding box actor. */
 	UFUNCTION(BlueprintCallable, Category = "Bounding Box")
 	void ComputeBoundsFromComponents();
+
+	/** Event raised when a manipulation is started. */
+	UPROPERTY(BlueprintAssignable, Category = "Bounding Box")
+	FUxtBoundingBoxManipulationStartedDelegate OnManipulationStarted;
+
+	/** Event raised when a manipulation is ended. */
+	UPROPERTY(BlueprintAssignable, Category = "Bounding Box")
+	FUxtBoundingBoxManipulationEndedDelegate OnManipulationEnded;
 
 protected:
 
