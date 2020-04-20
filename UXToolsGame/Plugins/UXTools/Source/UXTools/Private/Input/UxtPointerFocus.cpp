@@ -56,6 +56,17 @@ void FUxtPointerFocus::SelectClosestTarget(UUxtNearPointerComponent* Pointer, co
 	}
 }
 
+void FUxtPointerFocus::UpdateClosestTarget(const FTransform& PointerTransform)
+{
+	if (UActorComponent* ClosesTarget = Cast<UActorComponent>(FocusedTargetWeak.Get()))
+	{
+		if (UPrimitiveComponent* Primitive = FocusedPrimitiveWeak.Get())
+		{
+			GetClosestPointOnTarget(ClosesTarget, Primitive, PointerTransform.GetLocation(), ClosestTargetPoint);
+		}
+	}
+}
+
 void FUxtPointerFocus::SelectClosestPointOnTarget(
 	UUxtNearPointerComponent* Pointer,
 	const FTransform& PointerTransform,

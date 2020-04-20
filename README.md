@@ -30,3 +30,7 @@ To make sure everything is working as expected, add a hand interaction actor and
 # Documentation
 
 The latest version of the documentation can be found [here](https://microsoft.github.io/MixedReality-UXTools-Unreal).
+
+# Feedback and Contributions
+
+Due to the early stage of the project and the likelihood of internal refactors, we are not in a position to accept external contributions via pull requests at this time. However, contributions and feedback in the shape of bug reports, suggestions and feature requests are welcome and encouraged.

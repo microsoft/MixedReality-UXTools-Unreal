@@ -144,8 +144,13 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		}
 	}
 
-	// Don't update the focused target if locked
-	if (!bFocusLocked)
+	// Don't change the focused target if focus is locked
+	if (bFocusLocked)
+	{
+		GrabFocus->UpdateClosestTarget(GrabPointerTransform);
+		PokeFocus->UpdateClosestTarget(PokePointerTransform);
+	}
+	else
 	{
 		const FVector ProximityCenter = GrabPointerTransform.GetLocation();
 
@@ -186,6 +191,8 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 				{
 					bIsPoking = false;
 					IUxtPokeTarget::Execute_OnEndPoke(Target, this);
+
+					bWasBehindFrontFace = IsBehindFrontFace(Primitive, PokePointerLocation, GetPokePointerRadius());
 				}
 				else
 				{
@@ -196,6 +203,8 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			{
 				bIsPoking = false;
 				bFocusLocked = false;
+				
+				bWasBehindFrontFace = false;
 			}
 		}
 		else if (Target)
