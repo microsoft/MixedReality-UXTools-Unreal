@@ -117,10 +117,10 @@ public:
 private:
 
 	/** Pointer origin as reported by the hand tracker. */
-	FVector PointerOrigin;
+	FVector PointerOrigin = FVector::ZeroVector;
 
 	/** Pointer orientation. */
-	FQuat PointerOrientation;
+	FQuat PointerOrientation = FQuat::Identity;
 
 	TWeakObjectPtr<UPrimitiveComponent> HitPrimitiveWeak;
 	FVector HitPoint = FVector::ZeroVector;
