@@ -18,9 +18,14 @@ bool FUxtTestHandTracker::GetJointState(EControllerHand Hand, EUxtHandJoint Join
 
 bool FUxtTestHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
 {
-	OutOrientation = TestOrientation;
-	OutPosition = TestPosition;
-	return true;
+	if (bIsTracked)
+	{
+		OutOrientation = TestOrientation;
+		OutPosition = TestPosition;
+		return true;
+	}
+
+	return false;
 }
 
 bool FUxtTestHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const

@@ -30,22 +30,12 @@ static UGrabTickTestComponent* CreateTestComponent(UWorld* World, const FVector&
 	UGrabTickTestComponent* testTarget = NewObject<UGrabTickTestComponent>(actor);
 	testTarget->RegisterComponent();
 
-	FString meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
-	float meshScale = 0.3f;
-	if (!meshFilename.IsEmpty())
-	{
-		UStaticMeshComponent* mesh = NewObject<UStaticMeshComponent>(actor);
-		mesh->SetupAttachment(actor->GetRootComponent());
-		mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-		mesh->SetCollisionProfileName(TEXT("OverlapAll"));
-		mesh->SetGenerateOverlapEvents(true);
-
-		UStaticMesh* meshAsset = LoadObject<UStaticMesh>(actor, *meshFilename);
-		mesh->SetStaticMesh(meshAsset);
-		mesh->SetRelativeScale3D(FVector::OneVector * meshScale);
-
-		mesh->RegisterComponent();
-	}
+	UStaticMeshComponent* mesh = UxtTestUtils::CreateBoxStaticMesh(actor, FVector(0.3f));
+	mesh->SetupAttachment(actor->GetRootComponent());
+	mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+	mesh->SetGenerateOverlapEvents(true);
+	mesh->RegisterComponent();
 
 	return testTarget;
 }

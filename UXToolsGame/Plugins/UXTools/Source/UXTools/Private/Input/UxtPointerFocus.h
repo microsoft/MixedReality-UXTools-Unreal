@@ -51,6 +51,9 @@ public:
 	/** Select and set the focused target among the list of overlaps. */
 	void SelectClosestTarget(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform, const TArray<FOverlapResult>& Overlaps);
 
+	/** Update the ClosestTargetPoint while focus is locked */
+	void UpdateClosestTarget(const FTransform& PointerTransform);
+
 	/** Select the closest primitive from the owner of the given target component.
 	 *  The target component will be the new focus, unless no usable primitive can be found.
 	 */

@@ -19,6 +19,29 @@ FUxtTestHandTracker UxtTestUtils::TestHandTracker;
 /** Cached hand tracker implementation to restore after tests are completed. */
 IUxtHandTracker* UxtTestUtils::MainHandTracker = nullptr;
 
+UWorld* UxtTestUtils::LoadMap(const FString& MapName)
+{
+	// Syncronous map load is only supported in editor
+#if WITH_EDITOR
+	if (AutomationOpenMap(MapName))
+	{
+		return GetTestWorld();
+	}
+#else
+	check(false);
+#endif
+	return nullptr;
+}
+
+void UxtTestUtils::ExitGame()
+{
+	// Copied from FExitGameCommand 
+	if (APlayerController* TargetPC = UGameplayStatics::GetPlayerController(GetTestWorld(), 0))
+	{
+		TargetPC->ConsoleCommand(TEXT("Exit"), true);
+	}
+}
+
 // Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
 // Marked as temporary there, hence, this one is temporary, too.
 UWorld* UxtTestUtils::GetTestWorld() {
@@ -37,6 +60,15 @@ UWorld* UxtTestUtils::CreateTestWorld()
 {
 	UWorld *world = UWorld::CreateWorld(EWorldType::PIE, true, TEXT("TestWorld"));
 	return world;
+}
+
+UStaticMeshComponent* UxtTestUtils::CreateBoxStaticMesh(AActor* Owner, FVector Scale)
+{
+	UStaticMeshComponent* Component = NewObject<UStaticMeshComponent>(Owner);
+	UStaticMesh* Mesh = LoadObject<UStaticMesh>(Owner, TEXT("/Engine/BasicShapes/Cube.Cube"));
+	Component->SetStaticMesh(Mesh);
+	Component->SetWorldScale3D(Scale);
+	return Component;
 }
 
 FUxtTestHandTracker& UxtTestUtils::GetTestHandTracker()
@@ -96,14 +128,9 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 
 	if (AddMeshVisualizer)
 	{
-		UStaticMeshComponent *mesh = NewObject<UStaticMeshComponent>(hand);
+		UStaticMeshComponent* mesh = CreateBoxStaticMesh(hand, FVector(0.01f));
 		mesh->SetupAttachment(root);
 		mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-		UStaticMesh *meshAsset = LoadObject<UStaticMesh>(hand, TEXT("/Engine/BasicShapes/Cube.Cube"));
-		mesh->SetStaticMesh(meshAsset);
-		mesh->SetRelativeScale3D(FVector::OneVector * 0.01f);
-
 		mesh->RegisterComponent();
 	}
 
