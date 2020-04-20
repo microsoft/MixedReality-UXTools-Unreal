@@ -4,7 +4,7 @@
 
 trigger:
 - master
-- release/0.8.0
+- public/0.8.x
 
 variables:
 - template: settings/common.yml
