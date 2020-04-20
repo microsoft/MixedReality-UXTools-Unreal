@@ -144,8 +144,13 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		}
 	}
 
-	// Don't update the focused target if locked
-	if (!bFocusLocked)
+	// Don't change the focused target if focus is locked
+	if (bFocusLocked)
+	{
+		GrabFocus->UpdateClosestTarget(GrabPointerTransform);
+		PokeFocus->UpdateClosestTarget(PokePointerTransform);
+	}
+	else
 	{
 		const FVector ProximityCenter = GrabPointerTransform.GetLocation();
 
