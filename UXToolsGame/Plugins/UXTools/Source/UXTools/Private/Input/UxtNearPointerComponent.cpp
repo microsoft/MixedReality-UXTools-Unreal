@@ -186,6 +186,8 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 				{
 					bIsPoking = false;
 					IUxtPokeTarget::Execute_OnEndPoke(Target, this);
+
+					bWasBehindFrontFace = IsBehindFrontFace(Primitive, PokePointerLocation, GetPokePointerRadius());
 				}
 				else
 				{
@@ -196,6 +198,8 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			{
 				bIsPoking = false;
 				bFocusLocked = false;
+				
+				bWasBehindFrontFace = false;
 			}
 		}
 		else if (Target)

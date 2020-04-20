@@ -61,8 +61,10 @@ BEGIN_DEFINE_SPEC(PressableButtonSpec, "UXTools.PressableButtonTest", EAutomatio
 	void EnqueueDestroyTest(const TTuple<FVector, FVector> FramePositions);
 	void EnqueuePressReleaseTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease);
 	void EnqueueMoveButtonTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease);
+	void EnqueueTwoButtonsTest(const FVector StartingPos);
 
 	UUxtPressableButtonComponent* Button;
+	UUxtPressableButtonComponent* SecondButton;
 	UPressableButtonTestComponent* EventCaptureObj;
 	UUxtNearPointerComponent* Pointer;
 	FVector Center;
@@ -107,6 +109,12 @@ void PressableButtonSpec::Define()
 					Button = nullptr;
 					Pointer->GetOwner()->Destroy();
 					Pointer = nullptr;
+
+					if (SecondButton)
+					{
+						SecondButton->GetOwner()->Destroy();
+						SecondButton = nullptr;
+					}
 
 					// Force GC so that destroyed actors are removed from the world.
 					// Running multiple tests will otherwise cause errors when creating duplicate actors.
@@ -208,6 +216,20 @@ void PressableButtonSpec::Define()
 						(FVector::ForwardVector + FVector::LeftVector) * MoveBy);
 
 					EnqueueMoveButtonTest(Sequence, false, false);
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt("should raise press or release for both buttons when the pointer moves forward and back through both in sequence", [this](const FDoneDelegate& Done)
+				{
+					SecondButton = CreateTestComponent(UxtTestUtils::GetTestWorld(), Center + FVector(0, 10, 0));
+
+					SecondButton->OnButtonPressed.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementPressed);
+					SecondButton->OnButtonReleased.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementReleased);
+
+					FVector StartPos = Center + FVector(-MoveBy, 5, 0);
+
+					EnqueueTwoButtonsTest(StartPos);
+
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 		});
@@ -331,6 +353,65 @@ void PressableButtonSpec::EnqueueMoveButtonTest(const TTuple<FVector, FVector, F
 	FrameQueue.Enqueue([this, bExpectingRelease]
 		{
 			TestEqual("Button release as expected", EventCaptureObj->ReleasedCount == 1, bExpectingRelease);
+		});
+}
+
+void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
+{
+	// This test is to ensure that the buttons still function when there is more than one
+	// pokeable object in the poke focus volume. This was causing issues as if the focused
+	// and poked primitives differ, then no poke events are fired
+
+	// The occasional frame needs to be skipped in this test because of a tick 
+	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
+	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
+	// be empty for the first frame after the hand has been moved to the press
+	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
+	// to be called after PokePointers has been populated.
+
+	// first move
+	FrameQueue.Enqueue([this, StartingPos]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+		});
+	// second move
+	FrameQueue.Enqueue([this]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = Button->GetComponentLocation();
+		});
+
+	// Skip a frame for poke because of tick ordering issue.
+	FrameQueue.Skip();
+
+	// test pressed and move back to starting pos
+	FrameQueue.Enqueue([this, StartingPos]
+		{
+			TestTrue("A button was pressed", EventCaptureObj->PressedCount == 1);
+			TestTrue("No button was released", EventCaptureObj->ReleasedCount == 0);
+			TestTrue("First Button is pressed", Button->IsPressed());
+			TestFalse("Second Button is not pressed", SecondButton->IsPressed());
+		});
+	// third move
+	FrameQueue.Enqueue([this, StartingPos]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+		});
+	// fourth move
+	FrameQueue.Enqueue([this]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = SecondButton->GetComponentLocation();
+		});
+
+	// Skip a frame for poke because of tick ordering issue.
+	FrameQueue.Skip();
+
+	// second move
+	FrameQueue.Enqueue([this]
+		{
+			TestTrue("Another button was pressed", EventCaptureObj->PressedCount == 2);
+			TestTrue("A button was released", EventCaptureObj->ReleasedCount == 1);
+			TestFalse("First Button is not pressed", Button->IsPressed());
+			TestTrue("Second Button is pressed", SecondButton->IsPressed());
 		});
 }
 
