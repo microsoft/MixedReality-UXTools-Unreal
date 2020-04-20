@@ -1,0 +1,936 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UUxtGrabTargetComponent
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UUxtGrabTargetComponent
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_grab_target_component">
+  
+  
+  <h1 id="_u_uxt_grab_target_component" data-uid="_u_uxt_grab_target_component" class="text-break">Class UUxtGrabTargetComponent
+  </h1>
+  <div class="markdown level0 summary"><p>Interactable component that listens to grab events from near pointers.</p>
+<p>A pointer that starts grabing while near the actor is considered a grabbing pointer. The grab is released when the pointer stops grabing, regardless of whether it is still near or not.</p>
+<p>The GrabComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">USceneComponent</span></div>
+    <div class="level2"><span class="xref">UUxtGrabTargetComponent</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_IsFarFocusable_const_UPrimitiveComponent___">IUxtFarTarget::IsFarFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_IsGrabFocusable_const_UPrimitiveComponent___">IUxtGrabTarget::IsGrabFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnBeginGrab_UUxtNearPointerComponent___">IUxtGrabTarget::OnBeginGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnEndGrab_UUxtNearPointerComponent___">IUxtGrabTarget::OnEndGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnEnterFarFocus_UUxtFarPointerComponent___">IUxtFarTarget::OnEnterFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnEnterGrabFocus_UUxtNearPointerComponent___">IUxtGrabTarget::OnEnterGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnExitFarFocus_UUxtFarPointerComponent___">IUxtFarTarget::OnExitFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnExitGrabFocus_UUxtNearPointerComponent___">IUxtGrabTarget::OnExitGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnFarDragged_UUxtFarPointerComponent___">IUxtFarTarget::OnFarDragged(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnFarPressed_UUxtFarPointerComponent___">IUxtFarTarget::OnFarPressed(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnFarReleased_UUxtFarPointerComponent___">IUxtFarTarget::OnFarReleased(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnUpdatedFarFocus_UUxtFarPointerComponent___">IUxtFarTarget::OnUpdatedFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnUpdateGrab_UUxtNearPointerComponent___">IUxtGrabTarget::OnUpdateGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnUpdateGrabFocus_UUxtNearPointerComponent___">IUxtGrabTarget::OnUpdateGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_u_uxt_grab_target_component_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class UUxtGrabTargetComponent : public xtGrabTarget, public xtFarTarget</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_UUxtGrabTargetComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.UUxtGrabTargetComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L78">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_UUxtGrabTargetComponent_" data-uid="_u_uxt_grab_target_component.UUxtGrabTargetComponent*"></a>
+  <h4 id="_u_uxt_grab_target_component_UUxtGrabTargetComponent__" data-uid="_u_uxt_grab_target_component.UUxtGrabTargetComponent()">UUxtGrabTargetComponent()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UUxtGrabTargetComponent()</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnBeginGrab.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnBeginGrab%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L201">View Source</a>
+  </span>
+  <h4 id="_u_uxt_grab_target_component_OnBeginGrab" data-uid="_u_uxt_grab_target_component.OnBeginGrab">OnBeginGrab</h4>
+  <div class="markdown level1 summary"><p>Event raised when grab starts. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtBeginGrabDelegate OnBeginGrab</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtBeginGrabDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnEndGrab.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnEndGrab%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L209">View Source</a>
+  </span>
+  <h4 id="_u_uxt_grab_target_component_OnEndGrab" data-uid="_u_uxt_grab_target_component.OnEndGrab">OnEndGrab</h4>
+  <div class="markdown level1 summary"><p>Event raised when grab ends. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtEndGrabDelegate OnEndGrab</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtEndGrabDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnUpdateGrab.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnUpdateGrab%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L205">View Source</a>
+  </span>
+  <h4 id="_u_uxt_grab_target_component_OnUpdateGrab" data-uid="_u_uxt_grab_target_component.OnUpdateGrab">OnUpdateGrab</h4>
+  <div class="markdown level1 summary"><p>Event raised when grab updates. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtUpdateGrabDelegate OnUpdateGrab</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtUpdateGrabDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L208">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_BeginPlay_" data-uid="_u_uxt_grab_target_component.BeginPlay*"></a>
+  <h4 id="_u_uxt_grab_target_component_BeginPlay__" data-uid="_u_uxt_grab_target_component.BeginPlay()">BeginPlay()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_FindGrabPointer_UUxtNearPointerComponent___UUxtFarPointerComponent___bool___FUxtGrabPointerData___int___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.FindGrabPointer(UUxtNearPointerComponent%20*%2CUUxtFarPointerComponent%20*%2Cbool%20%26%2CFUxtGrabPointerData%20%26%2Cint%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L145">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_FindGrabPointer_" data-uid="_u_uxt_grab_target_component.FindGrabPointer*"></a>
+  <h4 id="_u_uxt_grab_target_component_FindGrabPointer_UUxtNearPointerComponent___UUxtFarPointerComponent___bool___FUxtGrabPointerData___int___" data-uid="_u_uxt_grab_target_component.FindGrabPointer(UUxtNearPointerComponent *,UUxtFarPointerComponent *,bool &amp;,FUxtGrabPointerData &amp;,int &amp;)">FindGrabPointer(UUxtNearPointerComponent *NearPointer, UUxtFarPointerComponent *FarPointer, bool &amp;Success, FUxtGrabPointerData &amp;PointerData, int &amp;Index)</h4>
+  <div class="markdown level1 summary"><p>Returns true if the pointer is currently grabbing the actor. PointerData will contain the associated grab data for the pointer. Index is the order in which pointers started grabbing. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void FindGrabPointer(UUxtNearPointerComponent *NearPointer, UUxtFarPointerComponent *FarPointer, bool &amp;Success, FUxtGrabPointerData &amp;PointerData, int &amp;Index) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">NearPointer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">FarPointer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>bool &amp;</td>
+        <td><span class="parametername">Success</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp;</td>
+        <td><span class="parametername">PointerData</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>int &amp;</td>
+        <td><span class="parametername">Index</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_GetGrabPointCentroid_const_FTransform___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.GetGrabPointCentroid(const%20FTransform%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L88">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_GetGrabPointCentroid_" data-uid="_u_uxt_grab_target_component.GetGrabPointCentroid*"></a>
+  <h4 id="_u_uxt_grab_target_component_GetGrabPointCentroid_const_FTransform___" data-uid="_u_uxt_grab_target_component.GetGrabPointCentroid(const FTransform &amp;)">GetGrabPointCentroid(const FTransform &amp;Transform)</h4>
+  <div class="markdown level1 summary"><p>Compute the centroid of the grab points in world space. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FVector GetGrabPointCentroid(const FTransform &amp;Transform) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FTransform &amp;</td>
+        <td><span class="parametername">Transform</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_GetGrabPointers__.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.GetGrabPointers()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L83">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_GetGrabPointers_" data-uid="_u_uxt_grab_target_component.GetGrabPointers*"></a>
+  <h4 id="_u_uxt_grab_target_component_GetGrabPointers__" data-uid="_u_uxt_grab_target_component.GetGrabPointers()">GetGrabPointers()</h4>
+  <div class="markdown level1 summary"><p>Returns a list of all currently grabbing pointers. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const TArray&lt;FUxtGrabPointerData&gt; &amp; GetGrabPointers() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const TArray&lt;<a class="xref" href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a>&gt; &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_GetPointersTransformCentroid__.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.GetPointersTransformCentroid()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L99">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_GetPointersTransformCentroid_" data-uid="_u_uxt_grab_target_component.GetPointersTransformCentroid*"></a>
+  <h4 id="_u_uxt_grab_target_component_GetPointersTransformCentroid__" data-uid="_u_uxt_grab_target_component.GetPointersTransformCentroid()">GetPointersTransformCentroid()</h4>
+  <div class="markdown level1 summary"><p>Compute the average transform of currently grabbing pointers </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: FTransform GetPointersTransformCentroid() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FTransform</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_GetPrimaryGrabPointer_bool___FUxtGrabPointerData___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.GetPrimaryGrabPointer(bool%20%26%2CFUxtGrabPointerData%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L155">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_GetPrimaryGrabPointer_" data-uid="_u_uxt_grab_target_component.GetPrimaryGrabPointer*"></a>
+  <h4 id="_u_uxt_grab_target_component_GetPrimaryGrabPointer_bool___FUxtGrabPointerData___" data-uid="_u_uxt_grab_target_component.GetPrimaryGrabPointer(bool &amp;,FUxtGrabPointerData &amp;)">GetPrimaryGrabPointer(bool &amp;Valid, FUxtGrabPointerData &amp;PointerData)</h4>
+  <div class="markdown level1 summary"><p>Returns the first active grab pointer. If no pointer is grabbing the Valid output will be false. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void GetPrimaryGrabPointer(bool &amp;Valid, FUxtGrabPointerData &amp;PointerData) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool &amp;</td>
+        <td><span class="parametername">Valid</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp;</td>
+        <td><span class="parametername">PointerData</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_GetSecondaryGrabPointer_bool___FUxtGrabPointerData___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.GetSecondaryGrabPointer(bool%20%26%2CFUxtGrabPointerData%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L168">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_GetSecondaryGrabPointer_" data-uid="_u_uxt_grab_target_component.GetSecondaryGrabPointer*"></a>
+  <h4 id="_u_uxt_grab_target_component_GetSecondaryGrabPointer_bool___FUxtGrabPointerData___" data-uid="_u_uxt_grab_target_component.GetSecondaryGrabPointer(bool &amp;,FUxtGrabPointerData &amp;)">GetSecondaryGrabPointer(bool &amp;Valid, FUxtGrabPointerData &amp;PointerData)</h4>
+  <div class="markdown level1 summary"><p>Returns the second active grab pointer. If less than two pointers are grabbing the Valid output will be false. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void GetSecondaryGrabPointer(bool &amp;Valid, FUxtGrabPointerData &amp;PointerData) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool &amp;</td>
+        <td><span class="parametername">Valid</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp;</td>
+        <td><span class="parametername">PointerData</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_GetTargetCentroid__.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.GetTargetCentroid()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L116">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_GetTargetCentroid_" data-uid="_u_uxt_grab_target_component.GetTargetCentroid*"></a>
+  <h4 id="_u_uxt_grab_target_component_GetTargetCentroid__" data-uid="_u_uxt_grab_target_component.GetTargetCentroid()">GetTargetCentroid()</h4>
+  <div class="markdown level1 summary"><p>Compute the centroid of the pointer targets in world space. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FVector GetTargetCentroid() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_GetTickOnlyWhileGrabbed__.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.GetTickOnlyWhileGrabbed()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L181">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_GetTickOnlyWhileGrabbed_" data-uid="_u_uxt_grab_target_component.GetTickOnlyWhileGrabbed*"></a>
+  <h4 id="_u_uxt_grab_target_component_GetTickOnlyWhileGrabbed__" data-uid="_u_uxt_grab_target_component.GetTickOnlyWhileGrabbed()">GetTickOnlyWhileGrabbed()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool GetTickOnlyWhileGrabbed() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.IsFarFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L279">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_IsFarFocusable_Implementation_" data-uid="_u_uxt_grab_target_component.IsFarFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_grab_target_component.IsFarFocusable_Implementation(const UPrimitiveComponent *)">IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_IsGrabFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.IsGrabFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L216">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_IsGrabFocusable_Implementation_" data-uid="_u_uxt_grab_target_component.IsGrabFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_IsGrabFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_grab_target_component.IsGrabFocusable_Implementation(const UPrimitiveComponent *)">IsGrabFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent *Primitive) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnBeginGrab_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnBeginGrab_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L222">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_OnBeginGrab_Implementation_" data-uid="_u_uxt_grab_target_component.OnBeginGrab_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_OnBeginGrab_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_grab_target_component.OnBeginGrab_Implementation(UUxtNearPointerComponent *)">OnBeginGrab_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnEndGrab_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnEndGrab_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L254">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_OnEndGrab_Implementation_" data-uid="_u_uxt_grab_target_component.OnEndGrab_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_OnEndGrab_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_grab_target_component.OnEndGrab_Implementation(UUxtNearPointerComponent *)">OnEndGrab_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEndGrab_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnFarDragged_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnFarDragged_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L343">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_OnFarDragged_Implementation_" data-uid="_u_uxt_grab_target_component.OnFarDragged_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_OnFarDragged_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_grab_target_component.OnFarDragged_Implementation(UUxtFarPointerComponent *)">OnFarDragged_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarDragged_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnFarPressed_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnFarPressed_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L305">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_OnFarPressed_Implementation_" data-uid="_u_uxt_grab_target_component.OnFarPressed_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_OnFarPressed_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_grab_target_component.OnFarPressed_Implementation(UUxtFarPointerComponent *)">OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnFarReleased_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnFarReleased_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L320">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_OnFarReleased_Implementation_" data-uid="_u_uxt_grab_target_component.OnFarReleased_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_OnFarReleased_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_grab_target_component.OnFarReleased_Implementation(UUxtFarPointerComponent *)">OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_OnUpdateGrab_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.OnUpdateGrab_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L239">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_OnUpdateGrab_Implementation_" data-uid="_u_uxt_grab_target_component.OnUpdateGrab_Implementation*"></a>
+  <h4 id="_u_uxt_grab_target_component_OnUpdateGrab_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_grab_target_component.OnUpdateGrab_Implementation(UUxtNearPointerComponent *)">OnUpdateGrab_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component_SetTickOnlyWhileGrabbed_bool_.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component.SetTickOnlyWhileGrabbed(bool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtGrabTargetComponent.cpp/#L186">View Source</a>
+  </span>
+  <a id="_u_uxt_grab_target_component_SetTickOnlyWhileGrabbed_" data-uid="_u_uxt_grab_target_component.SetTickOnlyWhileGrabbed*"></a>
+  <h4 id="_u_uxt_grab_target_component_SetTickOnlyWhileGrabbed_bool_" data-uid="_u_uxt_grab_target_component.SetTickOnlyWhileGrabbed(bool)">SetTickOnlyWhileGrabbed(bool bEnable)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetTickOnlyWhileGrabbed(bool bEnable)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td><span class="parametername">bEnable</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.8.x/apiSpec/new?filename=_u_uxt_grab_target_component.md&amp;value=---%0Auid%3A%20_u_uxt_grab_target_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L120" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

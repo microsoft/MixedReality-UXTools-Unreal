@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Introduction | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Introduction | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href="./Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="./Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="introduction">Introduction</h1>
+
+<p>UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help in the implementation of features commonly needed when developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the included features are complete and robust enough to use in your own projects. Only HoloLens 2 is supported at the moment.</p>
+<p>Features:</p>
+<ul>
+<li><a href="Docs/InputSimulation.html">Input simulation</a>: simulated articulated hands and head pose for use in-editor. Great for improving development iteration times.</li>
+<li><a href="Docs/HandInteraction.html">Hand interaction actor</a>: used to interact with our UX components with articulated hands.</li>
+<li><a href="Docs/PressableButton.html">Pressable button component</a>: low level component used to drive the state of button blueprints. An example button blueprint is provided.</li>
+<li><a href="Docs/Manipulator.html">Manipulator component</a>: allows moving and rotating an actor via one or two hand manipulation.</li>
+<li><a href="Docs/FollowComponent.html">Follow behaviour component</a>: keeps an actor or component within sight of another component, usually the camera.</li>
+</ul>
+<p><img src="Docs/Images/Features.png" alt="Features"></p>
+<p>Included but still in development is a bounding box component that allows manipulation of an actor's transform via affordances.</p>
+<h1 id="getting-started">Getting Started</h1>
+<ol>
+<li>Get UE 4.25 preview 6 or later. Earlier previews or UE versions are not supported.</li>
+<li>Clone this repository.</li>
+<li>Checkout public/0.8.x. Bear in mind this branch is alive, it is not a release, and will be <strong>updated regularly with potentially breaking changes</strong>. There will be a release tag (e.g. release/0.8.0) marked as such in GitHub.</li>
+</ol>
+<p>At this point it can be useful to have a look at the example maps provided in the UX Tools Game (<em>/UXToolsGame</em>) to get familiar with the plugin's functionality.</p>
+<p>To use the plugin in a game:</p>
+<ol>
+<li>Copy <em>/UXToolsGame/Plugins/UXTools</em> to the game's <em>Plugins</em> directory. Make sure the game project is a code one in order to be able to build the plugin sources.</li>
+<li>Open the game project and enable the UX Tools plugin in the plugins menu.</li>
+</ol>
+<p>To make sure everything is working as expected, add a hand interaction actor and an instance of the simple button blueprint to a level and try pressing the button with the simulated hands when playing in the editor.</p>
+<h1 id="documentation">Documentation</h1>
+<p>The latest version of the documentation can be found <a href="https://microsoft.github.io/MixedReality-UXTools-Unreal">here</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.8.x/README.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
