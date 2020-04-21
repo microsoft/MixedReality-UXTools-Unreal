@@ -104,6 +104,7 @@ steps:
     {
         Write-Host "Copying modified index and web scripts"
         Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web_root\index.html" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
+        Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\.nojekyll" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
         Copy-Item -Recurse -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
     }
 
