@@ -230,6 +230,18 @@ void FFarPointerSpec::Define()
 			Done.Execute();
 		});
 	});
+
+	LatentIt("should release lock on tracking loss", [this](const FDoneDelegate& Done)
+	{
+		Pointer->SetFocusLocked(true);
+		HandTracker->bIsTracked = false;
+
+		FrameQueue.Enqueue([this, Done]()
+		{
+			TestFalse("FocusLocked", Pointer->GetFocusLocked());
+			Done.Execute();
+		});
+	});
 }
 
 #endif // #if WITH_DEV_AUTOMATION_TESTS 

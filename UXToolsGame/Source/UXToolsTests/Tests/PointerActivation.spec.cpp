@@ -125,9 +125,10 @@ void PointerActivationSpec::Define()
 							// Enable focus lock to ensure it is released when tracking is lost.
 							// Have to activate the pointers as well to test that focus lock is released during deactivation.
 							NearPointer->Activate();
-							FarPointer->Activate();
 							NearPointer->SetFocusLocked(true);
-							FarPointer->SetFocusLocked(true);
+
+							// Far pointer doesn't expect focus requests while not enabled (i.e. having ticked with tracking) so we just check for deactivation.
+							FarPointer->Activate();
 
 							UxtTestUtils::GetTestHandTracker().TestPosition = NearPoint;
 							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
@@ -144,7 +145,6 @@ void PointerActivationSpec::Define()
 							TestFalse(TEXT("Far pointer active"), FarPointer->IsActive());
 
 							TestFalse(TEXT("Near pointer focus locked"), NearPointer->GetFocusLocked());
-							TestFalse(TEXT("Far pointer focus locked"), FarPointer->GetFocusLocked());
 
 							Done.Execute();
 						});
