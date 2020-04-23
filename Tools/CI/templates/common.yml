@@ -1,3 +1,6 @@
+parameters:
+    TestOutputDir: $(Build.ArtifactStagingDirectory)\TestResults  # path to JSON file that will be produced by UE4 tests
+
 steps:
 # For the plugin build to succeed UE4 needs to be installed outside of the agent working directory.
 # The tools directory location needs to be manually set on the build agent using AGENT_TOOLSDIRECTORY environment variable.
@@ -38,11 +41,30 @@ steps:
 - script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=Win64 -clientconfig=Development -serverconfig=Development'
   displayName: 'Build UXToolsGame (Win64|Development)'
 
-- script: '$(UE4Editor) $(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log'
+- script: '$(UE4Editor) $(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log -ReportOutputPath="${{ parameters.TestOutputDir }}\EditorTests"'
   displayName: 'Test UXTools in Editor'
 
 - powershell: 'Get-Content $(UXTSourceDir)\UXToolsGame\Saved\Logs\UXToolsGame.log -Encoding utf8'
   displayName: 'Test logs'
+
+- task: PowerShell@2
+  displayName: 'Convert test results for publishing'
+  inputs:
+    targetType: 'filePath'
+    filePath: $(UXTSourceDir)\Tools\scripts\ConvertTestOutputToXML.ps1
+    arguments: -Path "${{ parameters.TestOutputDir }}\EditorTests\index.json" -Output ${{ parameters.TestOutputDir }}\EditorTests\results.xml
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Test result files to pipeline artifacts'
+  inputs:
+    ArtifactName: 'Test Results'
+    PathtoPublish: '${{ parameters.TestOutputDir }}'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+    testResultsFiles: '${{ parameters.TestOutputDir }}\EditorTests\results.xml'
+    failTaskOnFailedTests: true
 
 - task: DownloadSecureFile@1
   name: signingCertificate
