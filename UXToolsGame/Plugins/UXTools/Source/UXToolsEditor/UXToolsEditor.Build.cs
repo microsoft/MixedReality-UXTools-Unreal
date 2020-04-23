@@ -7,7 +7,7 @@ public class UXToolsEditor : ModuleRules
 {
 	public UXToolsEditor(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		PCHUsage = PCHUsageMode.NoSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Core", "CoreUObject", "UXTools", "UXToolsRuntimeSettings" });
 

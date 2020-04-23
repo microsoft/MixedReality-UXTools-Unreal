@@ -12,6 +12,7 @@ class UTestGrabTarget;
 class UUxtNearPointerComponent;
 class UWorld;
 class UStaticMeshComponent;
+class AActor;
 
 /** Utility functions for UXTools testing. */
 struct UxtTestUtils

@@ -7,7 +7,7 @@ public class UXTools : ModuleRules
 {
 	public UXTools(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		PCHUsage = PCHUsageMode.NoSharedPCHs;
 		
 		// Required to avoid errors about undefined preprocessor macros (C4668) when building DirectXMath.h
         bEnableUndefinedIdentifierWarnings = false;
