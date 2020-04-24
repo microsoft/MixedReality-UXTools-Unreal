@@ -801,6 +801,17 @@ references:
   isSpec: "True"
   fullName: void FUxtPointerFocus::SetFocus
   nameWithType: FUxtPointerFocus::SetFocus
+- uid: _f_uxt_pointer_focus.UpdateClosestTarget(const FTransform &)
+  name: UpdateClosestTarget(const FTransform &PointerTransform)
+  href: api/_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_UpdateClosestTarget_const_FTransform___
+  fullName: void FUxtPointerFocus::UpdateClosestTarget(const FTransform &PointerTransform)
+  nameWithType: FUxtPointerFocus::UpdateClosestTarget(const FTransform &PointerTransform)
+- uid: _f_uxt_pointer_focus.UpdateClosestTarget*
+  name: UpdateClosestTarget
+  href: api/_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_UpdateClosestTarget_
+  isSpec: "True"
+  fullName: void FUxtPointerFocus::UpdateClosestTarget
+  nameWithType: FUxtPointerFocus::UpdateClosestTarget
 - uid: _f_uxt_pointer_focus.UpdateFocus(UUxtNearPointerComponent *)
   name: UpdateFocus(UUxtNearPointerComponent *Pointer)
   href: api/_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_UpdateFocus_UUxtNearPointerComponent___
