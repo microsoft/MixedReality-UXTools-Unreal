@@ -1,3 +1,5 @@
+![Mixed Reality Toolkit](Docs/Images/MRTK_Unreal_UXT_Banner_Rounded.png)
+
 # Introduction
 
 UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help in the implementation of features commonly needed when developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the included features are complete and robust enough to use in your own projects. Only HoloLens 2 is supported at the moment.
