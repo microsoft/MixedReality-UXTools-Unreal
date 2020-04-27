@@ -85,11 +85,11 @@
 <p>Hand interaction with UX elements is performed via the <em>hand interaction actor</em>. This actor takes care of creating and driving the pointers and visuals for near and far interactions.</p>
 <p>Near interactions are performed by either <em>grabbing</em> elements pinching them between index and thumb or <em>poking</em> at them with the finger tip.
 While in near interaction mode a <em>finger cursor</em> is displayed on the finger tip to provide feedback about the closest poke target.</p>
-<p><img src="Images/PokeInteraction.PNG" alt="PokeInteraction"></p>
+<p><img src="Images/PokeInteraction.png" alt="PokeInteraction"></p>
 <p>Far interacions are performed pointing via a ray attached to the hand with selection triggered by pressing index and thumb tips together.
 A <em>far beam</em> is displayed representing the ray shooting out of the hand.
 At the end of the beam a <em>far cursor</em> gives feedback about the current far target.</p>
-<p><img src="Images/FarInteraction.PNG" alt="FarInteraction"></p>
+<p><img src="Images/FarInteraction.png" alt="FarInteraction"></p>
 <p>Poke and grab targets are defined by adding a component implementing the <em>grab target interface</em> and <em>poke target interface</em>.
 All visible objects with collision will be hit by the far ray by default but only components implementing the <em>far target interface</em> will receive far interaction events.
 Provided UX elements like the <em>pressable button</em> implement these interfaces to use interactions to drive their state.</p>
