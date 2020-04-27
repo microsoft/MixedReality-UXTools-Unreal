@@ -119,9 +119,15 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
 			const float Epsilon = 0.000001;
 
+			FTransform CursorTransform = GetCursorTransform(HandPointer->Hand, PointOnTarget, AlignWithSurfaceDistance);
+
 			if (DistanceToTarget > Epsilon)
 			{
-				SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, AlignWithSurfaceDistance));
+				SetWorldTransform(CursorTransform);
+			}
+			else
+			{
+				SetWorldLocation(CursorTransform.GetLocation());
 			}
 
 			// Scale radius with the distance to the target
