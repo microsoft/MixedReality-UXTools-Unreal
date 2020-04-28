@@ -7,7 +7,7 @@ public class UXToolsInputSimulation : ModuleRules
 {
 	public UXToolsInputSimulation(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = PCHUsageMode.NoSharedPCHs;
+		PCHUsage = PCHUsageMode.NoPCHs;
 		
 		PublicDependencyModuleNames.AddRange(new string[]
 			{
