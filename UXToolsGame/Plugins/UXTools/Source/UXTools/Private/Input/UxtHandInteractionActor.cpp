@@ -117,21 +117,22 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 			const FVector Forward = FingerTipOrientation.GetForwardVector();
 			const FVector FingerTipPositionOnSkin = FingerTipPosition + Forward * JointRadius;
 
+			const float SphereRadius = 0.5f * NearActivationDistance;
+			FVector QueryPosition = FingerTipPositionOnSkin + Forward * SphereRadius;
+
 			// Only switch between near and far if none of the pointers is locked
-			if (!NearPointer->GetFocusLocked() && !FarPointer->GetFocusLocked())
+			if (bHadTracking && !NearPointer->GetFocusLocked() && !FarPointer->GetFocusLocked())
 			{
 				// Near-far activation query
-				TArray<FOverlapResult> Overlaps;
+				TArray<FHitResult> Overlaps;
 				// Disable complex collision to enable overlap from inside primitives
 				FCollisionQueryParams QueryParams(NAME_None, false);
-				const float SphereRadius = 0.5f * NearActivationDistance;
-				FVector QueryPosition = FingerTipPositionOnSkin + Forward * SphereRadius;
 				FCollisionShape QuerySphere = FCollisionShape::MakeSphere(SphereRadius);
-				GetWorld()->OverlapMultiByChannel(Overlaps, QueryPosition, FQuat::Identity, TraceChannel, QuerySphere, QueryParams);
+				GetWorld()->SweepMultiByChannel(Overlaps, PrevQueryPosition, QueryPosition, FQuat::Identity, TraceChannel, QuerySphere, QueryParams);
 
 				// Look for a near target in the overlaps
 				bool bHasNearTarget = false;
-				for (const FOverlapResult& Overlap : Overlaps)
+				for (const FHitResult& Overlap : Overlaps)
 				{
 					if (IsNearTarget(Overlap.GetComponent()))
 					{
@@ -151,10 +152,15 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 					FarPointer->SetActive(!bHasNearTarget);
 				}
 			}
+
+			bHadTracking = true;
+			PrevQueryPosition = QueryPosition;
 		}
 		else
 		{
 			// Hand not tracked
+			bHadTracking = false;
+
 			if (NearPointer->IsActive())
 			{
 				NearPointer->SetActive(false);
