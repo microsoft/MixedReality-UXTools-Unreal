@@ -1,6 +1,6 @@
 trigger:
 - master
-- release/0.8.0
+- public/0.8.x
 
 variables:
 - template: settings/common.yml
@@ -36,6 +36,8 @@ stages:
       displayName: 'Build Android Development'
 
 - stage: iOS
+  # Disable iOS stage until a 4.25 build for Mac is available
+  condition: false
   dependsOn: []
   pool:
     vmImage: macOS-10.14

@@ -24,7 +24,7 @@
     "resource": [
       // resource files that will be copied over without modifications
       {
-        "files": ["**/*.png", "**/*.svg", "**/*.ico"],
+        "files": ["**/*.png", "**/*.svg", "**/*.ico", "**/*.gif"],
 		"src": "../../Docs/Images",
 		"dest": "./Docs/Images"
       },

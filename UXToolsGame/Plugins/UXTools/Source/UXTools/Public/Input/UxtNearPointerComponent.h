@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputCoreTypes.h"
 #include "Components/ActorComponent.h"
 #include "UxtNearPointerComponent.generated.h"
 

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputCoreTypes.h"
 #include "Components/ActorComponent.h"
 #include "UxtFarPointerComponent.generated.h"
 
@@ -117,10 +118,10 @@ public:
 private:
 
 	/** Pointer origin as reported by the hand tracker. */
-	FVector PointerOrigin;
+	FVector PointerOrigin = FVector::ZeroVector;
 
 	/** Pointer orientation. */
-	FQuat PointerOrientation;
+	FQuat PointerOrientation = FQuat::Identity;
 
 	TWeakObjectPtr<UPrimitiveComponent> HitPrimitiveWeak;
 	FVector HitPoint = FVector::ZeroVector;

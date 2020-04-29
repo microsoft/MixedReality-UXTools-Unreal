@@ -48,6 +48,14 @@ public:
 		Functions.Enqueue(Func);
 	}
 
+	void Skip(int NumFrames = 1)
+	{
+		for (int i = 0; i < NumFrames; i++)
+		{
+			Enqueue([] {});
+		}
+	}
+
 private:
 	void ScheduleTick()
 	{

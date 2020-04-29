@@ -2,7 +2,7 @@
 # pr: none
 
 trigger:
-- release/0.8.0
+- public/0.8.x
 
 variables:
 - template: settings/common.yml
@@ -50,7 +50,7 @@ jobs:
       email: $(GitHub.email)
       username: $(GitHub.username)
       DestRepoUrl: $(DestRepoUrl)
-      WebScriptsBranch: release/0.8.0  # branch with the latest index.html and web folder (TODO: switch back to master when merged)
+      WebScriptsBranch: public/0.8.x  # branch with the latest index.html and web folder (TODO: switch back to master when merged)
       PublishOnlyWebScripts: true
       commit: and(succeeded(),
                   not(eq(variables['Build.Reason'], 'PullRequest')))

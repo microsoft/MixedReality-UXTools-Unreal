@@ -61,7 +61,7 @@ steps:
     $SourceBranch = "$(Build.SourceBranch)".Replace("refs/heads/", "")
     $DocsDestDir = $null
     # files from main branch are copied into the root folder
-    if ($SourceBranch -eq "${{ parameters.RootBranch }}")
+    if (($SourceBranch -eq "${{ parameters.RootBranch }}") -or ($SourceBranch -eq "${{ parameters.WebScriptsBranch }}"))
     {
         Write-Host "Delete all files apart from 'version' folder"
         (Get-ChildItem -Path "${{ parameters.DocsRepoDir }}" -Exclude "version" | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
@@ -70,9 +70,13 @@ steps:
             Write-Host "Not all files were deleted."
             exit 1
         }
+    }
+
+    if ($SourceBranch -eq "${{ parameters.RootBranch }}")
+    {
         $DocsDestDir = "${{ parameters.DocsRepoDir }}"
     }
-    else 
+    else
     {
         $DocsDestDir = "${{ parameters.DocsRepoDir }}\version\$SourceBranch"
 
@@ -99,15 +103,16 @@ steps:
     if ($SourceBranch -eq "${{ parameters.WebScriptsBranch }}")
     {
         Write-Host "Copying modified index and web scripts"
-        Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web_root\index.html" -Destination $DocsRepoDir -Verbose
-        Copy-Item -Recurse -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web" -Destination $DocsRepoDir -Verbose
+        Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web_root\index.html" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
+        Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\.nojekyll" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
+        Copy-Item -Recurse -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
     }
 
     if (($SourceBranch -ne "${{ parameters.RootBranch }}") -or ("${{ parameters.WebScriptsBeanch }}" -eq ""))
     {
         $DocsSourceDir = "${{ parameters.SourceRepoDir }}\Tools\DocGen\doc"
         Write-Host "Copy new generated docs from $DocsSourceDir to $DocsDestDir"
-        Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $DocsDestDir
+        Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $DocsDestDir -ErrorAction Stop
     }
 
     git add -A
