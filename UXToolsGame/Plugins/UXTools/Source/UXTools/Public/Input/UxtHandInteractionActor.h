@@ -105,4 +105,7 @@ private:
 
 	UPROPERTY(Transient)
 	UMaterialParameterCollection* ParameterCollection;
+	
+	bool bHadTracking = false;
+	FVector PrevQueryPosition;
 };

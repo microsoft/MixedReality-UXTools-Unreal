@@ -199,8 +199,33 @@ void UUxtBoundingBoxManipulatorComponent::BeginPlay()
 
 void UUxtBoundingBoxManipulatorComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	// Drop active grab pointers.
-	ActiveAffordanceGrabPointers.Empty();
+	// If any grab pointers are still active, end the interaction.
+	if (ActiveAffordanceGrabPointers.Num() > 0)
+	{
+		// Only one grab at a time supported for now
+		check(ActiveAffordanceGrabPointers.Num() == 1);
+
+		const FUxtBoundingBoxAffordanceInfo* affordanceInfo = ActiveAffordanceGrabPointers[0].Key;
+		const FUxtGrabPointerData& grabPointer = ActiveAffordanceGrabPointers[0].Value;
+
+		// Find the grab target in use by this pointer
+		UUxtGrabTargetComponent* grabbable = nullptr;
+		for (auto item : ActorAffordanceMap)
+		{
+			if (item.Value == affordanceInfo)
+			{
+				AActor* affordanceActor = item.Key;
+				grabbable = affordanceActor->FindComponentByClass<UUxtGrabTargetComponent>();
+				break;
+			}
+		}
+		check(grabbable != nullptr);
+
+		OnManipulationEnded.Broadcast(this, *affordanceInfo, grabbable);
+
+		// Drop active grab pointers.
+		ActiveAffordanceGrabPointers.Empty();
+	}
 
 	// Destroy affordances
 	for (const auto &item : ActorAffordanceMap)
@@ -334,7 +359,10 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerBeginGrab(UUxtGrabTargetCompo
 	FTransform relTransform = Grabbable->GetComponentTransform().GetRelativeTransform(GetOwner()->GetActorTransform());
 	bboxGrabPointer.LocalGrabPoint = UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(relTransform, GrabPointer);
 
-	TryActivateGrabPointer(**pAffordance, bboxGrabPointer);
+	if (TryActivateGrabPointer(**pAffordance, bboxGrabPointer))
+	{
+		OnManipulationStarted.Broadcast(this, **pAffordance, Grabbable);
+	}
 }
 
 void UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
@@ -361,7 +389,10 @@ void UUxtBoundingBoxManipulatorComponent::OnPointerEndGrab(UUxtGrabTargetCompone
 	const FUxtBoundingBoxAffordanceInfo **pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
 	check(pAffordance != nullptr);
 
-	TryReleaseGrabPointer(**pAffordance);
+	if (TryReleaseGrabPointer(**pAffordance))
+	{
+		OnManipulationEnded.Broadcast(this, **pAffordance, Grabbable);
+	}
 }
 
 bool UUxtBoundingBoxManipulatorComponent::TryActivateGrabPointer(const FUxtBoundingBoxAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer)
