@@ -5,6 +5,7 @@
 trigger:
 - master
 - release/0.8.0
+- framestore
 
 variables:
 - template: settings/common.yml
