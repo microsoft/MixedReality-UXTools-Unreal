@@ -104,7 +104,7 @@ BEGIN_DEFINE_SPEC(NearPointerFocusLostSpec, "UXTools.NearPointer", EAutomationTe
 	UTestGrabTarget* Target;
 	FFrameQueue FrameQueue;
 
-	const FString& TargetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
+	const FString TargetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 	const float TargetScale = 0.3f;
 	const FVector TargetLocation = FVector(120, -20, -5);
 
