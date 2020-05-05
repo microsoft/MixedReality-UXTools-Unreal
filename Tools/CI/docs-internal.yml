@@ -5,6 +5,7 @@
 trigger:
 - master
 - release/0.8.0
+- framestore
 
 variables:
 - template: settings/common.yml
@@ -25,7 +26,7 @@ jobs:
   workspace:
     clean: all
   variables:
-    dest_repo_url: https://dev.azure.com/MRDevPlat/DevPlat/_git/MixedRealityUtils-UE
+    dest_repo_url: $(Build.Repository.Uri)
   steps:
   - checkout: self
     clean: true
