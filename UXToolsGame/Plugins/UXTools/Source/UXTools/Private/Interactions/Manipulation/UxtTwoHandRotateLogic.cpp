@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 #include "UxtTwoHandRotateLogic.h"
 
 namespace
@@ -26,3 +28,4 @@ FQuat UxtTwoHandManipulationRotateLogic::Update(GrabPointers PointerData) const
 	Rot.Normalize();
 	return Rot * StartRotation;
 }
+

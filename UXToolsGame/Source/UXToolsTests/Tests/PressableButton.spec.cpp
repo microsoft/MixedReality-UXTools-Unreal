@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 #include "Engine.h"
 #include "EngineUtils.h"
 #include "GameFramework/Actor.h"
@@ -416,3 +418,4 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS
+
