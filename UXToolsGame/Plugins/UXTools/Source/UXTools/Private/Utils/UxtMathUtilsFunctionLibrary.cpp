@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
+#include "Components/SceneComponent.h"
 
 FRotator UUxtMathUtilsFunctionLibrary::GetRotationBetweenVectors(const FVector &Vector1, const FVector &Vector2)
 {
@@ -23,5 +24,16 @@ FTransform UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(const FTransform 
 	result *= FTransform(Rotation);
 	result.SetLocation(result.GetLocation() + Pivot);
 	return result;
+}
+
+FBoxSphereBounds UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(USceneComponent* Component, const FTransform& LocalToTarget)
+{
+	FBoxSphereBounds Bounds = Component->CalcBounds(LocalToTarget);
+	for (USceneComponent* Child : Component->GetAttachChildren())
+	{
+		FTransform ChildLocalToParent = Child->GetRelativeTransform() * LocalToTarget;
+		Bounds = Bounds + CalculateHierarchyBounds(Child, ChildLocalToParent);
+	}
+	return Bounds;
 }
 

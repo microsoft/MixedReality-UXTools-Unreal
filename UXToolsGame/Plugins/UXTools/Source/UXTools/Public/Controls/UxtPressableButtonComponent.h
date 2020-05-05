@@ -26,6 +26,15 @@ class UUxtFarPointerComponent;
 class UBoxComponent;
 class UShapeComponent;
 
+UENUM(BlueprintType)
+enum class EUxtPushBehavior : uint8
+{
+	/** When pushed the button visuals translate */
+	Translate,
+	/** When pushed the button visuals compress (scale) */
+	Compress
+};
+
 //
 // Delegates
 
@@ -67,12 +76,27 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	bool IsPressed() const;
 
-	/** The maximum distance the button can be pushed */
+	/** Get the current focus state of the button */
+	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	bool IsFocused() const;
+
+	/** Gets the maximum distance the button can be pushed scaled by the transform's 'x' scale.*/
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	float GetScaleAdjustedMaxPushDistance() const;
 
+	/** Gets the maximum distance the button can be pushed */
+	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	float GetMaxPushDistance() const;
 
-	/** The maximum distance the button can be pushed */
+	/** Sets the maximum distance the button can be pushed */
+	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	void SetMaxPushDistance(float Distance);
+
+	/** Button behavior when pushed */
+	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	EUxtPushBehavior PushBehavior;
+
+	/** The maximum distance the button can be pushed (auto-calculated when the push behavior is compress)*/
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
 	float MaxPushDistance;
 
@@ -132,6 +156,13 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	//
+	// UObject interface
+
+#if WITH_EDITOR
+	virtual bool CanEditChange(const FProperty* Property) const override;
+#endif
+
+	//
 	// IUxtPokeTarget interface
 
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
@@ -167,11 +198,11 @@ private:
 	/** The distance at which the button will fire a released event */
 	float GetReleasedDistance() const;
 
-	/** Use the given mesh to adjust the box component extents. */
-	void ConfigureBoxComponent(const UStaticMeshComponent* Mesh);
+	/** Use the given scene component(s) to adjust the box component extents. */
+	void ConfigureBoxComponent(USceneComponent* Parent);
 
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
-	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "USceneComponent"), Category = "Pressable Button")
 	FComponentReference VisualsReference;
 
 	/** Collision profile used by the button collider */
@@ -202,8 +233,8 @@ private:
 	/** Visuals offset in this component's space */
 	FVector VisualsOffsetLocal;
 
-	/** Visuals offset in this component's space */
-	FVector ColliderOffsetLocal;
+	/** Visuals scale in this component's space */
+	FVector VisualsScaleLocal;
 
 	/** True if the button is currently pressed */
 	bool bIsPressed = false;

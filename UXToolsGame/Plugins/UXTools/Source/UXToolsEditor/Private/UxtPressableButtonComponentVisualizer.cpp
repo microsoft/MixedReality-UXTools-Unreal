@@ -5,6 +5,7 @@
 #include "UXToolsEditor.h"
 #include <SceneManagement.h>
 #include <Components/StaticMeshComponent.h>
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 namespace
 {
@@ -38,16 +39,15 @@ void FUxtPressableButtonComponentVisualizer::DrawVisualization(const UActorCompo
 {
 	if (const UUxtPressableButtonComponent* Button = Cast<const UUxtPressableButtonComponent>(Component))
 	{
-		if (UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(Button->GetVisuals()))
+		if (USceneComponent* Visuals = Button->GetVisuals())
 		{
-			FVector Min, Max;
-			Mesh->GetLocalBounds(Min, Max);
+			FBox Bounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Visuals).GetBox();
 
-			FTransform ToFrontFace = FTransform(FVector(Min.X, 0, 0));
-			FMatrix FrontFaceMatrix = (ToFrontFace * Mesh->GetComponentTransform()).ToMatrixNoScale();
+			FTransform ToFrontFace = FTransform(FVector(Bounds.Min.X, 0, 0));
+			FMatrix FrontFaceMatrix = (ToFrontFace * Visuals->GetComponentTransform()).ToMatrixNoScale();
 
-			FVector Extents = (Max - Min) * 0.5f;
-			Extents *= Mesh->GetComponentTransform().GetScale3D();
+			FVector Extents = Bounds.GetExtent();
+			Extents *= Visuals->GetComponentTransform().GetScale3D();
 
 			// Rest position
 			DrawQuad(PDI, Extents.Y, Extents.Z, 0, FrontFaceMatrix, FLinearColor::White);

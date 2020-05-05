@@ -6,6 +6,7 @@
 #include "Input/UxtFarPointerComponent.h"
 #include "UXTools.h"
 #include "Interactions/UxtInteractionUtils.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 #include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
@@ -36,18 +37,9 @@ void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 
 	if (Visuals)
 	{
-		if (UStaticMeshComponent* Touchable = Cast<UStaticMeshComponent>(GetVisuals()))
-		{
-			Touchable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-			ConfigureBoxComponent(Touchable);
-		}
-
-		const FVector VisualsOffset = Visuals->GetComponentLocation() - GetRestPosition();
-		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
+		ConfigureBoxComponent(Visuals);
 	}
 }
-
 
 void UUxtPressableButtonComponent::SetCollisionProfile(FName Profile)
 {
@@ -63,9 +55,24 @@ bool UUxtPressableButtonComponent::IsPressed() const
 	return bIsPressed;
 }
 
+bool UUxtPressableButtonComponent::IsFocused() const
+{
+	return NumPointersFocusing > 0;
+}
+
 float UUxtPressableButtonComponent::GetScaleAdjustedMaxPushDistance() const
 {
 	return MaxPushDistance * GetComponentTransform().GetScale3D().X;
+}
+
+float UUxtPressableButtonComponent::GetMaxPushDistance() const
+{
+	return MaxPushDistance;
+}
+
+void UUxtPressableButtonComponent::SetMaxPushDistance(float Distance)
+{
+	MaxPushDistance = Distance;
 }
 
 // Called when the game starts
@@ -78,18 +85,9 @@ void UUxtPressableButtonComponent::BeginPlay()
 	BoxComponent->SetupAttachment(this);
 	BoxComponent->RegisterComponent();
 
-
 	if (USceneComponent* Visuals = GetVisuals())
 	{
-		if (UStaticMeshComponent* Pokable = Cast<UStaticMeshComponent>(Visuals))
-		{
-			Pokable->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-			ConfigureBoxComponent(Pokable);
-		}
-
-		const FVector VisualsOffset = Visuals->GetComponentLocation() - GetRestPosition();
-		VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
+		ConfigureBoxComponent(Visuals);
 	}
 }
 
@@ -145,16 +143,27 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 		}
 	}
 
-	// Update visuals position
+	// Update visuals behaviors
 	if (USceneComponent* Visuals = GetVisuals())
 	{
-		const FVector VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
-		FVector NewVisualsLocation = VisualsOffset + GetCurrentButtonLocation();
-		Visuals->SetWorldLocation(NewVisualsLocation);
-
-		const FVector ColliderOffset = GetComponentTransform().TransformVector(ColliderOffsetLocal);
-		FVector NewColliderLocation = ColliderOffset + GetCurrentButtonLocation();
-		BoxComponent->SetWorldLocation(NewColliderLocation);
+		switch (PushBehavior)
+		{
+		default:
+		case EUxtPushBehavior::Translate:
+		{
+			const FVector VisualsOffset = GetComponentTransform().TransformVector(VisualsOffsetLocal);
+			FVector NewVisualsLocation = VisualsOffset + GetCurrentButtonLocation();
+			Visuals->SetWorldLocation(NewVisualsLocation);
+		}
+		break;
+		case EUxtPushBehavior::Compress:
+		{
+			float CompressionScale = (MaxPushDistance != 0.0f) ? 1.0f - (CurrentPushDistance / MaxPushDistance) : 1.0f;
+			CompressionScale = FMath::Clamp(CompressionScale, PressedFraction, 1.0f);
+			Visuals->SetRelativeScale3D(FVector(VisualsScaleLocal.X * CompressionScale, VisualsScaleLocal.Y, VisualsScaleLocal.Z));
+		}
+		break;
+		}
 	}
 
 #if 0
@@ -182,6 +191,25 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 #endif
 }
 
+#if WITH_EDITOR
+bool UUxtPressableButtonComponent::CanEditChange(const FProperty* Property) const
+{
+	bool IsEditable = Super::CanEditChange(Property);
+
+	if (IsEditable && Property != nullptr)
+	{
+		// When a button's push behavior is compressible the max push distance is auto-calculated and should not be 
+		// edited by the user.
+		if (Property->GetFName() == GET_MEMBER_NAME_CHECKED(UUxtPressableButtonComponent, MaxPushDistance))
+		{
+			IsEditable = PushBehavior != EUxtPushBehavior::Compress;
+		}
+	}
+
+	return IsEditable;
+}
+#endif
+
 void UUxtPressableButtonComponent::OnEnterFocus(UObject* Pointer)
 {
 	const bool bWasFocused = ++NumPointersFocusing > 1;
@@ -190,7 +218,8 @@ void UUxtPressableButtonComponent::OnEnterFocus(UObject* Pointer)
 
 void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
 {
-	const bool bIsFocused = --NumPointersFocusing > 0;
+	--NumPointersFocusing;
+	const bool bIsFocused = IsFocused();
 
 	if (!bIsFocused)
 	{
@@ -305,7 +334,7 @@ float UUxtPressableButtonComponent::GetReleasedDistance() const
 	return GetScaleAdjustedMaxPushDistance() * ReleasedFraction;
 }
 
-void UUxtPressableButtonComponent::ConfigureBoxComponent(const UStaticMeshComponent* Mesh)
+void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent)
 {
 	if (!BoxComponent)
 	{
@@ -313,21 +342,38 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(const UStaticMeshCompon
 		return;
 	}
 
-	FVector Min, Max;
-	Mesh->GetLocalBounds(Min, Max);
+	// Disable collision on all primitive components.
+	TArray<USceneComponent*> SceneComponents;
+	Parent->GetChildrenComponents(true, SceneComponents);
+	SceneComponents.Add(Parent);
 
-	BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
-	
-	FTransform BoxTransform = FTransform((Max + Min) / 2) * Mesh->GetComponentTransform();
+	for (USceneComponent* SceneComponent : SceneComponents)
+	{
+		if (UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(SceneComponent))
+		{
+			Primitive->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+	}
+
+	FBoxSphereBounds LocalBounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Parent);
+	FTransform BoxTransform = FTransform(LocalBounds.Origin) * Parent->GetComponentTransform();
 	BoxComponent->SetWorldTransform(BoxTransform);
-
+	BoxComponent->SetBoxExtent(LocalBounds.BoxExtent);
 	BoxComponent->SetCollisionProfileName(CollisionProfile);
+	BoxComponent->AttachToComponent(Parent, FAttachmentTransformRules::KeepWorldTransform);
 
 	FVector RestPosition = BoxTransform.GetLocation() - BoxTransform.GetUnitAxis(EAxis::X) * BoxComponent->GetScaledBoxExtent().X;
 	RestPositionLocal = GetComponentTransform().InverseTransformPosition(RestPosition);
 
-	const FVector ColliderOffset = BoxComponent->GetComponentLocation() - RestPosition;
-	ColliderOffsetLocal = GetComponentTransform().InverseTransformVector(ColliderOffset);
+	const FVector VisualsOffset = Parent->GetComponentLocation() - GetRestPosition();
+	VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
+	VisualsScaleLocal = Parent->GetRelativeScale3D();
+
+	// When the button is compressible, the max push distance is the 'x' bounds.
+	if (PushBehavior == EUxtPushBehavior::Compress)
+	{
+		SetMaxPushDistance(BoxComponent->GetScaledBoxExtent().X * 2.0f);
+	}
 }
 
 void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)

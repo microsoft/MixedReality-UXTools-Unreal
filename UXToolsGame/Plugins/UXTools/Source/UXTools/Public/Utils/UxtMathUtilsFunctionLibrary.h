@@ -36,5 +36,19 @@ public:
 	UFUNCTION(BlueprintPure, Category = "MathUtils")
 	static FTransform RotateAboutPivotPoint(const FTransform &Transform, const FRotator &Rotation, const FVector &Pivot);
 
+	/**
+	* Calculates the composite bounding box and bounding sphere around a component and its children, the output is in 
+	* the space of the component.
+	*/
+	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component)
+	{
+		return CalculateHierarchyBounds(Component, FTransform::Identity);
+	}
+
+	/**
+	* Calculates the composite bounding box and bounding sphere around a component and its children.
+	*/
+	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, const FTransform& LocalToTarget);
+
 };
 
