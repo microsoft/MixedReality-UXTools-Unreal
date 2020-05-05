@@ -1514,6 +1514,16 @@ references:
   isSpec: "True"
   fullName: const TArray<FUxtBoundingBoxAffordanceInfo> & UUxtBoundingBoxManipulatorComponent::GetUsedAffordances
   nameWithType: UUxtBoundingBoxManipulatorComponent::GetUsedAffordances
+- uid: _u_uxt_bounding_box_manipulator_component.OnManipulationEnded
+  name: OnManipulationEnded
+  href: api/_u_uxt_bounding_box_manipulator_component.html#_u_uxt_bounding_box_manipulator_component_OnManipulationEnded
+  fullName: FUxtBoundingBoxManipulationEndedDelegate UUxtBoundingBoxManipulatorComponent::OnManipulationEnded
+  nameWithType: UUxtBoundingBoxManipulatorComponent::OnManipulationEnded
+- uid: _u_uxt_bounding_box_manipulator_component.OnManipulationStarted
+  name: OnManipulationStarted
+  href: api/_u_uxt_bounding_box_manipulator_component.html#_u_uxt_bounding_box_manipulator_component_OnManipulationStarted
+  fullName: FUxtBoundingBoxManipulationStartedDelegate UUxtBoundingBoxManipulatorComponent::OnManipulationStarted
+  nameWithType: UUxtBoundingBoxManipulatorComponent::OnManipulationStarted
 - uid: _u_uxt_bounding_box_manipulator_component.OnPointerBeginGrab(UUxtGrabTargetComponent *,FUxtGrabPointerData)
   name: OnPointerBeginGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
   href: api/_u_uxt_bounding_box_manipulator_component.html#_u_uxt_bounding_box_manipulator_component_OnPointerBeginGrab_UUxtGrabTargetComponent___FUxtGrabPointerData_
@@ -3023,6 +3033,17 @@ references:
   href: api/_u_uxt_near_pointer_component.html#_u_uxt_near_pointer_component_TraceChannel
   fullName: TEnumAsByte<ECollisionChannel> UUxtNearPointerComponent::TraceChannel
   nameWithType: UUxtNearPointerComponent::TraceChannel
+- uid: _u_uxt_near_pointer_component.UpdatePokeInteraction()
+  name: UpdatePokeInteraction()
+  href: api/_u_uxt_near_pointer_component.html#_u_uxt_near_pointer_component_UpdatePokeInteraction__
+  fullName: void UUxtNearPointerComponent::UpdatePokeInteraction()
+  nameWithType: UUxtNearPointerComponent::UpdatePokeInteraction()
+- uid: _u_uxt_near_pointer_component.UpdatePokeInteraction*
+  name: UpdatePokeInteraction
+  href: api/_u_uxt_near_pointer_component.html#_u_uxt_near_pointer_component_UpdatePokeInteraction_
+  isSpec: "True"
+  fullName: void UUxtNearPointerComponent::UpdatePokeInteraction
+  nameWithType: UUxtNearPointerComponent::UpdatePokeInteraction
 - uid: _u_uxt_near_pointer_component.UUxtNearPointerComponent()
   name: UUxtNearPointerComponent()
   href: api/_u_uxt_near_pointer_component.html#_u_uxt_near_pointer_component_UUxtNearPointerComponent__
