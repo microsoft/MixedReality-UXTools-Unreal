@@ -20,11 +20,14 @@ steps:
     command: custom
     arguments: 'install docfx.console -Version $(DocFX.Version) -OutputDirectory $(Build.ArtifactStagingDirectory)'
 
-- task: NuGetCommand@2
+- powershell: |
+    if ("$(DocFX.PAT)" -ne "")
+    {
+        . nuget.exe sources -NonInteractive add -Name code2yaml -Source $(CIUtils.NugetFeed)
+        . nuget.exe sources -NonInteractive update -Name code2yaml -username VSTS -password $(DocFX.PAT) -StorePasswordInClearText
+    }
+    . nuget.exe install code2yaml -Version $(code2yaml.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)
   displayName: 'Install code2yaml'
-  inputs:
-    command: custom
-    arguments: 'install code2yaml -Version $(code2yaml.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)'
 
 - powershell: |
     $env:Path += ";$(Build.ArtifactStagingDirectory)/docfx.console.$(DocFX.Version)/tools;$(Build.ArtifactStagingDirectory)/code2yaml.$(code2yaml.Version)"
