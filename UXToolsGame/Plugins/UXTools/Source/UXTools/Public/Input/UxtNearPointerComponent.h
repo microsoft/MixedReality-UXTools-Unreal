@@ -33,6 +33,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void SetActive(bool bNewActive, bool bReset = false) override;
 
+	/** Update poke distances and detect if poking the target. */
+	void UpdatePokeInteraction();
+
 	/** Returns currently focused grab target or null if there is none. */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const;

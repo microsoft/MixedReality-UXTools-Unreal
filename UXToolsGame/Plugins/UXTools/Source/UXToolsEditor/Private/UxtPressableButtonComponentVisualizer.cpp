@@ -53,7 +53,7 @@ void FUxtPressableButtonComponentVisualizer::DrawVisualization(const UActorCompo
 			DrawQuad(PDI, Extents.Y, Extents.Z, 0, FrontFaceMatrix, FLinearColor::White);
 
 			// Maximum push distance
-			const float MaxPushDistance = Button->MaxPushDistance;
+			const float MaxPushDistance = Button->GetScaleAdjustedMaxPushDistance();
 			FLinearColor DarkGray(.25f, .25f, .25f);
 			DrawQuad(PDI, Extents.Y, Extents.Z, MaxPushDistance, FrontFaceMatrix, DarkGray);
 

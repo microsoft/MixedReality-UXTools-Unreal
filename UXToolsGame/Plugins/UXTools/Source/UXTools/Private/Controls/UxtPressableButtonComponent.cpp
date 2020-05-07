@@ -113,7 +113,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 			}
 		}
 
-		check(TargetDistance >= 0 && TargetDistance <= GetScaleAdjustedMaxPushDistance());
+		check(TargetDistance >= 0 && TargetDistance <= MaxPushDistance);
 
 		const float PreviousPushDistance = CurrentPushDistance;
 
@@ -290,15 +290,15 @@ EUxtPokeBehaviour UUxtPressableButtonComponent::GetPokeBehaviour_Implementation(
 float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerComponent* pointer) const
 {
 	const FVector PointerPos = pointer->GetPokePointerTransform().GetLocation();
-	const FVector PointerLocal = GetComponentTransform().InverseTransformPositionNoScale(PointerPos);
+	const FVector PointerLocal = GetComponentTransform().InverseTransformPosition(PointerPos);
 	const float EndDistance = PointerLocal.X - RestPositionLocal.X;
 
-	return EndDistance > 0 ? FMath::Min(EndDistance, GetScaleAdjustedMaxPushDistance()) : 0;
+	return EndDistance > 0 ? FMath::Min(EndDistance, MaxPushDistance) : 0;
 }
 
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
-	return GetRestPosition() + (GetComponentTransform().GetUnitAxis(EAxis::X) * CurrentPushDistance);
+	return GetRestPosition() + (GetComponentTransform().GetScaledAxis(EAxis::X) * CurrentPushDistance);
 }
 
 
@@ -325,13 +325,13 @@ void UUxtPressableButtonComponent::OnUpdatedFarFocus_Implementation(UUxtFarPoint
 
 float UUxtPressableButtonComponent::GetPressedDistance() const
 {
-	return GetScaleAdjustedMaxPushDistance() * PressedFraction;
+	return MaxPushDistance * PressedFraction;
 }
 
 
 float UUxtPressableButtonComponent::GetReleasedDistance() const
 {
-	return GetScaleAdjustedMaxPushDistance() * ReleasedFraction;
+	return MaxPushDistance * ReleasedFraction;
 }
 
 void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent)

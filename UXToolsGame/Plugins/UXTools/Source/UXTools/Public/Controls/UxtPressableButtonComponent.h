@@ -96,7 +96,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
 	EUxtPushBehavior PushBehavior;
 
-	/** The maximum distance the button can be pushed (auto-calculated when the push behavior is compress)*/
+	/** The maximum distance the button can be pushed in local space (auto-calculated when the push behavior is compress)*/
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
 	float MaxPushDistance;
 
@@ -192,10 +192,10 @@ private:
 	/** Generic handler for exit focus events. */
 	void OnExitFocus(UObject* Pointer);
 
-	/** The distance at which the button will fire a pressed event */
+	/** The local space distance at which the button will fire a pressed event */
 	float GetPressedDistance() const;
 
-	/** The distance at which the button will fire a released event */
+	/** The local space distance at which the button will fire a released event */
 	float GetReleasedDistance() const;
 
 	/** Use the given scene component(s) to adjust the box component extents. */
@@ -209,7 +209,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
 	FName CollisionProfile = TEXT("UI");
 
-	/** Returns the distance a given pointer is pushing the button to. */
+	/** Returns the distance a given pointer is pushing the button to in local space. */
 	float CalculatePushDistance(const UUxtNearPointerComponent* pointer) const;
 
 	/** Get the current pushed position of the button */

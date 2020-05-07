@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 #include "UxtTwoHandScaleLogic.h"
 
 namespace
@@ -33,3 +35,4 @@ FVector UxtTwoHandManipulationScaleLogic::Update(GrabPointers PointerData) const
 	float ratioMultiplier = GetMinDistanceBetweenHands(PointerData) / StartHandDistanceMeters;
 	return StartObjectScale * ratioMultiplier;
 }
+

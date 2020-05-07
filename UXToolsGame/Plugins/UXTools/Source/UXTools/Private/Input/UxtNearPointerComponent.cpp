@@ -95,6 +95,11 @@ UUxtNearPointerComponent::~UUxtNearPointerComponent()
 
 void UUxtNearPointerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	if (GrabFocus->IsGrabbing())
+	{
+		GrabFocus->EndGrab(this);
+	}
+
 	GrabFocus->ClearFocus(this);
 	PokeFocus->ClearFocus(this);
 
@@ -164,92 +169,10 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		PokeFocus->SelectClosestTarget(this, PokePointerTransform, Overlaps);
 	}
 	
-	// Update poke
-	{
-		FVector PokePointerLocation = GetPokePointerTransform().GetLocation();
-		UActorComponent* Target = Cast<UActorComponent>(PokeFocus->GetFocusedTarget());
-		UPrimitiveComponent* Primitive = PokeFocus->GetFocusedPrimitive();
-
-
-		if (bIsPoking)
-		{
-			if (Primitive && Target)
-			{
-				bool endedPoking = false;
-
-				switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
-				{
-				case EUxtPokeBehaviour::FrontFace:
-					endedPoking = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius(), PokeDepth);
-					break;
-				case EUxtPokeBehaviour::Volume:
-					endedPoking = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius()));
-					break;
-				}
-
-				if (endedPoking)
-				{
-					bIsPoking = false;
-					IUxtPokeTarget::Execute_OnEndPoke(Target, this);
-
-					bWasBehindFrontFace = IsBehindFrontFace(Primitive, PokePointerLocation, GetPokePointerRadius());
-				}
-				else
-				{
-					IUxtPokeTarget::Execute_OnUpdatePoke(Target, this);
-				}
-			}
-			else
-			{
-				bIsPoking = false;
-				bFocusLocked = false;
-				
-				bWasBehindFrontFace = false;
-			}
-		}
-		else if (Target)
-		{
-			FVector Start = PreviousPokePointerLocation;
-			FVector End = PokePointerLocation;
-
-			bool isBehind = bWasBehindFrontFace;
-			if (Primitive)
-			{
-				isBehind = IsBehindFrontFace(Primitive, End, GetPokePointerRadius());
-			}
-
-			FHitResult HitResult;
-			GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetPokePointerRadius()));
-
-			if (HitResult.GetComponent() == Primitive)
-			{
-				bool startedPoking = false;
-
-				switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
-				{
-				case EUxtPokeBehaviour::FrontFace:
-					startedPoking = !bWasBehindFrontFace && isBehind;
-					break;
-				case EUxtPokeBehaviour::Volume:
-					startedPoking = true;
-					break;
-				}
-
-				if (startedPoking)
-				{
-					bIsPoking = true;
-					IUxtPokeTarget::Execute_OnBeginPoke(Target, this);
-				}
-			}
-
-			bWasBehindFrontFace = isBehind;
-		}
-
-		PreviousPokePointerLocation = PokePointerLocation;
-	}
+	// Update poking state based on poke target
+	UpdatePokeInteraction();
 
 	// Update focused targets
-
 	GrabFocus->UpdateFocus(this);
 	GrabFocus->UpdateGrab(this);
 
@@ -281,10 +204,98 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 
 	if (bOldActive && !bNewActive)
 	{
+		if (GrabFocus->IsGrabbing())
+		{
+			GrabFocus->EndGrab(this);
+		}
+
 		GrabFocus->ClearFocus(this);
 		PokeFocus->ClearFocus(this);
 		bFocusLocked = false;
 	}
+}
+
+void UUxtNearPointerComponent::UpdatePokeInteraction()
+{
+	FVector PokePointerLocation = GetPokePointerTransform().GetLocation();
+	UActorComponent* Target = Cast<UActorComponent>(PokeFocus->GetFocusedTarget());
+	UPrimitiveComponent* Primitive = PokeFocus->GetFocusedPrimitive();
+
+	if (bIsPoking)
+	{
+		if (Primitive && Target)
+		{
+			bool endedPoking = false;
+
+			switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
+			{
+				case EUxtPokeBehaviour::FrontFace:
+					endedPoking = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius(), PokeDepth);
+					break;
+				case EUxtPokeBehaviour::Volume:
+					endedPoking = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius()));
+					break;
+			}
+
+			if (endedPoking)
+			{
+				bIsPoking = false;
+				IUxtPokeTarget::Execute_OnEndPoke(Target, this);
+
+				bWasBehindFrontFace = IsBehindFrontFace(Primitive, PokePointerLocation, GetPokePointerRadius());
+			}
+			else
+			{
+				IUxtPokeTarget::Execute_OnUpdatePoke(Target, this);
+			}
+		}
+		else
+		{
+			bIsPoking = false;
+			bFocusLocked = false;
+
+			bWasBehindFrontFace = false;
+		}
+	}
+	else if (Target)
+	{
+		FVector Start = PreviousPokePointerLocation;
+		FVector End = PokePointerLocation;
+
+		bool isBehind = bWasBehindFrontFace;
+		if (Primitive)
+		{
+			isBehind = IsBehindFrontFace(Primitive, End, GetPokePointerRadius());
+		}
+
+		FHitResult HitResult;
+		GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetPokePointerRadius()));
+
+		if (HitResult.GetComponent() == Primitive)
+		{
+			bool startedPoking = false;
+
+			switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
+			{
+				case EUxtPokeBehaviour::FrontFace:
+					startedPoking = !bWasBehindFrontFace && isBehind;
+					break;
+				case EUxtPokeBehaviour::Volume:
+					startedPoking = true;
+					break;
+			}
+
+			if (startedPoking)
+			{
+				bIsPoking = true;
+				IUxtPokeTarget::Execute_OnBeginPoke(Target, this);
+			}
+		}
+
+		bWasBehindFrontFace = isBehind;
+	}
+
+	PreviousPokePointerLocation = PokePointerLocation;
 }
 
 UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const

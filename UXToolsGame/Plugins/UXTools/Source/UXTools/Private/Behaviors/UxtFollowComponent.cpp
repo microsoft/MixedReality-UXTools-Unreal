@@ -171,7 +171,7 @@ namespace
 				DefaultDistanceYXVector.Z = 0;
 				float DefaulltDistanceYX = DefaultDistanceYXVector.Size();
 
-				float interpolationRate = FMath::Min(MoveToDefaultDistanceLerpTime * 60.0f * DeltaTime, 1000.0f);
+				float interpolationRate = FMath::Min(MoveToDefaultDistanceLerpTime * DeltaTime, 1.0f);
 				DesiredDistanceYX = DesiredDistanceYX + (interpolationRate * (DefaulltDistanceYX - DesiredDistanceYX));
 			}
 
@@ -191,7 +191,7 @@ namespace
 
 			if (bInterpolateToDefaultDistance)
 			{
-				float InterpolationRate = FMath::Min(MoveToDefaultDistanceLerpTime * 60.0f * DeltaTime, 1000.0f);
+				float InterpolationRate = FMath::Min(MoveToDefaultDistanceLerpTime * DeltaTime, 1.0f);
 				ClampedDistance = ClampedDistance + (InterpolationRate * (DefaultDistanceIn - ClampedDistance));
 			}
 
