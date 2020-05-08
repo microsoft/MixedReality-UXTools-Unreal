@@ -51,7 +51,7 @@ void HandInteractionSpec::Define()
 		NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
 		FarPointer = HandActor->FindComponentByClass<UUxtFarPointerComponent>();
 
-		Target = UxtTestUtils::CreateNearPointerTarget(World, TargetLocation, TargetFilename, TargetScale);
+		Target = UxtTestUtils::CreateNearPointerGrabTarget(World, TargetLocation, TargetFilename, TargetScale);
 
 		FrameQueue.Enqueue([Done]()
 		{

@@ -123,8 +123,6 @@ private:
 
 	FTransform PokePointerTransform;
 
-	bool bIsPoking = false;
-
 	FVector PreviousPokePointerLocation;
 
 	bool bWasBehindFrontFace = false;

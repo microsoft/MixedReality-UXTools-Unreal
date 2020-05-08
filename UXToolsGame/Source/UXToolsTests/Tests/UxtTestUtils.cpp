@@ -14,6 +14,52 @@
 #include "PointerTestSequence.h"
 #include "UxtTestHandTracker.h"
 
+namespace
+{
+	AActor* CreateNearPointerTargetActor(UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale, bool bUseBoxCollision)
+	{
+		AActor* Actor = World->SpawnActor<AActor>();
+		USceneComponent* Root = NewObject<USceneComponent>(Actor);
+		Actor->SetRootComponent(Root);
+		Root->SetWorldLocation(Location);
+		Root->RegisterComponent();
+
+		if (!MeshFilename.IsEmpty())
+		{
+			UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(Actor);
+			Mesh->SetupAttachment(Actor->GetRootComponent());
+			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+			Mesh->SetGenerateOverlapEvents(!bUseBoxCollision);
+
+			UStaticMesh* MeshAsset = LoadObject<UStaticMesh>(Actor, *MeshFilename);
+			Mesh->SetStaticMesh(MeshAsset);
+			Mesh->SetRelativeScale3D(FVector::OneVector * MeshScale);
+
+			Mesh->RegisterComponent();
+
+			if (bUseBoxCollision)
+			{
+				Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+				UBoxComponent* Box = NewObject<UBoxComponent>(Actor);
+				Box->SetupAttachment(Actor->GetRootComponent());
+
+				FVector Min, Max;
+				Mesh->GetLocalBounds(Min, Max);
+
+				Box->SetBoxExtent((Max - Min) * 0.5f);
+
+				FTransform BoxTransform = FTransform((Max + Min) / 2) * Mesh->GetComponentTransform();
+				Box->SetWorldTransform(BoxTransform);
+				Box->SetCollisionProfileName(TEXT("UI"));
+			}
+		}
+
+		return Actor;
+	}
+}
+
 FUxtTestHandTracker UxtTestUtils::TestHandTracker;
 
 /** Cached hand tracker implementation to restore after tests are completed. */
@@ -137,34 +183,24 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 	return pointer;
 }
 
-UTestGrabTarget* UxtTestUtils::CreateNearPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename, float meshScale)
+UTestGrabTarget* UxtTestUtils::CreateNearPointerGrabTarget(UWorld *World, const FVector &Location, const FString &MeshFilename, float MeshScale)
 {
-	AActor *actor = World->SpawnActor<AActor>();
+	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale , false);
 
-	USceneComponent *root = NewObject<USceneComponent>(actor);
-	actor->SetRootComponent(root);
-	root->SetWorldLocation(Location);
-	root->RegisterComponent();
+	UTestGrabTarget *TestTarget = NewObject<UTestGrabTarget>(Actor);
+	TestTarget->RegisterComponent();
 
-	UTestGrabTarget *testTarget = NewObject<UTestGrabTarget>(actor);
-	testTarget->RegisterComponent();
+	return TestTarget;
+}
 
-	if (!meshFilename.IsEmpty())
-	{
-		UStaticMeshComponent *mesh = NewObject<UStaticMeshComponent>(actor);
-		mesh->SetupAttachment(actor->GetRootComponent());
-		mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-		mesh->SetCollisionProfileName(TEXT("OverlapAll"));
-		mesh->SetGenerateOverlapEvents(true);
+UTestPokeTarget* UxtTestUtils::CreateNearPointerPokeTarget(UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
+{
+	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale, true);
 
-		UStaticMesh *meshAsset = LoadObject<UStaticMesh>(actor, *meshFilename);
-		mesh->SetStaticMesh(meshAsset);
-		mesh->SetRelativeScale3D(FVector::OneVector * meshScale);
+	UTestPokeTarget* TestTarget = NewObject<UTestPokeTarget>(Actor);
+	TestTarget->RegisterComponent();
 
-		mesh->RegisterComponent();
-	}
-
-	return testTarget;
+	return TestTarget;
 }
 
 UTestGrabTarget* UxtTestUtils::CreateNearPointerBackgroundTarget(UWorld* World)

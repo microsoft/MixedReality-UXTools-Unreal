@@ -18,7 +18,7 @@ using namespace UxtPointerTests;
 
 #if WITH_DEV_AUTOMATION_TESTS
 
-BEGIN_DEFINE_SPEC(NearPointerGrabSpec, "UXTools.NearPointer", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::EditorContext | EAutomationTestFlags::ClientContext)
+BEGIN_DEFINE_SPEC(NearPointerPokeSpec, "UXTools.NearPointer", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::EditorContext | EAutomationTestFlags::ClientContext)
 
 	PointerTestSequence Sequence;
 
@@ -27,11 +27,11 @@ BEGIN_DEFINE_SPEC(NearPointerGrabSpec, "UXTools.NearPointer", EAutomationTestFla
 	const FVector pInside = FVector(113, -24, -8);
 	const FVector pOutside = FVector(150, 40, -40);
 
-END_DEFINE_SPEC(NearPointerGrabSpec)
+END_DEFINE_SPEC(NearPointerPokeSpec)
 
-void NearPointerGrabSpec::Define()
+void NearPointerPokeSpec::Define()
 {
-	Describe("Near pointer grab", [this]
+	Describe("Near pointer poke", [this]
 		{
 			BeforeEach([this]
 				{
@@ -59,22 +59,18 @@ void NearPointerGrabSpec::Define()
 				});
 
 
-			LatentIt("should focus grab target when overlapping initially", [this](const FDoneDelegate& Done)
+			LatentIt("should focus poke target when overlapping initially", [this](const FDoneDelegate& Done)
 				{
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					Sequence.AddTarget(World, pTarget);
 
 					Sequence.AddMovementKeyframe(pInside);
 					Sequence.ExpectFocusTargetIndex(0);
-
-					Sequence.AddGrabKeyframe(true);
-
-					Sequence.AddGrabKeyframe(false);
 
 					Sequence.EnqueueFrames(this, Done);
 				});
 
-			LatentIt("should focus grab target when entering", [this](const FDoneDelegate& Done)
+			LatentIt("should focus poke target when entering", [this](const FDoneDelegate& Done)
 				{
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					Sequence.AddTarget(World, pTarget);
@@ -85,12 +81,8 @@ void NearPointerGrabSpec::Define()
 					Sequence.AddMovementKeyframe(pInside);
 					Sequence.ExpectFocusTargetIndex(0);
 
-					Sequence.AddGrabKeyframe(true);
-
 					Sequence.AddMovementKeyframe(pOutside);
 					Sequence.ExpectFocusTargetNone();
-
-					Sequence.AddGrabKeyframe(false);
 
 					Sequence.EnqueueFrames(this, Done);
 				});
@@ -98,21 +90,21 @@ void NearPointerGrabSpec::Define()
 }
 
 
-BEGIN_DEFINE_SPEC(NearPointerGrabFocusLostSpec, "UXTools.NearPointer", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::EditorContext | EAutomationTestFlags::ClientContext)
+BEGIN_DEFINE_SPEC(NearPointerPokeFocusLostSpec, "UXTools.NearPointer", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::EditorContext | EAutomationTestFlags::ClientContext)
 
 	AUxtHandInteractionActor* HandActor;
-	UTestGrabTarget* Target;
+	UTestPokeTarget* Target;
 	FFrameQueue FrameQueue;
 
 	const FString TargetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 	const float TargetScale = 0.3f;
 	const FVector TargetLocation = FVector(120, -20, -5);
 
-END_DEFINE_SPEC(NearPointerGrabFocusLostSpec)
+END_DEFINE_SPEC(NearPointerPokeFocusLostSpec)
 
-void NearPointerGrabFocusLostSpec::Define()
+void NearPointerPokeFocusLostSpec::Define()
 {
-	Describe("Near pointer grab", [this]
+	Describe("Near pointer poke", [this]
 		{
 			BeforeEach([this]()
 				{
@@ -123,11 +115,11 @@ void NearPointerGrabFocusLostSpec::Define()
 
 					UxtTestUtils::EnableTestHandTracker();
 					// Set hand position so the near pointer is activated
-					UxtTestUtils::GetTestHandTracker().TestPosition = TargetLocation + FVector(-15, 0, 0);
+					UxtTestUtils::GetTestHandTracker().TestPosition = TargetLocation + FVector(-25, 0, 0);
 
 					HandActor = World->SpawnActor<AUxtHandInteractionActor>();
-					Target = UxtTestUtils::CreateNearPointerGrabTarget(World, TargetLocation, TargetFilename, TargetScale);
-					// Focus lock is also tested, enable so the target locks focus on the pointer when grabbed.
+					Target = UxtTestUtils::CreateNearPointerPokeTarget(World, TargetLocation, TargetFilename, TargetScale);
+					// Focus lock is also tested, enable so the target locks focus on the pointer when poked.
 					Target->bUseFocusLock = true;
 
 					// Register all new components.
@@ -149,7 +141,7 @@ void NearPointerGrabFocusLostSpec::Define()
 					GEngine->ForceGarbageCollection();
 				});
 
-			LatentIt("should end grab when tracking is lost", [this](const FDoneDelegate& Done)
+			LatentIt("should end poke when tracking is lost", [this](const FDoneDelegate& Done)
 				{
 					// Have to skip two frames for the hand actor to detect near pointer activation
 					FrameQueue.Skip();
@@ -162,29 +154,29 @@ void NearPointerGrabFocusLostSpec::Define()
 							// Near pointer should now be active
 							TestTrue(TEXT("Near pointer active"), NearPointer->IsActive());
 							// Ensure target is focused
-							FVector GrabLocation;
-							TestEqual(TEXT("Grab Target"), NearPointer->GetFocusedGrabTarget(GrabLocation), (UObject*)Target);
+							FVector PokeLocation;
+							TestEqual(TEXT("Poke Target"), NearPointer->GetFocusedPokeTarget(PokeLocation), (UObject*)Target);
 							TestEqual(TEXT("Begin Focus Count"), Target->BeginFocusCount, 1);
 							TestEqual(TEXT("End Focus Count"), Target->EndFocusCount, 0);
-							TestEqual(TEXT("Begin Grab Count"), Target->BeginGrabCount, 0);
-							TestEqual(TEXT("End Grab Count"), Target->EndGrabCount, 0);
+							TestEqual(TEXT("Begin Poke Count"), Target->BeginPokeCount, 0);
+							TestEqual(TEXT("End Poke Count"), Target->EndPokeCount, 0);
 
-							// Enable grab.
+							// Poke the target.
 							// Wait one tick so the pointer can update overlaps and raise events.
-							UxtTestUtils::GetTestHandTracker().bIsGrabbing = true;
+							UxtTestUtils::GetTestHandTracker().TestPosition = TargetLocation;
 						});
 
 					FrameQueue.Enqueue([this, Done]
 						{
 							UUxtNearPointerComponent* NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
 
-							// Ensure target has been grabbed.
-							FVector GrabLocation;
-							TestEqual(TEXT("Grab Target"), NearPointer->GetFocusedGrabTarget(GrabLocation), (UObject*)Target);
+							// Ensure target has been poked.
+							FVector PokeLocation;
+							TestEqual(TEXT("Poke Target"), NearPointer->GetFocusedPokeTarget(PokeLocation), (UObject*)Target);
 							TestEqual(TEXT("Begin Focus Count"), Target->BeginFocusCount, 1);
 							TestEqual(TEXT("End Focus Count"), Target->EndFocusCount, 0);
-							TestEqual(TEXT("Begin Grab Count"), Target->BeginGrabCount, 1);
-							TestEqual(TEXT("End Grab Count"), Target->EndGrabCount, 0);
+							TestEqual(TEXT("Begin Poke Count"), Target->BeginPokeCount, 1);
+							TestEqual(TEXT("End Poke Count"), Target->EndPokeCount, 0);
 							// Ensure focus lock has been enabled.
 							TestTrue(TEXT("Focus lock enabled"), NearPointer->GetFocusLocked());
 
@@ -200,12 +192,12 @@ void NearPointerGrabFocusLostSpec::Define()
 							TestFalse(TEXT("Near pointer active"), NearPointer->IsActive());
 
 							// Ensure target has been released.
-							FVector GrabLocation;
-							TestNull(TEXT("Grab Target"), NearPointer->GetFocusedGrabTarget(GrabLocation));
+							FVector PokeLocation;
+							TestNull(TEXT("Poke Target"), NearPointer->GetFocusedPokeTarget(PokeLocation));
 							TestEqual(TEXT("Begin Focus Count"), Target->BeginFocusCount, 1);
 							TestEqual(TEXT("End Focus Count"), Target->EndFocusCount, 1);
-							TestEqual(TEXT("Begin Grab Count"), Target->BeginGrabCount, 1);
-							TestEqual(TEXT("End Grab Count"), Target->EndGrabCount, 1);
+							TestEqual(TEXT("Begin Poke Count"), Target->BeginPokeCount, 1);
+							TestEqual(TEXT("End Poke Count"), Target->EndPokeCount, 1);
 							// Ensure focus lock has been enabled.
 							TestFalse(TEXT("Focus lock enabled"), NearPointer->GetFocusLocked());
 

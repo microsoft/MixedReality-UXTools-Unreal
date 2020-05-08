@@ -28,7 +28,7 @@ END_DEFINE_SPEC(NearPointerFocusSpec)
 
 void NearPointerFocusSpec::Define()
 {
-	Describe("Near pointer", [this]
+	Describe("Near pointer focus", [this]
 		{
 			BeforeEach([this]
 				{

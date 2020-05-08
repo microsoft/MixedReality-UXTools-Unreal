@@ -209,6 +209,11 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 			GrabFocus->EndGrab(this);
 		}
 
+		if (PokeFocus->IsPoking())
+		{
+			PokeFocus->EndPoke(this);
+		}
+
 		GrabFocus->ClearFocus(this);
 		PokeFocus->ClearFocus(this);
 		bFocusLocked = false;
@@ -221,7 +226,7 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 	UActorComponent* Target = Cast<UActorComponent>(PokeFocus->GetFocusedTarget());
 	UPrimitiveComponent* Primitive = PokeFocus->GetFocusedPrimitive();
 
-	if (bIsPoking)
+	if (PokeFocus->IsPoking())
 	{
 		if (Primitive && Target)
 		{
@@ -239,21 +244,20 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 
 			if (endedPoking)
 			{
-				bIsPoking = false;
-				IUxtPokeTarget::Execute_OnEndPoke(Target, this);
+				PokeFocus->EndPoke(this);
 
 				bWasBehindFrontFace = IsBehindFrontFace(Primitive, PokePointerLocation, GetPokePointerRadius());
 			}
 			else
 			{
-				IUxtPokeTarget::Execute_OnUpdatePoke(Target, this);
+				PokeFocus->UpdatePoke(this);
 			}
 		}
 		else
 		{
-			bIsPoking = false;
-			bFocusLocked = false;
+			PokeFocus->EndPoke(this);
 
+			bFocusLocked = false;
 			bWasBehindFrontFace = false;
 		}
 	}
@@ -287,8 +291,7 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 
 			if (startedPoking)
 			{
-				bIsPoking = true;
-				IUxtPokeTarget::Execute_OnBeginPoke(Target, this);
+				PokeFocus->BeginPoke(this);
 			}
 		}
 
@@ -353,7 +356,7 @@ bool UUxtNearPointerComponent::IsGrabbing() const
 
 bool UUxtNearPointerComponent::GetIsPoking() const
 {
-	return bIsPoking;
+	return PokeFocus->IsPoking();
 }
 
 FTransform UUxtNearPointerComponent::GetGrabPointerTransform() const
