@@ -24,13 +24,23 @@ In addition to default pawn movement there are virtual hands that can be control
 * Hold Left Shift/Alt for controlling the left/right hand respectively.
 
   This disables head rotation with the mouse and moves the hand instead. Both hands can be controlled together by holding both control keys.
+
+  <img src="Images/InputSim_MoveLeftHand.png" alt="Move Left Hand" width="400"/>
+  <img src="Images/InputSim_MoveRightHand.png" alt="Move Right Hand" width="400"/>
 * T/Y keys for toggling hand visibility.
 
   UX Tools project settings contain an option to "Start with Hands Enabled". Hands can still be enabled with the T/Y keys even if they are not initially visible.
+
+  <img src="Images/InputSim_HideLeftHand.png" alt="Hide Left Hand" width="400"/>
+  <img src="Images/InputSim_HideRightHand.png" alt="Hide Right Hand" width="400"/>
 * Press the Left mouse button to perform a "Pinch" gesture. This also activates the "grasp" state of the hand controller, allowing object manipulation.
+
+  <img src="Images/InputSim_Pinch.png" alt="Pinch Gesture" width="400"/>
 * Press the Middle mouse button to perform a "Poke" gesture. This can be used for poking buttons.
 
   Note that buttons can also be pressed by simply moving the hand towards the button, without performing any gestures.
+
+  <img src="Images/InputSim_Poke.png" alt="Poke Gesture" width="400"/>
 * Holding the Right mouse button enables rotation of the controlled hands:
     * X axis changes yaw angle.
     * Y axis changes pitch angle.
@@ -38,6 +48,7 @@ In addition to default pawn movement there are virtual hands that can be control
 
   To reset the hand rotation press the visibility keys (T/Y) twice. This will reset the hand location and rotation to defaults.
 
+  <img src="Images/InputSim_RotateHand.png" alt="Rotate Hand" width="400"/>
 ## Hand Animation
 
 Hand input is simulated with skeletal meshes that are animated according to user input.
