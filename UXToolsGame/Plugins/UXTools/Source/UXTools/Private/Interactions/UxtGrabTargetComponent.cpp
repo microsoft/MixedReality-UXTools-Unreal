@@ -219,6 +219,21 @@ bool UUxtGrabTargetComponent::IsGrabFocusable_Implementation(const UPrimitiveCom
 	return true;
 }
 
+void UUxtGrabTargetComponent::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	OnEnterGrabFocus.Broadcast(this, Pointer);
+}
+
+void UUxtGrabTargetComponent::OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	OnUpdateGrabFocus.Broadcast(this, Pointer);
+}
+
+void UUxtGrabTargetComponent::OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	OnExitGrabFocus.Broadcast(this, Pointer);
+}
+
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	FUxtGrabPointerData GrabData;

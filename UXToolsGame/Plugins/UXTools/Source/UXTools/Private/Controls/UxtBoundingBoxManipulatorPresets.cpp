@@ -394,8 +394,8 @@ const TArray<FUxtBoundingBoxAffordanceInfo> &FUxtBoundingBoxPresetUtils::GetPres
 {
 	switch (Preset)
 	{
-	case EUxtBoundingBoxManipulatorPreset::Default:	return Preset_CornerResizeEdgeRotate;
-	case EUxtBoundingBoxManipulatorPreset::Slate2D:					return Preset_Slate2D;
+	case EUxtBoundingBoxManipulatorPreset::Default:						return Preset_CornerResizeEdgeRotate;
+	case EUxtBoundingBoxManipulatorPreset::Slate2D:						return Preset_Slate2D;
 	case EUxtBoundingBoxManipulatorPreset::AllResize:					return Preset_AllResize;
 	case EUxtBoundingBoxManipulatorPreset::AllTranslate:				return Preset_AllTranslate;
 	case EUxtBoundingBoxManipulatorPreset::AllScale:					return Preset_AllScale;

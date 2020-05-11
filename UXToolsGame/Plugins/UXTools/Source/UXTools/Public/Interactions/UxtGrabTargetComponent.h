@@ -100,6 +100,13 @@ public:
 };
 
 
+/** Delegate for handling a focus enter events. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEnterGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
+/** Delegate for handling a focus update event. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
+/** Delegate for handling a focus exit event. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtExitGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
+
 /** Delegate for handling a BeginGrab event. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtBeginGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
 /** Delegate for handling a UpdateGrab event. */
@@ -169,6 +176,9 @@ protected:
 	//
 	// IUxtGrabTarget interface
 	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	virtual void OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
@@ -195,6 +205,18 @@ private:
 	void InitGrabTransform(FUxtGrabPointerData& GrabData) const;
 
 public:
+
+	/** Event raised when entering grab focus. */
+	UPROPERTY(BlueprintAssignable)
+	FUxtEnterGrabFocusDelegate OnEnterGrabFocus;
+
+	/** Event raised when grab focus updates. */
+	UPROPERTY(BlueprintAssignable)
+	FUxtUpdateGrabFocusDelegate OnUpdateGrabFocus;
+
+	/** Event raised when exiting grab. */
+	UPROPERTY(BlueprintAssignable)
+	FUxtExitGrabFocusDelegate OnExitGrabFocus;
 
 	/** Event raised when grab starts. */
 	UPROPERTY(BlueprintAssignable)

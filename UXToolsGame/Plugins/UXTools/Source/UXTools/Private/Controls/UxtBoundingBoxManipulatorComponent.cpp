@@ -7,6 +7,11 @@
 #include "GameFramework/Actor.h"
 #include "DrawDebugHelpers.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
+#include "UObject/ConstructorHelpers.h"
+
+#if WITH_EDITOR
+#include "EditorActorFolders.h"
+#endif
 
 
 static FBox CalculateNestedActorBoundsInGivenSpace(const AActor* Actor, const FTransform& WorldToCalcSpace, bool bNonColliding)
@@ -57,11 +62,11 @@ static FBox CalculateNestedActorBoundsInLocalSpace(const AActor* Actor, bool bNo
 
 FTransform FUxtBoundingBoxAffordanceInfo::GetWorldTransform(const FBox &Bounds, const FTransform &RootTransform) const
 {
-	FVector location = Bounds.GetCenter() + Bounds.GetExtent() * BoundsLocation;
-	FRotator rotation = BoundsRotation;
-	FVector scale = FVector::OneVector;
+	FVector Location = Bounds.GetCenter() + Bounds.GetExtent() * BoundsLocation;
+	FRotator Rotation = BoundsRotation;
+	FVector Scale = FVector::OneVector;
 
-	return FTransform(RootTransform.TransformRotation(FQuat(rotation)), RootTransform.TransformPosition(location), scale);
+	return FTransform(RootTransform.TransformRotation(FQuat(Rotation)), RootTransform.TransformPosition(Location), Scale);
 }
 
 
@@ -69,6 +74,13 @@ UUxtBoundingBoxManipulatorComponent::UUxtBoundingBoxManipulatorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
+
+	static ConstructorHelpers::FClassFinder<AActor> FaceAffordanceClassFinder(TEXT("/UXTools/BoundingBox/BP_DefaultBBoxFaceAffordance"));
+	FaceAffordanceClass = FaceAffordanceClassFinder.Class;
+	static ConstructorHelpers::FClassFinder<AActor> EdgeAffordanceClassFinder(TEXT("/UXTools/BoundingBox/BP_DefaultBBoxEdgeAffordance"));
+	EdgeAffordanceClass = EdgeAffordanceClassFinder.Class;
+	static ConstructorHelpers::FClassFinder<AActor> CornerAffordanceClassFinder(TEXT("/UXTools/BoundingBox/BP_DefaultBBoxCornerAffordance"));
+	CornerAffordanceClass = CornerAffordanceClassFinder.Class;
 }
 
 const TArray<FUxtBoundingBoxAffordanceInfo>& UUxtBoundingBoxManipulatorComponent::GetCustomAffordances() const
@@ -128,8 +140,8 @@ TSubclassOf<class AActor> UUxtBoundingBoxManipulatorComponent::GetAffordanceKind
 	switch (Kind)
 	{
 	case EUxtBoundingBoxAffordanceKind::Center:	return CenterAffordanceClass;
-	case EUxtBoundingBoxAffordanceKind::Face:		return FaceAffordanceClass;
-	case EUxtBoundingBoxAffordanceKind::Edge:		return EdgeAffordanceClass;
+	case EUxtBoundingBoxAffordanceKind::Face:	return FaceAffordanceClass;
+	case EUxtBoundingBoxAffordanceKind::Edge:	return EdgeAffordanceClass;
 	case EUxtBoundingBoxAffordanceKind::Corner:	return CornerAffordanceClass;
 	}
 
@@ -170,14 +182,34 @@ void UUxtBoundingBoxManipulatorComponent::BeginPlay()
 		Bounds = FBox(EForceInit::ForceInitToZero);
 	}
 
+	//
 	// Create affordances
+	
+#if WITH_EDITOR
+	static UEnum* AffordanceKindEnum = StaticEnum<EUxtBoundingBoxAffordanceKind>();
+	check(AffordanceKindEnum);
+
+	// Generate a folder in editor builds for better organization of the scene hierarchy
+	FName FolderPath;
+	auto& Folders = FActorFolders::Get();
+	if (Folders.IsAvailable())
+	{
+		FolderPath = Folders.GetFolderName(*GetWorld(), GetOwner()->GetFolderPath(), FName(GetOwner()->GetName() + TEXT("_Affordances")));
+		Folders.CreateFolder(*GetWorld(), FolderPath);
+		Folders.GetFolderProperties(*GetWorld(), FolderPath)->bIsExpanded = false;
+	}
+#endif
+
 	const auto &usedAffordances = GetUsedAffordances();
 	for (const FUxtBoundingBoxAffordanceInfo &affordance : usedAffordances)
 	{
 		auto affordanceClass = (affordance.ActorClass != nullptr ? affordance.ActorClass : GetAffordanceKindActorClass(affordance.Kind));
 		if (IsValid(affordanceClass))
 		{
-			AActor *affordanceActor = GetWorld()->SpawnActor<AActor>(affordanceClass);
+			FActorSpawnParameters Params;
+			Params.Name = FName(GetOwner()->GetName() + TEXT("_Affordance"));
+			Params.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
+			AActor *affordanceActor = GetWorld()->SpawnActor<AActor>(affordanceClass, Params);
 
 			if (affordanceActor != nullptr)
 			{
@@ -190,6 +222,20 @@ void UUxtBoundingBoxManipulatorComponent::BeginPlay()
 					grabbable->OnUpdateGrab.AddDynamic(this, &UUxtBoundingBoxManipulatorComponent::OnPointerUpdateGrab);
 					grabbable->OnEndGrab.AddDynamic(this, &UUxtBoundingBoxManipulatorComponent::OnPointerEndGrab);
 				}
+
+#if WITH_EDITOR
+				{
+					affordanceActor->SetActorLabel(FString::Printf(TEXT("%s %s (%.0f %.0f %.0f)"),
+						*GetOwner()->GetName(),
+						*AffordanceKindEnum->GetDisplayNameTextByValue((int64)affordance.Kind).ToString(),
+						affordance.BoundsLocation.X, affordance.BoundsLocation.Y, affordance.BoundsLocation.Z
+						));
+					if (Folders.IsAvailable())
+					{
+						affordanceActor->SetFolderPath_Recursively(FolderPath);
+					}
+				}
+#endif
 			}
 		}
 	}
