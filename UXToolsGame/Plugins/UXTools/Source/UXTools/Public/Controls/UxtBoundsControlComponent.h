@@ -6,15 +6,15 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
-#include "Controls/UxtBoundingBoxManipulatorPresets.h"
-#include "UxtBoundingBoxManipulatorComponent.generated.h"
+#include "Controls/UxtBoundsControlPresets.h"
+#include "UxtBoundsControlComponent.generated.h"
 
 
-class UUxtBoundingBoxManipulatorComponent;
+class UUxtBoundsControlComponent;
 
 /** Defines the kind of actor that should be spawned for an affordance. */
 UENUM()
-enum class EUxtBoundingBoxAffordanceKind : uint8
+enum class EUxtBoundsControlAffordanceKind : uint8
 {
 	Center,
 	Face,
@@ -25,7 +25,7 @@ enum class EUxtBoundingBoxAffordanceKind : uint8
 
 /** Defines which effect moving an affordance has on the bounding box. */
 UENUM()
-enum class EUxtBoundingBoxAffordanceAction : uint8
+enum class EUxtBoundsControlAffordanceAction : uint8
 {
 	/** Move only one side of the bounding box. */
 	Resize,
@@ -40,7 +40,7 @@ enum class EUxtBoundingBoxAffordanceAction : uint8
 
 /** Affordances are grabbable actors placed on the bounding box which enable interaction. */
 USTRUCT(BlueprintType)
-struct UXTOOLS_API FUxtBoundingBoxAffordanceInfo
+struct UXTOOLS_API FUxtBoundsControlAffordanceInfo
 {
 	GENERATED_BODY()
 
@@ -52,7 +52,7 @@ struct UXTOOLS_API FUxtBoundingBoxAffordanceInfo
 
 	/** Action to perform when the affordance is grabbed. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
-	EUxtBoundingBoxAffordanceAction Action = EUxtBoundingBoxAffordanceAction::Resize;
+	EUxtBoundsControlAffordanceAction Action = EUxtBoundsControlAffordanceAction::Resize;
 
 	/** Location of the affordance in normalized bounding box space (-1..1). */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
@@ -78,20 +78,20 @@ struct UXTOOLS_API FUxtBoundingBoxAffordanceInfo
 	 * In this case the matching actor class from the bounding box component will be used.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
-	EUxtBoundingBoxAffordanceKind Kind = EUxtBoundingBoxAffordanceKind::Center;
+	EUxtBoundsControlAffordanceKind Kind = EUxtBoundsControlAffordanceKind::Center;
 };
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
-	FUxtBoundingBoxManipulationStartedDelegate,
-	UUxtBoundingBoxManipulatorComponent*, Manipulator,
-	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
+	FUxtBoundsControlManipulationStartedDelegate,
+	UUxtBoundsControlComponent*, Manipulator,
+	const FUxtBoundsControlAffordanceInfo&, AffordanceInfo,
 	UUxtGrabTargetComponent*, GrabbedComponent);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
-	FUxtBoundingBoxManipulationEndedDelegate,
-	UUxtBoundingBoxManipulatorComponent*, Manipulator,
-	const FUxtBoundingBoxAffordanceInfo&, AffordanceInfo,
+	FUxtBoundsControlManipulationEndedDelegate,
+	UUxtBoundsControlComponent*, Manipulator,
+	const FUxtBoundsControlAffordanceInfo&, AffordanceInfo,
 	UUxtGrabTargetComponent*, GrabbedComponent);
 
 
@@ -99,16 +99,16 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
  * Manages a set of affordances that can be manipulated for changing the actor transform.
  */
 UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtBoundingBoxManipulatorComponent : public UActorComponent
+class UXTOOLS_API UUxtBoundsControlComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	UUxtBoundingBoxManipulatorComponent();
+	UUxtBoundsControlComponent();
 
 	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
-	const TArray<FUxtBoundingBoxAffordanceInfo>& GetCustomAffordances() const;
+	const TArray<FUxtBoundsControlAffordanceInfo>& GetCustomAffordances() const;
 
 	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	TSubclassOf<class AActor> GetCenterAffordanceClass() const;
@@ -126,7 +126,7 @@ public:
 	bool UseCustomAffordances() const;
 
 	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
-	EUxtBoundingBoxManipulatorPreset GetPreset() const;
+	EUxtBoundsControlPreset GetPreset() const;
 
 	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	bool GetInitBoundsFromActor() const;
@@ -139,11 +139,11 @@ public:
 	 * This can be a based on a preset or a custom set of affordances.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Bounding Box")
-	const TArray<FUxtBoundingBoxAffordanceInfo>& GetUsedAffordances() const;
+	const TArray<FUxtBoundsControlAffordanceInfo>& GetUsedAffordances() const;
 
 	/** Actor class that will be instantiated for the given kind of affordance. */
 	UFUNCTION(BlueprintPure, Category = "Bounding Box")
-	TSubclassOf<class AActor> GetAffordanceKindActorClass(EUxtBoundingBoxAffordanceKind Kind) const;
+	TSubclassOf<class AActor> GetAffordanceKindActorClass(EUxtBoundsControlAffordanceKind Kind) const;
 
 	/** Compute the bounding box based on the components of the bounding box actor. */
 	UFUNCTION(BlueprintCallable, Category = "Bounding Box")
@@ -151,11 +151,11 @@ public:
 
 	/** Event raised when a manipulation is started. */
 	UPROPERTY(BlueprintAssignable, Category = "Bounding Box")
-	FUxtBoundingBoxManipulationStartedDelegate OnManipulationStarted;
+	FUxtBoundsControlManipulationStartedDelegate OnManipulationStarted;
 
 	/** Event raised when a manipulation is ended. */
 	UPROPERTY(BlueprintAssignable, Category = "Bounding Box")
-	FUxtBoundingBoxManipulationEndedDelegate OnManipulationEnded;
+	FUxtBoundsControlManipulationEndedDelegate OnManipulationEnded;
 
 protected:
 
@@ -177,20 +177,20 @@ protected:
 	 * Try to activate the given grab pointer on the bounding box.
 	 * Returns true when the grab activation was successful and the pointer will update the bounding box.
 	 */
-	bool TryActivateGrabPointer(const FUxtBoundingBoxAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer);
+	bool TryActivateGrabPointer(const FUxtBoundsControlAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer);
 	/**
 	 * Release the grab pointer.
 	 * Returns true if the pointer was grabbing and has been released.
 	 */
-	bool TryReleaseGrabPointer(const FUxtBoundingBoxAffordanceInfo &Affordance);
+	bool TryReleaseGrabPointer(const FUxtBoundsControlAffordanceInfo &Affordance);
 	/**
 	 * Look up the grab pointer data for an affordance.
 	 * Returns null if the affordance is not currently grabbed.
 	 */
-	FUxtGrabPointerData* FindGrabPointer(const FUxtBoundingBoxAffordanceInfo& Affordance);
+	FUxtGrabPointerData* FindGrabPointer(const FUxtBoundsControlAffordanceInfo& Affordance);
 
 	/** Compute new bounding box and rotation based on the currently active grab pointers. */
-	void ComputeModifiedBounds(const FUxtBoundingBoxAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation) const;
+	void ComputeModifiedBounds(const FUxtBoundsControlAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation) const;
 
 	/** Update the world transforms of affordance actors to match the current bounding box. */
 	void UpdateAffordanceTransforms();
@@ -228,14 +228,14 @@ private:
 	 * When set to Custom the list of affordances must be created by the user.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetPreset", meta = (EditCondition = "!bUseCustomAffordances"), Category = "Bounding Box")
-	EUxtBoundingBoxManipulatorPreset Preset = EUxtBoundingBoxManipulatorPreset::Default;
+	EUxtBoundsControlPreset Preset = EUxtBoundsControlPreset::Default;
 
 	/**
 	 * List of custom affordances.
 	 * These affordances will only be used when using the Custom preset.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCustomAffordances", meta = (EditCondition = "bUseCustomAffordances"), Category = "Bounding Box")
-	TArray<FUxtBoundingBoxAffordanceInfo> CustomAffordances;
+	TArray<FUxtBoundsControlAffordanceInfo> CustomAffordances;
 
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetInitBoundsFromActor", Category = "Bounding Box")
@@ -249,7 +249,7 @@ private:
 	 * Maps actors to the affordances they represent.
 	 * This is used for looking up the correct affordance settings when grab events are handled.
 	 */
-	TMap<AActor*, const FUxtBoundingBoxAffordanceInfo*> ActorAffordanceMap;
+	TMap<AActor*, const FUxtBoundsControlAffordanceInfo*> ActorAffordanceMap;
 
 	/**
 	 * Contains the currently active affordances being moved by grab pointers.
@@ -258,7 +258,7 @@ private:
 	 * Currently should only ever contain a single grab pointer.
 	 * In the future multiple simultaneous grabs may be supported.
 	 */
-	TArray<TPair<const FUxtBoundingBoxAffordanceInfo*, FUxtGrabPointerData>> ActiveAffordanceGrabPointers;
+	TArray<TPair<const FUxtBoundsControlAffordanceInfo*, FUxtGrabPointerData>> ActiveAffordanceGrabPointers;
 
 	/** Initial bounding box at the start of interaction. */
 	FBox InitialBounds;

@@ -5,12 +5,12 @@
 
 #include "CoreMinimal.h"
 
-struct FUxtBoundingBoxAffordanceInfo;
+struct FUxtBoundsControlAffordanceInfo;
 
 
 /** Possible presets for common bounding box configurations. */
 UENUM()
-enum class EUxtBoundingBoxManipulatorPreset : uint8
+enum class EUxtBoundsControlPreset : uint8
 {
 	/** Uniform resizing with corners and rotation with edges. */
 	Default,
@@ -27,8 +27,8 @@ enum class EUxtBoundingBoxManipulatorPreset : uint8
 };
 
 
-struct FUxtBoundingBoxPresetUtils
+struct FUxtBoundsControlPresetUtils
 {
 	/** Get the list of affordances contained in a preset. */
-	static const TArray<FUxtBoundingBoxAffordanceInfo> &GetPresetAffordances(EUxtBoundingBoxManipulatorPreset Preset);
+	static const TArray<FUxtBoundsControlAffordanceInfo> &GetPresetAffordances(EUxtBoundsControlPreset Preset);
 };
