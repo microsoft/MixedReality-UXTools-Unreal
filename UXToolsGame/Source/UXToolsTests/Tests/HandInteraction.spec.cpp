@@ -105,6 +105,24 @@ void HandInteractionSpec::Define()
 		});
 	});
 
+	LatentIt("should deactivate pointer when hand is not in the pointing pose", [this](const FDoneDelegate& Done)
+	{
+		FrameQueue.Enqueue([this]
+		{
+			UxtTestUtils::GetTestHandTracker().TestOrientation = FVector::DownVector.Rotation().Quaternion();
+		});
+
+		// Skip one frame as pointers take a frame to start ticking when activated by the hand interaction actor
+		FrameQueue.Skip();
+
+		FrameQueue.Enqueue([this, Done]
+		{
+			TestFalse("Near pointer actived", NearPointer->IsActive());
+			TestFalse("Far pointer active", FarPointer->IsActive());
+			Done.Execute();
+		});
+	});
+
 	LatentIt("should deactivate pointers when tracking is lost", [this](const FDoneDelegate& Done)
 	{
 		FrameQueue.Enqueue([this]

@@ -14,6 +14,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
+#include "Utils/UxtFunctionLibrary.h"
 #include "UXTools.h"
 
 
@@ -141,15 +142,23 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 					}
 				}
 
-				// Update pointers activation state
-				if (bHasNearTarget != NearPointer->IsActive())
+				// Disable the pointers if the hand is facing upwards
+				if (IsInPointingPose())
 				{
-					NearPointer->SetActive(bHasNearTarget);
-					
+					// Update pointers activation state
+					if (bHasNearTarget != NearPointer->IsActive())
+					{
+						NearPointer->SetActive(bHasNearTarget);
+					}
+					if (bHasNearTarget == FarPointer->IsActive())
+					{
+						FarPointer->SetActive(!bHasNearTarget);
+					}
 				}
-				if (bHasNearTarget == FarPointer->IsActive())
+				else
 				{
-					FarPointer->SetActive(!bHasNearTarget);
+					NearPointer->SetActive(false);
+					FarPointer->SetActive(false);
 				}
 			}
 
@@ -203,4 +212,45 @@ void AUxtHandInteractionActor::SetRayLength(float NewRayLength)
 {
 	RayLength = NewRayLength;
 	FarPointer->RayLength = NewRayLength;
+}
+
+bool AUxtHandInteractionActor::IsInPointingPose() const
+{
+	constexpr float PointerBeamBackwardTolerance = 0.5f;
+	constexpr float PointerBeamUpwardTolerance = 0.8f;
+
+	IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker();
+	if (!HandTracker)
+	{
+		return false;
+	}
+
+	FQuat PalmOrientation;
+	FVector PalmPosition;
+	float PalmRadius;
+
+	if (HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius))
+	{
+		FVector PalmNormal = PalmOrientation * FVector::DownVector;
+		PalmNormal.Normalize();
+
+		if (PointerBeamBackwardTolerance >= 0)
+		{
+			FVector CameraBackward = -UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetRotation().GetForwardVector();
+			if (FVector::DotProduct(PalmNormal, CameraBackward) > PointerBeamBackwardTolerance)
+			{
+				return false;
+			}
+		}
+
+		if (PointerBeamUpwardTolerance >= 0)
+		{
+			if (FVector::DotProduct(PalmNormal, FVector::UpVector) > PointerBeamUpwardTolerance)
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
