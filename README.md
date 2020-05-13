@@ -17,7 +17,8 @@ Included but still in development is a bounding box component that allows manipu
 
 # Getting Started
 
-1. Get UE 4.25 preview 6 or later. Earlier previews or UE versions are not supported.
+1. Get UE 4.25 or later. Earlier previews or UE versions are not supported.
+1. **Note**, if you are running UE 4.25.0 and your computer's GPU supports ray tracing you must disable UE 4.25 ray tracing support for UXT's custom shaders to compile. To disable ray tracing navigate to _C:\Program Files\Epic Games\UE_4.25\Engine\Config\Windows_ (or where your installation is located), open _DataDrivenPlatformInfo.ini_ and change _bSupportsRayTracing=true_ to _bSupportsRayTracing=false_ (this setting change is not required in UE 4.25.1 or later).
 1. Clone this repository.
 1. Checkout public/0.8.x. Bear in mind this branch is alive, it is not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. release/0.8.0) marked as such in GitHub.
 

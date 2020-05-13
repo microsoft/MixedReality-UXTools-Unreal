@@ -13,6 +13,8 @@ public class UXTools : ModuleRules
 		bEnableUndefinedIdentifierWarnings = false;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "LiveLinkInterface" });
+		
+		PrivateDependencyModuleNames.AddRange(new string[]{ "Projects", "RenderCore" });
 
         if (Target.bBuildEditor)
         {

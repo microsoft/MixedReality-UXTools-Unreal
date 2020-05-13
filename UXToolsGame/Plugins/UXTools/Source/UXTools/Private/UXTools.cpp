@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 #include "UXTools.h"
+#include "Interfaces/IPluginManager.h"
+#include "ShaderCore.h"
 
 DEFINE_LOG_CATEGORY(UXTools)
 
@@ -9,7 +11,9 @@ DEFINE_LOG_CATEGORY(UXTools)
 
 void FUXToolsModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	// Maps virtual shader source directory /Plugin/UXTools to the plugin's actual Shaders directory.
+	FString PluginShaderDir = FPaths::Combine(IPluginManager::Get().FindPlugin(TEXT("UXTools"))->GetBaseDir(), TEXT("Shaders"));
+	AddShaderSourceDirectoryMapping(TEXT("/Plugin/UXTools"), PluginShaderDir);
 }
 
 void FUXToolsModule::ShutdownModule()

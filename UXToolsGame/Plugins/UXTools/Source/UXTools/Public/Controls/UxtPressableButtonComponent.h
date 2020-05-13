@@ -44,8 +44,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonEndFocusDelegate, UUxtP
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonBeginPokeDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdatePokeDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonEndPokeDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
 
 
 /**

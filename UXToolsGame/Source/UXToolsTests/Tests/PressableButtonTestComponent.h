@@ -21,13 +21,13 @@ class UPressableButtonTestComponent : public UActorComponent
 public:
 
 	UFUNCTION()
-	void IncrementPressed(UUxtPressableButtonComponent* ButtonComponent)
+	void IncrementPressed(UUxtPressableButtonComponent* ButtonComponent, UObject* Pointer)
 	{
 		PressedCount++;
 	}
 
 	UFUNCTION()
-	void IncrementReleased(UUxtPressableButtonComponent* ButtonComponent)
+	void IncrementReleased(UUxtPressableButtonComponent* ButtonComponent, UObject* Pointer)
 	{
 		ReleasedCount++;
 	}

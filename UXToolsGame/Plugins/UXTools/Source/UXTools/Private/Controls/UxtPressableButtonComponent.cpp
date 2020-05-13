@@ -126,7 +126,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 			if (!bIsPressed && CurrentPushDistance >= PressedDistance && PreviousPushDistance < PressedDistance)
 			{
 				bIsPressed = true;
-				OnButtonPressed.Broadcast(this);
+				OnButtonPressed.Broadcast(this, NewPokingPointer);
 			}
 		}
 		else
@@ -138,7 +138,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 			if (bIsPressed && (CurrentPushDistance <= ReleasedDistance && PreviousPushDistance > ReleasedDistance))
 			{
 				bIsPressed = false;
-				OnButtonReleased.Broadcast(this);
+				OnButtonReleased.Broadcast(this, NewPokingPointer);
 			}
 		}
 	}
@@ -226,7 +226,7 @@ void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
 		if (bIsPressed)
 		{
 			bIsPressed = false;
-			OnButtonReleased.Broadcast(this);
+			OnButtonReleased.Broadcast(this, Pointer);
 		}
 	}
 
@@ -272,7 +272,7 @@ void UUxtPressableButtonComponent::OnEndPoke_Implementation(UUxtNearPointerCompo
 	if (bIsPressed && NumPointersFocusing == 0)
 	{
 		bIsPressed = false;
-		OnButtonReleased.Broadcast(this);
+		OnButtonReleased.Broadcast(this, Pointer);
 	}
 
 	// Unlock the pointer focus so that another target can be selected.
@@ -388,7 +388,7 @@ void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerCom
 		CurrentPushDistance = GetPressedDistance();
 		FarPointerWeak = Pointer;
 		Pointer->SetFocusLocked(true);
-		OnButtonPressed.Broadcast(this);
+		OnButtonPressed.Broadcast(this, Pointer);
 	}
 }
 
@@ -400,6 +400,6 @@ void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerCo
 		CurrentPushDistance = 0;
 		FarPointerWeak = nullptr;
 		Pointer->SetFocusLocked(false);
-		OnButtonReleased.Broadcast(this);
+		OnButtonReleased.Broadcast(this, Pointer);
 	}
 }
