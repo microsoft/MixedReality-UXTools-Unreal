@@ -51,6 +51,14 @@ public:
 
 	UUxtPressableButtonComponent();
 
+	/** Get the distance from the visuals front face to the collider front face. */
+	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	float GetFrontFaceCollisionMargin() const;
+
+	/** Set the distance from the visuals front face to the collider front face. */
+	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	void SetFrontFaceCollisionMargin(float Distance);
+
 	/** Get scene component used for the moving visuals */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	USceneComponent* GetVisuals() const;
@@ -59,7 +67,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetVisuals(USceneComponent* Visuals);
 
-	/** Set scene component to be used for the moving visuals */
+	/** Set collision profile used by the button collider */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetCollisionProfile(FName Profile);
 
@@ -74,19 +82,19 @@ public:
 
     /** The maximum distance the button can be pushed in local space */
 	UPROPERTY(EditAnywhere, Category = "Pressable Button")
-	float MaxPushDistance;
+	float MaxPushDistance = 10;
 
 	/** Fraction of the maximum travel distance at which the button will raise the pressed event. */
     UPROPERTY(EditAnywhere, Category = "Pressable Button")
-    float PressedFraction;
+    float PressedFraction = 0.5f;
 
 	/** Fraction of the maximum travel distance at which a pressed button will raise the released event. */
     UPROPERTY(EditAnywhere, Category = "Pressable Button")
-    float ReleasedFraction;
+    float ReleasedFraction = 0.2f;
 
 	/** Button movement speed while recovering */
     UPROPERTY(EditAnywhere, Category = "Pressable Button")
-    float RecoverySpeed;
+    float RecoverySpeed = 50;
 
 	//
 	// Events
@@ -169,6 +177,10 @@ private:
 
 	/** Use the given mesh to adjust the box component extents. */
 	void ConfigureBoxComponent(const UStaticMeshComponent* Mesh);
+
+	/** The distance in local space from the visuals front face to the collider front face. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFrontFaceCollisionMargin", BlueprintSetter = "SetFrontFaceCollisionMargin", meta = (UIMin = "0.0"), Category = "Pressable Button")
+	float FrontFaceCollisionMargin = 0.5f;
 
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
 	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pressable Button")

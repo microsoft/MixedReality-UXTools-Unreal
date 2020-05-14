@@ -235,10 +235,10 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 			switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 			{
 				case EUxtPokeBehaviour::FrontFace:
-					endedPoking = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius(), PokeDepth);
+					endedPoking = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius() + DebounceDepth, PokeDepth);
 					break;
 				case EUxtPokeBehaviour::Volume:
-					endedPoking = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius()));
+					endedPoking = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius() + DebounceDepth));
 					break;
 			}
 

@@ -18,11 +18,25 @@ UUxtPressableButtonComponent::UUxtPressableButtonComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
+}
 
-	MaxPushDistance = 10;
-	PressedFraction = 0.5f;
-	ReleasedFraction = 0.2f;
-	RecoverySpeed = 50;
+float UUxtPressableButtonComponent::GetFrontFaceCollisionMargin() const
+{
+	return FrontFaceCollisionMargin;
+}
+
+void UUxtPressableButtonComponent::SetFrontFaceCollisionMargin(float Distance)
+{
+	Distance = FMath::Max(0.0f, Distance);
+
+	FrontFaceCollisionMargin = Distance;
+	if (BoxComponent)
+	{
+		if (UStaticMeshComponent* Touchable = Cast<UStaticMeshComponent>(GetVisuals()))
+		{
+			ConfigureBoxComponent(Touchable);
+		}
+	}
 }
 
 USceneComponent* UUxtPressableButtonComponent::GetVisuals() const 
@@ -260,7 +274,8 @@ EUxtPokeBehaviour UUxtPressableButtonComponent::GetPokeBehaviour_Implementation(
 
 float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerComponent* pointer) const
 {
-	const FVector PointerPos = pointer->GetPokePointerTransform().GetLocation();
+	FVector PointerPos = pointer->GetPokePointerTransform().GetLocation();
+	PointerPos.X += pointer->GetPokePointerRadius();
 	const FVector PointerLocal = GetComponentTransform().InverseTransformPosition(PointerPos);
 	const float EndDistance = PointerLocal.X - RestPositionLocal.X;
 
@@ -316,9 +331,15 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(const UStaticMeshCompon
 	FVector Min, Max;
 	Mesh->GetLocalBounds(Min, Max);
 
-	BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
+	// Margin distance should scale relative to the button component, not the mesh
+	float MarginDist = FrontFaceCollisionMargin;
+	MarginDist /= Mesh->GetComponentTransform().GetScale3D().X;
+	MarginDist *= GetComponentTransform().GetScale3D().X;
+	FVector FrontFaceMargin = FVector::ForwardVector * MarginDist;
+
+	BoxComponent->SetBoxExtent((Max - (Min - FrontFaceMargin)) * 0.5f);
 	
-	FTransform BoxTransform = FTransform((Max + Min) / 2) * Mesh->GetComponentTransform();
+	FTransform BoxTransform = FTransform((Max + Min - FrontFaceMargin) / 2) * Mesh->GetComponentTransform();
 	BoxComponent->SetWorldTransform(BoxTransform);
 
 	BoxComponent->SetCollisionProfileName(CollisionProfile);
