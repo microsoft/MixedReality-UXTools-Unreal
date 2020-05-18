@@ -12,13 +12,13 @@
 
 namespace Microsoft
 {
-    namespace MixedReality
-    {
-        namespace UX
-        {
-            class PressableButton;
-        }
-    }
+	namespace MixedReality
+	{
+		namespace UX
+		{
+			class PressableButton;
+		}
+	}
 }
 
 class UUxtPressableButtonComponent;
@@ -35,6 +35,17 @@ enum class EUxtPushBehavior : uint8
 	Compress
 };
 
+UENUM(BlueprintType)
+enum class EUxtButtonState : uint8
+{
+	/** Default state, not pressed or disabled */
+	Default,
+	/** Button is disabled */
+	Disabled,
+	/** Button is pressed */
+	Pressed
+};
+
 //
 // Delegates
 
@@ -46,6 +57,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdatePokeDelegate, UUxtP
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonEndPokeDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonEnabledDelegate, UUxtPressableButtonComponent*, Button);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonDisabledDelegate, UUxtPressableButtonComponent*, Button);
 
 
 /**
@@ -71,6 +84,14 @@ public:
 	/** Set scene component to be used for the moving visuals */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetCollisionProfile(FName Profile);
+
+	/** Set if the button is enabled */
+	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	void SetEnabled(bool Enabled);
+
+	/** Get if the button is enabled */
+	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	bool IsEnabled() const;
 
 	/** Get the current pressed state of the button */
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
@@ -101,16 +122,16 @@ public:
 	float MaxPushDistance;
 
 	/** Fraction of the maximum travel distance at which the button will raise the pressed event. */
-    UPROPERTY(EditAnywhere, Category = "Pressable Button")
-    float PressedFraction;
+	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	float PressedFraction;
 
 	/** Fraction of the maximum travel distance at which a pressed button will raise the released event. */
-    UPROPERTY(EditAnywhere, Category = "Pressable Button")
-    float ReleasedFraction;
+	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	float ReleasedFraction;
 
 	/** Button movement speed while recovering */
-    UPROPERTY(EditAnywhere, Category = "Pressable Button")
-    float RecoverySpeed;
+	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	float RecoverySpeed;
 
 	//
 	// Events
@@ -146,6 +167,14 @@ public:
 	/** Event raised when the a pressed button reaches the released distance. */
 	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
 	FUxtButtonReleasedDelegate OnButtonReleased;
+
+	/** Event raised when the button is enabled. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonEnabledDelegate OnButtonEnabled;
+
+	/** Event raised when the button is disabled. */
+	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	FUxtButtonDisabledDelegate OnButtonDisabled;
 
 protected:
 
@@ -236,8 +265,8 @@ private:
 	/** Visuals scale in this component's space */
 	FVector VisualsScaleLocal;
 
-	/** True if the button is currently pressed */
-	bool bIsPressed = false;
+	/** Current state of the button */
+	EUxtButtonState State;
 
 	/** Local position of the button front face while not being poked by any pointer */
 	FVector RestPositionLocal;

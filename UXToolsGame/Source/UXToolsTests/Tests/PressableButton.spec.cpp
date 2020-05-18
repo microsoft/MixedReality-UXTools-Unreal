@@ -61,6 +61,7 @@ namespace
 BEGIN_DEFINE_SPEC(PressableButtonSpec, "UXTools.PressableButtonTest", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
 
 	void EnqueueDestroyTest(const TTuple<FVector, FVector> FramePositions);
+	void EnqueueDisableTest(const TTuple<FVector, FVector> FramePositions);
 	void EnqueuePressReleaseTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease);
 	void EnqueueMoveButtonTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease);
 	void EnqueueTwoButtonsTest(const FVector StartingPos);
@@ -167,6 +168,29 @@ void PressableButtonSpec::Define()
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 
+			LatentIt("shouldn't raise press or release when the button is disabled", [this](const FDoneDelegate& Done)
+				{
+					TTuple<FVector, FVector, FVector> Sequence = MakeTuple(
+						Center + (FVector::BackwardVector * MoveBy),
+						Center,
+						Center + (FVector::BackwardVector * MoveBy));
+
+					Button->SetEnabled(false);
+
+					EnqueuePressReleaseTest(Sequence, false, false);
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt("shouldn't raise release when the button is disabled mid press", [this](const FDoneDelegate& Done)
+				{
+					TTuple<FVector, FVector> Sequence = MakeTuple(
+						Center + (FVector::BackwardVector * MoveBy),
+						Center);
+
+					EnqueueDisableTest(Sequence);
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
 			LatentIt("should raise press but not release when the button is destroyed during a press", [this](const FDoneDelegate& Done)
 				{
 					TTuple<FVector, FVector> Sequence = MakeTuple(
@@ -267,6 +291,45 @@ void PressableButtonSpec::EnqueueDestroyTest(const TTuple<FVector, FVector> Fram
 			TestTrue("Button was not released", EventCaptureObj->ReleasedCount == 0);
 
 			Button->DestroyComponent();
+		});
+	// verify no released
+	FrameQueue.Enqueue([this]
+		{
+			TestTrue("Button was pressed", EventCaptureObj->PressedCount == 1);
+			TestTrue("Button was not released", EventCaptureObj->ReleasedCount == 0);
+		});
+}
+
+void PressableButtonSpec::EnqueueDisableTest(const TTuple<FVector, FVector> FramePositions)
+{
+	// The occasional frame needs to be skipped in this test because of a tick 
+	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
+	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
+	// be empty for the first frame after the hand has been moved to the press
+	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
+	// to be called after PokePointers has been populated.
+
+	// first move
+	FrameQueue.Enqueue([this, FramePositions]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<0>();
+		});
+	// second move
+	FrameQueue.Enqueue([this, FramePositions]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<1>();
+		});
+
+	// skip a frame for poke because of tick ordering issue.
+	FrameQueue.Skip();
+
+	// test pressed and disable button
+	FrameQueue.Enqueue([this]
+		{
+			TestTrue("Button was pressed", EventCaptureObj->PressedCount == 1);
+			TestTrue("Button was not released", EventCaptureObj->ReleasedCount == 0);
+
+			Button->SetEnabled(false);
 		});
 	// verify no released
 	FrameQueue.Enqueue([this]
