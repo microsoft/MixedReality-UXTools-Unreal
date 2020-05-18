@@ -33,7 +33,7 @@ namespace
 
 		FVector Extents = Primitive->GetCollisionShape().GetExtent();
 
-		if (LocalPosition.X + Radius > -Extents.X)
+		if (LocalPosition.X - Radius < Extents.X)
 		{
 			return true;
 		}
@@ -65,10 +65,10 @@ namespace
 
 		FVector Extents = Primitive->GetCollisionShape().GetExtent();
 
-		FVector Min = -Extents;
-
 		FVector Max = Extents;
-		Max.X = -Max.X + Depth; // depth is measured from the front face
+
+		FVector Min = -Extents;
+		Min.X = Max.X - Depth; // depth is measured from the front face
 
 		FBox PokableVolume(Min, Max);
 		FSphere PokeSphere(LocalPosition, Radius);

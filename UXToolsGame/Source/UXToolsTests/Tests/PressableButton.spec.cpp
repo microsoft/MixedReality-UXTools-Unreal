@@ -29,6 +29,7 @@ namespace
 		root->RegisterComponent();
 
 		UUxtPressableButtonComponent* TestTarget = NewObject<UUxtPressableButtonComponent>(actor);
+		TestTarget->SetWorldRotation(FRotator(0, 180, 0));
 		TestTarget->SetWorldLocation(Location);
 		TestTarget->RegisterComponent();
 

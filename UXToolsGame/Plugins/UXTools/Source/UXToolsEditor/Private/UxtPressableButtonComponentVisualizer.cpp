@@ -13,10 +13,10 @@ namespace
 	{	
 		FVector Vertices[] =
 		{
-			FVector(PressedDistance, Width, Height),
-			FVector(PressedDistance, Width, -Height),
-			FVector(PressedDistance, -Width, -Height),
-			FVector(PressedDistance, -Width, Height)
+			FVector(-PressedDistance, Width, Height),
+			FVector(-PressedDistance, Width, -Height),
+			FVector(-PressedDistance, -Width, -Height),
+			FVector(-PressedDistance, -Width, Height)
 		};
 
 		for (int i = 0; i < 4; ++i)
@@ -41,13 +41,14 @@ void FUxtPressableButtonComponentVisualizer::DrawVisualization(const UActorCompo
 	{
 		if (USceneComponent* Visuals = Button->GetVisuals())
 		{
-			FBox Bounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Visuals).GetBox();
+			FTransform LocalToTarget = Visuals->GetComponentTransform() * Button->GetComponentTransform().Inverse();
+			FBox Bounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Visuals, LocalToTarget).GetBox();
 
-			FTransform ToFrontFace = FTransform(FVector(Bounds.Min.X, 0, 0));
-			FMatrix FrontFaceMatrix = (ToFrontFace * Visuals->GetComponentTransform()).ToMatrixNoScale();
+			FTransform ToFrontFace = FTransform(FVector(Bounds.Max.X, 0, 0));
+			FMatrix FrontFaceMatrix = (ToFrontFace * Button->GetComponentTransform()).ToMatrixNoScale();
 
 			FVector Extents = Bounds.GetExtent();
-			Extents *= Visuals->GetComponentTransform().GetScale3D();
+			Extents *= Button->GetComponentTransform().GetScale3D();
 
 			// Rest position
 			DrawQuad(PDI, Extents.Y, Extents.Z, 0, FrontFaceMatrix, FLinearColor::White);

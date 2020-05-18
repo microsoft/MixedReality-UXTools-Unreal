@@ -329,14 +329,14 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 {
 	const FVector PointerPos = pointer->GetPokePointerTransform().GetLocation();
 	const FVector PointerLocal = GetComponentTransform().InverseTransformPosition(PointerPos);
-	const float EndDistance = PointerLocal.X - RestPositionLocal.X;
+	const float EndDistance = RestPositionLocal.X - PointerLocal.X;
 
 	return EndDistance > 0 ? FMath::Min(EndDistance, MaxPushDistance) : 0;
 }
 
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
-	return GetRestPosition() + (GetComponentTransform().GetScaledAxis(EAxis::X) * CurrentPushDistance);
+	return GetRestPosition() - (GetComponentTransform().GetScaledAxis(EAxis::X) * CurrentPushDistance);
 }
 
 
@@ -393,14 +393,17 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 		}
 	}
 
-	FBoxSphereBounds LocalBounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Parent);
-	FTransform BoxTransform = FTransform(LocalBounds.Origin) * Parent->GetComponentTransform();
+	// Get bounds local to button, not visuals
+	FTransform LocalToTarget = Parent->GetComponentTransform() * GetComponentTransform().Inverse();
+	FBoxSphereBounds LocalBounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Parent, LocalToTarget);
+
+	FTransform BoxTransform = FTransform(LocalBounds.Origin) * GetComponentTransform();
 	BoxComponent->SetWorldTransform(BoxTransform);
 	BoxComponent->SetBoxExtent(LocalBounds.BoxExtent);
 	BoxComponent->SetCollisionProfileName(CollisionProfile);
 	BoxComponent->AttachToComponent(Parent, FAttachmentTransformRules::KeepWorldTransform);
 
-	FVector RestPosition = BoxTransform.GetLocation() - BoxTransform.GetUnitAxis(EAxis::X) * BoxComponent->GetScaledBoxExtent().X;
+	FVector RestPosition = BoxTransform.GetLocation() + BoxTransform.GetUnitAxis(EAxis::X) * BoxComponent->GetScaledBoxExtent().X;
 	RestPositionLocal = GetComponentTransform().InverseTransformPosition(RestPosition);
 
 	const FVector VisualsOffset = Parent->GetComponentLocation() - GetRestPosition();
