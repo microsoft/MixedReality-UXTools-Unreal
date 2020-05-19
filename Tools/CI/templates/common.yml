@@ -38,7 +38,7 @@ steps:
     Copy-Item -Path $(UXToolsPluginOutputDir) -Destination $(UXToolsPluginSourceDir) -Recurse
   displayName: 'Replace plugin source with prebuilt files'
 
-- script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=Win64 -clientconfig=Development -serverconfig=Development'
+- script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -package -platform=Win64 -clientconfig=Development -serverconfig=Development'
   displayName: 'Build UXToolsGame (Win64|Development)'
 
 - script: '$(UE4Editor) $(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log -ReportOutputPath="${{ parameters.TestOutputDir }}\EditorTests"'
@@ -78,5 +78,5 @@ steps:
     copy "$(signingCertificate.secureFilePath)" "$(UXTSourceDir)\UXToolsGame\Build\HoloLens\SigningCertificate.pfx"
   displayName: 'Copy self-signing certificate (HoloLens)'
 
-- script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -platform=HoloLens -clientconfig=Development -serverconfig=Development'
+- script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -package -platform=HoloLens -clientconfig=Development -serverconfig=Development'
   displayName: 'Build HoloLens ARM64 Development'
