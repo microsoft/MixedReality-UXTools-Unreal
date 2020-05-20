@@ -33,7 +33,6 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	FarPointer->AddTickPrerequisiteActor(this);
 
 	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
-	check(Finder.Object);
 	ParameterCollection = Finder.Object;
 }
 
