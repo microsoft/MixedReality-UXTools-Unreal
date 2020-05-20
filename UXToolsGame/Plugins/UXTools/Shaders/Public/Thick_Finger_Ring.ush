@@ -1,0 +1,248 @@
+#ifndef HUSHED_VERTEX_FRAGMENT_SHADER
+#define HUSHED_VERTEX_FRAGMENT_SHADER
+
+MaterialFloat4x4 HUX_OBJECT_TO_WORLD_POS_MATRIX;
+MaterialFloat3x3 ObjectToWorldDir;
+#define Use_Global_Left_Index (Use_Global_Left_Index_Int!=0)
+#define Use_Global_Right_Index (Use_Global_Right_Index_Int!=0)
+int Use_Global_Left_Index_Int;
+int Use_Global_Right_Index_Int;
+float4 Global_Left_Index_Tip_Position;
+float4 Global_Right_Index_Tip_Position;
+float4 Global_Left_Index_Middle_Position;
+float4 Global_Right_Index_Middle_Position;
+float4 Global_Left_Thumb_Tip_Position;
+float4 Global_Right_Thumb_Tip_Position;
+float Global_Left_Index_Tip_Proximity;
+float Global_Right_Index_Tip_Proximity;
+
+//BLOCK_BEGIN Object_To_World_Pos 277
+
+void Object_To_World_Pos_B277(
+    float3 Pos_Object,
+    out float3 Pos_World)
+{
+    Pos_World=(mul(float4(Pos_Object,1.0),HUX_OBJECT_TO_WORLD_POS_MATRIX).xyz);
+    
+}
+//BLOCK_END Object_To_World_Pos
+
+//BLOCK_BEGIN Resize 290
+
+void Resize_B290(
+    float Distance,
+    float Shrink_Start_Distance,
+    float Far_Center_Fraction,
+    float Near_Center_Fraction,
+    float Near_Radius_Fraction,
+    float3 Position,
+    float2 UV,
+    float Thickness,
+    float Fade_Near,
+    float Fade_Far,
+    float Start_Fall_Fade,
+    out float Center_Fraction,
+    out float Radius_At_D,
+    out float3 New_Position,
+    out float Outer_Ring,
+    out float Rim,
+    out float Fade,
+    out float Inner_Fade)
+{
+    float k = saturate(Distance/Shrink_Start_Distance);
+    Center_Fraction = lerp(Near_Center_Fraction, Far_Center_Fraction, k);
+    
+    Radius_At_D = lerp(Near_Radius_Fraction, 1.0, k);
+    
+    //Outer_Ring = length(Position.xy)<Ring_Middle ? 0 : 1;
+    Rim = UV.x*2.0;
+    
+    if (!false) {
+        Outer_Ring = 1.0-UV.y;
+    } else {
+        Outer_Ring = UV.y;
+    }
+    
+    float scale = lerp(Center_Fraction,Radius_At_D,Outer_Ring);
+    
+    New_Position = Position * float3(scale,scale,Thickness);
+    
+    Fade = 1.0-saturate((Distance-Fade_Near)/(Fade_Far-Fade_Near));
+    
+    Inner_Fade = saturate(k/Start_Fall_Fade);
+    
+}
+//BLOCK_END Resize
+
+
+float3 huxVertexOutput_Normal;
+float3 huxVertexOutput_Offset;
+
+float3 Hushed_Vertex(
+    FMaterialVertexParameters Parameters
+    ,bool _Right_Hand_
+    ,bool _Use_Local_Proximity_
+    ,float _Proximity_Distance_
+    ,float _Fade_Near_Distance_
+    ,float _Fade_Far_Distance_
+    ,float _Shrink_Start_Distance_
+    ,float _Near_Radius_Fraction_
+    ,float _Far_Center_Fraction_
+    ,float _Near_Center_Fraction_
+    ,float _Thickness_
+    ,int useGlobalLeftIndex
+    ,int useGlobalRightIndex
+    ,float4 globalLeftIndexTipPosition
+    ,float4 globalRightIndexTipPosition
+    ,float globalLeftIndexTipProximity
+    ,float globalRightIndexTipProximity
+
+	,float2 vertexInput_UV
+)
+{
+    float3 vertexWorldPosition = GetWorldPosition(Parameters);
+    //float3 vertexLocalPosition = mul(float4(vertexWorldPosition, 1), GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal).xyz;
+    float3 vertexLocalPosition = Parameters.PreSkinnedPosition;
+
+    #if USE_INSTANCING || IS_MESHPARTICLE_FACTORY
+    ObjectToWorldDir = (MaterialFloat3x3)Parameters.InstanceLocalToWorld;
+    #else
+    ObjectToWorldDir = GetLocalToWorld3x3(Parameters.PrimitiveId);
+    #endif
+
+    HUX_OBJECT_TO_WORLD_POS_MATRIX = GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld;
+
+    Use_Global_Left_Index_Int = useGlobalLeftIndex;
+    Use_Global_Right_Index_Int = useGlobalRightIndex;
+    Global_Left_Index_Tip_Position = globalLeftIndexTipPosition;
+    Global_Right_Index_Tip_Position = globalRightIndexTipPosition;
+    Global_Left_Index_Tip_Proximity = globalLeftIndexTipProximity;
+    Global_Right_Index_Tip_Proximity = globalRightIndexTipProximity;
+
+    // Pick_Local_Or_Global
+    float Proximity_Q279 =  (!_Use_Local_Proximity_ ? (_Right_Hand_ ? Global_Right_Index_Tip_Proximity : Global_Left_Index_Tip_Proximity) : _Proximity_Distance_);
+
+    float Center_Fraction_Q290;
+    float Radius_At_D_Q290;
+    float3 New_Position_Q290;
+    float Outer_Ring_Q290;
+    float Rim_Q290;
+    float Fade_Q290;
+    float Inner_Fade_Q290;
+    Resize_B290(Proximity_Q279,_Shrink_Start_Distance_,_Far_Center_Fraction_,_Near_Center_Fraction_,_Near_Radius_Fraction_,vertexLocalPosition,vertexInput_UV,_Thickness_,_Fade_Near_Distance_,_Fade_Far_Distance_,0.05,Center_Fraction_Q290,Radius_At_D_Q290,New_Position_Q290,Outer_Ring_Q290,Rim_Q290,Fade_Q290,Inner_Fade_Q290);
+
+    float3 Pos_World_Q277;
+    Object_To_World_Pos_B277(New_Position_Q290,Pos_World_Q277);
+
+    // From_XYZ
+    float3 Vec3_Q287 = float3(Rim_Q290,Fade_Q290,Inner_Fade_Q290);
+
+    float3 Position = Pos_World_Q277;
+    float3 Normal = Vec3_Q287;
+    float2 UV = float2(0,0);
+    float3 Tangent = float3(0,0,0);
+    float3 Binormal = float3(0,0,0);
+    float4 Color = float4(1,1,1,1);
+
+
+    huxVertexOutput_Normal = Normal;
+    huxVertexOutput_Offset = Position-vertexWorldPosition;
+	return huxVertexOutput_Offset;
+}
+
+//BLOCK_BEGIN Scale_Color 285
+
+void Scale_Color_B285(
+    half4 Color,
+    half Scalar,
+    out half4 Result)
+{
+    Result = Scalar * Color;
+}
+//BLOCK_END Scale_Color
+
+//BLOCK_BEGIN To_XYZ 288
+
+void To_XYZ_B288(
+    float3 Vec3,
+    out float X,
+    out float Y,
+    out float Z)
+{
+    X=Vec3.x;
+    Y=Vec3.y;
+    Z=Vec3.z;
+    
+}
+//BLOCK_END To_XYZ
+
+//BLOCK_BEGIN Smooth_Pulse 289
+
+float ramp(float s, float e, float x)
+{
+    return saturate((x-s)/(e-s));
+}
+
+void Smooth_Pulse_B289(
+    half Rise_Start,
+    half Rise_End,
+    half Fall_Start,
+    half Fall_End,
+    half X,
+    float Inner_Fade,
+    out half Pulse)
+{
+    //Pulse = smoothstep(Rise_Start,Rise_End,X)-smoothstep(Fall_Start,Fall_End,X);
+    float x = abs(1.0-X);
+    Pulse = ramp(Rise_Start,Rise_End,x)-ramp(Fall_Start,Fall_End,x)*Inner_Fade;
+    
+}
+//BLOCK_END Smooth_Pulse
+
+
+float4 Hushed_Fragment(
+    FMaterialPixelParameters Parameters
+    ,half _Rise_Start_
+    ,half _Rise_End_
+    ,half _Fall_Start_
+    ,half _Fall_End_
+    ,half4 _Edge_Color_
+    ,half4 _Base_Color_
+    ,int useGlobalLeftIndex
+    ,int useGlobalRightIndex
+    ,float4 globalLeftIndexTipPosition
+    ,float4 globalRightIndexTipPosition
+    ,float globalLeftIndexTipProximity
+    ,float globalRightIndexTipProximity
+
+	,float3 fragInput_Normal
+)
+{
+    Use_Global_Left_Index_Int = useGlobalLeftIndex;
+    Use_Global_Right_Index_Int = useGlobalRightIndex;
+    Global_Left_Index_Tip_Position = globalLeftIndexTipPosition;
+    Global_Right_Index_Tip_Position = globalRightIndexTipPosition;
+    Global_Left_Index_Tip_Proximity = globalLeftIndexTipProximity;
+    Global_Right_Index_Tip_Proximity = globalRightIndexTipProximity;
+
+    float X_Q288;
+    float Y_Q288;
+    float Z_Q288;
+    To_XYZ_B288(fragInput_Normal,X_Q288,Y_Q288,Z_Q288);
+
+    half Pulse_Q289;
+    Smooth_Pulse_B289(_Rise_Start_,_Rise_End_,_Fall_Start_,_Fall_End_,X_Q288,Z_Q288,Pulse_Q289);
+
+    // Mix_Colors
+    half4 Color_At_T_Q284 = lerp(_Edge_Color_, _Base_Color_,float4( Pulse_Q289, Pulse_Q289, Pulse_Q289, Pulse_Q289));
+
+    half4 Result_Q285;
+    Scale_Color_B285(Color_At_T_Q284,Y_Q288,Result_Q285);
+
+    float4 Out_Color = Result_Q285;
+    float Clip_Threshold = 0;
+
+    return Out_Color;
+}
+
+#endif
