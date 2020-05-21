@@ -51,7 +51,7 @@ void HandInteractionSpec::Define()
 		NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
 		FarPointer = HandActor->FindComponentByClass<UUxtFarPointerComponent>();
 
-		Target = UxtTestUtils::CreateNearPointerTarget(World, TargetLocation, TargetFilename, TargetScale);
+		Target = UxtTestUtils::CreateNearPointerGrabTarget(World, TargetLocation, TargetFilename, TargetScale);
 
 		FrameQueue.Enqueue([Done]()
 		{
@@ -101,6 +101,24 @@ void HandInteractionSpec::Define()
 			TestFalse(TEXT("Near pointer active"), NearPointer->IsActive());
 			TestTrue(TEXT("Far pointer active"), FarPointer->IsActive());
 
+			Done.Execute();
+		});
+	});
+
+	LatentIt("should deactivate pointer when hand is not in the pointing pose", [this](const FDoneDelegate& Done)
+	{
+		FrameQueue.Enqueue([this]
+		{
+			UxtTestUtils::GetTestHandTracker().TestOrientation = FVector::DownVector.Rotation().Quaternion();
+		});
+
+		// Skip one frame as pointers take a frame to start ticking when activated by the hand interaction actor
+		FrameQueue.Skip();
+
+		FrameQueue.Enqueue([this, Done]
+		{
+			TestFalse("Near pointer actived", NearPointer->IsActive());
+			TestFalse("Far pointer active", FarPointer->IsActive());
 			Done.Execute();
 		});
 	});

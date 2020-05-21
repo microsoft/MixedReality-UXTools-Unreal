@@ -9,6 +9,7 @@
 
 #include "FrameQueue.h"
 #include "Interactions/UxtGrabTarget.h"
+#include "Interactions/UxtPokeTarget.h"
 
 #include "PointerTestSequence.generated.h"
 
@@ -45,6 +46,42 @@ public:
 	int EndGrabCount;
 
 	// If the target should enable focus lock on the pointer while grabbed.
+	bool bUseFocusLock = false;
+
+};
+
+/**
+ * Target for poke tests that counts poke events.
+ */
+UCLASS()
+class UXTOOLSTESTS_API UTestPokeTarget : public UActorComponent, public IUxtPokeTarget
+{
+	GENERATED_BODY()
+
+public:
+
+	virtual void BeginPlay() override;
+
+	//
+	// IUxtGrabTarget interface
+
+	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
+
+	virtual EUxtPokeBehaviour GetPokeBehaviour() const;
+
+	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
+
+	int BeginFocusCount;
+	int EndFocusCount;
+
+	int BeginPokeCount;
+	int EndPokeCount;
+
+	// If the target should enable focus lock on the pointer while poked.
 	bool bUseFocusLock = false;
 
 };

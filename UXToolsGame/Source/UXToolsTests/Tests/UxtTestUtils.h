@@ -9,6 +9,7 @@
 class FUxtTestHandTracker;
 class IUxtHandTracker;
 class UTestGrabTarget;
+class UTestPokeTarget;
 class UUxtNearPointerComponent;
 class UWorld;
 class UStaticMeshComponent;
@@ -38,7 +39,10 @@ public:
 	static UUxtNearPointerComponent* CreateNearPointer(UWorld *World, FName Name, const FVector &Position, bool IsGrasped = false, bool AddMeshVisualizer = true);
 
 	/** Create a grabbable target actor. */
-	static UTestGrabTarget* CreateNearPointerTarget(UWorld *World, const FVector &Location, const FString &meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
+	static UTestGrabTarget* CreateNearPointerGrabTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
+
+	/** Create a pokable target actor. */
+	static UTestPokeTarget* CreateNearPointerPokeTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
 
 	/** Create a background target without a scene component or primitive. */
 	static UTestGrabTarget* CreateNearPointerBackgroundTarget(UWorld* World);
