@@ -19,11 +19,25 @@ UUxtPressableButtonComponent::UUxtPressableButtonComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
+}
 
-	MaxPushDistance = 10;
-	PressedFraction = 0.5f;
-	ReleasedFraction = 0.2f;
-	RecoverySpeed = 50;
+float UUxtPressableButtonComponent::GetFrontFaceCollisionMargin() const
+{
+	return FrontFaceCollisionMargin;
+}
+
+void UUxtPressableButtonComponent::SetFrontFaceCollisionMargin(float Distance)
+{
+	Distance = FMath::Max(0.0f, Distance);
+
+	FrontFaceCollisionMargin = Distance;
+	if (BoxComponent)
+	{
+		if (UStaticMeshComponent* Touchable = Cast<UStaticMeshComponent>(GetVisuals()))
+		{
+			ConfigureBoxComponent(Touchable);
+		}
+	}
 }
 
 USceneComponent* UUxtPressableButtonComponent::GetVisuals() const 
@@ -327,7 +341,8 @@ EUxtPokeBehaviour UUxtPressableButtonComponent::GetPokeBehaviour_Implementation(
 
 float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerComponent* pointer) const
 {
-	const FVector PointerPos = pointer->GetPokePointerTransform().GetLocation();
+	FVector PointerPos = pointer->GetPokePointerTransform().GetLocation();
+	PointerPos.X += pointer->GetPokePointerRadius();
 	const FVector PointerLocal = GetComponentTransform().InverseTransformPosition(PointerPos);
 	const float EndDistance = RestPositionLocal.X - PointerLocal.X;
 
@@ -396,10 +411,14 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 	// Get bounds local to button, not visuals
 	FTransform LocalToTarget = Parent->GetComponentTransform() * GetComponentTransform().Inverse();
 	FBoxSphereBounds LocalBounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Parent, LocalToTarget);
+	FBox LocalBoxBounds = LocalBounds.GetBox();
 
-	FTransform BoxTransform = FTransform(LocalBounds.Origin) * GetComponentTransform();
+	// Expand box to include the front face margin
+	LocalBoxBounds = LocalBoxBounds.ExpandBy(FVector::ZeroVector, FVector::ForwardVector * FrontFaceCollisionMargin);
+
+	FTransform BoxTransform = FTransform(LocalBoxBounds.GetCenter()) * GetComponentTransform();
 	BoxComponent->SetWorldTransform(BoxTransform);
-	BoxComponent->SetBoxExtent(LocalBounds.BoxExtent);
+	BoxComponent->SetBoxExtent(LocalBoxBounds.GetExtent());
 	BoxComponent->SetCollisionProfileName(CollisionProfile);
 	BoxComponent->AttachToComponent(Parent, FAttachmentTransformRules::KeepWorldTransform);
 

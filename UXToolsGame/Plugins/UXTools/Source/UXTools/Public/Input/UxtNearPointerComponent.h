@@ -101,6 +101,14 @@ public:
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	float PokeDepth = 20.0f;
+	
+	/**
+	 * The distance the fingertip must be from a pokeable in order to fire a poke end event. This is
+	 * used in order to distinguish the queries for poke begin and poke end so you cannot easily 
+	 * cause end touch to fire one frame and begin touch to fire on the next frame.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
+	float DebounceDepth = 0.5f;
 
 	/**
 	 * Whether the pointer is locked on its current focused target.
@@ -122,8 +130,6 @@ private:
 	FTransform GrabPointerTransform;
 
 	FTransform PokePointerTransform;
-
-	bool bIsPoking = false;
 
 	FVector PreviousPokePointerLocation;
 

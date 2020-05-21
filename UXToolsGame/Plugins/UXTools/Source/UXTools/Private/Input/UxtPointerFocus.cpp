@@ -312,6 +312,39 @@ void FUxtGrabPointerFocus::RaiseExitFocusEvent(UObject* Target, UUxtNearPointerC
 }
 
 
+void FUxtPokePointerFocus::BeginPoke(UUxtNearPointerComponent* Pointer)
+{
+	if (UObject* Target = GetFocusedTargetChecked())
+	{
+		IUxtPokeTarget::Execute_OnBeginPoke(Target, Pointer);
+	}
+
+	bIsPoking = true;
+}
+
+void FUxtPokePointerFocus::UpdatePoke(UUxtNearPointerComponent* Pointer)
+{
+	if (UObject* Target = GetFocusedTargetChecked())
+	{
+		IUxtPokeTarget::Execute_OnUpdatePoke(Target, Pointer);
+	}
+}
+
+void FUxtPokePointerFocus::EndPoke(UUxtNearPointerComponent* Pointer)
+{
+	if (UObject* Target = GetFocusedTargetChecked())
+	{
+		IUxtPokeTarget::Execute_OnEndPoke(Target, Pointer);
+	}
+
+	bIsPoking = false;
+}
+
+bool FUxtPokePointerFocus::IsPoking() const
+{
+	return bIsPoking;
+}
+
 UClass* FUxtPokePointerFocus::GetInterfaceClass() const
 {
 	return UUxtPokeTarget::StaticClass();

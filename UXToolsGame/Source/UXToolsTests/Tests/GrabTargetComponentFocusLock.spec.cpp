@@ -43,7 +43,7 @@ void GrabTargetComponentFocusLockSpec::Define()
 
 					const FString& TargetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 					const float TargetScale = 0.3f;
-					Target = UxtTestUtils::CreateNearPointerTarget(World, Center, TargetFilename, TargetScale);
+					Target = UxtTestUtils::CreateNearPointerGrabTarget(World, Center, TargetFilename, TargetScale);
 					// Enable focus lock when the target is grabbed
 					Target->bUseFocusLock = true;
 

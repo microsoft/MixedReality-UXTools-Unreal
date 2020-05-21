@@ -57,6 +57,9 @@ The fraction of the maximum push distance that a pressed button needs to be push
 ### Recovery Speed
 The speed at which the button visuals return to the their resting position when no longer being touched by near interaction or selected using far interaction.
 
+### Front Face Collision Margin
+The distance in front of the visuals front face to place the front of the button box collider.
+
 ### Visuals
 A reference to the static mesh component that represents the moving part of the button. The extents of the button collider will also be constructed using this mesh.
 

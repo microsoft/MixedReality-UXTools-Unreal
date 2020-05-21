@@ -77,6 +77,11 @@ public:
 
 private:
 
+	/** Determine if the hand pose is valid for making selections. */
+	bool IsInPointingPose() const;
+
+private:
+
 	/** Articulated hand used to drive interactions. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
 	EControllerHand Hand;

@@ -56,6 +56,58 @@ void UTestGrabTarget::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer
 	}
 }
 
+void UTestPokeTarget::BeginPlay()
+{
+	Super::BeginPlay();
+
+	BeginFocusCount = 0;
+	EndFocusCount = 0;
+}
+
+void UTestPokeTarget::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	++BeginFocusCount;
+}
+
+void UTestPokeTarget::OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
+{
+}
+
+void UTestPokeTarget::OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	++EndFocusCount;
+}
+
+EUxtPokeBehaviour UTestPokeTarget::GetPokeBehaviour() const
+{
+	return EUxtPokeBehaviour::FrontFace;
+}
+
+bool UTestPokeTarget::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
+{
+	return true;
+}
+
+void UTestPokeTarget::OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	++BeginPokeCount;
+
+	if (bUseFocusLock)
+	{
+		Pointer->SetFocusLocked(true);
+	}
+}
+
+void UTestPokeTarget::OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer)
+{
+	++EndPokeCount;
+
+	if (bUseFocusLock)
+	{
+		Pointer->SetFocusLocked(false);
+	}
+}
+
 namespace UxtPointerTests
 {
 
@@ -74,7 +126,7 @@ namespace UxtPointerTests
 	{
 		const FString& targetFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
 		const float targetScale = 0.3f;
-		Targets.Add(UxtTestUtils::CreateNearPointerTarget(World, Location, targetFilename, targetScale));
+		Targets.Add(UxtTestUtils::CreateNearPointerGrabTarget(World, Location, targetFilename, targetScale));
 	}
 
 	// Enter/Exit events must be incremented separately based on expected behavior.

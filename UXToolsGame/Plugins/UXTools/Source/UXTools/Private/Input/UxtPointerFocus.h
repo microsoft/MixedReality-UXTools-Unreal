@@ -149,6 +149,17 @@ private:
 /** Focus implementation for the poke pointers. */
 struct FUxtPokePointerFocus : public FUxtPointerFocus
 {
+public:
+
+	/** Notify the target object that poke has started. */
+	void BeginPoke(UUxtNearPointerComponent* Pointer);
+	/** Notify the poked target object that the pointer has been updated. */
+	void UpdatePoke(UUxtNearPointerComponent* Pointer);
+	/** Notify the target object that poke has ended. */
+	void EndPoke(UUxtNearPointerComponent* Pointer);
+
+	bool IsPoking() const;
+
 protected:
 
 	virtual UClass* GetInterfaceClass() const override;
@@ -160,4 +171,8 @@ protected:
 	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
+
+private:
+
+	bool bIsPoking = false;
 };
