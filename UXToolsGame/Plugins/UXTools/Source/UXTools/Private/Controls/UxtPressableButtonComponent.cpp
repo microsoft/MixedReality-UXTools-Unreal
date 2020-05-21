@@ -75,13 +75,19 @@ void UUxtPressableButtonComponent::SetUseAbsolutePushDistance(bool bAbsolute)
 
 void UUxtPressableButtonComponent::SetEnabled(bool Enabled)
 {
-	if (Enabled && State == EUxtButtonState::Disabled)
+	if (Enabled && bIsDisabled)
 	{
-		State = EUxtButtonState::Default;
+		bIsDisabled = false;
 		OnButtonEnabled.Broadcast(this);
 	}
-	else if (!Enabled && State != EUxtButtonState::Disabled)
+	else if (!Enabled && !bIsDisabled)
 	{
+		// Release the button if it's pressed
+		if (bIsPressed)
+		{
+			SetPressed(false, nullptr, false);
+		}
+
 		// Free any locked pointers
 		if (FarPointerWeak.Get())
 		{
@@ -91,24 +97,31 @@ void UUxtPressableButtonComponent::SetEnabled(bool Enabled)
 		PokePointers.Empty();
 		CurrentPushDistance = 0;
 
-		State = EUxtButtonState::Disabled;
+		bIsDisabled = true;
 		OnButtonDisabled.Broadcast(this);
 	}
 }
 
-bool UUxtPressableButtonComponent::IsEnabled() const
+EUxtButtonState UUxtPressableButtonComponent::GetState() const
 {
-	return State != EUxtButtonState::Disabled;
-}
+	if (bIsDisabled)
+	{
+		return EUxtButtonState::Disabled;
+	}
+	else if (bIsPressed)
+	{
+		return EUxtButtonState::Pressed;
+	}
+	else if (IsContacted())
+	{
+		return EUxtButtonState::Contacted;
+	}
+	else if (IsFocused())
+	{
+		return EUxtButtonState::Focused;
+	}
 
-bool UUxtPressableButtonComponent::IsPressed() const
-{
-	return State == EUxtButtonState::Pressed;
-}
-
-bool UUxtPressableButtonComponent::IsFocused() const
-{
-	return NumPointersFocusing > 0;
+	return EUxtButtonState::Default;
 }
 
 float UUxtPressableButtonComponent::GetScaleAdjustedMaxPushDistance() const
@@ -174,10 +187,9 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 			CurrentPushDistance = TargetDistance;
 			float PressedDistance = GetPressedDistance();
 
-			if (State != EUxtButtonState::Pressed && CurrentPushDistance >= PressedDistance && PreviousPushDistance < PressedDistance)
+			if (!bIsPressed && CurrentPushDistance >= PressedDistance && PreviousPushDistance < PressedDistance)
 			{
-				State = EUxtButtonState::Pressed;
-				OnButtonPressed.Broadcast(this, NewPokingPointer);
+				SetPressed(true, NewPokingPointer);
 			}
 		}
 		else
@@ -186,10 +198,9 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 			float ReleasedDistance = GetReleasedDistance();
 
 			// Raise button released if we're pressed and crossed the released distance
-			if (State == EUxtButtonState::Pressed && (CurrentPushDistance <= ReleasedDistance && PreviousPushDistance > ReleasedDistance))
+			if (bIsPressed && (CurrentPushDistance <= ReleasedDistance && PreviousPushDistance > ReleasedDistance))
 			{
-				State = EUxtButtonState::Default;
-				OnButtonReleased.Broadcast(this, NewPokingPointer);
+				SetPressed(false, NewPokingPointer);
 			}
 		}
 	}
@@ -270,6 +281,16 @@ bool UUxtPressableButtonComponent::CanEditChange(const FProperty* Property) cons
 }
 #endif
 
+bool UUxtPressableButtonComponent::IsContacted() const
+{
+	return PokePointers.Num() > 0;
+}
+
+bool UUxtPressableButtonComponent::IsFocused() const
+{
+	return NumPointersFocusing > 0;
+}
+
 void UUxtPressableButtonComponent::OnEnterFocus(UObject* Pointer)
 {
 	const bool bWasFocused = ++NumPointersFocusing > 1;
@@ -283,10 +304,9 @@ void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
 
 	if (!bIsFocused)
 	{
-		if (State == EUxtButtonState::Pressed)
+		if (bIsPressed)
 		{
-			State = EUxtButtonState::Default;
-			OnButtonReleased.Broadcast(this, Pointer);
+			SetPressed(false, Pointer);
 		}
 	}
 
@@ -315,7 +335,7 @@ void UUxtPressableButtonComponent::OnExitPokeFocus_Implementation(UUxtNearPointe
 
 void UUxtPressableButtonComponent::OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (State != EUxtButtonState::Disabled)
+	if (!bIsDisabled)
 	{
 		// Lock the poking pointer so we remain the focused target as it moves.
 		Pointer->SetFocusLocked(true);
@@ -327,7 +347,7 @@ void UUxtPressableButtonComponent::OnBeginPoke_Implementation(UUxtNearPointerCom
 
 void UUxtPressableButtonComponent::OnUpdatePoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (State != EUxtButtonState::Disabled)
+	if (!bIsDisabled)
 	{
 		OnUpdatePoke.Broadcast(this, Pointer);
 	}
@@ -335,10 +355,9 @@ void UUxtPressableButtonComponent::OnUpdatePoke_Implementation(UUxtNearPointerCo
 
 void UUxtPressableButtonComponent::OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (State == EUxtButtonState::Pressed && NumPointersFocusing == 0)
+	if (bIsPressed && NumPointersFocusing == 0)
 	{
-		State = EUxtButtonState::Default;
-		OnButtonReleased.Broadcast(this, Pointer);
+		SetPressed(false, Pointer);
 	}
 
 	// Unlock the pointer focus so that another target can be selected.
@@ -346,7 +365,7 @@ void UUxtPressableButtonComponent::OnEndPoke_Implementation(UUxtNearPointerCompo
 
 	PokePointers.Remove(Pointer);
 
-	if (State != EUxtButtonState::Disabled)
+	if (!bIsDisabled)
 	{
 		OnEndPoke.Broadcast(this, Pointer);
 	}
@@ -378,6 +397,26 @@ FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 FVector UUxtPressableButtonComponent::GetRestPosition() const
 {
 	return GetComponentTransform().TransformPosition(RestPositionLocal);
+}
+
+void UUxtPressableButtonComponent::SetPressed(bool bPressedState, UObject* Pointer, bool bRaiseEvents)
+{
+	if (bPressedState != bIsPressed)
+	{
+		bIsPressed = bPressedState;
+
+		if (bRaiseEvents)
+		{
+			if (bIsPressed)
+			{
+				OnButtonPressed.Broadcast(this, Pointer);
+			}
+			else
+			{
+				OnButtonReleased.Broadcast(this, Pointer);
+			}
+		}
+	}
 }
 
 void UUxtPressableButtonComponent::UpdateButtonDistancesScale()
@@ -473,12 +512,12 @@ void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerC
 
 void UUxtPressableButtonComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	if (!FarPointerWeak.IsValid() && State != EUxtButtonState::Disabled)
+	if (!FarPointerWeak.IsValid() && !bIsDisabled)
 	{
 		CurrentPushDistance = GetPressedDistance();
 		FarPointerWeak = Pointer;
 		Pointer->SetFocusLocked(true);
-		OnButtonPressed.Broadcast(this, Pointer);
+		SetPressed(true, Pointer);
 	}
 }
 
@@ -491,9 +530,9 @@ void UUxtPressableButtonComponent::OnFarReleased_Implementation(UUxtFarPointerCo
 		FarPointerWeak = nullptr;
 		Pointer->SetFocusLocked(false);
 
-		if (State != EUxtButtonState::Disabled)
+		if (!bIsDisabled)
 		{
-			OnButtonReleased.Broadcast(this, Pointer);
+			SetPressed(false, Pointer);
 		}
 	}
 }

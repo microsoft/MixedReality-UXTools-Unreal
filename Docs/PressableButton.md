@@ -32,11 +32,16 @@ Configuring the component hierarchy so that the buttons work should be simple. T
 
 Although this button is behaving correctly, it's not doing anything useful. The pressable button events can be used in a blueprint in order to respond to press/release. There are a few useful events that can be used:
 
-- **OnBeginFocus**: This event is called when a pointer starts giving focus to the button. 
+- **OnBeginFocus**: This event is called when a pointer starts giving focus to the button.
 - **OnUpdateFocus**: This event is called for every tick that the button has focus from a pointer. A button will hold focus while it is being pressed.
-- **OnEndFocus**: This event is called when a pointer stops giving focus to the button. 
+- **OnEndFocus**: This event is called when a pointer stops giving focus to the button.
+- **OnBeginPoke**: This event is called when a near pointer starts pushing the button. See description above for the difference between a push and a press.
+- **OnUpdatePoke**: This event is called tick that a pointer is pushing the button. See description above for the difference between a push and a press.
+- **OnEndPoke**: This event is called when a near pointer stops pushing the button. See description above for the difference between a push and a press.
 - **OnButtonPressed**: Called when the current push distance of the button exceeds the [pressed fraction](#pressed-fraction).
 - **OnButtonReleased**: Called when the current push distance of the button subceeds the [released fraction](#pressed-fraction).
+- **OnButtonEnabled**: Called when the button is enabled.
+- **OnButtonDisabled**: Called when the button is disabled. This will not raise a release event if the button is disabled while pressed.
 
 Here are some examples of these events in use in the SimpleButton blueprint sample provided with UXT:
 
@@ -64,4 +69,4 @@ The distance in front of the visuals front face to place the front of the button
 A reference to the static mesh component that represents the moving part of the button. The extents of the button collider will also be constructed using this mesh.
 
 ### Collision Profile
-The collision profile used for the button collider, which is constructed using the moving visuals mesh component extents. 
+The collision profile used for the button collider, which is constructed using the moving visuals mesh component extents.

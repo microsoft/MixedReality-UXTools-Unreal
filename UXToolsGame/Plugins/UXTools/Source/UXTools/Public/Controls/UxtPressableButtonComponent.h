@@ -42,6 +42,10 @@ enum class EUxtButtonState : uint8
 	Default,
 	/** Button is disabled */
 	Disabled,
+	/** Button is focused */
+	Focused,
+	/** Button is contacted */
+	Contacted,
 	/** Button is pressed */
 	Pressed
 };
@@ -101,17 +105,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetEnabled(bool Enabled);
 
-	/** Get if the button is enabled */
+	/** Get the current state of the button */
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
-	bool IsEnabled() const;
-
-	/** Get the current pressed state of the button */
-	UFUNCTION(BlueprintPure, Category = "Pressable Button")
-	bool IsPressed() const;
-
-	/** Get the current focus state of the button */
-	UFUNCTION(BlueprintPure, Category = "Pressable Button")
-	bool IsFocused() const;
+	EUxtButtonState GetState() const;
 
 	/** Gets the maximum distance the button can be pushed scaled by the transform's 'x' scale.*/
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
@@ -230,6 +226,12 @@ protected:
 
 private:
 
+	/** Get the current contact state of the button */
+	bool IsContacted() const;
+
+	/** Get the current focus state of the button */
+	bool IsFocused() const;
+
 	/** Generic handler for enter focus events. */
 	void OnEnterFocus(UObject* Pointer);
 
@@ -273,6 +275,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintSetter = "SetUseAbsolutePushDistance", meta = (DisplayAfter = "MaxPushDistance"), Category = "Pressable Button")
 	bool bUseAbsolutePushDistance = false;
 
+	/** Set the pressed state of the button and trigger corresponding events */
+	void SetPressed(bool bPressedState, UObject* Pointer, bool bRaiseEvents = true);
+
 	/** Number of pointers currently focusing the button. */
 	int NumPointersFocusing = 0;
 
@@ -291,8 +296,11 @@ private:
 	/** Visuals scale in this component's space */
 	FVector VisualsScaleLocal;
 
-	/** Current state of the button */
-	EUxtButtonState State;
+	/** True if the button is currently pressed */
+	bool bIsPressed = false;
+
+	/** True if the button is currently disabled */
+	bool bIsDisabled = false;
 
 	/** Local position of the button front face while not being poked by any pointer */
 	FVector RestPositionLocal;

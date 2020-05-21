@@ -263,6 +263,84 @@ void PressableButtonSpec::Define()
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 
+			LatentIt("should be in default state", [this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this, Done]
+						{
+							TestTrue("button state is default", Button->GetState() == EUxtButtonState::Default);
+							Done.Execute();
+						});
+				});
+
+			LatentIt("should be in disabled state", [this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this, Done]
+						{
+							Button->SetEnabled(false);
+							TestTrue("button state is disabled", Button->GetState() == EUxtButtonState::Disabled);
+							Done.Execute();
+						});
+				});
+
+			LatentIt("should be in focused state", [this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this]
+						{
+							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveBy);
+						});
+
+					FrameQueue.Skip();
+
+					FrameQueue.Enqueue([this, Done]
+						{
+							TestTrue("button state is focused", Button->GetState() == EUxtButtonState::Focused);
+							Done.Execute();
+						});
+				});
+
+			LatentIt("should be in contacted state", [this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this]
+						{
+							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveBy);
+						});
+
+					FrameQueue.Enqueue([this]
+						{
+							const float MoveAmount = Button->MaxPushDistance * (Button->PressedFraction * 2.0f);
+							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveAmount);
+						});
+
+					FrameQueue.Skip();
+
+					FrameQueue.Enqueue([this, Done]
+						{
+							TestTrue("button state is contacted", Button->GetState() == EUxtButtonState::Contacted);
+							Done.Execute();
+						});
+				});
+
+			LatentIt("should be in pressed state", [this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this]
+						{
+							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveBy);
+						});
+
+					FrameQueue.Enqueue([this]
+						{
+							UxtTestUtils::GetTestHandTracker().TestPosition = Center;
+						});
+
+					FrameQueue.Skip();
+
+					FrameQueue.Enqueue([this, Done]
+						{
+							TestTrue("button state is pressed", Button->GetState() == EUxtButtonState::Pressed);
+							Done.Execute();
+						});
+				});
+
 			LatentIt("should move the button to the same location when using either local or world scale for distances", [this](const FDoneDelegate& Done)
 				{
 					Button->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
@@ -468,8 +546,8 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 		{
 			TestTrue("A button was pressed", EventCaptureObj->PressedCount == 1);
 			TestTrue("No button was released", EventCaptureObj->ReleasedCount == 0);
-			TestTrue("First Button is pressed", Button->IsPressed());
-			TestFalse("Second Button is not pressed", SecondButton->IsPressed());
+			TestTrue("First Button is pressed", Button->GetState() == EUxtButtonState::Pressed);
+			TestFalse("Second Button is not pressed", SecondButton->GetState() == EUxtButtonState::Pressed);
 		});
 	// third move
 	FrameQueue.Enqueue([this, StartingPos]
@@ -490,8 +568,8 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 		{
 			TestTrue("Another button was pressed", EventCaptureObj->PressedCount == 2);
 			TestTrue("A button was released", EventCaptureObj->ReleasedCount == 1);
-			TestFalse("First Button is not pressed", Button->IsPressed());
-			TestTrue("Second Button is pressed", SecondButton->IsPressed());
+			TestFalse("First Button is not pressed", Button->GetState() == EUxtButtonState::Pressed);
+			TestTrue("Second Button is pressed", SecondButton->GetState() == EUxtButtonState::Pressed);
 		});
 }
 
