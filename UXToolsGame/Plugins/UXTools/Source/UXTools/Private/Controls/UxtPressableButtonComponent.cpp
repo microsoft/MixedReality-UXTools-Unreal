@@ -64,6 +64,15 @@ void UUxtPressableButtonComponent::SetCollisionProfile(FName Profile)
 	}
 }
 
+void UUxtPressableButtonComponent::SetUseAbsolutePushDistance(bool bAbsolute)
+{
+	if (bAbsolute != bUseAbsolutePushDistance)
+	{
+		bUseAbsolutePushDistance = bAbsolute;
+		UpdateButtonDistancesScale();
+	}
+}
+
 void UUxtPressableButtonComponent::SetEnabled(bool Enabled)
 {
 	if (Enabled && State == EUxtButtonState::Disabled)
@@ -104,7 +113,7 @@ bool UUxtPressableButtonComponent::IsFocused() const
 
 float UUxtPressableButtonComponent::GetScaleAdjustedMaxPushDistance() const
 {
-	return MaxPushDistance * GetComponentTransform().GetScale3D().X;
+	return bUseAbsolutePushDistance ? MaxPushDistance : MaxPushDistance * GetComponentTransform().GetScale3D().X;
 }
 
 float UUxtPressableButtonComponent::GetMaxPushDistance() const
@@ -234,6 +243,15 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 }
 
 #if WITH_EDITOR
+void UUxtPressableButtonComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UUxtPressableButtonComponent, bUseAbsolutePushDistance))
+	{
+		UpdateButtonDistancesScale();
+	}
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+}
+
 bool UUxtPressableButtonComponent::CanEditChange(const FProperty* Property) const
 {
 	bool IsEditable = Super::CanEditChange(Property);
@@ -351,13 +369,27 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
-	return GetRestPosition() - (GetComponentTransform().GetScaledAxis(EAxis::X) * CurrentPushDistance);
+	FVector Axis = bUseAbsolutePushDistance ?
+		GetComponentTransform().GetUnitAxis(EAxis::X) : 
+		GetComponentTransform().GetScaledAxis(EAxis::X);
+	return GetRestPosition() - (Axis * CurrentPushDistance);
 }
-
 
 FVector UUxtPressableButtonComponent::GetRestPosition() const
 {
 	return GetComponentTransform().TransformPosition(RestPositionLocal);
+}
+
+void UUxtPressableButtonComponent::UpdateButtonDistancesScale()
+{
+	if (bUseAbsolutePushDistance)
+	{
+		MaxPushDistance *= GetComponentScale().X;
+	}
+	else
+	{
+		MaxPushDistance /= GetComponentScale().X;
+	}
 }
 
 bool UUxtPressableButtonComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
@@ -375,12 +407,10 @@ void UUxtPressableButtonComponent::OnUpdatedFarFocus_Implementation(UUxtFarPoint
 	OnUpdateFocus.Broadcast(this, Pointer);
 }
 
-
 float UUxtPressableButtonComponent::GetPressedDistance() const
 {
 	return MaxPushDistance * PressedFraction;
 }
-
 
 float UUxtPressableButtonComponent::GetReleasedDistance() const
 {

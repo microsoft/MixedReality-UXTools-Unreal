@@ -66,6 +66,7 @@ BEGIN_DEFINE_SPEC(PressableButtonSpec, "UXTools.PressableButtonTest", EAutomatio
 	void EnqueuePressReleaseTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease);
 	void EnqueueMoveButtonTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease);
 	void EnqueueTwoButtonsTest(const FVector StartingPos);
+	void EnqueueAbsoluteDistancesTest(const FVector StartingPos);
 
 	UUxtPressableButtonComponent* Button;
 	UUxtPressableButtonComponent* SecondButton;
@@ -73,6 +74,8 @@ BEGIN_DEFINE_SPEC(PressableButtonSpec, "UXTools.PressableButtonTest", EAutomatio
 	UUxtNearPointerComponent* Pointer;
 	FVector Center;
 	FFrameQueue FrameQueue;
+
+	FVector TestPos;
 
 	const float MoveBy = 10;
 
@@ -256,6 +259,17 @@ void PressableButtonSpec::Define()
 					FVector StartPos = Center + FVector(-MoveBy, 5, 0);
 
 					EnqueueTwoButtonsTest(StartPos);
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt("should move the button to the same location when using either local or world scale for distances", [this](const FDoneDelegate& Done)
+				{
+					Button->SetWorldScale3D(FVector(0.5f, 0.5f, 0.5f));
+
+					FVector StartPos = Center + FVector(-MoveBy, 5, 0);
+
+					EnqueueAbsoluteDistancesTest(StartPos);
 
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
@@ -478,6 +492,61 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 			TestTrue("A button was released", EventCaptureObj->ReleasedCount == 1);
 			TestFalse("First Button is not pressed", Button->IsPressed());
 			TestTrue("Second Button is pressed", SecondButton->IsPressed());
+		});
+}
+
+void PressableButtonSpec::EnqueueAbsoluteDistancesTest(const FVector StartingPos)
+{
+	// The occasional frame needs to be skipped in this test because of a tick 
+	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
+	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
+	// be empty for the first frame after the hand has been moved to the press
+	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
+	// to be called after PokePointers has been populated.
+
+	// first move
+	FrameQueue.Enqueue([this, StartingPos]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+		});
+	// second move
+	FrameQueue.Enqueue([this]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = Button->GetComponentLocation();
+		});
+
+	// Skip a frame for poke because of tick ordering issue.
+	FrameQueue.Skip();
+
+	// test pressed and move back to starting pos
+	FrameQueue.Enqueue([this, StartingPos]
+		{
+			TestTrue("Button was pressed", EventCaptureObj->PressedCount == 1);
+
+			TestPos = Button->GetVisuals()->GetComponentLocation();
+		});
+	// third move
+	FrameQueue.Enqueue([this, StartingPos]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+			Button->SetUseAbsolutePushDistance(true);
+		});
+
+	// fourth move
+	FrameQueue.Enqueue([this]
+		{
+			UxtTestUtils::GetTestHandTracker().TestPosition = Button->GetComponentLocation();
+		});
+
+	// Skip a frame for poke because of tick ordering issue.
+	FrameQueue.Skip();
+
+	// second move
+	FrameQueue.Enqueue([this]
+		{
+			TestTrue("Button was pressed after changing to absolute distances", EventCaptureObj->PressedCount == 2);
+
+			TestEqual("Button pressed to same position for local and world space distances", Button->GetVisuals()->GetComponentLocation(), TestPos);
 		});
 }
 

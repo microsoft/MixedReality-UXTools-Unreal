@@ -93,6 +93,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetCollisionProfile(FName Profile);
 
+	/** Switch between world and local space for button distances */
+	UFUNCTION(BlueprintSetter, Category = "Pressable Button")
+	void SetUseAbsolutePushDistance(bool bAbsolute);
+
 	/** Set if the button is enabled */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetEnabled(bool Enabled);
@@ -191,6 +195,9 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
 
 	//
 	// UObject interface
@@ -238,18 +245,6 @@ private:
 	/** Use the given scene component(s) to adjust the box component extents. */
 	void ConfigureBoxComponent(USceneComponent* Parent);
 
-	/** The distance in local space from the visuals front face to the collider front face. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFrontFaceCollisionMargin", BlueprintSetter = "SetFrontFaceCollisionMargin", meta = (UIMin = "0.0"), Category = "Pressable Button")
-	float FrontFaceCollisionMargin = 0.5f;
-
-	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
-	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "USceneComponent"), Category = "Pressable Button")
-	FComponentReference VisualsReference;
-
-	/** Collision profile used by the button collider */
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
-	FName CollisionProfile = TEXT("UI");
-
 	/** Returns the distance a given pointer is pushing the button to in local space. */
 	float CalculatePushDistance(const UUxtNearPointerComponent* pointer) const;
 
@@ -258,6 +253,25 @@ private:
 
 	/** Position of the button front face while not being poked by any pointer */
 	FVector GetRestPosition() const;
+
+	/** Updates the button distance values so that absolute distances do not change. */
+	void UpdateButtonDistancesScale();
+
+	/** The distance in local space from the visuals front face to the collider front face. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFrontFaceCollisionMargin", BlueprintSetter = "SetFrontFaceCollisionMargin", meta = (UIMin = "0.0"), Category = "Pressable Button")
+	float FrontFaceCollisionMargin = 0.5f;
+    
+	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
+	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "USceneComponent"), Category = "Pressable Button")
+	FComponentReference VisualsReference;
+
+	/** Collision profile used by the button collider */
+	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	FName CollisionProfile = TEXT("UI");
+	
+	/** Switch between world and local space for button distances */
+	UPROPERTY(EditAnywhere, BlueprintSetter = "SetUseAbsolutePushDistance", meta = (DisplayAfter = "MaxPushDistance"), Category = "Pressable Button")
+	bool bUseAbsolutePushDistance = false;
 
 	/** Number of pointers currently focusing the button. */
 	int NumPointersFocusing = 0;
