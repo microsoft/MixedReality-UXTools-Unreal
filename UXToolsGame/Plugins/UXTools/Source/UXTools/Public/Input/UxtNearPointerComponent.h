@@ -10,6 +10,7 @@
 
 struct FUxtGrabPointerFocus;
 struct FUxtPokePointerFocus;
+class UMaterialParameterCollection;
 
 /**
  * Adds poke and grab interactions to an actor.
@@ -29,6 +30,7 @@ public:
 	// 
 	// UActorComponent interface
 
+	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void SetActive(bool bNewActive, bool bReset = false) override;
@@ -126,6 +128,12 @@ protected:
 	FUxtPokePointerFocus* PokeFocus;
 
 private:
+
+	void UpdateParameterCollection(FVector IndexTipPosition);
+
+	/** Parameter collection used to store the finger tip position */
+	UPROPERTY(Transient)
+	UMaterialParameterCollection* ParameterCollection;
 
 	FTransform GrabPointerTransform;
 

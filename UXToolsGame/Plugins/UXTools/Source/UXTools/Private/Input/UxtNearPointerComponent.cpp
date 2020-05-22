@@ -6,10 +6,14 @@
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "UXTools.h"
 
 #include "Engine/World.h"
 #include "Components/PrimitiveComponent.h"
 #include "Components/BoxComponent.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Materials/MaterialParameterCollection.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
 
 namespace
 {
@@ -85,12 +89,23 @@ UUxtNearPointerComponent::UUxtNearPointerComponent()
 
 	GrabFocus = new FUxtGrabPointerFocus();
 	PokeFocus = new FUxtPokePointerFocus();
+
+	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
+	ParameterCollection = Finder.Object;
 }
 
 UUxtNearPointerComponent::~UUxtNearPointerComponent()
 {
 	delete GrabFocus;
 	delete PokeFocus;
+}
+
+void UUxtNearPointerComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Set initial finger tip position to an unlikely value
+	UpdateParameterCollection(FVector(FLT_MAX));
 }
 
 void UUxtNearPointerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -130,7 +145,23 @@ static FTransform CalcPokePointerTransform(EControllerHand Hand)
 	{
 		return FTransform(IndexTipOrientation, IndexTipPosition);
 	}
-	return FTransform::Identity;
+	return FTransform(FQuat::Identity, FVector(FLT_MAX));
+}
+
+void UUxtNearPointerComponent::UpdateParameterCollection(FVector IndexTipPosition)
+{
+	if (ParameterCollection)
+	{
+		UMaterialParameterCollectionInstance* ParameterCollectionInstance = GetWorld()->GetParameterCollectionInstance(ParameterCollection);
+		static FName ParameterNames[] = { "LeftPointerPosition", "RightPointerPosition" };
+		FName ParameterName = Hand == EControllerHand::Left ? ParameterNames[0] : ParameterNames[1];
+		const bool bFoundParameter = ParameterCollectionInstance->SetVectorParameterValue(ParameterName, IndexTipPosition);
+
+		if (!bFoundParameter)
+		{
+			UE_LOG(UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(), *ParameterCollection->GetPathName());
+		}
+	}
 }
 
 void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -138,6 +169,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	// Update cached transforms
 	GrabPointerTransform = CalcGrabPointerTransform(Hand);
 	PokePointerTransform = CalcPokePointerTransform(Hand);
+	UpdateParameterCollection(PokePointerTransform.GetLocation());
 
 	// Unlock focus if targets have been removed,
 	// e.g. if target actors are destroyed while focus locked.
@@ -217,6 +249,9 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 		GrabFocus->ClearFocus(this);
 		PokeFocus->ClearFocus(this);
 		bFocusLocked = false;
+
+		// Set finger tip position to an unlikely value
+		UpdateParameterCollection(FVector(FLT_MAX));
 	}
 }
 

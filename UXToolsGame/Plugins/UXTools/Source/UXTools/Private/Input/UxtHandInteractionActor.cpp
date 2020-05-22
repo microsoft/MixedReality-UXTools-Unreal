@@ -11,11 +11,7 @@
 #include "HandTracking/IUxtHandTracker.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Materials/MaterialParameterCollection.h"
-#include "Materials/MaterialParameterCollectionInstance.h"
 #include "Utils/UxtFunctionLibrary.h"
-#include "UXTools.h"
 
 
 AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer)
@@ -32,9 +28,6 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	FarPointer = CreateDefaultSubobject<UUxtFarPointerComponent>(TEXT("FarPointer"));
 	FarPointer->PrimaryComponentTick.bStartWithTickEnabled = false;
 	FarPointer->AddTickPrerequisiteActor(this);
-
-	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
-	ParameterCollection = Finder.Object;
 }
 
 // Called when the game starts or when spawned
@@ -101,19 +94,6 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 
 		if (bIsTracked)
 		{
-			// Update finger tip position in material parameter collection
-			if (ParameterCollection)
-			{
-				UMaterialParameterCollectionInstance* ParameterCollectionInstance = GetWorld()->GetParameterCollectionInstance(ParameterCollection);
-				static FName ParameterNames[] = { "LeftPointerPosition", "RightPointerPosition" };
-				FName ParameterName = Hand == EControllerHand::Left ? ParameterNames[0] : ParameterNames[1];
-				const bool bFoundParameter = ParameterCollectionInstance->SetVectorParameterValue(ParameterName, FingerTipPosition);
-				if (!bFoundParameter)
-				{
-					UE_LOG(UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(), *ParameterCollection->GetPathName());
-				}
-			}
-
 			const FVector Forward = FingerTipOrientation.GetForwardVector();
 			const FVector FingerTipPositionOnSkin = FingerTipPosition + Forward * JointRadius;
 

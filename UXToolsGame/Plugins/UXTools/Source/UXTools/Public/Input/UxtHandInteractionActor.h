@@ -9,7 +9,6 @@
 
 class UUxtNearPointerComponent;
 class UUxtFarPointerComponent;
-class UMaterialParameterCollection;
 
 
 /**
@@ -107,9 +106,6 @@ private:
 
 	UPROPERTY(Transient)
 	UUxtFarPointerComponent* FarPointer;
-
-	UPROPERTY(Transient)
-	UMaterialParameterCollection* ParameterCollection;
 	
 	bool bHadTracking = false;
 	FVector PrevQueryPosition;
