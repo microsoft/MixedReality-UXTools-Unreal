@@ -8,9 +8,9 @@ The first step of creating a button from scratch is adding the [`UxtPressableBut
 
 ![MovingVisuals](Images/PressableButton/MovingVisuals.gif)
 
-Add a [`StaticMeshComponent`](https://docs.unrealengine.com/en-US/Engine/Components/StaticMesh/index.html) to the actor and set the visuals property of the `UxtPressableButtonComponent` to reference this new mesh. Also ensure that the local positive x-axis of this mesh component points in the direction the button is expected to be pushed. Any component children of this mesh will move along with it as the button is pushed.
+Add a [`StaticMeshComponent`](https://docs.unrealengine.com/en-US/Engine/Components/StaticMesh/index.html) (or any [`SceneComponent`](https://docs.unrealengine.com/en-US/API/Runtime/Engine/Components/USceneComponent/index.html)) to the actor and set the visuals property of the `UxtPressableButtonComponent` to reference this new mesh. Also ensure that the local positive x-axis of this mesh component points in the direction the button is expected to be pushed. Any component children of this mesh will move along with it as the button is pushed.
 
-It is important to note that the `UxtPressableButtonComponent` uses the mesh assigned to the visuals property to construct a `BoxComponent` that is used for poke and far interactions. The `UxtPressableButtonComponent` uses the mesh extents to create this box collider.
+It is important to note that the `UxtPressableButtonComponent` uses the component assigned to the visuals property to construct a `BoxComponent` that is used for poke and far interactions. The `UxtPressableButtonComponent` uses the the visuals property component bounds, and child bounds, to create this box collider.
 
 If the button is configured correctly, the button should now react to presses during play. As well as this, the button planes visualizations will be visible in editor while `UxtPressableButtonComponent` is selected. These planes represent some of the properties of the button.
 
@@ -48,7 +48,34 @@ Here are some examples of these events in use in the SimpleButton blueprint samp
 ![ButtonHoverEvents](Images/PressableButton/ButtonHoverEvents.png)
 ![ButtonEvents](Images/PressableButton/ButtonEvents.png)
 
+## HoloLens 2 Button Blueprint
+
+The HoloLens 2 button blueprint, named `BP_ButtonHoloLens2`, is a button blueprint that provides configurable HoloLens 2 Shell style visuals and behaviors. Please see the [graphics documentation](Graphics.md) for more information about the button's shaders and materials.
+
+![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2.png)
+
+### Visual Configuration
+
+To aid in the time it takes to configure buttons, a handful of blueprint variables are exposed which react to changes made during edit time and runtime. 
+
+![ButtonHoloLens2VisualConfig](Images/PressableButton/ButtonHoloLens2VisualConfig.png)
+
+For example, changing the `Button Size` from (16, 32, 32) to (16, 64, 32) will automatically scale the button's front and back plates to create a wide button without effecting the button icon or label.
+
+Updating the `Button Label` will automatically adjust the button's text render component. Changing the `Button Icon` to a new unicode code point will generate the appropriate unicode character to index into a font containing the icon (e.g. `Font_SegoeMDL2_Regular_42`). Note, the font atlas will need to be updated to support any new icons which are not already present within the font atlas. 
+
+- To add a new icon, open the icon font, such as Font_SegoeMDL2_Regular_42. Under "Import Options" select the "Chars" property. Paste your icon's unicode character into the "Chars" property and save the font. Finally reimport the font uasset.
+
+### Scripting Logic
+
+All `UxtPressableButtonComponent` events are passed up to the parent `BP_ButtonHoloLens2` via the `BP_BaseButton` base class. So, any `BP_BaseButton` variables in other blueprints can easily bind to button events from the variable details panel without having to search for a child button component. In the below example "Hello" is printed when a `BP_BaseButton`, or any derived classes, are pressed:
+
+![ButtonHoloLens2Events](Images/PressableButton/ButtonHoloLens2Events.png)
+
 ## Public Properties
+
+### Push Behavior
+How the visuals should react when the button is pressed. Translate means the visuals move move along the local x-axis. Compress means the visuals will scale along the x-axis. Note, when compressed the visual's pivot should align with the back face of the compressible region. In other words, the plane visualized by the [max push distance](#max-push-distance).
 
 ### Max Push Distance
 The maximum distance the button can move.
@@ -66,7 +93,7 @@ The speed at which the button visuals return to the their resting position when 
 The distance in front of the visuals front face to place the front of the button box collider.
 
 ### Visuals
-A reference to the static mesh component that represents the moving part of the button. The extents of the button collider will also be constructed using this mesh.
+A reference to the scene component that represents the moving part of the button. The extents of the button collider will also be constructed using this scene component and child bounds.
 
 ### Collision Profile
 The collision profile used for the button collider, which is constructed using the moving visuals mesh component extents.

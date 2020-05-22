@@ -113,32 +113,32 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	float GetScaleAdjustedMaxPushDistance() const;
 
+	/** Gets the button behavior when pushed */
+	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	EUxtPushBehavior GetPushBehavior() const;
+
+	/** Sets the button behavior when pushed */
+	UFUNCTION(BlueprintSetter, Category = "Pressable Button")
+	void SetPushBehavior(EUxtPushBehavior Behavior);
+
 	/** Gets the maximum distance the button can be pushed */
 	UFUNCTION(BlueprintPure, Category = "Pressable Button")
 	float GetMaxPushDistance() const;
 
-	/** Sets the maximum distance the button can be pushed */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	/** Sets the maximum distance the button can be pushed, does nothing when the push behavior is set to compress because the maximum distance is auto calculated */
+	UFUNCTION(BlueprintSetter, Category = "Pressable Button")
 	void SetMaxPushDistance(float Distance);
 
-	/** Button behavior when pushed */
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
-	EUxtPushBehavior PushBehavior;
-
-	/** The maximum distance the button can be pushed in local space (auto-calculated when the push behavior is compress)*/
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
-	float MaxPushDistance = 10;
-
 	/** Fraction of the maximum travel distance at which the button will raise the pressed event. */
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, meta = (DisplayAfter = "bUseAbsolutePushDistance"), Category = "Pressable Button")
     float PressedFraction = 0.5f;
 
 	/** Fraction of the maximum travel distance at which a pressed button will raise the released event. */
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, meta = (DisplayAfter = "bUseAbsolutePushDistance"), Category = "Pressable Button")
     float ReleasedFraction = 0.2f;
 
 	/** Button movement speed while recovering */
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, meta = (DisplayAfter = "bUseAbsolutePushDistance"), Category = "Pressable Button")
     float RecoverySpeed = 50;
 
 	//
@@ -258,6 +258,17 @@ private:
 
 	/** Updates the button distance values so that absolute distances do not change. */
 	void UpdateButtonDistancesScale();
+
+	/** Updates the max push distance as the 'x' bounds of the box component when the button is compressible */
+	void UpdateMaxPushDistance();
+
+	/** Button behavior when pushed */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetPushBehavior", BlueprintSetter = "SetPushBehavior", Category = "Pressable Button")
+	EUxtPushBehavior PushBehavior = EUxtPushBehavior::Translate;
+
+	/** The maximum distance the button can be pushed in local space (auto-calculated when the push behavior is compress)*/
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetMaxPushDistance", BlueprintSetter = "SetMaxPushDistance", Category = "Pressable Button")
+	float MaxPushDistance = 10;
 
 	/** Distance from the visuals front face to the collider front face expressed as a fraction of the maximum push distance. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFrontFaceCollisionFraction", BlueprintSetter = "SetFrontFaceCollisionFraction", meta = (UIMin = "0.0"), Category = "Pressable Button")

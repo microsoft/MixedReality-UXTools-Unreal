@@ -19,7 +19,7 @@
 
 namespace
 {
-	UUxtPressableButtonComponent* CreateTestComponent(UWorld* World, const FVector& Location)
+	UUxtPressableButtonComponent* CreateTestComponent(UWorld* World, const FVector& Location, EUxtPushBehavior PushBehavior = EUxtPushBehavior::Translate)
 	{
 		AActor* actor = World->SpawnActor<AActor>();
 
@@ -29,6 +29,7 @@ namespace
 		root->RegisterComponent();
 
 		UUxtPressableButtonComponent* TestTarget = NewObject<UUxtPressableButtonComponent>(actor);
+		TestTarget->SetPushBehavior(PushBehavior);
 		TestTarget->SetWorldRotation(FRotator(0, 180, 0));
 		TestTarget->SetWorldLocation(Location);
 		TestTarget->RegisterComponent();
@@ -37,23 +38,34 @@ namespace
 		float meshScale = 0.1f;
 		if (!meshFilename.IsEmpty())
 		{
+			USceneComponent* visuals = nullptr;
+
+			// Create a pivot parent component for the compressable visuals
+			if (PushBehavior == EUxtPushBehavior::Compress)
+			{
+				visuals = NewObject<USceneComponent>(actor);
+				visuals->SetupAttachment(actor->GetRootComponent());
+				visuals->RegisterComponent();
+			}
+
 			UStaticMeshComponent* mesh = NewObject<UStaticMeshComponent>(actor);
-			mesh->SetupAttachment(actor->GetRootComponent());
+			mesh->SetupAttachment((visuals != nullptr) ? visuals : actor->GetRootComponent());
 			mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 			mesh->SetCollisionProfileName(TEXT("OverlapAll"));
 			mesh->SetGenerateOverlapEvents(true);
 
 			UStaticMesh* meshAsset = LoadObject<UStaticMesh>(actor, *meshFilename);
 			mesh->SetStaticMesh(meshAsset);
-			mesh->SetRelativeScale3D(FVector::OneVector * meshScale);
+			mesh->SetRelativeLocation((visuals != nullptr) ? FVector(-5, 0, 0) : FVector::ZeroVector);
+			mesh->SetRelativeScale3D((visuals != nullptr) ? FVector(meshScale * 0.5f, meshScale, meshScale) : FVector::OneVector * meshScale);
 
 			mesh->RegisterComponent();
 
-			TestTarget->SetVisuals(mesh);
+			TestTarget->SetVisuals((visuals != nullptr) ? visuals : mesh);
 		}
 
 		TestTarget->RecoverySpeed = BIG_NUMBER;
-		TestTarget->MaxPushDistance = 5;
+		TestTarget->SetMaxPushDistance(5);
 
 		return TestTarget;
 	}
@@ -307,7 +319,7 @@ void PressableButtonSpec::Define()
 
 					FrameQueue.Enqueue([this]
 						{
-							const float MoveAmount = Button->MaxPushDistance * (Button->PressedFraction * 2.0f);
+							const float MoveAmount = Button->GetMaxPushDistance() * (Button->PressedFraction * 2.0f);
 							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveAmount);
 						});
 
@@ -351,6 +363,91 @@ void PressableButtonSpec::Define()
 
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
+		});
+
+		// Perform a subset of the above tests with the button visuals set to compress rather than translate
+		Describe("Button (Compress Push Behavior)", [this]
+		{
+			BeforeEach([this]
+			{
+				// Load the empty test map to run the test in.
+				TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+
+				UWorld* World = UxtTestUtils::GetTestWorld();
+				FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
+
+				Center = FVector(50, 0, 0);
+				Button = CreateTestComponent(World, Center, EUxtPushBehavior::Compress);
+
+				EventCaptureObj = NewObject<UPressableButtonTestComponent>(Button->GetOwner());
+				EventCaptureObj->RegisterComponent();
+				Button->OnButtonPressed.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementPressed);
+				Button->OnButtonReleased.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementReleased);
+
+				UxtTestUtils::EnableTestHandTracker();
+				Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", FVector::ZeroVector);
+				Pointer->PokeDepth = 5;
+			});
+
+			AfterEach([this]
+			{
+				UxtTestUtils::DisableTestHandTracker();
+
+				FrameQueue.Reset();
+
+				Button->GetOwner()->Destroy();
+				Button = nullptr;
+				Pointer->GetOwner()->Destroy();
+				Pointer = nullptr;
+
+				// Force GC so that destroyed actors are removed from the world.
+				// Running multiple tests will otherwise cause errors when creating duplicate actors.
+				GEngine->ForceGarbageCollection();
+			});
+
+			LatentIt("should raise press and release when pointer moves forward and back", [this](const FDoneDelegate& Done)
+			{
+				TTuple<FVector, FVector, FVector> Sequence = MakeTuple(
+					Center + (FVector::BackwardVector * MoveBy),
+					Center,
+					Center + (FVector::BackwardVector * MoveBy));
+
+				EnqueuePressReleaseTest(Sequence, true, true);
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
+
+			LatentIt("should raise press and release when pointer moves forward and left", [this](const FDoneDelegate& Done)
+			{
+				TTuple<FVector, FVector, FVector> Sequence = MakeTuple(
+					Center + (FVector::BackwardVector * MoveBy),
+					Center,
+					Center + (FVector::LeftVector * MoveBy));
+
+				EnqueuePressReleaseTest(Sequence, true, true);
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
+
+			LatentIt("should raise press and release when pointer moves forward past the poke depth", [this](const FDoneDelegate& Done)
+			{
+				TTuple<FVector, FVector, FVector> Sequence = MakeTuple(
+					Center + (FVector::BackwardVector * MoveBy),
+					Center,
+					Center + (FVector::ForwardVector * MoveBy));
+
+				EnqueuePressReleaseTest(Sequence, true, true);
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
+
+			LatentIt("shouldn't raise press or release when pointer moves forward and back outside of the button bounds", [this](const FDoneDelegate& Done)
+			{
+				TTuple<FVector, FVector, FVector> Sequence = MakeTuple(
+					Center + ((FVector::BackwardVector + FVector::LeftVector) * MoveBy),
+					Center + (FVector::LeftVector * MoveBy),
+					Center + ((FVector::BackwardVector + FVector::LeftVector) * MoveBy));
+
+				EnqueuePressReleaseTest(Sequence, false, false);
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
 		});
 }
 

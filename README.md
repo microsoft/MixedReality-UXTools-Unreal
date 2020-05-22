@@ -10,6 +10,7 @@ Features:
 - [Pressable button component](Docs/PressableButton.md): low level component used to drive the state of button blueprints. An example button blueprint is provided.
 - [Manipulator component](Docs/Manipulator.md): allows moving and rotating an actor via one or two hand manipulation.
 - [Follow behaviour component](Docs/FollowComponent.md): keeps an actor or component within sight of another component, usually the camera.
+- [Graphics documentation](Docs/Graphics.md): breakdown of shaders, materials, and graphics techniques used to render UX components.
 
 ![Features](Docs/Images/Features.png)
 

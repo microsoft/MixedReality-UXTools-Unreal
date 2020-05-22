@@ -10,5 +10,7 @@
     href: Manipulator.md
   - name: Follow Component
     href: FollowComponent.md
+  - name: Graphics
+    href: Graphics.md
 - name: Contributing
   href: CONTRIBUTING.md

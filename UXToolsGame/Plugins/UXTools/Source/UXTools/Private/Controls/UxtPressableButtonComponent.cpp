@@ -129,6 +129,21 @@ float UUxtPressableButtonComponent::GetScaleAdjustedMaxPushDistance() const
 	return bUseAbsolutePushDistance ? MaxPushDistance : MaxPushDistance * GetComponentTransform().GetScale3D().X;
 }
 
+EUxtPushBehavior UUxtPressableButtonComponent::GetPushBehavior() const
+{
+	return PushBehavior;
+}
+
+void UUxtPressableButtonComponent::SetPushBehavior(EUxtPushBehavior Behavior)
+{
+	PushBehavior = Behavior;
+
+	if (BoxComponent)
+	{
+		UpdateMaxPushDistance();
+	}
+}
+
 float UUxtPressableButtonComponent::GetMaxPushDistance() const
 {
 	return MaxPushDistance;
@@ -136,7 +151,10 @@ float UUxtPressableButtonComponent::GetMaxPushDistance() const
 
 void UUxtPressableButtonComponent::SetMaxPushDistance(float Distance)
 {
-	MaxPushDistance = Distance;
+	if (PushBehavior != EUxtPushBehavior::Compress)
+	{
+		MaxPushDistance = Distance;
+	}
 }
 
 // Called when the game starts
@@ -431,6 +449,14 @@ void UUxtPressableButtonComponent::UpdateButtonDistancesScale()
 	}
 }
 
+void UUxtPressableButtonComponent::UpdateMaxPushDistance()
+{
+	if (PushBehavior == EUxtPushBehavior::Compress)
+	{
+		MaxPushDistance = BoxComponent->GetScaledBoxExtent().X * 2.0f;
+	}
+}
+
 bool UUxtPressableButtonComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
 {
 	return Primitive == BoxComponent;
@@ -500,11 +526,7 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 	VisualsOffsetLocal = GetComponentTransform().InverseTransformVector(VisualsOffset);
 	VisualsScaleLocal = Parent->GetRelativeScale3D();
 
-	// When the button is compressible, the max push distance is the 'x' bounds.
-	if (PushBehavior == EUxtPushBehavior::Compress)
-	{
-		SetMaxPushDistance(BoxComponent->GetScaledBoxExtent().X * 2.0f);
-	}
+	UpdateMaxPushDistance();
 }
 
 void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
