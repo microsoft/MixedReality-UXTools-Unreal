@@ -79,11 +79,11 @@ public:
 
 	/** Get the distance from the visuals front face to the collider front face. */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
-	float GetFrontFaceCollisionMargin() const;
+	float GetFrontFaceCollisionFraction() const;
 
 	/** Set the distance from the visuals front face to the collider front face. */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
-	void SetFrontFaceCollisionMargin(float Distance);
+	void SetFrontFaceCollisionFraction(float Distance);
 
 	/** Get scene component used for the moving visuals */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
@@ -259,9 +259,9 @@ private:
 	/** Updates the button distance values so that absolute distances do not change. */
 	void UpdateButtonDistancesScale();
 
-	/** The distance in local space from the visuals front face to the collider front face. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFrontFaceCollisionMargin", BlueprintSetter = "SetFrontFaceCollisionMargin", meta = (UIMin = "0.0"), Category = "Pressable Button")
-	float FrontFaceCollisionMargin = 0.5f;
+	/** Distance from the visuals front face to the collider front face expressed as a fraction of the maximum push distance. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetFrontFaceCollisionFraction", BlueprintSetter = "SetFrontFaceCollisionFraction", meta = (UIMin = "0.0"), Category = "Pressable Button")
+	float FrontFaceCollisionFraction = 0.05f;
     
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
 	UPROPERTY(EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "USceneComponent"), Category = "Pressable Button")

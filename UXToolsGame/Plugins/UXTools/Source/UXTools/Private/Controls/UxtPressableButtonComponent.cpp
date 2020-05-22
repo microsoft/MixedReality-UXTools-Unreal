@@ -21,16 +21,16 @@ UUxtPressableButtonComponent::UUxtPressableButtonComponent()
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 }
 
-float UUxtPressableButtonComponent::GetFrontFaceCollisionMargin() const
+float UUxtPressableButtonComponent::GetFrontFaceCollisionFraction() const
 {
-	return FrontFaceCollisionMargin;
+	return FrontFaceCollisionFraction;
 }
 
-void UUxtPressableButtonComponent::SetFrontFaceCollisionMargin(float Distance)
+void UUxtPressableButtonComponent::SetFrontFaceCollisionFraction(float Distance)
 {
 	Distance = FMath::Max(0.0f, Distance);
 
-	FrontFaceCollisionMargin = Distance;
+	FrontFaceCollisionFraction = Distance;
 	if (BoxComponent)
 	{
 		if (UStaticMeshComponent* Touchable = Cast<UStaticMeshComponent>(GetVisuals()))
@@ -483,7 +483,9 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 	FBox LocalBoxBounds = LocalBounds.GetBox();
 
 	// Expand box to include the front face margin
-	LocalBoxBounds = LocalBoxBounds.ExpandBy(FVector::ZeroVector, FVector::ForwardVector * FrontFaceCollisionMargin);
+	float MarginDist = GetScaleAdjustedMaxPushDistance() * FrontFaceCollisionFraction;
+	MarginDist /= GetComponentScale().X;
+	LocalBoxBounds = LocalBoxBounds.ExpandBy(FVector::ZeroVector, FVector::ForwardVector * MarginDist);
 
 	FTransform BoxTransform = FTransform(LocalBoxBounds.GetCenter()) * GetComponentTransform();
 	BoxComponent->SetWorldTransform(BoxTransform);
