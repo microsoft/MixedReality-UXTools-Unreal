@@ -70,7 +70,7 @@ void HandInteractionSpec::Define()
 	{
 		FrameQueue.Enqueue([this]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = NearPoint;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NearPoint);
 		});
 
 		// Skip one frame as pointers take a frame to start ticking when activated by the hand interaction actor
@@ -91,7 +91,7 @@ void HandInteractionSpec::Define()
 	{
 		FrameQueue.Enqueue([this]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = FarPoint;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FarPoint);
 		});
 
 		FrameQueue.Enqueue([this, Done]
@@ -109,7 +109,7 @@ void HandInteractionSpec::Define()
 	{
 		FrameQueue.Enqueue([this]
 		{
-			UxtTestUtils::GetTestHandTracker().TestOrientation = FVector::DownVector.Rotation().Quaternion();
+			UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FVector::DownVector.Rotation().Quaternion());
 		});
 
 		// Skip one frame as pointers take a frame to start ticking when activated by the hand interaction actor
@@ -135,8 +135,8 @@ void HandInteractionSpec::Define()
 			// Far pointer doesn't expect focus requests while not enabled (i.e. having ticked with tracking) so we just check for deactivation.
 			FarPointer->Activate();
 
-			UxtTestUtils::GetTestHandTracker().TestPosition = NearPoint;
-			UxtTestUtils::GetTestHandTracker().bIsTracked = false;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NearPoint);
+			UxtTestUtils::GetTestHandTracker().SetTracked(false);
 		});
 
 		FrameQueue.Enqueue([this, Done]
@@ -154,14 +154,14 @@ void HandInteractionSpec::Define()
 
 	LatentIt("should not transition between near and far interaction modes when a pointer is locked", [this](const FDoneDelegate& Done)
 	{
-		UxtTestUtils::GetTestHandTracker().TestPosition = NearPoint;
+		UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NearPoint);
 
 		FrameQueue.Enqueue([this]
 		{
 			TestTrue("Near pointer active when close to target", NearPointer->IsActive());
 			TestFalse("Far pointer active", FarPointer->IsActive());
 			NearPointer->SetFocusLocked(true);
-			UxtTestUtils::GetTestHandTracker().TestPosition = FarPoint;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FarPoint);
 		});
 
 		FrameQueue.Enqueue([this]
@@ -179,7 +179,7 @@ void HandInteractionSpec::Define()
 			TestFalse("Near pointer active", NearPointer->IsActive());
 			TestTrue("Far pointer active when far from target", FarPointer->IsActive());
 			FarPointer->SetFocusLocked(true);
-			UxtTestUtils::GetTestHandTracker().TestPosition = NearPoint;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NearPoint);
 		});
 
 		FrameQueue.Enqueue([this]

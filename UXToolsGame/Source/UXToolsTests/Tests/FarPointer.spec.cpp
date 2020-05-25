@@ -43,8 +43,8 @@ void FFarPointerSpec::Define()
 
 		// Hand tracker
 		HandTracker = &UxtTestUtils::EnableTestHandTracker();
-		HandTracker->TestPosition = FVector(0, 0, 0);
-		HandTracker->TestOrientation = FQuat(FRotator(0, 0, 0));
+		HandTracker->SetAllJointPositions(FVector::ZeroVector);
+		HandTracker->SetAllJointOrientations(FQuat::Identity);
 
 		// Pointer actor
 		{
@@ -120,7 +120,7 @@ void FFarPointerSpec::Define()
 		FrameQueue.Enqueue([this]()
 		{
 			TestEqual("UpdatedFarFocus", FarTarget->NumUpdated, 1);
-			HandTracker->bIsSelectPressed = true;
+			HandTracker->SetSelectPressed(true);
 		});
 
 		FrameQueue.Enqueue([this]()
@@ -132,14 +132,14 @@ void FFarPointerSpec::Define()
 		FrameQueue.Enqueue([this]()
 		{
 			TestEqual("Dragged", FarTarget->NumDragged, 1);
-			HandTracker->bIsSelectPressed = false;
+			HandTracker->SetSelectPressed(false);
 		});
 
 		FrameQueue.Enqueue([this]()
 		{
 			TestEqual("Released", FarTarget->NumReleased, 1);
 			TestFalse("IsPressed", Pointer->IsPressed());
-			HandTracker->TestPosition.Set(-500, 0, 0);
+			HandTracker->SetAllJointPositions(FVector(-500, 0, 0));
 		});
 
 		FrameQueue.Enqueue([this, Done]()
@@ -178,7 +178,7 @@ void FFarPointerSpec::Define()
 		TestEqual("NumDisabled", PointerListener->NumDisabled, 0);
 		TestTrue("IsEnabled", Pointer->IsEnabled());
 
-		HandTracker->bIsTracked = false;
+		HandTracker->SetTracked(false);
 
 		FrameQueue.Enqueue([this]()
 		{
@@ -186,7 +186,7 @@ void FFarPointerSpec::Define()
 			TestEqual("NumDisabled", PointerListener->NumDisabled, 1);
 			TestFalse("IsEnabled", Pointer->IsEnabled());
 
-			HandTracker->bIsTracked = true;
+			HandTracker->SetTracked(true);
 		});
 
 		FrameQueue.Enqueue([this, Done]()
@@ -234,7 +234,7 @@ void FFarPointerSpec::Define()
 	LatentIt("should release lock on tracking loss", [this](const FDoneDelegate& Done)
 	{
 		Pointer->SetFocusLocked(true);
-		HandTracker->bIsTracked = false;
+		HandTracker->SetTracked(false);
 
 		FrameQueue.Enqueue([this, Done]()
 		{

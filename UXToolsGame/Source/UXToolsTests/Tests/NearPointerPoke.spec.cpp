@@ -115,7 +115,7 @@ void NearPointerPokeFocusLostSpec::Define()
 
 					UxtTestUtils::EnableTestHandTracker();
 					// Set hand position so the near pointer is activated
-					UxtTestUtils::GetTestHandTracker().TestPosition = TargetLocation + FVector(-25, 0, 0);
+					UxtTestUtils::GetTestHandTracker().SetAllJointPositions(TargetLocation + FVector(-25, 0, 0));
 
 					HandActor = World->SpawnActor<AUxtHandInteractionActor>();
 					Target = UxtTestUtils::CreateNearPointerPokeTarget(World, TargetLocation, TargetFilename, TargetScale);
@@ -163,7 +163,7 @@ void NearPointerPokeFocusLostSpec::Define()
 
 							// Poke the target.
 							// Wait one tick so the pointer can update overlaps and raise events.
-							UxtTestUtils::GetTestHandTracker().TestPosition = TargetLocation;
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(TargetLocation);
 						});
 
 					FrameQueue.Enqueue([this, Done]
@@ -181,7 +181,7 @@ void NearPointerPokeFocusLostSpec::Define()
 							TestTrue(TEXT("Focus lock enabled"), NearPointer->GetFocusLocked());
 
 							// Simulate tracking loss
-							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
+							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
 
 					FrameQueue.Enqueue([this, Done]

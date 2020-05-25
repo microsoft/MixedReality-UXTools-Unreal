@@ -123,7 +123,7 @@ void NearPointerGrabFocusLostSpec::Define()
 
 					UxtTestUtils::EnableTestHandTracker();
 					// Set hand position so the near pointer is activated
-					UxtTestUtils::GetTestHandTracker().TestPosition = TargetLocation + FVector(-15, 0, 0);
+					UxtTestUtils::GetTestHandTracker().SetAllJointPositions(TargetLocation + FVector(-15, 0, 0));
 
 					HandActor = World->SpawnActor<AUxtHandInteractionActor>();
 					Target = UxtTestUtils::CreateNearPointerGrabTarget(World, TargetLocation, TargetFilename, TargetScale);
@@ -171,7 +171,7 @@ void NearPointerGrabFocusLostSpec::Define()
 
 							// Enable grab.
 							// Wait one tick so the pointer can update overlaps and raise events.
-							UxtTestUtils::GetTestHandTracker().bIsGrabbing = true;
+							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
 						});
 
 					FrameQueue.Enqueue([this, Done]
@@ -189,7 +189,7 @@ void NearPointerGrabFocusLostSpec::Define()
 							TestTrue(TEXT("Focus lock enabled"), NearPointer->GetFocusLocked());
 
 							// Simulate tracking loss
-							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
+							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
 
 					FrameQueue.Enqueue([this, Done]

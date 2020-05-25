@@ -72,7 +72,7 @@ void GrabTargetComponentFocusLockSpec::Define()
 						{
 							// Enable grab.
 							// Wait one tick so the pointer can update overlaps and raise events.
-							UxtTestUtils::GetTestHandTracker().bIsGrabbing = true;
+							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
 						});
 
 					FrameQueue.Enqueue([this]

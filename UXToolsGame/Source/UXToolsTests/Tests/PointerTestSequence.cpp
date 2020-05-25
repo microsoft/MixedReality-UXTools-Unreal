@@ -302,8 +302,8 @@ namespace UxtPointerTests
 					if (iKeyframe < NumKeyframes)
 					{
 						const PointerKeyframe& Keyframe = Keyframes[iKeyframe];
-						UxtTestUtils::GetTestHandTracker().TestPosition = Keyframe.Location;
-						UxtTestUtils::GetTestHandTracker().bIsGrabbing = Keyframe.bIsGrabbing;
+						UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Keyframe.Location);
+						UxtTestUtils::GetTestHandTracker().SetGrabbing(Keyframe.bIsGrabbing);
 					}
 					else
 					{

@@ -170,7 +170,4 @@ private:
 	UPROPERTY(BlueprintGetter = GetGoalRotation, Transient, Category = "Hand Constraint")
 	FQuat GoalRotation;
 
-	/** Cached enum info for hand joints */
-	const UEnum* EnumUxtHandJoint;
-
 };

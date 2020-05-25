@@ -298,7 +298,7 @@ void PressableButtonSpec::Define()
 				{
 					FrameQueue.Enqueue([this]
 						{
-							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveBy);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::BackwardVector * MoveBy));
 						});
 
 					FrameQueue.Skip();
@@ -314,13 +314,13 @@ void PressableButtonSpec::Define()
 				{
 					FrameQueue.Enqueue([this]
 						{
-							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveBy);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::BackwardVector * MoveBy));
 						});
 
 					FrameQueue.Enqueue([this]
 						{
 							const float MoveAmount = Button->GetMaxPushDistance() * (Button->PressedFraction * 2.0f);
-							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveAmount);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::BackwardVector * MoveAmount));
 						});
 
 					FrameQueue.Skip();
@@ -336,12 +336,12 @@ void PressableButtonSpec::Define()
 				{
 					FrameQueue.Enqueue([this]
 						{
-							UxtTestUtils::GetTestHandTracker().TestPosition = Center + (FVector::BackwardVector * MoveBy);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::BackwardVector * MoveBy));
 						});
 
 					FrameQueue.Enqueue([this]
 						{
-							UxtTestUtils::GetTestHandTracker().TestPosition = Center;
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center);
 						});
 
 					FrameQueue.Skip();
@@ -463,12 +463,12 @@ void PressableButtonSpec::EnqueueDestroyTest(const TTuple<FVector, FVector> Fram
 	// first move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<0>();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<0>());
 		});
 	// second move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<1>();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<1>());
 		});
 
 	// Skip a frame for poke because of tick ordering issue.
@@ -502,12 +502,12 @@ void PressableButtonSpec::EnqueueDisableTest(const TTuple<FVector, FVector> Fram
 	// first move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<0>();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<0>());
 		});
 	// second move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<1>();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<1>());
 		});
 
 	// skip a frame for poke because of tick ordering issue.
@@ -541,12 +541,12 @@ void PressableButtonSpec::EnqueuePressReleaseTest(const TTuple<FVector, FVector,
 	// move to starting position
 	FrameQueue.Enqueue([this, FramePositions]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<0>();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<0>());
 		});
 	// move to second position
 	FrameQueue.Enqueue([this, FramePositions]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<1>();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<1>());
 		});
 
 	// Skip a frame for poke because of tick ordering issue.
@@ -557,7 +557,7 @@ void PressableButtonSpec::EnqueuePressReleaseTest(const TTuple<FVector, FVector,
 		{
 			TestEqual("Button press as expected", EventCaptureObj->PressedCount == 1, bExpectingPress);
 
-			UxtTestUtils::GetTestHandTracker().TestPosition = FramePositions.Get<2>();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<2>());
 		});
 
 	// Skip a frame for poke because of tick ordering issue.
@@ -627,12 +627,12 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 	// first move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 		});
 	// second move
 	FrameQueue.Enqueue([this]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = Button->GetComponentLocation();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Button->GetComponentLocation());
 		});
 
 	// Skip a frame for poke because of tick ordering issue.
@@ -649,12 +649,12 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 	// third move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 		});
 	// fourth move
 	FrameQueue.Enqueue([this]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = SecondButton->GetComponentLocation();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(SecondButton->GetComponentLocation());
 		});
 
 	// Skip a frame for poke because of tick ordering issue.
@@ -682,12 +682,12 @@ void PressableButtonSpec::EnqueueAbsoluteDistancesTest(const FVector StartingPos
 	// first move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 		});
 	// second move
 	FrameQueue.Enqueue([this]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = Button->GetComponentLocation();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Button->GetComponentLocation());
 		});
 
 	// Skip a frame for poke because of tick ordering issue.
@@ -703,14 +703,14 @@ void PressableButtonSpec::EnqueueAbsoluteDistancesTest(const FVector StartingPos
 	// third move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = StartingPos;
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 			Button->SetUseAbsolutePushDistance(true);
 		});
 
 	// fourth move
 	FrameQueue.Enqueue([this]
 		{
-			UxtTestUtils::GetTestHandTracker().TestPosition = Button->GetComponentLocation();
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Button->GetComponentLocation());
 		});
 
 	// Skip a frame for poke because of tick ordering issue.

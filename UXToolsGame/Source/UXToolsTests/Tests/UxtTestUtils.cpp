@@ -170,8 +170,8 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 	UUxtNearPointerComponent* pointer = NewObject<UUxtNearPointerComponent>(hand);
 	pointer->RegisterComponent();
 
-	UxtTestUtils::GetTestHandTracker().bIsGrabbing = IsGrasped;
-	UxtTestUtils::GetTestHandTracker().TestPosition = Location;
+	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped);
+	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Location);
 
 	if (AddMeshVisualizer)
 	{

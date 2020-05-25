@@ -98,9 +98,6 @@ UUxtHandConstraintComponent::UUxtHandConstraintComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
-
-	EnumUxtHandJoint = FindObject<UEnum>(ANY_PACKAGE, TEXT("EUxtHandJoint"));
-	check(EnumUxtHandJoint != nullptr);
 }
 
 EControllerHand UUxtHandConstraintComponent::GetTrackedHand() const
@@ -259,10 +256,9 @@ void UUxtHandConstraintComponent::UpdateHandBounds(const FVector& PalmLocation, 
 	FTransform PalmFromWorld = WorldFromPalm.Inverse();
 	HandBounds = FBox(EForceInit::ForceInitToZero);
 
-	// -1 to skip auto-generated _MAX value
-	for (int i = 0; i < EnumUxtHandJoint->NumEnums() - 1; ++i)
+	for (int i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
 	{
-		EUxtHandJoint Joint = (EUxtHandJoint)EnumUxtHandJoint->GetValueByIndex(i);
+		EUxtHandJoint Joint = (EUxtHandJoint)i;
 
 		FQuat JointRotation;
 		FVector JointLocation;

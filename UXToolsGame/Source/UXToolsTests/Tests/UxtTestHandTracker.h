@@ -4,6 +4,30 @@
 #pragma once
 
 #include "HandTracking/IUxtHandTracker.h"
+#include "InputCoreTypes.h"
+
+struct FUxtTestHandData
+{
+	FUxtTestHandData();
+
+	/** Enable tracking of this hand. */
+	bool bIsTracked = true;
+
+	/** Position for each joint. */
+	FVector JointPosition[(uint8)EUxtHandJoint::Count];
+
+	/** Rotation for each joint. */
+	FQuat JointOrientation[(uint8)EUxtHandJoint::Count];
+
+	/** Radius for each joint. */
+	float JointRadius[(uint8)EUxtHandJoint::Count];
+
+	/** Enable grab state. */
+	bool bIsGrabbing = false;
+
+	/** Enable select state. */
+	bool bIsSelectPressed = false;
+};
 
 /** WMR implementation of the hand tracker interface */
 class FUxtTestHandTracker : public IUxtHandTracker
@@ -18,21 +42,42 @@ public:
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const override;
 	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const override;
 
-	/** Enable hand tracking. */
-	bool bIsTracked = true;
+	/** Get current hand state data. */
+	const FUxtTestHandData& GetHandState(EControllerHand Hand) const;
 
-	/** Position vector used for all joints. */
-	FVector TestPosition = FVector::ZeroVector;
+	/** Set tracking status. */
+	void SetTracked(bool bIsTracked, EControllerHand Hand = EControllerHand::AnyHand);
 
-	FQuat TestOrientation = FQuat::Identity;
+	/** Set grab state. */
+	void SetGrabbing(bool bIsGrabbing, EControllerHand Hand = EControllerHand::AnyHand);
 
-	/** Radius used for joints. */
-	float TestRadius = 1.0f;
+	/** Set select state. */
+	void SetSelectPressed(bool bIsSelectPressed, EControllerHand Hand = EControllerHand::AnyHand);
 
-	/** Enable grab state. */
-	bool bIsGrabbing = false;
+	/** Set joint position. */
+	void SetJointPosition(const FVector& Position, EControllerHand Hand, EUxtHandJoint Joint);
 
-	/** Enable select state. */
-	bool bIsSelectPressed = false;
+	/** Set position for all joints of the hand. */
+	void SetAllJointPositions(const FVector& Position, EControllerHand Hand = EControllerHand::AnyHand);
+
+	/** Set joint orientation. */
+	void SetJointOrientation(const FQuat& Orientation, EControllerHand Hand, EUxtHandJoint Joint);
+
+	/** Set orientation for all joints of the hand. */
+	void SetAllJointOrientations(const FQuat& Orientation, EControllerHand Hand = EControllerHand::AnyHand);
+
+	/** Set joint radius. */
+	void SetJointRadius(float Radius, EControllerHand Hand, EUxtHandJoint Joint);
+
+	/** Set radius for all joints of the hand. */
+	void SetAllJointRadii(float Radius, EControllerHand Hand = EControllerHand::AnyHand);
+
+private:
+
+	/** Data for the left hand. */
+	FUxtTestHandData LeftHandData;
+
+	/** Data for the right hand. */
+	FUxtTestHandData RightHandData;
 };
 

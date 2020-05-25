@@ -130,23 +130,21 @@ void HandConstraintComponentSpec::Define()
 
 			LatentIt("goal should be invalid when hand tracking is lost", [this](const FDoneDelegate& Done)
 				{
-					FrameQueue.Enqueue([this]()
-						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
-						});
+					UxtTestUtils::GetTestHandTracker().SetTracked(false);
+
 					FrameQueue.Enqueue([this]()
 						{
 							TestFalse("Hand bounds are valid", (bool)HandConstraint->GetHandBounds().IsValid);
 							TestFalse("Goal is valid", HandConstraint->HasValidGoal());
 
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
 						});
 					FrameQueue.Enqueue([this]()
 						{
 							TestTrue("Hand bounds are valid", (bool)HandConstraint->GetHandBounds().IsValid);
 							TestTrue("Goal is valid", HandConstraint->HasValidGoal());
 
-							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
+							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
 					FrameQueue.Enqueue([this, Done]()
 						{
@@ -161,10 +159,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -188,10 +186,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -215,10 +213,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -243,10 +241,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -271,7 +269,7 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
 							HandConstraint->Hand = EControllerHand::Left;
 						});
 
@@ -287,7 +285,7 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
 							HandConstraint->Hand = EControllerHand::Right;
 						});
 
@@ -303,7 +301,7 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
 
 							TestEqual("Hand", HandConstraint->Hand, EControllerHand::AnyHand);
 							// Left is expected default
@@ -317,7 +315,7 @@ void HandConstraintComponentSpec::Define()
 							// Left is expected default when both hands are tracked
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Left);
 
-							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
+							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
 
 					FrameQueue.Enqueue([this]()
@@ -325,7 +323,7 @@ void HandConstraintComponentSpec::Define()
 							// Disabling tracking should switch to the opposite hand
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Right);
 
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
 						});
 
 					FrameQueue.Enqueue([this]()
@@ -333,7 +331,7 @@ void HandConstraintComponentSpec::Define()
 							// No change when hand tracking is available for both
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Right);
 
-							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
+							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
 
 					FrameQueue.Enqueue([this]()
@@ -349,10 +347,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -372,8 +370,8 @@ void HandConstraintComponentSpec::Define()
 							HandConstraint->GetOwner()->SetActorRotation(HandConstraint->GetGoalRotation());
 
 							// Move the hand
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(20, -40, 90);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(20, -40, 90));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat());
 						});
 					FrameQueue.Enqueue([this]()
 						{
@@ -388,10 +386,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -411,8 +409,8 @@ void HandConstraintComponentSpec::Define()
 							HandConstraint->GetOwner()->SetActorRotation(HandConstraint->GetGoalRotation());
 
 							// Move the hand
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(20, -40, 90);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(20, -40, 90));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat());
 
 							// Delayed distance test, wait for time interval to test smoothing
 							// Timer is created from within the frame queue to ensure the previous frame timers have been executed.
@@ -431,10 +429,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -456,8 +454,8 @@ void HandConstraintComponentSpec::Define()
 							HandConstraint->GetOwner()->SetActorRotation(HandConstraint->GetGoalRotation());
 
 							// Move the hand
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(20, -40, 90);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(20, -40, 90));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat());
 						});
 					FrameQueue.Enqueue([this]()
 						{
@@ -472,10 +470,10 @@ void HandConstraintComponentSpec::Define()
 				{
 					FrameQueue.Enqueue([this]()
 						{
-							UxtTestUtils::GetTestHandTracker().bIsTracked = true;
-							UxtTestUtils::GetTestHandTracker().TestRadius = 1.5f;
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(70, 20, -15);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+							UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(70, 20, -15));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(40, -10, 2), FVector(0, 30, -20)).ToQuat());
 
 							HandConstraint->GoalMargin = 5.0f;
 							HandConstraint->Hand = EControllerHand::Left;
@@ -497,10 +495,10 @@ void HandConstraintComponentSpec::Define()
 							HandConstraint->GetOwner()->SetActorRotation(HandConstraint->GetGoalRotation());
 
 							// Move the hand
-							UxtTestUtils::GetTestHandTracker().TestPosition = FVector(20, -40, 90);
-							UxtTestUtils::GetTestHandTracker().TestOrientation = FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat();
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(20, -40, 90));
+							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FRotationMatrix::MakeFromXY(FVector(-10, 40, -20), FVector(0, 20, 30)).ToQuat());
 							// Disable hand tracking, goal should become invalid
-							UxtTestUtils::GetTestHandTracker().bIsTracked = false;
+							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
 
 					FrameQueue.Enqueue([this]()

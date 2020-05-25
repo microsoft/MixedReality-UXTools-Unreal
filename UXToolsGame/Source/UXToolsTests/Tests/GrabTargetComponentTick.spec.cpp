@@ -49,7 +49,7 @@ BEGIN_DEFINE_SPEC(GrabTargetComponentTickSpec, "UXTools.GrabTargetComponent", EA
 		// Tick once so the pointer can query overlaps and raise events.
 		FrameQueue.Enqueue([this, bEnableGrabbing]
 			{
-				UxtTestUtils::GetTestHandTracker().bIsGrabbing = bEnableGrabbing;
+				UxtTestUtils::GetTestHandTracker().SetGrabbing(bEnableGrabbing);
 			});
 		FrameQueue.Enqueue([this] {});
 
