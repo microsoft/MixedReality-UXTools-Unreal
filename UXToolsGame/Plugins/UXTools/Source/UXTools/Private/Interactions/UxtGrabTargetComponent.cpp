@@ -178,6 +178,43 @@ void UUxtGrabTargetComponent::GetSecondaryGrabPointer(bool &Valid, FUxtGrabPoint
 	}
 }
 
+bool UUxtGrabTargetComponent::ForceEndGrab()
+{
+	if (GrabPointers.Num() == 0)
+	{
+		return false;
+	}
+
+	// Cache active pointers, the GrabPointers array is resized while ending grabs.
+	TArray<UUxtNearPointerComponent*> NearPointers;
+	TArray<UUxtFarPointerComponent*> FarPointers;
+	NearPointers.Reserve(GrabPointers.Num());
+	FarPointers.Reserve(GrabPointers.Num());
+	for (const FUxtGrabPointerData& GrabPointer : GrabPointers)
+	{
+		if (GrabPointer.NearPointer)
+		{
+			NearPointers.Add(GrabPointer.NearPointer);
+		}
+		if (GrabPointer.FarPointer)
+		{
+			FarPointers.Add(GrabPointer.FarPointer);
+		}
+	}
+
+	// End grab for all pointers
+	for (UUxtNearPointerComponent* Pointer : NearPointers)
+	{
+		IUxtGrabTarget::Execute_OnEndGrab(this, Pointer);
+	}
+	for (UUxtFarPointerComponent* Pointer : FarPointers)
+	{
+		IUxtFarTarget::Execute_OnFarReleased(this, Pointer);
+	}
+
+	return true;
+}
+
 bool UUxtGrabTargetComponent::GetTickOnlyWhileGrabbed() const
 {
 	return bTickOnlyWhileGrabbed;

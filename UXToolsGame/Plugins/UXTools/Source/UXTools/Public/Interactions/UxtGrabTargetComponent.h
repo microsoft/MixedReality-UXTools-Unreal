@@ -151,6 +151,13 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	void GetSecondaryGrabPointer(bool &Valid, FUxtGrabPointerData &PointerData) const;
 
+	/**
+	 * Release all currently grabbing pointers.
+	 * Returns true if any pointers were grabbing and have been released, false if no pointers were grabbing.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Grabbable")
+	bool ForceEndGrab();
+
 	/** Compute the centroid of the grab points in world space. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	FVector GetGrabPointCentroid(const FTransform &Transform) const;
