@@ -2,7 +2,11 @@
 
 # Introduction
 
-UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help in the implementation of features commonly needed when developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the included features are complete and robust enough to use in your own projects. Only HoloLens 2 is supported at the moment.
+UX Tools for Unreal Engine (**UXT-Unreal**) is a UE game plugin with code, blueprints and example assets created to help in the implementation of features commonly needed when developing UX for mixed reality applications. 
+
+UXT-Unreal is part of the [Mixed Reality Toolkit for Unreal](https://github.com/microsoft/MixedRealityToolkit-Unreal) (**MRTK-Unreal**); it is the first of a set of components to facilitate Mixed Reality development in Unreal. 
+
+The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the included features are complete and robust enough to use in your own projects. Only HoloLens 2 is supported at the moment.
 
 Features:
 - [Input simulation](Docs/InputSimulation.md): simulated articulated hands and head pose for use in-editor. Great for improving development iteration times.
@@ -32,6 +36,13 @@ To make sure everything is working as expected, add a hand interaction actor and
 # Documentation
 
 The latest version of the documentation can be found [here](https://microsoft.github.io/MixedReality-UXTools-Unreal).
+
+# Additional Material
+
+- [MRTK-Unreal GitHub Page](https://github.com/microsoft/MixedRealityToolkit-Unreal)
+- [Unreal HoloLens 2 documentation](https://docs.unrealengine.com/en-US/Platforms/AR/HoloLens2/index.html)
+- [Microsoft's HoloLens 2 and Mixed Reality documentation](https://docs.microsoft.com/Windows/mixed-reality)
+- [Microsoft's Unreal Engine documentation](https://docs.microsoft.com/en-us/Windows/mixed-reality/unreal-development-overview)
 
 # Feedback and Contributions
 
