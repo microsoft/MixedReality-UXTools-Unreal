@@ -1,7 +1,7 @@
 variables:
   AgentPool: UXT-UE
   # paths to source code / build-tools scripts
-  UXTSourceDir: $(Build.SourcesDirectory)/MixedRealityUtils-UE
+  UXTSourceDir: $(Build.SourcesDirectory)/$(Build.Repository.Name)
   ToolsDir: $(Build.SourcesDirectory)/mixedrealitytoolkit.build
   # shortcuts to Unreal Engine tools
   UE4BatchFilesDir: $(UnrealEngine)/Engine/Build/BatchFiles
