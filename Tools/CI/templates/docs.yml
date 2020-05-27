@@ -21,11 +21,8 @@ steps:
     arguments: 'install docfx.console -Version $(DocFX.Version) -OutputDirectory $(Build.ArtifactStagingDirectory)'
 
 - powershell: |
-    if ("$(DocFX.PAT)" -ne "")
-    {
-        . nuget.exe sources -NonInteractive add -Name code2yaml -Source $(CIUtils.NugetFeed)
-        . nuget.exe sources -NonInteractive update -Name code2yaml -username VSTS -password $(DocFX.PAT) -StorePasswordInClearText
-    }
+    . nuget.exe sources -NonInteractive add -Name code2yaml -Source $(CIUtils.NugetFeed)
+    . nuget.exe sources -NonInteractive update -Name code2yaml -username VSTS -password $(DocFX.PAT) -StorePasswordInClearText
     . nuget.exe install code2yaml -Version $(code2yaml.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)
   displayName: 'Install code2yaml'
 
@@ -42,6 +39,10 @@ steps:
     $protocol, $url = "${{ parameters.DestRepoUrl }}".Split("//", 2)
     $protocol = ($protocol.TrimEnd("/")) + "//"
     $url = ($url.TrimStart("/"))
+    if ($url.contains('@'))
+    {
+        $_, $url = $url.Split("@", 2)    
+    }
     $CloneURL = "$($protocol)user:${{ parameters.PAT }}@$($url)"
 
     git clone -q $CloneURL ${{ parameters.DocsRepoDir }} -b ${{ parameters.DocsBranchName }}
