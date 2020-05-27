@@ -191,9 +191,9 @@ void UUxtBoundsControlComponent::BeginPlay()
 
 	// Generate a folder in editor builds for better organization of the scene hierarchy
 	FName FolderPath;
-	auto& Folders = FActorFolders::Get();
-	if (Folders.IsAvailable())
+	if (FActorFolders::IsAvailable())
 	{
+		FActorFolders& Folders = FActorFolders::Get();
 		FolderPath = Folders.GetFolderName(*GetWorld(), GetOwner()->GetFolderPath(), FName(GetOwner()->GetName() + TEXT("_Affordances")));
 		Folders.CreateFolder(*GetWorld(), FolderPath);
 		Folders.GetFolderProperties(*GetWorld(), FolderPath)->bIsExpanded = false;
@@ -230,7 +230,7 @@ void UUxtBoundsControlComponent::BeginPlay()
 						*AffordanceKindEnum->GetDisplayNameTextByValue((int64)affordance.Kind).ToString(),
 						affordance.BoundsLocation.X, affordance.BoundsLocation.Y, affordance.BoundsLocation.Z
 						));
-					if (Folders.IsAvailable())
+					if (FActorFolders::IsAvailable())
 					{
 						affordanceActor->SetFolderPath_Recursively(FolderPath);
 					}
