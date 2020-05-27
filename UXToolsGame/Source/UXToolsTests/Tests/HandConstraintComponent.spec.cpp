@@ -10,6 +10,7 @@
 #include "Tests/AutomationCommon.h"
 
 #include "FrameQueue.h"
+#include "HandConstraintListener.h"
 #include "UxtTestHandTracker.h"
 #include "UxtTestUtils.h"
 #include "Behaviors/UxtHandConstraintComponent.h"
@@ -28,6 +29,7 @@ BEGIN_DEFINE_SPEC(HandConstraintComponentSpec, "UXTools.HandConstraintComponent"
 
 	FFrameQueue FrameQueue;
 	UUxtHandConstraintComponent* HandConstraint;
+	UHandConstraintListener* HandConstraintListener;
 
 END_DEFINE_SPEC(HandConstraintComponentSpec)
 
@@ -43,7 +45,7 @@ void HandConstraintComponentSpec::TestGoal(const FVector& ExpectedLocation, cons
 	//auto rg = HandConstraint->GetGoalRotation();
 	//UE_LOG(LogTemp, Display, TEXT("goal LOC FVector(%.4ff, %.4ff, %.4ff)"), pg.X, pg.Y, pg.Z);
 	//UE_LOG(LogTemp, Display, TEXT("goal ROT FQuat(%.4ff, %.4ff, %.4ff, %.4ff)"), rg.X, rg.Y, rg.Z, rg.W);
-	TestTrue("Goal is valid", HandConstraint->HasValidGoal());
+	TestTrue("Constraint is active", HandConstraint->IsConstraintActive());
 	TestEqual("Goal location", HandConstraint->GetGoalLocation(), ExpectedLocation, 1.0e-3f);
 	TestQuatEqual("Goal rotation", HandConstraint->GetGoalRotation(), ExpectedRotation, 1.0e-3f);
 }
@@ -69,7 +71,7 @@ void HandConstraintComponentSpec::EnqueueGoalLocationTest(EControllerHand Hand, 
 		{
 			//auto v = HandConstraint->GetGoalLocation();
 			//UE_LOG(LogTemp, Display, TEXT("LOC FVector(%.4ff, %.4ff, %.4ff)"), v.X, v.Y, v.Z);
-			TestTrue("Goal is valid", HandConstraint->HasValidGoal());
+			TestTrue("Constraint is active", HandConstraint->IsConstraintActive());
 			TestEqual("Goal location", HandConstraint->GetGoalLocation(), ExpectedGoalLocation, 1.0e-3f);
 		});
 }
@@ -85,7 +87,7 @@ void HandConstraintComponentSpec::EnqueueGoalRotationTest(EControllerHand Hand, 
 		{
 			//auto r = HandConstraint->GetGoalRotation();
 			//UE_LOG(LogTemp, Display, TEXT("ROT FQuat(%.4ff, %.4ff, %.4ff, %.4ff)"), r.X, r.Y, r.Z, r.W);
-			TestTrue("Goal is valid", HandConstraint->HasValidGoal());
+			TestTrue("Constraint is active", HandConstraint->IsConstraintActive());
 			TestQuatEqual("Goal rotation", HandConstraint->GetGoalRotation(), ExpectedGoalRotation, 1.0e-3f);
 		});
 }
@@ -108,6 +110,12 @@ void HandConstraintComponentSpec::Define()
 					Actor->SetRootComponent(Root);
 					Root->RegisterComponent();
 					HandConstraint = NewObject<UUxtHandConstraintComponent>(Actor);
+					// Create listener before registering so all events are recorded
+					HandConstraintListener = NewObject<UHandConstraintListener>(HandConstraint);
+					HandConstraint->OnConstraintActivated.AddDynamic(HandConstraintListener, &UHandConstraintListener::OnConstraintActivated);
+					HandConstraint->OnConstraintDeactivated.AddDynamic(HandConstraintListener, &UHandConstraintListener::OnConstraintDeactivated);
+					HandConstraint->OnBeginTracking.AddDynamic(HandConstraintListener, &UHandConstraintListener::OnBeginTracking);
+					HandConstraint->OnEndTracking.AddDynamic(HandConstraintListener, &UHandConstraintListener::OnEndTracking);
 					HandConstraint->RegisterComponent();
 
 					// Register all new components.
@@ -128,28 +136,36 @@ void HandConstraintComponentSpec::Define()
 					GEngine->ForceGarbageCollection();
 				});
 
-			LatentIt("goal should be invalid when hand tracking is lost", [this](const FDoneDelegate& Done)
+			LatentIt("should become inactive when hand tracking is lost", [this](const FDoneDelegate& Done)
 				{
+					// Start deactivated
 					UxtTestUtils::GetTestHandTracker().SetTracked(false);
 
 					FrameQueue.Enqueue([this]()
 						{
 							TestFalse("Hand bounds are valid", (bool)HandConstraint->GetHandBounds().IsValid);
-							TestFalse("Goal is valid", HandConstraint->HasValidGoal());
+							TestFalse("Constraint is active", HandConstraint->IsConstraintActive());
+							// Events start at 1 because the constraint is active before losing hand tracking
+							TestEqual("ConstraintActivated events", HandConstraintListener->NumConstraintActivated, 1);
+							TestEqual("ConstraintDeactivated events", HandConstraintListener->NumConstraintDeactivated, 1);
 
 							UxtTestUtils::GetTestHandTracker().SetTracked(true);
 						});
 					FrameQueue.Enqueue([this]()
 						{
 							TestTrue("Hand bounds are valid", (bool)HandConstraint->GetHandBounds().IsValid);
-							TestTrue("Goal is valid", HandConstraint->HasValidGoal());
+							TestTrue("Constraint is active", HandConstraint->IsConstraintActive());
+							TestEqual("ConstraintActivated events", HandConstraintListener->NumConstraintActivated, 2);
+							TestEqual("ConstraintDeactivated events", HandConstraintListener->NumConstraintDeactivated, 1);
 
 							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
 					FrameQueue.Enqueue([this, Done]()
 						{
 							TestFalse("Hand bounds are valid", (bool)HandConstraint->GetHandBounds().IsValid);
-							TestFalse("Goal is valid", HandConstraint->HasValidGoal());
+							TestFalse("Constraint is active", HandConstraint->IsConstraintActive());
+							TestEqual("ConstraintActivated events", HandConstraintListener->NumConstraintActivated, 2);
+							TestEqual("ConstraintDeactivated events", HandConstraintListener->NumConstraintDeactivated, 2);
 
 							Done.Execute();
 						});
@@ -270,12 +286,19 @@ void HandConstraintComponentSpec::Define()
 					FrameQueue.Enqueue([this]()
 						{
 							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+
+							// Left is expected default
+							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Left);
+
 							HandConstraint->Hand = EControllerHand::Left;
 						});
 
 					FrameQueue.Enqueue([this]()
 						{
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Left);
+							// Left hand is default, no change in tracking should happen
+							TestEqual("BeginTracking events", HandConstraintListener->NumConstraintActivated, 1);
+							TestEqual("EndTracking events", HandConstraintListener->NumConstraintDeactivated, 0);
 						});
 
 					FrameQueue.Enqueue([Done]() { Done.Execute(); });
@@ -286,12 +309,19 @@ void HandConstraintComponentSpec::Define()
 					FrameQueue.Enqueue([this]()
 						{
 							UxtTestUtils::GetTestHandTracker().SetTracked(true);
+
+							// Left is expected default
+							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Left);
+
 							HandConstraint->Hand = EControllerHand::Right;
 						});
 
 					FrameQueue.Enqueue([this]()
 						{
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Right);
+							// Should change from default left hand
+							TestEqual("BeginTracking events", HandConstraintListener->NumConstraintActivated, 1);
+							TestEqual("EndTracking events", HandConstraintListener->NumConstraintDeactivated, 0);
 						});
 
 					FrameQueue.Enqueue([Done]() { Done.Execute(); });
@@ -314,6 +344,9 @@ void HandConstraintComponentSpec::Define()
 						{
 							// Left is expected default when both hands are tracked
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Left);
+							// Left hand is default, no change in tracking should happen
+							TestEqual("BeginTracking events", HandConstraintListener->NumConstraintActivated, 1);
+							TestEqual("EndTracking events", HandConstraintListener->NumConstraintDeactivated, 0);
 
 							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
@@ -322,6 +355,9 @@ void HandConstraintComponentSpec::Define()
 						{
 							// Disabling tracking should switch to the opposite hand
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Right);
+							// Lost tracking should send EndTracking event
+							TestEqual("BeginTracking events", HandConstraintListener->NumConstraintActivated, 1);
+							TestEqual("EndTracking events", HandConstraintListener->NumConstraintDeactivated, 1);
 
 							UxtTestUtils::GetTestHandTracker().SetTracked(true);
 						});
@@ -330,6 +366,9 @@ void HandConstraintComponentSpec::Define()
 						{
 							// No change when hand tracking is available for both
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Right);
+							// Tracking starts again
+							TestEqual("BeginTracking events", HandConstraintListener->NumConstraintActivated, 2);
+							TestEqual("EndTracking events", HandConstraintListener->NumConstraintDeactivated, 1);
 
 							UxtTestUtils::GetTestHandTracker().SetTracked(false);
 						});
@@ -338,6 +377,9 @@ void HandConstraintComponentSpec::Define()
 						{
 							// And flip again back to the left hand when tracking is lost
 							TestEqual("Tracked hand", HandConstraint->GetTrackedHand(), EControllerHand::Left);
+							// Lost tracking should send EndTracking event
+							TestEqual("BeginTracking events", HandConstraintListener->NumConstraintActivated, 2);
+							TestEqual("EndTracking events", HandConstraintListener->NumConstraintDeactivated, 2);
 						});
 
 					FrameQueue.Enqueue([Done]() { Done.Execute(); });
@@ -504,7 +546,7 @@ void HandConstraintComponentSpec::Define()
 					FrameQueue.Enqueue([this]()
 						{
 							TestFalse("Hand bounds are valid", (bool)HandConstraint->GetHandBounds().IsValid);
-							TestFalse("Goal is valid", HandConstraint->HasValidGoal());
+							TestFalse("Constraint is active", HandConstraint->IsConstraintActive());
 
 							TestActorDistance(FVector(67.4658f, 28.8696f, -15.0000f), FQuat(-0.0986f, -0.0202f, -0.9747f, 0.1998f), KINDA_SMALL_NUMBER, KINDA_SMALL_NUMBER);
 						});

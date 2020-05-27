@@ -8,6 +8,8 @@
 #include "InputCoreTypes.h"
 #include "UxtHandConstraintComponent.generated.h"
 
+class UUxtHandConstraintComponent;
+
 /** Zone relative to the hand in which the object is placed. */
 UENUM(BlueprintType)
 enum class EUxtHandConstraintZone : uint8
@@ -44,6 +46,11 @@ enum class EUxtHandConstraintRotationMode : uint8
 	HandRotation,
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUxtHandConstraintActivatedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUxtHandConstraintDeactivatedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtHandConstraintBeginTrackingDelegate, EControllerHand, TrackedHand);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtHandConstraintEndTrackingDelegate, EControllerHand, TrackedHand);
+
 /**
  * Component that calculates a goal based on hand tracking and moves the owning actor.
  * 
@@ -69,14 +76,21 @@ public:
 	const FBox& GetHandBounds() const;
 
 	UFUNCTION(BlueprintGetter)
-	bool HasValidGoal() const;
+	bool IsConstraintActive() const;
 
 	UFUNCTION(BlueprintGetter)
 	const FVector& GetGoalLocation() const;
 
 	UFUNCTION(BlueprintGetter)
 	const FQuat& GetGoalRotation() const;
-	
+
+	/**
+	 * Returns true if the given hand is eligible for the constraint.
+	 * If the hand is rejected the constraint will be deactivated.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Hand Constraint")
+	virtual bool IsHandUsableForConstraint(EControllerHand NewHand) const;
+
 public:
 
 	/**
@@ -106,7 +120,7 @@ public:
 	 * Actor transform is moved towards the goal if true.
 	 * Disable this to only compute the goal without changing the actor transform.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint", meta = (ClampMin = "0.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint")
 	bool bMoveOwningActor = true;
 
 	/**
@@ -123,6 +137,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint", meta = (ClampMin = "0.0"))
 	float RotationLerpTime = 0.05f;
 
+	/** Event raised when the constraint becomes active, as indicated by the bIsConstraintActive property. */
+	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	FUxtHandConstraintActivatedDelegate OnConstraintActivated;
+
+	/** Event raised when the constraint becomes inactive, as indicated by the bIsConstraintActive property. */
+	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	FUxtHandConstraintDeactivatedDelegate OnConstraintDeactivated;
+
+	/** Event raised when the constraint begins tracking a hand. */
+	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	FUxtHandConstraintBeginTrackingDelegate OnBeginTracking;
+
+	/** Event raised when the constraint ends tracking a hand. */
+	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	FUxtHandConstraintEndTrackingDelegate OnEndTracking;
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -133,17 +163,26 @@ private:
 	/** Direction of the safe zone from the hand origin. */
 	FVector GetZoneDirection(const FVector& HandLocation, const FQuat& HandRotation) const;
 
+	/** Updates hand tracking state, hand bounds, goal positions, and determines if the constraint is active. */
+	void UpdateConstraint();
+
 	/**
 	 * Check for available hands and set the current tracked hand.
 	 * Returns true if a tracked hand was found and the output location and rotation are valid.
 	 */
-	bool UpdateHandTracking(FVector& OutPalmLocation, FQuat& OutPalmRotation);
+	bool UpdateTrackedHand(FVector& OutPalmLocation, FQuat& OutPalmRotation);
 
-	/** Compute hand bounding box from joint transforms and radii. */
-	void UpdateHandBounds(const FVector& PalmLocation, const FQuat& PalmRotation);
+	/**
+	 * Compute hand bounding box from joint transforms and radii.
+	 * Returns true if the hand bounds were successfully updated.
+	 */
+	bool UpdateHandBounds(const FVector& PalmLocation, const FQuat& PalmRotation);
 
-	/** Compute goal location and rotation by projecting onto the hand bounds. */
-	void UpdateGoal(const FVector& PalmLocation, const FQuat& PalmRotation);
+	/**
+	 * Compute goal location and rotation by projecting onto the hand bounds.
+	 * Returns true if a valid goal could be computed.
+	 */
+	bool UpdateGoal(const FVector& PalmLocation, const FQuat& PalmRotation);
 
 	/** Move the actor towards the target location and rotation. */
 	void AddMovement(float DeltaTime);
@@ -158,9 +197,13 @@ private:
 	UPROPERTY(BlueprintGetter = GetHandBounds, Transient, Category = "Hand Constraint")
 	FBox HandBounds;
 
-	/** True if the goal location is valid, otherwise goal should not be used */
-	UPROPERTY(BlueprintGetter = HasValidGoal, Transient, Category = "Hand Constraint")
-	bool bHasValidGoal;
+	/**
+	 * True if a usable hand was found and the constraint goal is valid.
+	 * OnConstraintActivated and OnConstraintDeactivated will be called when the active state changes.
+	 * While the constraint is active and the bMoveOwningActor flag is set it will move the actor towards the goal.
+	 */
+	UPROPERTY(BlueprintGetter = IsConstraintActive, Transient, Category = "Hand Constraint")
+	bool bIsConstraintActive;
 
 	/** Goal location for the constraint. */
 	UPROPERTY(BlueprintGetter = GetGoalLocation, Transient, Category = "Hand Constraint")

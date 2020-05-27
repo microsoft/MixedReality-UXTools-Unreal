@@ -31,3 +31,19 @@ Two main rotation modes are supported:
 The zone direction and the rotation can be configured independently. For example the zone offset can be aligned with the palm, while the rotation faces the camera:
 
 ![Mixed rotation modes](Images/HandConstraint/MixedRotation.png)
+
+## Constraint Activation
+
+The constraint becomes active when a usable hand could be found, which matches the _Hand_ property. If _Any Hand_ is selected, either left or right hand will be used, depending on which hand starts tracking first. If the current _Tracked Hand_ is lost the opposite hand will be used. The constraint becomes inactive when neither hand is found.
+
+By default the constraint will always have a valid goal if a usable hand is tracking. Extended constraint variants can have further conditions, such as the [Palm-Up constraint](PalmUpConstraintComponent.md) which only becomes when the hand faces the camera.
+
+## Events
+
+* _Constraint Activated/Deactivated_: Called when the constraint becomes active or inactive respectively.
+
+  The basic HandConstraintComponent only deactivates when hand tracking is lost. Extended hand constraint classes can have additional conditions. For example the [Palm-Up constraint](PalmUpConstraintComponent.md) also requires that the palm is facing the camera.
+
+* _Begin/End Tracking_: Called when a hand starts tracking or when tracking is lost.
+
+  This includes the case where the Hand settings is 'Any Hand' and tracking switches from one hand to the other. In this case first the EndTracking event for the old hand is called and then the BeginTracking event for the new hand.
