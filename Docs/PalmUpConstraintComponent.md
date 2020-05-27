@@ -7,7 +7,7 @@
 
 ## Usage
 
-Create a PalmUpConstraintComponent on an Actor. See [Hand constraint usage](HandConstraintComponent.md#Usage) for common settings.
+Create a PalmUpConstraintComponent on an Actor. See Hand constraint documentation for common settings.
 
 The Palm up constraint will activate when the palm normal is within a cone of size _Max Palm Angle_ of the camera direction.
 
