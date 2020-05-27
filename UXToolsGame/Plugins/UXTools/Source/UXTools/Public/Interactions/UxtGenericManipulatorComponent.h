@@ -88,6 +88,8 @@ protected:
 	/** Compute orientation that invariant in camera space. */
 	FQuat GetViewInvariantRotation() const;
 
+	virtual void BeginPlay() override;
+
 public:
 
 	/** Enabled manipulation modes. */
@@ -101,6 +103,10 @@ public:
 	/** Enabled transformations in two-handed manipulation. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtTwoHandTransformMode))
 	uint8 TwoHandTransformModes;
+
+	/** The component to transform, will default to the root scene component if not specified */
+	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = GenericManipulator)
+	FComponentReference TargetComponent;
 
 private:
 

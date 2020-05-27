@@ -78,6 +78,7 @@ protected:
 	UxtManipulationMoveLogic* MoveLogic; // computes move for one and two hands
 	UxtTwoHandManipulationRotateLogic* TwoHandRotateLogic; // computes rotation for two hands
 	UxtTwoHandManipulationScaleLogic* TwoHandScaleLogic; // computes scale for two hands
+
 private:
 
 	UFUNCTION()
@@ -98,5 +99,6 @@ public:
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Manipulator Component")
 	bool bAutoSetInitialTransform = true;
 
+	/** The component to transform, will default to the root scene component if not specified */
+	USceneComponent* TransformTarget = nullptr;
 };
-

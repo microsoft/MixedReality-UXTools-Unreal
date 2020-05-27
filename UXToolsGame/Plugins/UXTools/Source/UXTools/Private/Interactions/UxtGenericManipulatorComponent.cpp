@@ -54,6 +54,31 @@ FQuat UUxtGenericManipulatorComponent::GetViewInvariantRotation() const
 	return CameraSpaceYawPitchRotation.Quaternion() * InitialCameraSpaceTransform.GetRotation();
 }
 
+void UUxtGenericManipulatorComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Set the user defined transform target if specified
+	if (TargetComponent.ComponentProperty != NAME_None)
+	{
+		// FComponentReference::GetComponent() doesn't seem to find the component if it's not part of the inherited blueprint.
+		AActor* Actor = TargetComponent.OtherActor ? TargetComponent.OtherActor : GetOwner();
+		TSet<UActorComponent*> Components = Actor->GetComponents();
+
+		for (UActorComponent* Component : Components)
+		{
+			if (Component->GetFName() == TargetComponent.ComponentProperty)
+			{
+				USceneComponent* SceneComponent = Cast<USceneComponent>(Component);
+				if (SceneComponent)
+				{
+					TransformTarget = SceneComponent;
+				}
+			}
+		}
+	}
+}
+
 bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
 {
 	bool bHasPrimaryPointer;

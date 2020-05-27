@@ -100,7 +100,7 @@ void UUxtManipulatorComponentBase::SmoothTransform(const FTransform& SourceTrans
 	FVector SmoothLoc;
 	FQuat SmoothRot;
 
-	FTransform CurTransform = GetComponentTransform();
+	FTransform CurTransform = TransformTarget->GetComponentTransform();
 
 	FVector CurLoc = CurTransform.GetLocation();
 	FVector SourceLoc = SourceTransform.GetLocation();
@@ -131,7 +131,7 @@ void UUxtManipulatorComponentBase::SmoothTransform(const FTransform& SourceTrans
 
 void UUxtManipulatorComponentBase::SetInitialTransform()
 {
-	InitialTransform = GetComponentTransform();
+	InitialTransform = TransformTarget->GetComponentTransform();
 
 	FTransform headPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
 	InitialCameraSpaceTransform = InitialTransform * headPose.Inverse();
@@ -139,15 +139,17 @@ void UUxtManipulatorComponentBase::SetInitialTransform()
 
 void UUxtManipulatorComponentBase::ApplyTargetTransform(const FTransform &TargetTransform)
 {
-	FTransform currentActorTransform = GetOwner()->GetActorTransform();
-	FTransform offsetTransform = GetComponentTransform() * currentActorTransform.Inverse();
-
-	GetOwner()->SetActorTransform(TargetTransform * offsetTransform);
+	TransformTarget->SetWorldTransform(TargetTransform);
 }
 
 void UUxtManipulatorComponentBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (!TransformTarget)
+	{
+		TransformTarget = GetOwner()->GetRootComponent();
+	}
 
 	if (bAutoSetInitialTransform)
 	{
@@ -164,14 +166,14 @@ void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent
 		SetInitialTransform();
 
 		MoveLogic->Setup(GetPointersTransformCentroid(),
-			GetGrabPointCentroid(GetComponentTransform()),
-			GetComponentTransform(),
+			GetGrabPointCentroid(TransformTarget->GetComponentTransform()),
+			TransformTarget->GetComponentTransform(),
 			UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
 
 		if (NumGrabPointers > 1)
 		{
-			TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
-			TwoHandScaleLogic->Setup(GetGrabPointers(), GetComponentScale());
+			TwoHandRotateLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentRotation().Quaternion());
+			TwoHandScaleLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentScale());
 		}
 	}
 }
