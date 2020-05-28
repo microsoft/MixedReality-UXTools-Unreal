@@ -88,7 +88,7 @@ void UUxtInputSimulationLocalPlayerSubsystem::CreateHmdCameraActor(UWorld* World
 
 		UCameraComponent* HmdCameraComponent = NewObject<UCameraComponent>(HmdCameraActor, TEXT("Camera"));
 		HmdCameraActor->AddOwnedComponent(HmdCameraComponent);
-		HmdCameraComponent->SetupAttachment(HmdCameraActor->GetRootComponent());
+		HmdCameraActor->SetRootComponent(HmdCameraComponent);
 		HmdCameraComponent->RegisterComponent();
 		// Camera should use HMD location
 		HmdCameraComponent->bLockToHmd = true;
