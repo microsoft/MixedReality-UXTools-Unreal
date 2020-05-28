@@ -224,16 +224,14 @@ void UUxtBoundsControlComponent::BeginPlay()
 				}
 
 #if WITH_EDITOR
+				if (FActorFolders::IsAvailable())
 				{
 					affordanceActor->SetActorLabel(FString::Printf(TEXT("%s %s (%.0f %.0f %.0f)"),
 						*GetOwner()->GetName(),
 						*AffordanceKindEnum->GetDisplayNameTextByValue((int64)affordance.Kind).ToString(),
 						affordance.BoundsLocation.X, affordance.BoundsLocation.Y, affordance.BoundsLocation.Z
 						));
-					if (FActorFolders::IsAvailable())
-					{
-						affordanceActor->SetFolderPath_Recursively(FolderPath);
-					}
+					affordanceActor->SetFolderPath_Recursively(FolderPath);
 				}
 #endif
 			}
