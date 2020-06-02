@@ -10,7 +10,7 @@
 #include "Tests/AutomationCommon.h"
 
 #include "FrameQueue.h"
-#include "PointerTestSequence.h"
+#include "UxtTestTargetComponent.h"
 #include "UxtTestHandTracker.h"
 #include "UxtTestUtils.h"
 #include "Input/UxtNearPointerComponent.h"

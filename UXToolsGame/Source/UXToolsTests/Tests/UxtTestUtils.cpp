@@ -11,7 +11,7 @@
 #include "Features/IModularFeatures.h"
 
 #include "Input/UxtNearPointerComponent.h"
-#include "PointerTestSequence.h"
+#include "UxtTestTargetComponent.h"
 #include "UxtTestHandTracker.h"
 
 namespace

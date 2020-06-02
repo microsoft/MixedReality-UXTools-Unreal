@@ -11,11 +11,9 @@
 #include "Input/UxtHandInteractionActor.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
-#include "PointerTestSequence.h"
+#include "UxtTestTargetComponent.h"
 #include "UxtTestHandTracker.h"
 #include "UxtTestUtils.h"
-
-using namespace UxtPointerTests;
 
 #if WITH_DEV_AUTOMATION_TESTS
 
