@@ -142,7 +142,6 @@ protected:
 private:
 
 	bool bIsGrabbing = false;
-
 };
 
 

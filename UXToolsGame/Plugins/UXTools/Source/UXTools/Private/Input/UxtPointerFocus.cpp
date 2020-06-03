@@ -291,7 +291,7 @@ bool FUxtGrabPointerFocus::ImplementsTargetInterface(UObject* Target) const
 bool FUxtGrabPointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
 {
 	float NotUsed;
-	return 
+	return
 		IUxtGrabTarget::Execute_IsGrabFocusable((UObject*)Target, Primitive) &&
 		FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
@@ -358,8 +358,8 @@ bool FUxtPokePointerFocus::ImplementsTargetInterface(UObject* Target) const
 bool FUxtPokePointerFocus::GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const
 {
 	float NotUsed;
-	return 
-		IUxtPokeTarget::Execute_IsPokeFocusable((UObject*)Target, Primitive) && 
+	return
+		IUxtPokeTarget::Execute_IsPokeFocusable((UObject*)Target, Primitive) &&
 		FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 

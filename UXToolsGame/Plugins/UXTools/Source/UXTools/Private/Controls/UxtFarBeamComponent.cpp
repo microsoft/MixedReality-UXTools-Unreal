@@ -4,11 +4,10 @@
 #include "Controls/UxtFarBeamComponent.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "UObject/ConstructorHelpers.h"
-#include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
-#include "Kismet/GameplayStatics.h"
 #include "GameFramework/Actor.h"
 #include "UXTools.h"
+#include "Engine/StaticMesh.h"
 
 
 UUxtFarBeamComponent::UUxtFarBeamComponent()
@@ -18,20 +17,16 @@ UUxtFarBeamComponent::UUxtFarBeamComponent()
 	// Will enable tick on far pointer activation
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshFinder(TEXT("/UXTools/Pointers/SM_Beam"));
-	check(MeshFinder.Object);
-	SetStaticMesh(MeshFinder.Object);
-
-	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Pointers/M_Beam"));
-	check(MaterialFinder.Object);
-	SetMaterial(0, MaterialFinder.Object);
-
 	SetCastShadow(false);
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> Mesh(TEXT("StaticMesh'/UXTools/Pointers/Meshes/SM_Tube.SM_Tube'"));
+	check(Mesh.Object);
+	SetStaticMesh(Mesh.Object);
+	SetMobility(EComponentMobility::Movable);
 	SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetHiddenInGame(true);
-
-	// Set a reasonable default beam diameter
-	SetRelativeScale3D(FVector(1.0f, 0.1f, 0.1f));
+	BindGrab = BindSplineLength = false;
+	
 }
 
 void UUxtFarBeamComponent::BeginPlay()
@@ -54,6 +49,11 @@ void UUxtFarBeamComponent::BeginPlay()
 		// Subscribe to pointer state changes
 		FarPointer->OnFarPointerEnabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerEnabled);
 		FarPointer->OnFarPointerDisabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerDisabled);
+		UMaterial* Material = GetMaterial(0)->GetMaterial();
+		
+		SetBeamMaterial(Material);
+
+
 	}
 	else
 	{
@@ -84,29 +84,82 @@ void UUxtFarBeamComponent::OnFarPointerDisabled(UUxtFarPointerComponent* FarPoin
 	SetHiddenInGame(true);
 }
 
+void UUxtFarBeamComponent::SetBeamMaterial(UMaterial* NewMaterial)
+{
+	if (NewMaterial)
+	{
+		MID = CreateDynamicMaterialInstance(0, NewMaterial);
+		if (MID)
+		{
+			// first check for our target bound parameters and set them to defaults.
+			TArray<FMaterialParameterInfo> OutParameterInfo;
+			TArray<FGuid> OutParameterIds;
+			NewMaterial->GetAllScalarParameterInfo(OutParameterInfo, OutParameterIds);
+
+			BindGrab = false;
+			BindSplineLength = false;
+			for (int i = 0; i < OutParameterInfo.Num(); ++i)
+			{
+				if (OutParameterInfo[i].Name == FName("handIndex"))
+				{
+					float HandIndex = FarPointerWeak->Hand == EControllerHand::Left ? 0.0f : 1.0f;
+					MID->SetScalarParameterValue(FName("handIndex"), HandIndex);
+				}
+				if (OutParameterInfo[i].Name == FName("IsGrabbing"))
+				{
+					MID->SetScalarParameterValue(FName("IsGrabbing"), 0.0f);
+					BindGrab = true;
+				}
+				if (OutParameterInfo[i].Name == FName("SplineLength"))
+				{
+					BindSplineLength = true;
+				}
+
+			}
+		}
+	}
+}
+
 void UUxtFarBeamComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	if (UUxtFarPointerComponent* FarPointer = FarPointerWeak.Get())
 	{
 		const FVector Start = FarPointer->GetRayStart();
 		const FVector End = FarPointer->GetHitPoint() + FarPointer->GetHitNormal() * HoverDistance;
+		float Len = (Start - End).Size();
 
-		// This direction may be different from the one given by the pointer orientation if the pointer is locked,
-		// as the hit point will be locked to the hit primitive instead of located somewhere along the pointer ray.
-		FVector Dir = End - Start;
+		FVector Target = Start +( FarPointer->GetPointerOrientation().GetForwardVector() * Len);
+		// Use hand forward vector to influence the beam start tangent
+		FVector SourceTangent = FarPointer->GetPointerOrientation().RotateVector(FVector(50, 0, 0));
+		// Make end tangent point directly at the target
+		FVector EndTangent =  End - Target;
+		SetStartPosition(Start, false);
+		SetEndPosition(End, false);
+		SetStartTangent(SourceTangent, false);
+		SetEndTangent(EndTangent, true);
 
-		// Scale beam along X with the beam length. Keep Y and Z scales untouched.
-		const float Length = Dir.Size();
-		Dir = Dir / Length;
-		FVector Scale = GetComponentScale();
-		Scale.X = Length;
+		
 
-		// Calculate our rotation by rotating the pointer one so its forward vector is aligned with the beam direction.
-		FQuat PointerOrientation = FarPointer->GetPointerOrientation();
-		FQuat Rotation = FQuat::FindBetweenNormals(PointerOrientation.GetForwardVector(), Dir) * PointerOrientation;
-
-		SetWorldTransform(FTransform(Rotation, Start, Scale));
+		if (MID)
+		{
+			if (BindSplineLength)
+			{
+				MID->SetScalarParameterValue(FName("SplineLength"), Len);
+			}
+			
+			if (BindGrab)
+			{
+				if (FarPointer->IsPressed())
+				{
+					MID->SetScalarParameterValue(FName("IsGrabbing"), 1.0f);
+				}
+				else
+				{
+					MID->SetScalarParameterValue(FName("IsGrabbing"), 0.0f);
+				}
+			}
+			
+		}
 	}
 }

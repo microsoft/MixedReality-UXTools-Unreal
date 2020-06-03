@@ -17,11 +17,11 @@ UUxtRingCursorComponent::UUxtRingCursorComponent()
 	// Used to update material parameters in response to scale changes
 	bWantsOnUpdateTransform = true;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshFinder(TEXT("/UXTools/Pointers/SM_UnitQuad"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshFinder(TEXT("/UXTools/Pointers/Meshes/SM_UnitQuad"));
 	check(MeshFinder.Object);
 	SetStaticMesh(MeshFinder.Object);
 
-	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Pointers/M_RingCursor"));
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Pointers/Materials/M_RingCursor"));
 	check(MaterialFinder.Object);
 	SetMaterial(0, MaterialFinder.Object);
 }

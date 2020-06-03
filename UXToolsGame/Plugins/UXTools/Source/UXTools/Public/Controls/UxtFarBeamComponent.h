@@ -4,18 +4,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/StaticMeshComponent.h"
+#include "Components/SplineMeshComponent.h"
 #include "UxtFarBeamComponent.generated.h"
 
 class UUxtFarPointerComponent;
-class UMaterialInterface;
-class APlayerCameraManager;
 
 /**
  * When added to an actor with a far pointer, this component displays a beam from the pointer ray start to the current hit point.
  */
-UCLASS(ClassGroup = UXTools, meta=(BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtFarBeamComponent : public UStaticMeshComponent
+UCLASS(ClassGroup = UXTools, HideCategories = SplineMeshComponent, meta = (BlueprintSpawnableComponent))
+class UXTOOLS_API UUxtFarBeamComponent : public USplineMeshComponent
 {
 	GENERATED_BODY()
 
@@ -27,8 +25,14 @@ public:
 	// UActorComponent interface
 
 	virtual void BeginPlay() override;
+
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	// Using this function you can change the beam material at runtime
+	UFUNCTION(BlueprintCallable, Category = "Far Beam")
+	void SetBeamMaterial(UMaterial* NewMaterial);
 
 	/** Distance over the hit surface to place beam end at. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Beam")
@@ -42,8 +46,16 @@ private:
 	UFUNCTION()
 	void OnFarPointerDisabled(UUxtFarPointerComponent* FarPointer);
 
-private:
+	/** Dynamic Material to pass internal state to shader */
+	UPROPERTY(Transient)
+	UMaterialInstanceDynamic* MID;
 
-	/** Far pointer in use. */	
+	/** Far pointer in use. */
 	TWeakObjectPtr<UUxtFarPointerComponent> FarPointerWeak;
+
+	/** Should we send grab to the material */
+	bool BindGrab;
+	/** Should we send spline length to the material */
+	bool BindSplineLength;
+
 };

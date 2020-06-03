@@ -10,7 +10,12 @@
     href: Manipulator.md
   - name: Follow Component
     href: FollowComponent.md
+  - name: Pinch Slider
+    href: PinchSlider.md
+  - name: Far Beam
+    href: FarBeam.md
   - name: Graphics
     href: Graphics.md
 - name: Contributing
   href: CONTRIBUTING.md
+  
