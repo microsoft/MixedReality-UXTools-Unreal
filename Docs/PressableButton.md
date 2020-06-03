@@ -64,13 +64,26 @@ For example, changing the `Button Size` from (16, 32, 32) to (16, 64, 32) will a
 
 Updating the `Button Label` will automatically adjust the button's text render component. Changing the `Button Icon` to a new unicode code point will generate the appropriate unicode character to index into a font containing the icon (e.g. `Font_SegoeMDL2_Regular_42`). Note, the font atlas will need to be updated to support any new icons which are not already present within the font atlas. 
 
-- To add a new icon, open the icon font, such as Font_SegoeMDL2_Regular_42. Under "Import Options" select the "Chars" property. Paste your icon's unicode character into the "Chars" property and save the font. Finally reimport the font uasset.
+- To add a new icon, open the icon font, such as `Font_SegoeMDL2_Regular_42`. Under "Import Options" select the "Chars" property. Paste your icon's unicode character into the "Chars" property and save the font. Finally reimport the font uasset.
 
 ### Scripting Logic
 
 All `UxtPressableButtonComponent` events are passed up to the parent `BP_ButtonHoloLens2` via the `BP_BaseButton` base class. So, any `BP_BaseButton` variables in other blueprints can easily bind to button events from the variable details panel without having to search for a child button component. In the below example "Hello" is printed when a `BP_BaseButton`, or any derived classes, are pressed:
 
 ![ButtonHoloLens2Events](Images/PressableButton/ButtonHoloLens2Events.png)
+
+### HoloLens 2 Button Variants
+
+A handful of derived `BP_ButtonHoloLens2` blueprints exist to exhibit behavior not found on a typical pressable button. These variants include:
+
+- `BP_ButtonHoloLens2Toggle`, displays an additional back plate based on the button's toggle state.
+![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Toggle.png)
+
+- `BP_ButtonHoloLens2ToggleCheck`, displays a check box icon based on the button's toggle state.
+![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Check.png)
+
+- `BP_ButtonHoloLens2ToggleSwitch`, displays a switch icon based on the button's toggle state.
+![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Switch.png)
 
 ## Public Properties
 
