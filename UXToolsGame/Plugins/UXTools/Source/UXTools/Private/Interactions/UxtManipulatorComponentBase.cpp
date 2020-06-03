@@ -160,31 +160,38 @@ void UUxtManipulatorComponentBase::BeginPlay()
 
 void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
 {
-	int NumGrabPointers = GetGrabPointers().Num();
+	const int NumGrabPointers = GetGrabPointers().Num();
+
 	if (NumGrabPointers != 0)
 	{
-		SetInitialTransform();
-
-		MoveLogic->Setup(GetPointersTransformCentroid(),
-			GetGrabPointCentroid(TransformTarget->GetComponentTransform()),
-			TransformTarget->GetComponentTransform(),
-			UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
-
-		if (NumGrabPointers > 1)
-		{
-			TwoHandRotateLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentRotation().Quaternion());
-			TwoHandScaleLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentScale());
-		}
+		UpdateManipulationLogic(NumGrabPointers);
 	}
 }
 
 void UUxtManipulatorComponentBase::OnManipulationEnd(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
 {
-	int NumGrabPointers = GetGrabPointers().Num();
-	if (NumGrabPointers != 1)
+	const int NumGrabPointers = GetGrabPointers().Num();
+
+	if (NumGrabPointers == 1)
 	{
-		// make sure to update the initial transform when we switch the hand mode (currently only two to one hand supported)
-		SetInitialTransform();
+		// Update the manipulation logic when we switch the hand mode (currently only two to one hand supported)
+		UpdateManipulationLogic(NumGrabPointers);
+	}
+}
+
+void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
+{
+	SetInitialTransform();
+
+	MoveLogic->Setup(GetPointersTransformCentroid(),
+		GetGrabPointCentroid(TransformTarget->GetComponentTransform()),
+		TransformTarget->GetComponentTransform(),
+		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
+
+	if (NumGrabPointers > 1)
+	{
+		TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
+		TwoHandScaleLogic->Setup(GetGrabPointers(), GetComponentScale());
 	}
 }
 

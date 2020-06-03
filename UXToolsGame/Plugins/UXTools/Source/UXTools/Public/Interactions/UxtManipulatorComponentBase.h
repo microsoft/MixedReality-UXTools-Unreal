@@ -87,6 +87,8 @@ private:
 	UFUNCTION()
 	void OnManipulationEnd(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
+	void UpdateManipulationLogic(int NumGrabPointers);
+
 public:
 
 	UPROPERTY(BlueprintReadonly, Category = "Manipulator Component")

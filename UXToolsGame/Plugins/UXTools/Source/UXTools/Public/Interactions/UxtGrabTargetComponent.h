@@ -107,11 +107,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateGrabFocusDelegate, UUxtGr
 /** Delegate for handling a focus exit event. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtExitGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
 
-/** Delegate for handling a BeginGrab event. */
+/** Delegate for handling a BeginGrab event. Grabbing pointer is added to the object before this is triggered. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtBeginGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
 /** Delegate for handling a UpdateGrab event. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
-/** Delegate for handling a EndGrab event. */
+/** Delegate for handling a EndGrab event. Grabbing pointer is removed from the object before this is triggered. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
 
 

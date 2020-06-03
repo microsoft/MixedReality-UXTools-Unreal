@@ -305,18 +305,23 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompone
 
 void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	int numRemoved = GrabPointers.RemoveAll([this, Pointer](const FUxtGrabPointerData& GrabData)
+	FUxtGrabPointerData PointerData;
+
+	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData)
 		{
 			if (GrabData.NearPointer == Pointer)
 			{
 				// Unlock the pointer focus so that another target can be selected.
 				Pointer->SetFocusLocked(false);
+				PointerData = GrabData;
 
-				OnEndGrab.Broadcast(this, GrabData);
 				return true;
 			}
 			return false;
 		});
+	check(NumRemoved == 1);
+
+	OnEndGrab.Broadcast(this, PointerData);
 
 	// make sure to update initial ptr transforms once a pointer gets removed to ensure
 	// calculations are performed on the correct starting values
@@ -371,16 +376,22 @@ void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponen
 
 void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	int numRemoved = GrabPointers.RemoveAll([this, Pointer](const FUxtGrabPointerData& PointerData)
+	FUxtGrabPointerData PointerData;
+
+	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData)
 		{
-			if (PointerData.FarPointer == Pointer)
+			if (GrabData.FarPointer == Pointer)
 			{
 				Pointer->SetFocusLocked(false);
-				OnEndGrab.Broadcast(this, PointerData);
+				PointerData = GrabData;
+
 				return true;
 			}
 			return false;
 		});
+	check(NumRemoved == 1);
+
+	OnEndGrab.Broadcast(this, PointerData);
 
 	// make sure to update initial ptr transforms once a pointer gets removed to ensure
 	// calculations are performed on the correct starting values

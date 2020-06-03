@@ -187,9 +187,9 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 
 	FTransform TargetTransform = InitialTransform;
 
-	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
-
 	GetOneHandRotation(TargetTransform, TargetTransform);
+
+	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 
 	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
 
