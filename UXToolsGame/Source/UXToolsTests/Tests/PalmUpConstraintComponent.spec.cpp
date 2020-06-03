@@ -70,10 +70,6 @@ void PalmUpConstraintComponentSpec::Define()
 
 					PalmUpConstraint->GetOwner()->Destroy();
 					PalmUpConstraint = nullptr;
-
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
 				});
 
 			LatentIt("should only be active when facing camera", [this](const FDoneDelegate& Done)

@@ -60,10 +60,6 @@ void GrabTargetComponentFocusLockSpec::Define()
 					Pointer = nullptr;
 					Target->GetOwner()->Destroy();
 					Target = nullptr;
-
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
 				});
 
 			LatentIt("should be released when target is deleted", [this](const FDoneDelegate& Done)

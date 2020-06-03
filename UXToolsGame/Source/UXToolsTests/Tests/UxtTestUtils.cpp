@@ -160,6 +160,7 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 {
 	FActorSpawnParameters p;
 	p.Name = Name;
+	p.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
 	AActor *hand = World->SpawnActor<AActor>(p);
 
 	USceneComponent* root = NewObject<USceneComponent>(hand);

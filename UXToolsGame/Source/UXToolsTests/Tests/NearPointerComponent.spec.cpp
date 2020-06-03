@@ -197,10 +197,6 @@ void NearPointerPokeSpec::Define()
 					bCurrentGrabbing = false;
 
 					FrameQueue.Reset();
-
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
 				});
 
 

@@ -94,10 +94,6 @@ void GenericManipulatorSpec::Define()
 					}
 					Pointer->GetOwner()->Destroy();
 					Pointer = nullptr;
-
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
 				});
 
 			LatentIt("should default to parent actor if no user defined target is set", [this](const FDoneDelegate& Done)

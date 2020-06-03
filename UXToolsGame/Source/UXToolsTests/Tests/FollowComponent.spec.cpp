@@ -113,10 +113,6 @@ void FollowComponentSpec::Define()
 
 					Follow->GetOwner()->Destroy();
 					Follow = nullptr;
-
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
 				});
 
 			LatentIt("stays within distance and angle limits", [this](const FDoneDelegate& Done)

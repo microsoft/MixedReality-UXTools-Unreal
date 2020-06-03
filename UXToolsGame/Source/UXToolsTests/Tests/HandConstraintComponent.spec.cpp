@@ -130,10 +130,6 @@ void HandConstraintComponentSpec::Define()
 
 					HandConstraint->GetOwner()->Destroy();
 					HandConstraint = nullptr;
-
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
 				});
 
 			LatentIt("should become inactive when hand tracking is lost", [this](const FDoneDelegate& Done)

@@ -134,10 +134,6 @@ void PressableButtonSpec::Define()
 						SecondButton->GetOwner()->Destroy();
 						SecondButton = nullptr;
 					}
-
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
 				});
 
 			LatentIt("should raise press and release when pointer moves forward and back", [this](const FDoneDelegate& Done)
@@ -399,10 +395,6 @@ void PressableButtonSpec::Define()
 				Button = nullptr;
 				Pointer->GetOwner()->Destroy();
 				Pointer = nullptr;
-
-				// Force GC so that destroyed actors are removed from the world.
-				// Running multiple tests will otherwise cause errors when creating duplicate actors.
-				GEngine->ForceGarbageCollection();
 			});
 
 			LatentIt("should raise press and release when pointer moves forward and back", [this](const FDoneDelegate& Done)
