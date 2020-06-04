@@ -215,7 +215,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	bool bHandIsGrabbing;
 	if (UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(Hand, bHandIsGrabbing))
 	{
-		if (bHandIsGrabbing != GrabFocus->IsGrabbing())
+		if (bHandIsGrabbing != bHandWasGrabbing && bHandIsGrabbing != GrabFocus->IsGrabbing())
 		{
 			if (bHandIsGrabbing)
 			{
@@ -226,6 +226,8 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 				GrabFocus->EndGrab(this);
 			}
 		}
+
+		bHandWasGrabbing = bHandIsGrabbing;
 	}
 }
 
@@ -233,6 +235,11 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 {
 	bool bOldActive = IsActive();
 	Super::SetActive(bNewActive, bReset);
+
+	if (!UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(Hand, bHandWasGrabbing))
+	{
+		bHandWasGrabbing = false;
+	}
 
 	if (bOldActive && !bNewActive)
 	{

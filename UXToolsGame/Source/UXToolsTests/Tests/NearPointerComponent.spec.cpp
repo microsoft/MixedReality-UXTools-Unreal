@@ -42,6 +42,7 @@ BEGIN_DEFINE_SPEC(NearPointerPokeSpec, "UXTools.NearPointer", EAutomationTestFla
 	void AddMovementKeyframe(const FVector& PointerLocation);
 	void ExpectFocusTargetIndex(int NewFocusTargetIndex);
 	void ExpectFocusTargetNone();
+	void ExpectGrabTargetNone();
 	void AddGrabKeyframe(bool bEnableGrab);
 
 	FFrameQueue FrameQueue;
@@ -127,6 +128,18 @@ void NearPointerPokeSpec::ExpectFocusTargetNone()
 	ExpectFocusTargetIndex(-1);
 }
 
+void NearPointerPokeSpec::ExpectGrabTargetNone()
+{
+	FrameQueue.Enqueue([this]()
+	{
+		for (const PointerTargetState& Target : Targets)
+		{
+			const bool bIsGrabbed = Target.Target->BeginGrabCount > Target.Target->EndGrabCount;
+			TestFalse("Target should not be grabbed", bIsGrabbed);
+		}
+	});
+}
+
 void NearPointerPokeSpec::AddGrabKeyframe(bool bEnableGrab)
 {
 	FrameQueue.Enqueue([bEnableGrab]
@@ -202,7 +215,6 @@ void NearPointerPokeSpec::Define()
 
 			LatentIt("should focus poke target when overlapping initially", [this](const FDoneDelegate& Done)
 				{
-					UWorld* World = UxtTestUtils::GetTestWorld();
 					AddTarget(TargetLocation);
 
 					AddMovementKeyframe(InsideTargetLocation);
@@ -213,7 +225,6 @@ void NearPointerPokeSpec::Define()
 
 			LatentIt("should focus poke target when entering", [this](const FDoneDelegate& Done)
 				{
-					UWorld* World = UxtTestUtils::GetTestWorld();
 					AddTarget(TargetLocation);
 
 					AddMovementKeyframe(OutsideTargetLocation);
@@ -238,7 +249,6 @@ void NearPointerPokeSpec::Define()
 
 			LatentIt("should focus single target", [this](const FDoneDelegate& Done)
 				{
-					UWorld* World = UxtTestUtils::GetTestWorld();
 					FVector p1(120, -20, -5);
 					AddTarget(p1);
 
@@ -254,7 +264,6 @@ void NearPointerPokeSpec::Define()
 
 			LatentIt("should focus two separate targets", [this](const FDoneDelegate& Done)
 				{
-					UWorld* World = UxtTestUtils::GetTestWorld();
 					FVector p1(120, -40, -5);
 					FVector p2(100, 30, 15);
 					AddTarget(p1);
@@ -274,7 +283,6 @@ void NearPointerPokeSpec::Define()
 
 			LatentIt("should focus two overlapping targets", [this](const FDoneDelegate& Done)
 				{
-					UWorld* World = UxtTestUtils::GetTestWorld();
 					FVector p1(110, 4, -5);
 					FVector p2(115, 12, -2);
 					AddTarget(p1);
@@ -294,7 +302,6 @@ void NearPointerPokeSpec::Define()
 
 			LatentIt("should focus grab target when overlapping initially", [this](const FDoneDelegate& Done)
 				{
-					UWorld* World = UxtTestUtils::GetTestWorld();
 					AddTarget(TargetLocation);
 
 					AddMovementKeyframe(InsideTargetLocation);
@@ -309,7 +316,6 @@ void NearPointerPokeSpec::Define()
 
 			LatentIt("should focus grab target when entering", [this](const FDoneDelegate& Done)
 				{
-					UWorld* World = UxtTestUtils::GetTestWorld();
 					AddTarget(TargetLocation);
 
 					AddMovementKeyframe(OutsideTargetLocation);
@@ -324,6 +330,20 @@ void NearPointerPokeSpec::Define()
 					ExpectFocusTargetNone();
 
 					AddGrabKeyframe(false);
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt("should not grab target when entering while already grabbing", [this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(OutsideTargetLocation);
+					AddGrabKeyframe(true);
+					ExpectGrabTargetNone();
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectGrabTargetNone();
 
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});

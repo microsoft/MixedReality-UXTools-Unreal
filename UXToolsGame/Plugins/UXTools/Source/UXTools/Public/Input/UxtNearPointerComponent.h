@@ -142,4 +142,6 @@ private:
 	FVector PreviousPokePointerLocation;
 
 	bool bWasBehindFrontFace = false;
+
+	bool bHandWasGrabbing = false;
 };
