@@ -10,7 +10,11 @@
 #include "EngineUtils.h"
 #include "Features/IModularFeatures.h"
 
+#include "Controls/UxtFarBeamComponent.h"
+#include "Controls/UxtFarCursorComponent.h"
+#include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
+#include "Interactions/UxtGrabTargetComponent.h"
 #include "UxtTestTargetComponent.h"
 #include "UxtTestHandTracker.h"
 
@@ -185,12 +189,65 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 	return pointer;
 }
 
+UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand, bool IsGrasped)
+{
+	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
+	UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FQuat::Identity);
+	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped);
+
+	FActorSpawnParameters p;
+	p.Name = Name;
+	p.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
+	AActor* PointerActor = World->SpawnActor<AActor>(p);
+
+	// Root
+	USceneComponent* Root = NewObject<USceneComponent>(PointerActor);
+	Root->RegisterComponent();
+	Root->SetWorldLocation(Position);
+	PointerActor->SetRootComponent(Root);
+
+	// Pointer
+	UUxtFarPointerComponent* Pointer = NewObject<UUxtFarPointerComponent>(PointerActor);
+	Pointer->RegisterComponent();
+	Pointer->Hand = Hand;
+
+	// Beam
+	UUxtFarBeamComponent* Beam = NewObject<UUxtFarBeamComponent>(PointerActor);
+	Beam->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
+	Beam->RegisterComponent();
+
+	// Cursor
+	UUxtFarCursorComponent* Cursor = NewObject<UUxtFarCursorComponent>(PointerActor);
+	Cursor->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
+	Cursor->RegisterComponent();
+
+	return Pointer;
+}
+
 UTestGrabTarget* UxtTestUtils::CreateNearPointerGrabTarget(UWorld *World, const FVector &Location, const FString &MeshFilename, float MeshScale)
 {
 	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale , false);
 
 	UTestGrabTarget *TestTarget = NewObject<UTestGrabTarget>(Actor);
 	TestTarget->RegisterComponent();
+
+	return TestTarget;
+}
+
+UUxtGrabTargetComponent* UxtTestUtils::CreateGrabTargetTestBox(UWorld* World, const FVector& Location)
+{
+	AActor* TargetActor = World->SpawnActor<AActor>();
+
+	// Box Mesh
+	UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(TargetActor);
+	TargetActor->SetRootComponent(MeshComponent);
+	MeshComponent->RegisterComponent();
+
+	// Add Grab Target Component for far & near interaction
+	UUxtGrabTargetComponent* TestTarget = NewObject<UUxtGrabTargetComponent>(TargetActor);
+	TestTarget->RegisterComponent();
+
+	TargetActor->SetActorLocation(Location);
 
 	return TestTarget;
 }

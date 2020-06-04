@@ -7,6 +7,15 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
 
+namespace 
+{
+	bool HasInteractionFlag(uint8 value, EUxtInteractionMode flag)
+	{
+		return !!(value & (1 << (uint8)flag));
+	}
+}
+
+
 FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform &Transform, const FUxtGrabPointerData &GrabData)
 {
 	return Transform.TransformPosition(GrabData.LocalGrabPoint.GetLocation());
@@ -78,6 +87,7 @@ FVector UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(const FUxtGrabPoi
 UUxtGrabTargetComponent::UUxtGrabTargetComponent()
 {
 	bTickOnlyWhileGrabbed = true;
+	InteractionMode = (1 << (uint8)EUxtInteractionMode::Near) | (1 << (uint8)EUxtInteractionMode::Far);
 }
 
 const TArray<FUxtGrabPointerData> &UUxtGrabTargetComponent::GetGrabPointers() const
@@ -273,6 +283,11 @@ void UUxtGrabTargetComponent::OnExitGrabFocus_Implementation(UUxtNearPointerComp
 
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
+	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near))
+	{
+		return;
+	}
+
 	FUxtGrabPointerData GrabData;
 	GrabData.NearPointer = Pointer;
 	GrabData.StartTime = GetWorld()->GetTimeSeconds();
@@ -290,6 +305,13 @@ void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponen
 
 void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
+	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near))
+	{
+		// release near pointer if we are not supporting near interaction
+		OnEndGrab_Implementation(Pointer);
+		return;
+	}
+
 	// Update the copy of the pointer data in the grab pointer array
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
 	{
@@ -319,9 +341,12 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 			}
 			return false;
 		});
-	check(NumRemoved == 1);
+	check(NumRemoved <= 1); // we might have already removed the pointer while switching interaction mode
 
-	OnEndGrab.Broadcast(this, PointerData);
+	if (NumRemoved != 0)
+	{
+		OnEndGrab.Broadcast(this, PointerData);
+	}
 
 	// make sure to update initial ptr transforms once a pointer gets removed to ensure
 	// calculations are performed on the correct starting values
@@ -361,6 +386,11 @@ void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) c
 
 void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
+	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far))
+	{
+		return;
+	}
+
 	FUxtGrabPointerData PointerData;
 	PointerData.FarPointer = Pointer;
 	PointerData.StartTime = GetWorld()->GetTimeSeconds();
@@ -389,9 +419,12 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 			}
 			return false;
 		});
-	check(NumRemoved == 1);
+	check(NumRemoved <= 1); // we might have already removed the pointer while switching interaction mode
 
-	OnEndGrab.Broadcast(this, PointerData);
+	if (NumRemoved != 0)
+	{
+		OnEndGrab.Broadcast(this, PointerData);
+	}
 
 	// make sure to update initial ptr transforms once a pointer gets removed to ensure
 	// calculations are performed on the correct starting values
@@ -405,6 +438,13 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 
 void UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer)
 {
+	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far))
+	{
+		// release far pointer if we are not supporting far interaction
+		OnFarReleased_Implementation(Pointer);
+		return;
+	}
+
 	// Update the copy of the pointer data in the grab pointer array
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
 	{

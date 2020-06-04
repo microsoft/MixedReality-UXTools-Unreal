@@ -8,6 +8,7 @@
 #include "Components/SceneComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtManipulationFlags.h"
 
 #include "UxtGrabTargetComponent.generated.h"
 
@@ -236,6 +237,10 @@ public:
 	/** Event raised when grab ends. */
 	UPROPERTY(BlueprintAssignable)
 	FUxtEndGrabDelegate OnEndGrab;
+
+	/** Property that indicates if the object is grabbable with far or near interaction or both. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction, meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
+	uint8 InteractionMode;
 
 private:
 

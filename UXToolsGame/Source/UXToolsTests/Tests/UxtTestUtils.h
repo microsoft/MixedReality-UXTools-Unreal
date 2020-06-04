@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "Misc/AutomationTest.h"
+#include "InputCoreTypes.h"
 
 class FUxtTestHandTracker;
 class IUxtHandTracker;
@@ -14,6 +15,8 @@ class UUxtNearPointerComponent;
 class UWorld;
 class UStaticMeshComponent;
 class AActor;
+class UUxtGrabTargetComponent;
+class UUxtFarPointerComponent;
 
 /** Utility functions for UXTools testing. */
 struct UxtTestUtils
@@ -38,8 +41,14 @@ public:
 	/** Create a basic near pointer actor. */
 	static UUxtNearPointerComponent* CreateNearPointer(UWorld *World, FName Name, const FVector &Position, bool IsGrasped = false, bool AddMeshVisualizer = true);
 
+	/** Create a basic far pointer actor. */
+	static UUxtFarPointerComponent* CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand = EControllerHand::Right ,bool IsGrasped = false);
+	
 	/** Create a grabbable target actor. */
 	static UTestGrabTarget* CreateNearPointerGrabTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
+
+	/** Create a test box actor with grab target component for near and far interaction. */
+	static UUxtGrabTargetComponent* CreateGrabTargetTestBox(UWorld* World, const FVector& Location);
 
 	/** Create a pokable target actor. */
 	static UTestPokeTarget* CreateNearPointerPokeTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
