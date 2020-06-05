@@ -9,10 +9,13 @@
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 #include <GameFramework/Actor.h>
+#include <GameFramework/PlayerController.h>
 #include <DrawDebugHelpers.h>
 #include <Components/BoxComponent.h>
 #include <Components/ShapeComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include <Components/PrimitiveComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values for this component's properties
 UUxtPressableButtonComponent::UUxtPressableButtonComponent()
@@ -163,13 +166,86 @@ void UUxtPressableButtonComponent::BeginPlay()
 	Super::BeginPlay();
 
 	BoxComponent = NewObject<UBoxComponent>(this);
-
 	BoxComponent->SetupAttachment(this);
+	
+#if PLATFORM_ANDROID
+	bool bEnableTouch = true;
+#else
+	bool bEnableTouch = GetWorld()->IsPlayInMobilePreview();
+#endif
+
+	// Subscribe to touch events raised on the box component
+	if (bEnableTouch)
+	{
+		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		PlayerController->bEnableTouchEvents = true;
+		PlayerController->bEnableTouchOverEvents = true;
+		GetOwner()->EnableInput(PlayerController);
+		BoxComponent->OnInputTouchBegin.AddDynamic(this, &UUxtPressableButtonComponent::OnInputTouchBeginHandler);
+		BoxComponent->OnInputTouchEnd.AddDynamic(this, &UUxtPressableButtonComponent::OnInputTouchEndHandler);
+		BoxComponent->OnInputTouchLeave.AddDynamic(this, &UUxtPressableButtonComponent::OnInputTouchLeaveHandler);
+	}
+	
 	BoxComponent->RegisterComponent();
 
 	if (USceneComponent* Visuals = GetVisuals())
 	{
 		ConfigureBoxComponent(Visuals);
+	}
+}
+
+void UUxtPressableButtonComponent::OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
+{
+	check(TouchedComponent == BoxComponent);
+	bool bIsAlreadyInSet;
+	ActiveTouches.Add(FingerIndex, &bIsAlreadyInSet);
+	check(!bIsAlreadyInSet);
+
+	OnEnterFocus(nullptr);
+
+	// Raise button pressed if this is the first active touch
+	if (ActiveTouches.Num() == 1)
+	{
+		CurrentPushDistance = GetPressedDistance();
+		OnButtonPressed.Broadcast(this, nullptr);
+	}
+}
+
+void UUxtPressableButtonComponent::OnInputTouchEndHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
+{
+	check(TouchedComponent == BoxComponent);
+	int NumRemoved = ActiveTouches.Remove(FingerIndex);
+	check(NumRemoved == 0 || NumRemoved == 1);
+
+	if (NumRemoved)
+	{
+		// Raise button release if this is the last active touch
+		if (ActiveTouches.Num() == 0)
+		{
+			CurrentPushDistance = 0;
+			OnButtonReleased.Broadcast(this, nullptr);
+		}
+
+		OnExitFocus(nullptr);
+	}
+}
+
+void UUxtPressableButtonComponent::OnInputTouchLeaveHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
+{
+	check(TouchedComponent == BoxComponent);
+	int NumRemoved = ActiveTouches.Remove(FingerIndex);
+	check(NumRemoved == 0 || NumRemoved == 1);
+
+	if (NumRemoved)
+	{
+		// Raise button release if this is the last active touch
+		if (ActiveTouches.Num() == 0)
+		{
+			CurrentPushDistance = 0;
+			OnButtonReleased.Broadcast(this, nullptr);
+		}
+
+		OnExitFocus(nullptr);
 	}
 }
 
@@ -179,7 +255,7 @@ void UUxtPressableButtonComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// Update poke if we're not currently pressed via a far pointer
-	if (!FarPointerWeak.IsValid())
+	if (!FarPointerWeak.IsValid() && ActiveTouches.Num() == 0)
 	{
 		// Update button logic with all known pointers
 		UUxtNearPointerComponent* NewPokingPointer = nullptr;

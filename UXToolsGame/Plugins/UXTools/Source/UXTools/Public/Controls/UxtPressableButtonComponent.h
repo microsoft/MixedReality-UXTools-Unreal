@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputCoreTypes.h"
 #include "Components/SceneComponent.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Interactions/UxtFarTarget.h"
@@ -224,6 +225,16 @@ protected:
 	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
 
+	//
+	// Touch input handlers
+
+	UFUNCTION()
+	void OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	UFUNCTION()
+	void OnInputTouchEndHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	UFUNCTION()
+	void OnInputTouchLeaveHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+
 private:
 
 	/** Get the current contact state of the button */
@@ -318,4 +329,7 @@ private:
 
 	/** The current pushed distance of from poking pointers */
 	float CurrentPushDistance;
+
+	/** Active input touches */
+	TSet<ETouchIndex::Type> ActiveTouches;
 };
