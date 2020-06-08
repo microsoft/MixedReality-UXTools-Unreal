@@ -77,12 +77,15 @@ All `UxtPressableButtonComponent` events are passed up to the parent `BP_ButtonH
 A handful of derived `BP_ButtonHoloLens2` blueprints exist to exhibit behavior not found on a typical pressable button. These variants include:
 
 - `BP_ButtonHoloLens2Toggle`, displays an additional back plate based on the button's toggle state.
+
 ![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Toggle.png)
 
 - `BP_ButtonHoloLens2ToggleCheck`, displays a check box icon based on the button's toggle state.
+
 ![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Check.png)
 
 - `BP_ButtonHoloLens2ToggleSwitch`, displays a switch icon based on the button's toggle state.
+
 ![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Switch.png)
 
 ## Public Properties
