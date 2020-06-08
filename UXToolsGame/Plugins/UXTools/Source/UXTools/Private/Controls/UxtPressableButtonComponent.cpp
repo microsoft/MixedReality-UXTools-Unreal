@@ -52,7 +52,7 @@ void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 {
 	VisualsReference.OverrideComponent = Visuals;
 
-	if (Visuals)
+	if (Visuals && BoxComponent)
 	{
 		ConfigureBoxComponent(Visuals);
 	}

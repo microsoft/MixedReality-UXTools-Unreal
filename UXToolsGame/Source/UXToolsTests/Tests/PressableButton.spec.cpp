@@ -19,53 +19,63 @@
 
 namespace
 {
+	USceneComponent* SetTestVisuals(UUxtPressableButtonComponent* Button, EUxtPushBehavior PushBehavior = EUxtPushBehavior::Translate)
+	{
+		const FString MeshFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
+		const float MeshScale = 0.1f;
+
+		AActor* Actor = Button->GetOwner();
+		USceneComponent* VisualsSet = nullptr;
+
+		if (!MeshFilename.IsEmpty())
+		{
+			USceneComponent* Visuals = nullptr;
+
+			// Create a pivot parent component for the compressible visuals
+			if (PushBehavior == EUxtPushBehavior::Compress)
+			{
+				Visuals = NewObject<USceneComponent>(Actor);
+				Visuals->SetupAttachment(Actor->GetRootComponent());
+				Visuals->RegisterComponent();
+			}
+
+			UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(Actor);
+			Mesh->SetupAttachment((Visuals != nullptr) ? Visuals : Actor->GetRootComponent());
+			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+			Mesh->SetGenerateOverlapEvents(true);
+
+			UStaticMesh* MeshAsset = LoadObject<UStaticMesh>(Actor, *MeshFilename);
+			Mesh->SetStaticMesh(MeshAsset);
+			Mesh->SetRelativeLocation((Visuals != nullptr) ? FVector(-5, 0, 0) : FVector::ZeroVector);
+			Mesh->SetRelativeScale3D((Visuals != nullptr) ? FVector(MeshScale * 0.5f, MeshScale, MeshScale) : FVector::OneVector * MeshScale);
+			Mesh->RegisterComponent();
+
+			VisualsSet = (Visuals != nullptr) ? Visuals : Mesh;
+
+			Button->SetVisuals(VisualsSet);
+		}
+
+		return VisualsSet;
+	}
+
 	UUxtPressableButtonComponent* CreateTestComponent(UWorld* World, const FVector& Location, EUxtPushBehavior PushBehavior = EUxtPushBehavior::Translate)
 	{
-		AActor* actor = World->SpawnActor<AActor>();
+		AActor* Actor = World->SpawnActor<AActor>();
 
-		USceneComponent* root = NewObject<USceneComponent>(actor);
-		actor->SetRootComponent(root);
-		root->SetWorldLocation(Location);
-		root->RegisterComponent();
+		USceneComponent* Root = NewObject<USceneComponent>(Actor);
+		Actor->SetRootComponent(Root);
+		Root->SetWorldLocation(Location);
+		Root->RegisterComponent();
 
-		UUxtPressableButtonComponent* TestTarget = NewObject<UUxtPressableButtonComponent>(actor);
+		UUxtPressableButtonComponent* TestTarget = NewObject<UUxtPressableButtonComponent>(Actor);
 		TestTarget->SetPushBehavior(PushBehavior);
 		TestTarget->SetWorldRotation(FRotator(0, 180, 0));
 		TestTarget->SetWorldLocation(Location);
-		TestTarget->RegisterComponent();
-
-		FString meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube");
-		float meshScale = 0.1f;
-		if (!meshFilename.IsEmpty())
-		{
-			USceneComponent* visuals = nullptr;
-
-			// Create a pivot parent component for the compressable visuals
-			if (PushBehavior == EUxtPushBehavior::Compress)
-			{
-				visuals = NewObject<USceneComponent>(actor);
-				visuals->SetupAttachment(actor->GetRootComponent());
-				visuals->RegisterComponent();
-			}
-
-			UStaticMeshComponent* mesh = NewObject<UStaticMeshComponent>(actor);
-			mesh->SetupAttachment((visuals != nullptr) ? visuals : actor->GetRootComponent());
-			mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			mesh->SetCollisionProfileName(TEXT("OverlapAll"));
-			mesh->SetGenerateOverlapEvents(true);
-
-			UStaticMesh* meshAsset = LoadObject<UStaticMesh>(actor, *meshFilename);
-			mesh->SetStaticMesh(meshAsset);
-			mesh->SetRelativeLocation((visuals != nullptr) ? FVector(-5, 0, 0) : FVector::ZeroVector);
-			mesh->SetRelativeScale3D((visuals != nullptr) ? FVector(meshScale * 0.5f, meshScale, meshScale) : FVector::OneVector * meshScale);
-
-			mesh->RegisterComponent();
-
-			TestTarget->SetVisuals((visuals != nullptr) ? visuals : mesh);
-		}
-
 		TestTarget->RecoverySpeed = BIG_NUMBER;
 		TestTarget->SetMaxPushDistance(5);
+		SetTestVisuals(TestTarget, PushBehavior);
+		TestTarget->RegisterComponent();
 
 		return TestTarget;
 	}
@@ -356,6 +366,14 @@ void PressableButtonSpec::Define()
 					FVector StartPos = Center + FVector(-MoveBy, 5, 0);
 
 					EnqueueAbsoluteDistancesTest(StartPos);
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt("should update visuals after component is created", [this](const FDoneDelegate& Done)
+				{
+					USceneComponent* NewVisuals = SetTestVisuals(Button);
+					TestEqual("Has new visuals", Button->GetVisuals(), NewVisuals);
 
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
