@@ -176,7 +176,7 @@ namespace
 			}
 
 			FVector DesiredPosition = RefPosition + DirectionYX * DesiredDistanceYX;
-			float DesiredHeight = RefPosition.Z + RefForward.Z * MaxDistance;
+			float DesiredHeight = RefPosition.Z + RefForward.Z * DesiredDistanceYX;
 			DesiredPosition.Z = DesiredHeight;
 
 			Direction = DesiredPosition - RefPosition;
