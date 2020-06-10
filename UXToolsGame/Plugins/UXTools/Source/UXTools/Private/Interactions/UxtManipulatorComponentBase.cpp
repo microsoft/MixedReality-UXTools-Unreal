@@ -140,6 +140,7 @@ void UUxtManipulatorComponentBase::SetInitialTransform()
 void UUxtManipulatorComponentBase::ApplyTargetTransform(const FTransform &TargetTransform)
 {
 	TransformTarget->SetWorldTransform(TargetTransform);
+	OnUpdateTransform.Broadcast(TransformTarget, TargetTransform);
 }
 
 void UUxtManipulatorComponentBase::BeginPlay()

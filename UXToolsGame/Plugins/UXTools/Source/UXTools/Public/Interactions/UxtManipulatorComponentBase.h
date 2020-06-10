@@ -11,6 +11,9 @@ class UxtManipulationMoveLogic;
 class UxtTwoHandManipulationRotateLogic;
 class UxtTwoHandManipulationScaleLogic;
 
+/** Event triggered when the actor's transform is updated. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateTransformDelegate, USceneComponent*, TargetComponent, FTransform, Transform);
+
 /**
  * Base class for manipulation components that react to pointer interactions.
  *
@@ -90,6 +93,9 @@ private:
 	void UpdateManipulationLogic(int NumGrabPointers);
 
 public:
+
+	UPROPERTY(BlueprintAssignable, Category = "Manipulator Component")
+	FUxtUpdateTransformDelegate OnUpdateTransform;
 
 	UPROPERTY(BlueprintReadonly, Category = "Manipulator Component")
 	FTransform InitialTransform;

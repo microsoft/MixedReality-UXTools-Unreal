@@ -3,6 +3,7 @@
 
 #include "Engine.h"
 #include "FrameQueue.h"
+#include "GenericManipulatorTestComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Tests/AutomationCommon.h"
 #include "UxtTestHandTracker.h"
@@ -46,6 +47,16 @@ namespace
 
 		return TestTarget;
 	}
+
+	UGenericManipulatorTestComponent* CreateEventCaptureComponent(UUxtGenericManipulatorComponent* Manipulator)
+	{
+		UGenericManipulatorTestComponent* EventCaptureComponent = NewObject<UGenericManipulatorTestComponent>(Manipulator->GetOwner());
+		EventCaptureComponent->RegisterComponent();
+
+		Manipulator->OnUpdateTransform.AddDynamic(EventCaptureComponent, &UGenericManipulatorTestComponent::UpdateTransform);
+
+		return EventCaptureComponent;
+	}
 }
 
 BEGIN_DEFINE_SPEC(GenericManipulatorSpec, "UXTools.GenericManipulatorTest", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
@@ -58,6 +69,7 @@ UUxtNearPointerComponent* Pointer;
 
 UUxtGenericManipulatorComponent* Manipulator;
 USceneComponent* TargetComponent;
+UGenericManipulatorTestComponent* EventCaptureComponent;
 
 FFrameQueue FrameQueue;
 
@@ -131,6 +143,27 @@ void GenericManipulatorSpec::Define()
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 
 					TargetActor->Destroy();
+				});
+
+			LatentIt("should trigger transform update events", [this](const FDoneDelegate& Done)
+				{
+					Manipulator = CreateTestComponent(World, Center);
+					EventCaptureComponent = CreateEventCaptureComponent(Manipulator);
+
+					FrameQueue.Enqueue([this]()
+						{
+							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
+						});
+					FrameQueue.Enqueue([this]()
+						{
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::RightVector * 10));
+						});
+					FrameQueue.Enqueue([this]()
+						{
+							TestTrue("Transform update event triggered", EventCaptureComponent->TransformUpdateCount > 0);
+						});
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 		});
 }
