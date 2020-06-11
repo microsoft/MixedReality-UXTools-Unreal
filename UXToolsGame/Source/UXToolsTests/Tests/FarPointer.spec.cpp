@@ -12,7 +12,7 @@
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "UxtTestHandTracker.h"
 #include "FrameQueue.h"
-#include "FarPointerListener.h"
+#include "FarPointerListenerComponent.h"
 #include "FarTargetTestComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -23,7 +23,7 @@ BEGIN_DEFINE_SPEC(FFarPointerSpec, "UXTools.FarPointer", EAutomationTestFlags::E
 	FUxtTestHandTracker* HandTracker;
 	EControllerHand Hand = EControllerHand::Right;
 	UUxtFarPointerComponent* Pointer;
-	UFarPointerListener* PointerListener;
+	UFarPointerListenerComponent* PointerListener;
 	UFarTargetTestComponent* FarTarget;
 	FFrameQueue FrameQueue;
 	UPrimitiveComponent* HitPrimitive = nullptr;
@@ -61,9 +61,10 @@ void FFarPointerSpec::Define()
 			Pointer->Hand = Hand;
 
 			// Subscribe to enable/disable events
-			PointerListener = NewObject<UFarPointerListener>(PointerActor);
-			Pointer->OnFarPointerEnabled.AddDynamic(PointerListener, &UFarPointerListener::OnFarPointerEnabled);
-			Pointer->OnFarPointerDisabled.AddDynamic(PointerListener, &UFarPointerListener::OnFarPointerDisabled);
+			PointerListener = NewObject<UFarPointerListenerComponent>(PointerActor);
+			Pointer->OnFarPointerEnabled.AddDynamic(PointerListener, &UFarPointerListenerComponent::OnFarPointerEnabled);
+			Pointer->OnFarPointerDisabled.AddDynamic(PointerListener, &UFarPointerListenerComponent::OnFarPointerDisabled);
+			PointerListener->RegisterComponent();
 
 			// Beam
 			UUxtFarBeamComponent* Beam = NewObject<UUxtFarBeamComponent>(PointerActor);
