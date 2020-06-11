@@ -79,9 +79,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
 	static FRotator GetTargetRotation(const FUxtGrabPointerData& GrabData);
 
-	/** Compute the pointer target transform in world space. */
+	/** Compute the grab point transform in world space. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
-	static FTransform GetTargetTransform(const FUxtGrabPointerData& GrabData);
+	static FTransform GetGrabPointTransform(const FUxtGrabPointerData& GrabData);
 
 	/** Compute the world space offset between pointer grab point and target. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
@@ -199,7 +199,7 @@ protected:
 	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;
 
 	/** Compute the average transform of currently grabbing pointers */
-	FTransform GetPointersTransformCentroid() const;
+	FTransform GetGrabPointCentroidTransform() const;
 private:
 
 	/** Internal search function for finding active grabbing pointers */

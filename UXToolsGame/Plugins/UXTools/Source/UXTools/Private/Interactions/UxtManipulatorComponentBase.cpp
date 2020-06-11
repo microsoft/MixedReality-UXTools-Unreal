@@ -25,7 +25,7 @@ UUxtManipulatorComponentBase::~UUxtManipulatorComponentBase()
 
 void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const
 {
-	FVector NewObjectLocation = MoveLogic->Update(GetPointersTransformCentroid(),
+	FVector NewObjectLocation = MoveLogic->Update(GetGrabPointCentroidTransform(),
 		SourceTransform.Rotator().Quaternion(),
 		SourceTransform.GetScale3D(),
 		UsePointerRotation,
@@ -184,7 +184,7 @@ void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
 {
 	SetInitialTransform();
 
-	MoveLogic->Setup(GetPointersTransformCentroid(),
+	MoveLogic->Setup(GetGrabPointCentroidTransform(),
 		GetGrabPointCentroid(TransformTarget->GetComponentTransform()),
 		TransformTarget->GetComponentTransform(),
 		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
