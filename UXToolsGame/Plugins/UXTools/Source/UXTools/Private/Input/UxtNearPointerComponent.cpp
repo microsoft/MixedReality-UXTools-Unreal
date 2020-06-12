@@ -31,13 +31,15 @@ namespace
 		// Front face pokables should have use a box collider
 		check(Primitive->GetCollisionShape().IsBox());
 
-		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
+		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixWithScale();
 		
 		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
 
-		FVector Extents = Primitive->GetCollisionShape().GetExtent();
+		FBoxSphereBounds Bounds = Primitive->CalcLocalBounds();
 
-		if (LocalPosition.X - Radius < Extents.X)
+		float ScaledRadius = Radius / ComponentTransform.GetScaleVector().X;
+
+		if (LocalPosition.X - ScaledRadius < Bounds.BoxExtent.X)
 		{
 			return true;
 		}
@@ -67,11 +69,11 @@ namespace
 
 		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
 
-		FVector Extents = Primitive->GetCollisionShape().GetExtent();
+		FBoxSphereBounds Bounds = Primitive->CalcLocalBounds();
 
-		FVector Max = Extents;
+		FVector Max = Bounds.BoxExtent * Primitive->GetComponentTransform().GetScale3D();
 
-		FVector Min = -Extents;
+		FVector Min = -Max;
 		Min.X = Max.X - Depth; // depth is measured from the front face
 
 		FBox PokableVolume(Min, Max);
