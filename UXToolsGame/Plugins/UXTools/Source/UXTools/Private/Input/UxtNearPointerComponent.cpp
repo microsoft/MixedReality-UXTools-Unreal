@@ -264,6 +264,27 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 	}
 }
 
+UObject* UUxtNearPointerComponent::GetFocusTarget() const
+{
+	UObject* FocusTarget = GrabFocus->GetFocusedTarget();
+	if (!FocusTarget)
+	{
+		FocusTarget = PokeFocus->GetFocusedTarget();
+	}
+
+	return FocusTarget;
+}
+
+FTransform UUxtNearPointerComponent::GetCursorTransform() const
+{
+	if (GrabFocus->IsGrabbing())
+	{
+		return GetGrabPointerTransform();
+	}
+
+	return GetPokePointerTransform();
+}
+
 void UUxtNearPointerComponent::UpdatePokeInteraction()
 {
 	FVector PokePointerLocation = GetPokePointerTransform().GetLocation();
@@ -381,16 +402,6 @@ bool UUxtNearPointerComponent::SetFocusedPokeTarget(UActorComponent* NewFocusedT
 		return true;
 	}
 	return false;
-}
-
-bool UUxtNearPointerComponent::GetFocusLocked() const
-{
-	return bFocusLocked;
-}
-
-void UUxtNearPointerComponent::SetFocusLocked(bool Value)
-{
-	bFocusLocked = Value;
 }
 
 bool UUxtNearPointerComponent::IsGrabbing() const

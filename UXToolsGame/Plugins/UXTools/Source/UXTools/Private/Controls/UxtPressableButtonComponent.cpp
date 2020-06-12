@@ -385,13 +385,13 @@ bool UUxtPressableButtonComponent::IsFocused() const
 	return NumPointersFocusing > 0;
 }
 
-void UUxtPressableButtonComponent::OnEnterFocus(UObject* Pointer)
+void UUxtPressableButtonComponent::OnEnterFocus(UUxtPointerComponent* Pointer)
 {
 	const bool bWasFocused = ++NumPointersFocusing > 1;
 	OnBeginFocus.Broadcast(this, Pointer, bWasFocused);
 }
 
-void UUxtPressableButtonComponent::OnExitFocus(UObject* Pointer)
+void UUxtPressableButtonComponent::OnExitFocus(UUxtPointerComponent* Pointer)
 {
 	--NumPointersFocusing;
 	const bool bIsFocused = IsFocused();
@@ -493,7 +493,7 @@ FVector UUxtPressableButtonComponent::GetRestPosition() const
 	return GetComponentTransform().TransformPosition(RestPositionLocal);
 }
 
-void UUxtPressableButtonComponent::SetPressed(bool bPressedState, UObject* Pointer, bool bRaiseEvents)
+void UUxtPressableButtonComponent::SetPressed(bool bPressedState, UUxtPointerComponent* Pointer, bool bRaiseEvents)
 {
 	if (bPressedState != bIsPressed)
 	{

@@ -52,6 +52,36 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	SetEnabled(bIsTracked);
 }
 
+void UUxtFarPointerComponent::SetFocusLocked(bool bLocked)
+{
+	Super::SetFocusLocked(bLocked);
+
+	if (bLocked)
+	{
+		// Store current hit info in hit primitive space
+		if (UPrimitiveComponent* HitPrimitive = GetHitPrimitive())
+		{
+			const FTransform WorldToTarget = HitPrimitive->GetComponentTransform().Inverse();
+			HitPointLocal = WorldToTarget.TransformPosition(HitPoint);
+			HitNormalLocal = WorldToTarget.TransformVectorNoScale(HitNormal);
+		}
+	}
+}
+
+UObject* UUxtFarPointerComponent::GetFocusTarget() const
+{
+	return GetFarTarget();
+}
+
+FTransform UUxtFarPointerComponent::GetCursorTransform() const
+{
+	FTransform Transform;
+	Transform.SetLocation(GetHitPoint());
+	Transform.SetRotation(GetHitNormal().Rotation().Quaternion());
+
+	return Transform;
+}
+
 // Finds the far target a primitive belongs to, if any
 static UObject* FindFarTarget(UPrimitiveComponent* Primitive)
 {
@@ -205,27 +235,6 @@ void UUxtFarPointerComponent::SetEnabled(bool bNewEnabled)
 			bFocusLocked = false;
 
 			OnFarPointerDisabled.Broadcast(this);
-		}
-	}
-}
-
-bool UUxtFarPointerComponent::GetFocusLocked() const
-{
-	return bFocusLocked;
-}
-
-void UUxtFarPointerComponent::SetFocusLocked(bool bNewFocusLocked)
-{
-	bFocusLocked = bNewFocusLocked;
-
-	if (bFocusLocked)
-	{
-		// Store current hit info in hit primitive space
-		if (UPrimitiveComponent* HitPrimitive = GetHitPrimitive())
-		{
-			const FTransform WorldToTarget = HitPrimitive->GetComponentTransform().Inverse();
-			HitPointLocal = WorldToTarget.TransformPosition(HitPoint);
-			HitNormalLocal = WorldToTarget.TransformVectorNoScale(HitNormal);
 		}
 	}
 }

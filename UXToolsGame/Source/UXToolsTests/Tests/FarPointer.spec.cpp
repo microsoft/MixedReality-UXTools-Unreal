@@ -107,6 +107,12 @@ void FFarPointerSpec::Define()
 		UxtTestUtils::ExitGame();
 	});
 
+	It("should have correct focus target", [this]()
+	{
+		UFarTargetTestComponent* FocusTarget = CastChecked<UFarTargetTestComponent>(Pointer->GetFocusTarget());
+		TestEqual("Object is targeted", FocusTarget, FarTarget);
+	});
+
 	LatentIt("should raise the correct events on far targets", [this](const FDoneDelegate& Done)
 	{
 		// We expect the pointer to be focusing the target from the first frame

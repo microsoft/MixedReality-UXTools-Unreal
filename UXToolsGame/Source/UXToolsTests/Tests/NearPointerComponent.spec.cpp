@@ -32,6 +32,7 @@ BEGIN_DEFINE_SPEC(NearPointerPokeSpec, "UXTools.NearPointer", EAutomationTestFla
 	void AddTarget(const FVector& Location);
 
 	void TestKeyframe();
+	void TestFocusTargetObject();
 
 	/**
 	 * Move pointer to new location and test for focus changes in the next frame.
@@ -86,6 +87,19 @@ void NearPointerPokeSpec::TestKeyframe()
 		TestEqual(whatGraspStarted, TargetState.Target->BeginGrabCount, TargetState.BeginGrabCount);
 		TestEqual(whatGraspEnded, TargetState.Target->EndGrabCount, TargetState.EndGrabCount);
 	}
+}
+
+/** Test for the pointer having the correct focus target object. */
+void NearPointerPokeSpec::TestFocusTargetObject()
+{
+	FrameQueue.Enqueue([this]()
+		{
+			const bool bValidTarget = CurrentFocusTargetIndex != -1 && CurrentFocusTargetIndex < Targets.Num();
+			TestTrue("Focus target is valid", bValidTarget);
+
+			const bool bTargetFocused = Pointers[0]->GetFocusTarget() == Targets[CurrentFocusTargetIndex].Target;
+			TestTrue("Target is focused", bTargetFocused);
+		});
 }
 
 void NearPointerPokeSpec::AddMovementKeyframe(const FVector& PointerLocation)
@@ -212,6 +226,16 @@ void NearPointerPokeSpec::Define()
 					FrameQueue.Reset();
 				});
 
+			LatentIt("should have correct focus target object", [this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectFocusTargetIndex(0);
+					TestFocusTargetObject();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
 
 			LatentIt("should focus poke target when overlapping initially", [this](const FDoneDelegate& Done)
 				{

@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
 #include "Components/ActorComponent.h"
+#include "UxtPointerComponent.h"
 #include "UxtNearPointerComponent.generated.h"
 
 struct FUxtGrabPointerFocus;
@@ -18,7 +19,7 @@ class UMaterialParameterCollection;
  * Targets use the transform of pointers focusing them to drive their interactions.
  */
 UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtNearPointerComponent : public UActorComponent
+class UXTOOLS_API UUxtNearPointerComponent : public UUxtPointerComponent
 {
 	GENERATED_BODY()
 
@@ -34,6 +35,12 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void SetActive(bool bNewActive, bool bReset = false) override;
+
+	// 
+	// UUxtPointerComponent interface
+
+	virtual UObject* GetFocusTarget() const override;
+	virtual FTransform GetCursorTransform() const override;
 
 	/** Update poke distances and detect if poking the target. */
 	void UpdatePokeInteraction();
@@ -60,14 +67,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
 	bool SetFocusedPokeTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock);
 
-	/** Returns whether the pointer is locked on the currently focused target. */
-	UFUNCTION(BlueprintGetter)
-	bool GetFocusLocked() const;
-
-	/** Sets whether the pointer is locked on the currently focused target. */
-	UFUNCTION(BlueprintSetter)
-	void SetFocusLocked(bool Value);
-
 	UFUNCTION(BlueprintGetter)
 	bool IsGrabbing() const;
     
@@ -79,12 +78,6 @@ public:
 	FTransform GetPokePointerTransform() const;
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	float GetPokePointerRadius() const;
-
-	/** The hand that this component represents.
-	 *  Determines the position of touch and grab pointers.
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
-	EControllerHand Hand = EControllerHand::Right;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
@@ -111,13 +104,6 @@ public:
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	float DebounceDepth = 0.5f;
-
-	/**
-	 * Whether the pointer is locked on its current focused target.
-	 * When locked, pointers won't change their focused target even if they stop overlapping it.
-	 */
-	UPROPERTY(BlueprintReadWrite, Category = "Hand Pointer")
-	bool bFocusLocked = false;
 
 protected:
 

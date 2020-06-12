@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
 #include "Components/ActorComponent.h"
+#include "UxtPointerComponent.h"
 #include "UxtFarPointerComponent.generated.h"
 
 class UUxtFarPointerComponent;
@@ -20,7 +21,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtFarPointerDisabledDelegate, UUxt
  * A far target is an actor or component implementing the UUxtFarTarget interface.
  */
 UCLASS(ClassGroup = UXTools, meta=(BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtFarPointerComponent : public UActorComponent
+class UXTOOLS_API UUxtFarPointerComponent : public UUxtPointerComponent
 {
 	GENERATED_BODY()
 
@@ -60,22 +61,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
 	bool IsEnabled() const;
 
-	/** Whether the pointer is currently locked. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
-	bool GetFocusLocked() const;
-
-	/** 
-	  * Set the pointer's locked state. 
-	  * Locked pointers don't update their hit, remaining focused on the primitive they were hitting until unlocked.
-	  */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
-	void SetFocusLocked(bool bNewFocusLocked);
-
 	// 
 	// UActorComponent interface
 
 	virtual void SetActive(bool bNewActive, bool bReset = false) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	// 
+	// UUxtPointerComponent interface
+
+	virtual void SetFocusLocked(bool bLocked) override;
+	virtual UObject* GetFocusTarget() const override;
+	virtual FTransform GetCursorTransform() const override;
 
 private:
 
@@ -92,10 +89,6 @@ private:
 	UObject* GetFarTarget() const;
 
 public:
-
-	/** Hand-tracked hand the pointer will use for targeting. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Pointer")
-	EControllerHand Hand;
 
 	/** Trace channel to be used in the pointer's line trace query. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Pointer")
@@ -135,8 +128,6 @@ private:
 	TWeakObjectPtr<UObject> FarTargetWeak;
 
 	bool bPressed = false;
-
-	bool bFocusLocked = false;
 
 	bool bEnabled = false;
 };

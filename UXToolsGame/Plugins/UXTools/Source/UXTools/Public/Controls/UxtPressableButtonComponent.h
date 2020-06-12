@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
 #include "Components/SceneComponent.h"
+#include "Input/UxtPointerComponent.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Interactions/UxtFarTarget.h"
 
@@ -54,14 +55,14 @@ enum class EUxtButtonState : uint8
 //
 // Delegates
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonBeginFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer, bool, bWasAlreadyFocused);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdateFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonEndFocusDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer, bool, bIsStillFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonBeginFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtPointerComponent*, Pointer, bool, bWasAlreadyFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdateFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtButtonEndFocusDelegate, UUxtPressableButtonComponent*, Button, UUxtPointerComponent*, Pointer, bool, bIsStillFocused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonBeginPokeDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonUpdatePokeDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonEndPokeDelegate, UUxtPressableButtonComponent*, Button, UUxtNearPointerComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button, UObject*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonPressedDelegate, UUxtPressableButtonComponent*, Button, UUxtPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtButtonReleasedDelegate, UUxtPressableButtonComponent*, Button, UUxtPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonEnabledDelegate, UUxtPressableButtonComponent*, Button);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonDisabledDelegate, UUxtPressableButtonComponent*, Button);
 
@@ -244,10 +245,10 @@ private:
 	bool IsFocused() const;
 
 	/** Generic handler for enter focus events. */
-	void OnEnterFocus(UObject* Pointer);
+	void OnEnterFocus(UUxtPointerComponent* Pointer);
 
 	/** Generic handler for exit focus events. */
-	void OnExitFocus(UObject* Pointer);
+	void OnExitFocus(UUxtPointerComponent* Pointer);
 
 	/** The local space distance at which the button will fire a pressed event */
 	float GetPressedDistance() const;
@@ -298,7 +299,7 @@ private:
 	bool bUseAbsolutePushDistance = false;
 
 	/** Set the pressed state of the button and trigger corresponding events */
-	void SetPressed(bool bPressedState, UObject* Pointer, bool bRaiseEvents = true);
+	void SetPressed(bool bPressedState, UUxtPointerComponent* Pointer, bool bRaiseEvents = true);
 
 	/** Number of pointers currently focusing the button. */
 	int NumPointersFocusing = 0;
