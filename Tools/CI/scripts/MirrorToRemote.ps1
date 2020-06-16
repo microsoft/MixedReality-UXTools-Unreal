@@ -34,6 +34,7 @@ if( -not $AllowedRef ) {
     exit 0
 }
 Write-Host("Branch $RefToPush is allowed by allow list '$RefsToAllowRegex'");
+Write-Host & Get-Location
 
 & $env:UXTSourceDir\Tools\scripts\CheckHistory.ps1 ${RefToPush}
 if ($LastExitCode) { throw $LastExitCode }
