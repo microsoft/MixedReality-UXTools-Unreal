@@ -36,6 +36,10 @@ stages:
     - script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -package -allmaps -build -stage -targetplatform=Android -cookflavor=Multi -clientconfig=Development -serverconfig=Development'
       displayName: 'Build Android Development'
 
+    # RepoMirrorUrl will usually contain a PAT because the build agent doesn't have write permission.
+    - powershell: '$(UXTSourceDir)\Tools\scripts\MirrorToRemote.ps1 -RemoteUrl $(RepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(MirrorRefsToAllowRegex)'
+      displayName: 'Mirror $(Build.SourceBranch) branch'
+
 - stage: iOS
   # Disable iOS stage until a 4.25 build for Mac is available
   condition: false

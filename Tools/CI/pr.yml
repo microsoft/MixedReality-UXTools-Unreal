@@ -30,9 +30,3 @@ jobs:
     submodules: true
   - checkout: build-tools
   - template: templates/common.yml
-  - task: PowerShell@2
-    displayName: 'Check git history'
-    inputs:
-      targetType: 'filePath'
-      filePath: $(UXTSourceDir)\Tools\scripts\CheckHistory.ps1
-      workingDirectory: $(UXTSourceDir)

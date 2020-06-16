@@ -80,3 +80,10 @@ steps:
 
 - script: '$(UAT) BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -allmaps -build -stage -package -platform=HoloLens -clientconfig=Development -serverconfig=Development'
   displayName: 'Build HoloLens ARM64 Development'
+
+- task: PowerShell@2
+  displayName: 'Check git history'
+  inputs:
+    targetType: 'filePath'
+    filePath: $(UXTSourceDir)\Tools\scripts\CheckHistory.ps1
+    workingDirectory: $(UXTSourceDir)
