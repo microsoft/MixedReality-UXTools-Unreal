@@ -106,7 +106,7 @@ void UUxtManipulatorComponentBase::SmoothTransform(const FTransform& SourceTrans
 	FVector SourceLoc = SourceTransform.GetLocation();
 	if (LocationSmoothing <= 0.0f)
 	{
-		SmoothLoc = CurLoc;
+		SmoothLoc = SourceLoc;
 	}
 	else
 	{
@@ -118,7 +118,7 @@ void UUxtManipulatorComponentBase::SmoothTransform(const FTransform& SourceTrans
 	FQuat SourceRot = SourceTransform.GetRotation();
 	if (RotationSmoothing <= 0.0f)
 	{
-		SmoothRot = CurRot;
+		SmoothRot = SourceRot;
 	}
 	else
 	{

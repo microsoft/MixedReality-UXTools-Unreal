@@ -83,6 +83,11 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 	CornerAffordanceClass = CornerAffordanceClassFinder.Class;
 }
 
+const TMap<AActor*, const FUxtBoundsControlAffordanceInfo*>& UUxtBoundsControlComponent::GetActorAffordanceMap()
+{
+	return ActorAffordanceMap;
+}
+
 const TArray<FUxtBoundsControlAffordanceInfo>& UUxtBoundsControlComponent::GetCustomAffordances() const
 {
 	return CustomAffordances;
@@ -309,6 +314,11 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 			GetOwner()->SetActorTransform(newTransform);
 		}
 
+		UpdateAffordanceTransforms();
+	}
+	else if (!GetOwner()->GetActorTransform().Equals(InitialTransform))
+	{
+		InitialTransform = GetOwner()->GetActorTransform();
 		UpdateAffordanceTransforms();
 	}
 }

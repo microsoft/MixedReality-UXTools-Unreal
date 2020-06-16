@@ -107,6 +107,9 @@ public:
 
 	UUxtBoundsControlComponent();
 
+	/** Get the map between the affordance actors and their information. */
+	const TMap<AActor*, const FUxtBoundsControlAffordanceInfo*>& GetActorAffordanceMap();
+
 	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	const TArray<FUxtBoundsControlAffordanceInfo>& GetCustomAffordances() const;
 
