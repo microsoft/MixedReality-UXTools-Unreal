@@ -209,6 +209,7 @@ void UUxtBoundsControlComponent::BeginPlay()
 			FActorSpawnParameters Params;
 			Params.Name = FName(GetOwner()->GetName() + TEXT("_Affordance"));
 			Params.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
+			Params.Owner = GetOwner();
 			AActor *affordanceActor = GetWorld()->SpawnActor<AActor>(affordanceClass, Params);
 
 			if (affordanceActor != nullptr)
@@ -274,7 +275,10 @@ void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReaso
 	// Destroy affordances
 	for (const auto &item : ActorAffordanceMap)
 	{
-		GetWorld()->DestroyActor(item.Key);
+		if(!item.Key->IsActorBeingDestroyed() && item.Key->GetWorld() != nullptr )
+		{
+			GetWorld()->DestroyActor(item.Key);
+		}
 	}
 	ActorAffordanceMap.Empty();
 
