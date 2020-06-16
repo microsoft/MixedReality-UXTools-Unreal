@@ -157,6 +157,13 @@ void UUxtPressableButtonComponent::SetMaxPushDistance(float Distance)
 	}
 }
 
+bool UUxtPressableButtonComponent::VisualBoundsFilter(const USceneComponent* Component)
+{
+	// Allow mesh and shape components to be considered in bounds calculations.
+	return (Cast <const UMeshComponent>(Component) != nullptr || 
+			Cast <const UShapeComponent>(Component) != nullptr);
+}
+
 // Called when the game starts
 void UUxtPressableButtonComponent::BeginPlay()
 {
@@ -505,7 +512,7 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 
 	// Get bounds local to button, not visuals
 	FTransform LocalToTarget = Parent->GetComponentTransform() * GetComponentTransform().Inverse();
-	FBoxSphereBounds LocalBounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Parent, LocalToTarget);
+	FBoxSphereBounds LocalBounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Parent, LocalToTarget, VisualBoundsFilter);
 	FBox LocalBoxBounds = LocalBounds.GetBox();
 
 	// Expand box to include the front face margin

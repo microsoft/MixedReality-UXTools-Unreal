@@ -25,8 +25,5 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UXTools")
 	static bool IsInEditor();
 
-	/** Converts a Unicode code point as hex into the corresponding UTF-16 FString representation. Returns true when the conversion is successful.*/
-	UFUNCTION(BlueprintPure, Category = "UXTools")
-	static bool HexCodePointToFString(const FString& Input, FString& Output);
 };
 

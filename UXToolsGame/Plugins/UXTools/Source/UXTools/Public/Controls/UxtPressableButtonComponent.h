@@ -130,6 +130,9 @@ public:
 	UFUNCTION(BlueprintSetter, Category = "Pressable Button")
 	void SetMaxPushDistance(float Distance);
 
+	/** Filter function used by the button when calculating the hierarchy bounds of the visuals */
+	static bool VisualBoundsFilter(const USceneComponent* Component);
+
 	/** Fraction of the maximum travel distance at which the button will raise the pressed event. */
 	UPROPERTY(EditAnywhere, meta = (DisplayAfter = "bUseAbsolutePushDistance"), Category = "Pressable Button")
     float PressedFraction = 0.5f;

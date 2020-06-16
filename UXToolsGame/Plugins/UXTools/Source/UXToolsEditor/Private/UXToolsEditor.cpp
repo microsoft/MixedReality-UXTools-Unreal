@@ -3,6 +3,8 @@
 
 #include "UXToolsEditor.h"
 #include "UxtPressableButtonComponentVisualizer.h"
+#include "UxtIconBrushCustomization.h"
+#include "Controls/UxtIconBrush.h"
 #include "UnrealEdGlobals.h"
 #include "Editor/UnrealEdEngine.h"
 #include "ISettingsModule.h"
@@ -19,6 +21,7 @@ void FUXToolsEditorModule::StartupModule()
 {
 	if (GUnrealEd)
 	{
+		// Register visualizers
 		TSharedPtr<FComponentVisualizer> Visualizer = MakeShareable(new FUxtPressableButtonComponentVisualizer());
 
 		if (Visualizer.IsValid())
@@ -28,7 +31,11 @@ void FUXToolsEditorModule::StartupModule()
 		}
 	}
 
-	// register settings
+	// Register customizations
+	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+	PropertyModule.RegisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName(), FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FUxtIconBrushCustomization::MakeInstance));
+
+	// Register settings
 	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
 	if (SettingsModule != nullptr)
 	{
@@ -46,9 +53,15 @@ void FUXToolsEditorModule::ShutdownModule()
 {
 	if (GUnrealEd)
 	{
+		// Unregister visualizers
 		GUnrealEd->UnregisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName());
 	}
 
+	// Unregister customizations
+	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+	PropertyModule.UnregisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName());
+
+	// Unregister settings
 	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
 
 	if (SettingsModule != nullptr)

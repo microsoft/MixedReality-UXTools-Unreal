@@ -4,7 +4,6 @@
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UXToolsEditor.h"
 #include <SceneManagement.h>
-#include <Components/StaticMeshComponent.h>
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 namespace
@@ -42,7 +41,7 @@ void FUxtPressableButtonComponentVisualizer::DrawVisualization(const UActorCompo
 		if (USceneComponent* Visuals = Button->GetVisuals())
 		{
 			FTransform LocalToTarget = Visuals->GetComponentTransform() * Button->GetComponentTransform().Inverse();
-			FBox Bounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Visuals, LocalToTarget).GetBox();
+			FBox Bounds = UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Visuals, LocalToTarget, UUxtPressableButtonComponent::VisualBoundsFilter).GetBox();
 
 			FTransform ToFrontFace = FTransform(FVector(Bounds.Max.X, 0, 0));
 			FMatrix FrontFaceMatrix = (ToFrontFace * Button->GetComponentTransform()).ToMatrixNoScale();

@@ -37,18 +37,24 @@ public:
 	static FTransform RotateAboutPivotPoint(const FTransform &Transform, const FRotator &Rotation, const FVector &Pivot);
 
 	/**
-	* Calculates the composite bounding box and bounding sphere around a component and its children, the output is in 
-	* the space of the component.
+	* Function pointer which takes a scene component and returns true if the component should be considered for hierarchy bounds calculations.
 	*/
-	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component)
+	typedef bool (*HierarchyBoundsFilter)(const USceneComponent* Component);
+
+	/**
+	* Calculates the composite bounding box and bounding sphere around a component and its children, the output is in 
+	* the space of the component. The optional filter component can be used to ignore specific scene components.
+	*/
+	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, HierarchyBoundsFilter Filter = nullptr)
 	{
-		return CalculateHierarchyBounds(Component, FTransform::Identity);
+		return CalculateHierarchyBounds(Component, FTransform::Identity, Filter);
 	}
 
 	/**
-	* Calculates the composite bounding box and bounding sphere around a component and its children.
+	* Calculates the composite bounding box and bounding sphere around a component and its children. The optional filter component can be 
+	* used to ignore specific scene components.
 	*/
-	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, const FTransform& LocalToTarget);
+	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter = nullptr);
 
 };
 

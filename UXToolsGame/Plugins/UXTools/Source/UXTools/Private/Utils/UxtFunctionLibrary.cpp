@@ -34,17 +34,3 @@ bool UUxtFunctionLibrary::IsInEditor()
 #endif
 	return false;
 }
-
-bool UUxtFunctionLibrary::HexCodePointToFString(const FString& Input, FString& Output)
-{
-	TCHAR Char = (TCHAR)FCString::Strtoi(*Input, nullptr, 16);
-	if (Char != 0)
-	{
-		Output.Reset(1);
-		Output.AppendChar(Char);
-		return true;
-	}
-
-	Output = Input;
-	return false;
-}
