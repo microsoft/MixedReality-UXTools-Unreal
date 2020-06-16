@@ -89,7 +89,7 @@ void GrabTargetComponentInteractionModeSpec::Define()
 					FrameQueue.Enqueue([this]
 						{
 							// set interaction mode to not include near interaction
-							Target->InteractionMode = (1 << (uint8)EUxtInteractionMode::Far);
+							Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Far);
 							// enable grab again
 							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
 						});
@@ -131,7 +131,7 @@ void GrabTargetComponentInteractionModeSpec::Define()
 							TestEqual("Primary grab pointer", PointerData.NearPointer, NearPointer);
 
 							// change interaction mode to far only while interacting
-							Target->InteractionMode = (1 << (uint8)EUxtInteractionMode::Far);
+							Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Far);
 						});	
 
 					FrameQueue.Enqueue([this, Done]
@@ -179,7 +179,7 @@ void GrabTargetComponentInteractionModeSpec::Define()
 							UxtTestUtils::GetTestHandTracker().SetSelectPressed(false);
 
 							// set interaction mode to not include far interaction
-							Target->InteractionMode = static_cast<uint8>(EUxtInteractionMode::Near);
+							Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Near);
 						});
 
 					FrameQueue.Enqueue([this]
@@ -232,7 +232,7 @@ void GrabTargetComponentInteractionModeSpec::Define()
 							TestEqual("Primary grab pointer", PointerData.FarPointer, FarPointer);
 
 							// set interaction mode to not include far interaction
-							Target->InteractionMode = static_cast<uint8>(EUxtInteractionMode::Near);
+							Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Near);
 						});
 
 					FrameQueue.Enqueue([this, Done]

@@ -25,7 +25,7 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UUxtNearPointerComponent* NearPointer = nullptr;
 
 	/** The far pointer that is interacting with the component */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	UUxtFarPointerComponent* FarPointer = nullptr;
 
 	/** Last updated grab point transform. (Pointer transform in near pointer case, ray hit transform in far pointer case) */
@@ -240,7 +240,7 @@ public:
 
 	/** Property that indicates if the object is grabbable with far or near interaction or both. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction, meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
-	uint8 InteractionMode;
+	int32 InteractionMode;
 
 private:
 

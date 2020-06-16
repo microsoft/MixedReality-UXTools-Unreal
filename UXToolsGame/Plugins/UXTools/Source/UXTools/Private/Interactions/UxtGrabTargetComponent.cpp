@@ -9,9 +9,9 @@
 
 namespace 
 {
-	bool HasInteractionFlag(uint8 value, EUxtInteractionMode flag)
+	bool HasInteractionFlag(int32 value, EUxtInteractionMode flag)
 	{
-		return !!(value & (1 << (uint8)flag));
+		return !!(value & static_cast<int32>(flag));
 	}
 }
 
@@ -87,7 +87,7 @@ FVector UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(const FUxtGrabPoi
 UUxtGrabTargetComponent::UUxtGrabTargetComponent()
 {
 	bTickOnlyWhileGrabbed = true;
-	InteractionMode = (1 << (uint8)EUxtInteractionMode::Near) | (1 << (uint8)EUxtInteractionMode::Far);
+	InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 }
 
 const TArray<FUxtGrabPointerData> &UUxtGrabTargetComponent::GetGrabPointers() const

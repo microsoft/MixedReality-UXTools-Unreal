@@ -7,50 +7,6 @@
 #include "UxtManipulatorComponentBase.h"
 #include "UxtGenericManipulatorComponent.generated.h"
 
-/** Manipulation modes supported by the generic manipulator. */
-UENUM(meta = (Bitflags))
-enum class EUxtGenericManipulationMode : uint8
-{
-	/** Move and rotate objects with one hand. */
-	OneHanded,
-	/** Move, rotate, scale objects with two hands. */
-	TwoHanded,
-};
-ENUM_CLASS_FLAGS(EUxtGenericManipulationMode)
-
-/** Specifies how the object will rotate when it is being grabbed with one hand. */
-UENUM(BlueprintType)
-enum class EUxtOneHandRotationMode : uint8
-{
-	/** Does not rotate object as it is being moved. */
-	MaintainOriginalRotation,
-	/** Only works for articulated hands/controllers. Rotate object using rotation of the hand/controller, but about the object center point. Useful for inspecting at a distance. */
-	RotateAboutObjectCenter,
-	/** Only works for articulated hands/controllers. Rotate object as if it was being held by hand/controller. Useful for inspection. */
-	RotateAboutGrabPoint,
-	/** Maintains the object's original rotation for Y/Z axis to the user. */
-	MaintainRotationToUser,
-	/** Maintains object's original rotation to user, but makes the object vertical. Useful for bounding boxes. */
-	GravityAlignedMaintainRotationToUser,
-	/** Ensures object always faces the user. Useful for slates/panels. */
-	FaceUser,
-	/** Ensures object always faces away from user. Useful for slates/panels that are configured backwards. */
-	FaceAwayFromUser,
-};
-
-/** Two-handed transformations supported by the generic manipulator. */
-UENUM(meta = (Bitflags))
-enum class EUxtTwoHandTransformMode : uint8
-{
-	/** Translation by average movement of grab points. */
-	Translation,
-	/** Rotation by the line between grab points. */
-	Rotation,
-	/** Scaling by distance between grab points. */
-	Scaling,
-};
-ENUM_CLASS_FLAGS(EUxtTwoHandTransformMode)
-
 /**
  * Generic manipulator that supports both one- and two-handed interactions.
  * 
@@ -94,15 +50,15 @@ public:
 
 	/** Enabled manipulation modes. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtGenericManipulationMode))
-	uint8 ManipulationModes;
+	int32 ManipulationModes;
 
 	/** Mode of rotation to use while using one hand only. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator)
 	EUxtOneHandRotationMode OneHandRotationMode;
 
 	/** Enabled transformations in two-handed manipulation. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtTwoHandTransformMode))
-	uint8 TwoHandTransformModes;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtTransformMode))
+	int32 TwoHandTransformModes;
 
 	/** The component to transform, will default to the root scene component if not specified */
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = GenericManipulator)

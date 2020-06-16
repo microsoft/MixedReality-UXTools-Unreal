@@ -16,9 +16,9 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
 	// Default values
-	ManipulationModes = (1 << (uint8)EUxtGenericManipulationMode::OneHanded) | (1 << (uint8)EUxtGenericManipulationMode::TwoHanded);
+	ManipulationModes = static_cast<int32>(EUxtGenericManipulationMode::OneHanded | EUxtGenericManipulationMode::TwoHanded);
 	OneHandRotationMode = EUxtOneHandRotationMode::MaintainOriginalRotation;
-	TwoHandTransformModes = (1 << (uint8)EUxtTwoHandTransformMode::Translation) | (1 << (uint8)EUxtTwoHandTransformMode::Rotation) | (1 << (uint8)EUxtTwoHandTransformMode::Scaling);
+	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
 	Smoothing = 100.0f;
 }
 
@@ -180,7 +180,7 @@ bool UUxtGenericManipulatorComponent::GetTwoHandScale(const FTransform& InSource
 
 void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 {
-	if (!(ManipulationModes & (1 << (uint8)EUxtGenericManipulationMode::OneHanded)))
+	if (!(ManipulationModes & static_cast<int32>(EUxtGenericManipulationMode::OneHanded)))
 	{
 		return;
 	}
@@ -198,24 +198,24 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 
 void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 {
-	if (!(ManipulationModes & (1 << (uint8)EUxtGenericManipulationMode::TwoHanded)))
+	if (!(ManipulationModes & static_cast<int32>(EUxtGenericManipulationMode::TwoHanded)))
 	{
 		return;
 	}
 
 	FTransform TargetTransform = InitialTransform;
 
-	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Scaling)))
+	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Scaling)))
 	{
 		GetTwoHandScale(TargetTransform, TargetTransform);
 	}
 
-	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Rotation)))
+	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Rotation)))
 	{
 		GetTwoHandRotation(TargetTransform, TargetTransform);
 	}
 
-	if (!!(TwoHandTransformModes & (1 << (uint8)EUxtTwoHandTransformMode::Translation)))
+	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Translation)))
 	{
 		MoveToTargets(TargetTransform, TargetTransform, true);
 	}
