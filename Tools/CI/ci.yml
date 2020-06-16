@@ -37,7 +37,7 @@ stages:
       displayName: 'Build Android Development'
 
     # RepoMirrorUrl will usually contain a PAT because the build agent doesn't have write permission.
-    - powershell: '$(UXTSourceDir)\Tools\scripts\MirrorToRemote.ps1 -RemoteUrl $(RepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(MirrorRefsToAllowRegex)'
+    - powershell: '$(UXTSourceDir)\Tools\CI\scripts\MirrorToRemote.ps1 -RemoteUrl $(RepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(MirrorRefsToAllowRegex)'
       displayName: 'Mirror $(Build.SourceBranch) branch'
 
 - stage: iOS
