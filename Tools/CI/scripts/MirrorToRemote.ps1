@@ -39,4 +39,5 @@ Write-Host("Branch $RefToPush is allowed by allow list '$RefsToAllowRegex'");
 #& $env:UXTSourceDir\Tools\scripts\CheckHistory.ps1 ${RefToPush}
 #if ($LastExitCode) { throw $LastExitCode }
 
-git push $RemoteUrl $RefToPush
+$ShortRef = $AllowedRef -replace "refs/heads/",""
+git push $RemoteUrl $ShortRef
