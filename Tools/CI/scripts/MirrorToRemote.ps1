@@ -39,5 +39,6 @@ Write-Host("Branch $RefToPush is allowed by allow list '$RefsToAllowRegex'");
 #& $env:UXTSourceDir\Tools\scripts\CheckHistory.ps1 ${RefToPush}
 #if ($LastExitCode) { throw $LastExitCode }
 
-$ShortRef = $AllowedRef -replace "refs/heads/",""
-git push $RemoteUrl $ShortRef
+#$ShortRef = $AllowedRef -replace "refs/heads/",""
+#git push $RemoteUrl $ShortRef
+Write-Host("Mirroring is disabled");
