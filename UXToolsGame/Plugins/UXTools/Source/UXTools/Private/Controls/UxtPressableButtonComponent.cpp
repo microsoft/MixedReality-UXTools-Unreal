@@ -340,7 +340,7 @@ void UUxtPressableButtonComponent::OnExitFocus(UUxtPointerComponent* Pointer)
 
 bool UUxtPressableButtonComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
 {
-	return Primitive == BoxComponent;
+	return !bIsDisabled && (Primitive == BoxComponent);
 }
 
 void UUxtPressableButtonComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
@@ -466,7 +466,7 @@ void UUxtPressableButtonComponent::UpdateMaxPushDistance()
 
 bool UUxtPressableButtonComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
 {
-	return Primitive == BoxComponent;
+	return !bIsDisabled && (Primitive == BoxComponent);
 }
 
 void UUxtPressableButtonComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
