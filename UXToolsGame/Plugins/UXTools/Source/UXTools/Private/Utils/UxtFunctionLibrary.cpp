@@ -12,15 +12,16 @@
 
 FTransform UUxtFunctionLibrary::GetHeadPose(UObject* WorldContextObject)
 {
-	FRotator rot;
-	FVector pos;
-	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(rot, pos);
-
-	FTransform TrackingSpaceTransform(rot, pos);
-	FTransform TrackingToWorld = UHeadMountedDisplayFunctionLibrary::GetTrackingToWorldTransform(WorldContextObject);
-	FTransform Result;
-	FTransform::Multiply(&Result, &TrackingSpaceTransform, &TrackingToWorld);
-	return Result;
+	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(WorldContextObject, 0);
+	if (CameraManager)
+	{
+		USceneComponent* TransformComp = CameraManager->GetTransformComponent();
+		if (TransformComp)
+		{
+			return TransformComp->GetComponentTransform();
+		}
+	}
+	return FTransform::Identity;
 }
 
 bool UUxtFunctionLibrary::IsInEditor()
