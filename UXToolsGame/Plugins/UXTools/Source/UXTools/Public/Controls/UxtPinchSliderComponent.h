@@ -111,6 +111,11 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void  SetTickMarkScale(FVector NewScale);
 
+	UFUNCTION(BlueprintGetter)
+	float GetSmoothing() const { return Smoothing; }
+	UFUNCTION(BlueprintSetter)
+	void SetSmoothing(float NewSmoothing);
+
 #if WITH_EDITOR
 	/** Editor update function - called by UE4*/
 	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
@@ -238,4 +243,14 @@ private:
 	/** Number of pointers currently focusing the button. */
 	int NumPointersFocusing = 0;
 
+	/** 
+	 * Motion smoothing factor to apply while manipulating the slider.
+	 *
+	 * A low-pass filter is applied to the slider's transform to smooth out jittering.
+	 * The new transform is an exponentially weighted average of the current transform and the target transform based on the time step:
+	 *
+	 * T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )
+	 */
+	UPROPERTY(EditAnywhere, DisplayName = "Smoothing", BlueprintGetter = "GetSmoothing", BlueprintSetter = "SetSmoothing", Category = "Pinch Slider", meta = (ClampMin = "0.0"))
+	float Smoothing;
 };

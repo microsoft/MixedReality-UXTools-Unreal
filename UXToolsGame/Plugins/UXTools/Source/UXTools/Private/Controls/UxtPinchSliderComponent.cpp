@@ -9,6 +9,24 @@
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
+namespace
+{
+	/**
+	 * Smooth a value to remove jittering.
+	 * Returns a exponentially weighted average of the current start value and the end value based on the time step.
+	 */
+	float SmoothValue(float StartValue, float EndValue, float Smoothing, float DeltaSeconds)
+	{
+		if (Smoothing <= 0.0f)
+		{
+			return EndValue;
+		}
+
+		const float Weight = FMath::Clamp(FMath::Exp(-Smoothing * DeltaSeconds), 0.0f, 1.0f);
+
+		return FMath::Lerp(StartValue, EndValue, Weight);
+	}
+}
 
 // Sets default values for this component's properties
 UUxtPinchSliderComponent::UUxtPinchSliderComponent()
@@ -25,6 +43,7 @@ UUxtPinchSliderComponent::UUxtPinchSliderComponent()
 	TickMarkScale = FVector(0.0075f, 0.0075f, 0.0075f);
 	CurrentState = EUxtSliderState::Default;
 	CollisionProfile = TEXT("UI");
+	Smoothing = 50.0f;
 	SetComponentTickEnabled(false);
 }
 
@@ -176,6 +195,11 @@ void UUxtPinchSliderComponent::SetTickMarkScale(FVector Scale)
 	UpdateSliderState();
 }
 
+void UUxtPinchSliderComponent::SetSmoothing(float NewSmoothing)
+{
+	Smoothing = FMath::Max(NewSmoothing, 0.0f);
+}
+
 void UUxtPinchSliderComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -191,14 +215,14 @@ void UUxtPinchSliderComponent::BeginPlay()
 		Visuals->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		ConfigureBoxComponent(Visuals);
 	}
-
-
 }
 
 void UUxtPinchSliderComponent::UpdateSliderValueFromLocalPosition(float LocalValue)
 {
-	float BarSize = FMath::Max(SMALL_NUMBER, SliderEndDistance - SliderStartDistance);
-	SliderValue = FMath::Clamp((LocalValue -SliderStartDistance) / BarSize, 0.0f, 1.0f);
+	const float BarSize = FMath::Max(SMALL_NUMBER, SliderEndDistance - SliderStartDistance);
+	const float NewSliderValue = FMath::Clamp((LocalValue - SliderStartDistance) / BarSize, 0.0f, 1.0f);
+	SliderValue = SmoothValue(SliderValue, NewSliderValue, Smoothing, GetWorld()->GetDeltaSeconds());
+
 	OnValueUpdated.Broadcast(this, SliderValue);
 	UpdateThumbPositionFromSliderValue();
 }
@@ -214,7 +238,6 @@ void UUxtPinchSliderComponent::UpdateThumbPositionFromSliderValue()
 		{
 			BoxComponent->SetRelativeLocation(FVector(RelativePos.X, FMath::Lerp(SliderStartDistance, SliderEndDistance, SliderValue), RelativePos.Z));
 		}
-		
 	}
 }
 
@@ -222,7 +245,7 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent(const UStaticMeshComponent*
 {
 	if (!BoxComponent)
 	{
-		UE_LOG(UXTools, Error, TEXT("Attempting to configure the box component for '%s' before it is initialised, the button will not work properly."), *GetOwner()->GetName());
+		UE_LOG(UXTools, Error, TEXT("Attempting to configure the box component for '%s' before it is initialised, the slider will not work properly."), *GetOwner()->GetName());
 		return;
 	}
 
@@ -232,9 +255,6 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent(const UStaticMeshComponent*
 	BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
 	BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Mesh->GetComponentTransform());
 	BoxComponent->SetCollisionProfileName(CollisionProfile);
-
-
-
 }
 
 void UUxtPinchSliderComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)

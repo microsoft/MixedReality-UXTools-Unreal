@@ -27,6 +27,7 @@ namespace
 
 		UUxtPinchSliderComponent* TestTarget = NewObject<UUxtPinchSliderComponent>(Actor);
 		TestTarget->SetWorldLocation(Location);
+		TestTarget->SetSmoothing(0.0f);
 		TestTarget->RegisterComponent();
 
 		FString MeshFilename = TEXT("/UXTools/Slider/Meshes/SM_Button_Oval_Concave_12x24mm_optimized.SM_Button_Oval_Concave_12x24mm_optimized");
