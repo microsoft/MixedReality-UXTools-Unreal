@@ -20,30 +20,30 @@ class UPinchSliderTestComponent : public UActorComponent
 public:
 
 	UFUNCTION()
-	void OnInteractionStarted(UUxtPinchSliderComponent* SliderComponent)
+	void OnInteractionStarted(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer)
 	{
 		OnInteractionStartedReceived = true;
 	}
 
 	UFUNCTION()
-	void OnInteractionEnded(UUxtPinchSliderComponent* SliderComponent)
+	void OnInteractionEnded(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer)
 	{
 		OnInteractionEndedReceived = true;
 	}
 
 	UFUNCTION()
-		void OnFocusEnter(UUxtPinchSliderComponent* SliderComponent)
+	void OnFocusEnter(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer, bool bWasAlreadyFocused)
 	{
 		OnFocusEnterReceived = true;
 	}
 	
 	UFUNCTION()
-		void OnFocusExit(UUxtPinchSliderComponent* SliderComponent)
+	void OnFocusExit(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer, bool bIsStillFocused)
 	{
 		OnFocusExitReceived = true;
 	}
 	UFUNCTION()
-		void OnValueUpdated(UUxtPinchSliderComponent* SliderComponent, float value)
+	void OnValueUpdated(UUxtPinchSliderComponent* SliderComponent, float value)
 	{
 		OnValueUpdatedReceived = true;
 	}

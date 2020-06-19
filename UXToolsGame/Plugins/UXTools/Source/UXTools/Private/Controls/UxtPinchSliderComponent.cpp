@@ -34,7 +34,7 @@ UUxtPinchSliderComponent::UUxtPinchSliderComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 	ThumbVisuals.ComponentProperty = TEXT("SliderThumb");
-	TrackVisuals.ComponentProperty = TEXT("SliderTrack"); 
+	TrackVisuals.ComponentProperty = TEXT("SliderTrack");
 	TickMarkVisuals.ComponentProperty = TEXT("TickMarks");
 	SliderStartDistance = 0.0f;
 	SliderEndDistance = 50.0f;
@@ -53,6 +53,44 @@ void UUxtPinchSliderComponent::SetCollisionProfile(FName Profile)
 	if (BoxComponent)
 	{
 		BoxComponent->SetCollisionProfileName(CollisionProfile);
+	}
+}
+
+void UUxtPinchSliderComponent::SetEnabled(bool bEnabled)
+{
+	if (bEnabled && CurrentState == EUxtSliderState::Disabled)
+	{
+		bool bWasAlreadyFocused = false;
+
+		for (UUxtFarPointerComponent* FarPointer : FocusingFarPointers)
+		{
+			OnBeginFocus.Broadcast(this, FarPointer, bWasAlreadyFocused);
+			bWasAlreadyFocused = true;
+		}
+
+		for (UUxtNearPointerComponent* NearPointer : FocusingNearPointers)
+		{
+			OnEndFocus.Broadcast(this, NearPointer, bWasAlreadyFocused);
+			bWasAlreadyFocused = true;
+		}
+		
+		const bool bIsFocused = FocusingFarPointers.Num() + FocusingNearPointers.Num() > 0;
+		CurrentState = bIsFocused ? EUxtSliderState::Focus : EUxtSliderState::Default;
+
+		OnUpdateState.Broadcast(CurrentState);
+		OnSliderEnabled.Broadcast(this);
+	}
+	else if (!bEnabled && CurrentState != EUxtSliderState::Disabled)
+	{
+		if (GrabPointerWeak.Get())
+		{
+			GrabPointerWeak->SetFocusLocked(false);
+			GrabPointerWeak = nullptr;
+		}
+
+		CurrentState = EUxtSliderState::Disabled;
+		OnUpdateState.Broadcast(CurrentState);
+		OnSliderDisabled.Broadcast(this);
 	}
 }
 
@@ -115,12 +153,44 @@ void UUxtPinchSliderComponent::UpdateSliderState()
 				}
 			}
 
-			
+
 		}
 
 	}
 }
 
+void UUxtPinchSliderComponent::BeginFocus(UUxtPointerComponent* Pointer)
+{
+	if (CurrentState != EUxtSliderState::Disabled)
+	{
+		// One pointer means we just received focus
+		const bool bWasAlreadyFocused = FocusingFarPointers.Num() + FocusingNearPointers.Num() != 1;
+
+		if (!bWasAlreadyFocused)
+		{
+			CurrentState = EUxtSliderState::Focus;
+			OnUpdateState.Broadcast(CurrentState);
+		}
+
+		OnBeginFocus.Broadcast(this, Pointer, bWasAlreadyFocused);
+	}
+}
+
+void UUxtPinchSliderComponent::EndFocus(UUxtPointerComponent* Pointer)
+{
+	if (CurrentState != EUxtSliderState::Disabled)
+	{
+		const bool bIsStillFocused = FocusingFarPointers.Num() + FocusingNearPointers.Num() > 0;
+
+		if (!bIsStillFocused)
+		{
+			CurrentState = EUxtSliderState::Default;
+			OnUpdateState.Broadcast(CurrentState);
+		}
+
+		OnEndFocus.Broadcast(this, Pointer, bIsStillFocused);
+	}
+}
 
 UStaticMeshComponent* UUxtPinchSliderComponent::GetThumbVisuals() const
 {
@@ -223,7 +293,7 @@ void UUxtPinchSliderComponent::UpdateSliderValueFromLocalPosition(float LocalVal
 	const float NewSliderValue = FMath::Clamp((LocalValue - SliderStartDistance) / BarSize, 0.0f, 1.0f);
 	SliderValue = SmoothValue(SliderValue, NewSliderValue, Smoothing, GetWorld()->GetDeltaSeconds());
 
-	OnValueUpdated.Broadcast(this, SliderValue);
+	OnUpdateValue.Broadcast(this, SliderValue);
 	UpdateThumbPositionFromSliderValue();
 }
 
@@ -259,75 +329,62 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent(const UStaticMeshComponent*
 
 void UUxtPinchSliderComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	UUxtFarPointerComponent* FarPointer = FarPointerWeak.Get();
-	if (Pointer && Pointer == FarPointer)
+	if (Pointer && Pointer == GrabPointerWeak.Get())
 	{
-		FarPointerWeak = NULL;
+		GrabPointerWeak = nullptr;
 		Pointer->SetFocusLocked(false);
 		if (CurrentState == EUxtSliderState::Grab)
 		{
-			OnInteractionEnded.Broadcast(this);
+			OnEndInteraction.Broadcast(this, Pointer);
 			CurrentState = EUxtSliderState::Default;
-			OnStateUpdated.Broadcast(CurrentState);
+			OnUpdateState.Broadcast(CurrentState);
 		}
-		
 	}
 }
 
 void UUxtPinchSliderComponent::OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	if (Pointer && (CurrentState == EUxtSliderState::Grab))
-	{ 
+	{
 		FVector DeltaPos = Pointer->GetPointerOrigin() - GrabStartPositionWS;
 		FTransform T = GetComponentTransform();
 		DeltaPos = T.InverseTransformVector(DeltaPos);
 		float NewLocation = GrabThumbStartPositionLS + DeltaPos.Y;
 		UpdateSliderValueFromLocalPosition(NewLocation);
-
 	}
 }
 
 void UUxtPinchSliderComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	if (Pointer && (CurrentState != EUxtSliderState::Grab) && !FarPointerWeak.IsValid())
+	if (CurrentState != EUxtSliderState::Disabled)
 	{
-		FarPointerWeak = Pointer;
-		Pointer->SetFocusLocked(true);
-		OnInteractionStarted.Broadcast(this);
-		CurrentState = EUxtSliderState::Grab;
-		OnStateUpdated.Broadcast(CurrentState);
-		GrabStartPositionWS = Pointer->GetPointerOrigin();
-		UStaticMeshComponent* Thumb = GetThumbVisuals();
-		if (Thumb)
+		if (Pointer && (CurrentState != EUxtSliderState::Grab) && !GrabPointerWeak.IsValid())
 		{
-			GrabThumbStartPositionLS = Thumb->GetRelativeLocation().Y;
+			GrabPointerWeak = Pointer;
+			Pointer->SetFocusLocked(true);
+			OnBeginInteraction.Broadcast(this, Pointer);
+			CurrentState = EUxtSliderState::Grab;
+			OnUpdateState.Broadcast(CurrentState);
+			GrabStartPositionWS = Pointer->GetPointerOrigin();
+			UStaticMeshComponent* Thumb = GetThumbVisuals();
+			if (Thumb)
+			{
+				GrabThumbStartPositionLS = Thumb->GetRelativeLocation().Y;
+			}
 		}
-		
 	}
 }
 
 void UUxtPinchSliderComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	const bool bIsFocused = --NumPointersFocusing > 0;
-
-	if (!bIsFocused &&(CurrentState == EUxtSliderState::Focus))
-	{
-		CurrentState = EUxtSliderState::Default;
-		OnStateUpdated.Broadcast(CurrentState);
-		OnFocusExit.Broadcast(this);
-	}
+	FocusingFarPointers.Remove(Pointer);
+	EndFocus(Pointer);
 }
-
 
 void UUxtPinchSliderComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	++NumPointersFocusing;
-	if (CurrentState == EUxtSliderState::Default)
-	{
-		CurrentState = EUxtSliderState::Focus;
-		OnStateUpdated.Broadcast(CurrentState);
-		OnFocusEnter.Broadcast(this);
-	}
+	FocusingFarPointers.Add(Pointer);
+	BeginFocus(Pointer);
 }
 
 bool UUxtPinchSliderComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
@@ -339,11 +396,12 @@ void UUxtPinchSliderComponent::OnEndGrab_Implementation(UUxtNearPointerComponent
 {
 	if (Pointer && CurrentState == EUxtSliderState::Grab)
 	{
+		GrabPointerWeak = nullptr;
 		Pointer->SetFocusLocked(false);
 		CurrentState = EUxtSliderState::Default;
-		OnStateUpdated.Broadcast(CurrentState);
-		OnInteractionEnded.Broadcast(this);
-	}	
+		OnUpdateState.Broadcast(CurrentState);
+		OnEndInteraction.Broadcast(this, Pointer);
+	}
 }
 
 void UUxtPinchSliderComponent::OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer)
@@ -354,50 +412,44 @@ void UUxtPinchSliderComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompon
 		FTransform T = GetComponentTransform();
 		DeltaPos = T.InverseTransformVector(DeltaPos);
 		float NewLocation = GrabThumbStartPositionLS + DeltaPos.Y;
-		UpdateSliderValueFromLocalPosition(NewLocation);	
+		UpdateSliderValueFromLocalPosition(NewLocation);
 	}
 }
 
 void UUxtPinchSliderComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (Pointer && CurrentState != EUxtSliderState::Grab)
+	if (CurrentState != EUxtSliderState::Disabled)
 	{
-		Pointer->SetFocusLocked(true);
-		CurrentState = EUxtSliderState::Grab;
-		OnStateUpdated.Broadcast(CurrentState);
-		OnInteractionStarted.Broadcast(this);
-		GrabStartPositionWS = Pointer->GetGrabPointerTransform().GetLocation();
-		UStaticMeshComponent* Thumb = GetThumbVisuals();
-		if (Thumb)
+		if (Pointer && CurrentState != EUxtSliderState::Grab)
 		{
-			GrabThumbStartPositionLS = Thumb->GetRelativeLocation().Y;
+			GrabPointerWeak = Pointer;
+			Pointer->SetFocusLocked(true);
+			CurrentState = EUxtSliderState::Grab;
+			OnUpdateState.Broadcast(CurrentState);
+			OnBeginInteraction.Broadcast(this, Pointer);
+			GrabStartPositionWS = Pointer->GetGrabPointerTransform().GetLocation();
+			UStaticMeshComponent* Thumb = GetThumbVisuals();
+			if (Thumb)
+			{
+				GrabThumbStartPositionLS = Thumb->GetRelativeLocation().Y;
+			}
 		}
 	}
 }
 
 void UUxtPinchSliderComponent::OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (CurrentState == EUxtSliderState::Focus)
-	{
-		CurrentState = EUxtSliderState::Default;
-		OnStateUpdated.Broadcast(CurrentState);
-		OnFocusExit.Broadcast(this);
-	}
+	FocusingNearPointers.Remove(Pointer);
+	EndFocus(Pointer);
 }
-
 
 void UUxtPinchSliderComponent::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (CurrentState == EUxtSliderState::Default)
-	{
-		CurrentState = EUxtSliderState::Focus;
-		OnStateUpdated.Broadcast(CurrentState);
-		OnFocusEnter.Broadcast(this);
-	}
+	FocusingNearPointers.Add(Pointer);
+	BeginFocus(Pointer);
 }
 
 bool UUxtPinchSliderComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive)
 {
 	return BoxComponent == Primitive;
 }
-
