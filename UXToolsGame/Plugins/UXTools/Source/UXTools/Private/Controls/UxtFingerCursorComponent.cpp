@@ -111,10 +111,26 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	if (UUxtNearPointerComponent* HandPointer = HandPointerWeak.Get())
 	{
 		FVector PointOnTarget;
-		if (auto Target = HandPointer->GetFocusedPokeTarget(PointOnTarget))
+		FTransform PointerTransform;
+
+		UObject* Target = HandPointer->GetFocusedPokeTarget(PointOnTarget);
+		if (Target)
 		{
-			FTransform PokePointerTransform = HandPointer->GetPokePointerTransform();
-			const auto DistanceToTarget = FVector::Dist(PointOnTarget, PokePointerTransform.GetLocation());
+			PointerTransform = HandPointer->GetPokePointerTransform();
+		}
+		else if (bShowOnGrabTargets)
+		{
+			Target = HandPointer->GetFocusedGrabTarget(PointOnTarget);
+
+			if (Target)
+			{
+				PointerTransform = HandPointer->GetGrabPointerTransform();
+			}
+		}
+
+		if (Target)
+		{
+			const float DistanceToTarget = FVector::Dist(PointOnTarget, PointerTransform.GetLocation());
 
 			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
 			const float Epsilon = 0.000001;

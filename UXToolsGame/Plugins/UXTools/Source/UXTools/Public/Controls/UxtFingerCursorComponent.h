@@ -34,6 +34,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Finger Cursor")
 	float MinRadius = 0.15f;
 
+	/** Show the finger cursor on grab targets. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Finger Cursor")
+	bool bShowOnGrabTargets = false;
+
 protected:
 
 	virtual void BeginPlay() override;

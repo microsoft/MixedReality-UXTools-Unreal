@@ -74,6 +74,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction")
 	bool bUseDefaultFarBeam = true;
 
+	/** Show the near cursor on grab targets. Changes to this value after BeginPlay have no effect. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
+	bool bShowNearCursorOnGrabTargets = false;
+
 private:
 
 	/** Determine if the hand pose is valid for making selections. */
@@ -106,7 +110,7 @@ private:
 
 	UPROPERTY(Transient)
 	UUxtFarPointerComponent* FarPointer;
-	
+
 	bool bHadTracking = false;
 	FVector PrevQueryPosition;
 };

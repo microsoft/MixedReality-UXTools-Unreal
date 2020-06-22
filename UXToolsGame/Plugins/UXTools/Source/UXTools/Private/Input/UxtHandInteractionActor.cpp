@@ -48,6 +48,7 @@ void AUxtHandInteractionActor::BeginPlay()
 	{
 		UUxtFingerCursorComponent* NearCursor = NewObject<UUxtFingerCursorComponent>(this);
 		NearCursor->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		NearCursor->bShowOnGrabTargets = bShowNearCursorOnGrabTargets;
 		NearCursor->RegisterComponent();
 	}
 
