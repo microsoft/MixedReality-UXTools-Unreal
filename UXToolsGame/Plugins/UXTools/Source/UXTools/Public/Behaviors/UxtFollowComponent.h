@@ -121,22 +121,13 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 private:
-	void UpdateTransformToGoal(float DeltaTime);
+	void UpdateLeashing();
+	void UpdateTransformToGoal(bool bSkipInterpolation, float DeltaTime = 0);
 
 private:
 
-	FVector GoalPosition;
-	FVector WorkingPosition;
-	FQuat GoalRotation;
-	FQuat WorkingRotation;
-	FQuat PreviousRotation;
-
-	FVector ReferencePosition;
-	FQuat ReferenceRotation;
-	FVector PreviousReferencePosition;
-	FQuat PreviousReferenceRotation;
+	FTransform GoalTransform;
+	FTransform WorkingTransform;
 
 	bool bRecenterNextUpdate = true;
-	bool bSkipInterpolation = false;
-	bool bHaveValidCamera = false;
 };
