@@ -36,3 +36,17 @@ The generic manipulator has a simple smoothing option to reduce jittering from n
 The smoothing method is based on a low-pass filter that gets applied to the source transform location and rotation. The resulting actor transform `T_final` is a exponentially weighted average of the current transform `T_current` and the raw target transform `T_target` based on the time step:
 
 `T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )`
+
+### Notes
+
+When using the _Generic Manipulator_ with a _Procedural Mesh_, you will need to:
+
+* Disable "Use Complex as Simple Collision" on the _Procedural Mesh_.
+
+![UseComplexAsSimpleCollision](Images/Manipulator/UseComplexAsSimpleCollision.png)
+
+* Set "Create Collision" when creating the _Procedural Mesh_.
+
+![CreateCollision](Images/Manipulator/CreateCollision.png)
+
+This is due to UXTools only querying for simple collision volumes when detecting interaction targets, in order to ensure correct detection in all situations. You can read more about simple vs complex collisions [here](https://docs.unrealengine.com/en-US/Engine/Physics/SimpleVsComplex/index.html).
