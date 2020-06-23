@@ -6,6 +6,7 @@
 #include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 #include "Utils/UxtFunctionLibrary.h"
+#include "Constraints/UxtConstraintManager.h"
 
 #include "Engine/World.h"
 
@@ -59,24 +60,11 @@ void UUxtGenericManipulatorComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// Set the user defined transform target if specified
-	if (TargetComponent.ComponentProperty != NAME_None)
+	if (USceneComponent* Reference = UUxtFunctionLibrary::GetSceneComponentFromReference(TargetComponent, GetOwner()))
 	{
-		// FComponentReference::GetComponent() doesn't seem to find the component if it's not part of the inherited blueprint.
-		AActor* Actor = TargetComponent.OtherActor ? TargetComponent.OtherActor : GetOwner();
-		TSet<UActorComponent*> Components = Actor->GetComponents();
-
-		for (UActorComponent* Component : Components)
-		{
-			if (Component->GetFName() == TargetComponent.ComponentProperty)
-			{
-				USceneComponent* SceneComponent = Cast<USceneComponent>(Component);
-				if (SceneComponent)
-				{
-					TransformTarget = SceneComponent;
-				}
-			}
-		}
+		TransformTarget = Reference;
 	}
+	
 }
 
 bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
@@ -178,6 +166,11 @@ bool UUxtGenericManipulatorComponent::GetTwoHandScale(const FTransform& InSource
 	return true;
 }
 
+bool UUxtGenericManipulatorComponent::IsNearManipulation() const
+{
+	return GetGrabPointers()[0].NearPointer != nullptr;
+}
+
 void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 {
 	if (!(ManipulationModes & static_cast<int32>(EUxtGenericManipulationMode::OneHanded)))
@@ -186,10 +179,13 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 	}
 
 	FTransform TargetTransform = InitialTransform;
+	Constraints->ApplyScaleConstraints(TargetTransform, true, IsNearManipulation());
 
 	GetOneHandRotation(TargetTransform, TargetTransform);
-
+	Constraints->ApplyRotationConstraints(TargetTransform, true, IsNearManipulation());
+	
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
+	Constraints->ApplyTranslationConstraints(TargetTransform, true, IsNearManipulation());
 
 	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
 
@@ -208,16 +204,19 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Scaling)))
 	{
 		GetTwoHandScale(TargetTransform, TargetTransform);
+		Constraints->ApplyScaleConstraints(TargetTransform, false, IsNearManipulation());
 	}
 
 	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Rotation)))
 	{
 		GetTwoHandRotation(TargetTransform, TargetTransform);
+		Constraints->ApplyRotationConstraints(TargetTransform, false, IsNearManipulation());
 	}
 
 	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Translation)))
 	{
 		MoveToTargets(TargetTransform, TargetTransform, true);
+		Constraints->ApplyTranslationConstraints(TargetTransform, false, IsNearManipulation());
 	}
 
 

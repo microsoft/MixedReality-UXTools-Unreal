@@ -191,9 +191,9 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 
 UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand, bool IsGrasped)
 {
-	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
-	UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FQuat::Identity);
-	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped);
+	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Position, Hand);
+	UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FQuat::Identity, Hand);
+	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped, Hand);
 
 	FActorSpawnParameters p;
 	p.Name = Name;
@@ -230,24 +230,6 @@ UTestGrabTarget* UxtTestUtils::CreateNearPointerGrabTarget(UWorld *World, const 
 
 	UTestGrabTarget *TestTarget = NewObject<UTestGrabTarget>(Actor);
 	TestTarget->RegisterComponent();
-
-	return TestTarget;
-}
-
-UUxtGrabTargetComponent* UxtTestUtils::CreateGrabTargetTestBox(UWorld* World, const FVector& Location)
-{
-	AActor* TargetActor = World->SpawnActor<AActor>();
-
-	// Box Mesh
-	UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(TargetActor);
-	TargetActor->SetRootComponent(MeshComponent);
-	MeshComponent->RegisterComponent();
-
-	// Add Grab Target Component for far & near interaction
-	UUxtGrabTargetComponent* TestTarget = NewObject<UUxtGrabTargetComponent>(TargetActor);
-	TestTarget->RegisterComponent();
-
-	TargetActor->SetActorLocation(Location);
 
 	return TestTarget;
 }

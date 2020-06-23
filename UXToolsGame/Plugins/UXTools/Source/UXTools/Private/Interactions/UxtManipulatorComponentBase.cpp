@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 #include "Interactions/UxtManipulatorComponentBase.h"
-#include "Utils/UxtFunctionLibrary.h"
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Interactions/Manipulation/UxtManipulationMoveLogic.h"
 #include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
 #include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
+#include "Constraints/UxtConstraintManager.h"
 #include "Engine/World.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
 {
@@ -135,6 +136,8 @@ void UUxtManipulatorComponentBase::SetInitialTransform()
 
 	FTransform headPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
 	InitialCameraSpaceTransform = InitialTransform * headPose.Inverse();
+
+	Constraints->Initialize(InitialTransform);
 }
 
 void UUxtManipulatorComponentBase::ApplyTargetTransform(const FTransform &TargetTransform)
@@ -157,6 +160,20 @@ void UUxtManipulatorComponentBase::BeginPlay()
 		OnBeginGrab.AddDynamic(this, &UUxtManipulatorComponentBase::OnManipulationStarted);
 		OnEndGrab.AddDynamic(this, &UUxtManipulatorComponentBase::OnManipulationEnd);
 	}
+
+	Constraints = new UxtConstraintManager(*GetOwner());
+}
+
+void UUxtManipulatorComponentBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	delete Constraints;
+	Super::EndPlay(EndPlayReason);
+}
+
+void UUxtManipulatorComponentBase::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	Constraints->Update(TransformTarget->GetComponentTransform());
 }
 
 void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)

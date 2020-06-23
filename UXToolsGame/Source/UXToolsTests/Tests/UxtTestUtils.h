@@ -47,8 +47,9 @@ public:
 	/** Create a grabbable target actor. */
 	static UTestGrabTarget* CreateNearPointerGrabTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
 
-	/** Create a test box actor with grab target component for near and far interaction. */
-	static UUxtGrabTargetComponent* CreateGrabTargetTestBox(UWorld* World, const FVector& Location);
+	/** Create a test box actor with attached TestComponent*/
+	template <typename TestComponent>
+	static TestComponent* CreateTestBoxWithComponent(UWorld* World, const FVector& Location);
 
 	/** Create a pokable target actor. */
 	static UTestPokeTarget* CreateNearPointerPokeTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
@@ -81,3 +82,22 @@ public:
 /** Latent command to ensure the hand tracker is restored after a test is completed */
 DEFINE_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand);
 
+
+template <typename TestComponent>
+TestComponent* UxtTestUtils::CreateTestBoxWithComponent(UWorld* World, const FVector& Location)
+{
+	AActor* TargetActor = World->SpawnActor<AActor>();
+
+	// Box Mesh
+	UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(TargetActor);
+	TargetActor->SetRootComponent(MeshComponent);
+	MeshComponent->RegisterComponent();
+
+	// Add TestComponent
+	TestComponent* TestTarget = NewObject<TestComponent>(TargetActor);
+	TestTarget->RegisterComponent();
+
+	TargetActor->SetActorLocation(Location);
+
+	return TestTarget;
+}

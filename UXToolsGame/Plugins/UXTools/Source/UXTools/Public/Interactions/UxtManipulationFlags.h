@@ -64,3 +64,14 @@ enum class EUxtTransformMode : uint8
 
 ENUM_CLASS_FLAGS(EUxtTransformMode)
 
+
+///** Flags used to represent a set of 3D axes. */
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
+enum class EUxtAxisFlags : uint8
+{
+	None = 0 UMETA(Hidden),
+	X = 1 << 0,
+	Y = 1 << 1,
+	Z = 1 << 2,
+};
+ENUM_CLASS_FLAGS(EUxtAxisFlags)

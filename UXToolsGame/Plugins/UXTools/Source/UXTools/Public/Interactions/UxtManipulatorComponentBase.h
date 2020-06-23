@@ -10,6 +10,7 @@
 class UxtManipulationMoveLogic;
 class UxtTwoHandManipulationRotateLogic;
 class UxtTwoHandManipulationScaleLogic;
+class UxtConstraintManager;
 
 /** Event triggered when the actor's transform is updated. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateTransformDelegate, USceneComponent*, TargetComponent, FTransform, Transform);
@@ -77,11 +78,15 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UxtManipulationMoveLogic* MoveLogic; // computes move for one and two hands
 	UxtTwoHandManipulationRotateLogic* TwoHandRotateLogic; // computes rotation for two hands
 	UxtTwoHandManipulationScaleLogic* TwoHandScaleLogic; // computes scale for two hands
-
+	
+	UxtConstraintManager* Constraints; // constraint manager - applies constraints to transform changes
 private:
 
 	UFUNCTION()

@@ -5,8 +5,9 @@
 
 #include "CoreMinimal.h"
 #include "UxtManipulatorComponentBase.h"
-#include "UxtGenericManipulatorComponent.generated.h"
 
+#include "UxtManipulationFlags.h"
+#include "UxtGenericManipulatorComponent.generated.h"
 /**
  * Generic manipulator that supports both one- and two-handed interactions.
  * 
@@ -65,6 +66,8 @@ public:
 	FComponentReference TargetComponent;
 
 private:
+
+	bool IsNearManipulation() const;
 
 	/** Motion smoothing factor to apply while manipulating the object.
 	 *

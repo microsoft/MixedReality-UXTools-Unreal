@@ -46,7 +46,7 @@ void GrabTargetComponentInteractionModeSpec::Define()
 
 					UxtTestUtils::EnableTestHandTracker();
 					
-					Target = UxtTestUtils::CreateGrabTargetTestBox(World, Center);
+					Target = UxtTestUtils::CreateTestBoxWithComponent<UUxtGrabTargetComponent>(World, Center);
 					
 					// Register all new components.
 					World->UpdateWorldComponents(false, false);
