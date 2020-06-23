@@ -308,10 +308,16 @@ void FollowComponentSpec::EnqueueOrientationTest()
 
 			auto ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
 			auto Cross = FVector::CrossProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
+			auto Dot = FVector::DotProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
 
 			TestEqual("Follow component orientation has changed to match orientation type", InitialRotation != FollowTransform.GetRotation(), bFacing);
 
 			TestEqual("Follow component orientation type matches behavior", FMath::IsNearlyZero(Cross.Size(), 0.001f), bFacing);
+
+			if (bFacing)
+			{
+				TestTrue("Following actor's +X pointing towards ActorToFollow", Dot > 0.f);
+			}
 		});
 	// Move the target past the dead zone degrees
 	FrameQueue.Enqueue([this]
@@ -337,10 +343,13 @@ void FollowComponentSpec::EnqueueOrientationTest()
 
 			auto ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
 			auto Cross = FVector::CrossProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
+			auto Dot = FVector::DotProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
 
 			TestNotEqual("Follow component orientation has changed", InitialRotation, FollowTransform.GetRotation());
 
 			TestTrue("Follow component orientation type matches behavior", FMath::IsNearlyZero(Cross.Size(), 0.001f));
+
+			TestTrue("Following actor's +X pointing towards ActorToFollow", Dot > 0.f);
 		});
 }
 

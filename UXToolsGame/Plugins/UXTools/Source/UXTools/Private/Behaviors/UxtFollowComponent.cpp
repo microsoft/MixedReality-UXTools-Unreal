@@ -169,7 +169,7 @@ namespace
 		switch (OrientationType)
 		{
 		case EUxtFollowOrientBehavior::FaceCamera:
-			CurrentTransform.SetRotation((CurrentTransform.GetLocation() - FollowPosition).ToOrientationQuat());
+			CurrentTransform.SetRotation((FollowPosition - CurrentTransform.GetLocation()).ToOrientationQuat());
 			break;
 		default:
 			break;

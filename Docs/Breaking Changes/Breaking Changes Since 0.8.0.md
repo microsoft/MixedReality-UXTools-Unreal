@@ -32,3 +32,6 @@ Existing assets referencing those types will have to be re-saved as the redirect
 If you are running UE 4.25.0 and your computer's GPU supports ray tracing you must disable UE 4.25 ray tracing support for UXT's custom shaders to compile. To disable ray tracing navigate to C:\Program Files\Epic Games\UE_4.25\Engine\Config\Windows (or where your installation is located), open `DataDrivenPlatformInfo.ini` and change `bSupportsRayTracing=true` to `bSupportsRayTracing=false`
  
 This setting change is not required in UE 4.25.1 (or later) or people with Epic's 13205426 changelist. This warning is also in the Getting Started portion of the [README](../../README.md).
+
+### Fix UxtFollowComponent to work with +X convention (PR 370)
+`UxtFollowComponent` now works appropriately, following (Actor's) +X convention. That means that, if an asset was rotated by 180º in any subcomponent to be displayed as expected, that should now be reverted, rotating the Actor appropriately instead.
