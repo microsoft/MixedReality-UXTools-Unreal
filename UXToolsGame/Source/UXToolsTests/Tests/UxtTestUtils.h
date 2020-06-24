@@ -6,15 +6,15 @@
 #include "CoreMinimal.h"
 #include "Misc/AutomationTest.h"
 #include "InputCoreTypes.h"
+#include "GameFramework/Actor.h"
+#include "Engine/World.h"
+#include "Components/StaticMeshComponent.h"
 
 class FUxtTestHandTracker;
 class IUxtHandTracker;
 class UTestGrabTarget;
 class UTestPokeTarget;
 class UUxtNearPointerComponent;
-class UWorld;
-class UStaticMeshComponent;
-class AActor;
 class UUxtGrabTargetComponent;
 class UUxtFarPointerComponent;
 
