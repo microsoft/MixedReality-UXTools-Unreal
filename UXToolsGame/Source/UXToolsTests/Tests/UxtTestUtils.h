@@ -39,7 +39,7 @@ public:
 	static UStaticMeshComponent* CreateBoxStaticMesh(AActor* Owner, FVector Scale = FVector::OneVector);
 
 	/** Create a basic near pointer actor. */
-	static UUxtNearPointerComponent* CreateNearPointer(UWorld *World, FName Name, const FVector &Position, bool IsGrasped = false, bool AddMeshVisualizer = true);
+	static UUxtNearPointerComponent* CreateNearPointer(UWorld *World, FName Name, const FVector &Position, EControllerHand Hand = EControllerHand::Right, bool IsGrasped = false, bool AddMeshVisualizer = true);
 
 	/** Create a basic far pointer actor. */
 	static UUxtFarPointerComponent* CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand = EControllerHand::Right ,bool IsGrasped = false);

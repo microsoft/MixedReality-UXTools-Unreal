@@ -160,33 +160,34 @@ void UxtTestUtils::DisableTestHandTracker()
 	}
 }
 
-UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName Name, const FVector &Location, bool IsGrasped, bool AddMeshVisualizer)
+UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName Name, const FVector &Location, EControllerHand Hand, bool IsGrasped, bool AddMeshVisualizer)
 {
-	FActorSpawnParameters p;
-	p.Name = Name;
-	p.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
-	AActor *hand = World->SpawnActor<AActor>(p);
+	FActorSpawnParameters ActorParams;
+	ActorParams.Name = Name;
+	ActorParams.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
+	AActor *PointerActor = World->SpawnActor<AActor>(ActorParams);
 
-	USceneComponent* root = NewObject<USceneComponent>(hand);
-	hand->SetRootComponent(root);
-	root->SetWorldLocation(Location);
-	root->RegisterComponent();
+	USceneComponent* Root = NewObject<USceneComponent>(PointerActor);
+	PointerActor->SetRootComponent(Root);
+	Root->SetWorldLocation(Location);
+	Root->RegisterComponent();
 
-	UUxtNearPointerComponent* pointer = NewObject<UUxtNearPointerComponent>(hand);
-	pointer->RegisterComponent();
+	UUxtNearPointerComponent* Pointer = NewObject<UUxtNearPointerComponent>(PointerActor);
+	Pointer->RegisterComponent();
+	Pointer->Hand = Hand;
 
 	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped);
 	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Location);
 
 	if (AddMeshVisualizer)
 	{
-		UStaticMeshComponent* mesh = CreateBoxStaticMesh(hand, FVector(0.01f));
-		mesh->SetupAttachment(root);
-		mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		mesh->RegisterComponent();
+		UStaticMeshComponent* Mesh = CreateBoxStaticMesh(PointerActor, FVector(0.01f));
+		Mesh->SetupAttachment(Root);
+		Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Mesh->RegisterComponent();
 	}
 
-	return pointer;
+	return Pointer;
 }
 
 UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand, bool IsGrasped)
@@ -195,10 +196,10 @@ UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Nam
 	UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FQuat::Identity, Hand);
 	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped, Hand);
 
-	FActorSpawnParameters p;
-	p.Name = Name;
-	p.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
-	AActor* PointerActor = World->SpawnActor<AActor>(p);
+	FActorSpawnParameters ActorParams;
+	ActorParams.Name = Name;
+	ActorParams.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
+	AActor* PointerActor = World->SpawnActor<AActor>(ActorParams);
 
 	// Root
 	USceneComponent* Root = NewObject<USceneComponent>(PointerActor);

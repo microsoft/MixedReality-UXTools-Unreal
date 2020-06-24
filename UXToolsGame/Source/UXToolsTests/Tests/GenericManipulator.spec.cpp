@@ -7,6 +7,7 @@
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Tests/AutomationCommon.h"
+#include "UxtTestHand.h"
 #include "UxtTestHandTracker.h"
 #include "UxtTestUtils.h"
 
@@ -42,13 +43,14 @@ namespace
 
 BEGIN_DEFINE_SPEC(GenericManipulatorSpec, "UXTools.GenericManipulator", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
 
-	// Core components (created by default)
+	void EnqueueInteractionTests();
+
 	UUxtGenericManipulatorComponent* Target;
 	FFrameQueue FrameQueue;
 
-	// Optional components (must be created by Describe block if needed)
-	UUxtNearPointerComponent* NearPointer;
-	UUxtFarPointerComponent* FarPointer;
+	// Must be configured by Describe block if needed
+	FUxtTestHand LeftHand = FUxtTestHand(EControllerHand::Left);
+	FUxtTestHand RightHand = FUxtTestHand(EControllerHand::Right);
 
 END_DEFINE_SPEC(GenericManipulatorSpec)
 
@@ -114,13 +116,12 @@ void GenericManipulatorSpec::Define()
 		{
 			BeforeEach([this]
 				{
-					NearPointer = UxtTestUtils::CreateNearPointer(UxtTestUtils::GetTestWorld(), "Near Pointer", TargetLocation + FVector(-15, 0, 0));
+					RightHand.Configure(EUxtInteractionMode::Near, TargetLocation);
 				});
 
 			AfterEach([this]
 				{
-					NearPointer->GetOwner()->Destroy();
-					NearPointer = nullptr;
+					RightHand.Reset();
 				});
 
 			LatentIt("should raise transform update events", [this](const FDoneDelegate& Done)
@@ -131,16 +132,16 @@ void GenericManipulatorSpec::Define()
 
 					FrameQueue.Enqueue([this]
 						{
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
+							RightHand.SetGrabbing(true);
 						});
 
 					FrameQueue.Enqueue([this]
 						{
 							TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::RightVector * 10);
+							RightHand.Translate(FVector::RightVector * 10);
 						});
 
-					FrameQueue.Enqueue([this, EventCaptureComponent]()
+					FrameQueue.Enqueue([this, EventCaptureComponent]
 						{
 							TestTrue("Transform update events triggered", EventCaptureComponent->TransformUpdateCount > 0);
 						});
@@ -149,76 +150,161 @@ void GenericManipulatorSpec::Define()
 				});
 		});
 
-	Describe("Far Interaction", [this]
+	Describe("Near Interaction", [this]
 		{
 			BeforeEach([this]
 				{
-					FarPointer = UxtTestUtils::CreateFarPointer(UxtTestUtils::GetTestWorld(), "Far Pointer", TargetLocation + FVector(-200, 0, 0));
+					LeftHand.Configure(EUxtInteractionMode::Near, TargetLocation);
+					RightHand.Configure(EUxtInteractionMode::Near, TargetLocation);
 				});
 
 			AfterEach([this]
 				{
-					FarPointer->GetOwner()->Destroy();
-					FarPointer = nullptr;
+					LeftHand.Reset();
+					RightHand.Reset();
 				});
 
-			LatentIt("should rotate around center with one hand", [this](const FDoneDelegate& Done)
+			EnqueueInteractionTests();
+		});
+
+	Describe("Far Interaction", [this]
+		{
+			BeforeEach([this]
 				{
-					const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
-					const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, FVector::OneVector);
-
-					FrameQueue.Enqueue([this]
-						{
-							Target->OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutObjectCenter;
-							UxtTestUtils::GetTestHandTracker().SetSelectPressed(true);
-						});
-
-					FrameQueue.Enqueue([this, ExpectedRotation]
-						{
-							TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
-							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(ExpectedRotation);
-						});
-
-					FrameQueue.Skip();
-
-					FrameQueue.Enqueue([this, ExpectedTransform]()
-						{
-							const FTransform Result = Target->GetOwner()->GetTransform();
-							TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
-						});
-
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
+					LeftHand.Configure(EUxtInteractionMode::Far, TargetLocation);
+					RightHand.Configure(EUxtInteractionMode::Far, TargetLocation);
 				});
 
-			LatentIt("should rotate around grab point with one hand", [this](const FDoneDelegate& Done)
+			AfterEach([this]
 				{
-					const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
-					const FVector ExpectedLocation(TargetLocation + FVector(0, 50, -50));
-					const FTransform ExpectedTransform(ExpectedRotation, ExpectedLocation, FVector::OneVector);
-
-					FrameQueue.Enqueue([this]
-						{
-							Target->OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutGrabPoint;
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(0, 50, 0));
-							UxtTestUtils::GetTestHandTracker().SetSelectPressed(true);
-						});
-
-					FrameQueue.Enqueue([this, ExpectedRotation]
-						{
-							TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
-							UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(ExpectedRotation);
-						});
-
-					FrameQueue.Skip();
-
-					FrameQueue.Enqueue([this, ExpectedTransform]()
-						{
-							const FTransform Result = Target->GetOwner()->GetTransform();
-							TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
-						});
-
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
+					LeftHand.Reset();
+					RightHand.Reset();
 				});
+
+			EnqueueInteractionTests();
+		});
+}
+
+void GenericManipulatorSpec::EnqueueInteractionTests()
+{
+	LatentIt("should rotate around center with one hand", [this](const FDoneDelegate& Done)
+		{
+			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
+			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, FVector::OneVector);
+
+			FrameQueue.Enqueue([this]
+				{
+					Target->OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutObjectCenter;
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, ExpectedRotation]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Rotate(ExpectedRotation);
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedTransform]
+				{
+					const FTransform Result = Target->GetOwner()->GetTransform();
+					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("should rotate around grab point with one hand", [this](const FDoneDelegate& Done)
+		{
+			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
+			const FVector ExpectedLocation(TargetLocation + FVector(0, 50, -50));
+			const FTransform ExpectedTransform(ExpectedRotation, ExpectedLocation, FVector::OneVector);
+
+			FrameQueue.Enqueue([this]
+				{
+					Target->OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutGrabPoint;
+					RightHand.Translate(FVector(0, 50, 0));
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, ExpectedRotation]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Rotate(ExpectedRotation);
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedTransform]
+				{
+					const FTransform Result = Target->GetOwner()->GetTransform();
+					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("should rotate with two hands", [this](const FDoneDelegate& Done)
+		{
+			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
+			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, FVector::OneVector);
+
+			FrameQueue.Enqueue([this]
+				{
+					LeftHand.Translate(FVector(0, -50, 0));
+					RightHand.Translate(FVector(0, 50, 0));
+
+					LeftHand.SetGrabbing(true);
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() == 2);
+					LeftHand.Translate(FVector(0, 50, -50));
+					RightHand.Translate(FVector(0, -50, 50));
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedTransform]
+				{
+					const FTransform Result = Target->GetOwner()->GetTransform();
+					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("should scale with two hands", [this](const FDoneDelegate& Done)
+		{
+			FrameQueue.Enqueue([this]
+				{
+					LeftHand.Translate(FVector(0, -50, 0));
+					RightHand.Translate(FVector(0, 50, 0));
+
+					LeftHand.SetGrabbing(true);
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() == 2);
+					LeftHand.Translate(FVector(0, -50, 0));
+					RightHand.Translate(FVector(0, 50, 0));
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this]
+				{
+					const FVector ExpectedScale(2, 2, 2);
+					const FVector Result = Target->GetOwner()->GetTransform().GetScale3D();
+					TestTrue("Object is scaled", Result.Equals(ExpectedScale));
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 }
 
