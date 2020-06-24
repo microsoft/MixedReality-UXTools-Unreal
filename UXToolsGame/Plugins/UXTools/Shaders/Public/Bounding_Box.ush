@@ -1,18 +1,18 @@
 #ifndef HUSHED_VERTEX_FRAGMENT_SHADER
 #define HUSHED_VERTEX_FRAGMENT_SHADER
 
-MaterialFloat4x4 HUX_OBJECT_TO_WORLD_POS_MATRIX;
-MaterialFloat3x3 ObjectToWorldDir;
+static MaterialFloat4x4 HUX_OBJECT_TO_WORLD_POS_MATRIX;
+static MaterialFloat3x3 ObjectToWorldDir;
 #define Use_Global_Left_Index (Use_Global_Left_Index_Int!=0)
 #define Use_Global_Right_Index (Use_Global_Right_Index_Int!=0)
-int Use_Global_Left_Index_Int;
-int Use_Global_Right_Index_Int;
-float4 Global_Left_Index_Tip_Position;
-float4 Global_Right_Index_Tip_Position;
-float4 Global_Left_Index_Middle_Position;
-float4 Global_Right_Index_Middle_Position;
-float4 Global_Left_Thumb_Tip_Position;
-float4 Global_Right_Thumb_Tip_Position;
+static int Use_Global_Left_Index_Int;
+static int Use_Global_Right_Index_Int;
+static float4 Global_Left_Index_Tip_Position;
+static float4 Global_Right_Index_Tip_Position;
+static float4 Global_Left_Index_Middle_Position;
+static float4 Global_Right_Index_Middle_Position;
+static float4 Global_Left_Thumb_Tip_Position;
+static float4 Global_Right_Thumb_Tip_Position;
 
 //BLOCK_BEGIN Blob_Vertex 48
 
@@ -226,12 +226,12 @@ void ComputeWidth_B60(
 //BLOCK_END ComputeWidth
 
 
-float3 huxVertexOutput_Normal;
-float2 huxVertexOutput_UV;
-float3 huxVertexOutput_Tangent;
-float3 huxVertexOutput_Binormal;
-float4 huxVertexOutput_Extra1;
-float3 huxVertexOutput_Offset;
+static float3 huxVertexOutput_Normal;
+static float2 huxVertexOutput_UV;
+static float3 huxVertexOutput_Tangent;
+static float3 huxVertexOutput_Binormal;
+static float4 huxVertexOutput_Extra1;
+static float3 huxVertexOutput_Offset;
 
 float3 Hushed_Vertex(
     FMaterialVertexParameters Parameters

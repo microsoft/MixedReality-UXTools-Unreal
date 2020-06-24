@@ -18,10 +18,11 @@ UUxtBackPlateComponent::UUxtBackPlateComponent()
 	check(MeshFinder.Object);
 	SetStaticMesh(MeshFinder.Object);
 
-	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Materials/MI_HoloLens2BackPlate"));
-	check(MaterialFinder.Object);
-	Material = MaterialFinder.Object;
-	SetMaterial(0, Material);
+	// Bug, the FObjectFinder does not pull in files referenced by UMaterialExpressionCustom::IncludeFilePaths and fails to compile during cooking.
+	//static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Materials/MI_HoloLens2BackPlate"));
+	//check(MaterialFinder.Object);
+	//Material = MaterialFinder.Object;
+	//SetMaterial(0, Material);
 
 	// Initialize the mesh to point down the +X axis with the default scale.
 	SetRelativeRotation(FRotator(90, 0, 0));
