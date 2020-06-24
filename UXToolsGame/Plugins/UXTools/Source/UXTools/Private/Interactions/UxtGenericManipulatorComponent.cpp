@@ -48,8 +48,15 @@ void UUxtGenericManipulatorComponent::TickComponent(float DeltaTime, ELevelTick 
 FQuat UUxtGenericManipulatorComponent::GetViewInvariantRotation() const
 {
 	FRotator CameraSpaceYawPitchRotation = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetRotation().Rotator();
+	
+	// Previously roll was ignored but that meant that the object had it's roll offset everytime the user clicked on it/selected it
+	// when using either MaintainRotationToUser or GravityAlignedMaintainRotationToUser behaviours.
+	// The object rolled in the opposite direction to the roll on the users head.
+	// This did not produce the invariant rotation value we desired, so let's comment out the line below that resets the roll
+	// and instead use the complete world rotation value to calculate the relative orientation value.
+
 	// Ignore roll
-	CameraSpaceYawPitchRotation.Roll = 0.0f;
+	//CameraSpaceYawPitchRotation.Roll = 0.0f;
 
 	return CameraSpaceYawPitchRotation.Quaternion() * InitialCameraSpaceTransform.GetRotation();
 }
@@ -105,7 +112,11 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 			FQuat OrientationSwing, OrientationTwist;
 			Orientation.ToSwingTwist(FVector::UpVector, OrientationSwing, OrientationTwist);
 
-			OutTargetTransform.SetRotation(Orientation);
+			// Previously the orientation was simply set back to the same value
+			//OutTargetTransform.SetRotation(Orientation);
+
+			//Let's use the Twist component we isolated above to set orientatin such that it always has an upvector matching world.up.
+			OutTargetTransform.SetRotation(OrientationTwist);
 			return true;
 		}
 
