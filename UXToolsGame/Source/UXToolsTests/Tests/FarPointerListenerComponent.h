@@ -4,12 +4,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/ActorComponent.h"
 #include "Input/UxtFarPointerComponent.h"
-#include "FarPointerListener.generated.h"
+#include "FarPointerListenerComponent.generated.h"
 
 /** Listens to and counts enable/disable events raised by a UxtFarPointerComponent. */
 UCLASS()
-class UXTOOLSTESTS_API UFarPointerListener : public UObject
+class UXTOOLSTESTS_API UFarPointerListenerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
