@@ -5,6 +5,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Utils/UxtFunctionLibrary.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
+
 
 namespace
 {
@@ -44,10 +46,9 @@ namespace
 		return (PI / 2) - FMath::Acos(FVector::DotProduct(Vec, Normal));
 	}
 
-	bool AngularClamp(FTransform FollowTransform, bool bIgnoreVertical, float MaxHorizontalDegrees, float MaxVerticalDegrees, FTransform& CurrentTransform)
+	bool AngularClamp(FTransform FollowTransform, bool bIgnoreVertical, float MaxHorizontalDegrees, float MaxVerticalDegrees, FVector& CurrentToTarget)
 	{
-		FVector ToTarget = CurrentTransform.GetLocation() - FollowTransform.GetLocation();
-		if (ToTarget.Size() <= 0)
+		if (CurrentToTarget.Size() <= 0)
 		{
 			// No need to clamp
 			return false;
@@ -68,55 +69,53 @@ namespace
 		// Leashing around the reference's X axis only makes sense if the reference isn't gravity aligned.
 		if (bIgnoreVertical)
 		{
-			float Angle = AngleBetweenOnPlane(ToTarget, FollowForward, FollowRight);
-			ToTarget = FQuat(FollowRight, Angle) * ToTarget;
+			float Angle = AngleBetweenOnPlane(CurrentToTarget, FollowForward, FollowRight);
+			CurrentToTarget = FQuat(FollowRight, Angle) * CurrentToTarget;
 		}
 		else
 		{
 			// These are negated because Unreal is left-handed
-			float Angle = -AngleBetweenOnPlane(ToTarget, FollowForward, FollowRight);
+			float Angle = -AngleBetweenOnPlane(CurrentToTarget, FollowForward, FollowRight);
 			float MinMaxAngle = FMath::DegreesToRadians(MaxVerticalDegrees) * 0.5f;
 
 			if (Angle < -MinMaxAngle)
 			{
-				ToTarget = FQuat(FollowRight, -MinMaxAngle - Angle) * ToTarget;
+				CurrentToTarget = FQuat(FollowRight, -MinMaxAngle - Angle) * CurrentToTarget;
 				bAngularClamped = true;
 			}
 			else if (Angle > MinMaxAngle)
 			{
-				ToTarget = FQuat(FollowRight, MinMaxAngle - Angle) * ToTarget;
+				CurrentToTarget = FQuat(FollowRight, MinMaxAngle - Angle) * CurrentToTarget;
 				bAngularClamped = true;
 			}
 		}
 
 		// Z-axis leashing
 		{
-			float Angle = AngleBetweenVectorAndPlane(ToTarget, FollowRight);
+			float Angle = AngleBetweenVectorAndPlane(CurrentToTarget, FollowRight);
 			float MinMaxAngle = FMath::DegreesToRadians(MaxHorizontalDegrees) * 0.5f;
 
 			if (Angle < -MinMaxAngle)
 			{
-				ToTarget = FQuat(FVector::UpVector, -MinMaxAngle - Angle) * ToTarget;
+				CurrentToTarget = FQuat(FVector::UpVector, -MinMaxAngle - Angle) * CurrentToTarget;
 				bAngularClamped = true;
 			}
 			else if (Angle > MinMaxAngle)
 			{
-				ToTarget = FQuat(FVector::UpVector, MinMaxAngle - Angle) * ToTarget;
+				CurrentToTarget = FQuat(FVector::UpVector, MinMaxAngle - Angle) * CurrentToTarget;
 				bAngularClamped = true;
 			}
 		}
 
-		CurrentTransform.SetLocation(FollowTransform.GetLocation() + ToTarget);
-
 		return bAngularClamped;
 	}
 
-	bool DistanceClamp(FTransform FollowTransform, bool bMoveToDefault, bool bIgnorePitch, float MinDistance, float DefaultDistance, float MaxDistance, FTransform& CurrentTransform)
+	bool DistanceClamp(FTransform FollowTransform, bool bMoveToDefault, bool bIgnorePitch, float MinDistance, float DefaultDistance, float MaxDistance, FVector& CurrentToTarget)
  	{
-		FVector GoalDirection = CurrentTransform.GetLocation() - FollowTransform.GetLocation();
+		FVector GoalDirection = CurrentToTarget;
 		GoalDirection.Normalize();
 
-		float CurrentDistance = FVector::Distance(CurrentTransform.GetLocation(), FollowTransform.GetLocation());
+		float CurrentDistance = CurrentToTarget.Size();
 
 		if (bIgnorePitch)
 		{
@@ -127,7 +126,7 @@ namespace
 			MinDistance = GoalDirection.Size2D() * MinDistance;
 			MaxDistance = GoalDirection.Size2D() * MaxDistance;
 
-			float CurrentDistance2D = FVector::DistXY(CurrentTransform.GetLocation(), FollowTransform.GetLocation());
+			float CurrentDistance2D = CurrentToTarget.Size2D();
 
 			// scale goal direction so scalar multiplication works with 2D distances
 			GoalDirection *= (CurrentDistance / CurrentDistance2D);
@@ -149,27 +148,25 @@ namespace
 			ClampedDistance = FMath::Clamp(CurrentDistance, MinDistance, MaxDistance);
 		}
 
-		CurrentTransform.SetLocation(FollowTransform.GetLocation() + GoalDirection * ClampedDistance);
+		CurrentToTarget = GoalDirection * ClampedDistance;
 
 		return CurrentDistance != ClampedDistance;
 	}
 
-	void ApplyVerticalClamp(FVector FollowPosition,float MaxVerticalDistance, FTransform& CurrentTransform)
+	void ApplyVerticalClamp(float MaxVerticalDistance, FVector& CurrentToTarget)
 	{
 		if (MaxVerticalDistance != 0)
 		{
-			FVector CurrentPosition = CurrentTransform.GetLocation();
-			CurrentPosition.Z = FMath::Clamp(CurrentPosition.Z, FollowPosition.Z - MaxVerticalDistance, FollowPosition.Z + MaxVerticalDistance);
-			CurrentTransform.SetLocation(CurrentPosition);
+			CurrentToTarget.Z = FMath::Clamp(CurrentToTarget.Z, -MaxVerticalDistance, MaxVerticalDistance);
 		}
 	}
 
-	void ComputeOrientation(EUxtFollowOrientBehavior OrientationType, FVector FollowPosition, FTransform& CurrentTransform)
+	void ComputeOrientation(EUxtFollowOrientBehavior OrientationType, FVector FollowPosition, FVector CurrentToTarget, FQuat& CurrentRotation)
 	{
 		switch (OrientationType)
 		{
 		case EUxtFollowOrientBehavior::FaceCamera:
-			CurrentTransform.SetRotation((FollowPosition - CurrentTransform.GetLocation()).ToOrientationQuat());
+			CurrentRotation = (-CurrentToTarget).ToOrientationQuat();
 			break;
 		default:
 			break;
@@ -187,22 +184,22 @@ namespace
 
 	FVector SmoothTo(FVector Source, FVector Goal, float DeltaTime, float LerpTime)
 	{
-		return FMath::Lerp(Source, Goal, LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime);
+		return UUxtInternalFunctionLibrary::Slerp(Source, Goal, LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime);
 	}
 
 	FQuat SmoothTo(FQuat Source, FQuat Goal, float DeltaTime, float LerpTime)
 	{
-		return FMath::Lerp(Source, Goal, LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime);
+		return FQuat::Slerp(Source, Goal, LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime);
 	}
 
-	bool PassedOrientationDeadzone(FTransform CurrentTransform, FVector FollowPosition, float DeadzoneDegrees)
+	bool PassedOrientationDeadzone(FVector CurrentToTarget, FQuat CurrentRotation, FVector FollowPosition, float DeadzoneDegrees)
 	{
-		FVector CamForward = CurrentTransform.GetUnitAxis(EAxis::X);
+		FVector LeashForward = CurrentRotation * FVector::ForwardVector;
 
-		FVector NodeToCamera = CurrentTransform.GetLocation() - FollowPosition;
-		NodeToCamera.Normalize();
+		FVector LeashToFollow = CurrentToTarget;
+		LeashToFollow.Normalize();
 
-		float Angle = FMath::Abs(AngleBetweenOnPlane(CamForward, NodeToCamera, FVector::UpVector));
+		float Angle = FMath::Abs(AngleBetweenOnPlane(LeashForward, LeashToFollow, FVector::UpVector));
 
 		return FMath::RadiansToDegrees(Angle) > DeadzoneDegrees;
 	}
@@ -239,18 +236,19 @@ void UUxtFollowComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 }
 
 
-void UUxtFollowComponent::UpdateLeashing()
+FTransform UUxtFollowComponent::GetFollowTransform()
 {
-	FTransform FollowTransform;
-
 	if (ActorToFollow)
 	{
-		FollowTransform = ActorToFollow->GetTransform();
+		return ActorToFollow->GetTransform();
 	}
-	else
-	{
-		FollowTransform = UUxtFunctionLibrary::GetHeadPose(GetWorld());
-	}
+
+	return UUxtFunctionLibrary::GetHeadPose(GetWorld());
+}
+
+void UUxtFollowComponent::UpdateLeashing()
+{
+	FTransform FollowTransform = GetFollowTransform();
 
 	FVector FollowPosition = FollowTransform.GetLocation();
 
@@ -259,12 +257,15 @@ void UUxtFollowComponent::UpdateLeashing()
 		ApplyPitchOffset(PitchOffset, FollowTransform);
 	}
 
+	// Update starting goal leash values
+	ToTarget = WorkingTransform.GetLocation() - FollowTransform.GetLocation();
+	TargetRotation = WorkingTransform.GetRotation();
+
 	// Determine the current position of the element
-	GoalTransform = WorkingTransform;
 	bool bAngularClamped = false;
 	if (bRecenterNextUpdate)
 	{
-		GoalTransform.SetLocation(FollowTransform.GetLocation() + FollowTransform.GetUnitAxis(EAxis::X) * DefaultDistance);
+		ToTarget = FollowTransform.GetUnitAxis(EAxis::X) * DefaultDistance;
 		bRecenterNextUpdate = false;
 	}
 	// Angularly clamp to determine goal direction to place the element
@@ -272,12 +273,12 @@ void UUxtFollowComponent::UpdateLeashing()
 	{
 		if (bIgnoreAngleClamp)
 		{
-			float CurrentDistance = FVector::Dist(FollowTransform.GetLocation(), GoalTransform.GetLocation());
-			GoalTransform.SetLocation(FollowTransform.GetLocation() + FollowTransform.GetUnitAxis(EAxis::X) * CurrentDistance);
+			float CurrentDistance = ToTarget.Size();
+			ToTarget = FollowTransform.GetUnitAxis(EAxis::X) * CurrentDistance;
 		}
 		else
 		{
-			bAngularClamped = AngularClamp(FollowTransform, bIgnoreCameraPitchAndRoll, MaxViewHorizontalDegrees, MaxViewVerticalDegrees, GoalTransform);
+			bAngularClamped = AngularClamp(FollowTransform, bIgnoreCameraPitchAndRoll, MaxViewHorizontalDegrees, MaxViewVerticalDegrees, ToTarget);
 		}
 	}
 
@@ -285,8 +286,8 @@ void UUxtFollowComponent::UpdateLeashing()
 	bool bDistanceClamped = false;
 	if (!bIgnoreDistanceClamp)
 	{
-		bDistanceClamped = DistanceClamp(FollowTransform, bAngularClamped, bIgnoreCameraPitchAndRoll, MinimumDistance, DefaultDistance, MaximumDistance, GoalTransform);
-		ApplyVerticalClamp(FollowPosition, VerticalMaxDistance, GoalTransform);
+		bDistanceClamped = DistanceClamp(FollowTransform, bAngularClamped, bIgnoreCameraPitchAndRoll, MinimumDistance, DefaultDistance, MaximumDistance, ToTarget);
+		ApplyVerticalClamp(VerticalMaxDistance, ToTarget);
 	}
 
 	// Figure out goal rotation of the element based on orientation setting
@@ -294,26 +295,30 @@ void UUxtFollowComponent::UpdateLeashing()
 	EUxtFollowOrientBehavior OrientationBehavior = OrientationType;
 	if (bAngularClamped || bDistanceClamped ||
 		OrientationType == EUxtFollowOrientBehavior::FaceCamera ||
-		PassedOrientationDeadzone(GoalTransform, FollowTransform.GetLocation(), OrientToCameraDeadzoneDegrees))
+		PassedOrientationDeadzone(ToTarget, TargetRotation, FollowTransform.GetLocation(), OrientToCameraDeadzoneDegrees))
 	{
 		OrientationBehavior = EUxtFollowOrientBehavior::FaceCamera;
 	}
 
-	ComputeOrientation(OrientationBehavior, FollowTransform.GetLocation(), GoalTransform);
+	ComputeOrientation(OrientationBehavior, FollowTransform.GetLocation(), ToTarget, TargetRotation);
 }
 
 void UUxtFollowComponent::UpdateTransformToGoal(bool bSkipInterpolation, float DeltaTime)
 {
+	FVector FollowPosition = GetFollowTransform().GetLocation();
+
 	if (bSkipInterpolation)
 	{
-		WorkingTransform = GoalTransform;
+		WorkingTransform.SetLocation(FollowPosition + ToTarget);
+		WorkingTransform.SetRotation(TargetRotation);
 	}
 	else
 	{
 		FVector CurrentPosition = GetOwner()->GetTransform().GetLocation();
+		FVector CurrentDirection = CurrentPosition - FollowPosition;
 		FQuat CurrentRotation = GetOwner()->GetTransform().GetRotation();
-		WorkingTransform.SetLocation(SmoothTo(CurrentPosition, GoalTransform.GetLocation(), DeltaTime, .5f));
-		WorkingTransform.SetRotation(SmoothTo(CurrentRotation, GoalTransform.GetRotation(), DeltaTime, .5f));
+		WorkingTransform.SetLocation(FollowPosition + SmoothTo(CurrentDirection, ToTarget, DeltaTime, .5f));
+		WorkingTransform.SetRotation(SmoothTo(CurrentRotation, TargetRotation, DeltaTime, .5f));
 	}
 
 	GetOwner()->SetActorTransform(WorkingTransform, false);

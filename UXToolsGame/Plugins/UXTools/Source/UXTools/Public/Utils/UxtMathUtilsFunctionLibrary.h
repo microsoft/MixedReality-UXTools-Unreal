@@ -55,6 +55,5 @@ public:
 	* used to ignore specific scene components.
 	*/
 	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter = nullptr);
-
 };
 

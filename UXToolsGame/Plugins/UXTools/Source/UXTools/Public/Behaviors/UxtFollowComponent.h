@@ -121,12 +121,14 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 private:
+	FTransform GetFollowTransform();
 	void UpdateLeashing();
 	void UpdateTransformToGoal(bool bSkipInterpolation, float DeltaTime = 0);
 
 private:
 
-	FTransform GoalTransform;
+	FVector ToTarget;
+	FQuat TargetRotation;
 	FTransform WorkingTransform;
 
 	bool bRecenterNextUpdate = true;

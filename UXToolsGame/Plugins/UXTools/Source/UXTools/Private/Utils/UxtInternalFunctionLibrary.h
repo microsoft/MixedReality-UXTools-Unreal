@@ -70,4 +70,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
 	static bool GetFontCharacterData(const UFont* Font, TArray<FUxtFontCharacter>& FontCharacters);
 
+	/** Spherical linear interpolate between two vectors */
+	static FVector Slerp(const FVector& Vector1, const FVector& Vector2, const float Slerp);
 };
