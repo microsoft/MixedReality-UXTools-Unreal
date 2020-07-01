@@ -61,9 +61,9 @@ void UUxtFarPointerComponent::SetFocusLocked(bool bLocked)
 		// Store current hit info in hit primitive space
 		if (UPrimitiveComponent* HitPrimitive = GetHitPrimitive())
 		{
-			const FTransform WorldToTarget = HitPrimitive->GetComponentTransform().Inverse();
-			HitPointLocal = WorldToTarget.TransformPosition(HitPoint);
-			HitNormalLocal = WorldToTarget.TransformVectorNoScale(HitNormal);
+			const FTransform WorldToTarget = HitPrimitive->GetComponentTransform();
+			HitPointLocal = WorldToTarget.InverseTransformPosition(HitPoint);
+			HitNormalLocal = WorldToTarget.InverseTransformVectorNoScale(HitNormal);
 		}
 	}
 }

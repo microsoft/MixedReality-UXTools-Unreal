@@ -201,7 +201,7 @@ void ManipulatorMoveAxisConstraintSpec::Define()
 							FVector NewLocation = TargetActor->GetActorLocation();
 							FVector ConstraintLocation = Center + FVector(0, 200, 200); 
 							TestNotEqual(TEXT("object still had constraint applied"), NewLocation, ConstraintLocation);
-							TestTrue(TEXT("object did not move as expected in x direciton"), NewLocation.X > (Center.X + 200));
+							TestTrue(TEXT("object did not move as expected in x direciton"), NewLocation.X >= (Center.X + 200));
 
 							NearPointer->GetOwner()->Destroy();
 							NearPointer = nullptr;
@@ -237,8 +237,8 @@ void ManipulatorMoveAxisConstraintSpec::Define()
 							// make sure it isn't moved in X axis
 							FVector NewLocation = TargetActor->GetActorLocation();
 							// due to rotated object locking local X will be global Z
-							FVector ExpectedLocation = FVector(383.715, 200, 0);
-							TestEqual(TEXT("object didn't move as expected"), NewLocation, ExpectedLocation);
+							FVector ExpectedLocation = FVector(350, 200, 0);
+							TestEqual(TEXT("object didn't move as expected"), NewLocation, ExpectedLocation, 0.001f);
 							NearPointer->GetOwner()->Destroy();
 							NearPointer = nullptr;
 							Done.Execute();
