@@ -5,7 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
-#include "Components/SceneComponent.h"
+#include "Controls/UxtUIElement.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Interactions/UxtFarTarget.h"
 
@@ -33,7 +33,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtVolumeDisabledDelegate, UUxtTouc
  * Component that turns the actor it is attached to into a touchable volume.
  */
 UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtTouchableVolumeComponent : public USceneComponent, public IUxtPokeTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtTouchableVolumeComponent : public UUxtUIElement, public IUxtPokeTarget, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
