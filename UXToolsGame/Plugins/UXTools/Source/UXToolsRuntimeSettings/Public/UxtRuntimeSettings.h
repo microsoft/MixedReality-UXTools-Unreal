@@ -70,6 +70,10 @@ public:
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Secondary Hand Pose", Tooltip = "Pose mapped to the secondary pose action."))
 	FName SecondaryHandPose = TEXT("Poke");
 
+	/** Pose mapped to the menu action. */
+	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Menu Hand Pose", Tooltip = "Pose mapped to the menu action."))
+	FName MenuHandPose = TEXT("Flat");
+
 	/** Controller buttons that are pressed along with certain hand poses. */
 	UPROPERTY(GlobalConfig, EditAnywhere, Category = "Input Simulation", Meta = (DisplayName = "Hand Pose Buttons", Tooltip = "Controller buttons that are pressed along with certain hand poses."))
 	TMap<FName, FUxtRuntimeSettingsButtonSet> HandPoseButtonMappings;
