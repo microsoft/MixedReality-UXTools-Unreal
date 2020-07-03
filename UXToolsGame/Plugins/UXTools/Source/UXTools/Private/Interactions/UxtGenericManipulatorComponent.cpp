@@ -118,7 +118,7 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 			FQuat OrientationSwing, OrientationTwist;
 			Orientation.ToSwingTwist(FVector::UpVector, OrientationSwing, OrientationTwist);
 
-			OutTargetTransform.SetRotation(Orientation);
+			OutTargetTransform.SetRotation(OrientationTwist);
 			return true;
 		}
 
