@@ -187,6 +187,63 @@ void GenericManipulatorSpec::Define()
 
 void GenericManipulatorSpec::EnqueueInteractionTests()
 {
+	LatentIt("should move with one hand", [this](const FDoneDelegate& Done)
+		{
+			FVector TranslationDelta = FVector(200, 200, 200); 
+			FVector ExpectedLocation = TargetLocation + TranslationDelta;
+
+			FrameQueue.Enqueue([this]
+				{
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, TranslationDelta]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Translate(TranslationDelta);
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedLocation]
+				{
+					TestEqual("Object moved", Target->GetOwner()->GetActorLocation(), ExpectedLocation);
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("should move with two hands", [this](const FDoneDelegate& Done)
+		{
+			FVector TranslationDelta = FVector(200, 200, 200);
+			FVector ExpectedLocation = TargetLocation + TranslationDelta;
+
+			FrameQueue.Enqueue([this]
+				{
+					LeftHand.Translate(FVector(0, -50, 0));
+					RightHand.Translate(FVector(0, 50, 0));
+
+					RightHand.SetGrabbing(true);
+					LeftHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, TranslationDelta]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Translate(TranslationDelta);
+					LeftHand.Translate(TranslationDelta);
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedLocation]
+				{
+					TestEqual("Object moved", Target->GetOwner()->GetActorLocation(), ExpectedLocation);
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
 	LatentIt("should rotate around center with one hand", [this](const FDoneDelegate& Done)
 		{
 			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
