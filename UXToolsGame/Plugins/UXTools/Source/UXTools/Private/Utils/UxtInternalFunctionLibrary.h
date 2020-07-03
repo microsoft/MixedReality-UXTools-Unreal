@@ -70,4 +70,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
 	static bool GetFontCharacterData(const UFont* Font, TArray<FUxtFontCharacter>& FontCharacters);
 
+	/** Returns whether the world the passed object belongs to is executing within a mobile preview window. */
+	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
+	static bool IsPlayInMobilePreview(const UObject* WorldContextObject);
 };
