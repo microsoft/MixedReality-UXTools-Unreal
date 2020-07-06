@@ -30,7 +30,10 @@ bool UUxtFunctionLibrary::IsInEditor()
 	if (GIsEditor)
 	{
 		UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine);
-		return !EdEngine->bUseVRPreviewForPlayWorld;
+		if (EdEngine->GetPlayInEditorSessionInfo().IsSet())
+		{
+			return EdEngine->GetPlayInEditorSessionInfo()->OriginalRequestParams.SessionPreviewTypeOverride != EPlaySessionPreviewType::VRPreview;
+		}
 	}
 #endif
 	return false;
