@@ -640,7 +640,7 @@ void AUxtInputSimulationActor::AddHandMovementInputImpl(EAxis::Type TranslationA
 {
 	if (Value != 0.f)
 	{
-		FVector Dir = FRotationMatrix(GetActorRotation()).GetScaledAxis(TranslationAxis);
+		FVector Dir = FRotationMatrix::Identity.GetUnitAxis(TranslationAxis);
 		for (EControllerHand Hand : ControlledHands)
 		{
 			FTransform& HandTransform = HandTransforms.FindChecked(Hand);
