@@ -35,3 +35,10 @@ This setting change is not required in UE 4.25.1 (or later) or people with Epic'
 
 ### Fix UxtFollowComponent to work with +X convention (PR 370)
 `UxtFollowComponent` now works appropriately, following (Actor's) +X convention. That means that, if an asset was rotated by 180º in any subcomponent to be displayed as expected, that should now be reverted, rotating the Actor appropriately instead.
+
+### Make poke target return normal for cursor transform (PR 383)
+Changes to `IUxtPokeTarget` that may need to be fixed for any class that implements this interface:
+- `IsPokeFocusable` is now `const`.
+- New method `GetClosestPoint` which returns the closest point on the given primitive and the surface normal for the pokable.
+
+This PR also contains changes to `UUxtNearPointerComponent::GetFocusedGrabTarget` and `UUxtNearPointerComponent::GetFocusedPokeTarget`. These methods now takes another `FVector` reference in order to return the surface normal.  

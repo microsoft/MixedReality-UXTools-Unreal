@@ -21,7 +21,7 @@ namespace
 	 * - Location: (fingertip pos) + (tip radius) * (dir from fingertip to point on target)
 	 * - Rotation: (rot corresponding to dir from fingertip to point on target)
 	 */
-	FTransform GetCursorTransform(EControllerHand Hand, FVector PointOnTarget, float AlignWithSurfaceDistance)
+	FTransform GetCursorTransform(EControllerHand Hand, FVector PointOnTarget, FVector Normal, float AlignWithSurfaceDistance)
 	{
 		bool foundValues = true;
 
@@ -45,9 +45,7 @@ namespace
 		auto FingerDir = (IndexTipPosition - IndexKnucklePosition);
 		FingerDir.Normalize();
 
-		auto ToTargetDir = PointOnTarget - IndexTipPosition;
-		const auto DistanceToTarget = ToTargetDir.Size();
-		ToTargetDir.Normalize();
+		const auto DistanceToTarget = FVector::Dist(PointOnTarget, IndexTipPosition);
 
 		FVector Location;
 		FQuat Rotation;
@@ -56,11 +54,11 @@ namespace
 		{
 			float SlerpAmount = DistanceToTarget / AlignWithSurfaceDistance;
 
-			FQuat FullRotation = FQuat::FindBetweenNormals(FingerDir, ToTargetDir);
+			FQuat FullRotation = FQuat::FindBetweenNormals(FingerDir, -Normal);
 			FVector Dir = FQuat::Slerp(FullRotation, FQuat::Identity, SlerpAmount) * FingerDir;
 
 			Location = IndexTipPosition + Dir * IndexTipRadius;
-			Rotation = FQuat::Slerp(ToTargetDir.ToOrientationQuat(), IndexTipOrientation, SlerpAmount);
+			Rotation = FQuat::Slerp((-Normal).ToOrientationQuat(), IndexTipOrientation, SlerpAmount);
 		}
 		else
 		{
@@ -111,16 +109,17 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	if (UUxtNearPointerComponent* HandPointer = HandPointerWeak.Get())
 	{
 		FVector PointOnTarget;
+		FVector SurfaceNormal;
 		FTransform PointerTransform;
 
-		UObject* Target = HandPointer->GetFocusedPokeTarget(PointOnTarget);
+		UObject* Target = HandPointer->GetFocusedPokeTarget(PointOnTarget, SurfaceNormal);
 		if (Target)
 		{
 			PointerTransform = HandPointer->GetPokePointerTransform();
 		}
 		else if (bShowOnGrabTargets)
 		{
-			Target = HandPointer->GetFocusedGrabTarget(PointOnTarget);
+			Target = HandPointer->GetFocusedGrabTarget(PointOnTarget, SurfaceNormal);
 
 			if (Target)
 			{
@@ -135,7 +134,7 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
 			const float Epsilon = 0.000001;
 
-			FTransform CursorTransform = GetCursorTransform(HandPointer->Hand, PointOnTarget, AlignWithSurfaceDistance);
+			FTransform CursorTransform = GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance);
 
 			if (DistanceToTarget > Epsilon)
 			{

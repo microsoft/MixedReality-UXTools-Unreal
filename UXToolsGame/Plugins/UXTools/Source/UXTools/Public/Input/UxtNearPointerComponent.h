@@ -47,11 +47,11 @@ public:
 
 	/** Returns currently focused grab target or null if there is none. */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const;
+	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/** Returns currently focused poke target or null if there is none. */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetFocusedPokeTarget(FVector& OutClosestPointOnTarget) const;
+	UObject* GetFocusedPokeTarget(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/**
 	 * Set a focused grab target explicitly which will receive grasp events.

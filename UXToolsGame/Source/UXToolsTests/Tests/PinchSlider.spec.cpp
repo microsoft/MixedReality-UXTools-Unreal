@@ -123,7 +123,8 @@ void PinchSliderSpec::Define()
 					FrameQueue.Enqueue([this]
 						{
 							FVector Unused;
-							UObject* Target = Pointer->GetFocusedGrabTarget(Unused);
+							FVector Normal;
+							UObject* Target = Pointer->GetFocusedGrabTarget(Unused, Normal);
 							TestEqual("Thumb is grabbed", Target, (UObject*)Slider);
 						});
 

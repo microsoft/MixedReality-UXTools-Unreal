@@ -366,15 +366,17 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 	PreviousPokePointerLocation = PokePointerLocation;
 }
 
-UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const
+UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget, FVector& OutNormal) const
 {
 	OutClosestPointOnTarget = GrabFocus->GetClosestTargetPoint();
+	OutNormal = GrabFocus->GetClosestTargetNormal();
 	return GrabFocus->GetFocusedTarget();
 }
 
-UObject* UUxtNearPointerComponent::GetFocusedPokeTarget(FVector& OutClosestPointOnTarget) const
+UObject* UUxtNearPointerComponent::GetFocusedPokeTarget(FVector& OutClosestPointOnTarget, FVector& OutNormal) const
 {
 	OutClosestPointOnTarget = PokeFocus->GetClosestTargetPoint();
+	OutNormal = PokeFocus->GetClosestTargetNormal();
 	return PokeFocus->GetFocusedTarget();
 }
 

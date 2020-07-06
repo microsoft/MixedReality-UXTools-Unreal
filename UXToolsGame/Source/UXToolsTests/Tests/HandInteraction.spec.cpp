@@ -77,7 +77,8 @@ void HandInteractionSpec::Define()
 		FrameQueue.Enqueue([this, Done]
 		{
 			FVector ClosestPoint;
-			TestEqual(TEXT("Near pointer focusing target"), NearPointer->GetFocusedGrabTarget(ClosestPoint), (UObject*)Target);
+			FVector Normal;
+			TestEqual(TEXT("Near pointer focusing target"), NearPointer->GetFocusedGrabTarget(ClosestPoint, Normal), (UObject*)Target);
 			TestTrue(TEXT("Near pointer active"), NearPointer->IsActive());
 			TestFalse(TEXT("Far pointer active"), FarPointer->IsActive());
 
@@ -95,7 +96,8 @@ void HandInteractionSpec::Define()
 		FrameQueue.Enqueue([this, Done]
 		{
 			FVector ClosestPoint;
-			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint));
+			FVector Normal;
+			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint, Normal));
 			TestFalse(TEXT("Near pointer active"), NearPointer->IsActive());
 			TestTrue(TEXT("Far pointer active"), FarPointer->IsActive());
 
@@ -140,7 +142,8 @@ void HandInteractionSpec::Define()
 		FrameQueue.Enqueue([this, Done]
 		{
 			FVector ClosestPoint;
-			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint));
+			FVector Normal;
+			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint, Normal));
 			TestFalse(TEXT("Near pointer active"), NearPointer->IsActive());
 			TestFalse(TEXT("Far pointer active"), FarPointer->IsActive());
 
