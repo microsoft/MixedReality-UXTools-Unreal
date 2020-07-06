@@ -164,7 +164,20 @@ void GenericManipulatorSpec::Define()
 					RightHand.Reset();
 				});
 
-			EnqueueInteractionTests();
+			Describe("Uniformly Scaled Object", [this]
+				{
+					EnqueueInteractionTests();
+				});
+
+			Describe("Non-uniformly Scaled Object", [this]
+				{
+					BeforeEach([this]
+						{
+							Target->TransformTarget->SetRelativeScale3D(FVector(1, 2, 3));
+						});
+
+					EnqueueInteractionTests();
+				});
 		});
 
 	Describe("Far Interaction", [this]
@@ -181,7 +194,20 @@ void GenericManipulatorSpec::Define()
 					RightHand.Reset();
 				});
 
-			EnqueueInteractionTests();
+			Describe("Uniformly Scaled Object", [this]
+				{
+					EnqueueInteractionTests();
+				});
+
+			Describe("Non-uniformly Scaled Object", [this]
+				{
+					BeforeEach([this]
+						{
+							Target->TransformTarget->SetRelativeScale3D(FVector(1, 2, 3));
+						});
+
+					EnqueueInteractionTests();
+				});
 		});
 }
 
@@ -189,8 +215,8 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 {
 	LatentIt("should move with one hand", [this](const FDoneDelegate& Done)
 		{
-			FVector TranslationDelta = FVector(200, 200, 200); 
-			FVector ExpectedLocation = TargetLocation + TranslationDelta;
+			const FVector TranslationDelta = FVector(200, 200, 200); 
+			const FVector ExpectedLocation = TargetLocation + TranslationDelta;
 
 			FrameQueue.Enqueue([this]
 				{
@@ -207,7 +233,8 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedLocation]
 				{
-					TestEqual("Object moved", Target->GetOwner()->GetActorLocation(), ExpectedLocation);
+					const FVector Result = Target->TransformTarget->GetRelativeLocation();
+					TestEqual("Object has moved", Result, ExpectedLocation);
 				});
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
@@ -215,8 +242,8 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 	LatentIt("should move with two hands", [this](const FDoneDelegate& Done)
 		{
-			FVector TranslationDelta = FVector(200, 200, 200);
-			FVector ExpectedLocation = TargetLocation + TranslationDelta;
+			const FVector TranslationDelta = FVector(200, 200, 200);
+			const FVector ExpectedLocation = TargetLocation + TranslationDelta;
 
 			FrameQueue.Enqueue([this]
 				{
@@ -238,7 +265,8 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedLocation]
 				{
-					TestEqual("Object moved", Target->GetOwner()->GetActorLocation(), ExpectedLocation);
+					const FVector Result = Target->TransformTarget->GetRelativeLocation();
+					TestEqual("Object has moved", Result, ExpectedLocation);
 				});
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
@@ -247,7 +275,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 	LatentIt("should rotate around center with one hand", [this](const FDoneDelegate& Done)
 		{
 			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
-			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, FVector::OneVector);
+			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, Target->TransformTarget->GetRelativeScale3D());
 
 			FrameQueue.Enqueue([this]
 				{
@@ -265,7 +293,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedTransform]
 				{
-					const FTransform Result = Target->GetOwner()->GetTransform();
+					const FTransform Result = Target->TransformTarget->GetRelativeTransform();
 					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
 				});
 
@@ -276,7 +304,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 		{
 			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
 			const FVector ExpectedLocation(TargetLocation + FVector(0, 50, -50));
-			const FTransform ExpectedTransform(ExpectedRotation, ExpectedLocation, FVector::OneVector);
+			const FTransform ExpectedTransform(ExpectedRotation, ExpectedLocation, Target->TransformTarget->GetRelativeScale3D());
 
 			FrameQueue.Enqueue([this]
 				{
@@ -295,7 +323,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedTransform]
 				{
-					const FTransform Result = Target->GetOwner()->GetTransform();
+					const FTransform Result = Target->TransformTarget->GetRelativeTransform();
 					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
 				});
 
@@ -305,7 +333,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 	LatentIt("should rotate with two hands", [this](const FDoneDelegate& Done)
 		{
 			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
-			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, FVector::OneVector);
+			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, Target->TransformTarget->GetRelativeScale3D());
 
 			FrameQueue.Enqueue([this]
 				{
@@ -327,7 +355,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedTransform]
 				{
-					const FTransform Result = Target->GetOwner()->GetTransform();
+					const FTransform Result = Target->TransformTarget->GetRelativeTransform();
 					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
 				});
 
@@ -336,6 +364,8 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 	LatentIt("should scale with two hands", [this](const FDoneDelegate& Done)
 		{
+			const FVector ExpectedScale = Target->TransformTarget->GetRelativeScale3D() * 2;
+
 			FrameQueue.Enqueue([this]
 				{
 					LeftHand.Translate(FVector(0, -50, 0));
@@ -354,10 +384,9 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Skip();
 
-			FrameQueue.Enqueue([this]
+			FrameQueue.Enqueue([this, ExpectedScale]
 				{
-					const FVector ExpectedScale(2, 2, 2);
-					const FVector Result = Target->GetOwner()->GetTransform().GetScale3D();
+					const FVector Result = Target->TransformTarget->GetRelativeScale3D();
 					TestTrue("Object is scaled", Result.Equals(ExpectedScale));
 				});
 

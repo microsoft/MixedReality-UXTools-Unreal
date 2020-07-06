@@ -208,8 +208,8 @@ void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
 
 	if (NumGrabPointers > 1)
 	{
-		TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
-		TwoHandScaleLogic->Setup(GetGrabPointers(), GetComponentScale());
+		TwoHandRotateLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentRotation().Quaternion());
+		TwoHandScaleLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentScale());
 	}
 }
 
