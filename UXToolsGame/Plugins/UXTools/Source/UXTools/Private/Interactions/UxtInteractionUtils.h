@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 
 class AActor;
+class UPrimitiveComponent;
 
 class FUxtInteractionUtils
 {

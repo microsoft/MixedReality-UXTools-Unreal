@@ -4,7 +4,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/EngineTypes.h"
+#include "UObject/WeakObjectPtrTemplates.h"
 
+class UActorComponent;
+class UPrimitiveComponent;
 class UUxtNearPointerComponent;
 
 /** Result of closest point search functions. */

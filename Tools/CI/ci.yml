@@ -33,7 +33,21 @@ stages:
     - checkout: build-tools
     - template: templates/common.yml
 
-    - script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -package -allmaps -build -stage -targetplatform=Android -cookflavor=Multi -clientconfig=Development -serverconfig=Development'
+    - script: >
+        $(UAT)
+        BuildCookRun
+        -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject
+        -clean
+        -cook
+        -package
+        -allmaps
+        -build
+        -stage
+        -targetplatform=Android
+        -cookflavor=Multi
+        -clientconfig=Development
+        -serverconfig=Development
+        -target=UXToolsGame
       displayName: 'Build Android Development'
 
     # RepoMirrorUrl will usually contain a PAT because the build agent doesn't have write permission.
