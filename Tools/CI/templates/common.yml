@@ -27,6 +27,7 @@ steps:
   inputs:
     ArtifactName: 'UXTools'
     PathtoPublish: '$(UXToolsPluginOutputDir)'
+  condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
 
 - powershell: |
     # remove all folders that are symbolic links as they are incorrectly handled by Remove-Item in some versions of PowerShell
@@ -111,7 +112,17 @@ steps:
     -clientconfig=Development
     -serverconfig=Development
     -target=UXToolsGame
+    -pak
+    -archive
+    -archivedirectory=$(Build.ArtifactStagingDirectory)/packages
   displayName: 'Build HoloLens ARM64 Development'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish prebuilt UXTGame (HoloLens)'
+  inputs:
+    ArtifactName: 'UXTGame-HoloLens'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\packages\HoloLens'
+  condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
 
 - task: PowerShell@2
   displayName: 'Check git history'

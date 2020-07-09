@@ -48,7 +48,16 @@ stages:
         -clientconfig=Development
         -serverconfig=Development
         -target=UXToolsGame
+        -pak
+        -archive
+        -archivedirectory=$(Build.ArtifactStagingDirectory)/packages
       displayName: 'Build Android Development'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish prebuilt UXTGame (Android)'
+      inputs:
+        ArtifactName: 'UXTGame-Android'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)\packages\Android_Multi'
 
     # RepoMirrorUrl will usually contain a PAT because the build agent doesn't have write permission.
     - powershell: '$(UXTSourceDir)\Tools\CI\scripts\MirrorToRemote.ps1 -RemoteUrl $(RepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(MirrorRefsToAllowRegex)'
