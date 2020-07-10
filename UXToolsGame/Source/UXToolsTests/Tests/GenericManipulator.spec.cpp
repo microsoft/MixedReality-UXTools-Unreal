@@ -49,6 +49,7 @@ BEGIN_DEFINE_SPEC(GenericManipulatorSpec, "UXTools.GenericManipulator", EAutomat
 	FFrameQueue FrameQueue;
 
 	// Must be configured by Describe block if needed
+	EUxtInteractionMode InteractionMode;
 	FUxtTestHand LeftHand = FUxtTestHand(EControllerHand::Left);
 	FUxtTestHand RightHand = FUxtTestHand(EControllerHand::Right);
 
@@ -154,8 +155,9 @@ void GenericManipulatorSpec::Define()
 		{
 			BeforeEach([this]
 				{
-					LeftHand.Configure(EUxtInteractionMode::Near, TargetLocation);
-					RightHand.Configure(EUxtInteractionMode::Near, TargetLocation);
+					InteractionMode = EUxtInteractionMode::Near;
+					LeftHand.Configure(InteractionMode, TargetLocation);
+					RightHand.Configure(InteractionMode, TargetLocation);
 				});
 
 			AfterEach([this]
@@ -184,8 +186,9 @@ void GenericManipulatorSpec::Define()
 		{
 			BeforeEach([this]
 				{
-					LeftHand.Configure(EUxtInteractionMode::Far, TargetLocation);
-					RightHand.Configure(EUxtInteractionMode::Far, TargetLocation);
+					InteractionMode = EUxtInteractionMode::Far;
+					LeftHand.Configure(InteractionMode, TargetLocation);
+					RightHand.Configure(InteractionMode, TargetLocation);
 				});
 
 			AfterEach([this]
@@ -215,8 +218,9 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 {
 	LatentIt("should move with one hand", [this](const FDoneDelegate& Done)
 		{
+			const float DistanceScaling = InteractionMode == EUxtInteractionMode::Far ? 6.40312433 : 1;
 			const FVector TranslationDelta = FVector(200, 200, 200); 
-			const FVector ExpectedLocation = TargetLocation + TranslationDelta;
+			const FVector ExpectedLocation = TargetLocation * DistanceScaling + TranslationDelta;
 
 			FrameQueue.Enqueue([this]
 				{
@@ -242,8 +246,9 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 	LatentIt("should move with two hands", [this](const FDoneDelegate& Done)
 		{
+			const float DistanceScaling = InteractionMode == EUxtInteractionMode::Far ? 6.40312433 : 1;
 			const FVector TranslationDelta = FVector(200, 200, 200);
-			const FVector ExpectedLocation = TargetLocation + TranslationDelta;
+			const FVector ExpectedLocation = TargetLocation * DistanceScaling + TranslationDelta;
 
 			FrameQueue.Enqueue([this]
 				{

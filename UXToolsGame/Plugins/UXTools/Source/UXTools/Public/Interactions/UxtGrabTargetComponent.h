@@ -166,7 +166,7 @@ public:
 
 	/** Compute the centroid of the grab points in world space. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	FVector GetGrabPointCentroid(const FTransform &Transform) const;
+	FTransform GetGrabPointCentroid(const FTransform &Transform) const;
 
 	/** Compute the centroid of the pointer targets in world space. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
@@ -208,7 +208,8 @@ protected:
 	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 
 	/** Compute the average transform of currently grabbing pointers */
-	FTransform GetGrabPointCentroidTransform() const;
+	FTransform GetPointerCentroid() const;
+
 private:
 
 	/** Internal search function for finding active grabbing pointers */
