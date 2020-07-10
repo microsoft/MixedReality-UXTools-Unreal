@@ -4,7 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Controls/UxtUIElement.h"
+#include "Controls/UxtUIElementComponent.h"
 #include "Input/UxtPointerComponent.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Interactions/UxtFarTarget.h"
@@ -70,7 +70,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonDisabledDelegate, UUxtPres
  * Component that turns the actor it is attached to into a pressable rectangular button.
  */
 UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtPressableButtonComponent : public UUxtUIElement, public IUxtPokeTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtPressableButtonComponent : public UUxtUIElementComponent, public IUxtPokeTarget, public IUxtFarTarget
 {
 	GENERATED_BODY()
 

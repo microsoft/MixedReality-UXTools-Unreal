@@ -6,39 +6,36 @@
 #include "UIElementTestComponent.h"
 #include "UxtTestUtils.h"
 
-#include "Controls/UxtUIElement.h"
+#include "Controls/UxtUIElementComponent.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 
 namespace
 {
-	UUxtUIElement* CreateUIElement(UUxtUIElement* Parent = nullptr)
+	UUxtUIElementComponent* CreateUIElement(UUxtUIElementComponent* Parent = nullptr)
 	{
 		UWorld* World = UxtTestUtils::GetTestWorld();
 		AActor* Actor = World->SpawnActor<AActor>();
 
-		USceneComponent* Root = NewObject<USceneComponent>(Actor);
-		Root->RegisterComponent();
-		Actor->SetRootComponent(Root);
+		UUxtUIElementComponent* UIElement = NewObject<UUxtUIElementComponent>(Actor);
+		UIElement->RegisterComponent();
+		Actor->SetRootComponent(UIElement);
 
 		if (Parent)
 		{
 			Actor->AttachToActor(Parent->GetOwner(), FAttachmentTransformRules::KeepRelativeTransform);
 		}
 
-		UUxtUIElement* UIElement = NewObject<UUxtUIElement>(Actor);
-		UIElement->RegisterComponent();
-
 		return UIElement;
 	}
 
-	UUIElementTestComponent* AddEventCaptureComponent(UUxtUIElement* UIElement)
+	UUIElementTestComponent* AddEventCaptureComponent(UUxtUIElementComponent* UIElement)
 	{
 		AActor* Actor = UIElement->GetOwner();
 
 		UUIElementTestComponent* EventCaptureComponent = NewObject<UUIElementTestComponent>(Actor);
-		UIElement->OnElementActivated.AddDynamic(EventCaptureComponent, &UUIElementTestComponent::OnElementActivated);
-		UIElement->OnElementDeactivated.AddDynamic(EventCaptureComponent, &UUIElementTestComponent::OnElementDeactivated);
+		UIElement->OnShowElement.AddDynamic(EventCaptureComponent, &UUIElementTestComponent::OnShowElement);
+		UIElement->OnHideElement.AddDynamic(EventCaptureComponent, &UUIElementTestComponent::OnHideElement);
 		EventCaptureComponent->RegisterComponent();
 
 		return EventCaptureComponent;
@@ -47,8 +44,8 @@ namespace
 
 BEGIN_DEFINE_SPEC(UIElementSpec, "UXTools.UIElement", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
 
-	UUxtUIElement* RootUIElement;
-	UUxtUIElement* ChildUIElement;
+	UUxtUIElementComponent* RootUIElement;
+	UUxtUIElementComponent* ChildUIElement;
 
 END_DEFINE_SPEC(UIElementSpec)
 
@@ -70,52 +67,51 @@ void UIElementSpec::Define()
 
 	It("should be visible by default", [this]
 		{
-			TestTrue("Element is active", RootUIElement->IsElementActiveSelf());
-			TestTrue("Element is active in the hierarchy", RootUIElement->IsElementActiveInHierarchy());
+			TestEqual("Element is visible", RootUIElement->GetUIVisibilitySelf(), EUxtUIElementVisibility::Show);
+			TestEqual("Element is visible in the hierarchy", RootUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Show);
 			TestFalse("Actor is visible", RootUIElement->GetOwner()->IsHidden());
 			TestTrue("Actor collision is enabled", RootUIElement->GetOwner()->GetActorEnableCollision());
 		});
 
 	It("should be hidden", [this]
 		{
-			RootUIElement->SetElementActive(false);
-			TestFalse("Element is inactive", RootUIElement->IsElementActiveSelf());
-			TestFalse("Element is inactive in the hierarchy", RootUIElement->IsElementActiveInHierarchy());
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
+			TestEqual("Element is hidden", RootUIElement->GetUIVisibilitySelf(), EUxtUIElementVisibility::Hide);
+			TestEqual("Element is hidden in the hierarchy", RootUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
 			TestTrue("Actor is hidden", RootUIElement->GetOwner()->IsHidden());
 			TestFalse("Actor collision is disabled", RootUIElement->GetOwner()->GetActorEnableCollision());
 		});
 
 	It("should update children", [this]
 		{
-			RootUIElement->SetElementActive(false);
-			TestFalse("Root element is inactive", RootUIElement->IsElementActiveInHierarchy());
-			TestFalse("Child element is inactive", ChildUIElement->IsElementActiveInHierarchy());
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
+			TestEqual("Root element is hidden", RootUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
+			TestEqual("Child element is hidden", ChildUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
 		});
 
 	It("children should retain state through transitions", [this]
 		{
-			ChildUIElement->SetElementActive(false);
-			TestTrue("Root element is active", RootUIElement->IsElementActiveInHierarchy());
-			TestFalse("Child element is inactive", ChildUIElement->IsElementActiveInHierarchy());
+			ChildUIElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
+			TestEqual("Root element is visible", RootUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Show);
+			TestEqual("Child element is hidden", ChildUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
 
-			RootUIElement->SetElementActive(false);
-			TestFalse("Root element is inactive", RootUIElement->IsElementActiveInHierarchy());
-			TestFalse("Child element is inactive", ChildUIElement->IsElementActiveInHierarchy());
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
+			TestEqual("Root element is hidden", RootUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
+			TestEqual("Child element is hidden", ChildUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
 
-			RootUIElement->SetElementActive(true);
-			TestTrue("Root element is active", RootUIElement->IsElementActiveInHierarchy());
-			TestFalse("Child element is inactive", ChildUIElement->IsElementActiveInHierarchy());
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Show);
+			TestEqual("Root element is visible", RootUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Show);
+			TestEqual("Child element is hidden", ChildUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
 		});
 
-	It("refresh should update state after re-parent", [this]
+	It("should update state after re-parent", [this]
 		{
-			UUxtUIElement* NewParentElement = CreateUIElement();
-			NewParentElement->SetElementActive(false);
+			UUxtUIElementComponent* NewParentElement = CreateUIElement();
+			NewParentElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
 
 			RootUIElement->GetOwner()->AttachToActor(NewParentElement->GetOwner(), FAttachmentTransformRules::KeepRelativeTransform);
-			RootUIElement->RefreshElement();
-			TestFalse("Root element is inactive", RootUIElement->IsElementActiveInHierarchy());
-			TestFalse("Child element is inactive", ChildUIElement->IsElementActiveInHierarchy());
+			TestEqual("Root element is hidden", RootUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
+			TestEqual("Child element is hidden", ChildUIElement->GetUIVisibilityInHierarchy(), EUxtUIElementVisibility::Hide);
 
 			NewParentElement->GetOwner()->Destroy();
 		});
@@ -125,30 +121,30 @@ void UIElementSpec::Define()
 			UUIElementTestComponent* RootEvents = AddEventCaptureComponent(RootUIElement);
 			UUIElementTestComponent* ChildEvents = AddEventCaptureComponent(ChildUIElement);
 
-			RootUIElement->SetElementActive(false);
-			TestEqual("Root triggered deactivation event", RootEvents->OnElementDeactivatedCount, 1);
-			TestEqual("Child triggered deactivation event", ChildEvents->OnElementDeactivatedCount, 1);
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
+			TestEqual("Root triggered deactivation event", RootEvents->HideCount, 1);
+			TestEqual("Child triggered deactivation event", ChildEvents->HideCount, 1);
 
-			RootUIElement->SetElementActive(true);
-			TestEqual("Root triggered activation event", RootEvents->OnElementActivatedCount, 1);
-			TestEqual("Child triggered activation event", ChildEvents->OnElementActivatedCount, 1);
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Show);
+			TestEqual("Root triggered activation event", RootEvents->ShowCount, 1);
+			TestEqual("Child triggered activation event", ChildEvents->ShowCount, 1);
 		});
 
-	It("should not trigger events on inactive children", [this]
+	It("should not trigger events on hidden children", [this]
 		{
 			UUIElementTestComponent* RootEvents = AddEventCaptureComponent(RootUIElement);
 			UUIElementTestComponent* ChildEvents = AddEventCaptureComponent(ChildUIElement);
 
-			ChildUIElement->SetElementActive(false);
-			TestEqual("Child triggered deactivation event", ChildEvents->OnElementDeactivatedCount, 1);
+			ChildUIElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
+			TestEqual("Child triggered deactivation event", ChildEvents->HideCount, 1);
 
-			RootUIElement->SetElementActive(false);
-			TestEqual("Root triggered deactivation event", RootEvents->OnElementDeactivatedCount, 1);
-			TestEqual("Child did not trigger deactivation event", ChildEvents->OnElementDeactivatedCount, 1);
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Hide);
+			TestEqual("Root triggered deactivation event", RootEvents->HideCount, 1);
+			TestEqual("Child did not trigger deactivation event", ChildEvents->HideCount, 1);
 
-			RootUIElement->SetElementActive(true);
-			TestEqual("Root triggered activation event", RootEvents->OnElementActivatedCount, 1);
-			TestEqual("Child did not trigger activation event", ChildEvents->OnElementActivatedCount, 0);
+			RootUIElement->SetUIVisibility(EUxtUIElementVisibility::Show);
+			TestEqual("Root triggered activation event", RootEvents->ShowCount, 1);
+			TestEqual("Child did not trigger activation event", ChildEvents->ShowCount, 0);
 		});
 }
 

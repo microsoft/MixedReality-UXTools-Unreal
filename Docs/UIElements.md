@@ -1,18 +1,14 @@
 # UI Elements
 
-UI elements give the user a way to show and hide groups of UI functionality. UI elements are scene components that can be attached to any actor to allow it's presence to be controlled by it's parent element.
+UI elements give the user a way to show and hide groups of UI functionality. UI elements are scene components that can be attached to any actor to allow its visibility to be controlled by its parent element.
 
-The parent-child relationship is controlled using actor attachment. When the parent actor is inactive it will hide all of its children. When the parent actor is active it will restore its children's state. There is an example of this using buttons in the ButtonExample scene.
+Parent-child relationships are managed via actor attachments. If the parent is hidden, all of its children will be hidden. It is recommended to have the `UxtUIElementComponent` as the root component as the actor as this allows it to automatically update if the actor is attached to a new parent actor. If it is not the root component, RefreshUIElement() will need to be called manually after attaching a new parent actor.
 
-**Notes**
-1. Manually changing actor visibility will not affect child UI elements and may lead to unwanted behavior.
-2. If the element is re-attached to a new parent actor, `RefreshElement()` will need to be called to update the element to match its new parent's state.
+**Note**: Manually changing actor visibility will not affect child UI elements and may lead to unwanted behavior.
 
 ## Built-in UI Elements
 
-A number of the built in components are UI elements by default. This includes:
+A number of the built in components are UI elements by default, but any actor can be given UI element functionality by attaching a `UxtUIElementComponent`.
 * `UxtPressableButtonComponent`
 * `UxtPinchSliderComponent`
 * `UxtTouchableVolumeComponent`
-
-There is a BP_UIPanel blueprint for HL2-style panels but any actor can be given UI element functionality by attaching a `UxtUIElement` component.

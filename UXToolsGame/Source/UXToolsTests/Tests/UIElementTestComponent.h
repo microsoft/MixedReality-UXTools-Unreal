@@ -8,10 +8,10 @@
 
 #include "UIElementTestComponent.generated.h"
 
-class UUxtUIElement;
+class UUxtUIElementComponent;
 
 /**
- * Component to track activate / deactivate events for UxtUIElement tests.
+ * Component to track show / hide events for UxtUIElementComponent tests.
  */
 UCLASS()
 class UUIElementTestComponent : public UActorComponent
@@ -21,19 +21,19 @@ class UUIElementTestComponent : public UActorComponent
 public:
 
 	UFUNCTION()
-	void OnElementActivated(UUxtUIElement* UIElement)
+	void OnShowElement(UUxtUIElementComponent* UIElement)
 	{
-		OnElementActivatedCount++;
+		ShowCount++;
 	}
 
 	UFUNCTION()
-	void OnElementDeactivated(UUxtUIElement* UIElement)
+	void OnHideElement(UUxtUIElementComponent* UIElement, bool bShouldAffectLayout)
 	{
-		OnElementDeactivatedCount++;
+		HideCount++;
 	}
 
 public:
 
-	int OnElementActivatedCount = 0;
-	int OnElementDeactivatedCount = 0;
+	int ShowCount = 0;
+	int HideCount = 0;
 };

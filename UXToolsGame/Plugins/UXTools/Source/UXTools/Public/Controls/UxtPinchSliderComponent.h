@@ -4,7 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Controls/UxtUIElement.h"
+#include "Controls/UxtUIElementComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Input/UxtPointerComponent.h"
@@ -41,7 +41,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtPinchSliderDisabledDelegate, UUx
 
 
 UCLASS( ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtPinchSliderComponent : public UUxtUIElement, public IUxtGrabTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtPinchSliderComponent : public UUxtUIElementComponent, public IUxtGrabTarget, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
