@@ -86,6 +86,8 @@ void UTestPokeTarget::BeginPlay()
 
 	BeginFocusCount = 0;
 	EndFocusCount = 0;
+	BeginPokeCount = 0;
+	EndPokeCount = 0;
 }
 
 bool UTestPokeTarget::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
