@@ -9,12 +9,15 @@
 #include "Components/PrimitiveComponent.h"
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "Utils/UxtFunctionLibrary.h"
-
+#include "Materials/MaterialParameterCollectionInstance.h"
+#include "UXTools.h"
+#include "UObject/ConstructorHelpers.h"
 
 UUxtFarPointerComponent::UUxtFarPointerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
+	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
+	ParameterCollection = Finder.Object;
 	// Tick after physics so we query against the most recent state.
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 }
@@ -37,11 +40,13 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	FQuat NewOrientation;
 	FVector NewOrigin;
 	const bool bIsTracked = UUxtHandTrackingFunctionLibrary::GetHandPointerPose(Hand, NewOrientation, NewOrigin);
+	
+	
 
 	if (bIsTracked)
 	{
 		OnPointerPoseUpdated(NewOrientation, NewOrigin);
-
+		UpdateParameterCollection(GetHitPoint());
 		bool bNewPressed;
 		if (UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(Hand, bNewPressed))
 		{
@@ -282,4 +287,20 @@ bool UUxtFarPointerComponent::IsEnabled() const
 UObject* UUxtFarPointerComponent::GetFarTarget() const 
 {
 	return FarTargetWeak.Get();
+}
+
+void UUxtFarPointerComponent::UpdateParameterCollection(FVector IndexTipPosition)
+{
+	if (ParameterCollection)
+	{
+		UMaterialParameterCollectionInstance* ParameterCollectionInstance = GetWorld()->GetParameterCollectionInstance(ParameterCollection);
+		static FName ParameterNames[] = { "LeftPointerPosition", "RightPointerPosition" };
+		FName ParameterName = Hand == EControllerHand::Left ? ParameterNames[0] : ParameterNames[1];
+		const bool bFoundParameter = ParameterCollectionInstance->SetVectorParameterValue(ParameterName, IndexTipPosition);
+
+		if (!bFoundParameter)
+		{
+			UE_LOG(UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(), *ParameterCollection->GetPathName());
+		}
+	}
 }

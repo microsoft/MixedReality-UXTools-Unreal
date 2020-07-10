@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "UxtManipulatorComponentBase.h"
+#include "UxtManipulationFlags.h"
 
 #include "UxtManipulationFlags.h"
 #include "UxtGenericManipulatorComponent.generated.h"

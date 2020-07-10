@@ -4,8 +4,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/EngineTypes.h"
 
 class UUxtNearPointerComponent;
+class UActorComponent;
+class UPrimitiveComponent;
 
 /** Result of closest point search functions. */
 struct FUxtPointerFocusSearchResult

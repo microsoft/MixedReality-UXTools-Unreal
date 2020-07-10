@@ -8,7 +8,6 @@
 #include "Components/SceneComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtFarTarget.h"
-#include "Interactions/UxtManipulationFlags.h"
 
 #include "UxtGrabTargetComponent.generated.h"
 
@@ -25,7 +24,7 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UUxtNearPointerComponent* NearPointer = nullptr;
 
 	/** The far pointer that is interacting with the component */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	UUxtFarPointerComponent* FarPointer = nullptr;
 
 	/** Last updated grab point transform. (Pointer transform in near pointer case, ray hit transform in far pointer case) */
@@ -100,6 +99,12 @@ public:
 	static FVector GetPointerLocation(const FUxtGrabPointerData& GrabData);
 };
 
+/** Delegate for handling a far focus enter events. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEnterFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
+/** Delegate for handling a far focus update event. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
+/** Delegate for handling a far focus exit event. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtExitFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
 
 /** Delegate for handling a focus enter events. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEnterGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
@@ -198,6 +203,10 @@ protected:
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;
 
+	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
+	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
+	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
+
 	/** Compute the average transform of currently grabbing pointers */
 	FTransform GetGrabPointCentroidTransform() const;
 private:
@@ -213,6 +222,18 @@ private:
 	void InitGrabTransform(FUxtGrabPointerData& GrabData) const;
 
 public:
+
+	/** Event raised when entering grab focus. */
+	UPROPERTY(BlueprintAssignable)
+	FUxtEnterFarFocusDelegate OnEnterFarFocus;
+
+	/** Event raised when grab focus updates. */
+	UPROPERTY(BlueprintAssignable)
+	FUxtUpdateFarFocusDelegate OnUpdateFarFocus;
+
+	/** Event raised when exiting grab. */
+	UPROPERTY(BlueprintAssignable)
+	FUxtExitFarFocusDelegate OnExitFarFocus;
 
 	/** Event raised when entering grab focus. */
 	UPROPERTY(BlueprintAssignable)

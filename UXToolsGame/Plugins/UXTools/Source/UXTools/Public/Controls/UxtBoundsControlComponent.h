@@ -137,6 +137,18 @@ public:
 	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
 	const FBox& GetBounds() const;
 
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
+	float GetMaximumBoundsScale() const;
+
+	UFUNCTION(BlueprintSetter, Category = "Bounding Box")
+	void SetMaximumBoundsScale(float Value);
+
+	UFUNCTION(BlueprintGetter, Category = "Bounding Box")
+	float GetMinimumBoundsScale() const;
+
+	UFUNCTION(BlueprintSetter, Category = "Bounding Box")
+	void SetMinimumBoundsScale(float Value);
+
 	/**
 	 * Get the list of affordances that will be used for the bounding box.
 	 * This can be a based on a preset or a custom set of affordances.
@@ -267,5 +279,13 @@ private:
 	FBox InitialBounds;
 	/** Initial transform at the start of interaction. */
 	FTransform InitialTransform;
+
+	/** Minimum valid scale for bounds. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetMinimumBoundsScale", BlueprintSetter = "SetMinimumBoundsScale", Category = "Bounding Box")
+	float MinimumBoundsScale;
+	
+	/** Maximum valid scale for bounds. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetMaximumBoundsScale", BlueprintSetter = "SetMaximumBoundsScale", Category = "Bounding Box")
+	float MaximumBoundsScale;
 };
 
