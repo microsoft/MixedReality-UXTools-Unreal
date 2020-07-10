@@ -84,7 +84,7 @@ namespace
 		check(Primitive != nullptr);
 
 		// Front face pokables must have a box-shaped collider
-		if (!(Cast<UBoxComponent>(Primitive) || IsBoxShape(*Primitive)))
+		if (!IsBoxShape(*Primitive))
 		{
 			UE_LOG(UXTools, Warning, TEXT("Primitive %s has some collision "
 				"shape other than box"), *Primitive->GetFName().ToString());
