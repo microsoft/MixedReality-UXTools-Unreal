@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "Input/UxtNearPointerComponent.h"
 #include "UxtTestTargetComponent.h"
+
+#include "Input/UxtNearPointerComponent.h"
 #include "UxtTestUtils.h"
 #include "UxtTestHandTracker.h"
 
