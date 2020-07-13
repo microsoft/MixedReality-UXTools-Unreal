@@ -133,7 +133,6 @@ void PinchSliderSpec::Define()
 
 			LatentIt("Value should update on grab and move", [this](const FDoneDelegate& Done)
 				{
-
 					StartValue = Slider->GetSliderValue();
 					FrameQueue.Enqueue([this]
 						{
@@ -167,7 +166,6 @@ void PinchSliderSpec::Define()
 
 			LatentIt("Value should be correct", [this](const FDoneDelegate& Done)
 				{
-
 					StartValue = Slider->GetSliderValue();
 					FrameQueue.Enqueue([this]
 						{
@@ -201,7 +199,6 @@ void PinchSliderSpec::Define()
 
 			LatentIt("Events should fire", [this](const FDoneDelegate& Done)
 				{
-
 					FrameQueue.Enqueue([this]
 						{
 							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
@@ -270,8 +267,31 @@ void PinchSliderSpec::Define()
 					FrameQueue.Enqueue([this]
 						{
 							TestTrue("Interaction ended fired on end interaction", EventCaptureObj->OnInteractionEndedReceived);
-							TestEqual("Current state", Slider->GetCurrentState(), EUxtSliderState::Default);
+							TestEqual("Current state", Slider->GetCurrentState(), EUxtSliderState::Focus);
 						});
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt("should move to focused state when released with focus", [this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this]
+						{
+							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
+							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
+						});
+
+					FrameQueue.Enqueue([this]
+						{
+							TestTrue("Slider is grabbed", Slider->IsGrabbed());
+
+							UxtTestUtils::GetTestHandTracker().SetGrabbing(false);
+						});
+
+					FrameQueue.Enqueue([this]
+						{
+							TestTrue("Slider is focused", Slider->IsFocused());
+						});
+
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 
@@ -332,6 +352,21 @@ void PinchSliderSpec::Define()
 						});
 
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			It("should be limited between slider bounds", [this]
+				{
+					const float LowerBound = 0.2f;
+					const float UpperBound = 0.8f;
+
+					Slider->SetSliderLowerBound(LowerBound);
+					Slider->SetSliderUpperBound(UpperBound);
+
+					Slider->SetSliderValue(0.0f);
+					TestEqual("Thumb is at lower bound", Slider->GetSliderValue(), LowerBound);
+
+					Slider->SetSliderValue(1.0f);
+					TestEqual("Thumb is at upper bound", Slider->GetSliderValue(), UpperBound);
 				});
 		});
 }
