@@ -125,7 +125,10 @@ steps:
     if ($FilesStaged)
     {
         Write-Host "Commit updated files"
-        git commit -m "Docs for commit $(Build.SourceVersion) ($CommitMessage)"
+        # Save commit message in a temporary file to avoid commit quoting issues
+        $CommitMessageFilePath = "$(Build.ArtifactStagingDirectory)\commit.txt"
+        "Docs for commit $(Build.SourceVersion) ($CommitMessage)" | Out-File -Encoding utf8 -FilePath $CommitMessageFilePath
+        git commit --file="$CommitMessageFilePath"
     }
     else
     {
