@@ -65,7 +65,7 @@ void Resize_B290(
     
     float scale = lerp(Center_Fraction,Radius_At_D,Outer_Ring);
     
-    New_Position = Position * float3(scale,scale,Thickness);
+    New_Position = Position * float3(Thickness,scale,scale);
     
     Fade = 1.0-saturate((Distance-Fade_Near)/(Fade_Far-Fade_Near));
     

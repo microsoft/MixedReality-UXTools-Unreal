@@ -14,30 +14,40 @@ The default material for the far beam has the following parameters:
 
 ## Far Beam Material Interface
 
-### Base Color
+### Color
 Color value for the solid beam
+
 ### Emissive
-Emissive intensity for the solid beam
+Emissive intensity for the beam
+
 ### Gradation Hardness
 Scalar value to control the gradation hardness
+
 ### Gradation Multiply
 Scalar value for the gradation of the solid beam
+
 ### Gradation Offset
 Scalar value for the gradation start position offset
+
 ### Gradation Scale
 Scalar value to control the gradation scale
-### Dotted Base Color
-Color value for the dotted beam
-### LineNumber
+
+### Line Number
 Scalar value to control the dot amount in the beam
-### MiddleFade
+
+### Middle Fade
 Scalar value to control the fade-out intensity of the dotted beam
-### MidFadeOffset
+
+### Mid Fade Offset
 Scalar value to control the fade-out position of the dotted beam
-### IsGrabbing
+
+### Is Grabbing
 System value for if the user is currently grabbing
-### handIndex
+
+### Hand Index
 System value used for distinguishing left from right hand 
 
+### Spline Length
+System value used for the beam length
 
 

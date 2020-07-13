@@ -38,7 +38,7 @@ public:
 	 * The actual radius will scale with the distance to the camera to keep a constant screen size.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Cursor")
-	float PressedRadius = 0.32f;
+	float PressedRadius = 0.42f;
 
 protected:
 
