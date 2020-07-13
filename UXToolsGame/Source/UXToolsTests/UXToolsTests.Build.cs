@@ -15,7 +15,8 @@ public class UXToolsTests : ModuleRules
 		
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "LiveLinkInterface", "UXTools" });
 
-		if (Target.bBuildEditor)
+        PrivateDependencyModuleNames.AddRange(new string[] { "Projects", "RenderCore", "Slate", "SlateCore", "UMG", "FunctionalTesting" });
+        if (Target.bBuildEditor)
         {
             PrivateDependencyModuleNames.Add("UnrealEd");
         }
