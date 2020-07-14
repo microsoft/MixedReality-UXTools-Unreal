@@ -63,6 +63,13 @@
 		{
 			"Name": "RuntimeTests",
 			"Enabled": true
+		},
+		{
+			"Name": "GoogleARCore",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Android"
+			]
 		}
 	]
 }
