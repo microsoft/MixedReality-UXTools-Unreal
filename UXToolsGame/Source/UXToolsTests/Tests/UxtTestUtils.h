@@ -57,7 +57,9 @@ public:
 	/** Create a background target without a scene component or primitive. */
 	static UTestGrabTarget* CreateNearPointerBackgroundTarget(UWorld* World);
 
-
+	/** Creates a test camera that is set as the new view target in the playercontroller.
+	    Transform modifications on the returned USceneComponent will transform the active test camera.*/
+	static USceneComponent* CreateTestCamera(UWorld* World);
 	//
 	// Hand tracker implementation with mutable state for testing.
 

@@ -239,6 +239,19 @@ UTestGrabTarget* UxtTestUtils::CreateNearPointerBackgroundTarget(UWorld* World)
 	return testTarget;
 }
 
+USceneComponent* UxtTestUtils::CreateTestCamera(UWorld* World)
+{
+	AActor* CameraActor = World->SpawnActor<AActor>();
+	USceneComponent* RootComponent = NewObject<USceneComponent>(CameraActor, TEXT("RootComponent"));
+	CameraActor->SetRootComponent(RootComponent);
+	UCameraComponent* CameraComponent = NewObject<UCameraComponent>(CameraActor, TEXT("Camera"));
+	CameraComponent->SetupAttachment(RootComponent);
+
+	APlayerController* OurPlayerController = UGameplayStatics::GetPlayerController(World, 0);
+	OurPlayerController->SetViewTarget(CameraActor);
+
+	return RootComponent;
+}
 
 bool FUxtDisableTestHandTrackerCommand::Update()
 {
