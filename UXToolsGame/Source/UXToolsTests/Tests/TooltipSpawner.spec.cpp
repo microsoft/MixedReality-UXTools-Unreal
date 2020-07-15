@@ -238,7 +238,7 @@ void TooltipSpawnerSpec::Define()
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
-		LatentIt("Appear delay", [this](const FDoneDelegate& Done)
+		/*LatentIt("Appear delay", [this](const FDoneDelegate& Done)
 		{
 			FrameQueue.Skip();
 			FrameQueue.Enqueue([this]
@@ -268,7 +268,7 @@ void TooltipSpawnerSpec::Define()
 		});
 
 		LatentIt("Vanish delay", [this](const FDoneDelegate& Done)
-		{			
+		{
 			FrameQueue.Enqueue([this]
 			{
 				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
@@ -341,7 +341,7 @@ void TooltipSpawnerSpec::Define()
 				TestEqual(TEXT("We should have received an onhide event."), EventListener->HideCount, 1);
 			});
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
+		});*/
 
 		LatentIt("Pivot Offset", [this](const FDoneDelegate& Done)
 		{
