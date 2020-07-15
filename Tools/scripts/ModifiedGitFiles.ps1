@@ -64,19 +64,36 @@ $Null = (New-Item -ItemType File -Force -Path $OutputFile)
 # directory may not actually be pointed toward the git path.
 $gitDir = Join-Path -Path $RepoRoot -ChildPath ".git"
 
+$TargetBranch = $TargetBranch -replace "refs/heads/",""
+
 # Check if TargetBranch exists in local repo
-$Null = $(& git rev-parse $TargetBranch)
+$Null = $(& git --git-dir=$gitDir rev-parse origin/$TargetBranch)
 if ($LASTEXITCODE -ne 0)
 {
+    # Set up credentials if provided
+    $RepoUrl = $(& git --git-dir=$gitDir remote get-url origin)
+    if (Test-Path env:SYSTEM_ACCESSTOKEN)
+    {
+        $protocol, $url = $RepoUrl.Split("//", 2)
+        $protocol = ($protocol.TrimEnd("/")) + "//"
+        $url = ($url.TrimStart("/"))
+        if ($url.contains('@'))
+        {
+            $_, $url = $url.Split("@", 2)    
+        }
+        $RepoUrl = "$($protocol)user:$($env:SYSTEM_ACCESSTOKEN)@$($url)"
+    }
+
     # Fetches the target branch so that the git diffing down below will actually be possible. git diff will list
     # the set of changed files between two different commit stamps (or branches, in this case), and needs
     # both branches to exist in order to make this happen.
     # Uses a shallow fetch (i.e. depth=1) because only the latest commit from the target branch is
     # needed to do the diff.
     Write-Host "Fetching $TargetBranch from origin."
-    git --git-dir=$gitDir --work-tree=$RepoRoot  fetch --depth=1 --force --tags --prune --progress --no-recurse-submodules origin $TargetBranch
+    git --git-dir=$gitDir --work-tree=$RepoRoot  fetch --depth=1 --force --tags --prune --progress --no-recurse-submodules --quiet $RepoUrl $TargetBranch
     if ($LASTEXITCODE -ne 0)
     {
+        Write-Host "Git finished with RC=$LASTEXITCODE"
         exit $LASTEXITCODE
     }
 }

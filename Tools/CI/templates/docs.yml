@@ -11,18 +11,19 @@ parameters:
   WebScriptsBranch: ""  # if running against the root folder, copy only javascript/web folder instead of full docs
 
 steps:
-# Generate the list of changed files in this pull request.
-- ${{ if and(eq(parameters.validateCode, true), eq(parameters.scopedValidation, true)) }}:
+# Generate a list of files modified in the current pull request.
+- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
   - template: modifiedfiles.yml
     parameters:
       changesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
 
 # Validate that the documentation does not contain common issues
-- template: tasks/validatecode.yml
-    parameters:
-      RepoRoot: $(SourceRepoDir)
-      Directory: $(SourceRepoDir)\Docs
-      ChangesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+- task: PowerShell@2
+  inputs:
+    targetType: filePath
+    filePath: $(UXTSourceDir)/Tools/scripts/validatedocs.ps1
+    arguments: '-RepoRoot: ${{ parameters.SourceRepoDir }} -Directory: ${{ parameters.SourceRepoDir }}\Docs -ChangesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt'
+  displayName: 'Documentation validation'
 
 - task: NuGetToolInstaller@1
   displayName: 'Ensure NuGet.exe is installed and in PATH'

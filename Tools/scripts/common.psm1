@@ -28,3 +28,19 @@ function GetChangedFiles {
         $processedContent
     }
 }
+
+<#
+.SYNOPSIS
+    Returns true if the given file is a markdown document and
+    false otherwise. Uses the extension of the file, not the actual
+    content to determine this.
+#>
+function IsMarkdownFile {
+    [CmdletBinding()]
+    param(
+        [string]$Filename
+    )
+    process {
+        [IO.Path]::GetExtension($Filename).ToLower() -eq ".md"
+    }
+}

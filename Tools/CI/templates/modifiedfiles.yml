@@ -8,9 +8,10 @@ steps:
   displayName: 'Get PullRequest Changes'
   inputs:
     targetType: filePath
-    filePath: ./scripts/ci/githubchanges.ps1
+    filePath: $(UXTSourceDir)/Tools/scripts/ModifiedGitFiles.ps1
     arguments: >
-      -PullRequestId: $(System.PullRequest.PullRequestNumber)
       -TargetBranch: '$(System.PullRequest.TargetBranch)'
       -OutputFile: '${{ parameters.changesFile }}'
-      -RepoRoot: '$(Build.SourcesDirectory)'
+      -RepoRoot: '$(UXTSourceDir)'
+    failOnStderr: false
+

@@ -33,6 +33,12 @@ param(
     [string]$RepoRoot
 )
 
+if (([string]::IsNullOrEmpty($ChangesFile) -ne $true) -and ([string]::IsNullOrEmpty($RepoRoot)))
+{
+    Write-Warning "-RepoRoot needs to be specified when using -ChangesFile."
+    exit 1;
+}
+
 <#
 .SYNOPSIS
     Checks if the given file at the given line contains a fully resolved documentation
@@ -237,8 +243,8 @@ $containsIssue = $false
 
 # If the file containing the list of changes was provided and actually exists,
 # this validation should scope to only those changed files.
-if (($ChangesFile) -and (Test-Path $Output -PathType leaf)) {
-    Import-Module "$PSScriptRoot\common.psm1"
+if (($ChangesFile) -and (Test-Path $ChangesFile -PathType leaf)) {
+    Import-Module "$PSScriptRoot\common.psm1" -Force
 
     Write-Host "Checking only changed files for doc issues:"
     $changedFiles = GetChangedFiles -Filename $ChangesFile -RepoRoot $RepoRoot
