@@ -11,6 +11,19 @@ parameters:
   WebScriptsBranch: ""  # if running against the root folder, copy only javascript/web folder instead of full docs
 
 steps:
+# Generate the list of changed files in this pull request.
+- ${{ if and(eq(parameters.validateCode, true), eq(parameters.scopedValidation, true)) }}:
+  - template: modifiedfiles.yml
+    parameters:
+      changesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+
+# Validate that the documentation does not contain common issues
+- template: tasks/validatecode.yml
+    parameters:
+      RepoRoot: $(SourceRepoDir)
+      Directory: $(SourceRepoDir)\Docs
+      ChangesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+
 - task: NuGetToolInstaller@1
   displayName: 'Ensure NuGet.exe is installed and in PATH'
 
