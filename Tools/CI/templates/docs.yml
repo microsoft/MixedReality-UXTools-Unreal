@@ -119,6 +119,8 @@ steps:
         Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $DocsDestDir -ErrorAction Stop
     }
 
+    # tread case change as a rename on case-insensitive file system 
+    git config core.ignorecase false
     git add -A
     $FilesStaged = (git diff-index --no-ext-diff --cached HEAD) -ne $null
 
