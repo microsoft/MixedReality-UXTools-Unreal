@@ -10,13 +10,16 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 Features:
 - [Input simulation](Docs/InputSimulation.md) - Simulates articulated hands and head pose that you can use in-editor. This is great for improving development iteration times.
 - [Hand interaction actor](Docs/HandInteraction.md) - Used to interact with our UX components with articulated hands.
-- [Pressable button component](Docs/PressableButton.md) - Low level component used to drive the state of button blueprints. An example button blueprint is provided.
-- [Manipulator component](Docs/Manipulator.md) - Allows moving and rotating an actor with either one or two hand manipulation.
+- [Pressable button component](Docs/PressableButton.md) - Low level component used to drive the state of button blueprints. Example button blueprints are provided.
+- [Pinch Slider](Docs/PinchSlider.md) - Allows the user to continuously change a value by moving the slider thumb along the track.
+- [Bounds Control](Docs/BoundsControl.md) - Allows the user to change the position, rotation, and size of an actor, using _affordances_.
+- [Manipulator component](Docs/Manipulator.md) - Allows moving, rotating and scaling an actor with either one or two hand manipulation.
 - [Follow behaviour component](Docs/FollowComponent.md) - Keeps an actor or component within sight of another component, usually the camera.
+- [Hand constraint component](Docs/HandConstraintComponent.md) - Keeps the actor position and rotation aligned with a hand while avoiding overlaping with it.
+- [Palm up constraint component](Docs/PalmUpConstraintComponent.md) - A [Hand constraint](Docs/HandConstraintComponent.md) specialization that activates only when the palm is facing the player.
+- [Far beam component](Docs/FarBeam.md) - Allows the user to visualise elements in the scene they can interact with from afar.
 - [Graphics documentation](Docs/Graphics.md) - Breakdown of shaders, materials, and graphics techniques used to render UX components.
-
-
-Included but still in development is a bounding box component that allows manipulation of an actor's transform via affordances.
+- The plugin also contains a handful of [utilities](Docs/Utilities.md) that augment the Unreal Engine editor.
 
 ![Features](Docs/Images/Features.png)
 
@@ -25,10 +28,10 @@ Included but still in development is a bounding box component that allows manipu
 
 1. Download [UE 4.25.1](https://www.unrealengine.com/get-now) or later. Earlier versions are not supported.
 1. [Clone](https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop) this repository.
-1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) public/0.8.x. 
-    * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. release/0.8.0) marked as such in GitHub.
+1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) public/0.9.x. 
+    * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. release/0.9.0) marked as such in GitHub.
 
-It's a good idea to have a look at the example maps provided in the **UX Tools Game** (/UXToolsGame) to get familiar with how the plugin works.
+It's a good idea to have a look at the example maps provided in the **UX Tools Game** (/UXToolsGame) to get familiar with how the plugin works. Open the **Loader** level to access some of the examples from a centralized hub.
 
 To use the plugin in a game:
 1. Copy the **UXTools** folder in **/UXToolsGame/Plugins/** to your game's **Plugins** directory. 
@@ -36,7 +39,7 @@ To use the plugin in a game:
 
 2. Open the game project and enable the **UX Tools** plugin in the plugins menu.
 
-You can find a complete setup guide in the [MRTK Getting Started](https://docs.microsoft.com/windows/mixed-reality/unreal-uxt-ch1) tutorial series.
+You can find a complete setup guide in the [Getting Started](https://docs.microsoft.com/windows/mixed-reality/unreal-uxt-ch1) tutorial series.
 
 To make sure everything is working as expected, add a hand interaction actor and an instance of the simple button blueprint to a level and try pressing the button with the simulated hands when playing in the editor.
 
