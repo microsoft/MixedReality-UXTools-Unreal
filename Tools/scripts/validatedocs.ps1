@@ -5,12 +5,12 @@
 .DESCRIPTION
     This currently checks:
 
-    - That documentation doesn't contain fully resolved links (i.e. https://microsoft.github.io/MixedRealityToolkit-Unity/Documentation)
+    - That documentation doesn't contain fully resolved links (i.e. https://microsoft.github.io/MixedReality-UXTools-Unreal)
       and are instead relative links. Relative links can be resolved and validated by docfx, and fully resolved links cannot.
 
     Returns 0 if there are no issues, non-zero if there are.
 .EXAMPLE
-    .\validatedocs.ps1 -Directory c:\path\to\MRTK\Documentation
+    .\validatedocs.ps1 -Directory c:\path\to\UXTools\Docs
 #>
 param(
     # The directory containing the docs to validate. This is the fallback if
@@ -46,9 +46,9 @@ function CheckDocLinks {
         [int]$LineNumber
     )
     process {
-        if ($FileContent[$LineNumber] -match "https://microsoft.github.io/MixedRealityToolkit-Unity/Documentation") {
+        if ($FileContent[$LineNumber] -match "https://microsoft.github.io/MixedReality-UXTools-Unreal") {
             Write-Host "An non-relative doc link was found in $FileName at line $LineNumber "
-            Write-Host "Avoid doc links containing https://microsoft.github.io/MixedRealityToolkit-Unity/Documentation "
+            Write-Host "Avoid doc links containing https://microsoft.github.io/MixedReality-UXTools-Unreal "
             Write-Host "and use relative links instead."
             $true;
         }
@@ -59,7 +59,7 @@ function CheckDocLinks {
 <#
 .SYNOPSIS
     Checks if the given file at the given line contains an incorrect relative path
-    (for example /Documentation/...). These "absolute" paths will only resolve correct on
+    (for example /Docs/...). These "absolute" paths will only resolve correct on
     github.com and not github.io
 #>
 function CheckIncorrectRelativePath {
@@ -72,7 +72,7 @@ function CheckIncorrectRelativePath {
     process {
         if ($FileContent[$LineNumber] -match "]\(/") {
             Write-Host "An incorrect absolute path was found in $FileName at line $LineNumber "
-            Write-Host "Avoid links of the form '/Documentation/Folder' and use relative paths "
+            Write-Host "Avoid links of the form '/Docs/Folder' and use relative paths "
             Write-Host "'../Folder' instead."
             $true;
         }
@@ -98,7 +98,7 @@ function CheckImage {
         [string]$MarkdownFilePath,
 
         # The image path string (often relative) within the markdown file
-        # e.g. "../Documentation/Images/image.png"
+        # e.g. "../Docs/Images/image.png"
         [string]$ImagePath
     )
     process {
@@ -107,9 +107,9 @@ function CheckImage {
         }
 
         # Resolves the given image based on the location of the markdown file location
-        # For example, given "/path/to/Documentation/subfolder/file.md"
+        # For example, given "/path/to/Docs/subfolder/file.md"
         # and an image "../Images/image.png", resolves this to:
-        # "/path/to/Documentation/Images/image.png"
+        # "/path/to/Docs/Images/image.png"
         $markdownFolder = [System.IO.Path]::GetDirectoryName($MarkdownFilePath)
         $unresolvedPath = Join-Path -Path $markdownFolder -ChildPath $ImagePath
         $resolvedPath = [System.IO.Path]::GetFullPath($unresolvedPath)
@@ -238,9 +238,7 @@ $containsIssue = $false
 # If the file containing the list of changes was provided and actually exists,
 # this validation should scope to only those changed files.
 if (($ChangesFile) -and (Test-Path $Output -PathType leaf)) {
-    # TODO(https://github.com/microsoft/MixedRealityToolkit-Unity/issues/7022)
-    # There may be ways to configure common modules so that paths like this aren't required
-    Import-Module (Resolve-Path("$RepoRoot\scripts\ci\common.psm1"))
+    Import-Module "$PSScriptRoot\common.psm1"
 
     Write-Host "Checking only changed files for doc issues:"
     $changedFiles = GetChangedFiles -Filename $ChangesFile -RepoRoot $RepoRoot
