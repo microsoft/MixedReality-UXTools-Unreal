@@ -13,6 +13,7 @@
 
 #include "Interactions/UxtGenericManipulatorComponent.h"
 #include "Interactions/Constraints/UxtFaceUserConstraint.h"
+#include "Interactions/Constraints/UxtFixedDistanceConstraint.h"
 #include "Interactions/Constraints/UxtFixedRotationToWorldConstraint.h"
 #include "Interactions/Constraints/UxtFixedRotationToUserConstraint.h"
 #include "Interactions/Constraints/UxtRotationAxisConstraint.h"
@@ -60,6 +61,7 @@ BEGIN_DEFINE_SPEC(ManipulatorConstraintSpec, "UXTools.GenericManipulator.Constra
 	void EnqueueFixedRotationToUserConstraintTests();
 	void EnqueueFaceUserConstraintTests();
 	void EnqueueRotationAxisConstraintTests();
+	void EnqueueFixedDistanceConstraintTests();
 	//todo: move MoveAxisConstraint tests here
 
 	UUxtGenericManipulatorComponent* Target;
@@ -113,6 +115,7 @@ void ManipulatorConstraintSpec::Define()
 			EnqueueFixedRotationToUserConstraintTests();
 			EnqueueFaceUserConstraintTests();
 			EnqueueRotationAxisConstraintTests();
+			EnqueueFixedDistanceConstraintTests();
 		});
 
 	Describe("Far Interaction", [this]
@@ -133,6 +136,7 @@ void ManipulatorConstraintSpec::Define()
 			EnqueueFixedRotationToUserConstraintTests();
 			EnqueueFaceUserConstraintTests();
 			EnqueueRotationAxisConstraintTests();
+			EnqueueFixedDistanceConstraintTests();
 		});
 }
 
@@ -459,6 +463,78 @@ void ManipulatorConstraintSpec::EnqueueRotationAxisConstraintTests()
 				});
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+}
+
+void ManipulatorConstraintSpec::EnqueueFixedDistanceConstraintTests()
+{
+	LatentIt("Should maintain fixed distance to camera", [this](const FDoneDelegate& Done)
+		{
+			UUxtFixedDistanceConstraint* Constraint = NewObject<UUxtFixedDistanceConstraint>(Target->GetOwner());
+			Constraint->RegisterComponent();
+
+			const FTransform HeadPose = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld());
+			const float ExpectedDistance = FVector::Dist(Target->GetOwner()->GetActorLocation(), HeadPose.GetLocation());
+
+			FrameQueue.Enqueue([this]
+				{
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Translate(FVector(100, 100, 100));
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, HeadPose, ExpectedDistance]
+				{
+					const float Result = FVector::Dist(Target->GetOwner()->GetActorLocation(), HeadPose.GetLocation());
+					TestEqual("Distance did not change", Result, ExpectedDistance);
+				});
+
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("Should maintain fixed distance to object", [this](const FDoneDelegate& Done)
+		{
+			AActor* ConstraintObject = UxtTestUtils::GetTestWorld()->SpawnActor<AActor>();
+			USceneComponent* RootComponent = NewObject<USceneComponent>(ConstraintObject);
+			RootComponent->SetWorldLocation(TargetLocation + FVector(50, 50, 50));
+			ConstraintObject->SetRootComponent(RootComponent);
+
+			UUxtFixedDistanceConstraint* Constraint = NewObject<UUxtFixedDistanceConstraint>(Target->GetOwner());
+			Constraint->ConstraintComponent.OtherActor = ConstraintObject;
+			Constraint->RegisterComponent();
+
+			const float ExpectedDistance = FVector::Dist(Target->GetOwner()->GetActorLocation(), ConstraintObject->GetActorLocation());
+
+			FrameQueue.Enqueue([this]
+				{
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Translate(FVector(100, 100, 100));
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ConstraintObject, ExpectedDistance]
+				{
+					const float Result = FVector::Dist(Target->GetOwner()->GetActorLocation(), ConstraintObject->GetActorLocation());
+					TestEqual("Distance did not change", Result, ExpectedDistance);
+				});
+
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+
+			ConstraintObject->Destroy();
 		});
 }
 

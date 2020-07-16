@@ -27,8 +27,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UXTools")
 	static bool IsInEditor();
 
-
-	/** Returns the scene component the passed component reference is pointing to if there is any - else will return nullptr. */
-	static USceneComponent* GetSceneComponentFromReference(const FComponentReference& ComponentRef, const AActor* Owner);
+	/**
+	 * Returns the scene component the passed component reference is pointing to if there is any - else will return nullptr.
+	 *
+	 * Replicates FComponentReference::GetComponent() functionality, except it does not use FProperty to detect components.
+	 * This allows it to detect components not contained in a blueprint.
+	 */
+	static USceneComponent* GetSceneComponentFromReference(const FComponentReference& ComponentRef, AActor* Owner);
 };
 
