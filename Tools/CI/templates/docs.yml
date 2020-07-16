@@ -11,6 +11,20 @@ parameters:
   WebScriptsBranch: ""  # if running against the root folder, copy only javascript/web folder instead of full docs
 
 steps:
+# Generate a list of files modified in the current pull request.
+- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  - template: modifiedfiles.yml
+    parameters:
+      changesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+
+# Validate that the documentation does not contain common issues
+- task: PowerShell@2
+  inputs:
+    targetType: filePath
+    filePath: $(UXTSourceDir)/Tools/scripts/validatedocs.ps1
+    arguments: '-RepoRoot: ${{ parameters.SourceRepoDir }} -Directory: ${{ parameters.SourceRepoDir }}\Docs -ChangesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt'
+  displayName: 'Documentation validation'
+
 - task: NuGetToolInstaller@1
   displayName: 'Ensure NuGet.exe is installed and in PATH'
 
@@ -119,6 +133,8 @@ steps:
         Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $DocsDestDir -ErrorAction Stop
     }
 
+    # tread case change as a rename on case-insensitive file system 
+    git config core.ignorecase false
     git add -A
     $FilesStaged = (git diff-index --no-ext-diff --cached HEAD) -ne $null
 
