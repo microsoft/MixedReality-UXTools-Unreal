@@ -134,7 +134,7 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 	{
 		// Line trace to find new primitive
 		FHitResult Hit;
-		const auto Forward = PointerOrientation.GetForwardVector();
+		const FVector Forward = PointerOrientation.GetForwardVector();
 		FVector Start = PointerOrigin + Forward * RayStartOffset;
 		FVector End = Start + Forward * RayLength;
 		GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel);

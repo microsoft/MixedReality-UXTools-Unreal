@@ -183,10 +183,14 @@ void UUxtBoundsControlComponent::BeginPlay()
 	}
 #endif
 
-	const auto &usedAffordances = GetUsedAffordances();
+	const TArray<FUxtBoundsControlAffordanceInfo>& usedAffordances = GetUsedAffordances();
 	for (const FUxtBoundsControlAffordanceInfo &affordance : usedAffordances)
 	{
-		auto affordanceClass = (affordance.ActorClass != nullptr ? affordance.ActorClass : GetAffordanceKindActorClass(affordance.Kind));
+		TSubclassOf<AActor> affordanceClass = affordance.ActorClass;
+		if (affordanceClass == nullptr)
+		{
+			affordanceClass = GetAffordanceKindActorClass(affordance.Kind);
+		}
 		if (IsValid(affordanceClass))
 		{
 			FActorSpawnParameters Params;
@@ -239,7 +243,7 @@ void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReaso
 
 		// Find the grab target in use by this pointer
 		UUxtGrabTargetComponent* grabbable = nullptr;
-		for (auto item : ActorAffordanceMap)
+		for (const auto& item : ActorAffordanceMap)
 		{
 			if (item.Value == affordanceInfo)
 			{

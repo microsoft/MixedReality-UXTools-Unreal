@@ -22,7 +22,7 @@ void UUxtFarCursorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto Owner = GetOwner();
+	const AActor* const Owner = GetOwner();
 	UUxtFarPointerComponent* FarPointer = Owner->FindComponentByClass<UUxtFarPointerComponent>();
 
 	if (FarPointer)
@@ -86,7 +86,7 @@ void UUxtFarCursorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	if (UUxtFarPointerComponent* FarPointer = FarPointerWeak.Get())
 	{
 		// Place hovering the hit location
-		const auto HitNormal = FarPointer->GetHitNormal();
+		const FVector& HitNormal = FarPointer->GetHitNormal();
 		FVector Location = FarPointer->GetHitPoint() + HitNormal * HoverDistance;
 		SetWorldLocation(Location);
 

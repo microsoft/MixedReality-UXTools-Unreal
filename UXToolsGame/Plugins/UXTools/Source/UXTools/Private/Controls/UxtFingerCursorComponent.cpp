@@ -45,10 +45,10 @@ namespace
 			return FTransform::Identity;
 		}
 
-		auto FingerDir = (IndexTipPosition - IndexKnucklePosition);
+		FVector FingerDir = (IndexTipPosition - IndexKnucklePosition);
 		FingerDir.Normalize();
 
-		const auto DistanceToTarget = FVector::Dist(PointOnTarget, IndexTipPosition);
+		const float DistanceToTarget = FVector::Dist(PointOnTarget, IndexTipPosition);
 
 		FVector Location;
 		FQuat Rotation;
@@ -93,7 +93,7 @@ void UUxtFingerCursorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto Owner = GetOwner();
+	const AActor* const Owner = GetOwner();
 	UUxtNearPointerComponent* HandPointer = Owner->FindComponentByClass<UUxtNearPointerComponent>();
 	HandPointerWeak = HandPointer;
 

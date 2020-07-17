@@ -170,13 +170,13 @@ void FollowComponentSpec::EnqueueDistanceTest()
 	// Move the target past min distance extents 
 	FrameQueue.Enqueue([this]
 		{
-			auto ActorLocation = Follow->ActorToFollow->GetActorLocation();
+			const FVector ActorLocation = Follow->ActorToFollow->GetActorLocation();
 			float MinFollowDist = Follow->MinimumDistance;
 
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
-			auto Distance = TargetToComponent.Size();
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			FVector TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
+			const float Distance = TargetToComponent.Size();
 			TargetToComponent.Normalize();
 
 			Follow->ActorToFollow->SetActorLocation(ActorLocation + TargetToComponent * (Distance - (MinFollowDist * 0.5f)));
@@ -184,22 +184,22 @@ void FollowComponentSpec::EnqueueDistanceTest()
 	// Check behavior is expected for min bounds
 	FrameQueue.Enqueue([this, bIgnoreDistance]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto Distance = FVector::Distance(FollowTransform.GetLocation(), TargetTransform.GetLocation());
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			const float Distance = FVector::Distance(FollowTransform.GetLocation(), TargetTransform.GetLocation());
 
 			TestEqual("Follow component does not subceed minimum bounds", Distance < Follow->MinimumDistance, bIgnoreDistance);
 		});
 	// Move the target past max distance extents
 	FrameQueue.Enqueue([this]
 		{
-			auto ActorLocation = Follow->ActorToFollow->GetActorLocation();
+			const FVector ActorLocation = Follow->ActorToFollow->GetActorLocation();
 			float MaxFollowDist = Follow->MaximumDistance;
 
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
-			auto Distance = TargetToComponent.Size();
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			FVector TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
+			const float Distance = TargetToComponent.Size();
 			TargetToComponent.Normalize();
 
 			Follow->ActorToFollow->SetActorLocation(ActorLocation - TargetToComponent * ((MaxFollowDist * 1.5f) - Distance));
@@ -207,9 +207,9 @@ void FollowComponentSpec::EnqueueDistanceTest()
 	// Check behavior is expected for max bounds
 	FrameQueue.Enqueue([this, bIgnoreDistance]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto Distance = FVector::Distance(FollowTransform.GetLocation(), TargetTransform.GetLocation());
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			const float Distance = FVector::Distance(FollowTransform.GetLocation(), TargetTransform.GetLocation());
 
 			TestEqual("Follow component does not exceed maximum bounds", Distance > Follow->MaximumDistance, bIgnoreDistance);
 		});
@@ -222,25 +222,25 @@ void FollowComponentSpec::EnqueueAngleTest()
 	// Move the target past horizontal angle extents 
 	FrameQueue.Enqueue([this]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
-			auto TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			const FVector TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
+			const FVector TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
 
 			float CurrAngle = AngleBetweenOnPlane(TargetForward, TargetToComponent, FVector::UpVector);
 			float MaxHorizontal = FMath::DegreesToRadians(Follow->MaxViewHorizontalDegrees);
 
-			auto NewTargetRot = FQuat(FVector::UpVector, (MaxHorizontal * 1.5f) - CurrAngle);
+			const FQuat NewTargetRot(FVector::UpVector, (MaxHorizontal * 1.5f) - CurrAngle);
 
 			Follow->ActorToFollow->SetActorRotation(NewTargetRot.Rotator());
 		});
 	// Check behavior is expected for horizontal bounds
 	FrameQueue.Enqueue([this, bIgnoreAngular]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
-			auto TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			const FVector TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
+			const FVector TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
 
 			float CurrAngle = AngleBetweenOnPlane(TargetForward, TargetToComponent, FVector::UpVector);
 
@@ -251,25 +251,25 @@ void FollowComponentSpec::EnqueueAngleTest()
 	// Move the target past vertical angle extents
 	FrameQueue.Enqueue([this]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
-			auto TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			const FVector TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
+			const FVector TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
 
 			float CurrAngle = AngleBetweenOnPlane(TargetForward, TargetToComponent, TargetTransform.GetUnitAxis(EAxis::Y));
 			float MaxVertical = FMath::DegreesToRadians(Follow->MaxViewVerticalDegrees);
 
-			auto NewTargetRot = FQuat(FVector::RightVector, (MaxVertical * 1.5f) - CurrAngle);
+			const FQuat NewTargetRot(FVector::RightVector, (MaxVertical * 1.5f) - CurrAngle);
 
 			Follow->ActorToFollow->SetActorRotation(NewTargetRot.Rotator());
 		});
 	// Check behavior is expected for vertical bounds
 	FrameQueue.Enqueue([this, bIgnoreAngular]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
-			auto TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
-			auto TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
+			const FVector TargetToComponent = FollowTransform.GetLocation() - TargetTransform.GetLocation();
+			const FVector TargetForward = TargetTransform.GetUnitAxis(EAxis::X);
 
 			float CurrAngle = AngleBetweenOnPlane(TargetForward, TargetToComponent, TargetTransform.GetUnitAxis(EAxis::Y));
 
@@ -287,15 +287,15 @@ void FollowComponentSpec::EnqueueOrientationTest()
 	// Move the target halfway to the dead zone degrees
 	FrameQueue.Enqueue([this]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
 
 			float DeadzoneAngle = FMath::DegreesToRadians(Follow->OrientToCameraDeadzoneDegrees);
-			auto Rotation = FQuat(FVector::UpVector, DeadzoneAngle * 0.5f);
+			const FQuat Rotation(FVector::UpVector, DeadzoneAngle * 0.5f);
 
-			auto ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
+			const FVector ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
 
-			auto NewTargetPosition = FollowTransform.GetLocation() + Rotation * ComponentToTarget;
+			const FVector NewTargetPosition = FollowTransform.GetLocation() + Rotation * ComponentToTarget;
 
 			Follow->ActorToFollow->SetActorLocation(NewTargetPosition);
 			Follow->ActorToFollow->SetActorRotation(Rotation.Rotator());
@@ -303,12 +303,12 @@ void FollowComponentSpec::EnqueueOrientationTest()
 	// Check behavior is expected for orientation type
 	FrameQueue.Enqueue([this, InitialRotation, bFacing]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
 
-			auto ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
-			auto Cross = FVector::CrossProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
-			auto Dot = FVector::DotProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
+			const FVector ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
+			const FVector Cross = FVector::CrossProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
+			const float Dot = FVector::DotProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
 
 			TestEqual("Follow component orientation has changed to match orientation type", InitialRotation != FollowTransform.GetRotation(), bFacing);
 
@@ -322,15 +322,15 @@ void FollowComponentSpec::EnqueueOrientationTest()
 	// Move the target past the dead zone degrees
 	FrameQueue.Enqueue([this]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
 
 			float DeadzoneAngle = FMath::DegreesToRadians(Follow->OrientToCameraDeadzoneDegrees);
-			auto Rotation = FQuat(FVector::UpVector, DeadzoneAngle);
+			const FQuat Rotation(FVector::UpVector, DeadzoneAngle);
 
-			auto ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
+			const FVector ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
 
-			auto NewTargetPosition = FollowTransform.GetLocation() + Rotation * ComponentToTarget;
+			const FVector NewTargetPosition = FollowTransform.GetLocation() + Rotation * ComponentToTarget;
 
 			Follow->ActorToFollow->SetActorLocation(NewTargetPosition);
 			Follow->ActorToFollow->SetActorRotation(Rotation.Rotator());
@@ -338,12 +338,12 @@ void FollowComponentSpec::EnqueueOrientationTest()
 	// Check behavior is expected for orientation type
 	FrameQueue.Enqueue([this, InitialRotation]
 		{
-			auto TargetTransform = Follow->ActorToFollow->GetTransform();
-			auto FollowTransform = Follow->GetOwner()->GetTransform();
+			const FTransform& TargetTransform = Follow->ActorToFollow->GetTransform();
+			const FTransform& FollowTransform = Follow->GetOwner()->GetTransform();
 
-			auto ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
-			auto Cross = FVector::CrossProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
-			auto Dot = FVector::DotProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
+			const FVector ComponentToTarget = TargetTransform.GetLocation() - FollowTransform.GetLocation();
+			const FVector Cross = FVector::CrossProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
+			const float Dot = FVector::DotProduct(FollowTransform.GetUnitAxis(EAxis::X), ComponentToTarget);
 
 			TestNotEqual("Follow component orientation has changed", InitialRotation, FollowTransform.GetRotation());
 

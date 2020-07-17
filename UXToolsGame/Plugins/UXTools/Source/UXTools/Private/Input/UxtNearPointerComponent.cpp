@@ -52,7 +52,7 @@ namespace
 			return false;
 		}
 
-		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixWithScale();
+		const FMatrix ComponentTransform = Primitive->GetComponentTransform().ToMatrixWithScale();
 		
 		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
 
@@ -91,7 +91,7 @@ namespace
 			return false;
 		}
 
-		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
+		const FMatrix ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
 
 		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
 

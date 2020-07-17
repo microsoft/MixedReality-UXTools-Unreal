@@ -87,7 +87,7 @@ bool UUxtInternalFunctionLibrary::GetFontCharacterData(const UFont* Font, TArray
 
 	if (Font->IsRemapped)
 	{
-		for (auto& Elem : Font->CharRemap)
+		for (const TPair<uint16, uint16>& Elem : Font->CharRemap)
 		{
 			AddCharacter(Font->Characters[Elem.Value], Elem.Key, Font, FontCharacters);
 		}

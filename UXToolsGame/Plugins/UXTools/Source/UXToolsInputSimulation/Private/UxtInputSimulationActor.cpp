@@ -38,7 +38,7 @@ AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& Obj
 
 void AUxtInputSimulationActor::SetupHeadComponents()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 
 	HeadMovement = CreateDefaultSubobject<UUxtInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
 	AddOwnedComponent(HeadMovement);
@@ -52,7 +52,7 @@ void AUxtInputSimulationActor::SetupHeadComponents()
 
 void AUxtInputSimulationActor::SetupHandComponents()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 
 	LeftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LeftHand"));
 	AddOwnedComponent(LeftHand);
@@ -232,13 +232,13 @@ void AUxtInputSimulationActor::BeginPlay()
 
 void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 {
-	auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
+	auto* const InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
 	if (!InputSim)
 	{
 		return;
 	}
 
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	// Copy Simulated input data to the engine subsystem
@@ -270,7 +270,7 @@ USkeletalMeshComponent* AUxtInputSimulationActor::GetHandMesh(EControllerHand Ha
 
 FName AUxtInputSimulationActor::GetTargetPose(EControllerHand Hand) const
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	const FName *HandTargetPose = TargetPoses.Find(Hand);
@@ -289,7 +289,7 @@ void AUxtInputSimulationActor::ResetTargetPose(EControllerHand Hand)
 
 void AUxtInputSimulationActor::GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	// Mirror the left hand.
@@ -337,7 +337,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 {
 	typedef FWindowsMixedRealityInputSimulationHandState::ButtonStateArray ButtonStateArray;
 
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
 
@@ -529,21 +529,21 @@ void AUxtInputSimulationActor::TogglePoseForControlledHands(FName PoseName)
 
 void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	TogglePoseForControlledHands(Settings->PrimaryHandPose);
 }
 
 void AUxtInputSimulationActor::OnSecondaryHandPosePressed()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	TogglePoseForControlledHands(Settings->SecondaryHandPose);
 }
 
 void AUxtInputSimulationActor::OnMenuHandPosePressed()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	TogglePoseForControlledHands(Settings->MenuHandPose);
 }
@@ -678,7 +678,7 @@ void AUxtInputSimulationActor::AddHandRotationInputImpl(EAxis::Type RotationAxis
 
 void AUxtInputSimulationActor::SetDefaultHandLocation(EControllerHand Hand)
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	FTransform& HandTransform = HandTransforms.FindOrAdd(Hand);
@@ -693,7 +693,7 @@ void AUxtInputSimulationActor::SetDefaultHandLocation(EControllerHand Hand)
 
 void AUxtInputSimulationActor::SetDefaultHandRotation(EControllerHand Hand)
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	FTransform& HandTransform = HandTransforms.FindOrAdd(Hand);
