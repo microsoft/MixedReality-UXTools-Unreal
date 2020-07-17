@@ -26,9 +26,7 @@ Both sets of buttons use the SbuttonParm struct to assign values to each instanc
 
 SbuttonParm arrays can be found under the properties of the blueprint actor.
 
-![ChildActors](Images/HandMenu/buttonParams.png)
-
- SbuttonParm contains the follow properties:
+SbuttonParm contains the follow properties:
 
 **Button Label** - Sets the label text of the button.
 
@@ -66,13 +64,10 @@ Here is an example of how to bind an event to a button instance:
 
 Sliders are set up much like the buttons.  Assign BP_HandMenuSlider to a child actor component and add them to the slider actor array. Currently slider can only be found under the large menu variants.
 
-![ChildActors](Images/HandMenu/sliders+backplate.png)
 
+`UxtPalmUpConstraint` is a component that enables hand constraint interactions and events,  Actors with the component on them will appear at their specified [zone](#zone).
 
-
-`UxtPalmUpConstraint` is a component that enables hand constraint interactions and events,  Actors with the component on them will appear at their specified [zone](#Zone).
-
-Do note, If multiple actors are active with a  `UxtPalmUpConstraint`  component, make sure they do not overlap, by either adjusting the [goal margin](#Goal Margin) or the [zone](#Zone) at which they appear at.
+Do note, If multiple actors are active with a  `UxtPalmUpConstraint`  component, make sure they do not overlap, by either adjusting the [goal margin](#Goal Margin) or the [zone](#zone) at which they appear at.
 
 **On Constraint Activated**  - Event raised when the constraint becomes active.
 
