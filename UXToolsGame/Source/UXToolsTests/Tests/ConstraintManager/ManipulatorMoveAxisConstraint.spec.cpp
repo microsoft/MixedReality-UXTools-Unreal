@@ -303,6 +303,8 @@ void ManipulatorMoveAxisConstraintSpec::Define()
 							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(TestDelta, EControllerHand::Right);
 						});
 
+					FrameQueue.Skip();
+
 					FrameQueue.Enqueue([this, Done]
 						{
 							// make sure it isn't moved in X and Y axis

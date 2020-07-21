@@ -146,6 +146,11 @@ void UUxtManipulatorComponentBase::ApplyTargetTransform(const FTransform &Target
 	OnUpdateTransform.Broadcast(TransformTarget, TargetTransform);
 }
 
+USceneComponent* UUxtManipulatorComponentBase::GetTargetComponent()
+{
+	return TransformTarget;
+}
+
 void UUxtManipulatorComponentBase::BeginPlay()
 {
 	Super::BeginPlay();

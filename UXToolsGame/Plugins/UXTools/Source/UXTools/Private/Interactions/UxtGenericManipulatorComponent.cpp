@@ -178,7 +178,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 		return;
 	}
 
-	FTransform TargetTransform = InitialTransform;
+	FTransform TargetTransform = GetTargetComponent()->GetComponentTransform();
 	Constraints->ApplyScaleConstraints(TargetTransform, true, IsNearManipulation());
 
 	GetOneHandRotation(TargetTransform, TargetTransform);
@@ -199,7 +199,7 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 		return;
 	}
 
-	FTransform TargetTransform = InitialTransform;
+	FTransform TargetTransform = GetTargetComponent()->GetComponentTransform();
 
 	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Scaling)))
 	{

@@ -16,6 +16,7 @@
 #include "Interactions/Constraints/UxtFixedDistanceConstraint.h"
 #include "Interactions/Constraints/UxtFixedRotationToWorldConstraint.h"
 #include "Interactions/Constraints/UxtFixedRotationToUserConstraint.h"
+#include "Interactions/Constraints/UxtMaintainApparentSizeConstraint.h"
 #include "Interactions/Constraints/UxtRotationAxisConstraint.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "Components/SceneComponent.h"
@@ -62,12 +63,14 @@ BEGIN_DEFINE_SPEC(ManipulatorConstraintSpec, "UXTools.GenericManipulator.Constra
 	void EnqueueFaceUserConstraintTests();
 	void EnqueueRotationAxisConstraintTests();
 	void EnqueueFixedDistanceConstraintTests();
+	void EnqueueMaintainApparentSizeConstraintTests();
 	//todo: move MoveAxisConstraint tests here
 
 	UUxtGenericManipulatorComponent* Target;
 	FFrameQueue FrameQueue;
 
 	// Must be configured by Describe block if needed
+	EUxtInteractionMode InteractionMode;
 	FUxtTestHand LeftHand = FUxtTestHand(EControllerHand::Left);
 	FUxtTestHand RightHand = FUxtTestHand(EControllerHand::Right);
 
@@ -101,8 +104,9 @@ void ManipulatorConstraintSpec::Define()
 		{
 			BeforeEach([this]
 				{
-					LeftHand.Configure(EUxtInteractionMode::Near, TargetLocation);
-					RightHand.Configure(EUxtInteractionMode::Near, TargetLocation);
+					InteractionMode = EUxtInteractionMode::Near;
+					LeftHand.Configure(InteractionMode, TargetLocation);
+					RightHand.Configure(InteractionMode, TargetLocation);
 				});
 
 			AfterEach([this]
@@ -116,14 +120,16 @@ void ManipulatorConstraintSpec::Define()
 			EnqueueFaceUserConstraintTests();
 			EnqueueRotationAxisConstraintTests();
 			EnqueueFixedDistanceConstraintTests();
+			EnqueueMaintainApparentSizeConstraintTests();
 		});
 
 	Describe("Far Interaction", [this]
 		{
 			BeforeEach([this]
 				{
-					LeftHand.Configure(EUxtInteractionMode::Far, TargetLocation);
-					RightHand.Configure(EUxtInteractionMode::Far, TargetLocation);
+					InteractionMode = EUxtInteractionMode::Far;
+					LeftHand.Configure(InteractionMode, TargetLocation);
+					RightHand.Configure(InteractionMode, TargetLocation);
 				});
 
 			AfterEach([this]
@@ -137,6 +143,7 @@ void ManipulatorConstraintSpec::Define()
 			EnqueueFaceUserConstraintTests();
 			EnqueueRotationAxisConstraintTests();
 			EnqueueFixedDistanceConstraintTests();
+			EnqueueMaintainApparentSizeConstraintTests();
 		});
 }
 
@@ -535,6 +542,80 @@ void ManipulatorConstraintSpec::EnqueueFixedDistanceConstraintTests()
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 
 			ConstraintObject->Destroy();
+		});
+}
+
+void ManipulatorConstraintSpec::EnqueueMaintainApparentSizeConstraintTests()
+{
+	LatentIt("Should maintain apparent size with one hand", [this](const FDoneDelegate& Done)
+		{
+			UUxtMaintainApparentSizeConstraint* Constraint = NewObject<UUxtMaintainApparentSizeConstraint>(Target->GetOwner());
+			Constraint->RegisterComponent();
+
+			const FVector Translation = FVector::ForwardVector * 200;
+
+			const FTransform HeadPose = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld());
+			const float InitialDistance = FVector::Dist(Target->GetOwner()->GetActorLocation(), HeadPose.GetLocation());
+			const float DistanceScaling = InteractionMode == EUxtInteractionMode::Far ? 3 : 1;
+			const float ExpectedDistance = InitialDistance + (Translation.Size() * DistanceScaling);
+			const FVector ExpectedScale = (ExpectedDistance / InitialDistance) * Target->GetOwner()->GetActorScale();
+
+			FrameQueue.Enqueue([this]
+				{
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, Translation]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+
+					RightHand.Translate(Translation);
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedScale]
+				{
+					const FVector Result = Target->GetOwner()->GetActorScale();
+
+					TestEqual("Should have scaled accordingly", Result, ExpectedScale, 0.1);
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("Should maintain apparent size with two hands", [this](const FDoneDelegate& Done)
+		{
+			UUxtMaintainApparentSizeConstraint* Constraint = NewObject<UUxtMaintainApparentSizeConstraint>(Target->GetOwner());
+			Constraint->RegisterComponent();
+
+			FrameQueue.Enqueue([this]
+				{
+					LeftHand.Translate(FVector(0, -50, 0));
+					RightHand.Translate(FVector(0, 50, 0));
+
+					LeftHand.SetGrabbing(true);
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+
+					LeftHand.Translate(FVector(0, 50, -50));
+					RightHand.Translate(FVector(0, -50, 50));
+				});
+
+			FrameQueue.Skip(2);
+
+			FrameQueue.Enqueue([this]
+				{
+					const FVector Result = Target->GetOwner()->GetActorScale();
+
+					TestEqual("Should have scaled accordingly", Result, FVector(1, 1, 1), 0.1);
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 }
 

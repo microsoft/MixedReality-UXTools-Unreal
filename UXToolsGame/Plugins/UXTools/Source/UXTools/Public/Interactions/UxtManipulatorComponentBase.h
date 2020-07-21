@@ -75,6 +75,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
 	void ApplyTargetTransform(const FTransform &TargetTransform);
 
+	/** Get the component the manipulator is targeting. */
+	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
+	USceneComponent* GetTargetComponent();
+
 protected:
 
 	virtual void BeginPlay() override;
