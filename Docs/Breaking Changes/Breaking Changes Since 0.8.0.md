@@ -15,7 +15,7 @@ MaxPushDistance is now in button local space. There are two ways of fixing this 
 Buttons now depress towards negative x. This means that buttons will need to be rotated in order to function properly.
   1. Open your button blueprint, if you select the pressable button component you'll notice that the button planes are now aligned with the other side of the button.
   2. Transform your movable button visuals so that the new front face is the same distance from the blueprint origin as it was before. Here's a rough visualization of what this might mean:
-   
+
      | Before Update | After Update | After Transform |
      | :-: | :-: | :-: |
      | • ¦ \| | • \| ¦ | \| ¦ • |
@@ -30,8 +30,11 @@ Existing assets referencing those types will have to be re-saved as the redirect
 
 ### Shader compilation errors when ray tracing is supported (9ec5a363)
 If you are running UE 4.25.0 and your computer's GPU supports ray tracing you must disable UE 4.25 ray tracing support for UXT's custom shaders to compile. To disable ray tracing navigate to C:\Program Files\Epic Games\UE_4.25\Engine\Config\Windows (or where your installation is located), open `DataDrivenPlatformInfo.ini` and change `bSupportsRayTracing=true` to `bSupportsRayTracing=false`
- 
+
 This setting change is not required in UE 4.25.1 (or later) or people with Epic's 13205426 changelist. This warning is also in the Getting Started portion of the [README](../../README.md).
 
 ### Fix UxtFollowComponent to work with +X convention (PR 370)
 `UxtFollowComponent` now works appropriately, following (Actor's) +X convention. That means that, if an asset was rotated by 180º in any subcomponent to be displayed as expected, that should now be reverted, rotating the Actor appropriately instead.
+
+### MRPawn requires a CameraComponent to track HMD position
+With a pawn configured as decribed in the [UXT-Unreal tutorial](https://docs.microsoft.com/en-us/windows/mixed-reality/unreal-uxt-ch3#create-a-pawn), you will also need to add a `CameraComponent` with `Lock to Hmd` set. This is to allow the `PlayerCameraController` track the HMD position.

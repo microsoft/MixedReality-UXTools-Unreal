@@ -15,11 +15,7 @@ FTransform UUxtFunctionLibrary::GetHeadPose(UObject* WorldContextObject)
 	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(WorldContextObject, 0);
 	if (CameraManager)
 	{
-		USceneComponent* TransformComp = CameraManager->GetTransformComponent();
-		if (TransformComp)
-		{
-			return TransformComp->GetComponentTransform();
-		}
+		return CameraManager->GetTransform();
 	}
 	return FTransform::Identity;
 }
