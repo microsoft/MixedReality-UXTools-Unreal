@@ -31,6 +31,8 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	FarPointer->PrimaryComponentTick.bStartWithTickEnabled = false;
 	FarPointer->AddTickPrerequisiteActor(this);
 
+	InteractionMode = static_cast<uint8>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
+
 	ProximityTrigger = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("ProximityTrigger"));
 	ProximityTrigger->bUseComplexAsSimpleCollision = false;
 	ProximityTrigger->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
@@ -190,6 +192,9 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 		bNewNearPointerActive = false;
 		bNewFarPointerActive = false;
 	}
+
+	bNewNearPointerActive &= HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near);
+	bNewFarPointerActive &= HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far);
 
 	// Update pointer active state
 	if (bNewNearPointerActive != NearPointer->IsActive())

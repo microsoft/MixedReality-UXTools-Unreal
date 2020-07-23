@@ -5,6 +5,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interactions/UxtManipulationFlags.h"
+
 #include "UxtHandInteractionActor.generated.h"
 
 class UProceduralMeshComponent;
@@ -89,6 +91,9 @@ public:
 	/** Show the near cursor on grab targets. Changes to this value after BeginPlay have no effect. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
 	bool bShowNearCursorOnGrabTargets = false;
+
+	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode, ExposeOnSpawn = true))
+	uint8 InteractionMode;
 
 private:
 

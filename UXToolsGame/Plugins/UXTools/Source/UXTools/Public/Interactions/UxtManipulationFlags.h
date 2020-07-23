@@ -28,6 +28,11 @@ enum class EUxtInteractionMode : uint8
 };
 ENUM_CLASS_FLAGS(EUxtInteractionMode)
 
+template <typename T> bool HasInteractionFlag(T value, EUxtInteractionMode flag)
+{
+	static_assert(std::is_signed<T>::value || std::is_unsigned<T>::value, "Not an integral numeric type");
+	return !!(value & static_cast<T>(flag));
+}
 
 /** Specifies how the object will rotate when it is being grabbed with one hand. */
 UENUM(BlueprintType)

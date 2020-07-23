@@ -8,14 +8,6 @@
 #include "Input/UxtFarPointerComponent.h"
 #include "Interactions/UxtManipulationFlags.h"
 
-namespace
-{
-	bool HasInteractionFlag(int32 value, EUxtInteractionMode flag)
-	{
-		return !!(value & static_cast<int32>(flag));
-	}
-}
-
 FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
 	return Transform.TransformPositionNoScale(GrabData.LocalGrabPoint.GetLocation());
