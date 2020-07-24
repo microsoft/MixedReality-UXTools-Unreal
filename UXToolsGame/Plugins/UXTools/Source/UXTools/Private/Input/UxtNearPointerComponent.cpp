@@ -234,7 +234,10 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 	// Update focused targets
 	GrabFocus->UpdateFocus(this);
-	GrabFocus->UpdateGrab(this);
+	if (IsGrabbing())
+	{
+		GrabFocus->UpdateGrab(this);
+	}
 
 	PokeFocus->UpdateFocus(this);
 
