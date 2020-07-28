@@ -163,6 +163,14 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 	
 	const bool bHasFocusLock = NearPointer->GetFocusLocked() || FarPointer->GetFocusLocked();
 
+	bool bNearInteractionFlag = HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near);
+	bool bFarInteractionFlag = HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far);
+
+	if (!bNearInteractionFlag && !bFarInteractionFlag)
+	{
+		return;
+	}
+
 	bool bNewNearPointerActive = NearPointer->IsActive();
 	bool bNewFarPointerActive = FarPointer->IsActive();
 	bool bHasNearTarget;
@@ -193,8 +201,8 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 		bNewFarPointerActive = false;
 	}
 
-	bNewNearPointerActive &= HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near);
-	bNewFarPointerActive &= HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far);
+	bNewNearPointerActive &= bNearInteractionFlag;
+	bNewFarPointerActive &= bFarInteractionFlag;
 
 	// Update pointer active state
 	if (bNewNearPointerActive != NearPointer->IsActive())
