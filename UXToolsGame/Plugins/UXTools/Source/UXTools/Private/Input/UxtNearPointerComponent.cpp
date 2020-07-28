@@ -68,6 +68,17 @@ namespace
 		return false;
 	}
 
+	bool IsFacingPrimitive(const FVector& PointerForward, const UPrimitiveComponent* const Primitive)
+	{
+		check(Primitive);
+		FVector PrimitiveForward = Primitive->GetComponentTransform().GetUnitAxis(EAxis::X);
+		if (FVector::DotProduct(PointerForward, PrimitiveForward) >= 0)
+		{
+			return false;
+		}
+		return true;
+	}
+
 	/** 
 	 * Used to determine whether if poke has ended with a front face pokable. A poke
 	 * ends if:
@@ -376,8 +387,11 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 			switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 			{
 				case EUxtPokeBehaviour::FrontFace:
-					startedPoking = !bWasBehindFrontFace && isBehind;
+				{
+					bool bIsFacingPrimitive = IsFacingPrimitive(PokePointerTransform.GetUnitAxis(EAxis::X), Primitive);
+					startedPoking = !bWasBehindFrontFace && isBehind && bIsFacingPrimitive;
 					break;
+				}
 				case EUxtPokeBehaviour::Volume:
 					startedPoking = true;
 					break;
