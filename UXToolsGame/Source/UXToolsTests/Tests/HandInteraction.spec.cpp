@@ -8,6 +8,7 @@
 #include "Engine.h"
 #include "EngineUtils.h"
 
+#include "Controls/UxtFarBeamComponent.h"
 #include "Input/UxtHandInteractionActor.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
@@ -22,6 +23,7 @@ BEGIN_DEFINE_SPEC(HandInteractionSpec, "UXTools.HandInteraction", EAutomationTes
 	AUxtHandInteractionActor* HandActor;
 	UUxtNearPointerComponent* NearPointer;
 	UUxtFarPointerComponent* FarPointer;
+	UUxtFarBeamComponent* FarBeam;
 	UTestGrabTarget* Target;
 	FFrameQueue FrameQueue;
 
@@ -30,6 +32,7 @@ BEGIN_DEFINE_SPEC(HandInteractionSpec, "UXTools.HandInteraction", EAutomationTes
 	const FVector TargetLocation = FVector(150, 0, 0);
 	const FVector NearPoint = FVector(135, 0, 0);
 	const FVector FarPoint = FVector(40, 0, 0);
+	FTransform InitialFarBeamTransform;
 
 END_DEFINE_SPEC(HandInteractionSpec)
 
@@ -48,6 +51,8 @@ void HandInteractionSpec::Define()
 
 		NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
 		FarPointer = HandActor->FindComponentByClass<UUxtFarPointerComponent>();
+		FarBeam = HandActor->FindComponentByClass<UUxtFarBeamComponent>();
+		TestTrue("Components found", NearPointer && FarPointer && FarBeam);
 
 		Target = UxtTestUtils::CreateNearPointerGrabTarget(World, TargetLocation, TargetFilename, TargetScale);
 
@@ -194,6 +199,26 @@ void HandInteractionSpec::Define()
 			Done.Execute();
 		});
 	});
+	LatentIt("should not affect its far beam's transform", [this](const FDoneDelegate& Done)
+		{
+			FrameQueue.Enqueue([this]
+				{
+					UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
+					InitialFarBeamTransform = FarBeam->GetComponentTransform();
+				});
+			FrameQueue.Enqueue([this]
+				{
+					HandActor->SetActorTransform(FTransform(FQuat::MakeFromEuler(FVector(0, 90, 0)),
+						FVector(100, 200, 300),
+						FVector(2)));
+				});
+			FrameQueue.Enqueue([this]
+				{
+					TestTrue(TEXT("HandInteractionActor transformation did not affect the far beam"),
+						FarBeam->GetComponentTransform().Equals(InitialFarBeamTransform));
+				});
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS

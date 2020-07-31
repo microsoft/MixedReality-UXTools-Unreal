@@ -62,7 +62,11 @@ void AUxtHandInteractionActor::BeginPlay()
 	if (bUseDefaultFarBeam)
 	{
 		UUxtFarBeamComponent* FarBeam = NewObject<UUxtFarBeamComponent>(this);
-		FarBeam->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		
+		// Prevent self Transform from affecting the FarBeam's one
+		FarBeam->SetAbsolute(true, true, true);
+
+		FarBeam->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepWorldTransform);
 		FarBeam->RegisterComponent();
 	}
 }
