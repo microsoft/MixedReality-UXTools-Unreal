@@ -35,6 +35,3 @@ This setting change is not required in UE 4.25.1 (or later) or people with Epic'
 
 ### Fix UxtFollowComponent to work with +X convention (PR 370)
 `UxtFollowComponent` now works appropriately, following (Actor's) +X convention. That means that, if an asset was rotated by 180º in any subcomponent to be displayed as expected, that should now be reverted, rotating the Actor appropriately instead.
-
-### MRPawn requires a CameraComponent to track HMD position
-With a pawn configured as decribed in the [UXT-Unreal tutorial](https://docs.microsoft.com/en-us/windows/mixed-reality/unreal-uxt-ch3#create-a-pawn), you will also need to add a `CameraComponent` with `Lock to Hmd` set. This is to allow the `PlayerCameraController` track the HMD position.
