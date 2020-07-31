@@ -11,6 +11,7 @@
 #include "UxtWidgetComponent.generated.h"
 
 class UUxtPointerComponent;
+class FSlateVirtualUserHandle;
 
 /**
  * Widget Component that is interactable with near and far interaction.

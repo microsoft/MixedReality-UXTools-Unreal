@@ -3,6 +3,7 @@
 
 #include "Controls/UxtWidgetComponent.h"
 
+#include "Framework/Application/SlateApplication.h"
 #include "Framework/Application/SlateUser.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
