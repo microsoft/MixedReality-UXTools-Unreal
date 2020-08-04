@@ -58,6 +58,11 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetRayLength(float NewRayLength);
 
+	UFUNCTION(BlueprintCallable)
+	FVector GetHandVelocity() const { return Velocity; }
+	UFUNCTION(BlueprintCallable)
+	FVector GetHandAngularVelocity() const { return AngularVelocity; }
+
 	// Size of the hand activation cone in degrees
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0", ClampMax = "90.0"))
 	float ProximityConeAngle = 33.0f;
@@ -94,6 +99,9 @@ private:
 
 	/** Generates a cone-shaped mesh for proximity testing. */
 	void UpdateProximityMesh();
+
+	/** Update the velocity of the hand. */
+	void UpdateVelocity();
 
 	/** Check if there are near interaction targets in the proximity cone to switch between near and far interaction.
 	 *  The proximity cone is intended to represent a natural volume where a person would intend to interact with a physical object.
@@ -139,4 +147,19 @@ private:
 
 	/** Set to true for visualizing the proximity mesh. */
 	bool bRenderProximityMesh = false;
+
+	/** The current velocity of the hand. */
+	FVector Velocity = FVector::ZeroVector;
+
+	/** The current angular velocity of the hand. */
+	FVector AngularVelocity = FVector::ZeroVector;
+
+	/** Velocity internal state */
+	static const int VelocityUpdateInterval = 6;
+	float StartDeltaTime = 0.0f;
+	int CurrentFrame = 0;
+	FVector VelocityPositionsCache[VelocityUpdateInterval];
+	FVector VelocityNormalsCache[VelocityUpdateInterval];
+	FVector VelocityPositionsSum = FVector::ZeroVector;
+	FVector VelocityNormalsSum = FVector::ZeroVector;
 };
