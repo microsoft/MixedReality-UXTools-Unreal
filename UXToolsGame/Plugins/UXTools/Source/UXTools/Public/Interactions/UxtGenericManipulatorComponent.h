@@ -62,6 +62,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtTransformMode))
 	int32 TwoHandTransformModes;
 
+	/** Controls the object's behavior when physics its being simulated. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtReleaseBehavior))
+	int32 ReleaseBehavior;
+
 	/** The component to transform, will default to the root scene component if not specified */
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = GenericManipulator)
 	FComponentReference TargetComponent;
@@ -69,6 +73,12 @@ public:
 private:
 
 	bool IsNearManipulation() const;
+
+	UFUNCTION()
+	void OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
+
+	UFUNCTION()
+	void OnRelease(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
 	/** Motion smoothing factor to apply while manipulating the object.
 	 *
@@ -79,4 +89,7 @@ private:
 	 */
 	UPROPERTY(EditAnywhere, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = GenericManipulator, meta = (ClampMin = "0.0"))
 	float Smoothing;
+
+	/** Was the target simulating physics */
+	bool bWasSimulatingPhysics = false;
 };
