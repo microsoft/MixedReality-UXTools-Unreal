@@ -101,7 +101,7 @@ private:
 	void UpdateProximityMesh();
 
 	/** Update the velocity of the hand. */
-	void UpdateVelocity();
+	void UpdateVelocity(float DeltaTime);
 
 	/** Check if there are near interaction targets in the proximity cone to switch between near and far interaction.
 	 *  The proximity cone is intended to represent a natural volume where a person would intend to interact with a physical object.
@@ -156,8 +156,7 @@ private:
 
 	/** Velocity internal state */
 	static const int VelocityUpdateInterval = 6;
-	float StartDeltaTime = 0.0f;
-	int CurrentFrame = 0;
+	uint64 CurrentFrame = 0;
 	FVector VelocityPositionsCache[VelocityUpdateInterval];
 	FVector VelocityNormalsCache[VelocityUpdateInterval];
 	FVector VelocityPositionsSum = FVector::ZeroVector;

@@ -15,8 +15,6 @@
 #include "ProceduralMeshComponent.h"
 #include "Input/UxtHandProximityMesh.h"
 
-#include "Kismet/GameplayStatics.h"
-
 
 AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer)
 {
@@ -106,36 +104,30 @@ void AUxtHandInteractionActor::UpdateProximityMesh()
 	ProximityTrigger->SetMobility(bRenderProximityMesh ? EComponentMobility::Movable : EComponentMobility::Stationary);
 }
 
-void AUxtHandInteractionActor::UpdateVelocity()
+void AUxtHandInteractionActor::UpdateVelocity(float DeltaTime)
 {
 	if (const IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
 	{
-		if (CurrentFrame < VelocityUpdateInterval)
-		{
-			FVector Position;
-			FQuat Orientation;
-			float Radius;
+		FVector Position;
+		FQuat Orientation;
+		float Radius;
 
-			if (HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, Orientation, Position, Radius))
+		if (HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, Orientation, Position, Radius))
+		{
+			const FVector Normal = -Orientation.GetUpVector();
+
+			if (CurrentFrame < VelocityUpdateInterval)
 			{
+
 				VelocityPositionsCache[CurrentFrame] = Position;
 				VelocityPositionsSum += VelocityPositionsCache[CurrentFrame];
 
-				VelocityNormalsCache[CurrentFrame] = -Orientation.GetUpVector();
+				VelocityNormalsCache[CurrentFrame] = Normal;
 				VelocityNormalsSum += VelocityNormalsCache[CurrentFrame];
 			}
-		}
-		else
-		{
-			FVector Position;
-			FQuat Orientation;
-			float Radius;
-
-			if (HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, Orientation, Position, Radius))
+			else
 			{
-				const FVector Normal = -Orientation.GetUpVector();
 				const int FrameIndex = CurrentFrame % VelocityUpdateInterval;
-				const float DeltaTime = UGameplayStatics::GetRealTimeSeconds(GetWorld()) - StartDeltaTime;
 
 				const FVector NewPositionsSum = VelocityPositionsSum - VelocityPositionsCache[FrameIndex] + Position;
 				const FVector NewNormalsSum = VelocityNormalsSum - VelocityNormalsCache[FrameIndex] + Normal;
@@ -152,7 +144,6 @@ void AUxtHandInteractionActor::UpdateVelocity()
 			}
 		}
 
-		StartDeltaTime = UGameplayStatics::GetRealTimeSeconds(GetWorld());
 		++CurrentFrame;
 	}
 }
@@ -254,7 +245,7 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 		FarPointer->SetActive(bNewFarPointerActive);
 	}
 
-	UpdateVelocity();
+	UpdateVelocity(DeltaTime);
 }
 
 void AUxtHandInteractionActor::SetHand(EControllerHand NewHand)
