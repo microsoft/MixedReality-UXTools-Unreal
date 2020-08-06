@@ -397,6 +397,39 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
+
+	LatentIt("should disable physics on grab", [this](const FDoneDelegate& Done)
+		{
+			UStaticMeshComponent* StaticMesh = Target->GetOwner()->FindComponentByClass<UStaticMeshComponent>();
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					StaticMesh->SetPhysicsLinearVelocity(FVector::ZeroVector);
+					StaticMesh->SetEnableGravity(false);
+					StaticMesh->SetSimulatePhysics(true);
+					Target->ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::None);
+				});
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					TestTrue("Object is grabbed", Target->GetGrabPointers().Num() > 0);
+					TestFalse("Physics is disabled", StaticMesh->IsSimulatingPhysics());
+					RightHand.SetGrabbing(false);
+				});
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					TestEqual("Object is not grabbed", Target->GetGrabPointers().Num(), 0);
+					TestTrue("Physics is enabled", StaticMesh->IsSimulatingPhysics());
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS
