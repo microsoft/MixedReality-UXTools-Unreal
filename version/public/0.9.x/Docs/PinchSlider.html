@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Pinch slider | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Pinch slider | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="pinch-slider">Pinch slider</h1>
+
+<p>A pinch slider component allows the user to continuously change a value by moving the slider thumb along the track.</p>
+<p><img src="Images/slider.gif" alt="slider"></p>
+<h2 id="creating-a-pinch-slider-from-scratch">Creating a pinch slider from scratch</h2>
+<p>The first step of creating a slider from scratch is adding the <a class="xref" href="../api/_u_uxt_pinch_slider_component.html"><code>UxtPinchSliderComponent</code></a> to an actor blueprint. This is a low level component that drives slider logic. The pinch slider visuals are made of three primary components.</p>
+<ul>
+<li><strong>Slider thumb</strong>: This component is required. It's the static mesh that the user interacts with</li>
+<li><strong>Slider track</strong>: This component is optional. It's the static mesh is scaled to match the range of the slider travel</li>
+<li><strong>Tick marks</strong>: This component is optional. It's an instanced static mesh that is used to represent ticks along the track of the slider</li>
+</ul>
+<p><img src="Images/UxtPinchSliderComponent.png" alt="UxtPinchSliderComponent"></p>
+<p>Add a <a href="https://docs.unrealengine.com/en-US/Engine/Components/StaticMesh/index.html"><code>StaticMeshComponent</code></a> to the actor and name it &quot;SliderThumb&quot; (alternatively, name it something else and and set the ThumbVisuals property of the <code>UxtPinchSliderComponent</code> to reference this new mesh). If you want to add a track to the slider, add a <a href="https://docs.unrealengine.com/en-US/Engine/Components/StaticMesh/index.html"><code>StaticMeshComponent</code></a> to the actor and name it &quot;SliderTrack&quot; (alternatively, name it something else and and set the TrackVisuals property of the <code>UxtPinchSliderComponent</code> to reference this new mesh). If you want to add tick marks to the slider, add an <a href="https://docs.unrealengine.com/en-US/BlueprintAPI/Components/InstancedStaticMesh/index.html"><code>InstancedStaticMesh</code></a> to the actor, set a mesh for instancing, and name it &quot;TickMarks&quot; (alternatively, name it something else and and set the TickMarkVisuals property of the <code>UxtPinchSliderComponent</code> to reference this new instanced mesh).</p>
+<p>It is important to note that the <code>UxtPinchSliderComponent</code> uses the mesh assigned to the ThumbVisuals property to construct a <code>BoxComponent</code> that is used for grab and far interactions. The <code>UxtPinchSliderComponent</code> uses the mesh extents to create this box collider.</p>
+<p>If the slider is configured correctly, the slider should now be grabbable via near and far interaction and update its position and value based on user input.</p>
+<p>Here are the events that you can use to hook the slider value up to you application logic:</p>
+<ul>
+<li><strong>OnValueUpdated</strong>: This event is called whenever user interaction causes the value of the slider to change (i.e. it is moved)</li>
+<li><strong>OnInteractionStarted</strong>: This event is called when a user starts grabbing the slider thumb (either near or far interaction)</li>
+<li><strong>OnInteractionEnded</strong>: This event is called when a user stops grabbing the slider thumb (either near or far interaction)</li>
+<li><strong>OnFocusEnter</strong>:  This event is called when a pointer starts giving focus to the slider (either near or far interaction)</li>
+<li><strong>OnFocusExit</strong>: This event is called when a pointer starts giving focus to the slider (either near or far interaction)</li>
+<li><strong>OnStateUpdated</strong>: This event will be called whenever the slider changes its internal state. It supplies a EUxtSliderState value that represents the new state (Default, Focus, Grab).</li>
+</ul>
+<p>Here is an example of the <strong>OnValueUpdated</strong> event being used:</p>
+<p><img src="Images/OnValueUpdated.png" alt="OnValueUpdated"></p>
+<h2 id="instance-editable-properties">Instance Editable Properties</h2>
+<h3 id="slidervalue">SliderValue</h3>
+<p>The current value of the slider in 0-1 range</p>
+<h3 id="sliderstartdistance">SliderStartDistance</h3>
+<p>Where the slider track starts, as distance from center along slider axis, in local space units</p>
+<h3 id="sliderenddistance">SliderEndDistance</h3>
+<p>Where the slider track ends, as distance from center along slider axis, in local space units.</p>
+<h3 id="numtickmarks">NumTickMarks</h3>
+<p>Number of tick marks to add to the slider</p>
+<h3 id="tickmarkscale">TickMarkScale</h3>
+<p>Scale of the tick marks on the slider</p>
+<h3 id="thumbvisuals">ThumbVisuals</h3>
+<p>Visual representation of the slider thumb</p>
+<h3 id="trackvisuals">TrackVisuals</h3>
+<p>Visual representation of the track</p>
+<h3 id="tickmarkvisuals">TickMarkVisuals</h3>
+<p>Visual representation of the tick marks</p>
+<h3 id="collisionprofile">CollisionProfile</h3>
+<p>Collision profile used by the slider thumb</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/Docs/PinchSlider.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

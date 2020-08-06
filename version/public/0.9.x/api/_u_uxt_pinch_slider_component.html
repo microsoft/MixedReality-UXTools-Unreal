@@ -1,0 +1,1634 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UUxtPinchSliderComponent
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UUxtPinchSliderComponent
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_pinch_slider_component">
+  
+  
+  <h1 id="_u_uxt_pinch_slider_component" data-uid="_u_uxt_pinch_slider_component" class="text-break">Class UUxtPinchSliderComponent
+  </h1>
+  <div class="markdown level0 summary"><p>Component that implements a thumb slider UI and logic. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">USceneComponent</span></div>
+    <div class="level2"><span class="xref">UUxtPinchSliderComponent</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_IsFarFocusable_const_UPrimitiveComponent___">IUxtFarTarget::IsFarFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_IsGrabFocusable_const_UPrimitiveComponent___">IUxtGrabTarget::IsGrabFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnBeginGrab_UUxtNearPointerComponent___">IUxtGrabTarget::OnBeginGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnEndGrab_UUxtNearPointerComponent___">IUxtGrabTarget::OnEndGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnEnterFarFocus_UUxtFarPointerComponent___">IUxtFarTarget::OnEnterFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnEnterGrabFocus_UUxtNearPointerComponent___">IUxtGrabTarget::OnEnterGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnExitFarFocus_UUxtFarPointerComponent___">IUxtFarTarget::OnExitFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnExitGrabFocus_UUxtNearPointerComponent___">IUxtGrabTarget::OnExitGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnFarDragged_UUxtFarPointerComponent___">IUxtFarTarget::OnFarDragged(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnFarPressed_UUxtFarPointerComponent___">IUxtFarTarget::OnFarPressed(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnFarReleased_UUxtFarPointerComponent___">IUxtFarTarget::OnFarReleased(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_OnUpdatedFarFocus_UUxtFarPointerComponent___">IUxtFarTarget::OnUpdatedFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnUpdateGrab_UUxtNearPointerComponent___">IUxtGrabTarget::OnUpdateGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_OnUpdateGrabFocus_UUxtNearPointerComponent___">IUxtGrabTarget::OnUpdateGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_u_uxt_pinch_slider_component_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class UUxtPinchSliderComponent : public xtGrabTarget, public xtFarTarget</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_UUxtPinchSliderComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.UUxtPinchSliderComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L32">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_UUxtPinchSliderComponent_" data-uid="_u_uxt_pinch_slider_component.UUxtPinchSliderComponent*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_UUxtPinchSliderComponent__" data-uid="_u_uxt_pinch_slider_component.UUxtPinchSliderComponent()">UUxtPinchSliderComponent()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UUxtPinchSliderComponent()</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnBeginFocus.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnBeginFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L157">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnBeginFocus" data-uid="_u_uxt_pinch_slider_component.OnBeginFocus">OnBeginFocus</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider enters focus </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderBeginFocusDelegate OnBeginFocus</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderBeginFocusDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnBeginInteraction.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnBeginInteraction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L149">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnBeginInteraction" data-uid="_u_uxt_pinch_slider_component.OnBeginInteraction">OnBeginInteraction</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider starts interaction. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderBeginInteractionDelegate OnBeginInteraction</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderBeginInteractionDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnEndFocus.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnEndFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L161">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnEndFocus" data-uid="_u_uxt_pinch_slider_component.OnEndFocus">OnEndFocus</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider exits focus </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderEndFocusDelegate OnEndFocus</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderEndFocusDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnEndInteraction.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnEndInteraction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L153">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnEndInteraction" data-uid="_u_uxt_pinch_slider_component.OnEndInteraction">OnEndInteraction</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider ends interaction. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderEndInteractionDelegate OnEndInteraction</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderEndInteractionDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnSliderDisabled.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnSliderDisabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L173">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnSliderDisabled" data-uid="_u_uxt_pinch_slider_component.OnSliderDisabled">OnSliderDisabled</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider changes state </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderDisabledDelegate OnSliderDisabled</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderDisabledDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnSliderEnabled.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnSliderEnabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L169">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnSliderEnabled" data-uid="_u_uxt_pinch_slider_component.OnSliderEnabled">OnSliderEnabled</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider changes state </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderEnabledDelegate OnSliderEnabled</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderEnabledDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnUpdateState.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnUpdateState%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L165">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnUpdateState" data-uid="_u_uxt_pinch_slider_component.OnUpdateState">OnUpdateState</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider changes state </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderUpdateStateDelegate OnUpdateState</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderUpdateStateDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnUpdateValue.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnUpdateValue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L145">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pinch_slider_component_OnUpdateValue" data-uid="_u_uxt_pinch_slider_component.OnUpdateValue">OnUpdateValue</h4>
+  <div class="markdown level1 summary"><p>Event raised when slider value changes. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtPinchSliderUpdateValueDelegate OnUpdateValue</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtPinchSliderUpdateValueDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L273">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_BeginPlay_" data-uid="_u_uxt_pinch_slider_component.BeginPlay*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_BeginPlay__" data-uid="_u_uxt_pinch_slider_component.BeginPlay()">BeginPlay()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetCurrentState__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetCurrentState()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L62">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetCurrentState_" data-uid="_u_uxt_pinch_slider_component.GetCurrentState*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetCurrentState__" data-uid="_u_uxt_pinch_slider_component.GetCurrentState()">GetCurrentState()</h4>
+  <div class="markdown level1 summary"><p>Get the current state of the slider </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EUxtSliderState GetCurrentState() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtSliderState</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetNumTickMarks__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetNumTickMarks()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L109">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetNumTickMarks_" data-uid="_u_uxt_pinch_slider_component.GetNumTickMarks*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetNumTickMarks__" data-uid="_u_uxt_pinch_slider_component.GetNumTickMarks()">GetNumTickMarks()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: int GetNumTickMarks() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetSliderEndDistance__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetSliderEndDistance()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L119">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetSliderEndDistance_" data-uid="_u_uxt_pinch_slider_component.GetSliderEndDistance*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetSliderEndDistance__" data-uid="_u_uxt_pinch_slider_component.GetSliderEndDistance()">GetSliderEndDistance()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GetSliderEndDistance() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetSliderStartDistance__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetSliderStartDistance()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L114">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetSliderStartDistance_" data-uid="_u_uxt_pinch_slider_component.GetSliderStartDistance*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetSliderStartDistance__" data-uid="_u_uxt_pinch_slider_component.GetSliderStartDistance()">GetSliderStartDistance()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GetSliderStartDistance() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetSliderValue__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetSliderValue()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L104">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetSliderValue_" data-uid="_u_uxt_pinch_slider_component.GetSliderValue*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetSliderValue__" data-uid="_u_uxt_pinch_slider_component.GetSliderValue()">GetSliderValue()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GetSliderValue() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetSmoothing__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetSmoothing()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L129">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetSmoothing_" data-uid="_u_uxt_pinch_slider_component.GetSmoothing*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetSmoothing__" data-uid="_u_uxt_pinch_slider_component.GetSmoothing()">GetSmoothing()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GetSmoothing() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetThumbVisuals__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetThumbVisuals()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L195">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetThumbVisuals_" data-uid="_u_uxt_pinch_slider_component.GetThumbVisuals*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetThumbVisuals__" data-uid="_u_uxt_pinch_slider_component.GetThumbVisuals()">GetThumbVisuals()</h4>
+  <div class="markdown level1 summary"><p>Get Static Mesh Component used for the thumb visuals </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UStaticMeshComponent * GetThumbVisuals() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UStaticMeshComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetTickMarkScale__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetTickMarkScale()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L124">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetTickMarkScale_" data-uid="_u_uxt_pinch_slider_component.GetTickMarkScale*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetTickMarkScale__" data-uid="_u_uxt_pinch_slider_component.GetTickMarkScale()">GetTickMarkScale()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FVector GetTickMarkScale() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetTickMarkVisuals__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetTickMarkVisuals()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L206">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetTickMarkVisuals_" data-uid="_u_uxt_pinch_slider_component.GetTickMarkVisuals*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetTickMarkVisuals__" data-uid="_u_uxt_pinch_slider_component.GetTickMarkVisuals()">GetTickMarkVisuals()</h4>
+  <div class="markdown level1 summary"><p>Get Instanced Static Mesh Component used for the tick marks </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UInstancedStaticMeshComponent * GetTickMarkVisuals() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UInstancedStaticMeshComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_GetTrackVisuals__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.GetTrackVisuals()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L200">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_GetTrackVisuals_" data-uid="_u_uxt_pinch_slider_component.GetTrackVisuals*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_GetTrackVisuals__" data-uid="_u_uxt_pinch_slider_component.GetTrackVisuals()">GetTrackVisuals()</h4>
+  <div class="markdown level1 summary"><p>Get Static Mesh Component used for the track visuals </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UStaticMeshComponent * GetTrackVisuals() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UStaticMeshComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_IsEnabled__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.IsEnabled()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L74">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_IsEnabled_" data-uid="_u_uxt_pinch_slider_component.IsEnabled*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_IsEnabled__" data-uid="_u_uxt_pinch_slider_component.IsEnabled()">IsEnabled()</h4>
+  <div class="markdown level1 summary"><p>Get the enabled state of the slider </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool IsEnabled() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.IsFarFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L390">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_IsFarFocusable_Implementation_" data-uid="_u_uxt_pinch_slider_component.IsFarFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_pinch_slider_component.IsFarFocusable_Implementation(const UPrimitiveComponent *)">IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_IsFocused__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.IsFocused()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L70">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_IsFocused_" data-uid="_u_uxt_pinch_slider_component.IsFocused*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_IsFocused__" data-uid="_u_uxt_pinch_slider_component.IsFocused()">IsFocused()</h4>
+  <div class="markdown level1 summary"><p>Get the current focus state of the slider </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool IsFocused() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_IsGrabbed__.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.IsGrabbed()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L66">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_IsGrabbed_" data-uid="_u_uxt_pinch_slider_component.IsGrabbed*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_IsGrabbed__" data-uid="_u_uxt_pinch_slider_component.IsGrabbed()">IsGrabbed()</h4>
+  <div class="markdown level1 summary"><p>Get the current grabbed state of the slider </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool IsGrabbed() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_IsGrabFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.IsGrabFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L452">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_IsGrabFocusable_Implementation_" data-uid="_u_uxt_pinch_slider_component.IsGrabFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_IsGrabFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_pinch_slider_component.IsGrabFocusable_Implementation(const UPrimitiveComponent *)">IsGrabFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent *Primitive) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnBeginGrab_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnBeginGrab_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L419">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnBeginGrab_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnBeginGrab_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnBeginGrab_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnBeginGrab_Implementation(UUxtNearPointerComponent *)">OnBeginGrab_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnEndGrab_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnEndGrab_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L395">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnEndGrab_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnEndGrab_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnEndGrab_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnEndGrab_Implementation(UUxtNearPointerComponent *)">OnEndGrab_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEndGrab_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L384">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnEnterFarFocus_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnEnterFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent *)">OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnEnterGrabFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnEnterGrabFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L446">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnEnterGrabFocus_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnEnterGrabFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnEnterGrabFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnEnterGrabFocus_Implementation(UUxtNearPointerComponent *)">OnEnterGrabFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterGrabFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L378">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnExitFarFocus_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnExitFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent *)">OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnExitGrabFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnExitGrabFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L440">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnExitGrabFocus_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnExitGrabFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnExitGrabFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnExitGrabFocus_Implementation(UUxtNearPointerComponent *)">OnExitGrabFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnExitGrabFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnFarDragged_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnFarDragged_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L345">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnFarDragged_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnFarDragged_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnFarDragged_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnFarDragged_Implementation(UUxtFarPointerComponent *)">OnFarDragged_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarDragged_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnFarPressed_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnFarPressed_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L357">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnFarPressed_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnFarPressed_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnFarPressed_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnFarPressed_Implementation(UUxtFarPointerComponent *)">OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnFarReleased_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnFarReleased_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L330">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnFarReleased_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnFarReleased_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnFarReleased_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnFarReleased_Implementation(UUxtFarPointerComponent *)">OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_OnUpdateGrab_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.OnUpdateGrab_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L407">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_OnUpdateGrab_Implementation_" data-uid="_u_uxt_pinch_slider_component.OnUpdateGrab_Implementation*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_OnUpdateGrab_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pinch_slider_component.OnUpdateGrab_Implementation(UUxtNearPointerComponent *)">OnUpdateGrab_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdateGrab_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetCollisionProfile_FName_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetCollisionProfile(FName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L50">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetCollisionProfile_" data-uid="_u_uxt_pinch_slider_component.SetCollisionProfile*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetCollisionProfile_FName_" data-uid="_u_uxt_pinch_slider_component.SetCollisionProfile(FName)">SetCollisionProfile(FName Profile)</h4>
+  <div class="markdown level1 summary"><p>Set collision profile for the slider thumb </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetCollisionProfile(FName Profile)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FName</td>
+        <td><span class="parametername">Profile</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetEnabled_bool_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetEnabled(bool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L59">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetEnabled_" data-uid="_u_uxt_pinch_slider_component.SetEnabled*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetEnabled_bool_" data-uid="_u_uxt_pinch_slider_component.SetEnabled(bool)">SetEnabled(bool bEnabled)</h4>
+  <div class="markdown level1 summary"><p>Set the enabled state of the slider </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetEnabled(bool bEnabled)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td><span class="parametername">bEnabled</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetNumTickMarks_int_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetNumTickMarks(int)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L256">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetNumTickMarks_" data-uid="_u_uxt_pinch_slider_component.SetNumTickMarks*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetNumTickMarks_int_" data-uid="_u_uxt_pinch_slider_component.SetNumTickMarks(int)">SetNumTickMarks(int NumTicks)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetNumTickMarks(int NumTicks)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int</td>
+        <td><span class="parametername">NumTicks</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetSliderEndDistance_float_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetSliderEndDistance(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L243">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetSliderEndDistance_" data-uid="_u_uxt_pinch_slider_component.SetSliderEndDistance*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetSliderEndDistance_float_" data-uid="_u_uxt_pinch_slider_component.SetSliderEndDistance(float)">SetSliderEndDistance(float NewEnd)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetSliderEndDistance(float NewEnd)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">NewEnd</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetSliderStartDistance_float_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetSliderStartDistance(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L237">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetSliderStartDistance_" data-uid="_u_uxt_pinch_slider_component.SetSliderStartDistance*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetSliderStartDistance_float_" data-uid="_u_uxt_pinch_slider_component.SetSliderStartDistance(float)">SetSliderStartDistance(float NewStart)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetSliderStartDistance(float NewStart)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">NewStart</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetSliderValue_float_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetSliderValue(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L249">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetSliderValue_" data-uid="_u_uxt_pinch_slider_component.SetSliderValue*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetSliderValue_float_" data-uid="_u_uxt_pinch_slider_component.SetSliderValue(float)">SetSliderValue(float NewValue)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetSliderValue(float NewValue)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">NewValue</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetSmoothing_float_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetSmoothing(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L268">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetSmoothing_" data-uid="_u_uxt_pinch_slider_component.SetSmoothing*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetSmoothing_float_" data-uid="_u_uxt_pinch_slider_component.SetSmoothing(float)">SetSmoothing(float NewSmoothing)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetSmoothing(float NewSmoothing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">NewSmoothing</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetThumbVisuals_UStaticMeshComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetThumbVisuals(UStaticMeshComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L212">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetThumbVisuals_" data-uid="_u_uxt_pinch_slider_component.SetThumbVisuals*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetThumbVisuals_UStaticMeshComponent___" data-uid="_u_uxt_pinch_slider_component.SetThumbVisuals(UStaticMeshComponent *)">SetThumbVisuals(UStaticMeshComponent *Visuals)</h4>
+  <div class="markdown level1 summary"><p>Set Static Mesh Component used for the thumb visuals </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetThumbVisuals(UStaticMeshComponent *Visuals)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UStaticMeshComponent *</td>
+        <td><span class="parametername">Visuals</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetTickMarkScale_FVector_.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetTickMarkScale(FVector)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L262">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetTickMarkScale_" data-uid="_u_uxt_pinch_slider_component.SetTickMarkScale*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetTickMarkScale_FVector_" data-uid="_u_uxt_pinch_slider_component.SetTickMarkScale(FVector)">SetTickMarkScale(FVector NewScale)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetTickMarkScale(FVector NewScale)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td><span class="parametername">NewScale</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetTickMarkVisuals_UInstancedStaticMeshComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetTickMarkVisuals(UInstancedStaticMeshComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L229">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetTickMarkVisuals_" data-uid="_u_uxt_pinch_slider_component.SetTickMarkVisuals*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetTickMarkVisuals_UInstancedStaticMeshComponent___" data-uid="_u_uxt_pinch_slider_component.SetTickMarkVisuals(UInstancedStaticMeshComponent *)">SetTickMarkVisuals(UInstancedStaticMeshComponent *Visuals)</h4>
+  <div class="markdown level1 summary"><p>Set Instanced Static Mesh Component used for the tick marks </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetTickMarkVisuals(UInstancedStaticMeshComponent *Visuals)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UInstancedStaticMeshComponent *</td>
+        <td><span class="parametername">Visuals</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component_SetTrackVisuals_UStaticMeshComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component.SetTrackVisuals(UStaticMeshComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPinchSliderComponent.cpp/#L223">View Source</a>
+  </span>
+  <a id="_u_uxt_pinch_slider_component_SetTrackVisuals_" data-uid="_u_uxt_pinch_slider_component.SetTrackVisuals*"></a>
+  <h4 id="_u_uxt_pinch_slider_component_SetTrackVisuals_UStaticMeshComponent___" data-uid="_u_uxt_pinch_slider_component.SetTrackVisuals(UStaticMeshComponent *)">SetTrackVisuals(UStaticMeshComponent *Visuals)</h4>
+  <div class="markdown level1 summary"><p>Set Static Mesh Component used for the track visuals </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetTrackVisuals(UStaticMeshComponent *Visuals)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UStaticMeshComponent *</td>
+        <td><span class="parametername">Visuals</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_pinch_slider_component.md&amp;value=---%0Auid%3A%20_u_uxt_pinch_slider_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPinchSliderComponent.h/#L44" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

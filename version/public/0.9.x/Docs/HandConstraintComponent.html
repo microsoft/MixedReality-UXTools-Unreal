@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Hand Constraint Component | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Hand Constraint Component | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="hand-constraint-component">Hand Constraint Component</h1>
+
+<p>Component that calculates a goal based on hand tracking and moves the owning actor. It keeps the actor position and rotation aligned with a hand while avoiding overlap with fingers.</p>
+<p>Several zones around the hand supported: radial and ulnar for the thumb side and its opposite, as well as above and below the hand. The goal position is computed by casting a ray in the direction of the one at a bounding box around the hand joints.</p>
+<p>The constraint can be oriented on either the hand rotation alone or facing the player.</p>
+<h2 id="usage">Usage</h2>
+<p>Create a HandConstraintComponent on an Actor. Set the Hand property to select which hand should be tracked. If 'Any Hand' is selected, the first tracked hand will be used and switch to the opposite when tracking is lost.</p>
+<p>The Zone defines the general area around the hand that the actor is placed in. GoalMargin can be used to increase the distance from the hand for larger actors.</p>
+<p><img src="Images/HandConstraint/Zones.png" alt="Zones of the hand constraint"></p>
+<p>At runtime the component will move the actor towards the goal position and rotation. Movement can be disabled with the MoveOwningActor option. In that case the goal position and rotation will still be computed and can be used in blueprints.</p>
+<p>The component will by default use smoothing to avoid jittering artifacts resulting from hand tracking. Smoothing can be disabled by setting LocationLerpTime and/or RotationLerpTime properties to zero. The higher these values, the more smoothing will be applied and the longer it will take for the actor to reach the goal.</p>
+<h2 id="rotation-modes">Rotation Modes</h2>
+<p>Two main rotation modes are supported:</p>
+<ol>
+<li><p><em>Look-at-Camera</em>: The actor X axis is oriented towards the player head, with Z in the global &quot;up&quot; direction.
+<img src="Images/HandConstraint/LookAtCamera.png" alt="Look-at-Camera orientation"></p>
+</li>
+<li><p><em>Hand Rotation</em>: The actor aligns with the palm. X axis is facing the inside of the palm, Z aligns with the direction of fingers.
+<img src="Images/HandConstraint/HandRotation.png" alt="Hand palm orientation"></p>
+</li>
+</ol>
+<p>The zone direction and the rotation can be configured independently. For example the zone offset can be aligned with the palm, while the rotation faces the camera:</p>
+<p><img src="Images/HandConstraint/MixedRotation.png" alt="Mixed rotation modes"></p>
+<h2 id="constraint-activation">Constraint Activation</h2>
+<p>The constraint becomes active when a usable hand could be found, which matches the <em>Hand</em> property. If <em>Any Hand</em> is selected, either left or right hand will be used, depending on which hand starts tracking first. If the current <em>Tracked Hand</em> is lost the opposite hand will be used. The constraint becomes inactive when neither hand is found.</p>
+<p>By default the constraint will always have a valid goal if a usable hand is tracking. Extended constraint variants can have further conditions, such as the <a href="PalmUpConstraintComponent.html">Palm-Up constraint</a> which only becomes when the hand faces the camera.</p>
+<h2 id="events">Events</h2>
+<ul>
+<li><p><em>Constraint Activated/Deactivated</em>: Called when the constraint becomes active or inactive respectively.</p>
+<p>The basic HandConstraintComponent only deactivates when hand tracking is lost. Extended hand constraint classes can have additional conditions. For example the <a href="PalmUpConstraintComponent.html">Palm-Up constraint</a> also requires that the palm is facing the camera.</p>
+</li>
+<li><p><em>Begin/End Tracking</em>: Called when a hand starts tracking or when tracking is lost.</p>
+<p>This includes the case where the Hand settings is 'Any Hand' and tracking switches from one hand to the other. In this case first the EndTracking event for the old hand is called and then the BeginTracking event for the new hand.</p>
+</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/Docs/HandConstraintComponent.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Introduction | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Introduction | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href="./Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="./Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+
+<p><img src="Docs/Images/MRTK_Unreal_UXT_Banner_Rounded.png" alt="Mixed Reality Toolkit"></p>
+<h1 id="introduction">Introduction</h1>
+<p>UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the current features are complete and robust enough to use in your own projects.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Only HoloLens 2 development is supported at the moment.</p>
+</div>
+<p>Features:</p>
+<ul>
+<li><a href="Docs/InputSimulation.html">Input simulation</a> - Simulates articulated hands and head pose that you can use in-editor. This is great for improving development iteration times.</li>
+<li><a href="Docs/HandInteraction.html">Hand interaction actor</a> - Used to interact with our UX components with articulated hands.</li>
+<li><a href="Docs/PressableButton.html">Pressable button component</a> - Low level component used to drive the state of button blueprints. Example button blueprints are provided.</li>
+<li><a href="Docs/PinchSlider.html">Pinch Slider</a> - Allows the user to continuously change a value by moving the slider thumb along the track.</li>
+<li><a href="Docs/BoundsControl.html">Bounds Control</a> - Allows the user to change the position, rotation, and size of an actor, using <em>affordances</em>.</li>
+<li><a href="Docs/Manipulator.html">Manipulator component</a> - Allows moving, rotating and scaling an actor with either one or two hand manipulation.</li>
+<li><a href="Docs/FollowComponent.html">Follow behaviour component</a> - Keeps an actor or component within sight of another component, usually the camera.</li>
+<li><a href="Docs/HandConstraintComponent.html">Hand constraint component</a> - Keeps the actor position and rotation aligned with a hand while avoiding overlaping with it.</li>
+<li><a href="Docs/PalmUpConstraintComponent.html">Palm up constraint component</a> - A <a href="Docs/HandConstraintComponent.html">Hand constraint</a> specialization that activates only when the palm is facing the player.</li>
+<li><a href="Docs/FarBeam.html">Far beam component</a> - Allows the user to visualise elements in the scene they can interact with from afar.</li>
+<li><a href="Docs/Graphics.html">Graphics documentation</a> - Breakdown of shaders, materials, and graphics techniques used to render UX components.</li>
+<li>The plugin also contains a handful of <a href="Docs/Utilities.html">utilities</a> that augment the Unreal Engine editor.</li>
+</ul>
+<p><img src="Docs/Images/Features.png" alt="Features"></p>
+<h1 id="getting-started">Getting started</h1>
+<p>First of all, make sure you have UE 4.25.3 or later. You can download it <a href="https://www.unrealengine.com/get-now">here</a>. Earlier versions are not supported.</p>
+<h2 id="prebuilt-plugin">Prebuilt plugin</h2>
+<p>If you just want to add UXT to your game project, the quickest thing to do is to use the packaged plugin provided in the release page:</p>
+<ol>
+<li>Obtain the packaged plugin zip from the latest release page (e.g. <em>UXTools.0.9.0.zip</em>).</li>
+<li>Unzip the file directly into your project's <em>Plugins</em> folder. The <em>Plugins</em> folder should be located at the root of your project, where the <em>.uproject</em> file is. Create it if it doesn't exist.</li>
+<li>Make sure your game project is a code one, as opposed to blueprint-only, if you are planning to package it for HoloLens. Otherwise UE will fail to package it because it can't build the plugin sources.</li>
+<li>Open your project and enable the <em>UX Tools</em> plugin in the plugins menu.</li>
+</ol>
+<p>You should now have access to all of the plugin features. The first thing you want to do is probably add a hand interaction actor per hand to your map or pawn so you can use your hands to drive the controls and behaviors provided in UXT. You can find a complete setup guide in the <a href="https://docs.microsoft.com/windows/mixed-reality/unreal-uxt-ch1">Getting Started</a> tutorial series.</p>
+<h2 id="example-maps">Example maps</h2>
+<p>If you want to explore the different UXT features or want a reference for how to use them we recommend having a look at the example maps contained in the <em>UX Tools Game</em> (/UXToolsGame) in this repository. For that you should:</p>
+<ol>
+<li><a href="https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop">Clone</a> this repository.</li>
+<li><a href="https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches">Checkout</a> public/0.9.x.
+<ul>
+<li>Bear in mind that this branch is alive. It's not a release, and will be <strong>updated regularly with potentially breaking changes</strong>. There will be a release tag (e.g. release/0.9.0) marked as such in GitHub.</li>
+</ul>
+</li>
+</ol>
+<p>You can now open the <em>UX Tools Game</em> (/UXToolsGame) and explore individual example maps or open the <em>Loader</em> level to access some of the examples from a centralized hub.</p>
+<h2 id="packaged-ux-tools-game">Packaged UX Tools game</h2>
+<p>We also provide the UX Tools game pre-packaged for HoloLens 2 so you can try out the main UXT features directly on device easily. To use it:</p>
+<ol>
+<li>Obtain the packaged game from the latest release page (e.g. <em>UXTGame-HoloLens.0.9.0.zip</em>) and unzip it to a local directory.</li>
+<li>Install it in the device via the <a href="https://docs.microsoft.com/en-us/windows/uwp/debug-test-perf/device-portal-hololens">Device Portal</a>.</li>
+</ol>
+<h1 id="documentation">Documentation</h1>
+<p>The latest version of the documentation can be found <a href="https://microsoft.github.io/MixedReality-UXTools-Unreal">here</a>.</p>
+<h1 id="feedback-and-contributions">Feedback and contributions</h1>
+<p>Due to the early stage of the project and the likelihood of internal refactors, we are not in a position to accept external contributions through pull requests at this time. However, contributions and feedback in the shape of bug reports, suggestions and feature requests are always welcome!</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/README.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

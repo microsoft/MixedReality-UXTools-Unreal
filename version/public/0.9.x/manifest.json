@@ -1,0 +1,1638 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/1/s/MixedReality-UXTools-Unreal/Tools/DocGen",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/BoundsControl.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/BoundsControl.html",
+          "hash": "/xdX2ntjNVYc9j8Kvnye4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/CONTRIBUTING.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/CONTRIBUTING.html",
+          "hash": "7ixX46TMPccZpD6+svXsLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/FarBeam.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/FarBeam.html",
+          "hash": "Ro0jF19iDiLO8B49y85T7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/FollowComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/FollowComponent.html",
+          "hash": "uDQIowt47tPxIl9FxHKIyg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Graphics.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Graphics.html",
+          "hash": "x4aL+LI0+P5aEhD9/Iih0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/HandConstraintComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/HandConstraintComponent.html",
+          "hash": "1YyAzCegvUGxoP1J5shZfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/HandInteraction.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/HandInteraction.html",
+          "hash": "vq8YhR+DeiI6Fip6vZvqBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/BoundsControl.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/BoundsControl.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FarBeam.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FarBeam.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FarBeamMatInterface.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FarBeamMatInterface.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FarInteraction.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FarInteraction.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Features.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Features.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FollowComponent.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FollowComponent.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Graphics/GraphicsButtonBox.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Graphics/GraphicsButtonBox.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Graphics/GraphicsRoundedEdgeThick.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Graphics/GraphicsRoundedEdgeThick.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Graphics/GraphicsSimpleLit.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Graphics/GraphicsSimpleLit.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/HandRotation.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/HandRotation.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/LookAtCamera.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/LookAtCamera.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/MixedRotation.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/MixedRotation.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/PalmUpFacingAway.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/PalmUpFacingAway.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/PalmUpFacingCamera.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/PalmUpFacingCamera.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/Zones.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/Zones.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSim_HideLeftHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSim_HideLeftHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSim_HideRightHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSim_HideRightHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSim_MoveLeftHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSim_MoveLeftHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSim_MoveRightHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSim_MoveRightHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSim_Pinch.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSim_Pinch.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSim_Poke.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSim_Poke.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSim_RotateHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSim_RotateHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_Unreal_UXT_Banner_Rounded.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_Unreal_UXT_Banner_Rounded.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/CreateCollision.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/CreateCollision.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/CustomTarget.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/CustomTarget.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/UseComplexAsSimpleCollision.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/UseComplexAsSimpleCollision.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/OnValueUpdated.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/OnValueUpdated.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PokeInteraction.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PokeInteraction.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonEvents.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonEvents.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoloLens2.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoloLens2.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoloLens2Check.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoloLens2Check.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoloLens2Events.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoloLens2Events.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoloLens2Switch.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoloLens2Switch.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoloLens2Toggle.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoloLens2Toggle.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoloLens2VisualConfig.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoloLens2VisualConfig.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoverEvents.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoverEvents.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonPlanes.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonPlanes.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonSetup.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonSetup.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonWithText.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonWithText.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/FrontFaceCollisionFraction.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/FrontFaceCollisionFraction.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/MovingVisuals.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/MovingVisuals.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/near_far_manipulator.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/near_far_manipulator.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/TouchableVolume/Example.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/TouchableVolume/Example.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Utilities/UtilitiesAlignActors.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Utilities/UtilitiesAlignActors.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Utilities/UtilitiesIconBrushEditor.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Utilities/UtilitiesIconBrushEditor.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Utilities/UtilitiesIconBrushEditorDetails.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Utilities/UtilitiesIconBrushEditorDetails.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/UxtPinchSliderComponent.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/UxtPinchSliderComponent.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/slider.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/slider.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/uxt_favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/uxt_favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/uxt_logo_icon.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/uxt_logo_icon.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/InputSimulation.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/InputSimulation.html",
+          "hash": "UXaghB1+VgyjtAu28kbbZw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Manipulator.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Manipulator.html",
+          "hash": "1EoXlsysSt+D404XW81TrQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/PalmUpConstraintComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/PalmUpConstraintComponent.html",
+          "hash": "UB4zHBQ155YZ/3aZaRyfLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/PinchSlider.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/PinchSlider.html",
+          "hash": "1+qTUkFBlJLKh0XDWEvmsQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/PressableButton.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/PressableButton.html",
+          "hash": "WMZYUefw72CR+xLkkkQkvg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/ReleaseNotes.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/ReleaseNotes.html",
+          "hash": "9Q5rqfUnsYDX0gTsHvvXjw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Utilities.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Utilities.html",
+          "hash": "7WahZbyhtrHab6wEj4juZw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "../../Docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/toc.html",
+          "hash": "p8tN2c1qNNlg9ezzcFOoTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../README.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.html",
+          "hash": "eWZikHKNhT3o7Jso+LPx/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_a_uxt_hand_interaction_actor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_hand_interaction_actor.html",
+          "hash": "wJ04xWYbEg6EBnxWgViZkw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_a_uxt_input_simulation_actor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_input_simulation_actor.html",
+          "hash": "mw5LrFI6Hdc3hjCayDMTqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_u_x_tools_editor_module.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_u_x_tools_editor_module.html",
+          "hash": "fNoK2VJFIIal1fT2nxYTYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_u_x_tools_module.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_u_x_tools_module.html",
+          "hash": "ftvtT6YBR9ayV//Y4bYiyg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_u_x_tools_w_m_r_module.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_u_x_tools_w_m_r_module.html",
+          "hash": "xa2MEKFWhDW6wsFm0/HLag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_bounds_control_affordance_info.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_bounds_control_affordance_info.html",
+          "hash": "v2esutZpgW5RkphePvb74w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_bounds_control_preset_utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_bounds_control_preset_utils.html",
+          "hash": "OxJs3i665RGb4B9Iqgm/fA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_font_character.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_font_character.html",
+          "hash": "qeEwJHsrApMFhRHDBXfGLQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_grab_pointer_data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_grab_pointer_data.html",
+          "hash": "FjeWdvnmg5OfLg8TeaHBLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_grab_pointer_focus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_grab_pointer_focus.html",
+          "hash": "dHaCgVjbbk506pKYJ7YIeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_icon_brush.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_icon_brush.html",
+          "hash": "1FDEb5SpUyjyyTKrrzbhnQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_icon_brush_customization.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_icon_brush_customization.html",
+          "hash": "TFGxlaYfmE9YPjZ/coLvhg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_interaction_utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_interaction_utils.html",
+          "hash": "VzFMng27t8QoH/x2Dnrzbw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_pointer_focus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_pointer_focus.html",
+          "hash": "wB6DDS4Qk4k3q7+8cDfw+g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_pointer_focus_search_result.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_pointer_focus_search_result.html",
+          "hash": "haLIzigU9jDk08x+vdT6Qw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_poke_pointer_focus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_poke_pointer_focus.html",
+          "hash": "L359jW4YL114A5+LHQWeHg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_pressable_button_component_visualizer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_pressable_button_component_visualizer.html",
+          "hash": "OZOZxTW0B173anTSNamICA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_runtime_settings_button_set.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_runtime_settings_button_set.html",
+          "hash": "2GyTIaEQ5SpzoeMasJXs+g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_f_uxt_wmr_hand_tracker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_wmr_hand_tracker.html",
+          "hash": "mAN3KPdW30pTLGXpUkfaQQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_i_uxt_far_target.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_far_target.html",
+          "hash": "g60UuisrPAXNF+vjR+d2Lg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_i_uxt_grab_target.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_grab_target.html",
+          "hash": "HyV/7bPAtbqK9fcppwNL8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_i_uxt_hand_tracker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_hand_tracker.html",
+          "hash": "54HmyoDDn3kvTLYgTxlIag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_i_uxt_poke_target.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_poke_target.html",
+          "hash": "G8aQ3u0OfonyxTH32mLtzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_bounds_control_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_bounds_control_component.html",
+          "hash": "rfhj5TBbDoKAvPfI/+Q6cw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_far_beam_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_beam_component.html",
+          "hash": "7r1bcPeH5XHrMDtf+edjrQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_far_cursor_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_cursor_component.html",
+          "hash": "cy7spQhF7oZ0yLntkNvXDg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_far_pointer_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_pointer_component.html",
+          "hash": "Pfqvxm7MyEsaWPeLV2l/gw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_far_target.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_target.html",
+          "hash": "Uws3m5LPYLOy3a2r9vLumQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_finger_cursor_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_finger_cursor_component.html",
+          "hash": "04CKcn3Zw/mOXXl3nReQFA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_follow_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_follow_component.html",
+          "hash": "SfdWaN+3SLtu7ETBelEBgg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_function_library.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_function_library.html",
+          "hash": "6dB6a2/CU+qR9+lPaMbGLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_grab_pointer_data_function_library.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_grab_pointer_data_function_library.html",
+          "hash": "ZXVbr+TtNcOTGafYn7zbcw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_grab_target.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_grab_target.html",
+          "hash": "Gxa/18usMmbEO6b28ogMmw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_grab_target_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_grab_target_component.html",
+          "hash": "edS/KoBOfwHhs+XQTnooNQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_hand_constraint_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_hand_constraint_component.html",
+          "hash": "SHCweppoR8WBdxpPKbBbHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_hand_tracking_function_library.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_hand_tracking_function_library.html",
+          "hash": "gjUJsh95P6OxDP+3l9jvxg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_icon_brush_editor_utility_widget.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_icon_brush_editor_utility_widget.html",
+          "hash": "AHUH7tAiXo2m1yh2Ta2KUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_input_simulation_head_movement_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_input_simulation_head_movement_component.html",
+          "hash": "TeHLWKY3jn4/ROugwxAE8A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_input_simulation_local_player_subsystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_input_simulation_local_player_subsystem.html",
+          "hash": "aKA2WrRxEKB0pu0zqEt2uA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_internal_function_library.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_internal_function_library.html",
+          "hash": "HbY/SDVwwt4qLvRVOWWh6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_manipulator_component_base.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_manipulator_component_base.html",
+          "hash": "ckZ7rdx2IC/2z8o7EMEQdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_math_utils_function_library.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_math_utils_function_library.html",
+          "hash": "EthOMiz9Mh2CwwApJjzvng=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_move_axis_constraint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_move_axis_constraint.html",
+          "hash": "yZUFSZWWknUh3CnFhG4ddQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_near_pointer_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_near_pointer_component.html",
+          "hash": "6fPKYX2eWWOvJMBs4PQtAA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_palm_up_constraint_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_palm_up_constraint_component.html",
+          "hash": "WUwuNd+qoC5LtdQlECLyXA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_pinch_slider_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_pinch_slider_component.html",
+          "hash": "IqTgSk9+LDfSzgc0VoF+ww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_pointer_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_pointer_component.html",
+          "hash": "xhe9yIGMaKIR8Uw5fp529w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_poke_target.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_poke_target.html",
+          "hash": "jIKI43PWI/Hh+4WmgAtyyQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_pressable_button_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_pressable_button_component.html",
+          "hash": "H6jl5HZYbcAHu+3q4SGEUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_runtime_settings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_runtime_settings.html",
+          "hash": "8UVIer2yHmeZGk4tzyX8OA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_touch_based_hand_tracker_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_touch_based_hand_tracker_component.html",
+          "hash": "m2XU28a1EMcEuYn1KJyxDg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_touch_based_hand_tracker_subsystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_touch_based_hand_tracker_subsystem.html",
+          "hash": "i+17fepW2SJJ44qWx7sTPQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_touchable_volume_component.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_touchable_volume_component.html",
+          "hash": "DbcGD/DwwMWKOjdzIa2USg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_transform_constraint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_transform_constraint.html",
+          "hash": "6qGAnM5JVck6HTkNDR1g1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_x_tools.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools.html",
+          "hash": "UhOz8mVfi01RY2h9DPgRmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_x_tools_editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools_editor.html",
+          "hash": "dcbYFxS8LaXVtq4Je2nZVA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_x_tools_input_simulation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools_input_simulation.html",
+          "hash": "D0jDokGVfTgRlWiM9OBk7A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_x_tools_runtime_settings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools_runtime_settings.html",
+          "hash": "uza7wVVkUaG+J5PuMaq6AA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_x_tools_w_m_r.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools_w_m_r.html",
+          "hash": "oIlK6+CVUTIac1WHT3iczA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_uxt_constraint_manager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_constraint_manager.html",
+          "hash": "hPeLYpORQdSXeYF3/a7jqg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_uxt_manipulation_move_logic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_manipulation_move_logic.html",
+          "hash": "ElC48Jo3R8rlT6wpLpyexA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_uxt_two_hand_manipulation_rotate_logic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_two_hand_manipulation_rotate_logic.html",
+          "hash": "Zo7QK636+kKlosc/x72E3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_uxt_two_hand_manipulation_scale_logic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_two_hand_manipulation_scale_logic.html",
+          "hash": "w1JvBJpfIgF7uqEh1yC+pQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "../../tempcode2yaml/api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "ZarhI9bpj4KqaLtGj3oxKw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "../../toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "dcXVpcM27rvGGq2vsCq7Lg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": ".nojekyll",
+      "output": {
+        "resource": {
+          "relative_path": ".nojekyll"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "index.html",
+      "output": {
+        "resource": {
+          "relative_path": "index.html"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "web/version.css",
+      "output": {
+        "resource": {
+          "relative_path": "web/version.css"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "web/version.js",
+      "output": {
+        "resource": {
+          "relative_path": "web/version.js"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Disable incremental build by force rebuild option.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "ForceRebuild"
+      },
+      "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 15,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 63,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

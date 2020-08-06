@@ -1,0 +1,783 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UUxtHandConstraintComponent
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UUxtHandConstraintComponent
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_hand_constraint_component">
+  
+  
+  <h1 id="_u_uxt_hand_constraint_component" data-uid="_u_uxt_hand_constraint_component" class="text-break">Class UUxtHandConstraintComponent
+  </h1>
+  <div class="markdown level0 summary"><p>Component that calculates a goal based on hand tracking and moves the owning actor.</p>
+<p>Several zones around the hand supported: radial and ulnar for the thumb side and its opposite, as well as above and below the hand. The goal position is computed by casting a ray in the direction of the zone at a bounding box around the hand joints.</p>
+<p>The constraint can be oriented on either the hand rotation alone or facing the player. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">UActorComponent</span></div>
+    <div class="level2"><span class="xref">UUxtHandConstraintComponent</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_u_uxt_hand_constraint_component_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class UUxtHandConstraintComponent</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_UUxtHandConstraintComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.UUxtHandConstraintComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L97">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_UUxtHandConstraintComponent_" data-uid="_u_uxt_hand_constraint_component.UUxtHandConstraintComponent*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_UUxtHandConstraintComponent__" data-uid="_u_uxt_hand_constraint_component.UUxtHandConstraintComponent()">UUxtHandConstraintComponent()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UUxtHandConstraintComponent()</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_bMoveOwningActor.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.bMoveOwningActor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L124">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_bMoveOwningActor" data-uid="_u_uxt_hand_constraint_component.bMoveOwningActor">bMoveOwningActor</h4>
+  <div class="markdown level1 summary"><p>Actor transform is moved towards the goal if true. Disable this to only compute the goal without changing the actor transform. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool bMoveOwningActor= true</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_GoalMargin.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.GoalMargin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L117">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_GoalMargin" data-uid="_u_uxt_hand_constraint_component.GoalMargin">GoalMargin</h4>
+  <div class="markdown level1 summary"><p>Margin between the hand bounding box and the goal location. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GoalMargin= 0.0f</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_Hand.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.Hand%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L101">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_Hand" data-uid="_u_uxt_hand_constraint_component.Hand">Hand</h4>
+  <div class="markdown level1 summary"><p>Hand to use for the constraint. If set to 'Any Hand' the first tracked hand will be used, until tracking is lost. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EControllerHand Hand= EControllerHand::AnyHand</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EControllerHand</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_LocationLerpTime.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.LocationLerpTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L131">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_LocationLerpTime" data-uid="_u_uxt_hand_constraint_component.LocationLerpTime">LocationLerpTime</h4>
+  <div class="markdown level1 summary"><p>Interpolation time for smoothed translation. Set to zero to disable smoothing. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float LocationLerpTime= 0.05f</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_OffsetMode.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.OffsetMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L109">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_OffsetMode" data-uid="_u_uxt_hand_constraint_component.OffsetMode">OffsetMode</h4>
+  <div class="markdown level1 summary"><p>Determines how the offset vector is computed. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EUxtHandConstraintOffsetMode OffsetMode= EUxtHandConstraintOffsetMode::LookAtCamera</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtHandConstraintOffsetMode</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_OnBeginTracking.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.OnBeginTracking%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L150">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_OnBeginTracking" data-uid="_u_uxt_hand_constraint_component.OnBeginTracking">OnBeginTracking</h4>
+  <div class="markdown level1 summary"><p>Event raised when the constraint begins tracking a hand. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtHandConstraintBeginTrackingDelegate OnBeginTracking</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtHandConstraintBeginTrackingDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_OnConstraintActivated.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.OnConstraintActivated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L142">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_OnConstraintActivated" data-uid="_u_uxt_hand_constraint_component.OnConstraintActivated">OnConstraintActivated</h4>
+  <div class="markdown level1 summary"><p>Event raised when the constraint becomes active, as indicated by the bIsConstraintActive property. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtHandConstraintActivatedDelegate OnConstraintActivated</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtHandConstraintActivatedDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_OnConstraintDeactivated.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.OnConstraintDeactivated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L146">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_OnConstraintDeactivated" data-uid="_u_uxt_hand_constraint_component.OnConstraintDeactivated">OnConstraintDeactivated</h4>
+  <div class="markdown level1 summary"><p>Event raised when the constraint becomes inactive, as indicated by the bIsConstraintActive property. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtHandConstraintDeactivatedDelegate OnConstraintDeactivated</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtHandConstraintDeactivatedDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_OnEndTracking.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.OnEndTracking%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L154">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_OnEndTracking" data-uid="_u_uxt_hand_constraint_component.OnEndTracking">OnEndTracking</h4>
+  <div class="markdown level1 summary"><p>Event raised when the constraint ends tracking a hand. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtHandConstraintEndTrackingDelegate OnEndTracking</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtHandConstraintEndTrackingDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_RotationLerpTime.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.RotationLerpTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L138">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_RotationLerpTime" data-uid="_u_uxt_hand_constraint_component.RotationLerpTime">RotationLerpTime</h4>
+  <div class="markdown level1 summary"><p>Interpolation time for smoothed rotation. Set to zero to disable smoothing. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float RotationLerpTime= 0.05f</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_RotationMode.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.RotationMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L113">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_RotationMode" data-uid="_u_uxt_hand_constraint_component.RotationMode">RotationMode</h4>
+  <div class="markdown level1 summary"><p>Determines how the goal rotation is computed. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EUxtHandConstraintRotationMode RotationMode= EUxtHandConstraintRotationMode::LookAtCamera</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtHandConstraintRotationMode</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_Zone.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.Zone%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L105">View Source</a>
+  </span>
+  <h4 id="_u_uxt_hand_constraint_component_Zone" data-uid="_u_uxt_hand_constraint_component.Zone">Zone</h4>
+  <div class="markdown level1 summary"><p>Safe zone that determines the target location of the constraint relative to the hand. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EUxtHandConstraintZone Zone= EUxtHandConstraintZone::UlnarSide</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtHandConstraintZone</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L134">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_BeginPlay_" data-uid="_u_uxt_hand_constraint_component.BeginPlay*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_BeginPlay__" data-uid="_u_uxt_hand_constraint_component.BeginPlay()">BeginPlay()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_GetGoalLocation__.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.GetGoalLocation()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L118">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_GetGoalLocation_" data-uid="_u_uxt_hand_constraint_component.GetGoalLocation*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_GetGoalLocation__" data-uid="_u_uxt_hand_constraint_component.GetGoalLocation()">GetGoalLocation()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const FVector &amp; GetGoalLocation() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FVector &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_GetGoalRotation__.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.GetGoalRotation()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L123">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_GetGoalRotation_" data-uid="_u_uxt_hand_constraint_component.GetGoalRotation*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_GetGoalRotation__" data-uid="_u_uxt_hand_constraint_component.GetGoalRotation()">GetGoalRotation()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const FQuat &amp; GetGoalRotation() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FQuat &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_GetHandBounds__.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.GetHandBounds()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L108">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_GetHandBounds_" data-uid="_u_uxt_hand_constraint_component.GetHandBounds*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_GetHandBounds__" data-uid="_u_uxt_hand_constraint_component.GetHandBounds()">GetHandBounds()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const FBox &amp; GetHandBounds() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FBox &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_GetTrackedHand__.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.GetTrackedHand()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L103">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_GetTrackedHand_" data-uid="_u_uxt_hand_constraint_component.GetTrackedHand*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_GetTrackedHand__" data-uid="_u_uxt_hand_constraint_component.GetTrackedHand()">GetTrackedHand()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EControllerHand GetTrackedHand() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EControllerHand</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_IsConstraintActive__.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.IsConstraintActive()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L113">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_IsConstraintActive_" data-uid="_u_uxt_hand_constraint_component.IsConstraintActive*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_IsConstraintActive__" data-uid="_u_uxt_hand_constraint_component.IsConstraintActive()">IsConstraintActive()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool IsConstraintActive() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_IsHandUsableForConstraint_EControllerHand_.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.IsHandUsableForConstraint(EControllerHand)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L128">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_IsHandUsableForConstraint_" data-uid="_u_uxt_hand_constraint_component.IsHandUsableForConstraint*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_IsHandUsableForConstraint_EControllerHand_" data-uid="_u_uxt_hand_constraint_component.IsHandUsableForConstraint(EControllerHand)">IsHandUsableForConstraint(EControllerHand NewHand)</h4>
+  <div class="markdown level1 summary"><p>Returns true if the given hand is eligible for the constraint. If the hand is rejected the constraint will be deactivated. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: virtual bool IsHandUsableForConstraint(EControllerHand NewHand) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EControllerHand</td>
+        <td><span class="parametername">NewHand</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component.TickComponent(float%2CELevelTick%2CFActorComponentTickFunction%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtHandConstraintComponent.cpp/#L146">View Source</a>
+  </span>
+  <a id="_u_uxt_hand_constraint_component_TickComponent_" data-uid="_u_uxt_hand_constraint_component.TickComponent*"></a>
+  <h4 id="_u_uxt_hand_constraint_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___" data-uid="_u_uxt_hand_constraint_component.TickComponent(float,ELevelTick,FActorComponentTickFunction *)">TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">DeltaTime</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ELevelTick</td>
+        <td><span class="parametername">TickType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FActorComponentTickFunction *</td>
+        <td><span class="parametername">ThisTickFunction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/public/0.9.x/apiSpec/new?filename=_u_uxt_hand_constraint_component.md&amp;value=---%0Auid%3A%20_u_uxt_hand_constraint_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/public/0.9.x/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtHandConstraintComponent.h/#L64" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
