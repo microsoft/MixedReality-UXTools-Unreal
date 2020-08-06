@@ -32,6 +32,7 @@ namespace
 		// Generic manipulator component
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
 		Manipulator->TargetComponent = TargetComponent;
+		Manipulator->ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::None);
 		Manipulator->SetSmoothing(0.0f);
 		Manipulator->RegisterComponent();
 
@@ -407,7 +408,6 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 					StaticMesh->SetPhysicsLinearVelocity(FVector::ZeroVector);
 					StaticMesh->SetEnableGravity(false);
 					StaticMesh->SetSimulatePhysics(true);
-					Target->ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::None);
 				});
 
 			FrameQueue.Enqueue([this, StaticMesh]
