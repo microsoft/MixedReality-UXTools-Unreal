@@ -4,6 +4,7 @@
 #include "Utils/UxtInternalFunctionLibrary.h"
 #include "Engine/Font.h"
 #include "Engine/Texture2D.h"
+#include "Engine/Engine.h"
 
 bool UUxtInternalFunctionLibrary::HexCodePointToFString(const FString& Input, FString& Output)
 {
@@ -101,6 +102,19 @@ bool UUxtInternalFunctionLibrary::GetFontCharacterData(const UFont* Font, TArray
 	}
 
 	return true;
+}
+
+bool UUxtInternalFunctionLibrary::IsPlayInMobilePreview(const UObject* WorldContextObject)
+{
+	if (GEngine)
+	{
+		if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+		{
+			return World->IsPlayInMobilePreview();
+		}
+	}
+
+	return false;
 }
 
 FVector UUxtInternalFunctionLibrary::Slerp(const FVector& Vector1, const FVector& Vector2, const float Slerp)

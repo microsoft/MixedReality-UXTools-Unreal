@@ -4,12 +4,14 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class UXToolsGameTarget : TargetRules
+public class UXToolsGameNonUnityTarget : TargetRules
 {
-	public UXToolsGameTarget(TargetInfo Target) : base(Target)
+	public UXToolsGameNonUnityTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
+
+		bUseUnityBuild = false;
 
 		ExtraModuleNames.AddRange( new string[] { "UXToolsGame", "UXToolsTests" } );
 	}
