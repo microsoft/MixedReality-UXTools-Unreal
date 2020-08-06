@@ -245,14 +245,19 @@ void UUxtGenericManipulatorComponent::SetSmoothing(float NewSmoothing)
 
 void UUxtGenericManipulatorComponent::OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
 {
-	const int NumGrabPointers = GetGrabPointers().Num();
-
-	if (UPrimitiveComponent* Target = Cast<UPrimitiveComponent>(GetTargetComponent()))
+	if (GetGrabPointers().Num() == 1)
 	{
-		if (Target->IsSimulatingPhysics())
+		if (UPrimitiveComponent* Target = Cast<UPrimitiveComponent>(GetTargetComponent()))
 		{
-			Target->SetSimulatePhysics(false);
-			bWasSimulatingPhysics = true;
+			if (Target->IsSimulatingPhysics())
+			{
+				Target->SetSimulatePhysics(false);
+				bWasSimulatingPhysics = true;
+			}
+			else
+			{
+				bWasSimulatingPhysics = false;
+			}
 		}
 	}
 }
@@ -268,7 +273,7 @@ void UUxtGenericManipulatorComponent::OnRelease(UUxtGrabTargetComponent* Grabbab
 			const bool bKeepLinearVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepVelocity);
 			const bool bKeepAngularVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepAngularVelocity);
 			const AUxtHandInteractionActor* Hand = 
-				Cast<AUxtHandInteractionActor>(GrabPointer.NearPointer ? GrabPointer.NearPointer->GetOwner() : GrabPointer.FarPointer->GetOwner());
+				CastChecked<AUxtHandInteractionActor>(GrabPointer.NearPointer ? GrabPointer.NearPointer->GetOwner() : GrabPointer.FarPointer->GetOwner());
 
 			Target->SetPhysicsLinearVelocity(bKeepLinearVelocity ? Hand->GetHandVelocity() : FVector::ZeroVector);
 			Target->SetPhysicsAngularVelocityInDegrees(bKeepAngularVelocity ? Hand->GetHandAngularVelocity() : FVector::ZeroVector);

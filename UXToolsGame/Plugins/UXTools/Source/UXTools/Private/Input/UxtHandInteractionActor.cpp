@@ -118,7 +118,6 @@ void AUxtHandInteractionActor::UpdateVelocity(float DeltaTime)
 
 			if (CurrentFrame < VelocityUpdateInterval)
 			{
-
 				VelocityPositionsCache[CurrentFrame] = Position;
 				VelocityPositionsSum += VelocityPositionsCache[CurrentFrame];
 

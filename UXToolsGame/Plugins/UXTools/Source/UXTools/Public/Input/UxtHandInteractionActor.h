@@ -154,7 +154,7 @@ private:
 	/** The current angular velocity of the hand. */
 	FVector AngularVelocity = FVector::ZeroVector;
 
-	/** Velocity internal state */
+	// Velocity internal state
 	static const int VelocityUpdateInterval = 6;
 	uint64 CurrentFrame = 0;
 	FVector VelocityPositionsCache[VelocityUpdateInterval];
