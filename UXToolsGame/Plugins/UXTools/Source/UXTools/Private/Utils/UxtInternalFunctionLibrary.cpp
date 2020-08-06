@@ -88,7 +88,7 @@ bool UUxtInternalFunctionLibrary::GetFontCharacterData(const UFont* Font, TArray
 
 	if (Font->IsRemapped)
 	{
-		for (auto& Elem : Font->CharRemap)
+		for (const TPair<uint16, uint16>& Elem : Font->CharRemap)
 		{
 			AddCharacter(Font->Characters[Elem.Value], Elem.Key, Font, FontCharacters);
 		}
@@ -115,4 +115,26 @@ bool UUxtInternalFunctionLibrary::IsPlayInMobilePreview(const UObject* WorldCont
 	}
 
 	return false;
+}
+
+FVector UUxtInternalFunctionLibrary::Slerp(const FVector& Vector1, const FVector& Vector2, const float Slerp)
+{
+	float Dot = FVector::DotProduct(Vector1.GetSafeNormal(), Vector2.GetSafeNormal());
+
+	float Scale1, Scale2;
+	if (Dot < 0.9999f)
+	{
+		const float Omega = FMath::Acos(Dot);
+		const float InvSin = 1.f / FMath::Sin(Omega);
+		Scale1 = FMath::Sin((1.f - Slerp) * Omega) * InvSin;
+		Scale2 = FMath::Sin(Slerp * Omega) * InvSin;
+	}
+	else
+	{
+		// Use linear interpolation.
+		Scale1 = 1.0f - Slerp;
+		Scale2 = Slerp;
+	}
+
+	return Vector1 * Scale1 + Vector2 * Scale2;
 }

@@ -61,72 +61,74 @@ public:
 	AActor* ActorToFollow;
 
 	/** Orientation Type */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowOrientation)
 	TEnumAsByte<EUxtFollowOrientBehavior> OrientationType = EUxtFollowOrientBehavior::WorldLock;
 
-	/** Rate at which its owner will move toward default distance when angular leashing */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
-	float MoveToDefaultDistanceLerpTime = 10.0f;
+	/** The owner will not reorient until the angle between its forward vector and the vector to the camera is greater than this value */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowOrientation)
+	float OrientToCameraDeadzoneDegrees = 60.0f;
+
+	/** Option to ignore distance clamping */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowDistance)
+	bool bIgnoreDistanceClamp = false;
 
 	/** Min distance from eye to position its owner around, i.e. the sphere radius */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float MinimumDistance = 50.0f;
 
 	/** Max distance from eye to its owner */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float MaximumDistance = 100.0f;
 
 	/** Default distance from eye to position its owner around, i.e. the sphere radius */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float DefaultDistance = 75.0f;
 
+	/** Max vertical distance between the owner and camera */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
+	float VerticalMaxDistance = 0.0f;
+
+	/** Option to ignore angle clamping */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowDirection)
+	bool bIgnoreAngleClamp = false;
+
 	/** The horizontal angle from the camera forward axis to the owner will not exceed this value */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
 	float MaxViewHorizontalDegrees = 30.0f;
 
 	/** The vertical angle from the camera forward axis to the owner will not exceed this value */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
 	float MaxViewVerticalDegrees = 30.0f;
 
-	/** The owner will not reorient until the angle between its forward vector and the vector to the camera is greater than this value */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
-	float OrientToCameraDeadzoneDegrees = 60.0f;
-
-	/** Option to ignore angle clamping */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
-	bool bIgnoreAngleClamp = false;
-
-	/** Option to ignore distance clamping */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
-	bool bIgnoreDistanceClamp = false;
-
 	/** Option to ignore the pitch and roll of the camera */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
 	bool bIgnoreCameraPitchAndRoll = false;
 
-	/** Option to ignore interpolation between follow poses */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
-	bool bInterpolatePose = true;
-
 	/** Pitch offset from camera (relative to Max Distance) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "bIgnoreCameraPitchAndRoll && !bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
 	float PitchOffset = 0.0f;
 
-	/** Max vertical distance between the owner and camera */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
-	float VerticalMaxDistance = 0.0f;
+	/** Option to ignore interpolation between follow poses */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowSmoothing)
+	bool bInterpolatePose = true;
+
+	/** Rate at which its owner will move toward default distance when angular leashing */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowSmoothing)
+	float MoveToDefaultDistanceLerpTime = 10.0f;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 private:
+	FTransform GetFollowTransform();
 	void UpdateLeashing();
 	void UpdateTransformToGoal(bool bSkipInterpolation, float DeltaTime = 0);
 
 private:
 
-	FTransform GoalTransform;
+	FVector ToTarget;
+	FQuat TargetRotation;
 	FTransform WorkingTransform;
 
 	bool bRecenterNextUpdate = true;

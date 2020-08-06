@@ -11,12 +11,28 @@
 #include "Engine/World.h"
 #include "Components/PrimitiveComponent.h"
 #include "Components/BoxComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "PhysicsEngine/BodySetup.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
 
 namespace
 {
+	bool IsBoxShape(UPrimitiveComponent& Primitive)
+	{
+		if (UBodySetup* BodySetup = Primitive.GetBodySetup())
+		{
+			FKAggregateGeom AggGeom = BodySetup->AggGeom;
+			const int32 ElementCount = AggGeom.GetElementCount();
+			if (ElementCount != 0 && ElementCount == AggGeom.BoxElems.Num())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Used for checking on which side of a front face pokable's front face the pointer
 	 * sphere is. This is important as BeginPoke can only be called if the pointer sphere
@@ -28,10 +44,15 @@ namespace
 	{
 		check(Primitive != nullptr);
 
-		// Front face pokables should have use a box collider
-		check(Primitive->GetCollisionShape().IsBox());
+		// Front face pokables must have a box-shaped collider
+		if (!IsBoxShape(*Primitive))
+		{
+			UE_LOG(UXTools, Warning, TEXT("Primitive %s has some collision "
+				"shape other than box"), *Primitive->GetFName().ToString());
+			return false;
+		}
 
-		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixWithScale();
+		const FMatrix ComponentTransform = Primitive->GetComponentTransform().ToMatrixWithScale();
 		
 		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
 
@@ -45,6 +66,17 @@ namespace
 		}
 
 		return false;
+	}
+
+	bool IsFacingPrimitive(const FVector& PointerForward, const UPrimitiveComponent* const Primitive)
+	{
+		check(Primitive);
+		FVector PrimitiveForward = Primitive->GetComponentTransform().GetUnitAxis(EAxis::X);
+		if (FVector::DotProduct(PointerForward, PrimitiveForward) >= 0)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	/** 
@@ -62,10 +94,15 @@ namespace
 	{
 		check(Primitive != nullptr);
 
-		// Front face pokables should have use a box collider
-		check(Primitive->GetCollisionShape().IsBox());
+		// Front face pokables must have a box-shaped collider
+		if (!IsBoxShape(*Primitive))
+		{
+			UE_LOG(UXTools, Warning, TEXT("Primitive %s has some collision "
+				"shape other than box"), *Primitive->GetFName().ToString());
+			return false;
+		}
 
-		auto ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
+		const FMatrix ComponentTransform = Primitive->GetComponentTransform().ToMatrixNoScale();
 
 		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
 
@@ -208,7 +245,10 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 	// Update focused targets
 	GrabFocus->UpdateFocus(this);
-	GrabFocus->UpdateGrab(this);
+	if (IsGrabbing())
+	{
+		GrabFocus->UpdateGrab(this);
+	}
 
 	PokeFocus->UpdateFocus(this);
 
@@ -347,8 +387,11 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 			switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 			{
 				case EUxtPokeBehaviour::FrontFace:
-					startedPoking = !bWasBehindFrontFace && isBehind;
+				{
+					bool bIsFacingPrimitive = IsFacingPrimitive(PokePointerTransform.GetUnitAxis(EAxis::X), Primitive);
+					startedPoking = !bWasBehindFrontFace && isBehind && bIsFacingPrimitive;
 					break;
+				}
 				case EUxtPokeBehaviour::Volume:
 					startedPoking = true;
 					break;
@@ -366,15 +409,17 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 	PreviousPokePointerLocation = PokePointerLocation;
 }
 
-UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const
+UObject* UUxtNearPointerComponent::GetFocusedGrabTarget(FVector& OutClosestPointOnTarget, FVector& OutNormal) const
 {
 	OutClosestPointOnTarget = GrabFocus->GetClosestTargetPoint();
+	OutNormal = GrabFocus->GetClosestTargetNormal();
 	return GrabFocus->GetFocusedTarget();
 }
 
-UObject* UUxtNearPointerComponent::GetFocusedPokeTarget(FVector& OutClosestPointOnTarget) const
+UObject* UUxtNearPointerComponent::GetFocusedPokeTarget(FVector& OutClosestPointOnTarget, FVector& OutNormal) const
 {
 	OutClosestPointOnTarget = PokeFocus->GetClosestTargetPoint();
+	OutNormal = PokeFocus->GetClosestTargetNormal();
 	return PokeFocus->GetFocusedTarget();
 }
 

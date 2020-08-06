@@ -11,9 +11,7 @@
 UUxtFarCursorComponent::UUxtFarCursorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	RingThickness = 0.64f;
-	BorderThickness = 0.08f;
-
+	
 	// Will start ticking when the far pointer is enabled
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 
@@ -24,7 +22,7 @@ void UUxtFarCursorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto Owner = GetOwner();
+	const AActor* const Owner = GetOwner();
 	UUxtFarPointerComponent* FarPointer = Owner->FindComponentByClass<UUxtFarPointerComponent>();
 
 	if (FarPointer)
@@ -56,8 +54,15 @@ void UUxtFarCursorComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	if (UUxtFarPointerComponent* FarPointer = FarPointerWeak.Get())
 	{
-		FarPointer->OnFarPointerEnabled.RemoveDynamic(this, &UUxtFarCursorComponent::OnFarPointerEnabled);
-		FarPointer->OnFarPointerDisabled.RemoveDynamic(this, &UUxtFarCursorComponent::OnFarPointerDisabled);
+		// for extra safety we will check if the functions are bound prior to making the call to remove them
+		if (FarPointer->OnFarPointerEnabled.IsAlreadyBound(this, &UUxtFarCursorComponent::OnFarPointerEnabled))
+		{
+			FarPointer->OnFarPointerEnabled.RemoveDynamic(this, &UUxtFarCursorComponent::OnFarPointerEnabled);
+		}
+		if (FarPointer->OnFarPointerDisabled.IsAlreadyBound(this, &UUxtFarCursorComponent::OnFarPointerDisabled))
+		{
+			FarPointer->OnFarPointerDisabled.RemoveDynamic(this, &UUxtFarCursorComponent::OnFarPointerDisabled);
+		}
 	}
 }
 
@@ -81,7 +86,7 @@ void UUxtFarCursorComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	if (UUxtFarPointerComponent* FarPointer = FarPointerWeak.Get())
 	{
 		// Place hovering the hit location
-		const auto HitNormal = FarPointer->GetHitNormal();
+		const FVector& HitNormal = FarPointer->GetHitNormal();
 		FVector Location = FarPointer->GetHitPoint() + HitNormal * HoverDistance;
 		SetWorldLocation(Location);
 
@@ -109,14 +114,11 @@ void UUxtFarCursorComponent::SetPressed(bool bNewPressed)
 
 		if (bPressed)
 		{
-			// Cache current thickness so we can restore it when released
-			IdleRingThickness = GetRingThickness();
-
-			SetRingThickness(1.0f);
+			SetStaticMesh(PressMesh);
 		}
 		else
 		{
-			SetRingThickness(IdleRingThickness);
+			SetStaticMesh(FocusMesh);
 		}
 	}
 }

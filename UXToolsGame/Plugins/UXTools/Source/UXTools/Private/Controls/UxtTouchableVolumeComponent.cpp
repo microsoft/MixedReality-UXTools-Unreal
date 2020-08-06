@@ -64,6 +64,26 @@ void UUxtTouchableVolumeComponent::BeginPlay()
 	}
 }
 
+bool UUxtTouchableVolumeComponent::GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+{
+	float NotUsed;
+	if (FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed))
+	{
+		if (OutClosestPoint == Point)
+		{
+			OutNormal = OutClosestPoint - Primitive->GetComponentLocation();
+		}
+		else
+		{
+			OutNormal = OutClosestPoint - Point;
+		}
+
+		OutNormal.Normalize();
+		return true;
+	}
+	return false;
+}
+
 void UUxtTouchableVolumeComponent::OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
 	check(TouchedComponent->GetOwner() == GetOwner());
@@ -122,7 +142,7 @@ void UUxtTouchableVolumeComponent::OnExitFocus(UObject* Pointer)
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
-bool UUxtTouchableVolumeComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtTouchableVolumeComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	if (bIsDisabled)
 	{

@@ -26,7 +26,7 @@ UUxtManipulatorComponentBase::~UUxtManipulatorComponentBase()
 
 void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const
 {
-	FVector NewObjectLocation = MoveLogic->Update(GetGrabPointCentroidTransform(),
+	FVector NewObjectLocation = MoveLogic->Update(GetPointerCentroid(),
 		SourceTransform.Rotator().Quaternion(),
 		SourceTransform.GetScale3D(),
 		UsePointerRotation,
@@ -146,6 +146,11 @@ void UUxtManipulatorComponentBase::ApplyTargetTransform(const FTransform &Target
 	OnUpdateTransform.Broadcast(TransformTarget, TargetTransform);
 }
 
+USceneComponent* UUxtManipulatorComponentBase::GetTargetComponent()
+{
+	return TransformTarget;
+}
+
 void UUxtManipulatorComponentBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -201,15 +206,15 @@ void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
 {
 	SetInitialTransform();
 
-	MoveLogic->Setup(GetGrabPointCentroidTransform(),
-		GetGrabPointCentroid(TransformTarget->GetComponentTransform()),
+	MoveLogic->Setup(GetPointerCentroid(),
+		GetGrabPointCentroid(GetComponentTransform()).GetLocation(),
 		TransformTarget->GetComponentTransform(),
 		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
 
 	if (NumGrabPointers > 1)
 	{
-		TwoHandRotateLogic->Setup(GetGrabPointers(), GetComponentRotation().Quaternion());
-		TwoHandScaleLogic->Setup(GetGrabPointers(), GetComponentScale());
+		TwoHandRotateLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentRotation().Quaternion());
+		TwoHandScaleLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentScale());
 	}
 }
 

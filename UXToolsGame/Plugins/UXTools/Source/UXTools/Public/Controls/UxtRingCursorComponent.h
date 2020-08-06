@@ -16,7 +16,7 @@ UCLASS( ClassGroup = UXTools, HideCategories = (StaticMesh, Materials), meta=(Bl
 class UXTOOLS_API UUxtRingCursorComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-
+	 
 public:
 
 	UUxtRingCursorComponent();
@@ -25,21 +25,6 @@ public:
 	float GetRadius() const { return Radius; }
 	UFUNCTION(BlueprintSetter)
 	void SetRadius(float Radius);
-
-	UFUNCTION(BlueprintGetter)
-	float GetRingThickness() const { return RingThickness; }
-	UFUNCTION(BlueprintSetter)
-	void SetRingThickness(float NewRingThickness);
-
-	UFUNCTION(BlueprintGetter)
-	float GetBorderThickness() const { return BorderThickness; }
-	UFUNCTION(BlueprintSetter)
-	void SetBorderThickness(float NewBorderThickness);
-
-	UFUNCTION(BlueprintGetter)
-	bool GetUseAbsoluteThickness() const { return bUseAbsoluteThickness; }
-	UFUNCTION(BlueprintSetter)
-	void SetUseAbsoluteThickness(bool NewbUsingAbsoluteThickness);
 
 	UFUNCTION(BlueprintGetter)
 	FColor GetRingColor() const { return RingColor; }
@@ -58,23 +43,17 @@ protected:
 	/** Used to update the radius in response to scale changes. */
 	virtual void OnUpdateTransform(EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport = ETeleportType::None) override;
 
-	/** Ring thickness, including border, expressed as a fraction of the ring radius unless Use Absolute Thickness is enabled */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetRingThickness", BlueprintSetter = "SetRingThickness", Category = "Ring Cursor")
-	float RingThickness = 0.65f;
-
-	/** Border thickness expressed as a fraction of the ring radius unless Use Absolute Thickness is enabled */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetBorderThickness", BlueprintSetter = "SetBorderThickness", Category = "Ring Cursor")
-	float BorderThickness = 0.08f;
-
-	/* When set thickness values are taken to be in world units instead of relative to the ring radius. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetUseAbsoluteThickness", BlueprintSetter = "SetUseAbsoluteThickness", Category = "Ring Cursor")
-	bool bUseAbsoluteThickness = false;
-
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetRingColor", BlueprintSetter = "SetRingColor", Category = "Ring Cursor")
 	FColor RingColor = FColor::White;
 
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetBorderColor", BlueprintSetter = "SetBorderColor", Category = "Ring Cursor")
 	FColor BorderColor = FColor::Black;
+
+	/** Cursor meshes. Swapping dynamically on the fly depends on its state. **/
+	UPROPERTY(Transient)
+	UStaticMesh* FocusMesh;
+	UPROPERTY(Transient)
+	UStaticMesh* PressMesh;
 
 private:
 
@@ -82,7 +61,10 @@ private:
 
 	/** Dynamic instance of the ring material. */
 	UPROPERTY(Transient)
-	UMaterialInstanceDynamic* MaterialInstance;
+	UMaterialInstanceDynamic* MaterialInstanceRing;
+
+	UPROPERTY(Transient)
+	UMaterialInstanceDynamic* MaterialInstanceBorder;
 
 	UPROPERTY(Transient, BlueprintGetter = "GetRadius", BlueprintSetter = "SetRadius", Category = "Ring Cursor")
 	float Radius;

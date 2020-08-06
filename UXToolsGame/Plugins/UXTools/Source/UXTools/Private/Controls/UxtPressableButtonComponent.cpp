@@ -304,6 +304,7 @@ bool UUxtPressableButtonComponent::CanEditChange(const FProperty* Property) cons
 
 	return IsEditable;
 }
+
 #endif
 
 bool UUxtPressableButtonComponent::IsContacted() const
@@ -338,9 +339,17 @@ void UUxtPressableButtonComponent::OnExitFocus(UUxtPointerComponent* Pointer)
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
-bool UUxtPressableButtonComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtPressableButtonComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	return !bIsDisabled && (Primitive == BoxComponent);
+}
+
+bool UUxtPressableButtonComponent::GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+{
+	OutNormal = GetComponentTransform().GetUnitAxis(EAxis::X);
+
+	float NotUsed;
+	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
 void UUxtPressableButtonComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)

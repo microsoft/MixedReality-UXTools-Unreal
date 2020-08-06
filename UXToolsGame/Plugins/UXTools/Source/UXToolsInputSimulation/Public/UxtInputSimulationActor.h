@@ -38,6 +38,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	void ResetTargetPose(EControllerHand Hand);
 
+	/** Get the current target transform for a hand.
+	 *  If bAnimate is true then the transform should be blended over time,
+	 *  otherwise the target transform should be applied immediately.
+	 */
+	UFUNCTION(BlueprintPure, Category = InputSimulation)
+	void GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const;
+
 	UFUNCTION(BlueprintGetter)
 	UUxtInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
 
@@ -70,6 +77,7 @@ private:
 
 	void OnPrimaryHandPosePressed();
 	void OnSecondaryHandPosePressed();
+	void OnMenuHandPosePressed();
 
 	void AddInputMoveForward(float Value);
 	void AddInputMoveRight(float Value);
@@ -91,9 +99,6 @@ private:
 
 	/** Set the rotation for the given hand to the rest rotation. */
 	void SetDefaultHandRotation(EControllerHand Hand);
-
-	/** Update the hand mesh rotation based on the rotation offset. */
-	void UpdateHandRotation(EControllerHand Hand);
 
 	/** Set the hand visibility. */
 	void SetHandVisibility(EControllerHand Hand, bool bIsVisible);
@@ -151,7 +156,7 @@ private:
 	/** Current target pose for each hand. */
 	TMap<EControllerHand, FName> TargetPoses;
 
-	/** Rotation offset for each hand. */
-	TMap<EControllerHand, FRotator> HandRotations;
+	/** Transform offset for each hand, relative to the rest pose. */
+	TMap<EControllerHand, FTransform> HandTransforms;
 
 };

@@ -111,7 +111,7 @@ void UUxtInputSimulationHeadMovementComponent::TickComponent(float DeltaTime, en
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	if (!UpdatedComponent || ShouldSkipUpdate(DeltaTime))

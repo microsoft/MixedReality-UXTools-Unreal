@@ -3,6 +3,8 @@
 
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 #include "Components/SceneComponent.h"
+#include "GameFramework/Actor.h"
+#include "Components/PrimitiveComponent.h"
 
 FRotator UUxtMathUtilsFunctionLibrary::GetRotationBetweenVectors(const FVector &Vector1, const FVector &Vector2)
 {
@@ -35,5 +37,56 @@ FBoxSphereBounds UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(USceneCo
 		Bounds = Bounds + CalculateHierarchyBounds(Child, ChildLocalToParent, Filter);
 	}
 	return Bounds;
+}
+
+FBox UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInGivenSpace(const AActor* Actor, const FTransform& WorldToCalcSpace, bool bNonColliding, UPrimitiveComponent* Ignore)
+{
+	FBox Box(ForceInit);
+
+	for (const UActorComponent* ActorComponent : Actor->GetComponents())
+	{
+		if (!ActorComponent->IsRegistered())
+		{
+			continue;
+		}
+
+		if (const UPrimitiveComponent* PrimitiveComponent = Cast<const UPrimitiveComponent>(ActorComponent))
+		{
+			if (PrimitiveComponent == Ignore)
+			{
+				continue;
+			}
+
+			// Only use collidable components to find collision bounding box.
+			if (bNonColliding || PrimitiveComponent->IsCollisionEnabled())
+			{
+				const FTransform& ComponentToWorld = PrimitiveComponent->GetComponentTransform();
+				const FTransform ComponentToCalcSpace = ComponentToWorld * WorldToCalcSpace;
+
+				const FBoxSphereBounds ComponentBoundsCalcSpace = PrimitiveComponent->CalcBounds(ComponentToCalcSpace);
+				const FBox ComponentBox = ComponentBoundsCalcSpace.GetBox();
+				Box += ComponentBox;
+
+			}
+		}
+
+		if (const UChildActorComponent* ChildActor = Cast<const UChildActorComponent>(ActorComponent))
+		{
+			if (const AActor* NestedActor = ChildActor->GetChildActor())
+			{
+				Box += CalculateNestedActorBoundsInGivenSpace(NestedActor, WorldToCalcSpace, bNonColliding);
+			}
+		}
+	}
+
+	return Box;
+}
+
+FBox UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInLocalSpace(const AActor* Actor, bool bNonColliding, UPrimitiveComponent* Ignore)
+{
+	const FTransform& ActorToWorld = Actor->GetTransform();
+	const FTransform WorldToActor = ActorToWorld.Inverse();
+
+	return UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInGivenSpace(Actor, WorldToActor, true, Ignore);
 }
 

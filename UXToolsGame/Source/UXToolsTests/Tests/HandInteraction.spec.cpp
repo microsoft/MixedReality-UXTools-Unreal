@@ -82,7 +82,8 @@ void HandInteractionSpec::Define()
 		FrameQueue.Enqueue([this, Done]
 		{
 			FVector ClosestPoint;
-			TestEqual(TEXT("Near pointer focusing target"), NearPointer->GetFocusedGrabTarget(ClosestPoint), (UObject*)Target);
+			FVector Normal;
+			TestEqual(TEXT("Near pointer focusing target"), NearPointer->GetFocusedGrabTarget(ClosestPoint, Normal), (UObject*)Target);
 			TestTrue(TEXT("Near pointer active"), NearPointer->IsActive());
 			TestFalse(TEXT("Far pointer active"), FarPointer->IsActive());
 
@@ -100,7 +101,8 @@ void HandInteractionSpec::Define()
 		FrameQueue.Enqueue([this, Done]
 		{
 			FVector ClosestPoint;
-			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint));
+			FVector Normal;
+			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint, Normal));
 			TestFalse(TEXT("Near pointer active"), NearPointer->IsActive());
 			TestTrue(TEXT("Far pointer active"), FarPointer->IsActive());
 
@@ -120,7 +122,7 @@ void HandInteractionSpec::Define()
 
 		FrameQueue.Enqueue([this, Done]
 		{
-			TestFalse("Near pointer actived", NearPointer->IsActive());
+			TestFalse("Near pointer activated", NearPointer->IsActive());
 			TestFalse("Far pointer active", FarPointer->IsActive());
 			Done.Execute();
 		});
@@ -145,7 +147,8 @@ void HandInteractionSpec::Define()
 		FrameQueue.Enqueue([this, Done]
 		{
 			FVector ClosestPoint;
-			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint));
+			FVector Normal;
+			TestNull(TEXT("Near pointer not focused"), NearPointer->GetFocusedGrabTarget(ClosestPoint, Normal));
 			TestFalse(TEXT("Near pointer active"), NearPointer->IsActive());
 			TestFalse(TEXT("Far pointer active"), FarPointer->IsActive());
 
@@ -154,6 +157,39 @@ void HandInteractionSpec::Define()
 			Done.Execute();
 		});
 	});
+
+	LatentIt("should reset proximity detection when tracking is lost", [this](const FDoneDelegate& Done)
+		{
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NearPoint);
+
+			FrameQueue.Enqueue([this]
+				{
+					TestTrue("Near pointer active", NearPointer->IsActive());
+					TestFalse("Far pointer active", FarPointer->IsActive());
+
+					UxtTestUtils::GetTestHandTracker().SetTracked(false);
+					UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FarPoint);
+				});
+
+			FrameQueue.Enqueue([this, Done]
+				{
+					// Moving away from the near target while not tracking
+					// should immediately remove the target from proximity detection.
+					TestFalse("Near pointer active", NearPointer->IsActive());
+					TestFalse("Far pointer active", FarPointer->IsActive());
+
+					UxtTestUtils::GetTestHandTracker().SetTracked(true);
+				});
+
+			FrameQueue.Enqueue([this, Done]
+				{
+					// Starting tracking away from the near target should enable the far pointer.
+					TestFalse("Near pointer active", NearPointer->IsActive());
+					TestTrue("Far pointer active", FarPointer->IsActive());
+
+					Done.Execute();
+				});
+		});
 
 	LatentIt("should not transition between near and far interaction modes when a pointer is locked", [this](const FDoneDelegate& Done)
 	{

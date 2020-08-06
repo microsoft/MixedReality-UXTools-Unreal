@@ -42,7 +42,7 @@ public:
 	typedef bool (*HierarchyBoundsFilter)(const USceneComponent* Component);
 
 	/**
-	* Calculates the composite bounding box and bounding sphere around a component and its children, the output is in 
+	* Calculates the composite bounding box and bounding sphere around a component and its children, the output is in
 	* the space of the component. The optional filter component can be used to ignore specific scene components.
 	*/
 	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, HierarchyBoundsFilter Filter = nullptr)
@@ -51,10 +51,20 @@ public:
 	}
 
 	/**
-	* Calculates the composite bounding box and bounding sphere around a component and its children. The optional filter component can be 
+	* Calculates the composite bounding box and bounding sphere around a component and its children. The optional filter component can be
 	* used to ignore specific scene components.
 	*/
 	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter = nullptr);
 
+	/**
+	* Calculates the actor bounds for a given space transform
+	*/
+	static FBox CalculateNestedActorBoundsInGivenSpace(const AActor* Actor, const FTransform& WorldToCalcSpace, bool bNonColliding, UPrimitiveComponent* Ignore = nullptr);
+
+	/**
+	* Calculates the actor bounds in local space
+	*/
+	static FBox CalculateNestedActorBoundsInLocalSpace(const AActor* Actor, bool bNonColliding, UPrimitiveComponent* Ignore = nullptr);
 };
 
+ 

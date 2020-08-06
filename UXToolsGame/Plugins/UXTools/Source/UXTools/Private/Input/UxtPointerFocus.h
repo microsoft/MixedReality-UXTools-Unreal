@@ -5,11 +5,10 @@
 
 #include "CoreMinimal.h"
 #include "Engine/EngineTypes.h"
-#include "UObject/WeakObjectPtrTemplates.h"
 
+class UUxtNearPointerComponent;
 class UActorComponent;
 class UPrimitiveComponent;
-class UUxtNearPointerComponent;
 
 /** Result of closest point search functions. */
 struct FUxtPointerFocusSearchResult
@@ -25,6 +24,9 @@ struct FUxtPointerFocusSearchResult
 	/** Closest point on the primitive to the pointer position. */
 	FVector ClosestPointOnTarget;
 
+	/** Poke normal from the closest point on the primitive. */
+	FVector Normal;
+
 	/** Distance of the closest point to the pointer position. */
 	float MinDistance;
 };
@@ -38,6 +40,9 @@ public:
 
 	/** Get the closest point on the surface of the focused target */
 	const FVector& GetClosestTargetPoint() const;
+
+	/** Get the poke normal from the closest point on the surface */
+	const FVector& GetClosestTargetNormal() const;
 
 	/** Get the currently focused target object. */
 	UObject* GetFocusedTarget() const;
@@ -75,12 +80,7 @@ public:
 protected:
 
 	/** Set the focus to the given target object, primitive, and point on the target. */
-	void SetFocus(
-		UUxtNearPointerComponent* Pointer,
-		const FTransform& PointerTransform,
-		UObject* NewTarget,
-		UPrimitiveComponent* NewPrimitive,
-		const FVector& NewClosestPointOnTarget);
+	void SetFocus(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform, const FUxtPointerFocusSearchResult& FocusResult);
 
 	/** Find the closest target object, primitive, and point among the overlaps. */
 	FUxtPointerFocusSearchResult FindClosestTarget(const TArray<FOverlapResult>& Overlaps, const FVector& Point) const;
@@ -95,7 +95,7 @@ protected:
 	virtual bool ImplementsTargetInterface(UObject* Target) const = 0;
 
 	/** Find the closest point on the given primitive using the distance function of the target interface. */
-	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const = 0;
+	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const = 0;
 
 	/** Notify the target object that it has entered focus. */
 	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
@@ -114,6 +114,9 @@ private:
 
 	/** Closest point on the surface of the focused target. */
 	FVector ClosestTargetPoint = FVector::ZeroVector;
+
+	/** Poke normal from the closest point on the surface. */
+	FVector ClosestTargetNormal = FVector::ForwardVector;
 };
 
 
@@ -137,7 +140,7 @@ protected:
 
 	virtual bool ImplementsTargetInterface(UObject* Target) const override;
 
-	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const override;
+	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 
 	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
@@ -169,7 +172,7 @@ protected:
 
 	virtual bool ImplementsTargetInterface(UObject* Target) const override;
 
-	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint) const override;
+	virtual bool GetClosestPointOnTarget(const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 
 	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
 	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;

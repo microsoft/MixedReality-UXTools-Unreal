@@ -5,7 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
-#include "Components/SceneComponent.h"
+#include "Controls/UxtUIElementComponent.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Interactions/UxtFarTarget.h"
 
@@ -33,7 +33,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtVolumeDisabledDelegate, UUxtTouc
  * Component that turns the actor it is attached to into a touchable volume.
  */
 UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtTouchableVolumeComponent : public USceneComponent, public IUxtPokeTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtTouchableVolumeComponent : public UUxtUIElementComponent, public IUxtPokeTarget, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
@@ -93,15 +93,16 @@ protected:
 
 	//
 	// IUxtPokeTarget interface
-
-	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	
+	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
+	virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
-	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
 
 	//
 	// IUxtFarTarget interface

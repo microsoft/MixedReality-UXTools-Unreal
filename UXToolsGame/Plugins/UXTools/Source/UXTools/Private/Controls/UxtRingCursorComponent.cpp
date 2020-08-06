@@ -17,29 +17,38 @@ UUxtRingCursorComponent::UUxtRingCursorComponent()
 	// Used to update material parameters in response to scale changes
 	bWantsOnUpdateTransform = true;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshFinder(TEXT("/UXTools/Pointers/Meshes/SM_UnitQuad"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshFinder(TEXT("/UXTools/Pointers/Meshes/SM_Cursor_Focus_geo"));
 	check(MeshFinder.Object);
+	FocusMesh = MeshFinder.Object;
 	SetStaticMesh(MeshFinder.Object);
 
-	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Pointers/Materials/M_RingCursor"));
-	check(MaterialFinder.Object);
-	SetMaterial(0, MaterialFinder.Object);
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> PressMeshFinder(TEXT("/UXTools/Pointers/Meshes/SM_Cursor_Press_geo"));
+	check(PressMeshFinder.Object);
+	PressMesh = PressMeshFinder.Object;
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> RingMaterialFinder(TEXT("/UXTools/Pointers/Materials/M_Light"));
+	check(RingMaterialFinder.Object);
+	SetMaterial(0, RingMaterialFinder.Object);
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> BorderMaterialFinder(TEXT("/UXTools/Pointers/Materials/M_Shadow"));
+	check(BorderMaterialFinder.Object);
+	SetMaterial(1, BorderMaterialFinder.Object);
+
 }
 
 void UUxtRingCursorComponent::OnRegister()
 {
 	Super::OnRegister();
 
-	MaterialInstance = CreateDynamicMaterialInstance(0, GetMaterial(0));
+	MaterialInstanceRing = CreateDynamicMaterialInstance(0, GetMaterial(0));
+	MaterialInstanceBorder = CreateDynamicMaterialInstance(1, GetMaterial(1));
+
+	// Update material parameters
+	SetRingColor(RingColor);
+	SetBorderColor(BorderColor);
 
 	// Intialize radius from current scale
 	OnUpdateTransform(EUpdateTransformFlags::None);
-
-	// Update material parameters
-	SetRingThickness(RingThickness);
-	SetBorderThickness(BorderThickness);
-	SetRingColor(RingColor);
-	SetBorderColor(BorderColor);
 }
 
 void UUxtRingCursorComponent::OnUpdateTransform(EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport)
@@ -56,59 +65,17 @@ void UUxtRingCursorComponent::OnUpdateTransform(EUpdateTransformFlags UpdateTran
 	}
 }
 
-void UUxtRingCursorComponent::SetRingThickness(float NewRingThickness)
-{
-	static FName InnerRadiusParameter = "InnerRadius";
-
-	if (bUseAbsoluteThickness)
-	{
-		MaterialInstance->SetScalarParameterValue(InnerRadiusParameter, 1.0f - (NewRingThickness / Radius));
-	}
-	else
-	{
-		MaterialInstance->SetScalarParameterValue(InnerRadiusParameter, 1.0f - NewRingThickness);
-	}
-	
-	RingThickness = NewRingThickness;
-}
-
-void UUxtRingCursorComponent::SetBorderThickness(float NewBorderThickness)
-{
-	static FName BorderThicknessParameter = "BorderThickness";
-
-	if (bUseAbsoluteThickness)
-	{
-		MaterialInstance->SetScalarParameterValue(BorderThicknessParameter, NewBorderThickness / Radius);
-	}
-	else
-	{
-		MaterialInstance->SetScalarParameterValue(BorderThicknessParameter, NewBorderThickness);
-	}
-
-	BorderThickness = NewBorderThickness;
-}
-
-void UUxtRingCursorComponent::SetUseAbsoluteThickness(bool bNewUsingAboluteThickness)
-{
-	if (bNewUsingAboluteThickness != bUseAbsoluteThickness)
-	{
-		bUseAbsoluteThickness = bNewUsingAboluteThickness;
-		SetRingThickness(RingThickness);
-		SetBorderThickness(BorderThickness);
-	}
-}
-
 void UUxtRingCursorComponent::SetRingColor(FColor NewRingColor)
 {
 	static FName RingColorParameter = "RingColor";
-	MaterialInstance->SetVectorParameterValue(RingColorParameter, NewRingColor);
+	MaterialInstanceRing->SetVectorParameterValue(RingColorParameter, NewRingColor);
 	RingColor = NewRingColor;
 }
 
 void UUxtRingCursorComponent::SetBorderColor(FColor NewBorderColor)
 {
 	static FName BorderColorParameter = "BorderColor";
-	MaterialInstance->SetVectorParameterValue(BorderColorParameter, NewBorderColor);
+	MaterialInstanceBorder->SetVectorParameterValue(BorderColorParameter, NewBorderColor);
 	BorderColor = NewBorderColor;
 }
 
@@ -126,14 +93,5 @@ void UUxtRingCursorComponent::SetRadius(float NewRadius, bool bUpdateScale)
 		bSettingRadius = true;
 		SetWorldScale3D(FVector(2.0f * Radius));
 		bSettingRadius = false;
-	}
-
-	static FName RadiusParameter = "InvRadius";
-	MaterialInstance->SetScalarParameterValue(RadiusParameter, 1.0f / Radius);
-
-	if (bUseAbsoluteThickness)
-	{
-		SetRingThickness(RingThickness);
-		SetBorderThickness(BorderThickness);
 	}
 }

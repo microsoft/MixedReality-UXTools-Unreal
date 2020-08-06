@@ -49,6 +49,7 @@ BEGIN_DEFINE_SPEC(GenericManipulatorSpec, "UXTools.GenericManipulator", EAutomat
 	FFrameQueue FrameQueue;
 
 	// Must be configured by Describe block if needed
+	EUxtInteractionMode InteractionMode;
 	FUxtTestHand LeftHand = FUxtTestHand(EControllerHand::Left);
 	FUxtTestHand RightHand = FUxtTestHand(EControllerHand::Right);
 
@@ -154,8 +155,9 @@ void GenericManipulatorSpec::Define()
 		{
 			BeforeEach([this]
 				{
-					LeftHand.Configure(EUxtInteractionMode::Near, TargetLocation);
-					RightHand.Configure(EUxtInteractionMode::Near, TargetLocation);
+					InteractionMode = EUxtInteractionMode::Near;
+					LeftHand.Configure(InteractionMode, TargetLocation);
+					RightHand.Configure(InteractionMode, TargetLocation);
 				});
 
 			AfterEach([this]
@@ -164,15 +166,29 @@ void GenericManipulatorSpec::Define()
 					RightHand.Reset();
 				});
 
-			EnqueueInteractionTests();
+			Describe("Uniformly Scaled Object", [this]
+				{
+					EnqueueInteractionTests();
+				});
+
+			Describe("Non-uniformly Scaled Object", [this]
+				{
+					BeforeEach([this]
+						{
+							Target->TransformTarget->SetRelativeScale3D(FVector(1, 2, 3));
+						});
+
+					EnqueueInteractionTests();
+				});
 		});
 
 	Describe("Far Interaction", [this]
 		{
 			BeforeEach([this]
 				{
-					LeftHand.Configure(EUxtInteractionMode::Far, TargetLocation);
-					RightHand.Configure(EUxtInteractionMode::Far, TargetLocation);
+					InteractionMode = EUxtInteractionMode::Far;
+					LeftHand.Configure(InteractionMode, TargetLocation);
+					RightHand.Configure(InteractionMode, TargetLocation);
 				});
 
 			AfterEach([this]
@@ -181,16 +197,90 @@ void GenericManipulatorSpec::Define()
 					RightHand.Reset();
 				});
 
-			EnqueueInteractionTests();
+			Describe("Uniformly Scaled Object", [this]
+				{
+					EnqueueInteractionTests();
+				});
+
+			Describe("Non-uniformly Scaled Object", [this]
+				{
+					BeforeEach([this]
+						{
+							Target->TransformTarget->SetRelativeScale3D(FVector(1, 2, 3));
+						});
+
+					EnqueueInteractionTests();
+				});
 		});
 }
 
 void GenericManipulatorSpec::EnqueueInteractionTests()
 {
+	LatentIt("should move with one hand", [this](const FDoneDelegate& Done)
+		{
+			const float DistanceScaling = InteractionMode == EUxtInteractionMode::Far ? 6.40312433 : 1;
+			const FVector TranslationDelta = FVector(200, 200, 200); 
+			const FVector ExpectedLocation = TargetLocation * DistanceScaling + TranslationDelta;
+
+			FrameQueue.Enqueue([this]
+				{
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, TranslationDelta]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Translate(TranslationDelta);
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedLocation]
+				{
+					const FVector Result = Target->TransformTarget->GetRelativeLocation();
+					TestEqual("Object has moved", Result, ExpectedLocation);
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("should move with two hands", [this](const FDoneDelegate& Done)
+		{
+			const float DistanceScaling = InteractionMode == EUxtInteractionMode::Far ? 6.40312433 : 1;
+			const FVector TranslationDelta = FVector(200, 200, 200);
+			const FVector ExpectedLocation = TargetLocation * DistanceScaling + TranslationDelta;
+
+			FrameQueue.Enqueue([this]
+				{
+					LeftHand.Translate(FVector(0, -50, 0));
+					RightHand.Translate(FVector(0, 50, 0));
+
+					RightHand.SetGrabbing(true);
+					LeftHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, TranslationDelta]
+				{
+					TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+					RightHand.Translate(TranslationDelta);
+					LeftHand.Translate(TranslationDelta);
+				});
+
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, ExpectedLocation]
+				{
+					const FVector Result = Target->TransformTarget->GetRelativeLocation();
+					TestEqual("Object has moved", Result, ExpectedLocation);
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
 	LatentIt("should rotate around center with one hand", [this](const FDoneDelegate& Done)
 		{
 			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
-			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, FVector::OneVector);
+			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, Target->TransformTarget->GetRelativeScale3D());
 
 			FrameQueue.Enqueue([this]
 				{
@@ -208,7 +298,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedTransform]
 				{
-					const FTransform Result = Target->GetOwner()->GetTransform();
+					const FTransform Result = Target->TransformTarget->GetRelativeTransform();
 					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
 				});
 
@@ -219,7 +309,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 		{
 			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
 			const FVector ExpectedLocation(TargetLocation + FVector(0, 50, -50));
-			const FTransform ExpectedTransform(ExpectedRotation, ExpectedLocation, FVector::OneVector);
+			const FTransform ExpectedTransform(ExpectedRotation, ExpectedLocation, Target->TransformTarget->GetRelativeScale3D());
 
 			FrameQueue.Enqueue([this]
 				{
@@ -238,7 +328,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedTransform]
 				{
-					const FTransform Result = Target->GetOwner()->GetTransform();
+					const FTransform Result = Target->TransformTarget->GetRelativeTransform();
 					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
 				});
 
@@ -248,7 +338,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 	LatentIt("should rotate with two hands", [this](const FDoneDelegate& Done)
 		{
 			const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
-			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, FVector::OneVector);
+			const FTransform ExpectedTransform(ExpectedRotation, TargetLocation, Target->TransformTarget->GetRelativeScale3D());
 
 			FrameQueue.Enqueue([this]
 				{
@@ -270,7 +360,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Enqueue([this, ExpectedTransform]
 				{
-					const FTransform Result = Target->GetOwner()->GetTransform();
+					const FTransform Result = Target->TransformTarget->GetRelativeTransform();
 					TestTrue("Object is rotated", Result.Equals(ExpectedTransform));
 				});
 
@@ -279,6 +369,8 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 	LatentIt("should scale with two hands", [this](const FDoneDelegate& Done)
 		{
+			const FVector ExpectedScale = Target->TransformTarget->GetRelativeScale3D() * 2;
+
 			FrameQueue.Enqueue([this]
 				{
 					LeftHand.Translate(FVector(0, -50, 0));
@@ -297,10 +389,9 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 
 			FrameQueue.Skip();
 
-			FrameQueue.Enqueue([this]
+			FrameQueue.Enqueue([this, ExpectedScale]
 				{
-					const FVector ExpectedScale(2, 2, 2);
-					const FVector Result = Target->GetOwner()->GetTransform().GetScale3D();
+					const FVector Result = Target->TransformTarget->GetRelativeScale3D();
 					TestTrue("Object is scaled", Result.Equals(ExpectedScale));
 				});
 

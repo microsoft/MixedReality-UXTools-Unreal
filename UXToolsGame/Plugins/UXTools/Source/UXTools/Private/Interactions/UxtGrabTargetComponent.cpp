@@ -6,8 +6,9 @@
 #include "Interactions/UxtInteractionUtils.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
+#include "Interactions/UxtManipulationFlags.h"
 
-namespace 
+namespace
 {
 	bool HasInteractionFlag(int32 value, EUxtInteractionMode flag)
 	{
@@ -15,43 +16,43 @@ namespace
 	}
 }
 
-
-FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform &Transform, const FUxtGrabPointerData &GrabData)
+FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
-	return Transform.TransformPosition(GrabData.LocalGrabPoint.GetLocation());
+	return Transform.TransformPositionNoScale(GrabData.LocalGrabPoint.GetLocation());
 }
 
-FRotator UUxtGrabPointerDataFunctionLibrary::GetGrabRotation(const FTransform &Transform, const FUxtGrabPointerData &GrabData)
+FRotator UUxtGrabPointerDataFunctionLibrary::GetGrabRotation(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
 	return Transform.TransformRotation(GrabData.LocalGrabPoint.GetRotation()).Rotator();
 }
 
-FTransform UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(const FTransform &Transform, const FUxtGrabPointerData &GrabData)
+FTransform UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
-	return GrabData.LocalGrabPoint * Transform;
+	FTransform TransformNoScale(Transform.GetRotation(), Transform.GetLocation());
+	return GrabData.LocalGrabPoint * TransformNoScale;
 }
 
-FVector UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(const FUxtGrabPointerData &GrabData)
+FVector UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(const FUxtGrabPointerData& GrabData)
 {
 	return GrabData.GrabPointTransform.GetLocation();
 }
 
-FRotator UUxtGrabPointerDataFunctionLibrary::GetTargetRotation(const FUxtGrabPointerData &GrabData)
+FRotator UUxtGrabPointerDataFunctionLibrary::GetTargetRotation(const FUxtGrabPointerData& GrabData)
 {
 	return GrabData.GrabPointTransform.GetRotation().Rotator();
 }
 
-FTransform UUxtGrabPointerDataFunctionLibrary::GetGrabPointTransform(const FUxtGrabPointerData &GrabData)
+FTransform UUxtGrabPointerDataFunctionLibrary::GetGrabPointTransform(const FUxtGrabPointerData& GrabData)
 {
 	return GrabData.GrabPointTransform;
 }
 
-FVector UUxtGrabPointerDataFunctionLibrary::GetLocationOffset(const FTransform &Transform, const FUxtGrabPointerData &GrabData)
+FVector UUxtGrabPointerDataFunctionLibrary::GetLocationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
 	return UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(GrabData) - UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(Transform, GrabData);
 }
 
-FRotator UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(const FTransform &Transform, const FUxtGrabPointerData &GrabData)
+FRotator UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
 	return (FQuat(UUxtGrabPointerDataFunctionLibrary::GetTargetRotation(GrabData)) * FQuat(UUxtGrabPointerDataFunctionLibrary::GetGrabRotation(Transform, GrabData).GetInverse())).Rotator();
 }
@@ -90,30 +91,36 @@ UUxtGrabTargetComponent::UUxtGrabTargetComponent()
 	InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 }
 
-const TArray<FUxtGrabPointerData> &UUxtGrabTargetComponent::GetGrabPointers() const
+const TArray<FUxtGrabPointerData>& UUxtGrabTargetComponent::GetGrabPointers() const
 {
 	return GrabPointers;
 }
 
-FVector UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform &Transform) const
-{
-	FVector centroid = FVector::ZeroVector;
-	for (const FUxtGrabPointerData &GrabData : GrabPointers)
-	{
-		centroid += UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(Transform, GrabData);
-	}
-	centroid /= FMath::Max(GrabPointers.Num(), 1);
-	return centroid;
-}
-
-FTransform UUxtGrabTargetComponent::GetGrabPointCentroidTransform() const
+FTransform UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform& Transform) const
 {
 	if (GrabPointers.Num() > 0)
 	{
-		FTransform BlendedTransform = UUxtGrabPointerDataFunctionLibrary::GetGrabPointTransform(GrabPointers[0]);
+		FTransform BlendedTransform = UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(Transform, GrabPointers[0]);
 		for (int i = 1; i < GrabPointers.Num(); ++i)
 		{
-			FTransform PointerTransform = UUxtGrabPointerDataFunctionLibrary::GetGrabPointTransform(GrabPointers[i]);
+			FTransform GrabTransform = UUxtGrabPointerDataFunctionLibrary::GetGrabTransform(Transform, GrabPointers[i]);
+			BlendedTransform.BlendWith(GrabTransform, 1.0f / (i + 1));
+		}
+
+		return BlendedTransform;
+	}
+
+	return FTransform::Identity;
+}
+
+FTransform UUxtGrabTargetComponent::GetPointerCentroid() const
+{
+	if (GrabPointers.Num() > 0)
+	{
+		FTransform BlendedTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[0]);
+		for (int i = 1; i < GrabPointers.Num(); ++i)
+		{
+			FTransform PointerTransform = UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabPointers[i]);
 			BlendedTransform.BlendWith(PointerTransform, 1.0f / (i + 1));
 		}
 
@@ -126,7 +133,7 @@ FTransform UUxtGrabTargetComponent::GetGrabPointCentroidTransform() const
 FVector UUxtGrabTargetComponent::GetTargetCentroid() const
 {
 	FVector centroid = FVector::ZeroVector;
-	for (const FUxtGrabPointerData &GrabData : GrabPointers)
+	for (const FUxtGrabPointerData& GrabData : GrabPointers)
 	{
 		centroid += UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(GrabData);
 	}
@@ -134,7 +141,7 @@ FVector UUxtGrabTargetComponent::GetTargetCentroid() const
 	return centroid;
 }
 
-bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const
+bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const*& OutData, int& OutIndex) const
 {
 	for (int i = 0; i < GrabPointers.Num(); ++i)
 	{
@@ -152,9 +159,9 @@ bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* 
 	return false;
 }
 
-void UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const
+void UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool& Success, FUxtGrabPointerData& PointerData, int& Index) const
 {
-	FUxtGrabPointerData const *pData;
+	FUxtGrabPointerData const* pData;
 	Success = FindGrabPointerInternal(NearPointer, FarPointer, pData, Index);
 	if (Success)
 	{
@@ -162,7 +169,7 @@ void UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent* NearPoin
 	}
 }
 
-void UUxtGrabTargetComponent::GetPrimaryGrabPointer(bool &Valid, FUxtGrabPointerData &PointerData) const
+void UUxtGrabTargetComponent::GetPrimaryGrabPointer(bool& Valid, FUxtGrabPointerData& PointerData) const
 {
 	if (GrabPointers.Num() >= 1)
 	{
@@ -175,7 +182,7 @@ void UUxtGrabTargetComponent::GetPrimaryGrabPointer(bool &Valid, FUxtGrabPointer
 	}
 }
 
-void UUxtGrabTargetComponent::GetSecondaryGrabPointer(bool &Valid, FUxtGrabPointerData &PointerData) const
+void UUxtGrabTargetComponent::GetSecondaryGrabPointer(bool& Valid, FUxtGrabPointerData& PointerData) const
 {
 	if (GrabPointers.Num() >= 2)
 	{
@@ -266,6 +273,22 @@ bool UUxtGrabTargetComponent::IsGrabFocusable_Implementation(const UPrimitiveCom
 	return true;
 }
 
+
+void UUxtGrabTargetComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
+{
+	OnUpdateFarFocus.Broadcast(this, Pointer);
+}
+
+void UUxtGrabTargetComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
+{
+	OnEnterFarFocus.Broadcast(this, Pointer);
+}
+
+void UUxtGrabTargetComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
+{
+	OnExitFarFocus.Broadcast(this, Pointer);
+}
+
 void UUxtGrabTargetComponent::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnEnterGrabFocus.Broadcast(this, Pointer);
@@ -311,7 +334,6 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompone
 		OnEndGrab_Implementation(Pointer);
 		return;
 	}
-
 	// Update the copy of the pointer data in the grab pointer array
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
 	{
@@ -324,7 +346,6 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompone
 	}
 }
 
-
 void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	FUxtGrabPointerData PointerData;
@@ -336,7 +357,7 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 				// Unlock the pointer focus so that another target can be selected.
 				Pointer->SetFocusLocked(false);
 				PointerData = GrabData;
-
+	
 				return true;
 			}
 			return false;
@@ -347,7 +368,6 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 	{
 		OnEndGrab.Broadcast(this, PointerData);
 	}
-
 	// make sure to update initial ptr transforms once a pointer gets removed to ensure
 	// calculations are performed on the correct starting values
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
@@ -369,14 +389,16 @@ void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) c
 	if (GrabData.NearPointer != nullptr)
 	{
 		GrabData.GrabPointTransform = GrabData.NearPointer->GetGrabPointerTransform();
-		GrabData.LocalGrabPoint = GrabData.GrabPointTransform * GetComponentTransform().Inverse();
+		FTransform TransformNoScale = FTransform(GetComponentRotation(), GetComponentLocation());
+		GrabData.LocalGrabPoint = GrabData.GrabPointTransform * TransformNoScale.Inverse();
 	}
 	else if (ensure(GrabData.FarPointer != nullptr))
 	{
 		// store initial grab point in object space
 		FTransform TransformAtRayEnd(GrabData.FarPointer->GetPointerOrientation(), GrabData.FarPointer->GetHitPoint());
 		GrabData.GrabPointTransform = TransformAtRayEnd;
-		GrabData.LocalGrabPoint = TransformAtRayEnd * GetComponentTransform().Inverse();
+		FTransform TransformNoScale = FTransform(GetComponentRotation(), GetComponentLocation());
+		GrabData.LocalGrabPoint = TransformAtRayEnd * TransformNoScale.Inverse();
 
 		// store ray hit point in pointer space
 		FTransform PointerTransform(GrabData.FarPointer->GetPointerOrientation(), GrabData.FarPointer->GetPointerOrigin());
@@ -390,7 +412,6 @@ void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponen
 	{
 		return;
 	}
-
 	FUxtGrabPointerData PointerData;
 	PointerData.FarPointer = Pointer;
 	PointerData.StartTime = GetWorld()->GetTimeSeconds();
@@ -414,7 +435,6 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 			{
 				Pointer->SetFocusLocked(false);
 				PointerData = GrabData;
-
 				return true;
 			}
 			return false;
@@ -425,7 +445,6 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 	{
 		OnEndGrab.Broadcast(this, PointerData);
 	}
-
 	// make sure to update initial ptr transforms once a pointer gets removed to ensure
 	// calculations are performed on the correct starting values
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
@@ -458,7 +477,8 @@ void UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponen
 	}
 }
 
-void UUxtGrabTargetComponent::ResetLocalGrabPoint(FUxtGrabPointerData &PointerData)
+void UUxtGrabTargetComponent::ResetLocalGrabPoint(FUxtGrabPointerData& PointerData)
 {
-	PointerData.LocalGrabPoint = PointerData.GrabPointTransform * GetComponentTransform().Inverse();
+	FTransform TransformNoScale = FTransform(GetComponentRotation(), GetComponentLocation());
+	PointerData.LocalGrabPoint = PointerData.GrabPointTransform * TransformNoScale.Inverse();
 }

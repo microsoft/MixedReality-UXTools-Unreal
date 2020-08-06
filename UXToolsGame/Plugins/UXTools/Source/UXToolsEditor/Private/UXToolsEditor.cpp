@@ -5,6 +5,8 @@
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UxtIconBrushCustomization.h"
 #include "Controls/UxtIconBrush.h"
+#include "UxtTooltipSpawnerComponentVisualizer.h"
+#include "Tooltips/UxtTooltipSpawnerComponent.h"
 #include "UnrealEdGlobals.h"
 #include "Editor/UnrealEdEngine.h"
 #include "ISettingsModule.h"
@@ -23,13 +25,20 @@ void FUXToolsEditorModule::StartupModule()
 	{
 		// Register visualizers
 		TSharedPtr<FComponentVisualizer> Visualizer = MakeShareable(new FUxtPressableButtonComponentVisualizer());
+		TSharedPtr<FComponentVisualizer> TooltipVisualizer = MakeShareable(new FUxtTooltipSpawnerComponentVisualizer());
 
 		if (Visualizer.IsValid())
 		{
 			GUnrealEd->RegisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName(), Visualizer);
 			Visualizer->OnRegister();
 		}
+		if (TooltipVisualizer.IsValid())
+		{
+			GUnrealEd->RegisterComponentVisualizer(UUxtTooltipSpawnerComponent::StaticClass()->GetFName(), TooltipVisualizer);
+			TooltipVisualizer->OnRegister();
+		}
 	}
+
 
 	// Register customizations
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
@@ -54,6 +63,7 @@ void FUXToolsEditorModule::ShutdownModule()
 	if (GUnrealEd)
 	{
 		// Unregister visualizers
+		GUnrealEd->UnregisterComponentVisualizer(UUxtTooltipSpawnerComponent::StaticClass()->GetFName());
 		GUnrealEd->UnregisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName());
 	}
 

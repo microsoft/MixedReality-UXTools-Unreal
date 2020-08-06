@@ -65,13 +65,14 @@ public:
 	//
 	// IUxtGrabTarget interface
 
+	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
+	virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
+
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 
-	virtual EUxtPokeBehaviour GetPokeBehaviour() const;
-
-	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 	virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 

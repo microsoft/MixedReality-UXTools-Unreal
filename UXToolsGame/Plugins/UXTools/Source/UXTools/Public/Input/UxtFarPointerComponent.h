@@ -7,6 +7,7 @@
 #include "InputCoreTypes.h"
 #include "Components/ActorComponent.h"
 #include "UxtPointerComponent.h"
+#include "Materials/MaterialParameterCollection.h"
 #include "UxtFarPointerComponent.generated.h"
 
 class UUxtFarPointerComponent;
@@ -109,6 +110,12 @@ public:
 	FUxtFarPointerDisabledDelegate OnFarPointerDisabled;
 
 private:
+
+	void UpdateParameterCollection(FVector IndexTipPosition);
+
+	/** Parameter collection used to store the finger tip position */
+	UPROPERTY(Transient)
+	UMaterialParameterCollection* ParameterCollection;
 
 	/** Pointer origin as reported by the hand tracker. */
 	FVector PointerOrigin = FVector::ZeroVector;

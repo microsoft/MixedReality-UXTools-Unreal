@@ -2,10 +2,10 @@
 
 # Introduction
 
-UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the current features are complete and robust enough to use in your own projects.  
+UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the current features are complete and robust enough to use in your own projects.
 
 > [!NOTE]
-> Only HoloLens 2 development is supported at the moment. 
+> Only HoloLens 2 development is supported at the moment.
 
 Features:
 - [Input simulation](Docs/InputSimulation.md) - Simulates articulated hands and head pose that you can use in-editor. This is great for improving development iteration times.
@@ -18,6 +18,7 @@ Features:
 - [Hand constraint component](Docs/HandConstraintComponent.md) - Keeps the actor position and rotation aligned with a hand while avoiding overlaping with it.
 - [Palm up constraint component](Docs/PalmUpConstraintComponent.md) - A [Hand constraint](Docs/HandConstraintComponent.md) specialization that activates only when the palm is facing the player.
 - [Far beam component](Docs/FarBeam.md) - Allows the user to visualise elements in the scene they can interact with from afar.
+- [UIElement component](Docs/UIElements.md) - Allows for easily hiding/showing groups of UI elements (including nested panels) while remembering the individual visibility setting for each element.
 - [Graphics documentation](Docs/Graphics.md) - Breakdown of shaders, materials, and graphics techniques used to render UX components.
 - The plugin also contains a handful of [utilities](Docs/Utilities.md) that augment the Unreal Engine editor.
 

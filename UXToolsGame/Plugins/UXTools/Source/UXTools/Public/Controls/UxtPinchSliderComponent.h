@@ -4,7 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+#include "Controls/UxtUIElementComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Input/UxtPointerComponent.h"
@@ -23,8 +23,6 @@ enum class EUxtSliderState : uint8
 	Disabled,
 };
 
-
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderUpdateValueDelegate, UUxtPinchSliderComponent*, Slider, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderBeginInteractionDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderEndInteractionDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
@@ -38,14 +36,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtPinchSliderDisabledDelegate, UUx
 /**
  * Component that implements a thumb slider UI and logic.
  */
-
-
 UCLASS( ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtPinchSliderComponent : public USceneComponent, public IUxtGrabTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtPinchSliderComponent : public UUxtUIElementComponent, public IUxtGrabTarget, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
-public:	
+public:
+
 	// Sets default values for this component's properties
 	UUxtPinchSliderComponent();
 
@@ -100,34 +97,44 @@ public:
 	//
 	// Getters and setters
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	float GetSliderValue() const { return SliderValue; }
-	UFUNCTION(BlueprintSetter)
-	void  SetSliderValue(float NewValue);
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetSliderValue(float NewValue);
 		
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	int GetNumTickMarks() const { return NumTickMarks; }
-	UFUNCTION(BlueprintSetter)
-	void  SetNumTickMarks(int NumTicks);
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetNumTickMarks(int NumTicks);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	float GetSliderStartDistance() const { return SliderStartDistance; }
-	UFUNCTION(BlueprintSetter)
-	void  SetSliderStartDistance(float NewStart);
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetSliderStartDistance(float NewStart);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	float GetSliderEndDistance() const { return SliderEndDistance; }
-	UFUNCTION(BlueprintSetter)
-	void  SetSliderEndDistance(float NewEnd);
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetSliderEndDistance(float NewEnd);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	float GetSliderLowerBound() const { return SliderLowerBound; }
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetSliderLowerBound(float NewBound);
+
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	float GetSliderUpperBound() const { return SliderUpperBound; }
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetSliderUpperBound(float NewBound);
+
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	FVector GetTickMarkScale() const { return TickMarkScale; }
-	UFUNCTION(BlueprintSetter)
-	void  SetTickMarkScale(FVector NewScale);
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetTickMarkScale(FVector NewScale);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	float GetSmoothing() const { return Smoothing; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
 	void SetSmoothing(float NewSmoothing);
 
 #if WITH_EDITOR
@@ -198,8 +205,9 @@ protected:
 	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;
 
 private:
+
 	/** The current value of the slider in 0-1 range */
-	UPROPERTY(EditAnywhere, DisplayName = "SliderValue", BlueprintGetter = "GetSliderValue", BlueprintSetter = "SetSliderValue", Category = "Pinch Slider")
+	UPROPERTY(EditAnywhere, DisplayName = "SliderValue", BlueprintGetter = "GetSliderValue", BlueprintSetter = "SetSliderValue", Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float SliderValue;
 
 	/** Where the slider track starts, as distance from center along slider axis, in local space units. */
@@ -209,6 +217,14 @@ private:
 	/** Where the slider track ends, as distance from center along slider axis, in local space units. */
 	UPROPERTY(EditAnywhere, DisplayName = "SliderEndDistance", BlueprintGetter = "GetSliderEndDistance", BlueprintSetter = "SetSliderEndDistance", Category = "Pinch Slider")
 	float SliderEndDistance;
+
+	/** The lower bound for the slider value in the range 0-1. */
+	UPROPERTY(EditAnywhere, DisplayName = "SliderLowerBound", BlueprintGetter = "GetSliderLowerBound", BlueprintSetter = "SetSliderLowerBound", Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	float SliderLowerBound;
+
+	/** The upper bound for the slider value in the range 0-1. */
+	UPROPERTY(EditAnywhere, DisplayName = "SliderUpperBound", BlueprintGetter = "GetSliderUpperBound", BlueprintSetter = "SetSliderUpperBound", Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	float SliderUpperBound;
 
 	/** Number of tick marks to add to the slider */
 	UPROPERTY(EditAnywhere, DisplayName = "NumTickMarks", BlueprintGetter = "GetNumTickMarks", BlueprintSetter = "SetNumTickMarks", Category = "Pinch Slider")
@@ -227,14 +243,23 @@ private:
 	/** Use the given mesh to adjust the box component extents. */
 	void ConfigureBoxComponent(const UStaticMeshComponent* Mesh);
 
-	/** Internal function to reinitialise component to new state */
+	/** Internal function to re-initialise component to new state */
 	void UpdateSliderState();
 
-	/** Raise any begin focus events if necessary */
+	/** Begin focusing the slider */
 	void BeginFocus(UUxtPointerComponent* Pointer);
 
-	/** Raise any end focus events if necessary */
+	/** End focusing the slider */
 	void EndFocus(UUxtPointerComponent* Pointer);
+
+	/** Begin grabbing the slider */
+	void BeginGrab(UUxtPointerComponent* Pointer);
+
+	/** Update the grab on the slider */
+	void UpdateGrab(FVector DeltaPos);
+
+	/** End grabbing the slider */
+	void EndGrab(UUxtPointerComponent* Pointer);
 
 	/** Visual representation of the slider thumb*/
 	UPROPERTY(EditAnywhere, DisplayName = "ThumbVisuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pinch Slider")

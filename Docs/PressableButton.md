@@ -74,19 +74,23 @@ All `UxtPressableButtonComponent` events are passed up to the parent `BP_ButtonH
 
 ### HoloLens 2 Button Variants
 
-A handful of derived `BP_ButtonHoloLens2` blueprints exist to exhibit behavior not found on a typical pressable button. These variants include:
+A handful of derived `BP_ButtonHoloLens2` blueprints exist to exhibit behavior not found on a typical pressable button. Non-typical behavior includes a binary button state achieved with the `UUxtToggleGroupComponent`. To control groups of mutually exclusive `UxtToggleStateComponents`, like [radio buttons](https://en.wikipedia.org/wiki/Radio_button), supply a `UUxtToggleGroupComponent` with a list of `UxtToggleStateComponents`.
 
-- `BP_ButtonHoloLens2Toggle`, displays an additional back plate based on the button's toggle state.
+- `BP_ButtonHoloLens2Toggle`, displays an additional back plate based on the button's `UxtToggleStateComponent` checked property.
 
 ![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Toggle.png)
 
-- `BP_ButtonHoloLens2ToggleCheck`, displays a check box icon based on the button's toggle state.
+- `BP_ButtonHoloLens2ToggleCheck`, displays a check box icon based on the button's `UxtToggleStateComponent` checked property.
 
 ![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Check.png)
 
-- `BP_ButtonHoloLens2ToggleSwitch`, displays a switch icon based on the button's toggle state.
+- `BP_ButtonHoloLens2ToggleSwitch`, displays a switch icon based on the button's `UxtToggleStateComponent` checked property.
 
 ![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Switch.png)
+
+- `BP_ButtonHoloLens2ToggleRadio`, displays a radio circle icon based on the button's `UxtToggleStateComponent` checked property. Radio buttons are intended to be used with the `UUxtToggleGroupComponent` to ensure only one button is checked at a time.
+
+![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Radio.png)
 
 ## Public Properties
 

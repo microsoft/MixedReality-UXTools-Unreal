@@ -38,7 +38,7 @@ AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& Obj
 
 void AUxtInputSimulationActor::SetupHeadComponents()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 
 	HeadMovement = CreateDefaultSubobject<UUxtInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
 	AddOwnedComponent(HeadMovement);
@@ -52,7 +52,7 @@ void AUxtInputSimulationActor::SetupHeadComponents()
 
 void AUxtInputSimulationActor::SetupHandComponents()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 
 	LeftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LeftHand"));
 	AddOwnedComponent(LeftHand);
@@ -92,10 +92,6 @@ void AUxtInputSimulationActor::SetupHandComponents()
 	LeftHand->SetCastShadow(false);
 	RightHand->SetCastShadow(false);
 
-	// Mirror the left hand.
-	LeftHand->SetRelativeScale3D(FVector(1, -1, 1));
-	RightHand->SetRelativeScale3D(FVector(1, 1, 1));
-
 	//
 	// Init runtime state
 
@@ -118,6 +114,7 @@ namespace
 	const FName Action_HandRotate = TEXT("InputSimulation_HandRotate");
 	const FName Action_PrimaryHandPose = TEXT("InputSimulation_PrimaryHandPose");
 	const FName Action_SecondaryHandPose = TEXT("InputSimulation_SecondaryHandPose");
+	const FName Action_MenuHandPose = TEXT("InputSimulation_MenuHandPose");
 	const FName Axis_MoveForward = TEXT("InputSimulation_MoveForward");
 	const FName Axis_MoveRight = TEXT("InputSimulation_MoveRight");
 	const FName Axis_MoveUp = TEXT("InputSimulation_MoveUp");
@@ -146,6 +143,7 @@ static void InitializeDefaultInputSimulationMappings()
 
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_PrimaryHandPose, EKeys::LeftMouseButton));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_SecondaryHandPose, EKeys::MiddleMouseButton));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_MenuHandPose, EKeys::Home));
 
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::W, 1.f));
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::S, -1.f));
@@ -219,6 +217,7 @@ void AUxtInputSimulationActor::BeginPlay()
 
 			InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnPrimaryHandPosePressed);
 			InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnSecondaryHandPosePressed);
+			InputComponent->BindAction(Action_MenuHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnMenuHandPosePressed);
 
 			InputComponent->BindAxis(Axis_MoveForward, this, &AUxtInputSimulationActor::AddInputMoveForward);
 			InputComponent->BindAxis(Axis_MoveRight, this, &AUxtInputSimulationActor::AddInputMoveRight);
@@ -233,13 +232,13 @@ void AUxtInputSimulationActor::BeginPlay()
 
 void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 {
-	auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
+	auto* const InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
 	if (!InputSim)
 	{
 		return;
 	}
 
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	// Copy Simulated input data to the engine subsystem
@@ -271,7 +270,7 @@ USkeletalMeshComponent* AUxtInputSimulationActor::GetHandMesh(EControllerHand Ha
 
 FName AUxtInputSimulationActor::GetTargetPose(EControllerHand Hand) const
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	const FName *HandTargetPose = TargetPoses.Find(Hand);
@@ -286,6 +285,38 @@ void AUxtInputSimulationActor::SetTargetPose(EControllerHand Hand, FName PoseNam
 void AUxtInputSimulationActor::ResetTargetPose(EControllerHand Hand)
 {
 	TargetPoses.Remove(Hand);
+}
+
+void AUxtInputSimulationActor::GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const
+{
+	const auto* const Settings = UUxtRuntimeSettings::Get();
+	check(Settings);
+
+	// Mirror the left hand.
+	FVector Scale3D = (Hand == EControllerHand::Left ? FVector(1, -1, 1) : FVector(1, 1, 1));
+
+	FRotator RestRotation = Settings->HandRestOrientation;
+	if (Hand == EControllerHand::Left)
+	{
+		RestRotation.Yaw = -RestRotation.Yaw;
+		RestRotation.Roll = -RestRotation.Roll;
+	}
+
+	const FTransform& HandTransform = HandTransforms.FindRef(Hand);
+	if (GetTargetPose(Hand) == Settings->MenuHandPose)
+	{
+		// Use a camera-facing rotation for the menu pose
+		FRotator UserFacing = (Hand == EControllerHand::Left ? FRotator(30, 150, -20) : FRotator(30, 210, 20));
+		TargetTransform = FTransform(UserFacing, HandTransform.GetLocation(), Scale3D);
+		// Blend in and out of the menu pose
+		bAnimate = true;
+	}
+	else
+	{
+		TargetTransform = FTransform(HandTransform.GetRotation() * RestRotation.Quaternion().Inverse(), HandTransform.GetLocation(), Scale3D);
+		// No animation between user rotations
+		bAnimate = false;
+	}
 }
 
 bool AUxtInputSimulationActor::IsHandVisible(EControllerHand Hand) const
@@ -306,7 +337,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 {
 	typedef FWindowsMixedRealityInputSimulationHandState::ButtonStateArray ButtonStateArray;
 
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
 
@@ -498,16 +529,23 @@ void AUxtInputSimulationActor::TogglePoseForControlledHands(FName PoseName)
 
 void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	TogglePoseForControlledHands(Settings->PrimaryHandPose);
 }
 
 void AUxtInputSimulationActor::OnSecondaryHandPosePressed()
 {
-	const auto* Settings = UUxtRuntimeSettings::Get();
+	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	TogglePoseForControlledHands(Settings->SecondaryHandPose);
+}
+
+void AUxtInputSimulationActor::OnMenuHandPosePressed()
+{
+	const auto* const Settings = UUxtRuntimeSettings::Get();
+	check(Settings);
+	TogglePoseForControlledHands(Settings->MenuHandPose);
 }
 
 void AUxtInputSimulationActor::AddInputMoveForward(float Value)
@@ -602,13 +640,12 @@ void AUxtInputSimulationActor::AddHandMovementInputImpl(EAxis::Type TranslationA
 {
 	if (Value != 0.f)
 	{
-		FVector Dir = FRotationMatrix(GetActorRotation()).GetScaledAxis(TranslationAxis);
+		FVector Dir = FRotationMatrix::Identity.GetUnitAxis(TranslationAxis);
 		for (EControllerHand Hand : ControlledHands)
 		{
-			if (USkeletalMeshComponent* Comp = GetHandMesh(Hand))
-			{
-				Comp->MoveComponent(Dir * Value, Comp->GetComponentRotation(), true);
-			}
+			FTransform& HandTransform = HandTransforms.FindChecked(Hand);
+
+			HandTransform.AddToTranslation(Dir * Value);
 		}
 	}
 }
@@ -630,70 +667,44 @@ void AUxtInputSimulationActor::AddHandRotationInputImpl(EAxis::Type RotationAxis
 				DeltaRot.Roll = -DeltaRot.Roll;
 			}
 
-			FRotator& HandRot = HandRotations.FindChecked(Hand);
-			HandRot += DeltaRot;
+			FTransform& HandTransform = HandTransforms.FindChecked(Hand);
 
-			HandRot.Pitch = FMath::ClampAngle(HandRot.Pitch, -90.0f, 90.0f);
-
-			UpdateHandRotation(Hand);
+			FRotator NewRot = HandTransform.Rotator() + DeltaRot;
+			NewRot.Pitch = FMath::ClampAngle(NewRot.Pitch, -90.0f, 90.0f);
+			HandTransform.SetRotation(NewRot.Quaternion());
 		}
 	}
 }
 
 void AUxtInputSimulationActor::SetDefaultHandLocation(EControllerHand Hand)
 {
-	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
+	const auto* const Settings = UUxtRuntimeSettings::Get();
+	check(Settings);
+
+	FTransform& HandTransform = HandTransforms.FindOrAdd(Hand);
+
+	FVector DefaultPos = Settings->DefaultHandPosition;
+	if (Hand == EControllerHand::Left)
 	{
-		const auto* Settings = UUxtRuntimeSettings::Get();
-		check(Settings);
-
-		FVector DefaultPos = Settings->DefaultHandPosition;
-		if (Hand == EControllerHand::Left)
-		{
-			DefaultPos.Y = -DefaultPos.Y;
-		}
-
-		HandMesh->SetRelativeLocation(DefaultPos);
+		DefaultPos.Y = -DefaultPos.Y;
 	}
+	HandTransform.SetLocation(DefaultPos);
 }
 
 void AUxtInputSimulationActor::SetDefaultHandRotation(EControllerHand Hand)
 {
-	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
+	const auto* const Settings = UUxtRuntimeSettings::Get();
+	check(Settings);
+
+	FTransform& HandTransform = HandTransforms.FindOrAdd(Hand);
+
+	FRotator DefaultRot = Settings->HandRestOrientation;
+	if (Hand == EControllerHand::Left)
 	{
-		const auto* Settings = UUxtRuntimeSettings::Get();
-		check(Settings);
-
-		FRotator DefaultRot = Settings->HandRestOrientation;
-		if (Hand == EControllerHand::Left)
-		{
-			DefaultRot.Yaw = -DefaultRot.Yaw;
-			DefaultRot.Roll = -DefaultRot.Roll;
-		}
-		HandRotations.Emplace(Hand) = DefaultRot;
-
-		UpdateHandRotation(Hand);
+		DefaultRot.Yaw = -DefaultRot.Yaw;
+		DefaultRot.Roll = -DefaultRot.Roll;
 	}
-}
-
-void AUxtInputSimulationActor::UpdateHandRotation(EControllerHand Hand)
-{
-	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
-	{
-		const auto* Settings = UUxtRuntimeSettings::Get();
-		check(Settings);
-
-		FRotator RestRotation = Settings->HandRestOrientation;
-		if (Hand == EControllerHand::Left)
-		{
-			RestRotation.Yaw = -RestRotation.Yaw;
-			RestRotation.Roll = -RestRotation.Roll;
-		}
-
-		FQuat NewHandRot = HandRotations.FindRef(Hand).Quaternion() * RestRotation.Quaternion().Inverse();
-
-		HandMesh->SetRelativeRotation(NewHandRot);
-	}
+	HandTransform.SetRotation(DefaultRot.Quaternion());
 }
 
 void AUxtInputSimulationActor::SetHandVisibility(EControllerHand Hand, bool bIsVisible)

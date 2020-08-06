@@ -73,7 +73,7 @@ void UUxtBackPlateComponent::UpdateMaterialParameters()
 		return;
 	}
 
-	const float Width = GetRelativeScale3D().Y;
+	const float Width = GetComponentScale().Y;
 
 	if (Width == 0.0f)
 	{
