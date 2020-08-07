@@ -100,6 +100,8 @@ $ResolvedImagePaths = New-Object System.Collections.Hashtable
 function CheckImage {
     [CmdletBinding()]
     param(
+        [string]$DocsRootDir,
+
         # An absolute path to the markdown file
         [string]$MarkdownFilePath,
 
@@ -112,6 +114,9 @@ function CheckImage {
             return $false
         }
 
+        Push-Location
+        Set-Location -Path $DocsRootDir
+
         # Resolves the given image based on the location of the markdown file location
         # For example, given "/path/to/Docs/subfolder/file.md"
         # and an image "../Images/image.png", resolves this to:
@@ -120,15 +125,18 @@ function CheckImage {
         $unresolvedPath = Join-Path -Path $markdownFolder -ChildPath $ImagePath
         $resolvedPath = [System.IO.Path]::GetFullPath($unresolvedPath)
 
-        # It's possible that we could have tested the resolved path already (rare, but
-        # possible) - in that case cache the value so that we don't have to hit the disk again.
-        if (!$ResolvedImagePaths.ContainsKey($resolvedPath)) {
+        # Take the resolved path relative to the project's Docs\ folder.
+        $relativePath = Resolve-Path -Relative $resolvedPath
+
+        # It's possible that we could have tested the path already (rare, but possible) -
+        # in that case cache the value so that we don't have to hit the disk again.
+        if (!$ResolvedImagePaths.ContainsKey($relativePath)) {
             # First check to see if the path exists at all - if it doesn't exist,
             # this is an invalid image.
-            if (-Not (Test-Path $resolvedPath -PathType leaf)) {
+            if (-Not (Test-Path $relativePath -PathType leaf)) {
                 Write-Host "Image file was not found: "
-                Write-Host $resolvedPath
-                $ResolvedImagePaths[$resolvedPath] = $false
+                Write-Host $relativePath
+                $ResolvedImagePaths[$relativePath] = $false
             } else {
                 # Otherwise we still have to ensure that the image itself matches the
                 # correct case (i.e. image.png vs image.PNG).
@@ -148,18 +156,20 @@ function CheckImage {
 
                 # The image path is only valid if the actual case on disk matches
                 # the case written in the markdown file (i.e. the resolved path)
-                $caseAccurateName = $file.FullName
-                $ResolvedImagePaths[$resolvedPath] = ($caseAccurateName -ceq $resolvedPath)
+                $caseAccurateName = Resolve-Path -Relative $file.FullName
+                $ResolvedImagePaths[$relativePath] = ($caseAccurateName -ceq $relativePath)
 
-                if (-Not $ResolvedImagePaths[$resolvedPath]) {
+                if (-Not $ResolvedImagePaths[$relativePath]) {
                     Write-Host "Found a case-sensitive mismatch: "
                     Write-Host "Actual:" + $caseAccurateName
-                    Write-Host "Markdown:" + $resolvedPath
+                    Write-Host "Markdown:" + $relativePath
                 }
             }
         }
 
-        $ResolvedImagePaths[$resolvedPath]
+        Pop-Location
+
+        $ResolvedImagePaths[$relativePath]
     }
 }
 
@@ -171,6 +181,7 @@ function CheckImage {
 function CheckBrokenImages {
     [CmdletBinding()]
     param(
+        [string]$DocsRootDir,
         [string]$FileName,
         [string[]]$FileContent,
         [int]$LineNumber
@@ -203,7 +214,7 @@ function CheckBrokenImages {
 
         $hasBrokenImage = $false;
         foreach ($image in $images) {
-            if (-Not (CheckImage $FileName $image)) {
+            if (-Not (CheckImage $DocsRootDir $FileName $image)) {
                 $hasBrokenImage = $true
                 Write-Host "A broken image link was found in $FileName at line $LineNumber "
                 Write-Host $FileContent[$LineNumber]
@@ -217,6 +228,7 @@ function CheckBrokenImages {
 function CheckDocument {
     [CmdletBinding()]
     param(
+        [string]$DocsRootDir,
         [string]$FileName
     )
     process {
@@ -229,7 +241,7 @@ function CheckDocument {
         for ($i = 0; $i -lt $fileContent.Length; $i++) {
             if (CheckDocLinks $FileName $fileContent $i) {
                 $issueFound = $true
-            } elseif (CheckBrokenImages $FileName $fileContent $i) {
+            } elseif (CheckBrokenImages $DocsRootDir $FileName $fileContent $i) {
                 $issueFound = $true
             } elseif (CheckIncorrectRelativePath $FileName $fileContent $i) {
                 $issueFound = $true
@@ -260,7 +272,7 @@ else {
 
     $docFiles = Get-ChildItem $Directory *.md -Recurse | Select-Object FullName
     foreach ($docFile in $docFiles) {
-        if (CheckDocument $docFile.FullName) {
+        if (CheckDocument $Directory $docFile.FullName) {
             $containsIssue = $true
         }
     }
