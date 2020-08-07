@@ -37,7 +37,7 @@ BEGIN_DEFINE_SPEC(HandInteractionModeSpec, "UXTools.HandInteraction", EAutomatio
 void EnqueueSetHandTrackerLocation(const FVector&);
 void EnqueueGrabStatusChange(bool);
 void EnqueueSelectStatusChange(bool);
-void EnqueueInteractionModeChange(uint8);
+void EnqueueInteractionModeChange(int32);
 void EnqueueNoInteractionTest();
 void EnqueueNearInteractionTest();
 void EnqueueFarInteractionTest();
@@ -67,7 +67,6 @@ void HandInteractionModeSpec::Define()
 
 					HandActor = World->SpawnActor<AUxtHandInteractionActor>();
 					HandActor->SetHand(EControllerHand::Left);
-					HandActor->InteractionMode = static_cast<uint8>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 					NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
 					FarPointer = HandActor->FindComponentByClass<UUxtFarPointerComponent>();
@@ -95,7 +94,7 @@ void HandInteractionModeSpec::Define()
 					EnqueueGrabStatusChange(true);
 					EnqueueNearInteractionTest();
 					EnqueueGrabStatusChange(false);
-					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Far));
+					EnqueueInteractionModeChange(static_cast<int32>(EUxtInteractionMode::Far));
 					EnqueueGrabStatusChange(true);
 					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
@@ -106,7 +105,7 @@ void HandInteractionModeSpec::Define()
 					EnqueueSetHandTrackerLocation(NearLocation);
 					EnqueueGrabStatusChange(true);
 					EnqueueNearInteractionTest();
-					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Far));
+					EnqueueInteractionModeChange(static_cast<int32>(EUxtInteractionMode::Far));
 					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
@@ -117,7 +116,7 @@ void HandInteractionModeSpec::Define()
 					EnqueueSelectStatusChange(true);
 					EnqueueFarInteractionTest();
 					EnqueueSelectStatusChange(false);
-					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Near));
+					EnqueueInteractionModeChange(static_cast<int32>(EUxtInteractionMode::Near));
 					EnqueueSelectStatusChange(true);
 					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
@@ -128,7 +127,7 @@ void HandInteractionModeSpec::Define()
 					EnqueueSetHandTrackerLocation(FarLocation);
 					EnqueueSelectStatusChange(true);
 					EnqueueFarInteractionTest();
-					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Near));
+					EnqueueInteractionModeChange(static_cast<int32>(EUxtInteractionMode::Near));
 					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
@@ -159,7 +158,7 @@ void HandInteractionModeSpec::EnqueueSelectStatusChange(bool bSelectStatus)
 		});
 }
 
-void HandInteractionModeSpec::EnqueueInteractionModeChange(uint8 Flags)
+void HandInteractionModeSpec::EnqueueInteractionModeChange(int32 Flags)
 {
 	FrameQueue.Enqueue([this, Flags]
 		{

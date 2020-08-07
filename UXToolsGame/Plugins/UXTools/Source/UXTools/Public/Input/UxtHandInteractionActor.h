@@ -5,7 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Interactions/UxtManipulationFlags.h"
+#include "Interactions/UxtInteractionMode.h"
 
 #include "UxtHandInteractionActor.generated.h"
 
@@ -92,8 +92,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
 	bool bShowNearCursorOnGrabTargets = false;
 
+	/** Active interaction modes */
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode, ExposeOnSpawn = true))
-	uint8 InteractionMode;
+	int32 InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 private:
 

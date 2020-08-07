@@ -15,7 +15,6 @@
 #include "ProceduralMeshComponent.h"
 #include "Input/UxtHandProximityMesh.h"
 
-
 AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -30,8 +29,6 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	FarPointer = CreateDefaultSubobject<UUxtFarPointerComponent>(TEXT("FarPointer"));
 	FarPointer->PrimaryComponentTick.bStartWithTickEnabled = false;
 	FarPointer->AddTickPrerequisiteActor(this);
-
-	InteractionMode = static_cast<uint8>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 	ProximityTrigger = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("ProximityTrigger"));
 	ProximityTrigger->bUseComplexAsSimpleCollision = false;
@@ -163,8 +160,8 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 	
 	const bool bHasFocusLock = NearPointer->GetFocusLocked() || FarPointer->GetFocusLocked();
 
-	bool bNearInteractionFlag = HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near);
-	bool bFarInteractionFlag = HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far);
+	bool bNearInteractionFlag = InteractionMode & static_cast<int32>(EUxtInteractionMode::Near);
+	bool bFarInteractionFlag = InteractionMode & static_cast<int32>(EUxtInteractionMode::Far);
 
 	if (!bNearInteractionFlag && !bFarInteractionFlag)
 	{

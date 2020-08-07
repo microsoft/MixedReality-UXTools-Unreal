@@ -15,6 +15,7 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
+#include "Interactions/UxtInteractionMode.h"
 #include "Interactions/UxtManipulationFlags.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
