@@ -38,7 +38,9 @@ void EnqueueSetHandTrackerLocation(const FVector&);
 void EnqueueGrabStatusChange(bool);
 void EnqueueSelectStatusChange(bool);
 void EnqueueInteractionModeChange(uint8);
-void EnqueueInteractionTest(bool = false, EUxtInteractionMode = EUxtInteractionMode::None);
+void EnqueueNoInteractionTest();
+void EnqueueNearInteractionTest();
+void EnqueueFarInteractionTest();
 
 InteractionResult RetrieveInteractionResult();
 
@@ -52,7 +54,7 @@ END_DEFINE_SPEC(HandInteractionModeSpec)
 
 void HandInteractionModeSpec::Define()
 {
-	Describe("Interaction Mode", [this]
+	Describe("Hand interaction actor", [this]
 		{
 			BeforeEach([this]
 				{
@@ -91,11 +93,11 @@ void HandInteractionModeSpec::Define()
 				{
 					EnqueueSetHandTrackerLocation(NearLocation);
 					EnqueueGrabStatusChange(true);
-					EnqueueInteractionTest(true, EUxtInteractionMode::Near);
+					EnqueueNearInteractionTest();
 					EnqueueGrabStatusChange(false);
 					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Far));
 					EnqueueGrabStatusChange(true);
-					EnqueueInteractionTest();
+					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 
@@ -103,9 +105,9 @@ void HandInteractionModeSpec::Define()
 				{
 					EnqueueSetHandTrackerLocation(NearLocation);
 					EnqueueGrabStatusChange(true);
-					EnqueueInteractionTest(true, EUxtInteractionMode::Near);
+					EnqueueNearInteractionTest();
 					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Far));
-					EnqueueInteractionTest();
+					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 
@@ -113,11 +115,11 @@ void HandInteractionModeSpec::Define()
 				{
 					EnqueueSetHandTrackerLocation(FarLocation);
 					EnqueueSelectStatusChange(true);
-					EnqueueInteractionTest(true, EUxtInteractionMode::Far);
+					EnqueueFarInteractionTest();
 					EnqueueSelectStatusChange(false);
 					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Near));
 					EnqueueSelectStatusChange(true);
-					EnqueueInteractionTest();
+					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 
@@ -125,9 +127,9 @@ void HandInteractionModeSpec::Define()
 				{
 					EnqueueSetHandTrackerLocation(FarLocation);
 					EnqueueSelectStatusChange(true);
-					EnqueueInteractionTest(true, EUxtInteractionMode::Far);
+					EnqueueFarInteractionTest();
 					EnqueueInteractionModeChange(static_cast<uint8>(EUxtInteractionMode::Near));
-					EnqueueInteractionTest();
+					EnqueueNoInteractionTest();
 					FrameQueue.Enqueue([Done] { Done.Execute(); });
 				});
 		});
@@ -165,27 +167,32 @@ void HandInteractionModeSpec::EnqueueInteractionModeChange(uint8 Flags)
 		});
 }
 
-void HandInteractionModeSpec::EnqueueInteractionTest(bool bExpectValidInteraction, EUxtInteractionMode Mode)
+void HandInteractionModeSpec::EnqueueNoInteractionTest()
 {
-	FrameQueue.Enqueue([this, bExpectValidInteraction, Mode]
+	FrameQueue.Enqueue([this]
 		{
 			InteractionResult Result = RetrieveInteractionResult();
-			TestEqual("Has primary grab pointer", Result.IsValidGrab, bExpectValidInteraction);
-			if (bExpectValidInteraction)
-			{
-				switch (Mode)
-				{
-				case EUxtInteractionMode::Near:
-					TestEqual("Primary grab pointer is the near pointer", Result.PointerData.NearPointer, NearPointer);
-					break;
-				case EUxtInteractionMode::Far:
-					TestEqual("Primary grab pointer is the far pointer", Result.PointerData.FarPointer, FarPointer);
-					break;
-				default:
-					TestTrue("Expect valid interaction of None type", false);
-					break;
-				}
-			}
+			TestFalse("Has primary grab pointer", Result.IsValidGrab);
+		});
+}
+
+void HandInteractionModeSpec::EnqueueNearInteractionTest()
+{
+	FrameQueue.Enqueue([this]
+		{
+			InteractionResult Result = RetrieveInteractionResult();
+			TestTrue("Has primary grab pointer", Result.IsValidGrab);
+			TestEqual("Primary grab pointer is the near pointer", Result.PointerData.NearPointer, NearPointer);
+		});
+}
+
+void HandInteractionModeSpec::EnqueueFarInteractionTest()
+{
+	FrameQueue.Enqueue([this]
+		{
+			InteractionResult Result = RetrieveInteractionResult();
+			TestTrue("Has primary grab pointer", Result.IsValidGrab);
+			TestEqual("Primary grab pointer is the far pointer", Result.PointerData.FarPointer, FarPointer);
 		});
 }
 
