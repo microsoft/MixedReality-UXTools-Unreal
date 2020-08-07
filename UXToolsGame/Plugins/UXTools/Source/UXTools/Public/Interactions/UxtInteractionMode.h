@@ -6,14 +6,14 @@
 
 #include "UxtInteractionMode.generated.h"
 
-/*** Interaction modes supported by the generic manipulator. */
+/** Interaction modes supported */
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum class EUxtInteractionMode : uint8
 {
 	None = 0 UMETA(Hidden),
-	/** Move, rotate and scale objects with near interaction. */
+	/** Interact with poke and grab targets (see IUxtPokeTarget and IUxtGrabTarget) */
 	Near = 1 << 0,
-	/** Move, rotate and scale objects with far interaction. */
+	/** Interact with far targets (see IUxtFarTarget) */
 	Far = 1 << 1,
 };
 ENUM_CLASS_FLAGS(EUxtInteractionMode)
