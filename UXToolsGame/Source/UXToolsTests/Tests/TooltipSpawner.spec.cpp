@@ -23,7 +23,6 @@ BEGIN_DEFINE_SPEC(TooltipSpawnerSpec, "UXTools.TooltipTest", EAutomationTestFlag
 
 UTooltipEventListener* EventListener = nullptr;
 UUxtFarPointerComponent* Pointer = nullptr;
-UUxtFarBeamComponent* Beam = nullptr;
 FUxtTestHandTracker* HandTracker;
 FVector Center;
 FFrameQueue FrameQueue;
