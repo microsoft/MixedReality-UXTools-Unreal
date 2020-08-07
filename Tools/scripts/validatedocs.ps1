@@ -212,13 +212,26 @@ function CheckBrokenImages {
             $images += $match.Groups[1]
         }
 
-        $hasBrokenImage = $false;
-        foreach ($image in $images) {
-            if (-Not (CheckImage $DocsRootDir $FileName $image)) {
-                $hasBrokenImage = $true
-                Write-Host "A broken image link was found in $FileName at line $LineNumber "
-                Write-Host $FileContent[$LineNumber]
+        try
+        {
+            $hasBrokenImage = $false;
+            foreach ($image in $images) {
+                if ([System.IO.Path]::IsPathRooted($image)) {
+                    $hasBrokenImage = $true
+                    Write-Host -ForegroundColor Red "Absolute path to an image found in $FileName at line $LineNumber"
+                    Write-Host -ForegroundColor Red $FileContent[$LineNumber]
+                }
+                elseif (-Not (CheckImage $DocsRootDir $FileName $image)) {
+                    $hasBrokenImage = $true
+                    Write-Host -ForegroundColor Red "A broken image link was found in $FileName at line $LineNumber "
+                    Write-Host -ForegroundColor Red $FileContent[$LineNumber]
+                }
             }
+        }
+        catch
+        {
+            Write-Host "Unexpected error: image = `"$image`""
+            throw
         }
 
         $hasBrokenImage;
@@ -232,6 +245,7 @@ function CheckDocument {
         [string]$FileName
     )
     process {
+        Write-Host "Checking file: $FileName"
         # Each line of each script is checked by all of the validators above - this ensures that in
         # a single pass, we'll get all of the issues highlighted all at once, rather than
         # repeatedly running this script, discovering a single issue, fixing it, and then
