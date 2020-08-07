@@ -70,6 +70,11 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
 	static bool GetFontCharacterData(const UFont* Font, TArray<FUxtFontCharacter>& FontCharacters);
 
+	/** Returns whether the world the passed object belongs to is executing within a mobile preview window. */
+	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
+	static bool IsPlayInMobilePreview(const UObject* WorldContextObject);
+
 	/** Spherical linear interpolate between two vectors */
+	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
 	static FVector Slerp(const FVector& Vector1, const FVector& Vector2, const float Slerp);
 };

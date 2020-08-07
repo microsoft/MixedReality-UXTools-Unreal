@@ -1,0 +1,17 @@
+parameters:
+  # The output file that will contain the list of changed files in this
+  # pull request.
+  changesFile: ''
+
+steps:
+- task: PowerShell@2
+  displayName: 'Get PullRequest Changes'
+  inputs:
+    targetType: filePath
+    filePath: $(UXTSourceDir)/Tools/scripts/ModifiedGitFiles.ps1
+    arguments: >
+      -TargetBranch: '$(System.PullRequest.TargetBranch)'
+      -OutputFile: '${{ parameters.changesFile }}'
+      -RepoRoot: '$(UXTSourceDir)'
+    failOnStderr: false
+

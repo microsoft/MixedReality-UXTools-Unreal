@@ -28,6 +28,7 @@ namespace
 		root->RegisterComponent();
 
 		UUxtFollowComponent* testTarget = NewObject<UUxtFollowComponent>(actor);
+		testTarget->SetAutoActivate(true);
 		testTarget->RegisterComponent();
 
 		UStaticMeshComponent* mesh = UxtTestUtils::CreateBoxStaticMesh(actor, FVector(0.3f));

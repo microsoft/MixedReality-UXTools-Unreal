@@ -7,7 +7,7 @@ public class UXToolsWMR : ModuleRules
 {
 	public UXToolsWMR(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = PCHUsageMode.NoPCHs;		
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;		
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "UXTools" });
 		PrivateDependencyModuleNames.AddRange(new string[] { "WindowsMixedRealityHandTracking", "WindowsMixedRealityHMD" });
 	}

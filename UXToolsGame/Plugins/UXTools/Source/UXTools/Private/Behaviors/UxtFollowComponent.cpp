@@ -221,18 +221,24 @@ void UUxtFollowComponent::BeginPlay()
 
 	Recenter();
 
-	WorkingTransform = FTransform(GetOwner()->GetTransform().GetRotation(), GetOwner()->GetTransform().GetLocation());
+	WorkingTransform = GetOwner()->GetTransform();
 
-	UpdateLeashing();
-	UpdateTransformToGoal(true);
+	if (bAutoActivate)
+	{
+		UpdateLeashing();
+		UpdateTransformToGoal(true);
+	}
 }
 
 void UUxtFollowComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	UpdateLeashing();
-	UpdateTransformToGoal(!bInterpolatePose, DeltaTime);
+	if (IsActive())
+	{
+		UpdateLeashing();
+		UpdateTransformToGoal(!bInterpolatePose, DeltaTime);
+	}
 }
 
 

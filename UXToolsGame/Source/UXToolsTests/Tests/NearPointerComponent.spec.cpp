@@ -141,6 +141,8 @@ BEGIN_DEFINE_SPEC(NearPointerPokeSpec, "UXTools.NearPointer", EAutomationTestFla
 	const FVector OutsideTargetLocation = FVector(150, 40, -40);
 	const FVector FocusStartLocation = FVector(40, -50, 30);
 	const FVector FocusEndLocation = FVector(150, 40, -40);
+	const FVector PokeInitialPosition = FVector(180, 0, 0);
+	const FVector PokeFinalPosition = FVector(186, 0, 0);
 
 END_DEFINE_SPEC(NearPointerPokeSpec)
 
@@ -516,8 +518,6 @@ void NearPointerPokeSpec::Define()
 			LatentIt("should start poking box target", [this](const FDoneDelegate& Done)
 				{
 					PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke);
-					FVector PokeInitialPosition(180, 0, 0);
-					FVector PokeFinalPosition(186, 0, 0);
 
 					bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
 					TestTrue("There's a collision", Colliding);
@@ -534,16 +534,32 @@ void NearPointerPokeSpec::Define()
 			LatentIt("should not start poking non-box target", [this](const FDoneDelegate& Done)
 				{
 					PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke, TEXT("/Engine/BasicShapes/Sphere.Sphere"));
-					FVector PokeInitialPosition(180, 0, 0);
-					FVector PokeFinalPosition(186, 0, 0);
 
 					bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
 					TestTrue("There's a collision", Colliding);
 
 					ExpectFocusTargetNone();
-					AddMovementKeyframe(OutsideTargetLocation);
+					AddMovementKeyframe(PokeInitialPosition);
 					ExpectPokeTargetNone();
-					AddMovementKeyframe(InsideTargetLocation);
+					AddMovementKeyframe(PokeFinalPosition);
+					ExpectPokeTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+			LatentIt("should not start poking when facing backwards", [this](const FDoneDelegate& Done)
+				{
+					PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke);
+					AActor* const TargetActor = Target.GetPokeTarget()->GetOwner();
+					TargetActor->AddActorLocalRotation(FQuat::MakeFromEuler(FVector(0, 0, 180)));
+
+					bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
+					TestTrue("There's a collision", Colliding);
+
+					ExpectFocusTargetNone();
+					AddMovementKeyframe(PokeInitialPosition);
+					ExpectFocusTargetIndex(0);
+					ExpectPokeTargetNone();
+					AddMovementKeyframe(PokeFinalPosition);
 					ExpectPokeTargetNone();
 
 					FrameQueue.Enqueue([Done] { Done.Execute(); });

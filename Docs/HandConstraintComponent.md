@@ -1,6 +1,6 @@
 # Hand Constraint Component
 
-Component that calculates a goal based on hand tracking and moves the owning actor.
+Component that calculates a goal based on hand tracking and moves the owning actor. It keeps the actor position and rotation aligned with a hand while avoiding overlap with fingers.
 
 Several zones around the hand supported: radial and ulnar for the thumb side and its opposite, as well as above and below the hand. The goal position is computed by casting a ray in the direction of the one at a bounding box around the hand joints.
 

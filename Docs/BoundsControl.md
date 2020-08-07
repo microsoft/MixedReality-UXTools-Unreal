@@ -2,9 +2,6 @@
 
 Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using _affordances_. Affordances are grabbable areas on corners, edges, and faces of the actor's bounding box.
 
-| WARNING: Bounds Control is an experimental feature under development, expect breaking changes! |
-| --- |
-
 To enable bounds control on an actor, add a UxtBoundsControl component. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.
 
 ![FollowComponent](Images/BoundsControl.png)

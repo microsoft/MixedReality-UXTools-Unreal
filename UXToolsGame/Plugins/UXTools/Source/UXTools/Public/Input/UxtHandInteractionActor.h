@@ -89,7 +89,7 @@ public:
 	bool bUseDefaultFarBeam = true;
 
 	/** Show the near cursor on grab targets. Changes to this value after BeginPlay have no effect. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
 	bool bShowNearCursorOnGrabTargets = false;
 
 	/** Active interaction modes */

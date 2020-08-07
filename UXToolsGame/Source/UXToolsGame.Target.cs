@@ -9,6 +9,7 @@ public class UXToolsGameTarget : TargetRules
 	public UXToolsGameTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
 
 		ExtraModuleNames.AddRange( new string[] { "UXToolsGame", "UXToolsTests" } );
 	}
