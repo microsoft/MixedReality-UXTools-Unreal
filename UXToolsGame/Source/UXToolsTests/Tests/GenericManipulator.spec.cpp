@@ -6,6 +6,7 @@
 #include "GenericManipulatorTestComponent.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
+#include "Interactions/UxtInteractionMode.h"
 #include "Tests/AutomationCommon.h"
 #include "UxtTestHand.h"
 #include "UxtTestHandTracker.h"

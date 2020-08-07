@@ -15,7 +15,6 @@
 #include "ProceduralMeshComponent.h"
 #include "Input/UxtHandProximityMesh.h"
 
-
 AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -165,6 +164,14 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 	
 	const bool bHasFocusLock = NearPointer->GetFocusLocked() || FarPointer->GetFocusLocked();
 
+	bool bNearInteractionFlag = InteractionMode & static_cast<int32>(EUxtInteractionMode::Near);
+	bool bFarInteractionFlag = InteractionMode & static_cast<int32>(EUxtInteractionMode::Far);
+
+	if (!bNearInteractionFlag && !bFarInteractionFlag)
+	{
+		return;
+	}
+
 	bool bNewNearPointerActive = NearPointer->IsActive();
 	bool bNewFarPointerActive = FarPointer->IsActive();
 	bool bHasNearTarget;
@@ -194,6 +201,9 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 		bNewNearPointerActive = false;
 		bNewFarPointerActive = false;
 	}
+
+	bNewNearPointerActive &= bNearInteractionFlag;
+	bNewFarPointerActive &= bFarInteractionFlag;
 
 	// Update pointer active state
 	if (bNewNearPointerActive != NearPointer->IsActive())
