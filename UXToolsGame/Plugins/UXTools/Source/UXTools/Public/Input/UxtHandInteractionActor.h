@@ -93,7 +93,7 @@ public:
 	bool bShowNearCursorOnGrabTargets = false;
 
 	/** Active interaction modes */
-	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode, ExposeOnSpawn = true))
+	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
 	int32 InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 private:
