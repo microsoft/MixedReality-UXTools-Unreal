@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#pragma once
-
 #include "Interactions/Constraints/UxtFixedDistanceConstraint.h"
 
 #include "Engine/World.h"

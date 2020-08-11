@@ -74,6 +74,10 @@
 				"Win64",
 				"HoloLens"
 			]
+		},
+		{
+			"Name": "ProceduralMeshComponent",
+			"Enabled": true
 		}
 	]
 }
