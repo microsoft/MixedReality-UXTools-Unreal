@@ -85,9 +85,11 @@ void FFarBeamSpec::Define()
 					FrameQueue.Enqueue([this]
 						{
 							TestTrue(TEXT("Beam is not null"), Beam != NULL);
-							TestTrue(TEXT("Beam is not ticking"), !Beam->IsComponentTickEnabled());
-							TestTrue(TEXT("Beam is invisible"), !Beam->IsVisible());
-
+							if (Beam)
+							{
+								TestTrue(TEXT("Beam is not ticking"), !Beam->IsComponentTickEnabled());
+								TestTrue(TEXT("Beam is invisible"), !Beam->IsVisible());
+							}
 						});
 					FrameQueue.Enqueue([this]
 						{

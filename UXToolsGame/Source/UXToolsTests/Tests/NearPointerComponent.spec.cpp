@@ -255,8 +255,11 @@ void NearPointerPokeSpec::ExpectGrabTargetNone()
 		{
 			const UTestGrabTarget * GrabTarget = Target.GetGrabTarget();
 			TestTrue("Target must be of Grab kind", GrabTarget != nullptr);
-			const bool bIsGrabbed = GrabTarget->BeginGrabCount > GrabTarget->EndGrabCount;
-			TestFalse("Target should not be grabbed", bIsGrabbed);
+			if (GrabTarget)
+			{
+				const bool bIsGrabbed = GrabTarget->BeginGrabCount > GrabTarget->EndGrabCount;
+				TestFalse("Target should not be grabbed", bIsGrabbed);
+			}
 		}
 	});
 }

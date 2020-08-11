@@ -367,9 +367,12 @@ void TooltipSpawnerSpec::Define()
 				TestEqual(TEXT("We should have received an onshow event."), EventListener->ShowCount, 1);
 				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 				TestTrue(TEXT("The tooltip component should not be null when spawned."), TooltipSpawnerComponent->SpawnedTooltip != nullptr);
-				auto Position = TooltipSpawnerComponent->SpawnedTooltip->GetActorLocation();
-				auto RelPosition = TooltipSpawnerActor->GetActorTransform().Inverse().TransformPosition(Position);
-				TestEqual(TEXT("The distance of the tooltip should match the pivot offset."), RelPosition, PivotOffset);
+				if (TooltipSpawnerComponent->SpawnedTooltip)
+				{
+					auto Position = TooltipSpawnerComponent->SpawnedTooltip->GetActorLocation();
+					auto RelPosition = TooltipSpawnerActor->GetActorTransform().Inverse().TransformPosition(Position);
+					TestEqual(TEXT("The distance of the tooltip should match the pivot offset."), RelPosition, PivotOffset);
+				}
 			});
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
