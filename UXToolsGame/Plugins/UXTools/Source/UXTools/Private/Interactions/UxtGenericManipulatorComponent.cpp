@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 #include "Interactions/UxtGenericManipulatorComponent.h"
+
+#include "Components/PrimitiveComponent.h"
+#include "Constraints/UxtConstraintManager.h"
+#include "Engine/World.h"
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtHandInteractionActor.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
 #include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
-#include "Utils/UxtMathUtilsFunctionLibrary.h"
 #include "Utils/UxtFunctionLibrary.h"
-#include "Constraints/UxtConstraintManager.h"
-
-#include "Engine/World.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 // Sets default values for this component's properties
 UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
@@ -20,6 +24,7 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	ManipulationModes = static_cast<int32>(EUxtGenericManipulationMode::OneHanded | EUxtGenericManipulationMode::TwoHanded);
 	OneHandRotationMode = EUxtOneHandRotationMode::MaintainOriginalRotation;
 	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
+	ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::KeepVelocity | EUxtReleaseBehavior::KeepAngularVelocity);
 	Smoothing = 100.0f;
 }
 
@@ -59,12 +64,15 @@ void UUxtGenericManipulatorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Register begin / end grab callbacks.
+	OnBeginGrab.AddDynamic(this, &UUxtGenericManipulatorComponent::OnGrab);
+	OnEndGrab.AddDynamic(this, &UUxtGenericManipulatorComponent::OnRelease);
+
 	// Set the user defined transform target if specified
 	if (USceneComponent* Reference = UUxtFunctionLibrary::GetSceneComponentFromReference(TargetComponent, GetOwner()))
 	{
 		TransformTarget = Reference;
 	}
-	
 }
 
 bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
@@ -72,7 +80,7 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 	bool bHasPrimaryPointer;
 	FUxtGrabPointerData PrimaryPointerData;
 	GetPrimaryGrabPointer(bHasPrimaryPointer, PrimaryPointerData);
-	
+
 	if (!bHasPrimaryPointer)
 	{
 		return false;
@@ -144,7 +152,7 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 			FVector Forward = ObjectLoc - HeadLoc;
 			FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
 
-			OutTargetTransform.SetRotation(Orientation); 
+			OutTargetTransform.SetRotation(Orientation);
 			return true;
 		}
 	}
@@ -183,7 +191,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 
 	GetOneHandRotation(TargetTransform, TargetTransform);
 	Constraints->ApplyRotationConstraints(TargetTransform, true, IsNearManipulation());
-	
+
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 	Constraints->ApplyTranslationConstraints(TargetTransform, true, IsNearManipulation());
 
@@ -233,4 +241,44 @@ float UUxtGenericManipulatorComponent::GetSmoothing() const
 void UUxtGenericManipulatorComponent::SetSmoothing(float NewSmoothing)
 {
 	Smoothing = FMath::Max(NewSmoothing, 0.0f);
+}
+
+void UUxtGenericManipulatorComponent::OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
+{
+	if (GetGrabPointers().Num() == 1)
+	{
+		if (UPrimitiveComponent* Target = Cast<UPrimitiveComponent>(GetTargetComponent()))
+		{
+			if (Target->IsSimulatingPhysics())
+			{
+				Target->SetSimulatePhysics(false);
+				bWasSimulatingPhysics = true;
+			}
+			else
+			{
+				bWasSimulatingPhysics = false;
+			}
+		}
+	}
+}
+
+void UUxtGenericManipulatorComponent::OnRelease(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
+{
+	if (bWasSimulatingPhysics && GetGrabPointers().Num() == 0)
+	{
+		if (UPrimitiveComponent* Target = Cast<UPrimitiveComponent>(GetTargetComponent()))
+		{
+			Target->SetSimulatePhysics(true);
+
+			const bool bKeepLinearVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepVelocity);
+			const bool bKeepAngularVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepAngularVelocity);
+
+			if (const AUxtHandInteractionActor* Hand =
+				Cast<AUxtHandInteractionActor>(GrabPointer.NearPointer ? GrabPointer.NearPointer->GetOwner() : GrabPointer.FarPointer->GetOwner()))
+			{
+				Target->SetPhysicsLinearVelocity(bKeepLinearVelocity ? Hand->GetHandVelocity() : FVector::ZeroVector);
+				Target->SetPhysicsAngularVelocityInDegrees(bKeepAngularVelocity ? Hand->GetHandAngularVelocity() : FVector::ZeroVector);
+			}
+		}
+	}
 }

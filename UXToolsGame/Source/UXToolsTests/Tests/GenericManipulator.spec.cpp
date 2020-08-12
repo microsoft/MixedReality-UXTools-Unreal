@@ -33,6 +33,7 @@ namespace
 		// Generic manipulator component
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
 		Manipulator->TargetComponent = TargetComponent;
+		Manipulator->ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::None);
 		Manipulator->SetSmoothing(0.0f);
 		Manipulator->RegisterComponent();
 
@@ -394,6 +395,38 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 				{
 					const FVector Result = Target->TransformTarget->GetRelativeScale3D();
 					TestTrue("Object is scaled", Result.Equals(ExpectedScale));
+				});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+	LatentIt("should disable physics on grab", [this](const FDoneDelegate& Done)
+		{
+			UStaticMeshComponent* StaticMesh = Target->GetOwner()->FindComponentByClass<UStaticMeshComponent>();
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					StaticMesh->SetPhysicsLinearVelocity(FVector::ZeroVector);
+					StaticMesh->SetEnableGravity(false);
+					StaticMesh->SetSimulatePhysics(true);
+				});
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					RightHand.SetGrabbing(true);
+				});
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					TestTrue("Object is grabbed", Target->GetGrabPointers().Num() > 0);
+					TestFalse("Physics is disabled", StaticMesh->IsSimulatingPhysics());
+					RightHand.SetGrabbing(false);
+				});
+
+			FrameQueue.Enqueue([this, StaticMesh]
+				{
+					TestEqual("Object is not grabbed", Target->GetGrabPointers().Num(), 0);
+					TestTrue("Physics is enabled", StaticMesh->IsSimulatingPhysics());
 				});
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });

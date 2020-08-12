@@ -35,6 +35,14 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	ProximityTrigger->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	ProximityTrigger->SetCollisionProfileName(TEXT("UI"));
 	ProximityTrigger->SetupAttachment(GetRootComponent());
+
+	// Zero out the velocity caches.
+	// FVector's default constructor doesn't zero initialize it.
+	for (int i = 0; i < VelocityUpdateInterval; ++i)
+	{
+		VelocityPositionsCache[i] = FVector::ZeroVector;
+		VelocityNormalsCache[i] = FVector::ZeroVector;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -107,6 +115,40 @@ void AUxtHandInteractionActor::UpdateProximityMesh()
 	ProximityTrigger->SetMobility(bRenderProximityMesh ? EComponentMobility::Movable : EComponentMobility::Stationary);
 }
 
+void AUxtHandInteractionActor::UpdateVelocity(float DeltaTime)
+{
+	if (const IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	{
+		FVector Position;
+		FQuat Orientation;
+		float Radius;
+
+		if (HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, Orientation, Position, Radius))
+		{
+			const FVector Normal = -Orientation.GetUpVector();
+
+			const int FrameIndex = CurrentFrame % VelocityUpdateInterval;
+
+			const FVector NewPositionsSum = VelocityPositionsSum - VelocityPositionsCache[FrameIndex] + Position;
+			const FVector NewNormalsSum = VelocityNormalsSum - VelocityNormalsCache[FrameIndex] + Normal;
+
+			const int CurrentInterval = CurrentFrame < VelocityUpdateInterval ? CurrentFrame : VelocityUpdateInterval;
+			Velocity = (NewPositionsSum - VelocityPositionsSum) / DeltaTime / CurrentInterval;
+
+			const FQuat Rotation = ((NewNormalsSum / CurrentInterval) - (VelocityNormalsSum / CurrentInterval)).ToOrientationQuat();
+			const FVector RotationRate = FMath::DegreesToRadians(Rotation.Euler());
+			AngularVelocity = RotationRate / DeltaTime;
+
+			VelocityPositionsCache[FrameIndex] = Position;
+			VelocityPositionsSum = NewPositionsSum;
+			VelocityNormalsCache[FrameIndex] = Normal;
+			VelocityNormalsSum = NewNormalsSum;
+		}
+
+		++CurrentFrame;
+	}
+}
+
 bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 {
 	OutHasNearTarget = false;
@@ -161,7 +203,7 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 void AUxtHandInteractionActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	const bool bHasFocusLock = NearPointer->GetFocusLocked() || FarPointer->GetFocusLocked();
 
 	bool bNearInteractionFlag = InteractionMode & static_cast<int32>(EUxtInteractionMode::Near);
@@ -214,6 +256,8 @@ void AUxtHandInteractionActor::Tick(float DeltaTime)
 	{
 		FarPointer->SetActive(bNewFarPointerActive);
 	}
+
+	UpdateVelocity(DeltaTime);
 }
 
 void AUxtHandInteractionActor::SetHand(EControllerHand NewHand)
