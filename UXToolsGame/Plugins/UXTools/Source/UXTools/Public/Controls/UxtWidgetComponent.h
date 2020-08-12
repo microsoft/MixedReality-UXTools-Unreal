@@ -69,8 +69,7 @@ public:
 
 private:
 
-	TSet<UUxtPointerComponent*> Pointers;
-	TMap<UUxtPointerComponent*, FVector2D> LastLocalHitLocations;
+	TMap<UUxtPointerComponent*, FVector2D> Pointers;
 
 	bool bIsPressed = false;
 	TSharedPtr<FSlateVirtualUserHandle> VirtualUser;

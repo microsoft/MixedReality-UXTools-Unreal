@@ -38,15 +38,13 @@ bool UUxtWidgetComponent::GetClosestPoint_Implementation(const UPrimitiveCompone
 
 void UUxtWidgetComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	Pointers.Add(Pointer);
-
 	FVector ClosestPoint, Normal;
 	Pointer->GetFocusedPokeTarget(ClosestPoint, Normal);
 
 	FVector2D LocalHitLocation;
 	GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
-	LastLocalHitLocations.Add(Pointer, LocalHitLocation);
+	Pointers.Add(Pointer, LocalHitLocation);
 }
 
 void UUxtWidgetComponent::OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
@@ -68,7 +66,6 @@ void UUxtWidgetComponent::OnExitPokeFocus_Implementation(UUxtNearPointerComponen
 	}
 
 	Pointers.Remove(Pointer);
-	LastLocalHitLocations.Remove(Pointer);
 }
 
 void UUxtWidgetComponent::OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer)
@@ -94,14 +91,12 @@ bool UUxtWidgetComponent::IsFarFocusable_Implementation(const UPrimitiveComponen
 
 void UUxtWidgetComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	Pointers.Add(Pointer);
-
 	FVector ClosestPoint = Pointer->GetHitPoint();
 
 	FVector2D LocalHitLocation;
 	GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
-	LastLocalHitLocations.Add(Pointer, LocalHitLocation);
+	Pointers.Add(Pointer, LocalHitLocation);
 }
 
 void UUxtWidgetComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
@@ -121,7 +116,6 @@ void UUxtWidgetComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent*
 	}
 
 	Pointers.Remove(Pointer);
-	LastLocalHitLocations.Remove(Pointer);
 }
 
 void UUxtWidgetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
@@ -188,17 +182,15 @@ void UUxtWidgetComponent::GetEventAndPath(const FVector& ClosestPoint, UUxtPoint
 
 	Path = GetHitWidgetPath(LocalHitLocation, false);
 
-	uint32 PointerIndex = Pointers.FindId(Pointer).AsInteger();
-
 	Event = FPointerEvent(
 		VirtualUser->GetUserIndex(),
-		PointerIndex,
+		Pointer->GetUniqueID(),
 		LocalHitLocation,
-		LastLocalHitLocations[Pointer],
+		Pointers[Pointer],
 		PressedKeys,
 		Key,
 		0.0f,
 		ModifierKeys);
 
-	LastLocalHitLocations[Pointer] = LocalHitLocation;
+	Pointers[Pointer] = LocalHitLocation;
 }
