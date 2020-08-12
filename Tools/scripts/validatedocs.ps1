@@ -276,7 +276,7 @@ if (($ChangesFile) -and (Test-Path $ChangesFile -PathType leaf)) {
     $changedFiles = GetChangedFiles -Filename $ChangesFile -RepoRoot $RepoRoot
 
     foreach ($changedFile in $changedFiles) {
-        if ((IsMarkdownFile -Filename $changedFile) -and (CheckDocument $changedFile)) {
+        if ((IsMarkdownFile -Filename $changedFile) -and (CheckDocument $Directory $changedFile)) {
             $containsIssue = $true;
         }
     }
