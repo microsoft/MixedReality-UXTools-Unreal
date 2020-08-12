@@ -80,7 +80,7 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 	bool bHasPrimaryPointer;
 	FUxtGrabPointerData PrimaryPointerData;
 	GetPrimaryGrabPointer(bHasPrimaryPointer, PrimaryPointerData);
-	
+
 	if (!bHasPrimaryPointer)
 	{
 		return false;
@@ -152,7 +152,7 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 			FVector Forward = ObjectLoc - HeadLoc;
 			FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
 
-			OutTargetTransform.SetRotation(Orientation); 
+			OutTargetTransform.SetRotation(Orientation);
 			return true;
 		}
 	}
@@ -191,7 +191,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 
 	GetOneHandRotation(TargetTransform, TargetTransform);
 	Constraints->ApplyRotationConstraints(TargetTransform, true, IsNearManipulation());
-	
+
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 	Constraints->ApplyTranslationConstraints(TargetTransform, true, IsNearManipulation());
 
@@ -272,11 +272,13 @@ void UUxtGenericManipulatorComponent::OnRelease(UUxtGrabTargetComponent* Grabbab
 
 			const bool bKeepLinearVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepVelocity);
 			const bool bKeepAngularVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepAngularVelocity);
-			const AUxtHandInteractionActor* Hand = 
-				CastChecked<AUxtHandInteractionActor>(GrabPointer.NearPointer ? GrabPointer.NearPointer->GetOwner() : GrabPointer.FarPointer->GetOwner());
 
-			Target->SetPhysicsLinearVelocity(bKeepLinearVelocity ? Hand->GetHandVelocity() : FVector::ZeroVector);
-			Target->SetPhysicsAngularVelocityInDegrees(bKeepAngularVelocity ? Hand->GetHandAngularVelocity() : FVector::ZeroVector);
+			if (const AUxtHandInteractionActor* Hand =
+				Cast<AUxtHandInteractionActor>(GrabPointer.NearPointer ? GrabPointer.NearPointer->GetOwner() : GrabPointer.FarPointer->GetOwner()))
+			{
+				Target->SetPhysicsLinearVelocity(bKeepLinearVelocity ? Hand->GetHandVelocity() : FVector::ZeroVector);
+				Target->SetPhysicsAngularVelocityInDegrees(bKeepAngularVelocity ? Hand->GetHandAngularVelocity() : FVector::ZeroVector);
+			}
 		}
 	}
 }
