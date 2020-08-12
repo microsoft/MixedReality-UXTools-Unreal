@@ -36,6 +36,14 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	ProximityTrigger->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	ProximityTrigger->SetCollisionProfileName(TEXT("UI"));
 	ProximityTrigger->SetupAttachment(GetRootComponent());
+
+	// Zero out the velocity caches.
+	// FVector's default constructor doesn't zero initialize it.
+	for (int i = 0; i < VelocityUpdateInterval; ++i)
+	{
+		VelocityPositionsCache[i] = FVector::ZeroVector;
+		VelocityNormalsCache[i] = FVector::ZeroVector;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -116,31 +124,22 @@ void AUxtHandInteractionActor::UpdateVelocity(float DeltaTime)
 		{
 			const FVector Normal = -Orientation.GetUpVector();
 
-			if (CurrentFrame < VelocityUpdateInterval)
-			{
-				VelocityPositionsCache[CurrentFrame] = Position;
-				VelocityPositionsSum += VelocityPositionsCache[CurrentFrame];
+			const int FrameIndex = CurrentFrame % VelocityUpdateInterval;
 
-				VelocityNormalsCache[CurrentFrame] = Normal;
-				VelocityNormalsSum += VelocityNormalsCache[CurrentFrame];
-			}
-			else
-			{
-				const int FrameIndex = CurrentFrame % VelocityUpdateInterval;
+			const FVector NewPositionsSum = VelocityPositionsSum - VelocityPositionsCache[FrameIndex] + Position;
+			const FVector NewNormalsSum = VelocityNormalsSum - VelocityNormalsCache[FrameIndex] + Normal;
 
-				const FVector NewPositionsSum = VelocityPositionsSum - VelocityPositionsCache[FrameIndex] + Position;
-				const FVector NewNormalsSum = VelocityNormalsSum - VelocityNormalsCache[FrameIndex] + Normal;
-				Velocity = (NewPositionsSum - VelocityPositionsSum) / DeltaTime / VelocityUpdateInterval;
+			const int CurrentInterval = CurrentFrame < VelocityUpdateInterval ? CurrentFrame : VelocityUpdateInterval;
+			Velocity = (NewPositionsSum - VelocityPositionsSum) / DeltaTime / CurrentInterval;
 
-				const FQuat Rotation = ((NewNormalsSum / VelocityUpdateInterval) - (VelocityNormalsSum / VelocityUpdateInterval)).ToOrientationQuat();
-				const FVector RotationRate = FMath::DegreesToRadians(Rotation.Euler());
-				AngularVelocity = RotationRate / DeltaTime;
+			const FQuat Rotation = ((NewNormalsSum / CurrentInterval) - (VelocityNormalsSum / CurrentInterval)).ToOrientationQuat();
+			const FVector RotationRate = FMath::DegreesToRadians(Rotation.Euler());
+			AngularVelocity = RotationRate / DeltaTime;
 
-				VelocityPositionsCache[FrameIndex] = Position;
-				VelocityPositionsSum = NewPositionsSum;
-				VelocityNormalsCache[FrameIndex] = Normal;
-				VelocityNormalsSum = NewNormalsSum;
-			}
+			VelocityPositionsCache[FrameIndex] = Position;
+			VelocityPositionsSum = NewPositionsSum;
+			VelocityNormalsCache[FrameIndex] = Normal;
+			VelocityNormalsSum = NewNormalsSum;
 		}
 
 		++CurrentFrame;
