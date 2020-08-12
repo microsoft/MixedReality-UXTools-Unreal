@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/WidgetComponent.h"
+#include "Components/ActorComponent.h"
+#include "GenericPlatform/GenericApplication.h"
+#include "InputCoreTypes.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Interactions/UxtPokeTarget.h"
 
@@ -12,12 +14,15 @@
 
 class UUxtPointerComponent;
 class FSlateVirtualUserHandle;
+class UWidgetComponent;
+class FWidgetPath;
+struct FPointerEvent;
 
 /**
  * Widget Component that is interactable with near and far interaction.
  */
 UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtWidgetComponent : public UWidgetComponent, public IUxtPokeTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtWidgetComponent : public UActorComponent, public IUxtPokeTarget, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
@@ -52,10 +57,10 @@ protected:
 
 private:
 
-	void PointerMove(const FVector& ClosestPoint, UUxtPointerComponent* Pointer);
-	void PointerDown(const FVector& ClosestPoint, UUxtPointerComponent* Pointer);
-	void PointerUp(const FVector& ClosestPoint, UUxtPointerComponent* Pointer);
-	void GetEventAndPath(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, FKey Key, FPointerEvent& Event, FWidgetPath& Path);
+	void PointerMove(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget);
+	void PointerDown(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget);
+	void PointerUp(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget);
+	void GetEventAndPath(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget, FKey Key, FPointerEvent& Event, FWidgetPath& Path);
 
 public:
 	

@@ -9,7 +9,24 @@
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtPointerComponent.h"
 #include "Interactions/UxtInteractionUtils.h"
+#include <Components/PrimitiveComponent.h>
+#include <Components/WidgetComponent.h>
 
+
+namespace
+{
+	UWidgetComponent* GetNearFocusedWidget(UUxtNearPointerComponent* NearPointer, FVector& OutClosestPoint)
+	{
+		FVector Unused;
+		return Cast<UWidgetComponent>(NearPointer->GetFocusedPokePrimitive(OutClosestPoint, Unused));
+	}
+
+	UWidgetComponent* GetFarFocusedWidget(UUxtFarPointerComponent* FarPointer, FVector& OutClosestPoint)
+	{
+		OutClosestPoint = FarPointer->GetHitPoint();
+		return Cast<UWidgetComponent>(FarPointer->GetHitPrimitive());
+	}
+}
 
 void UUxtWidgetComponent::BeginPlay()
 {
@@ -20,7 +37,7 @@ void UUxtWidgetComponent::BeginPlay()
 
 bool UUxtWidgetComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
-	return Primitive == this;
+	return Cast<UWidgetComponent>(Primitive) != nullptr;
 }
 
 EUxtPokeBehaviour UUxtWidgetComponent::GetPokeBehaviour_Implementation() const
@@ -30,7 +47,7 @@ EUxtPokeBehaviour UUxtWidgetComponent::GetPokeBehaviour_Implementation() const
 
 bool UUxtWidgetComponent::GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
 {
-	OutNormal = GetComponentTransform().GetUnitAxis(EAxis::X);
+	OutNormal = Primitive->GetComponentTransform().GetUnitAxis(EAxis::X);
 
 	float NotUsed;
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
@@ -38,31 +55,43 @@ bool UUxtWidgetComponent::GetClosestPoint_Implementation(const UPrimitiveCompone
 
 void UUxtWidgetComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	FVector ClosestPoint, Normal;
-	Pointer->GetFocusedPokeTarget(ClosestPoint, Normal);
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetNearFocusedWidget(Pointer, ClosestPoint);
+	
+	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
+	// If this check fails, a non poke focusable object has received focus.
+	check(Widget)
 
 	FVector2D LocalHitLocation;
-	GetLocalHitLocation(ClosestPoint, LocalHitLocation);
+	Widget->GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
 	Pointers.Add(Pointer, LocalHitLocation);
 }
 
 void UUxtWidgetComponent::OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	FVector ClosestPoint, Normal;
-	Pointer->GetFocusedPokeTarget(ClosestPoint, Normal);
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetNearFocusedWidget(Pointer, ClosestPoint);
 
-	PointerMove(ClosestPoint, Pointer);
+	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
+	// If this check fails, a non poke focusable object has received focus.
+	check(Widget)
+
+	PointerMove(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	if (bIsPressed && Pointers.Num() == 1)
 	{
-		FVector ClosestPoint, Normal;
-		Pointer->GetFocusedPokeTarget(ClosestPoint, Normal);
+		FVector ClosestPoint;
+		UWidgetComponent* Widget = GetNearFocusedWidget(Pointer, ClosestPoint);
 
-		PointerUp(ClosestPoint, Pointer);
+		// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
+		// If this check fails, a non poke focusable object has received focus.
+		check(Widget)
+
+		PointerUp(ClosestPoint, Pointer, Widget);
 	}
 
 	Pointers.Remove(Pointer);
@@ -70,49 +99,72 @@ void UUxtWidgetComponent::OnExitPokeFocus_Implementation(UUxtNearPointerComponen
 
 void UUxtWidgetComponent::OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	FVector ClosestPoint, Normal;
-	Pointer->GetFocusedPokeTarget(ClosestPoint, Normal);
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetNearFocusedWidget(Pointer, ClosestPoint);
 
-	PointerDown(ClosestPoint, Pointer);
+	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
+	// If this check fails, a non poke focusable object has received focus.
+	check(Widget)
+
+	PointerDown(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	FVector ClosestPoint, Normal;
-	Pointer->GetFocusedPokeTarget(ClosestPoint, Normal);
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetNearFocusedWidget(Pointer, ClosestPoint);
 
-	PointerUp(ClosestPoint, Pointer);
+	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
+	// If this check fails, a non poke focusable object has received focus.
+	check(Widget)
+
+	PointerUp(ClosestPoint, Pointer, Widget);
 }
 
 bool UUxtWidgetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
 {
-	return Primitive == this;
+	return Cast<UWidgetComponent>(Primitive) != nullptr;
 }
 
 void UUxtWidgetComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	FVector ClosestPoint = Pointer->GetHitPoint();
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetFarFocusedWidget(Pointer, ClosestPoint);
+
+	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
+	// If this check fails, a non far focusable object has received focus.
+	check(Widget)
 
 	FVector2D LocalHitLocation;
-	GetLocalHitLocation(ClosestPoint, LocalHitLocation);
+	Widget->GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
 	Pointers.Add(Pointer, LocalHitLocation);
 }
 
 void UUxtWidgetComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	FVector ClosestPoint = Pointer->GetHitPoint();
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetFarFocusedWidget(Pointer, ClosestPoint);
 
-	PointerMove(ClosestPoint, Pointer);
+	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
+	// If this check fails, a non far focusable object has received focus.
+	check(Widget)
+
+	PointerMove(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	if (bIsPressed && Pointers.Num() == 1)
 	{
-		FVector ClosestPoint = Pointer->GetHitPoint();
+		FVector ClosestPoint;
+		UWidgetComponent* Widget = GetFarFocusedWidget(Pointer, ClosestPoint);
 
-		PointerUp(ClosestPoint, Pointer);
+		// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
+		// If this check fails, a non far focusable object has received focus.
+		check(Widget)
+
+		PointerUp(ClosestPoint, Pointer, Widget);
 	}
 
 	Pointers.Remove(Pointer);
@@ -120,23 +172,33 @@ void UUxtWidgetComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent*
 
 void UUxtWidgetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	FVector ClosestPoint = Pointer->GetHitPoint();
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetFarFocusedWidget(Pointer, ClosestPoint);
 
-	PointerDown(ClosestPoint, Pointer);
+	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
+	// If this check fails, a non far focusable object has received focus.
+	check(Widget)
+
+	PointerDown(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	FVector ClosestPoint = Pointer->GetHitPoint();
+	FVector ClosestPoint;
+	UWidgetComponent* Widget = GetFarFocusedWidget(Pointer, ClosestPoint);
 
-	PointerUp(ClosestPoint, Pointer);
+	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
+	// If this check fails, a non far focusable object has received focus.
+	check(Widget)
+
+	PointerUp(ClosestPoint, Pointer, Widget);
 }
 
-void UUxtWidgetComponent::PointerMove(const FVector& ClosestPoint, UUxtPointerComponent* Pointer)
+void UUxtWidgetComponent::PointerMove(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget)
 {
 	FPointerEvent Event;
 	FWidgetPath Path;
-	GetEventAndPath(ClosestPoint, Pointer, FKey(), Event, Path);
+	GetEventAndPath(ClosestPoint, Pointer, Widget, FKey(), Event, Path);
 
 	if (Path.IsValid())
 	{
@@ -149,7 +211,7 @@ void UUxtWidgetComponent::PointerMove(const FVector& ClosestPoint, UUxtPointerCo
 	}
 }
 
-void UUxtWidgetComponent::PointerDown(const FVector& ClosestPoint, UUxtPointerComponent* Pointer)
+void UUxtWidgetComponent::PointerDown(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget)
 {
 	bIsPressed = true;
 
@@ -157,12 +219,12 @@ void UUxtWidgetComponent::PointerDown(const FVector& ClosestPoint, UUxtPointerCo
 
 	FPointerEvent Event;
 	FWidgetPath Path;
-	GetEventAndPath(ClosestPoint, Pointer, EKeys::LeftMouseButton, Event, Path);
+	GetEventAndPath(ClosestPoint, Pointer, Widget, EKeys::LeftMouseButton, Event, Path);
 
 	FSlateApplication::Get().RoutePointerDownEvent(Path, Event);
 }
 
-void UUxtWidgetComponent::PointerUp(const FVector& ClosestPoint, UUxtPointerComponent* Pointer)
+void UUxtWidgetComponent::PointerUp(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget)
 {
 	bIsPressed = false;
 
@@ -170,17 +232,17 @@ void UUxtWidgetComponent::PointerUp(const FVector& ClosestPoint, UUxtPointerComp
 
 	FPointerEvent Event;
 	FWidgetPath Path;
-	GetEventAndPath(ClosestPoint, Pointer, EKeys::LeftMouseButton, Event, Path);
+	GetEventAndPath(ClosestPoint, Pointer, Widget, EKeys::LeftMouseButton, Event, Path);
 
 	FSlateApplication::Get().RoutePointerUpEvent(Path, Event);
 }
 
-void UUxtWidgetComponent::GetEventAndPath(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, FKey Key, FPointerEvent& Event, FWidgetPath& Path)
+void UUxtWidgetComponent::GetEventAndPath(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget, FKey Key, FPointerEvent& Event, FWidgetPath& Path)
 {
 	FVector2D LocalHitLocation;
-	GetLocalHitLocation(ClosestPoint, LocalHitLocation);
+	Widget->GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
-	Path = GetHitWidgetPath(LocalHitLocation, false);
+	Path = Widget->GetHitWidgetPath(LocalHitLocation, false);
 
 	Event = FPointerEvent(
 		VirtualUser->GetUserIndex(),

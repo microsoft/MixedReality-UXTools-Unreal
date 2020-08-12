@@ -409,6 +409,20 @@ UObject* UUxtNearPointerComponent::GetFocusedPokeTarget(FVector& OutClosestPoint
 	return PokeFocus->GetFocusedTarget();
 }
 
+UPrimitiveComponent* UUxtNearPointerComponent::GetFocusedGrabPrimitive(FVector& OutClosestPointOnTarget, FVector& OutNormal) const
+{
+	OutClosestPointOnTarget = GrabFocus->GetClosestTargetPoint();
+	OutNormal = GrabFocus->GetClosestTargetNormal();
+	return GrabFocus->GetFocusedPrimitive();
+}
+
+UPrimitiveComponent* UUxtNearPointerComponent::GetFocusedPokePrimitive(FVector& OutClosestPointOnTarget, FVector& OutNormal) const
+{
+	OutClosestPointOnTarget = PokeFocus->GetClosestTargetPoint();
+	OutNormal = PokeFocus->GetClosestTargetNormal();
+	return PokeFocus->GetFocusedPrimitive();
+}
+
 bool UUxtNearPointerComponent::SetFocusedGrabTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock)
 {
 	if (!bFocusLocked)

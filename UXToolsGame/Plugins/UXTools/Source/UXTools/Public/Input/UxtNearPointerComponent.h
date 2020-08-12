@@ -53,6 +53,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	UObject* GetFocusedPokeTarget(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
+	/** Returns currently focused grab primitive or null if there is none. */
+	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UPrimitiveComponent* GetFocusedGrabPrimitive(FVector& OutClosestPointOnTarget, FVector& Normal) const;
+
+	/** Returns currently focused poke primitive or null if there is none. */
+	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UPrimitiveComponent* GetFocusedPokePrimitive(FVector& OutClosestPointOnTarget, FVector& Normal) const;
+
 	/**
 	 * Set a focused grab target explicitly which will receive grasp events.
 	 * If bEnableFocusLock is true, then the new focus target will be locked until released by calling SetFocusLocked.
