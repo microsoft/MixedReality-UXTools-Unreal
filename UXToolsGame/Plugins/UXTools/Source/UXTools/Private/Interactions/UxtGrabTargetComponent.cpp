@@ -6,15 +6,7 @@
 #include "Interactions/UxtInteractionUtils.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
-#include "Interactions/UxtManipulationFlags.h"
-
-namespace
-{
-	bool HasInteractionFlag(int32 value, EUxtInteractionMode flag)
-	{
-		return !!(value & static_cast<int32>(flag));
-	}
-}
+#include "Interactions/UxtInteractionMode.h"
 
 FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
@@ -306,7 +298,7 @@ void UUxtGrabTargetComponent::OnExitGrabFocus_Implementation(UUxtNearPointerComp
 
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near))
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Near)))
 	{
 		return;
 	}
@@ -328,7 +320,7 @@ void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponen
 
 void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Near))
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Near)))
 	{
 		// release near pointer if we are not supporting near interaction
 		OnEndGrab_Implementation(Pointer);
@@ -408,7 +400,7 @@ void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) c
 
 void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far))
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Far)))
 	{
 		return;
 	}
@@ -457,7 +449,7 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 
 void UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	if (!HasInteractionFlag(InteractionMode, EUxtInteractionMode::Far))
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Far)))
 	{
 		// release far pointer if we are not supporting far interaction
 		OnFarReleased_Implementation(Pointer);

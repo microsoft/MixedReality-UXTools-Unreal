@@ -3,7 +3,7 @@
 
 # Array of refs to push to github.
 # Comma separates each element
-$refs_to_push=@("public/0.8.x") #TODD add release/0.8.0 when tagged
+$refs_to_push=@("public/0.8.x", "public/0.9.x") #TODO add release tags
 # Github repo
 $github="https://github.com/microsoft/MixedReality-UXTools-Unreal"
 

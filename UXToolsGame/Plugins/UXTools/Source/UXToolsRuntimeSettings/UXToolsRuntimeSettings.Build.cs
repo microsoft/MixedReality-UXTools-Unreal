@@ -12,7 +12,7 @@ public class UXToolsRuntimeSettings : ModuleRules
 		 *  The settings module should also be loaded at an early stage which is easier to ensure with a separate module.
 		 */
 
-		PCHUsage = PCHUsageMode.NoPCHs;
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicIncludePathModuleNames.AddRange(
 			new string[]

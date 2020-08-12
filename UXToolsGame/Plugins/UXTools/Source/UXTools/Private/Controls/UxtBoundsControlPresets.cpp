@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "Controls/UxtBoundsControlComponent.h"
 #include "Controls/UxtBoundsControlPresets.h"
+#include "Controls/UxtBoundsControlComponent.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 

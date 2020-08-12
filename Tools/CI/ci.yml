@@ -33,8 +33,31 @@ stages:
     - checkout: build-tools
     - template: templates/common.yml
 
-    - script: '"$(UnrealEngine)\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -clean -cook -package -allmaps -build -stage -targetplatform=Android -cookflavor=Multi -clientconfig=Development -serverconfig=Development'
+    - script: >
+        $(UAT)
+        BuildCookRun
+        -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject
+        -clean
+        -cook
+        -package
+        -allmaps
+        -build
+        -stage
+        -targetplatform=Android
+        -cookflavor=Multi
+        -clientconfig=Development
+        -serverconfig=Development
+        -target=UXToolsGame
+        -pak
+        -archive
+        -archivedirectory=$(Build.ArtifactStagingDirectory)/packages
       displayName: 'Build Android Development'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish prebuilt UXTGame (Android)'
+      inputs:
+        ArtifactName: 'UXTGame-Android'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)\packages\Android_Multi'
 
     # RepoMirrorUrl will usually contain a PAT because the build agent doesn't have write permission.
     - powershell: '$(UXTSourceDir)\Tools\CI\scripts\MirrorToRemote.ps1 -RemoteUrl $(RepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(MirrorRefsToAllowRegex)'

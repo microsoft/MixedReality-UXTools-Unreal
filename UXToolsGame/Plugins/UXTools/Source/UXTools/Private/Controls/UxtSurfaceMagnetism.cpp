@@ -78,7 +78,7 @@ void UUxtSurfaceMagnetism::TickComponent(float DeltaTime, ELevelTick TickType, F
 			FVector End = Start + (HeadTransform.GetRotation().GetForwardVector() * TraceDistance);
 			TraceAndSetActorLocation(Start, End, DeltaTime);
 		}
-		else if ((MagnetismType == EUxtMagnetismType::Hand))
+		else if (MagnetismType == EUxtMagnetismType::Hand)
 		{
 			// account for tracking loss in target hand
 			if (UUxtFarPointerComponent* FarPointer = FarPointerWeak.Get())
@@ -87,15 +87,12 @@ void UUxtSurfaceMagnetism::TickComponent(float DeltaTime, ELevelTick TickType, F
 				FVector End = Start + (FarPointer->GetPointerOrientation().GetForwardVector() * TraceDistance);
 				TraceAndSetActorLocation(Start, End, DeltaTime);
 			}
-
-
 		}
 	}
 	else // interpolation once dropped
 	{
 		TraceAndSetActorLocation(FVector::ZeroVector, FVector::ZeroVector, DeltaTime); // Vector values unused
 	}
-
 }
 
 void UUxtSurfaceMagnetism::OnComponentCreated()

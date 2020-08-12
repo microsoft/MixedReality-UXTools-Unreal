@@ -5,6 +5,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interactions/UxtInteractionMode.h"
+
 #include "UxtHandInteractionActor.generated.h"
 
 class UProceduralMeshComponent;
@@ -92,8 +94,12 @@ public:
 	bool bUseDefaultFarBeam = true;
 
 	/** Show the near cursor on grab targets. Changes to this value after BeginPlay have no effect. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
 	bool bShowNearCursorOnGrabTargets = false;
+
+	/** Active interaction modes */
+	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
+	int32 InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 private:
 

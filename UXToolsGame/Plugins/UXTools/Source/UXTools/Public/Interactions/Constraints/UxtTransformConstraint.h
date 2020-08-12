@@ -4,6 +4,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Interactions/UxtManipulationFlags.h"
+#include "Interactions/UxtInteractionMode.h"
 #include "Components/SceneComponent.h"
 #include "UxtTransformConstraint.generated.h"
 

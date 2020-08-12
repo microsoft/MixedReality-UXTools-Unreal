@@ -221,7 +221,7 @@ void UUxtFollowComponent::BeginPlay()
 
 	Recenter();
 
-	WorkingTransform = FTransform(GetOwner()->GetTransform().GetRotation(), GetOwner()->GetTransform().GetLocation());
+	WorkingTransform = GetOwner()->GetTransform();
 
 	if (bAutoActivate)
 	{

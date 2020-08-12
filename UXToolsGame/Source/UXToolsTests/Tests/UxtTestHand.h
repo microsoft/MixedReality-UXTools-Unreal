@@ -4,7 +4,8 @@
 #pragma once
 
 #include "InputCoreTypes.h"
-#include "Interactions\UxtManipulationFlags.h"
+#include "Interactions/UxtInteractionMode.h"
+#include "Math/TransformNonVectorized.h"
 
 class UUxtPointerComponent;
 
