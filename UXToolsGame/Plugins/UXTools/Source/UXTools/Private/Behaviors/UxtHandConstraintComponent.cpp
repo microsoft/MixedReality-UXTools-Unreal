@@ -97,7 +97,6 @@ namespace
 UUxtHandConstraintComponent::UUxtHandConstraintComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 }
 
 EControllerHand UUxtHandConstraintComponent::GetTrackedHand() const

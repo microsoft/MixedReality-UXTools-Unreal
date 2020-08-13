@@ -123,8 +123,8 @@ UUxtNearPointerComponent::UUxtNearPointerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// Tick after physics so overlaps reflect the latest physics state.
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
+	// Tick before controls
+	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PrePhysics;
 
 	GrabFocus = new FUxtGrabPointerFocus();
 	PokeFocus = new FUxtPokePointerFocus();

@@ -18,7 +18,6 @@
 UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
 	// Default values
 	ManipulationModes = static_cast<int32>(EUxtGenericManipulationMode::OneHanded | EUxtGenericManipulationMode::TwoHanded);

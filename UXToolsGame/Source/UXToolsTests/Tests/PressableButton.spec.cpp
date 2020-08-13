@@ -40,7 +40,7 @@ namespace
 			}
 
 			UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(Actor);
-			Mesh->SetupAttachment((Visuals != nullptr) ? Visuals : Actor->GetRootComponent());
+			Mesh->SetupAttachment((Visuals != nullptr) ? Visuals : Button);
 			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 			Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
 			Mesh->SetGenerateOverlapEvents(true);
@@ -69,6 +69,7 @@ namespace
 		Root->RegisterComponent();
 
 		UUxtPressableButtonComponent* TestTarget = NewObject<UUxtPressableButtonComponent>(Actor);
+		TestTarget->SetupAttachment(Root);
 		TestTarget->SetPushBehavior(PushBehavior);
 		TestTarget->SetWorldRotation(FRotator(0, 180, 0));
 		TestTarget->SetWorldLocation(Location);
@@ -306,9 +307,6 @@ void PressableButtonSpec::Define()
 						{
 							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::BackwardVector * MoveBy));
 						});
-
-					FrameQueue.Skip();
-
 					FrameQueue.Enqueue([this, Done]
 						{
 							TestTrue("button state is focused", Button->GetState() == EUxtButtonState::Focused);
@@ -322,15 +320,11 @@ void PressableButtonSpec::Define()
 						{
 							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::BackwardVector * MoveBy));
 						});
-
 					FrameQueue.Enqueue([this]
 						{
 							const float MoveAmount = Button->GetMaxPushDistance() * (Button->PressedFraction * 2.0f);
 							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center + (FVector::BackwardVector * MoveAmount));
 						});
-
-					FrameQueue.Skip();
-
 					FrameQueue.Enqueue([this, Done]
 						{
 							TestTrue("button state is contacted", Button->GetState() == EUxtButtonState::Contacted);
@@ -349,9 +343,6 @@ void PressableButtonSpec::Define()
 						{
 							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Center);
 						});
-
-					FrameQueue.Skip();
-
 					FrameQueue.Enqueue([this, Done]
 						{
 							TestTrue("button state is pressed", Button->GetState() == EUxtButtonState::Pressed);
@@ -463,28 +454,14 @@ void PressableButtonSpec::Define()
 
 void PressableButtonSpec::EnqueueDestroyTest(const TTuple<FVector, FVector> FramePositions)
 {
-	// The occasional frame needs to be skipped in this test because of a tick 
-	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
-	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
-	// be empty for the first frame after the hand has been moved to the press
-	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
-	// to be called after PokePointers has been populated.
-
-	// first move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<0>());
 		});
-	// second move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<1>());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test pressed and destroy
 	FrameQueue.Enqueue([this]
 		{
 			TestTrue("Button was pressed", EventCaptureObj->PressedCount == 1);
@@ -492,7 +469,6 @@ void PressableButtonSpec::EnqueueDestroyTest(const TTuple<FVector, FVector> Fram
 
 			Button->DestroyComponent();
 		});
-	// verify no released
 	FrameQueue.Enqueue([this]
 		{
 			TestTrue("Button was pressed", EventCaptureObj->PressedCount == 1);
@@ -502,28 +478,14 @@ void PressableButtonSpec::EnqueueDestroyTest(const TTuple<FVector, FVector> Fram
 
 void PressableButtonSpec::EnqueueDisableTest(const TTuple<FVector, FVector> FramePositions)
 {
-	// The occasional frame needs to be skipped in this test because of a tick 
-	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
-	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
-	// be empty for the first frame after the hand has been moved to the press
-	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
-	// to be called after PokePointers has been populated.
-
-	// first move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<0>());
 		});
-	// second move
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<1>());
 		});
-
-	// skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test pressed and disable button
 	FrameQueue.Enqueue([this]
 		{
 			TestTrue("Button was pressed", EventCaptureObj->PressedCount == 1);
@@ -541,39 +503,20 @@ void PressableButtonSpec::EnqueueDisableTest(const TTuple<FVector, FVector> Fram
 
 void PressableButtonSpec::EnqueuePressReleaseTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease)
 {
-	// The occasional frame needs to be skipped in this test because of a tick 
-	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
-	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
-	// be empty for the first frame after the hand has been moved to the press
-	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
-	// to be called after PokePointers has been populated.
-
-	// move to starting position
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<0>());
 		});
-	// move to second position
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<1>());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test pressed state is expected and move to final position
 	FrameQueue.Enqueue([this, bExpectingPress, FramePositions]
 		{
 			TestEqual("Button press as expected", EventCaptureObj->PressedCount == 1, bExpectingPress);
 
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FramePositions.Get<2>());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test released state is expected
 	FrameQueue.Enqueue([this, bExpectingRelease]
 		{
 			TestEqual("Button release as expected", EventCaptureObj->ReleasedCount == 1, bExpectingRelease);
@@ -582,39 +525,20 @@ void PressableButtonSpec::EnqueuePressReleaseTest(const TTuple<FVector, FVector,
 
 void PressableButtonSpec::EnqueueMoveButtonTest(const TTuple<FVector, FVector, FVector> FramePositions, bool bExpectingPress, bool bExpectingRelease)
 {
-	// The occasional frame needs to be skipped in this test because of a tick 
-	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
-	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
-	// be empty for the first frame after the hand has been moved to the press
-	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
-	// to be called after PokePointers has been populated.
-
-	// move to starting position
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			Button->SetWorldLocation(FramePositions.Get<0>());
 		});
-	// move to second position
 	FrameQueue.Enqueue([this, FramePositions]
 		{
 			Button->SetWorldLocation(FramePositions.Get<1>());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test pressed state is expected and move to final position
 	FrameQueue.Enqueue([this, bExpectingPress, FramePositions]
 		{
 			TestEqual("Button press as expected", EventCaptureObj->PressedCount == 1, bExpectingPress);
 
 			Button->SetWorldLocation(FramePositions.Get<2>());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test released state is expected
 	FrameQueue.Enqueue([this, bExpectingRelease]
 		{
 			TestEqual("Button release as expected", EventCaptureObj->ReleasedCount == 1, bExpectingRelease);
@@ -627,28 +551,14 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 	// pokeable object in the poke focus volume. This was causing issues as if the focused
 	// and poked primitives differ, then no poke events are fired
 
-	// The occasional frame needs to be skipped in this test because of a tick 
-	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
-	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
-	// be empty for the first frame after the hand has been moved to the press
-	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
-	// to be called after PokePointers has been populated.
-
-	// first move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 		});
-	// second move
 	FrameQueue.Enqueue([this]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Button->GetComponentLocation());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test pressed and move back to starting pos
 	FrameQueue.Enqueue([this, StartingPos]
 		{
 			TestTrue("A button was pressed", EventCaptureObj->PressedCount == 1);
@@ -656,21 +566,14 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 			TestTrue("First Button is pressed", Button->GetState() == EUxtButtonState::Pressed);
 			TestFalse("Second Button is not pressed", SecondButton->GetState() == EUxtButtonState::Pressed);
 		});
-	// third move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 		});
-	// fourth move
 	FrameQueue.Enqueue([this]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(SecondButton->GetComponentLocation());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// second move
 	FrameQueue.Enqueue([this]
 		{
 			TestTrue("Another button was pressed", EventCaptureObj->PressedCount == 2);
@@ -682,51 +585,29 @@ void PressableButtonSpec::EnqueueTwoButtonsTest(const FVector StartingPos)
 
 void PressableButtonSpec::EnqueueAbsoluteDistancesTest(const FVector StartingPos)
 {
-	// The occasional frame needs to be skipped in this test because of a tick 
-	// ordering issue. The problem is that UUxtNearPointerComponent::TickComponent 
-	// calls after UUxtPressableButtonComponent::TickComponent so PokePointers will 
-	// be empty for the first frame after the hand has been moved to the press
-	// position. Waiting a frame allows for UUxtPressableButtonComponent::TickComponent 
-	// to be called after PokePointers has been populated.
-
-	// first move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 		});
-	// second move
 	FrameQueue.Enqueue([this]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Button->GetComponentLocation());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// test pressed and move back to starting pos
 	FrameQueue.Enqueue([this, StartingPos]
 		{
 			TestTrue("Button was pressed", EventCaptureObj->PressedCount == 1);
 
 			TestPos = Button->GetVisuals()->GetComponentLocation();
 		});
-	// third move
 	FrameQueue.Enqueue([this, StartingPos]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(StartingPos);
 			Button->SetUseAbsolutePushDistance(true);
 		});
-
-	// fourth move
 	FrameQueue.Enqueue([this]
 		{
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Button->GetComponentLocation());
 		});
-
-	// Skip a frame for poke because of tick ordering issue.
-	FrameQueue.Skip();
-
-	// second move
 	FrameQueue.Enqueue([this]
 		{
 			TestTrue("Button was pressed after changing to absolute distances", EventCaptureObj->PressedCount == 2);

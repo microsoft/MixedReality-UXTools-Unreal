@@ -18,8 +18,8 @@ UUxtFarPointerComponent::UUxtFarPointerComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
 	ParameterCollection = Finder.Object;
-	// Tick after physics so we query against the most recent state.
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
+	// Tick before controls
+	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PrePhysics;
 }
 
 void UUxtFarPointerComponent::SetActive(bool bNewActive, bool bReset)

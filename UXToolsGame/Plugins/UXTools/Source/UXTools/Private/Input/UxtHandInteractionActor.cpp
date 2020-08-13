@@ -18,7 +18,8 @@
 AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.TickGroup = ETickingGroup::TG_PostPhysics;
+	// Do not delay pointers' tick unnecessarily
+	PrimaryActorTick.TickGroup = ETickingGroup::TG_PrePhysics;
 
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent")));
 

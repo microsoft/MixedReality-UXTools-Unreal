@@ -32,7 +32,6 @@ namespace
 UUxtPinchSliderComponent::UUxtPinchSliderComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 	ThumbVisuals.ComponentProperty = TEXT("SliderThumb");
 	TrackVisuals.ComponentProperty = TEXT("SliderTrack");
 	TickMarkVisuals.ComponentProperty = TEXT("TickMarks");

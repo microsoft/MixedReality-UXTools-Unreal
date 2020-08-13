@@ -18,7 +18,6 @@
 UUxtPressableButtonComponent::UUxtPressableButtonComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 }
 
 float UUxtPressableButtonComponent::GetFrontFaceCollisionFraction() const
