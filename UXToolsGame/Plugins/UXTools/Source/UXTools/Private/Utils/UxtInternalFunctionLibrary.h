@@ -77,4 +77,16 @@ public:
 	/** Spherical linear interpolate between two vectors */
 	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
 	static FVector Slerp(const FVector& Vector1, const FVector& Vector2, const float Slerp);
+
+	/** Get the object from a TSoftObjectPtr, loading it synchronously if it is not loaded. */
+	template <typename T>
+	static T* GetObjectFromPtr(const TSoftObjectPtr<T>& ObjectPtr)
+	{
+		if (ObjectPtr.IsPending())
+		{
+			ObjectPtr.LoadSynchronous();
+		}
+
+		return ObjectPtr.Get();
+	}
 };
