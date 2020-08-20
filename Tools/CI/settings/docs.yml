@@ -1,7 +1,5 @@
 # Settings shared by documentation generation builds
 variables:
-- name: CIUtils.NugetFeed
-  value: https://mrdevplat.pkgs.visualstudio.com/DevPlat/_packaging/CI-utils/nuget/v3/index.json
 - name: DocFX.Version
   value: '2.48.1'
 - name: code2yaml.Version
