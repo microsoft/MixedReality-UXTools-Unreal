@@ -17,6 +17,7 @@ class UBoxComponent;
 class UUxtNearPointerComponent;
 class UUxtFarPointerComponent;
 
+// clang-format off
 
 //
 // Enums
@@ -34,6 +35,8 @@ enum class EUxtPaginateResult : uint8
 	Failed_ConcurrentOperation		UMETA(ScriptName = "Failed, Concurrent Operation", Tooltip = "The operation was aborted due to another move request that has not yet finished."),
 	Failed_ConcurrentInteraction	UMETA(ScriptName = "Failed, Concurrent User Interaction", Tooltip = "The operation was aborted because there is another interaction with the object." ),
 };
+
+// clang-format on
 
 UENUM(meta=(Bitflags))
 enum class EInteractionTypeBits
