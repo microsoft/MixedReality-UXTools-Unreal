@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 #include "UxtTooltipSpawnerComponentVisualizer.h"
-#include "Tooltips/UxtTooltipActor.h"
-#include "Tooltips/UxtTooltipSpawnerComponent.h"
-#include "Components/StaticMeshComponent.h"
+
 #include "SceneManagement.h"
 #include "UXToolsEditor.h"
-#include "Utils/UxtMathUtilsFunctionLibrary.h"
-#include "Components/WidgetComponent.h"
 
-void FUxtTooltipSpawnerComponentVisualizer::DrawVisualization(const UActorComponent* Component, const FSceneView* View, FPrimitiveDrawInterface* PDI)
+#include "Components/StaticMeshComponent.h"
+#include "Components/WidgetComponent.h"
+#include "Tooltips/UxtTooltipActor.h"
+#include "Tooltips/UxtTooltipSpawnerComponent.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
+
+void FUxtTooltipSpawnerComponentVisualizer::DrawVisualization(
+	const UActorComponent* Component, const FSceneView* View, FPrimitiveDrawInterface* PDI)
 {
 	const UUxtTooltipSpawnerComponent* TooltipSpawner = Cast<const UUxtTooltipSpawnerComponent>(Component);
 	if (TooltipSpawner == nullptr)
@@ -30,13 +33,8 @@ void FUxtTooltipSpawnerComponentVisualizer::DrawVisualization(const UActorCompon
 	FTransform Transform = TooltipSpawner->GetOwner()->GetActorTransform();
 	Transform.SetLocation(Transform.GetLocation() + Offset);
 
-	const FVector Vertices[] =
-	{
-		FVector(-Depth, Width, Height),
-		FVector(-Depth, Width, -Height),
-		FVector(-Depth, -Width, -Height),
-		FVector(-Depth, -Width, Height)
-	};
+	const FVector Vertices[] = {
+		FVector(-Depth, Width, Height), FVector(-Depth, Width, -Height), FVector(-Depth, -Width, -Height), FVector(-Depth, -Width, Height)};
 
 	for (int i = 0; i < 4; ++i)
 	{

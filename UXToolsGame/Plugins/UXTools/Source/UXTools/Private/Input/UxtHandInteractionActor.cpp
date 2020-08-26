@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 #include "Input/UxtHandInteractionActor.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtFarPointerComponent.h"
-#include "Controls/UxtFingerCursorComponent.h"
-#include "Controls/UxtFarCursorComponent.h"
+
+#include "ProceduralMeshComponent.h"
+
 #include "Controls/UxtFarBeamComponent.h"
+#include "Controls/UxtFarCursorComponent.h"
+#include "Controls/UxtFingerCursorComponent.h"
 #include "HandTracking/IUxtHandTracker.h"
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtHandProximityMesh.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Utils/UxtFunctionLibrary.h"
-#include "ProceduralMeshComponent.h"
-#include "Input/UxtHandProximityMesh.h"
 
 AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer)
 {
@@ -78,7 +79,7 @@ void AUxtHandInteractionActor::BeginPlay()
 	if (bUseDefaultFarBeam)
 	{
 		UUxtFarBeamComponent* FarBeam = NewObject<UUxtFarBeamComponent>(this);
-		
+
 		// Prevent self Transform from affecting the FarBeam's one
 		FarBeam->SetAbsolute(true, true, true);
 
@@ -159,7 +160,8 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 		FQuat IndexTipOrientation, PalmOrientation;
 		FVector IndexTipPosition, PalmPosition;
 		float IndexTipRadius, PalmRadius;
-		const bool bIsIndexTipValid = HandTracker->GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+		const bool bIsIndexTipValid =
+			HandTracker->GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
 		const bool bIsPalmValid = HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius);
 		if (bIsIndexTipValid && bIsPalmValid)
 		{

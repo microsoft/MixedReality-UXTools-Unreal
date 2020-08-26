@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "GameFramework/Actor.h"
 #include "Interactions/UxtInteractionMode.h"
 
@@ -24,9 +25,8 @@ UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtHandInteractionActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	
+
+public:
 	AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer);
 
 	//
@@ -98,11 +98,11 @@ public:
 	bool bShowNearCursorOnGrabTargets = false;
 
 	/** Active interaction modes */
-	UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
+	UPROPERTY(
+		Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
 	int32 InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 private:
-
 	/** Generates a cone-shaped mesh for proximity testing. */
 	void UpdateProximityMesh();
 
@@ -120,9 +120,10 @@ private:
 	bool IsInPointingPose() const;
 
 private:
-
 	/** Articulated hand used to drive interactions. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
+	UPROPERTY(
+		EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction",
+		meta = (ExposeOnSpawn = true))
 	EControllerHand Hand;
 
 	/** Offset from the hand ray origin at which the far ray used for far target selection starts. */

@@ -4,17 +4,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UxtManipulationFlags.h"
 #include "UxtManipulatorComponentBase.h"
-#include "UxtManipulationFlags.h"
 
-#include "UxtManipulationFlags.h"
 #include "UxtGenericManipulatorComponent.generated.h"
 /**
  * Generic manipulator that supports both one- and two-handed interactions.
- * 
+ *
  * One-handed interaction supports linear movement as well as rotation based on the orientation of the hand.
  * Rotation modes can be selected with different axes and pivot points.
- * 
+ *
  * Two-handed interaction moves the object based on the center between hands.
  * The actor can be rotated based on the line between both hands and scaled based on the distance.
  */
@@ -24,7 +23,6 @@ class UXTOOLS_API UUxtGenericManipulatorComponent : public UUxtManipulatorCompon
 	GENERATED_BODY()
 
 public:
-
 	UUxtGenericManipulatorComponent();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -35,7 +33,6 @@ public:
 	void SetSmoothing(float NewSmoothing);
 
 protected:
-
 	void UpdateOneHandManipulation(float DeltaSeconds);
 	void UpdateTwoHandManipulation(float DeltaSeconds);
 
@@ -49,7 +46,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-
 	/** Enabled manipulation modes. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtGenericManipulationMode))
 	int32 ManipulationModes;
@@ -71,7 +67,6 @@ public:
 	FComponentReference TargetComponent;
 
 private:
-
 	bool IsNearManipulation() const;
 
 	UFUNCTION()
@@ -83,11 +78,14 @@ private:
 	/** Motion smoothing factor to apply while manipulating the object.
 	 *
 	 * A low-pass filter is applied to the source transform location and rotation to smooth out jittering.
-	 * The new actor transform is a exponentially weighted average of the current transform and the raw target transform based on the time step:
+	 * The new actor transform is a exponentially weighted average of the current transform and the raw target transform based on the time
+	 * step:
 	 *
 	 * T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )
 	 */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = GenericManipulator, meta = (ClampMin = "0.0"))
+	UPROPERTY(
+		EditAnywhere, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = GenericManipulator,
+		meta = (ClampMin = "0.0"))
 	float Smoothing;
 
 	/** Was the target simulating physics */

@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 #include "Utils/UxtInternalFunctionLibrary.h"
+
+#include "Engine/Engine.h"
 #include "Engine/Font.h"
 #include "Engine/Texture2D.h"
-#include "Engine/Engine.h"
 
 bool UUxtInternalFunctionLibrary::HexCodePointToFString(const FString& Input, FString& Output)
 {

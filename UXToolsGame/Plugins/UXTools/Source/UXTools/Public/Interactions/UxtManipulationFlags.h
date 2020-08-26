@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "UxtManipulationFlags.generated.h"
 
 /** Manipulation modes supported by the generic manipulator. */
@@ -23,7 +24,8 @@ enum class EUxtOneHandRotationMode : uint8
 {
 	/** Does not rotate object as it is being moved. */
 	MaintainOriginalRotation,
-	/** Only works for articulated hands/controllers. Rotate object using rotation of the hand/controller, but about the object center point. Useful for inspecting at a distance. */
+	/** Only works for articulated hands/controllers. Rotate object using rotation of the hand/controller, but about the object center
+	   point. Useful for inspecting at a distance. */
 	RotateAboutObjectCenter,
 	/** Only works for articulated hands/controllers. Rotate object as if it was being held by hand/controller. Useful for inspection. */
 	RotateAboutGrabPoint,

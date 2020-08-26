@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 #include "HandTracking/UxtWmrHandTracker.h"
-#include "WindowsMixedRealityHandTrackingFunctionLibrary.h"
+
 #include "WindowsMixedRealityFunctionLibrary.h"
+#include "WindowsMixedRealityHandTrackingFunctionLibrary.h"
+
 #include "Utils/UxtFunctionLibrary.h"
 
-
-bool FUxtWmrHandTracker::GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
+bool FUxtWmrHandTracker::GetJointState(
+	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
 	EWMRHandKeypoint Keypoint = (EWMRHandKeypoint)Joint;
 	FTransform Transform;

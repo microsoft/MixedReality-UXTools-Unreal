@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 #include "UxtInputSimulationLocalPlayerSubsystem.h"
-#include "UxtInputSimulationActor.h"
-
-#include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
 #include "IHeadMountedDisplay.h"
+#include "UxtInputSimulationActor.h"
+#include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
+
 #include "Camera/CameraComponent.h"
 #include "Engine/Engine.h"
 #include "Engine/LocalPlayer.h"
@@ -139,6 +139,5 @@ void UUxtInputSimulationLocalPlayerSubsystem::OnPostLoadMapWithWorld(UWorld* Loa
 {
 	CreateActors(LoadedWorld);
 }
-
 
 #undef LOCTEXT_NAMESPACE

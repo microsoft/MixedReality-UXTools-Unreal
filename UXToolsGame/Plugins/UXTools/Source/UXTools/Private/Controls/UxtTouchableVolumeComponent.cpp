@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtTouchableVolumeComponent.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtFarPointerComponent.h"
+
 #include "UXTools.h"
+
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtInteractionUtils.h"
 
+#include <Components/PrimitiveComponent.h>
 #include <GameFramework/Actor.h>
 #include <GameFramework/PlayerController.h>
-#include <Components/PrimitiveComponent.h>
 #include <Kismet/GameplayStatics.h>
 
 void UUxtTouchableVolumeComponent::SetEnabled(bool Enabled)
@@ -64,7 +66,8 @@ void UUxtTouchableVolumeComponent::BeginPlay()
 	}
 }
 
-bool UUxtTouchableVolumeComponent::GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+bool UUxtTouchableVolumeComponent::GetClosestPoint_Implementation(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
 {
 	float NotUsed;
 	if (FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed))

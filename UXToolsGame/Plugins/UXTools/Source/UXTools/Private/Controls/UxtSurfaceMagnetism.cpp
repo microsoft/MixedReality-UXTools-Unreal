@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtSurfaceMagnetism.h"
-#include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
-#include "GameFramework/Actor.h"
-#include "Utils/UxtFunctionLibrary.h"
-#include "Utils/UxtMathUtilsFunctionLibrary.h"
+
 #include "DrawDebugHelpers.h"
 
-
+#include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Utils/UxtFunctionLibrary.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 // Sets default values for this component's properties
 UUxtSurfaceMagnetism::UUxtSurfaceMagnetism()
@@ -30,7 +30,6 @@ UUxtSurfaceMagnetism::UUxtSurfaceMagnetism()
 
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
-
 }
 
 void UUxtSurfaceMagnetism::SetCollisionProfile(FName Profile)
@@ -39,7 +38,7 @@ void UUxtSurfaceMagnetism::SetCollisionProfile(FName Profile)
 	SetCollisionProfileName(CollisionProfile);
 }
 
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 void UUxtSurfaceMagnetism::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	SetupBounds();
@@ -68,7 +67,7 @@ void UUxtSurfaceMagnetism::SetOnlyYawEnabled(bool UseYawOnly)
 void UUxtSurfaceMagnetism::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
+
 	if (FarPointerWeak.Get())
 	{
 		if (MagnetismType == EUxtMagnetismType::Head)
@@ -134,7 +133,6 @@ void UUxtSurfaceMagnetism::OnFarReleased_Implementation(UUxtFarPointerComponent*
 			SetComponentTickEnabled(false);
 			OnMagnetismEnded.Broadcast(this);
 		}
-		
 	}
 }
 
@@ -146,7 +144,7 @@ void UUxtSurfaceMagnetism::SetupBounds()
 		{
 			FBox Box = UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInLocalSpace(GetOwner(), true);
 			BoxBounds = (Box.Max - Box.Min) / 2.0f;
-			SetBoxExtent(BoxBounds);	
+			SetBoxExtent(BoxBounds);
 		}
 	}
 	else
@@ -165,7 +163,9 @@ void UUxtSurfaceMagnetism::TraceAndSetActorLocation(FVector Start, FVector End, 
 		QueryParams.AddIgnoredActor(GetOwner());
 		if (AActor* MyActor = GetOwner())
 		{
-			if (FarPointerWeak.Get() && World->LineTraceSingleByChannel(Hit, Start, End, TraceChannel, QueryParams)) // if far pointer isn't valid we are just interping to target position
+			if (FarPointerWeak.Get() &&
+				World->LineTraceSingleByChannel(
+					Hit, Start, End, TraceChannel, QueryParams)) // if far pointer isn't valid we are just interping to target position
 			{
 				HitLocation = Hit.Location + (ImpactNormalOffset * Hit.ImpactNormal);
 				HitRotation = UKismetMathLibrary::MakeRotFromX(Hit.ImpactNormal);
@@ -185,18 +185,18 @@ void UUxtSurfaceMagnetism::TraceAndSetActorLocation(FVector Start, FVector End, 
 
 			MyActor->SetActorLocationAndRotation(
 				bSmoothPosition ? FMath::VInterpTo(MyActor->GetActorLocation(), HitLocation, DeltaTime, PositionInterpValue) : HitLocation,
-				bSmoothRotation ? FMath::RInterpTo(MyActor->GetActorRotation(), HitRotation, DeltaTime, RotationInterpValue) : HitRotation
-			);
-			
+				bSmoothRotation ? FMath::RInterpTo(MyActor->GetActorRotation(), HitRotation, DeltaTime, RotationInterpValue) : HitRotation);
+
 			if (bInteractionHalted)
 			{
 				const float DistanceThresholdSquare = 1.0f;
 				const float RotationThreshold = 0.95f;
 
 				bool DistanceThresholdMet = FVector::DistSquared(MyActor->GetActorLocation(), HitLocation) < DistanceThresholdSquare;
-				bool RotationThresholdMet = FVector::DotProduct(MyActor->GetActorForwardVector(), HitRotation.Quaternion().GetForwardVector()) > RotationThreshold;
+				bool RotationThresholdMet =
+					FVector::DotProduct(MyActor->GetActorForwardVector(), HitRotation.Quaternion().GetForwardVector()) > RotationThreshold;
 
-				if(DistanceThresholdMet && RotationThresholdMet)
+				if (DistanceThresholdMet && RotationThresholdMet)
 				{
 					SetComponentTickEnabled(false);
 					OnMagnetismEnded.Broadcast(this);

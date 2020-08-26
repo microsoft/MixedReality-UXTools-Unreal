@@ -72,7 +72,7 @@ EUxtUIElementVisibility UUxtUIElementComponent::GetParentVisibility() const
 void UUxtUIElementComponent::UpdateVisibility(EUxtUIElementVisibility ParentVisibility)
 {
 	AActor* Actor = GetOwner();
-	const EUxtUIElementVisibility CurrentVisiblity = ParentVisibility == EUxtUIElementVisibility::Show ? Visibility  : ParentVisibility;
+	const EUxtUIElementVisibility CurrentVisiblity = ParentVisibility == EUxtUIElementVisibility::Show ? Visibility : ParentVisibility;
 
 	// Update self
 	if (CurrentVisiblity == EUxtUIElementVisibility::Show && Actor->IsHidden())

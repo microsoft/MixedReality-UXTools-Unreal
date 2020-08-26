@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 #include "Interactions/Constraints/UxtFixedRotationToUserConstraint.h"
-#include "Engine/World.h"
+
 #include "Camera/PlayerCameraManager.h"
+#include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 
 void UUxtFixedRotationToUserConstraint::Initialize(const FTransform& WorldPose)
 {
 	Super::Initialize(WorldPose);
-	
+
 	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 	const FRotator CameraRotation = CameraManager->GetCameraRotation();
 

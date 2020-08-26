@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 #include "Tooltips/UxtTooltipActor.h"
+
 #include "Components/SplineMeshComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Kismet/GameplayStatics.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Utils/UxtFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Materials/MaterialInstanceConstant.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtFunctionLibrary.h"
 #include "Widgets/Text/STextBlock.h"
 
-AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	SceneRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, TEXT("SceneRoot"));
 	RootComponent = SceneRoot;
@@ -26,11 +26,12 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer)
 	SplineMeshComponent->SetGenerateOverlapEvents(false);
 	SplineMeshComponent->bAllowSplineEditingPerInstance = true;
 	SplineMeshComponent->SetCastShadow(false);
-	SplineMeshComponent->SetAbsolute( /*location*/ false, /*rotation*/ false, /*scale*/ true); // SplineMesh to not be affected by scale.
+	SplineMeshComponent->SetAbsolute(/*location*/ false, /*rotation*/ false, /*scale*/ true); // SplineMesh to not be affected by scale.
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> Mesh(TEXT("StaticMesh'/UXTools/Pointers/Meshes/SM_Tube.SM_Tube'"));
 	check(Mesh.Object);
-	static ConstructorHelpers::FObjectFinder<UMaterial> Material(TEXT("Material'/UXTools/Tooltip/Hololense2/M_TooltipSpline.M_TooltipSpline'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial> Material(
+		TEXT("Material'/UXTools/Tooltip/Hololense2/M_TooltipSpline.M_TooltipSpline'"));
 	check(Material.Object);
 
 	SplineMeshComponent->SetStaticMesh(Mesh.Object);
@@ -41,7 +42,7 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer)
 	// Create the anchor component.
 	Anchor = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, "Anchor");
 	Anchor->SetupAttachment(SceneRoot);
-	Anchor->SetAbsolute( /*location*/ false, /*rotation*/ false, /*scale*/ true); // Anchor to not be affected by scale.
+	Anchor->SetAbsolute(/*location*/ false, /*rotation*/ false, /*scale*/ true); // Anchor to not be affected by scale.
 
 	// Default value for the component target as most common.
 	TooltipTarget.ComponentProperty = TEXT("SceneRoot");
@@ -59,9 +60,11 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer)
 
 	// Back Plate.
 	BackPlate = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, "BackPlate");
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> BackPlateMesh(TEXT("StaticMesh'/UXTools/Models/SM_BackPlateRoundedThick_4.SM_BackPlateRoundedThick_4'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> BackPlateMesh(
+		TEXT("StaticMesh'/UXTools/Models/SM_BackPlateRoundedThick_4.SM_BackPlateRoundedThick_4'"));
 	check(BackPlateMesh.Object);
-	static ConstructorHelpers::FObjectFinder<UMaterialInstanceConstant> BackPlateMaterial(TEXT("MaterialInstanceConstant'/UXTools/Tooltip/Hololense2/MI_TooltipBackPlate.MI_TooltipBackPlate'"));
+	static ConstructorHelpers::FObjectFinder<UMaterialInstanceConstant> BackPlateMaterial(
+		TEXT("MaterialInstanceConstant'/UXTools/Tooltip/Hololense2/MI_TooltipBackPlate.MI_TooltipBackPlate'"));
 	check(BackPlateMaterial.Object);
 	BackPlate->SetStaticMesh(BackPlateMesh.Object);
 	BackPlate->SetMaterial(0, BackPlateMaterial.Object);
@@ -71,7 +74,7 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer)
 	BackPlate->SetRelativeScale3D(FVector{0.f, 0.0f, 0.0f});
 	BackPlate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	BackPlate->SetCastShadow(false);
-	BackPlate->SetAbsolute( /*location*/ false, /*rotation*/ false, /*scale*/ true); // BackPlate to not be affected by scale.
+	BackPlate->SetAbsolute(/*location*/ false, /*rotation*/ false, /*scale*/ true); // BackPlate to not be affected by scale.
 
 	// Set this actor to call Tick() every frame even in editor.
 	PrimaryActorTick.bCanEverTick = true;
@@ -125,14 +128,14 @@ FVector AUxtTooltipActor::GetClosestAnchorToTarget(FVector EndPosition) const
 
 	static constexpr SSIZE_T NumAnchors = 8;
 	const FVector AnchorsPosLocal[NumAnchors]{
-		FVector(0.0f, 0.0f, WidgetSize.Y / 2.0f), // Top.
-		FVector(0.0f, WidgetSize.X / 2.0f, WidgetSize.Y / 2.0f), // Top-Right.
-		FVector(0.0f, WidgetSize.X / 2.0f, 0.0f), // Right.
-		FVector(0.0f, WidgetSize.X / 2.0f, -WidgetSize.Y / 2.0f), // Bot-Right.
-		FVector(0.0f, 0.0f, -WidgetSize.Y / 2.0f), // Bot.
+		FVector(0.0f, 0.0f, WidgetSize.Y / 2.0f),                  // Top.
+		FVector(0.0f, WidgetSize.X / 2.0f, WidgetSize.Y / 2.0f),   // Top-Right.
+		FVector(0.0f, WidgetSize.X / 2.0f, 0.0f),                  // Right.
+		FVector(0.0f, WidgetSize.X / 2.0f, -WidgetSize.Y / 2.0f),  // Bot-Right.
+		FVector(0.0f, 0.0f, -WidgetSize.Y / 2.0f),                 // Bot.
 		FVector(0.0f, -WidgetSize.X / 2.0f, -WidgetSize.Y / 2.0f), // Bot-Left.
-		FVector(0.0f, -WidgetSize.X / 2.0f, 0.0f), // Left.
-		FVector(0.0f, -WidgetSize.X / 2.0f, WidgetSize.Y / 2.0f), // Top-Left.
+		FVector(0.0f, -WidgetSize.X / 2.0f, 0.0f),                 // Left.
+		FVector(0.0f, -WidgetSize.X / 2.0f, WidgetSize.Y / 2.0f),  // Top-Left.
 	};
 
 	// Apply scale and rotation to the anchor points and check which one is closest.
@@ -159,7 +162,7 @@ void AUxtTooltipActor::UpdateBackPlate()
 	{
 		return;
 	}
-	
+
 	// The original backplate mesh didn't have correct orientation to match the widget.
 	// a 90 degree rotation has been given to the back plate but now when scaling,
 	// it applies the scaling on the pre-rotated model which makes it not the same as the widget.
@@ -206,12 +209,13 @@ void AUxtTooltipActor::UpdateSpline()
 		const FTransform& InverseT = GetActorTransform().Inverse();
 		EndWorldPos = InverseT.TransformPositionNoScale(EndWorldPos);
 		StartWorldPos = InverseT.TransformPositionNoScale(StartWorldPos);
-		
+
 		FVector StartPos = FVector::ZeroVector;
 		const FVector EndPos = EndWorldPos - StartWorldPos;
 		if (bIsAutoAnchoring)
 		{
-			// The tooltip doesn't return the correct size until it has been rendered at least once. This coincides with the creation of the render target.
+			// The tooltip doesn't return the correct size until it has been rendered at least once. This coincides with the creation of the
+			// render target.
 			if (TooltipWidgetComponent->GetRenderTarget())
 			{
 				StartPos = GetClosestAnchorToTarget(EndPos);
@@ -234,7 +238,8 @@ void AUxtTooltipActor::UpdateSpline()
 void AUxtTooltipActor::UpdateBillboard()
 {
 	// Billboard the widget.
-	// Note:  UUxtFunctionLibrary::GetHeadPose returns invalid result outside of play mode (this code also runs in editor, so check begin play)
+	// Note:  UUxtFunctionLibrary::GetHeadPose returns invalid result outside of play mode (this code also runs in editor, so check begin
+	// play)
 	if (bIsBillboarding && HasActorBegunPlay())
 	{
 		FTransform HeadTransform = UUxtFunctionLibrary::GetHeadPose(GetWorld());
@@ -276,7 +281,7 @@ void AUxtTooltipActor::UpdateWidget()
 	}
 }
 
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 void AUxtTooltipActor::PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent)
 {
 	UpdateComponent();
@@ -288,13 +293,13 @@ void AUxtTooltipActor::PostEditChangeProperty(FPropertyChangedEvent& PropertyCha
 	UpdateComponent();
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
-#endif // WITH_EDITORONLY_DATA 
+#endif // WITH_EDITORONLY_DATA
 
 void AUxtTooltipActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UpdateComponent();	
+	UpdateComponent();
 }
 
 bool AUxtTooltipActor::ShouldTickIfViewportsOnly() const

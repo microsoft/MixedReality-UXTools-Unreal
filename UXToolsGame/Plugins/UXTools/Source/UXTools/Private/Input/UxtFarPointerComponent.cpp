@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 #include "Input/UxtFarPointerComponent.h"
-#include "Engine/World.h"
+
 #include "CollisionQueryParams.h"
-#include "Interactions/UxtFarTarget.h"
-#include "Components/PrimitiveComponent.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
-#include "Utils/UxtFunctionLibrary.h"
-#include "Materials/MaterialParameterCollectionInstance.h"
 #include "UXTools.h"
+
+#include "Components/PrimitiveComponent.h"
+#include "Engine/World.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "Interactions/UxtFarTarget.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 UUxtFarPointerComponent::UUxtFarPointerComponent()
 {
@@ -40,8 +41,6 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	FQuat NewOrientation;
 	FVector NewOrigin;
 	const bool bIsTracked = UUxtHandTrackingFunctionLibrary::GetHandPointerPose(Hand, NewOrientation, NewOrigin);
-	
-	
 
 	if (bIsTracked)
 	{
@@ -228,7 +227,7 @@ void UUxtFarPointerComponent::SetEnabled(bool bNewEnabled)
 		{
 			// Release pointer if it was pressed
 			SetPressed(false);
-			
+
 			// Raise focus exit on the current target
 			if (UObject* FarTarget = GetFarTarget())
 			{
@@ -284,7 +283,7 @@ bool UUxtFarPointerComponent::IsEnabled() const
 	return bEnabled;
 }
 
-UObject* UUxtFarPointerComponent::GetFarTarget() const 
+UObject* UUxtFarPointerComponent::GetFarTarget() const
 {
 	return FarTargetWeak.Get();
 }
@@ -294,13 +293,15 @@ void UUxtFarPointerComponent::UpdateParameterCollection(FVector IndexTipPosition
 	if (ParameterCollection)
 	{
 		UMaterialParameterCollectionInstance* ParameterCollectionInstance = GetWorld()->GetParameterCollectionInstance(ParameterCollection);
-		static FName ParameterNames[] = { "LeftPointerPosition", "RightPointerPosition" };
+		static FName ParameterNames[] = {"LeftPointerPosition", "RightPointerPosition"};
 		FName ParameterName = Hand == EControllerHand::Left ? ParameterNames[0] : ParameterNames[1];
 		const bool bFoundParameter = ParameterCollectionInstance->SetVectorParameterValue(ParameterName, IndexTipPosition);
 
 		if (!bFoundParameter)
 		{
-			UE_LOG(UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(), *ParameterCollection->GetPathName());
+			UE_LOG(
+				UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(),
+				*ParameterCollection->GetPathName());
 		}
 	}
 }

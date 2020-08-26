@@ -4,10 +4,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Controls/UxtUIElementComponent.h"
-#include "Interactions/UxtGrabTarget.h"
-#include "Interactions/UxtFarTarget.h"
 #include "Input/UxtPointerComponent.h"
+#include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtGrabTarget.h"
+
 #include "UxtPinchSliderComponent.generated.h"
 
 UENUM(BlueprintType)
@@ -24,25 +26,32 @@ enum class EUxtSliderState : uint8
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderUpdateValueDelegate, UUxtPinchSliderComponent*, Slider, float, NewValue);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderBeginInteractionDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderEndInteractionDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtPinchSliderBeginFocusDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer, bool, bWasAlreadyFocused);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderUpdateFocusDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtPinchSliderEndFocusDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer, bool, bIsStillFocused);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam (FUxtPinchSliderUpdateStateDelegate, EUxtSliderState, NewState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtPinchSliderBeginInteractionDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtPinchSliderEndInteractionDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FUxtPinchSliderBeginFocusDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer, bool, bWasAlreadyFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtPinchSliderUpdateFocusDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FUxtPinchSliderEndFocusDelegate, UUxtPinchSliderComponent*, Slider, UUxtPointerComponent*, Pointer, bool, bIsStillFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtPinchSliderUpdateStateDelegate, EUxtSliderState, NewState);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtPinchSliderEnabledDelegate, UUxtPinchSliderComponent*, Slider);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtPinchSliderDisabledDelegate, UUxtPinchSliderComponent*, Slider);
 
 /**
  * Component that implements a thumb slider UI and logic.
  */
-UCLASS( ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtPinchSliderComponent : public UUxtUIElementComponent, public IUxtGrabTarget, public IUxtFarTarget
+UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+class UXTOOLS_API UUxtPinchSliderComponent
+	: public UUxtUIElementComponent
+	, public IUxtGrabTarget
+	, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
 public:
-
 	// Sets default values for this component's properties
 	UUxtPinchSliderComponent();
 
@@ -60,7 +69,7 @@ public:
 
 	/** Get the current grabbed state of the slider */
 	UFUNCTION(BlueprintCallable, Category = "Pinch Slider")
-	bool IsGrabbed() const  {return CurrentState == EUxtSliderState::Grab;}
+	bool IsGrabbed() const { return CurrentState == EUxtSliderState::Grab; }
 
 	/** Get the current focus state of the slider */
 	UFUNCTION(BlueprintCallable, Category = "Pinch Slider")
@@ -101,7 +110,7 @@ public:
 	float GetSliderValue() const { return SliderValue; }
 	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
 	void SetSliderValue(float NewValue);
-		
+
 	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	int GetNumTickMarks() const { return NumTickMarks; }
 	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
@@ -180,7 +189,6 @@ public:
 	FUxtPinchSliderDisabledDelegate OnSliderDisabled;
 
 protected:
-
 	//
 	// UActorComponent interface
 	virtual void BeginPlay() override;
@@ -205,33 +213,46 @@ protected:
 	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;
 
 private:
-
 	/** The current value of the slider in 0-1 range */
-	UPROPERTY(EditAnywhere, DisplayName = "SliderValue", BlueprintGetter = "GetSliderValue", BlueprintSetter = "SetSliderValue", Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	UPROPERTY(
+		EditAnywhere, DisplayName = "SliderValue", BlueprintGetter = "GetSliderValue", BlueprintSetter = "SetSliderValue",
+		Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float SliderValue;
 
 	/** Where the slider track starts, as distance from center along slider axis, in local space units. */
-	UPROPERTY(EditAnywhere, DisplayName = "SliderStartDistance", BlueprintGetter = "GetSliderStartDistance", BlueprintSetter = "SetSliderStartDistance", Category = "Pinch Slider")
+	UPROPERTY(
+		EditAnywhere, DisplayName = "SliderStartDistance", BlueprintGetter = "GetSliderStartDistance",
+		BlueprintSetter = "SetSliderStartDistance", Category = "Pinch Slider")
 	float SliderStartDistance;
 
 	/** Where the slider track ends, as distance from center along slider axis, in local space units. */
-	UPROPERTY(EditAnywhere, DisplayName = "SliderEndDistance", BlueprintGetter = "GetSliderEndDistance", BlueprintSetter = "SetSliderEndDistance", Category = "Pinch Slider")
+	UPROPERTY(
+		EditAnywhere, DisplayName = "SliderEndDistance", BlueprintGetter = "GetSliderEndDistance", BlueprintSetter = "SetSliderEndDistance",
+		Category = "Pinch Slider")
 	float SliderEndDistance;
 
 	/** The lower bound for the slider value in the range 0-1. */
-	UPROPERTY(EditAnywhere, DisplayName = "SliderLowerBound", BlueprintGetter = "GetSliderLowerBound", BlueprintSetter = "SetSliderLowerBound", Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	UPROPERTY(
+		EditAnywhere, DisplayName = "SliderLowerBound", BlueprintGetter = "GetSliderLowerBound", BlueprintSetter = "SetSliderLowerBound",
+		Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float SliderLowerBound;
 
 	/** The upper bound for the slider value in the range 0-1. */
-	UPROPERTY(EditAnywhere, DisplayName = "SliderUpperBound", BlueprintGetter = "GetSliderUpperBound", BlueprintSetter = "SetSliderUpperBound", Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	UPROPERTY(
+		EditAnywhere, DisplayName = "SliderUpperBound", BlueprintGetter = "GetSliderUpperBound", BlueprintSetter = "SetSliderUpperBound",
+		Category = "Pinch Slider", meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float SliderUpperBound;
 
 	/** Number of tick marks to add to the slider */
-	UPROPERTY(EditAnywhere, DisplayName = "NumTickMarks", BlueprintGetter = "GetNumTickMarks", BlueprintSetter = "SetNumTickMarks", Category = "Pinch Slider")
+	UPROPERTY(
+		EditAnywhere, DisplayName = "NumTickMarks", BlueprintGetter = "GetNumTickMarks", BlueprintSetter = "SetNumTickMarks",
+		Category = "Pinch Slider")
 	int NumTickMarks;
 
 	/** Scale of the tick mark on the slider */
-	UPROPERTY(EditAnywhere, DisplayName = "TickMarkScale", BlueprintGetter = "GetTickMarkScale", BlueprintSetter = "SetTickMarkScale", Category = "Pinch Slider")
+	UPROPERTY(
+		EditAnywhere, DisplayName = "TickMarkScale", BlueprintGetter = "GetTickMarkScale", BlueprintSetter = "SetTickMarkScale",
+		Category = "Pinch Slider")
 	FVector TickMarkScale;
 
 	/** Turns local space position to 0-1 slider scale */
@@ -262,15 +283,21 @@ private:
 	void EndGrab(UUxtPointerComponent* Pointer);
 
 	/** Visual representation of the slider thumb*/
-	UPROPERTY(EditAnywhere, DisplayName = "ThumbVisuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pinch Slider")
+	UPROPERTY(
+		EditAnywhere, DisplayName = "ThumbVisuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"),
+		Category = "Pinch Slider")
 	FComponentReference ThumbVisuals;
 
 	/** Visual representation of the track*/
-	UPROPERTY(EditAnywhere, DisplayName = "TrackVisuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"), Category = "Pinch Slider")
+	UPROPERTY(
+		EditAnywhere, DisplayName = "TrackVisuals", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"),
+		Category = "Pinch Slider")
 	FComponentReference TrackVisuals;
 
 	/** Visual representation of the tick marks*/
-	UPROPERTY(EditAnywhere, DisplayName = "TickMarkVisuals", meta = (UseComponentPicker, AllowedClasses = "InstancedStaticMeshComponent"), Category = "Pinch Slider")
+	UPROPERTY(
+		EditAnywhere, DisplayName = "TickMarkVisuals", meta = (UseComponentPicker, AllowedClasses = "InstancedStaticMeshComponent"),
+		Category = "Pinch Slider")
 	FComponentReference TickMarkVisuals;
 
 	/** Collision profile used by the slider thumb */
@@ -295,11 +322,11 @@ private:
 
 	/** Far pointers currently focusing the button */
 	TArray<UUxtFarPointerComponent*> FocusingFarPointers;
-	
+
 	/** Near pointers currently focusing the button */
 	TArray<UUxtNearPointerComponent*> FocusingNearPointers;
 
-	/** 
+	/**
 	 * Motion smoothing factor to apply while manipulating the slider.
 	 *
 	 * A low-pass filter is applied to the slider's transform to smooth out jittering.
@@ -307,6 +334,8 @@ private:
 	 *
 	 * T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )
 	 */
-	UPROPERTY(EditAnywhere, DisplayName = "Smoothing", BlueprintGetter = "GetSmoothing", BlueprintSetter = "SetSmoothing", Category = "Pinch Slider", meta = (ClampMin = "0.0"))
+	UPROPERTY(
+		EditAnywhere, DisplayName = "Smoothing", BlueprintGetter = "GetSmoothing", BlueprintSetter = "SetSmoothing",
+		Category = "Pinch Slider", meta = (ClampMin = "0.0"))
 	float Smoothing;
 };

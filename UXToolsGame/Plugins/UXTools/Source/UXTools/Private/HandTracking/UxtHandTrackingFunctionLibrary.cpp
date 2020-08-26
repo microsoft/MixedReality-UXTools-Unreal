@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+
 #include "Features/IModularFeatures.h"
 
-
-bool UUxtHandTrackingFunctionLibrary::GetHandJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius)
+bool UUxtHandTrackingFunctionLibrary::GetHandJointState(
+	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius)
 {
 	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
 	{

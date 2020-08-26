@@ -4,20 +4,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "GameFramework/MovementComponent.h"
+
 #include "UxtInputSimulationHeadMovementComponent.generated.h"
 
 /** Movement component that applies user input.
  *  Works similar to UFloatingPawnMovement, but does not require a APawn actor.
  */
 UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationHeadMovementComponent
-	: public UMovementComponent
+class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationHeadMovementComponent : public UMovementComponent
 {
 	GENERATED_BODY()
 
 public:
-
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -32,14 +32,12 @@ public:
 	void SetHeadMovementEnabled(bool bEnable);
 
 private:
-
 	/** Apply and reset accumulated rotation input. */
 	void ApplyRotationInput(float DeltaTime);
 	/** Apply and reset accumulated movement input. */
 	void ApplyMovementInput(float DeltaTime);
 
 private:
-
 	/** Current view orientation */
 	FRotator ViewOrientation;
 	/** Current view position */
@@ -51,7 +49,7 @@ private:
 	FVector MovementInput;
 
 	/** Enable linear movement of the head position. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "IsHeadMovementEnabled", BlueprintSetter = "SetHeadMovementEnabled", Category = InputSimulation)
+	UPROPERTY(
+		EditAnywhere, BlueprintGetter = "IsHeadMovementEnabled", BlueprintSetter = "SetHeadMovementEnabled", Category = InputSimulation)
 	bool bEnableHeadMovement = true;
-
 };

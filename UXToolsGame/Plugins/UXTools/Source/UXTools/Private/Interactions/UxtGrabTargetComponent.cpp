@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 #include "Interactions/UxtGrabTargetComponent.h"
+
 #include "Engine/World.h"
-#include "Interactions/UxtInteractionUtils.h"
-#include "Input/UxtNearPointerComponent.h"
 #include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtInteractionMode.h"
+#include "Interactions/UxtInteractionUtils.h"
 
 FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
@@ -41,12 +42,15 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetGrabPointTransform(const FUxtG
 
 FVector UUxtGrabPointerDataFunctionLibrary::GetLocationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
-	return UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(GrabData) - UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(Transform, GrabData);
+	return UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(GrabData) -
+		   UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(Transform, GrabData);
 }
 
 FRotator UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
-	return (FQuat(UUxtGrabPointerDataFunctionLibrary::GetTargetRotation(GrabData)) * FQuat(UUxtGrabPointerDataFunctionLibrary::GetGrabRotation(Transform, GrabData).GetInverse())).Rotator();
+	return (FQuat(UUxtGrabPointerDataFunctionLibrary::GetTargetRotation(GrabData)) *
+			FQuat(UUxtGrabPointerDataFunctionLibrary::GetGrabRotation(Transform, GrabData).GetInverse()))
+		.Rotator();
 }
 
 FTransform UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(const FUxtGrabPointerData& GrabData)
@@ -133,7 +137,8 @@ FVector UUxtGrabTargetComponent::GetTargetCentroid() const
 	return centroid;
 }
 
-bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const*& OutData, int& OutIndex) const
+bool UUxtGrabTargetComponent::FindGrabPointerInternal(
+	UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const*& OutData, int& OutIndex) const
 {
 	for (int i = 0; i < GrabPointers.Num(); ++i)
 	{
@@ -151,7 +156,9 @@ bool UUxtGrabTargetComponent::FindGrabPointerInternal(UUxtNearPointerComponent* 
 	return false;
 }
 
-void UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool& Success, FUxtGrabPointerData& PointerData, int& Index) const
+void UUxtGrabTargetComponent::FindGrabPointer(
+	UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool& Success, FUxtGrabPointerData& PointerData,
+	int& Index) const
 {
 	FUxtGrabPointerData const* pData;
 	Success = FindGrabPointerInternal(NearPointer, FarPointer, pData, Index);
@@ -265,7 +272,6 @@ bool UUxtGrabTargetComponent::IsGrabFocusable_Implementation(const UPrimitiveCom
 	return true;
 }
 
-
 void UUxtGrabTargetComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	OnUpdateFarFocus.Broadcast(this, Pointer);
@@ -342,18 +348,17 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 {
 	FUxtGrabPointerData PointerData;
 
-	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData)
+	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
+		if (GrabData.NearPointer == Pointer)
 		{
-			if (GrabData.NearPointer == Pointer)
-			{
-				// Unlock the pointer focus so that another target can be selected.
-				Pointer->SetFocusLocked(false);
-				PointerData = GrabData;
-	
-				return true;
-			}
-			return false;
-		});
+			// Unlock the pointer focus so that another target can be selected.
+			Pointer->SetFocusLocked(false);
+			PointerData = GrabData;
+
+			return true;
+		}
+		return false;
+	});
 	check(NumRemoved <= 1); // we might have already removed the pointer while switching interaction mode
 
 	if (NumRemoved != 0)
@@ -421,16 +426,15 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 {
 	FUxtGrabPointerData PointerData;
 
-	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData)
+	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
+		if (GrabData.FarPointer == Pointer)
 		{
-			if (GrabData.FarPointer == Pointer)
-			{
-				Pointer->SetFocusLocked(false);
-				PointerData = GrabData;
-				return true;
-			}
-			return false;
-		});
+			Pointer->SetFocusLocked(false);
+			PointerData = GrabData;
+			return true;
+		}
+		return false;
+	});
 	check(NumRemoved <= 1); // we might have already removed the pointer while switching interaction mode
 
 	if (NumRemoved != 0)

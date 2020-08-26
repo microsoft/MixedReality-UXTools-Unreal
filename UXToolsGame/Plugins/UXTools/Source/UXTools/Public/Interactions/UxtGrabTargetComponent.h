@@ -4,10 +4,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Kismet/BlueprintFunctionLibrary.h"
+
 #include "Components/SceneComponent.h"
-#include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtGrabTarget.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
 
 #include "UxtGrabTargetComponent.generated.h"
 
@@ -24,7 +25,7 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UUxtNearPointerComponent* NearPointer = nullptr;
 
 	/** The far pointer that is interacting with the component */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	UUxtFarPointerComponent* FarPointer = nullptr;
 
 	/** Last updated grab point transform. (Pointer transform in near pointer case, ray hit transform in far pointer case) */
@@ -42,8 +43,8 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	FTransform LocalGrabPoint;
 
-	/** Far pointer only property -> describes the relative transform of the grab point to the pointer transform (pointer origin / orientation)
-	  * This is needed to calculate the new grab point on the object on pointer translations / rotations */
+	/** Far pointer only property -> describes the relative transform of the grab point to the pointer transform (pointer origin /
+	 * orientation) This is needed to calculate the new grab point on the object on pointer translations / rotations */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	FTransform FarRayHitPointInPointer = FTransform::Identity;
 };
@@ -57,18 +58,17 @@ class UXTOOLS_API UUxtGrabPointerDataFunctionLibrary : public UBlueprintFunction
 	GENERATED_BODY()
 
 public:
-
 	/** Compute the grab point in world space. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
-	static FVector GetGrabLocation(const FTransform &Transform, const FUxtGrabPointerData& GrabData);
+	static FVector GetGrabLocation(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the grab rotation in world space. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
-	static FRotator GetGrabRotation(const FTransform &Transform, const FUxtGrabPointerData& GrabData);
+	static FRotator GetGrabRotation(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the grab transform in world space. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
-	static FTransform GetGrabTransform(const FTransform &Transform, const FUxtGrabPointerData& GrabData);
+	static FTransform GetGrabTransform(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the pointer target in world space. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
@@ -84,11 +84,11 @@ public:
 
 	/** Compute the world space offset between pointer grab point and target. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
-	static FVector GetLocationOffset(const FTransform &Transform, const FUxtGrabPointerData& GrabData);
+	static FVector GetLocationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the world space rotation between pointer grab point and target. */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
-	static FRotator GetRotationOffset(const FTransform &Transform, const FUxtGrabPointerData& GrabData);
+	static FRotator GetRotationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Returns the world space pointer transform (at pointer origin). */
 	UFUNCTION(BlueprintPure, Category = "GrabPointer")
@@ -100,18 +100,24 @@ public:
 };
 
 /** Delegate for handling a far focus enter events. */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEnterFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtEnterFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
 /** Delegate for handling a far focus update event. */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtUpdateFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
 /** Delegate for handling a far focus exit event. */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtExitFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtExitFarFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtFarPointerComponent*, Pointer);
 
 /** Delegate for handling a focus enter events. */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEnterGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtEnterGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
 /** Delegate for handling a focus update event. */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtUpdateGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
 /** Delegate for handling a focus exit event. */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtExitGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtExitGrabFocusDelegate, UUxtGrabTargetComponent*, Grabbable, UUxtNearPointerComponent*, Pointer);
 
 /** Delegate for handling a BeginGrab event. Grabbing pointer is added to the object before this is triggered. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtBeginGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
@@ -120,22 +126,23 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateGrabDelegate, UUxtGrabTar
 /** Delegate for handling a EndGrab event. Grabbing pointer is removed from the object before this is triggered. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTargetComponent*, Grabbable, FUxtGrabPointerData, GrabPointer);
 
-
 /**
  * Interactable component that listens to grab events from near pointers.
- * 
+ *
  * A pointer that starts grabing while near the actor is considered a grabbing pointer.
  * The grab is released when the pointer stops grabing, regardless of whether it is still near or not.
- * 
+ *
  * The GrabComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation.
  */
 UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtGrabTargetComponent : public USceneComponent, public IUxtGrabTarget, public IUxtFarTarget
+class UXTOOLS_API UUxtGrabTargetComponent
+	: public USceneComponent
+	, public IUxtGrabTarget
+	, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
 public:
-
 	UUxtGrabTargetComponent();
 
 	/** Returns true if the pointer is currently grabbing the actor.
@@ -143,19 +150,21 @@ public:
 	 * Index is the order in which pointers started grabbing.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	void FindGrabPointer(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool &Success, FUxtGrabPointerData &PointerData, int &Index) const;
+	void FindGrabPointer(
+		UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool& Success, FUxtGrabPointerData& PointerData,
+		int& Index) const;
 
 	/** Returns the first active grab pointer.
 	 * If no pointer is grabbing the Valid output will be false.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	void GetPrimaryGrabPointer(bool &Valid, FUxtGrabPointerData &PointerData) const;
+	void GetPrimaryGrabPointer(bool& Valid, FUxtGrabPointerData& PointerData) const;
 
 	/** Returns the second active grab pointer.
 	 * If less than two pointers are grabbing the Valid output will be false.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	void GetSecondaryGrabPointer(bool &Valid, FUxtGrabPointerData &PointerData) const;
+	void GetSecondaryGrabPointer(bool& Valid, FUxtGrabPointerData& PointerData) const;
 
 	/**
 	 * Release all currently grabbing pointers.
@@ -166,7 +175,7 @@ public:
 
 	/** Compute the centroid of the grab points in world space. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	FTransform GetGrabPointCentroid(const FTransform &Transform) const;
+	FTransform GetGrabPointCentroid(const FTransform& Transform) const;
 
 	/** Compute the centroid of the pointer targets in world space. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
@@ -177,13 +186,12 @@ public:
 
 	UFUNCTION(BlueprintSetter)
 	void SetTickOnlyWhileGrabbed(bool bEnable);
-	
+
 	/** Returns a list of all currently grabbing pointers. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
 	const TArray<FUxtGrabPointerData>& GetGrabPointers() const;
 
 protected:
-
 	virtual void BeginPlay() override;
 
 	//
@@ -211,19 +219,19 @@ protected:
 	FTransform GetPointerCentroid() const;
 
 private:
-
 	/** Internal search function for finding active grabbing pointers */
-	bool FindGrabPointerInternal(UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const *&OutData, int &OutIndex) const;
+	bool FindGrabPointerInternal(
+		UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, FUxtGrabPointerData const*& OutData,
+		int& OutIndex) const;
 
 	/** Compute the grab transform relative to the current actor world transform. */
-	void ResetLocalGrabPoint(FUxtGrabPointerData &PointerData);
+	void ResetLocalGrabPoint(FUxtGrabPointerData& PointerData);
 
 	void UpdateComponentTickEnabled();
 
 	void InitGrabTransform(FUxtGrabPointerData& GrabData) const;
 
 public:
-
 	/** Event raised when entering grab focus. */
 	UPROPERTY(BlueprintAssignable)
 	FUxtEnterFarFocusDelegate OnEnterFarFocus;
@@ -265,12 +273,13 @@ public:
 	int32 InteractionMode;
 
 private:
-
 	/** List of currently grabbing pointers. */
 	UPROPERTY(BlueprintGetter = "GetGrabPointers", Category = "Grabbable")
 	TArray<FUxtGrabPointerData> GrabPointers;
 
 	/** If true the component tick is only enabled while the actor is being grabbed. */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed", Category = "Grabbable")
+	UPROPERTY(
+		EditAnywhere, AdvancedDisplay, BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed",
+		Category = "Grabbable")
 	uint8 bTickOnlyWhileGrabbed : 1;
 };

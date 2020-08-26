@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "Behaviors/UxtHandConstraintComponent.h"
+
 #include "Engine/World.h"
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "Utils/UxtFunctionLibrary.h"
@@ -14,7 +15,7 @@ namespace
 		const FVector StartToEnd = End - Start;
 		const FVector OneOverStartToEnd = StartToEnd.Reciprocal();
 
-		FVector	Time;
+		FVector Time;
 
 		if (Start.X >= Box.Min.X && Start.X <= Box.Max.X)
 		{
@@ -76,7 +77,7 @@ namespace
 			return false;
 		}
 
-		const float	MinTime = FMath::Min3(Time.X, Time.Y, Time.Z);
+		const float MinTime = FMath::Min3(Time.X, Time.Y, Time.Z);
 		if (MinTime >= 0.0f && MinTime <= 1.0f)
 		{
 			HitLocation = Start + StartToEnd * MinTime;
@@ -92,7 +93,7 @@ namespace
 		return false;
 	}
 
-}
+} // namespace
 
 UUxtHandConstraintComponent::UUxtHandConstraintComponent()
 {
@@ -161,27 +162,28 @@ FVector UUxtHandConstraintComponent::GetZoneDirection(const FVector& HandLocatio
 	FVector DirectionUp;
 	switch (OffsetMode)
 	{
-		case EUxtHandConstraintOffsetMode::LookAtCamera:
-		{
-			FTransform HeadPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
-			FVector LookAtVector = HandLocation - HeadPose.GetLocation();
-			bool IsPalmFacingCamera = FVector::DotProduct(LookAtVector, HandRotation.GetUpVector()) > 0.0f;
+	case EUxtHandConstraintOffsetMode::LookAtCamera:
+	{
+		FTransform HeadPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
+		FVector LookAtVector = HandLocation - HeadPose.GetLocation();
+		bool IsPalmFacingCamera = FVector::DotProduct(LookAtVector, HandRotation.GetUpVector()) > 0.0f;
 
-			DirectionUlnar = !LookAtVector.IsNearlyZero() ? FVector::CrossProduct(LookAtVector, FVector::UpVector).GetSafeNormal() : -FVector::RightVector;
-			if (IsPalmFacingCamera)
-			{
-				DirectionUlnar = -DirectionUlnar;
-			}
-			DirectionUp = HeadPose.GetRotation().GetUpVector();
-			break;
-		}
-
-		case EUxtHandConstraintOffsetMode::HandRotation:
+		DirectionUlnar =
+			!LookAtVector.IsNearlyZero() ? FVector::CrossProduct(LookAtVector, FVector::UpVector).GetSafeNormal() : -FVector::RightVector;
+		if (IsPalmFacingCamera)
 		{
-			DirectionUlnar = -HandRotation.GetRightVector();
-			DirectionUp = HandRotation.GetForwardVector();
-			break;
+			DirectionUlnar = -DirectionUlnar;
 		}
+		DirectionUp = HeadPose.GetRotation().GetUpVector();
+		break;
+	}
+
+	case EUxtHandConstraintOffsetMode::HandRotation:
+	{
+		DirectionUlnar = -HandRotation.GetRightVector();
+		DirectionUp = HandRotation.GetForwardVector();
+		break;
+	}
 	}
 
 	// Flip for the right hand case
@@ -192,14 +194,14 @@ FVector UUxtHandConstraintComponent::GetZoneDirection(const FVector& HandLocatio
 
 	switch (Zone)
 	{
-		case EUxtHandConstraintZone::UlnarSide:
-			return DirectionUlnar;
-		case EUxtHandConstraintZone::RadialSide:
-			return -DirectionUlnar;
-		case EUxtHandConstraintZone::AboveFingerTips:
-			return DirectionUp;
-		case EUxtHandConstraintZone::BelowWrist:
-			return -DirectionUp;
+	case EUxtHandConstraintZone::UlnarSide:
+		return DirectionUlnar;
+	case EUxtHandConstraintZone::RadialSide:
+		return -DirectionUlnar;
+	case EUxtHandConstraintZone::AboveFingerTips:
+		return DirectionUp;
+	case EUxtHandConstraintZone::BelowWrist:
+		return -DirectionUp;
 	}
 
 	return FVector::ZeroVector;
@@ -259,15 +261,15 @@ void UUxtHandConstraintComponent::UpdateConstraint()
 bool UUxtHandConstraintComponent::UpdateTrackedHand(FVector& OutPalmLocation, FQuat& OutPalmRotation)
 {
 	// Utility lambda for getting palm location and rotation of the TrackedHand, returns false if rejected.
-	auto GetValidTransformFromTrackedHand = [this, &OutPalmLocation, &OutPalmRotation] () -> bool
+	auto GetValidTransformFromTrackedHand = [this, &OutPalmLocation, &OutPalmRotation]() -> bool {
+		if (IsHandUsableForConstraint(TrackedHand))
 		{
-			if (IsHandUsableForConstraint(TrackedHand))
-			{
-				float PalmRadius;
-				return UUxtHandTrackingFunctionLibrary::GetHandJointState(TrackedHand, EUxtHandJoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
-			}
-			return false;
-		};
+			float PalmRadius;
+			return UUxtHandTrackingFunctionLibrary::GetHandJointState(
+				TrackedHand, EUxtHandJoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
+		}
+		return false;
+	};
 
 	// Update the tracked hand
 	if (Hand == EControllerHand::Left || Hand == EControllerHand::Right)
@@ -349,21 +351,21 @@ bool UUxtHandConstraintComponent::UpdateGoal(const FVector& PalmLocation, const 
 	const FTransform& CurrentTransform = GetOwner()->GetActorTransform();
 	switch (RotationMode)
 	{
-		case EUxtHandConstraintRotationMode::None:
-			GoalRotation = CurrentTransform.GetRotation();
-			break;
+	case EUxtHandConstraintRotationMode::None:
+		GoalRotation = CurrentTransform.GetRotation();
+		break;
 
-		case EUxtHandConstraintRotationMode::LookAtCamera:
-		{
-			FTransform HeadPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
-			GoalRotation = FRotationMatrix::MakeFromXZ(HeadPose.GetLocation() - GoalLocation, FVector::UpVector).ToQuat();
-			break;
-		}
+	case EUxtHandConstraintRotationMode::LookAtCamera:
+	{
+		FTransform HeadPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
+		GoalRotation = FRotationMatrix::MakeFromXZ(HeadPose.GetLocation() - GoalLocation, FVector::UpVector).ToQuat();
+		break;
+	}
 
-		case EUxtHandConstraintRotationMode::HandRotation:
-			// Palm rotation has X facing up, rotate about Y by 90 degrees so that Z is up for consistency
-			GoalRotation = PalmRotation * FRotator(-90, 0, 0).Quaternion();
-			break;
+	case EUxtHandConstraintRotationMode::HandRotation:
+		// Palm rotation has X facing up, rotate about Y by 90 degrees so that Z is up for consistency
+		GoalRotation = PalmRotation * FRotator(-90, 0, 0).Quaternion();
+		break;
 	}
 
 	return true;

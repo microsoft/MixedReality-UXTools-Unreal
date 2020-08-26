@@ -5,8 +5,10 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
-#include "Components/ActorComponent.h"
 #include "UxtPointerComponent.h"
+
+#include "Components/ActorComponent.h"
+
 #include "UxtNearPointerComponent.generated.h"
 
 struct FUxtGrabPointerFocus;
@@ -24,11 +26,10 @@ class UXTOOLS_API UUxtNearPointerComponent : public UUxtPointerComponent
 	GENERATED_BODY()
 
 public:
-
 	UUxtNearPointerComponent();
 	virtual ~UUxtNearPointerComponent();
 
-	// 
+	//
 	// UActorComponent interface
 
 	virtual void BeginPlay() override;
@@ -36,7 +37,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void SetActive(bool bNewActive, bool bReset = false) override;
 
-	// 
+	//
 	// UUxtPointerComponent interface
 
 	virtual UObject* GetFocusTarget() const override;
@@ -119,7 +120,6 @@ public:
 	float DebounceDepth = 0.5f;
 
 protected:
-
 	/** Focus of the grab pointer */
 	FUxtGrabPointerFocus* GrabFocus;
 
@@ -127,7 +127,6 @@ protected:
 	FUxtPokePointerFocus* PokeFocus;
 
 private:
-
 	void UpdateParameterCollection(FVector IndexTipPosition);
 
 	/** Parameter collection used to store the finger tip position */

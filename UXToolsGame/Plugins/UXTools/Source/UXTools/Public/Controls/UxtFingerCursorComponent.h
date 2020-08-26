@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Controls/UxtRingCursorComponent.h"
+
 #include "UxtFingerCursorComponent.generated.h"
 
 class UUxtNearPointerComponent;
@@ -19,7 +21,6 @@ class UXTOOLS_API UUxtFingerCursorComponent : public UUxtRingCursorComponent
 	GENERATED_BODY()
 
 public:
-
 	UUxtFingerCursorComponent();
 
 	/** Maximum distance to the pointer target at which the cursor should be displayed. */
@@ -35,7 +36,6 @@ public:
 	bool bShowOnGrabTargets = false;
 
 protected:
-
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -44,12 +44,10 @@ protected:
 	float AlignWithSurfaceDistance = 10.0f;
 
 private:
-
 	/** Dynamic instance of the material. */
 	UPROPERTY(Transient)
 	UMaterialInstanceDynamic* FingerMaterialInstance;
 
 	/** Near pointer in use. */
 	TWeakObjectPtr<UUxtNearPointerComponent> HandPointerWeak;
-
 };

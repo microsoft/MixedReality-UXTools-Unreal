@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 #include "Interactions/Constraints/UxtFaceUserConstraint.h"
-#include "Utils/UxtFunctionLibrary.h"
+
 #include "Components/ActorComponent.h"
 #include "Engine/World.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 EUxtTransformMode UUxtFaceUserConstraint::GetConstraintType() const
 {

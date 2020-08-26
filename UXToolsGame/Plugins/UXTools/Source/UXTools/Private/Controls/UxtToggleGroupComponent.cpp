@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtToggleGroupComponent.h"
-#include "Controls/UxtToggleStateComponent.h"
-#include <GameFramework/Actor.h>
-#include "Components/ChildActorComponent.h"
+
 #include "UXTools.h"
+
+#include "Components/ChildActorComponent.h"
+#include "Controls/UxtToggleStateComponent.h"
+
+#include <GameFramework/Actor.h>
 
 void UUxtToggleGroupComponent::SetSelectedIndex(int32 Index)
 {
@@ -92,7 +95,7 @@ void UUxtToggleGroupComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Acquire all of the toggle states from the references. 
+	// Acquire all of the toggle states from the references.
 	for (FComponentReference& ComponentReference : ToggleReferences)
 	{
 		AActor* ActorToSearch = GetOwner();
@@ -110,7 +113,8 @@ void UUxtToggleGroupComponent::BeginPlay()
 				if (ChildActor != nullptr)
 				{
 					ActorToSearch = ChildActor;
-					ToggleState = Cast<UUxtToggleStateComponent>(ActorToSearch->GetComponentByClass(UUxtToggleStateComponent::StaticClass()));
+					ToggleState =
+						Cast<UUxtToggleStateComponent>(ActorToSearch->GetComponentByClass(UUxtToggleStateComponent::StaticClass()));
 				}
 			}
 			else if (ComponentReference.OtherActor != nullptr)
@@ -128,7 +132,11 @@ void UUxtToggleGroupComponent::BeginPlay()
 		}
 		else
 		{
-			UE_LOG(UXTools, Error, TEXT("The UUxtToggleGroupComponent '%s' contains a reference to an actor named '%s' that does not contain a UUxtToggleGroupComponent."), *GetOwner()->GetName(), *ActorToSearch->GetName());
+			UE_LOG(
+				UXTools, Error,
+				TEXT("The UUxtToggleGroupComponent '%s' contains a reference to an actor named '%s' that does not contain a "
+					 "UUxtToggleGroupComponent."),
+				*GetOwner()->GetName(), *ActorToSearch->GetName());
 		}
 	}
 
@@ -147,7 +155,7 @@ void UUxtToggleGroupComponent::OnToggled(UUxtToggleStateComponent* ToggleState)
 
 void UUxtToggleGroupComponent::CompactLostReferences()
 {
-	for (int32 Index = 0; Index < ToggleStates.Num(); )
+	for (int32 Index = 0; Index < ToggleStates.Num();)
 	{
 		if (ToggleStates[Index].IsValid())
 		{

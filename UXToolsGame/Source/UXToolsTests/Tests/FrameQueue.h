@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "TimerManager.h"
+
 #include "Containers/Queue.h"
+
 #include <functional>
 
 // Helper to enqueue items to run on subsequent frames
@@ -24,10 +26,7 @@ public:
 		Paused = false;
 	}
 
-	void Pause()
-	{
-		Paused = true;
-	}
+	void Pause() { Paused = true; }
 
 	void Resume()
 	{
@@ -57,10 +56,7 @@ public:
 	}
 
 private:
-	void ScheduleTick()
-	{
-		TimerManager->SetTimerForNextTick(std::bind(&FFrameQueue::RunNextFunction, this));
-	}
+	void ScheduleTick() { TimerManager->SetTimerForNextTick(std::bind(&FFrameQueue::RunNextFunction, this)); }
 
 	void RunNextFunction()
 	{

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "GameFramework/Actor.h"
 
 #include "UxtInputSimulationActor.generated.h"
@@ -13,13 +14,11 @@ class UUxtInputSimulationHeadMovementComponent;
 
 /** Actor that produces head pose and hand animations for the input simulation subsystem. */
 UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API AUxtInputSimulationActor
-	: public AActor
+class UXTOOLSINPUTSIMULATION_API AUxtInputSimulationActor : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
 public:
-
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -63,7 +62,6 @@ public:
 	bool IsHandControlled(EControllerHand Hand) const;
 
 private:
-
 	void OnToggleLeftHandPressed();
 	void OnToggleRightHandPressed();
 
@@ -128,13 +126,11 @@ private:
 	void UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const;
 
 public:
-
 	/** If true, adds default input bindings for input simulation. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = InputSimulation)
 	uint32 bAddDefaultInputBindings : 1;
 
 private:
-
 	/** Movement component for interpreting user input as head movement. */
 	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetHeadMovement, Category = InputSimulation)
 	UUxtInputSimulationHeadMovementComponent* HeadMovement;
@@ -158,5 +154,4 @@ private:
 
 	/** Transform offset for each hand, relative to the rest pose. */
 	TMap<EControllerHand, FTransform> HandTransforms;
-
 };

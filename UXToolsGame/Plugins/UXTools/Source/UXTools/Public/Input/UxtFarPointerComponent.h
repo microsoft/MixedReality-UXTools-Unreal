@@ -5,9 +5,11 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
-#include "Components/ActorComponent.h"
 #include "UxtPointerComponent.h"
+
+#include "Components/ActorComponent.h"
 #include "Materials/MaterialParameterCollection.h"
+
 #include "UxtFarPointerComponent.generated.h"
 
 class UUxtFarPointerComponent;
@@ -16,21 +18,20 @@ class UPrimitiveComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtFarPointerEnabledDelegate, UUxtFarPointerComponent*, FarPointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtFarPointerDisabledDelegate, UUxtFarPointerComponent*, FarPointer);
 
-
 /**
  * Component that casts a ray for the given hand-tracked hand and raises far interaction events on the far targets hit.
  * A far target is an actor or component implementing the UUxtFarTarget interface.
  */
-UCLASS(ClassGroup = UXTools, meta=(BlueprintSpawnableComponent))
+UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFarPointerComponent : public UUxtPointerComponent
 {
 	GENERATED_BODY()
 
-public:	
-
+public:
 	UUxtFarPointerComponent();
 
-	/** Origin of the pointer ray as reported by the hand tracker. See GetRayStart() for actual start of the ray used for querying the scene. */
+	/** Origin of the pointer ray as reported by the hand tracker. See GetRayStart() for actual start of the ray used for querying the
+	 * scene. */
 	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
 	FVector GetPointerOrigin() const;
 
@@ -38,7 +39,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
 	FQuat GetPointerOrientation() const;
 
-	/** Start of the ray used for querying the scene. This is the pointer origin shifted by the ray start offset in the pointer forward direction. */
+	/** Start of the ray used for querying the scene. This is the pointer origin shifted by the ray start offset in the pointer forward
+	 * direction. */
 	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
 	FVector GetRayStart() const;
 
@@ -62,13 +64,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
 	bool IsEnabled() const;
 
-	// 
+	//
 	// UActorComponent interface
 
 	virtual void SetActive(bool bNewActive, bool bReset = false) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	// 
+	//
 	// UUxtPointerComponent interface
 
 	virtual void SetFocusLocked(bool bLocked) override;
@@ -76,7 +78,6 @@ public:
 	virtual FTransform GetCursorTransform() const override;
 
 private:
-
 	/** Called every tick to update the pointer pose with the latest information from the hand tracker. */
 	void OnPointerPoseUpdated(const FQuat& NewOrientation, const FVector& NewOrigin);
 
@@ -90,7 +91,6 @@ private:
 	UObject* GetFarTarget() const;
 
 public:
-
 	/** Trace channel to be used in the pointer's line trace query. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Pointer")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
@@ -110,7 +110,6 @@ public:
 	FUxtFarPointerDisabledDelegate OnFarPointerDisabled;
 
 private:
-
 	void UpdateParameterCollection(FVector IndexTipPosition);
 
 	/** Parameter collection used to store the finger tip position */

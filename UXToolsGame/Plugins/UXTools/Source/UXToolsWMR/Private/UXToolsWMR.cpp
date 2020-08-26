@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "UXToolsWMR.h"
+
 #include "Features/IModularFeatures.h"
 #include "HandTracking/UxtWmrHandTracker.h"
 
@@ -16,5 +17,5 @@ void FUXToolsWMRModule::ShutdownModule()
 {
 	IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &WmrHandTracker);
 }
-	
+
 IMPLEMENT_MODULE(FUXToolsWMRModule, UXToolsWMR)

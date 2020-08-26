@@ -4,9 +4,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputCoreTypes.h"
+
 #include "Components/ActorComponent.h"
 #include "GenericPlatform/GenericApplication.h"
-#include "InputCoreTypes.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Interactions/UxtPokeTarget.h"
 
@@ -21,13 +22,15 @@ struct FPointerEvent;
 /**
  * Widget Component that is interactable with near and far interaction.
  */
-UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtWidgetComponent : public UActorComponent, public IUxtPokeTarget, public IUxtFarTarget
+UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+class UXTOOLS_API UUxtWidgetComponent
+	: public UActorComponent
+	, public IUxtPokeTarget
+	, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
 protected:
-
 	//
 	// UActorComponent interface
 
@@ -38,7 +41,8 @@ protected:
 
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
-	virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
+	virtual bool GetClosestPoint_Implementation(
+		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
@@ -56,24 +60,23 @@ protected:
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
 
 private:
-
 	void PointerMove(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget);
 	void PointerDown(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget);
 	void PointerUp(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget);
-	void GetEventAndPath(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget, FKey Key, FPointerEvent& Event, FWidgetPath& Path);
+	void GetEventAndPath(
+		const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget, FKey Key, FPointerEvent& Event,
+		FWidgetPath& Path);
 
 public:
-	
 	/**
-	 * Represents the Virtual User Index.  Each virtual user should be represented by a different 
+	 * Represents the Virtual User Index.  Each virtual user should be represented by a different
 	 * index number, this will maintain separate capture and focus states for them.  Each
 	 * controller or finger-tip should get a unique PointerIndex.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Interaction", meta=( ClampMin = "0", ExposeOnSpawn = true ))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction", meta = (ClampMin = "0", ExposeOnSpawn = true))
 	int32 VirtualUserIndex = 0;
 
 private:
-
 	TMap<UUxtPointerComponent*, FVector2D> Pointers;
 
 	bool bIsPressed = false;

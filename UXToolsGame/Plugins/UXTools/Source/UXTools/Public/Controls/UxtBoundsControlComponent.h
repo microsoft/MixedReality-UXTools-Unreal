@@ -4,11 +4,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
-#include "Interactions/UxtGrabTargetComponent.h"
-#include "Controls/UxtBoundsControlPresets.h"
-#include "UxtBoundsControlComponent.generated.h"
 
+#include "Components/ActorComponent.h"
+#include "Controls/UxtBoundsControlPresets.h"
+#include "Interactions/UxtGrabTargetComponent.h"
+
+#include "UxtBoundsControlComponent.generated.h"
 
 class UUxtBoundsControlComponent;
 
@@ -21,7 +22,6 @@ enum class EUxtBoundsControlAffordanceKind : uint8
 	Edge,
 	Corner,
 };
-
 
 /** Defines which effect moving an affordance has on the bounding box. */
 UENUM()
@@ -37,7 +37,6 @@ enum class EUxtBoundsControlAffordanceAction : uint8
 	Rotate,
 };
 
-
 /** Affordances are grabbable actors placed on the bounding box which enable interaction. */
 USTRUCT(BlueprintType)
 struct UXTOOLS_API FUxtBoundsControlAffordanceInfo
@@ -48,7 +47,7 @@ struct UXTOOLS_API FUxtBoundsControlAffordanceInfo
 	 * Transform from affordance local space to world space, based on the root transform.
 	 * Root transform scale is not included in the transform.
 	 */
-	FTransform GetWorldTransform(const FBox &Bounds, const FTransform &RootTransform) const;
+	FTransform GetWorldTransform(const FBox& Bounds, const FTransform& RootTransform) const;
 
 	/** Action to perform when the affordance is grabbed. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Bounding Box")
@@ -81,19 +80,13 @@ struct UXTOOLS_API FUxtBoundsControlAffordanceInfo
 	EUxtBoundsControlAffordanceKind Kind = EUxtBoundsControlAffordanceKind::Center;
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FUxtBoundsControlManipulationStartedDelegate, UUxtBoundsControlComponent*, Manipulator, const FUxtBoundsControlAffordanceInfo&,
+	AffordanceInfo, UUxtGrabTargetComponent*, GrabbedComponent);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
-	FUxtBoundsControlManipulationStartedDelegate,
-	UUxtBoundsControlComponent*, Manipulator,
-	const FUxtBoundsControlAffordanceInfo&, AffordanceInfo,
-	UUxtGrabTargetComponent*, GrabbedComponent);
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
-	FUxtBoundsControlManipulationEndedDelegate,
-	UUxtBoundsControlComponent*, Manipulator,
-	const FUxtBoundsControlAffordanceInfo&, AffordanceInfo,
-	UUxtGrabTargetComponent*, GrabbedComponent);
-
+	FUxtBoundsControlManipulationEndedDelegate, UUxtBoundsControlComponent*, Manipulator, const FUxtBoundsControlAffordanceInfo&,
+	AffordanceInfo, UUxtGrabTargetComponent*, GrabbedComponent);
 
 /**
  * Manages a set of affordances that can be manipulated for changing the actor transform.
@@ -104,7 +97,6 @@ class UXTOOLS_API UUxtBoundsControlComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-
 	UUxtBoundsControlComponent();
 
 	/** Get the map between the affordance actors and their information. */
@@ -173,31 +165,30 @@ public:
 	FUxtBoundsControlManipulationEndedDelegate OnManipulationEnded;
 
 protected:
-
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	/** Callback when an affordance is being grabbed. */
 	UFUNCTION()
-	void OnPointerBeginGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	void OnPointerBeginGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 	/** Callback when an affordance is being grabbed. */
 	UFUNCTION()
-	void OnPointerUpdateGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	void OnPointerUpdateGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 	/** Callback when an affordance is being released. */
 	UFUNCTION()
-	void OnPointerEndGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	void OnPointerEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
 	/**
 	 * Try to activate the given grab pointer on the bounding box.
 	 * Returns true when the grab activation was successful and the pointer will update the bounding box.
 	 */
-	bool TryActivateGrabPointer(const FUxtBoundsControlAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer);
+	bool TryActivateGrabPointer(const FUxtBoundsControlAffordanceInfo& Affordance, const FUxtGrabPointerData& GrabPointer);
 	/**
 	 * Release the grab pointer.
 	 * Returns true if the pointer was grabbing and has been released.
 	 */
-	bool TryReleaseGrabPointer(const FUxtBoundsControlAffordanceInfo &Affordance);
+	bool TryReleaseGrabPointer(const FUxtBoundsControlAffordanceInfo& Affordance);
 	/**
 	 * Look up the grab pointer data for an affordance.
 	 * Returns null if the affordance is not currently grabbed.
@@ -205,7 +196,9 @@ protected:
 	FUxtGrabPointerData* FindGrabPointer(const FUxtBoundsControlAffordanceInfo& Affordance);
 
 	/** Compute new bounding box and rotation based on the currently active grab pointers. */
-	void ComputeModifiedBounds(const FUxtBoundsControlAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation) const;
+	void ComputeModifiedBounds(
+		const FUxtBoundsControlAffordanceInfo& Affordance, const FUxtGrabPointerData& GrabPointer, FBox& OutBounds,
+		FQuat& OutDeltaRotation) const;
 
 	/** Update the world transforms of affordance actors to match the current bounding box. */
 	void UpdateAffordanceTransforms();
@@ -214,10 +207,9 @@ protected:
 	 * Compute the relative translation and scale between two boxes.
 	 * Returns false if relative scale can not be computed.
 	 */
-	static bool GetRelativeBoxTransform(const FBox &Box, const FBox &RelativeTo, FTransform &OutTransform);
+	static bool GetRelativeBoxTransform(const FBox& Box, const FBox& RelativeTo, FTransform& OutTransform);
 
 private:
-
 	/** Actor class to instantiate for a center affordance. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCenterAffordanceClass", Category = "Bounding Box")
 	TSubclassOf<class AActor> CenterAffordanceClass;
@@ -249,7 +241,8 @@ private:
 	 * List of custom affordances.
 	 * These affordances will only be used when using the Custom preset.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCustomAffordances", meta = (EditCondition = "bUseCustomAffordances"), Category = "Bounding Box")
+	UPROPERTY(
+		EditAnywhere, BlueprintGetter = "GetCustomAffordances", meta = (EditCondition = "bUseCustomAffordances"), Category = "Bounding Box")
 	TArray<FUxtBoundsControlAffordanceInfo> CustomAffordances;
 
 	/** Initialize bounds from actor content. */
@@ -268,7 +261,7 @@ private:
 
 	/**
 	 * Contains the currently active affordances being moved by grab pointers.
-	 * 
+	 *
 	 * Note:
 	 * Currently should only ever contain a single grab pointer.
 	 * In the future multiple simultaneous grabs may be supported.
@@ -283,9 +276,8 @@ private:
 	/** Minimum valid scale for bounds. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetMinimumBoundsScale", BlueprintSetter = "SetMinimumBoundsScale", Category = "Bounding Box")
 	float MinimumBoundsScale;
-	
+
 	/** Maximum valid scale for bounds. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetMaximumBoundsScale", BlueprintSetter = "SetMaximumBoundsScale", Category = "Bounding Box")
 	float MaximumBoundsScale;
 };
-

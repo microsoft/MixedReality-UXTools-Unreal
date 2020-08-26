@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
 #include "Misc/AutomationTest.h"
 
@@ -19,21 +20,13 @@ class UUIElementTestComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
+	UFUNCTION()
+	void OnShowElement(UUxtUIElementComponent* UIElement) { ShowCount++; }
 
 	UFUNCTION()
-	void OnShowElement(UUxtUIElementComponent* UIElement)
-	{
-		ShowCount++;
-	}
-
-	UFUNCTION()
-	void OnHideElement(UUxtUIElementComponent* UIElement, bool bShouldAffectLayout)
-	{
-		HideCount++;
-	}
+	void OnHideElement(UUxtUIElementComponent* UIElement, bool bShouldAffectLayout) { HideCount++; }
 
 public:
-
 	int ShowCount = 0;
 	int HideCount = 0;
 };

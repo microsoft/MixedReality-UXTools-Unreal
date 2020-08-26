@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtPinchSliderComponent.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtFarPointerComponent.h"
+
 #include "UXTools.h"
+
 #include "Components/BoxComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
 namespace
@@ -26,7 +28,7 @@ namespace
 
 		return FMath::Lerp(StartValue, EndValue, Weight);
 	}
-}
+} // namespace
 
 // Sets default values for this component's properties
 UUxtPinchSliderComponent::UUxtPinchSliderComponent()
@@ -74,7 +76,7 @@ void UUxtPinchSliderComponent::SetEnabled(bool bEnabled)
 			OnEndFocus.Broadcast(this, NearPointer, bWasAlreadyFocused);
 			bWasAlreadyFocused = true;
 		}
-		
+
 		const bool bIsFocused = FocusingFarPointers.Num() + FocusingNearPointers.Num() > 0;
 		CurrentState = bIsFocused ? EUxtSliderState::Focus : EUxtSliderState::Default;
 
@@ -138,7 +140,7 @@ void UUxtPinchSliderComponent::UpdateSliderState()
 
 			if (NumTickMarks == 1)
 			{
-				//if its the first get the midpoint.
+				// if its the first get the midpoint.
 				T.SetTranslation(FVector(0.0f, (BarSize / 2) + SliderStartDistance, 0.0f));
 				Ticks->AddInstance(T);
 				T.AddToTranslation(FVector(0.0f, Step, 0.0f));
@@ -154,7 +156,6 @@ void UUxtPinchSliderComponent::UpdateSliderState()
 				}
 			}
 		}
-
 	}
 }
 
@@ -321,7 +322,6 @@ void UUxtPinchSliderComponent::BeginPlay()
 
 	if (UStaticMeshComponent* Visuals = GetThumbVisuals())
 	{
-
 		Visuals->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		ConfigureBoxComponent(Visuals);
 	}
@@ -346,7 +346,8 @@ void UUxtPinchSliderComponent::UpdateThumbPositionFromSliderValue()
 		Thumb->SetRelativeLocation(FVector(RelativePos.X, FMath::Lerp(SliderStartDistance, SliderEndDistance, SliderValue), RelativePos.Z));
 		if (BoxComponent)
 		{
-			BoxComponent->SetRelativeLocation(FVector(RelativePos.X, FMath::Lerp(SliderStartDistance, SliderEndDistance, SliderValue), RelativePos.Z));
+			BoxComponent->SetRelativeLocation(
+				FVector(RelativePos.X, FMath::Lerp(SliderStartDistance, SliderEndDistance, SliderValue), RelativePos.Z));
 		}
 	}
 }
@@ -355,7 +356,10 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent(const UStaticMeshComponent*
 {
 	if (!BoxComponent)
 	{
-		UE_LOG(UXTools, Error, TEXT("Attempting to configure the box component for '%s' before it is initialised, the slider will not work properly."), *GetOwner()->GetName());
+		UE_LOG(
+			UXTools, Error,
+			TEXT("Attempting to configure the box component for '%s' before it is initialised, the slider will not work properly."),
+			*GetOwner()->GetName());
 		return;
 	}
 

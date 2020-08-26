@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 #include "Interactions/UxtManipulatorComponentBase.h"
-#include "Interactions/UxtGrabTargetComponent.h"
+
+#include "Constraints/UxtConstraintManager.h"
+#include "Engine/World.h"
 #include "Interactions/Manipulation/UxtManipulationMoveLogic.h"
 #include "Interactions/Manipulation/UxtTwoHandRotateLogic.h"
 #include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
-#include "Constraints/UxtConstraintManager.h"
-#include "Engine/World.h"
+#include "Interactions/UxtGrabTargetComponent.h"
 #include "Utils/UxtFunctionLibrary.h"
 
 UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
@@ -24,17 +25,17 @@ UUxtManipulatorComponentBase::~UUxtManipulatorComponentBase()
 	delete MoveLogic;
 }
 
-void UUxtManipulatorComponentBase::MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const
+void UUxtManipulatorComponentBase::MoveToTargets(
+	const FTransform& SourceTransform, FTransform& TargetTransform, bool UsePointerRotation) const
 {
-	FVector NewObjectLocation = MoveLogic->Update(GetPointerCentroid(),
-		SourceTransform.Rotator().Quaternion(),
-		SourceTransform.GetScale3D(),
-		UsePointerRotation,
+	FVector NewObjectLocation = MoveLogic->Update(
+		GetPointerCentroid(), SourceTransform.Rotator().Quaternion(), SourceTransform.GetScale3D(), UsePointerRotation,
 		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
 	TargetTransform = FTransform(SourceTransform.GetRotation(), NewObjectLocation, SourceTransform.GetScale3D());
 }
 
-void UUxtManipulatorComponentBase::RotateAroundPivot(const FTransform &SourceTransform, const FVector &Pivot, FTransform &TargetTransform) const
+void UUxtManipulatorComponentBase::RotateAroundPivot(
+	const FTransform& SourceTransform, const FVector& Pivot, FTransform& TargetTransform) const
 {
 	TargetTransform = SourceTransform;
 
@@ -64,7 +65,8 @@ void UUxtManipulatorComponentBase::RotateAroundPivot(const FTransform &SourceTra
 	TargetTransform *= FTransform(Pivot);
 }
 
-void UUxtManipulatorComponentBase::RotateAboutAxis(const FTransform &SourceTransform, const FVector &Pivot, const FVector &Axis, FTransform &TargetTransform) const
+void UUxtManipulatorComponentBase::RotateAboutAxis(
+	const FTransform& SourceTransform, const FVector& Pivot, const FVector& Axis, FTransform& TargetTransform) const
 {
 	TargetTransform = SourceTransform;
 
@@ -96,7 +98,9 @@ void UUxtManipulatorComponentBase::RotateAboutAxis(const FTransform &SourceTrans
 	TargetTransform *= FTransform(Pivot);
 }
 
-void UUxtManipulatorComponentBase::SmoothTransform(const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds, FTransform& TargetTransform) const
+void UUxtManipulatorComponentBase::SmoothTransform(
+	const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds,
+	FTransform& TargetTransform) const
 {
 	FVector SmoothLoc;
 	FQuat SmoothRot;
@@ -140,7 +144,7 @@ void UUxtManipulatorComponentBase::SetInitialTransform()
 	Constraints->Initialize(InitialTransform);
 }
 
-void UUxtManipulatorComponentBase::ApplyTargetTransform(const FTransform &TargetTransform)
+void UUxtManipulatorComponentBase::ApplyTargetTransform(const FTransform& TargetTransform)
 {
 	TransformTarget->SetWorldTransform(TargetTransform);
 	OnUpdateTransform.Broadcast(TransformTarget, TargetTransform);
@@ -181,7 +185,7 @@ void UUxtManipulatorComponentBase::TickComponent(float DeltaTime, ELevelTick Tic
 	Constraints->Update(TransformTarget->GetComponentTransform());
 }
 
-void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
+void UUxtManipulatorComponentBase::OnManipulationStarted(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
 {
 	const int NumGrabPointers = GetGrabPointers().Num();
 
@@ -206,9 +210,8 @@ void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
 {
 	SetInitialTransform();
 
-	MoveLogic->Setup(GetPointerCentroid(),
-		GetGrabPointCentroid(GetComponentTransform()).GetLocation(),
-		TransformTarget->GetComponentTransform(),
+	MoveLogic->Setup(
+		GetPointerCentroid(), GetGrabPointCentroid(GetComponentTransform()).GetLocation(), TransformTarget->GetComponentTransform(),
 		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
 
 	if (NumGrabPointers > 1)
@@ -217,4 +220,3 @@ void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
 		TwoHandScaleLogic->Setup(GetGrabPointers(), TransformTarget->GetComponentScale());
 	}
 }
-

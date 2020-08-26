@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 #include "Tooltips/UxtTooltipSpawnerComponent.h"
+
+#include "TimerManager.h"
+
 #include "Blueprint/UserWidget.h"
 #include "Components/ActorComponent.h"
 #include "Components/WidgetComponent.h"
@@ -9,13 +12,11 @@
 #include "Engine/Selection.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
-#include "TimerManager.h"
 #include "Tooltips/UxtTooltipActor.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Utils/UxtFunctionLibrary.h"
 
-UUxtTooltipSpawnerComponent::UUxtTooltipSpawnerComponent(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+UUxtTooltipSpawnerComponent::UUxtTooltipSpawnerComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	SetMobility(EComponentMobility::Movable);
 }
@@ -39,7 +40,7 @@ void UUxtTooltipSpawnerComponent::OnComponentDestroyed(bool bDestroyingHierarchy
 		Pivot->DestroyComponent();
 		Pivot = nullptr;
 	}
-	
+
 	Super::OnComponentDestroyed(bDestroyingHierarchy);
 }
 
@@ -58,12 +59,11 @@ void UUxtTooltipSpawnerComponent::CreateTooltip()
 {
 	// Timer is used to schedule the "Appear delay".
 	FTimerDelegate TimerCallback;
-	TimerCallback.BindLambda([this]
-	{
+	TimerCallback.BindLambda([this] {
 		SpawnedTooltip = GetWorld()->SpawnActor<AUxtTooltipActor>();
 		SpawnedTooltip->TooltipTarget.OtherActor = GetOwner();
 		SpawnedTooltip->TooltipTarget.OverrideComponent = GetOwner()->GetRootComponent();
-		
+
 		if (WidgetClass != nullptr)
 		{
 			SpawnedTooltip->WidgetClass = WidgetClass;
@@ -86,7 +86,7 @@ void UUxtTooltipSpawnerComponent::CreateTooltip()
 	});
 	float FinalDelay = FMath::Max(AppearDelay, SMALL_NUMBER); // Timer handle needs time to be non-zero.
 	GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
-	
+
 	if (RemainType == EUxtTooltipRemainType::Timeout)
 	{
 		ScheduleDeathAfterLifetime();
@@ -97,8 +97,7 @@ void UUxtTooltipSpawnerComponent::DestroyTooltip()
 {
 	// Use timer to perform the "VanishDelay".
 	FTimerDelegate TimerCallback;
-	TimerCallback.BindLambda([this]
-	{
+	TimerCallback.BindLambda([this] {
 		if (SpawnedTooltip)
 		{
 			GetWorld()->DestroyActor(SpawnedTooltip);
@@ -107,7 +106,7 @@ void UUxtTooltipSpawnerComponent::DestroyTooltip()
 			OnHideTooltip.Broadcast();
 		}
 	});
-	auto FinalDelay = FMath::Max(VanishDelay, SMALL_NUMBER);// Timer handle needs time to be non-zero
+	auto FinalDelay = FMath::Max(VanishDelay, SMALL_NUMBER); // Timer handle needs time to be non-zero
 	GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
 }
 
@@ -115,8 +114,7 @@ void UUxtTooltipSpawnerComponent::ScheduleDeathAfterLifetime()
 {
 	// Timer is used to schedule the death of the tooltip based on Lifetime.
 	FTimerDelegate LifetimeTimerCallback;
-	LifetimeTimerCallback.BindLambda([this]
-	{
+	LifetimeTimerCallback.BindLambda([this] {
 		if (SpawnedTooltip)
 		{
 			GetWorld()->DestroyActor(SpawnedTooltip);
@@ -124,7 +122,7 @@ void UUxtTooltipSpawnerComponent::ScheduleDeathAfterLifetime()
 			OnHideTooltip.Broadcast();
 		}
 	});
-	float FinalLifetime = FMath::Max(Lifetime, SMALL_NUMBER); //Timer handle needs time to be non-zero
+	float FinalLifetime = FMath::Max(Lifetime, SMALL_NUMBER); // Timer handle needs time to be non-zero
 	GetOwner()->GetWorldTimerManager().SetTimer(LifetimeTimerHandle, LifetimeTimerCallback, FinalLifetime, false, FinalLifetime);
 }
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtBackPlateComponent.h"
+
 #include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"

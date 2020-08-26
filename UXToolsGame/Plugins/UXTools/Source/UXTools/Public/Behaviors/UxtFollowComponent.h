@@ -4,16 +4,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
+
 #include "UxtFollowComponent.generated.h"
 
 UENUM(BlueprintType)
 enum EUxtFollowOrientBehavior
 {
 	/** Billboard toward the camera */
-	FaceCamera	UMETA(DisplayName = "FaceCamera"),
-	/** Do not billboard unless one of three conditions are met: Angular Clamp, Distance Clamp, or camera leaves OrientToCameraDeadzoneDegrees */
-	WorldLock	UMETA(DisplayName = "WorldLock"),
+	FaceCamera UMETA(DisplayName = "FaceCamera"),
+	/** Do not billboard unless one of three conditions are met: Angular Clamp, Distance Clamp, or camera leaves
+	   OrientToCameraDeadzoneDegrees */
+	WorldLock UMETA(DisplayName = "WorldLock"),
 };
 
 /**
@@ -42,7 +45,7 @@ enum EUxtFollowOrientBehavior
  * 	The angle between the forward vector of the its owner and toTarget vector (vector between
  * 		the camera and the its owner) is larger than dead zone angle parameter
  */
-UCLASS(ClassGroup = UXTools, meta=(BlueprintSpawnableComponent))
+UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFollowComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -55,7 +58,6 @@ public:
 	void Recenter();
 
 public:
-
 	/** Actor that this component will follow. If null, this component will follow the camera */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowParameters)
 	AActor* ActorToFollow;
@@ -73,19 +75,23 @@ public:
 	bool bIgnoreDistanceClamp = false;
 
 	/** Min distance from eye to position its owner around, i.e. the sphere radius */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float MinimumDistance = 50.0f;
 
 	/** Max distance from eye to its owner */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float MaximumDistance = 100.0f;
 
 	/** Default distance from eye to position its owner around, i.e. the sphere radius */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float DefaultDistance = 75.0f;
 
 	/** Max vertical distance between the owner and camera */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float VerticalMaxDistance = 0.0f;
 
 	/** Option to ignore angle clamping */
@@ -93,19 +99,24 @@ public:
 	bool bIgnoreAngleClamp = false;
 
 	/** The horizontal angle from the camera forward axis to the owner will not exceed this value */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
 	float MaxViewHorizontalDegrees = 30.0f;
 
 	/** The vertical angle from the camera forward axis to the owner will not exceed this value */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
 	float MaxViewVerticalDegrees = 30.0f;
 
 	/** Option to ignore the pitch and roll of the camera */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
 	bool bIgnoreCameraPitchAndRoll = false;
 
 	/** Pitch offset from camera (relative to Max Distance) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "bIgnoreCameraPitchAndRoll && !bIgnoreAngleClamp", EditConditionHides), Category = FollowDirection)
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "bIgnoreCameraPitchAndRoll && !bIgnoreAngleClamp", EditConditionHides),
+		Category = FollowDirection)
 	float PitchOffset = 0.0f;
 
 	/** Option to ignore interpolation between follow poses */
@@ -118,7 +129,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
 	FTransform GetFollowTransform();
@@ -126,7 +137,6 @@ private:
 	void UpdateTransformToGoal(bool bSkipInterpolation, float DeltaTime = 0);
 
 private:
-
 	FVector ToTarget;
 	FQuat TargetRotation;
 	FTransform WorkingTransform;

@@ -22,7 +22,7 @@ namespace
 		}
 		return Result;
 	}
-}
+} // namespace
 
 void UxtTwoHandManipulationScaleLogic::Setup(GrabPointers PointerData, const FVector& ObjectScale)
 {
@@ -35,4 +35,3 @@ FVector UxtTwoHandManipulationScaleLogic::Update(GrabPointers PointerData) const
 	float ratioMultiplier = GetMinDistanceBetweenHands(PointerData) / StartHandDistanceMeters;
 	return StartObjectScale * ratioMultiplier;
 }
-

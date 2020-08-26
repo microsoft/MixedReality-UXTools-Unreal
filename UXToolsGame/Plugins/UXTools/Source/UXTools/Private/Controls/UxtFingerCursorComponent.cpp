@@ -2,24 +2,26 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtFingerCursorComponent.h"
+
 #include "UXTools.h"
-#include "Input/UxtNearPointerComponent.h"
+
+#include "Engine/StaticMesh.h"
 #include "GameFramework/Actor.h"
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
-#include "UObject/ConstructorHelpers.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
-#include "Engine/StaticMesh.h"
+#include "UObject/ConstructorHelpers.h"
 
 namespace
 {
 	/**
 	 * The cursor interpolates between two different transforms as it approaches the target.
-	 * The first transform, which has a greater influence further away from the target, is 
+	 * The first transform, which has a greater influence further away from the target, is
 	 * constructed as follows:
 	 * - Location: (fingertip pos) + (tip radius) * (dir from knuckle to fingertip)
 	 * - Rotation: (fingertip rot)
-	 * 
-	 * The second transform, Which has a greater influence closer to the target, is constructed 
+	 *
+	 * The second transform, Which has a greater influence closer to the target, is constructed
 	 * as follows:
 	 * - Location: (fingertip pos) + (tip radius) * (dir from fingertip to point on target)
 	 * - Rotation: (rot corresponding to dir from fingertip to point on target)
@@ -31,14 +33,16 @@ namespace
 		FQuat IndexTipOrientation;
 		FVector IndexTipPosition;
 		float IndexTipRadius;
-		
-		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+
+		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(
+			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
 
 		FQuat IndexKnuckleOrientation;
 		FVector IndexKnucklePosition;
 		float IndexKnuckleRadius;
 
-		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexProximal, IndexKnuckleOrientation, IndexKnucklePosition, IndexKnuckleRadius);
+		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(
+			Hand, EUxtHandJoint::IndexProximal, IndexKnuckleOrientation, IndexKnucklePosition, IndexKnuckleRadius);
 
 		if (!foundValues)
 		{
@@ -71,7 +75,7 @@ namespace
 
 		return FTransform(Rotation, Location);
 	}
-}
+} // namespace
 
 UUxtFingerCursorComponent::UUxtFingerCursorComponent()
 {
@@ -84,7 +88,7 @@ UUxtFingerCursorComponent::UUxtFingerCursorComponent()
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Pointers/Materials/MI_FingerTipCursor"));
 	check(MaterialFinder.Object);
 	SetMaterial(0, MaterialFinder.Object);
-	
+
 	// Remain hidden until we see a valid poke target
 	SetHiddenInGame(true);
 }
@@ -147,7 +151,7 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 			if (DistanceToTarget > Epsilon)
 			{
-				SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance));												
+				SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance));
 			}
 
 			const float DistanceOffset = 1.0f;
@@ -160,7 +164,7 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				SetHiddenInGame(false);
 			}
 		}
-		else if(!bHiddenInGame)
+		else if (!bHiddenInGame)
 		{
 			// Hide mesh when the pointer has no target
 			SetHiddenInGame(true);

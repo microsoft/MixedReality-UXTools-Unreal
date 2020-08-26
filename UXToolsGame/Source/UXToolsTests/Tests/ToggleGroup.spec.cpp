@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 #include "Engine.h"
-#include "Tests/AutomationCommon.h"
 #include "UxtTestUtils.h"
 
-#include "Controls/UxtToggleStateComponent.h"
 #include "Controls/UxtToggleGroupComponent.h"
+#include "Controls/UxtToggleStateComponent.h"
+#include "Tests/AutomationCommon.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 
@@ -23,7 +23,7 @@ namespace
 
 		return Component;
 	}
-}
+} // namespace
 
 BEGIN_DEFINE_SPEC(ToggleGroupSpec, "UXTools.ToggleGroup", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
 
@@ -34,8 +34,7 @@ END_DEFINE_SPEC(ToggleGroupSpec)
 
 void ToggleGroupSpec::Define()
 {
-	BeforeEach([this]
-	{
+	BeforeEach([this] {
 		TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
 		ToggleGroup = CreateActorWithComponent<UUxtToggleGroupComponent>();
@@ -46,8 +45,7 @@ void ToggleGroupSpec::Define()
 		}
 	});
 
-	AfterEach([this]
-	{
+	AfterEach([this] {
 		ToggleGroup->GetOwner()->Destroy();
 
 		for (int32 i = 0; i < ToggleStates.Num(); ++i)
@@ -62,8 +60,7 @@ void ToggleGroupSpec::Define()
 		ToggleStates.Empty();
 	});
 
-	It("Test insertion and removal", [this]
-	{
+	It("Test insertion and removal", [this] {
 		ToggleGroup->AddToggleState(ToggleStates[0]);
 		TestEqual("Toggle state added to toggle group", ToggleGroup->GetGroupCount(), 1);
 		ToggleGroup->RemoveToggleState(ToggleStates[0]);
@@ -86,8 +83,7 @@ void ToggleGroupSpec::Define()
 		TestEqual("Test emptying the toggle group.", ToggleGroup->GetGroupCount(), 0);
 	});
 
-	It("Test selection", [this]
-	{
+	It("Test selection", [this] {
 		for (int32 i = 0; i < ToggleStates.Num(); ++i)
 		{
 			ToggleGroup->AddToggleState(ToggleStates[i]);
