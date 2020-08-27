@@ -34,7 +34,7 @@ Although the slider created above is behaving correctly, it's not doing anything
 
 ## HoloLens 2 Pinch Slider
 
-UXTools provides a ready to use HoloLens 2 style pinch slider called the [`UxtPinchSliderActor`](xref:_u_uxt_pinch_slider_actor).
+UXTools provides a ready to use HoloLens 2 style pinch slider called the `UxtPinchSliderActor`.
 
 ![PinchSliderActor](Images/Slider/PinchSliderActor.gif)
 

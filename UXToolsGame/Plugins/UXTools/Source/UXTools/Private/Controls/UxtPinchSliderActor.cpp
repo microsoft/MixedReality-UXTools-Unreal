@@ -7,6 +7,7 @@
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Engine/Font.h"
+#include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Sound/SoundCue.h"
 #include "UObject/ConstructorHelpers.h"
