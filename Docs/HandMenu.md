@@ -1,5 +1,5 @@
 # Hand Menu
-A hand menu is a user interface that appears when the user raises their palm and follows their hand as they move it.
+Hand menus allow users to quickly bring up hand-attached UI for frequently used functions. To prevent false activation while interacting with other objects, hand menu provides options such as 'Require Flat Hand'. It is recommended to use these options to prevent unwanted activation.
 
 There are some examples of various hand menus in `\Content\UXToolsGame\Examples\HandMenu\Blueprints`.
 

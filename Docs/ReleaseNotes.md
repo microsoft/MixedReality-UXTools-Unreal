@@ -10,6 +10,20 @@ Unreal 4.25 required.
 
 ## What's new
 
+### UI elements
+
+The new [`UxtUIElementComponent`](UIElements.md) allows an actor's visibility to be controlled by its parent actor, allowing for easy construction of hierarchical UIs. The hierarchies can be constructed using actor attachment or child actor components.
+
+`UxtPressableButtonComponent`, `UxtPinchSliderComponent` and `UxtTouchableVolumeComponent` now inherit from `UxtUIElementComponent`.
+
+![HandMenuExample](Images/UIElement/UIElement.gif)
+
+### Hand menus
+
+[Hand menus](HandMenu.md) are a convenient hand-attached UI that are great for frequently used functions. An example level has been added to demonstrate various types of hand menus and to act as a guide for building custom menus.
+
+![HandMenuExample](Images/HandMenu/HandMenu.gif)
+
 ## Breaking changes
 
 ### Make poke target return normal for cursor transform
