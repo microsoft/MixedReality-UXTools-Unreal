@@ -1,3 +1,13 @@
+---
+title: Hand Constraint Component
+description: Guide to Hand Constraint, a component used to attach an actor to a hand in a way that makes it easy to interact with it.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, hand constraint component
+---
+
 # Hand Constraint Component
 
 Component that calculates a goal based on hand tracking and moves the owning actor. It keeps the actor position and rotation aligned with a hand while avoiding overlap with fingers.

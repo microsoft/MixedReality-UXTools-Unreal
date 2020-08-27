@@ -1,3 +1,13 @@
+---
+title: Manipulator Component
+description: Guide to Manipulators, a set of components for transforming actors via direct hand interaction.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, Manipulator Component, direct manipulation
+---
+
 # Manipulator Components
 
 Manipulator components allow an actor to be picked up by a user and then moved, rotated or scaled.

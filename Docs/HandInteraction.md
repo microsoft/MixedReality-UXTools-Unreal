@@ -1,3 +1,13 @@
+---
+title: Hand Interaction
+description: Guide to Hand Interaction, an actor used to enable far and near interaction using hands. 
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, hand interaction
+---
+
 # Hand interaction
 
 Hand interaction with UX elements is performed via the *hand interaction actor*. This actor takes care of creating and driving the pointers and visuals for near and far interactions. 
