@@ -19,32 +19,66 @@ class UPinchSliderTestComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
-	void OnInteractionStarted(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer)
+	//
+	// Test component interface.
+
+	void Reset()
 	{
-		OnInteractionStartedReceived = true;
+		OnUpdateStateReceived = false;
+		OnBeginFocusReceived = false;
+		OnUpdateFocusReceived = false;
+		OnEndFocusReceived = false;
+		OnBeginGrabReceived = false;
+		OnUpdateValueReceived = false;
+		OnEndGrabReceived = false;
+		OnEnableReceived = false;
+		OnDisableReceived = false;
+	}
+
+	//
+	// UxtPinchSlider event callbacks.
+
+	UFUNCTION()
+	void OnUpdateState(UUxtPinchSliderComponent* Slider, EUxtSliderState NewState) { OnUpdateStateReceived = true; }
+
+	UFUNCTION()
+	void OnBeginFocus(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer, bool bWasAlreadyFocused)
+	{
+		OnBeginFocusReceived = true;
 	}
 
 	UFUNCTION()
-	void OnInteractionEnded(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer) { OnInteractionEndedReceived = true; }
+	void OnUpdateFocus(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer) { OnUpdateFocusReceived = true; }
 
 	UFUNCTION()
-	void OnFocusEnter(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer, bool bWasAlreadyFocused)
-	{
-		OnFocusEnterReceived = true;
-	}
+	void OnEndFocus(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer, bool bIsStillFocused) { OnEndFocusReceived = true; }
 
 	UFUNCTION()
-	void OnFocusExit(UUxtPinchSliderComponent* SliderComponent, UUxtPointerComponent* Pointer, bool bIsStillFocused)
-	{
-		OnFocusExitReceived = true;
-	}
-	UFUNCTION()
-	void OnValueUpdated(UUxtPinchSliderComponent* SliderComponent, float value) { OnValueUpdatedReceived = true; }
+	void OnBeginGrab(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer) { OnBeginGrabReceived = true; }
 
-	bool OnInteractionStartedReceived = false;
-	bool OnInteractionEndedReceived = false;
-	bool OnFocusEnterReceived = false;
-	bool OnFocusExitReceived = false;
-	bool OnValueUpdatedReceived = false;
+	UFUNCTION()
+	void OnUpdateValue(UUxtPinchSliderComponent* Slider, float NewValue) { OnUpdateValueReceived = true; }
+
+	UFUNCTION()
+	void OnEndGrab(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer) { OnEndGrabReceived = true; }
+
+	UFUNCTION()
+	void OnEnable(UUxtPinchSliderComponent* Slider) { OnEnableReceived = true; }
+
+	UFUNCTION()
+	void OnDisable(UUxtPinchSliderComponent* Slider) { OnDisableReceived = true; }
+
+public:
+	//
+	// Flags to indicate which events have been received.
+
+	bool OnUpdateStateReceived = false;
+	bool OnBeginFocusReceived = false;
+	bool OnUpdateFocusReceived = false;
+	bool OnEndFocusReceived = false;
+	bool OnBeginGrabReceived = false;
+	bool OnUpdateValueReceived = false;
+	bool OnEndGrabReceived = false;
+	bool OnEnableReceived = false;
+	bool OnDisableReceived = false;
 };

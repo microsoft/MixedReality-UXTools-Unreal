@@ -25,6 +25,9 @@ public:
 	/** Reset the hand after a test. */
 	void Reset();
 
+	/** Get the pointer attached to the hand. */
+	UUxtPointerComponent* GetPointer() const;
+
 	/** Translate the hand by the given vector. */
 	void Translate(const FVector& Translation);
 

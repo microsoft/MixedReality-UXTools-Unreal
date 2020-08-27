@@ -47,4 +47,28 @@ This PR also contains changes to `UUxtNearPointerComponent::GetFocusedGrabTarget
 
 In `BP_ButtonHoloLens2Toggle` the blueprint toggle state variables and events dispatchers are now accessible via the attached `UUxtToggleStateComponent`. Any blueprint references to the original blueprint variables or events must now be rewired to reference the variables and events within `UUxtToggleStateComponent`. The event graph within `BP_ButtonHoloLens2Toggle` can be used as an example of the required updates.
 
+### UxtPinchSliderComponent - New interface
+
+The `UxtPinchSliderComponent` has been simplified and streamlined. It now operates on the same principles as the `UxtPressableButtonComponent`.
+
+Interface changes:
+* `GetCurrentState` has been renamed to `GetState`.
+* `GetThumbVisuals` has been renamed to `GetVisuals`.
+* `GetSliderValue`/`SetSliderValue` have been renamed to `GetValue`/`SetValue`.
+* `GetSliderLowerBound`/`SetSliderLowerBound` have been renamed to `GetValueLowerBound`/`SetValueLowerBound`.
+* `GetSliderUpperBound`/`SetSliderUpperBound` have been renamed to `GetValueUpperBound`/`SetValueUpperBound`.
+* `IsGrabbed`, `IsFocused` and `IsEnabled` have been removed in favor of using `GetState`.
+* Any references to the track and tick mark visuals have been removed as they are now managed by `AUxtPinchSliderActor`.
+* `SliderStartDistance` and `SliderEndDistance` have been replaced by a single `TrackLength` property that dictates the length of the track.
+
+Event changes:
+* `OnBeginInteraction` has been renamed to `OnBeginGrab`.
+* `OnEndInteraction` has been renamed to `OnEndGrab`.
+* `OnSliderEnabled` has been renamed to `OnEnable`.
+* `OnSliderDisabled` has been renamed to `OnDisable`.
+
+### BP_SimpleSlider - Moved to a native implementation and renamed to UxtPinchSliderActor
+
+`BP_SimpleSlider` has been replaced by `AUxtPinchSliderActor`. It has the same feature set as `BP_SimpleSlider` and can be extended from either Blueprints or C++.
+
 ## Known issues

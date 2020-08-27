@@ -1,63 +1,43 @@
 # Pinch slider
 
-A pinch slider component allows the user to continuously change a value by moving the slider thumb along the track.
+A pinch slider component allows the user to continuously change a value by moving the slider thumb along a track.
 
-![slider](Images/slider.gif)
+![ExampleSlider](Images/Slider/Example.gif)
 
 ## Creating a pinch slider from scratch
 
-The first step of creating a slider from scratch is adding the [`UxtPinchSliderComponent`](xref:_u_uxt_pinch_slider_component) to an actor blueprint. This is a low level component that drives slider logic. The pinch slider visuals are made of three primary components.
-- **Slider thumb**: This component is required. It's the static mesh that the user interacts with
-- **Slider track**: This component is optional. It's the static mesh is scaled to match the range of the slider travel
-- **Tick marks**: This component is optional. It's an instanced static mesh that is used to represent ticks along the track of the slider
+1. Create a new actor blueprint with a [`UxtPinchSliderComponent`](xref:_u_uxt_pinch_slider_component) as the root component of the actor.
 
-![UxtPinchSliderComponent](Images/UxtPinchSliderComponent.png)
+2. Add a Sphere static mesh to the actor and call it _Thumb_. Set its scale to _0.025_.
 
-Add a [`StaticMeshComponent`](https://docs.unrealengine.com/en-US/Engine/Components/StaticMesh/index.html) to the actor and name it "SliderThumb" (alternatively, name it something else and and set the ThumbVisuals property of the `UxtPinchSliderComponent` to reference this new mesh). If you want to add a track to the slider, add a [`StaticMeshComponent`](https://docs.unrealengine.com/en-US/Engine/Components/StaticMesh/index.html) to the actor and name it "SliderTrack" (alternatively, name it something else and and set the TrackVisuals property of the `UxtPinchSliderComponent` to reference this new mesh). If you want to add tick marks to the slider, add an [`InstancedStaticMesh`](https://docs.unrealengine.com/en-US/BlueprintAPI/Components/InstancedStaticMesh/index.html) to the actor, set a mesh for instancing, and name it "TickMarks" (alternatively, name it something else and and set the TickMarkVisuals property of the `UxtPinchSliderComponent` to reference this new instanced mesh).
+3. Select the UxtPinchSliderComponent and set the _Visuals_ property to reference the sphere mesh.
 
-It is important to note that the `UxtPinchSliderComponent` uses the mesh assigned to the ThumbVisuals property to construct a `BoxComponent` that is used for grab and far interactions. The `UxtPinchSliderComponent` uses the mesh extents to create this box collider.
+3. Add a Cylinder static mesh to the actor and call it _Track_. Set its scale to _(0.01, 0.01, 0.5)_ and its X rotation to _90_ degrees.
 
-If the slider is configured correctly, the slider should now be grabbable via near and far interaction and update its position and value based on user input.
+4. If the slider is configured correctly it will look like this:
 
-Here are the events that you can use to hook the slider value up to you application logic:
+![BasicSlider](Images/Slider/BasicSlider.gif)
 
-- **OnValueUpdated**: This event is called whenever user interaction causes the value of the slider to change (i.e. it is moved)
-- **OnInteractionStarted**: This event is called when a user starts grabbing the slider thumb (either near or far interaction)
-- **OnInteractionEnded**: This event is called when a user stops grabbing the slider thumb (either near or far interaction)
-- **OnFocusEnter**:  This event is called when a pointer starts giving focus to the slider (either near or far interaction)
-- **OnFocusExit**: This event is called when a pointer starts giving focus to the slider (either near or far interaction)
-- **OnStateUpdated**: This event will be called whenever the slider changes its internal state. It supplies a EUxtSliderState value that represents the new state (Default, Focus, Grab).
+## Events
 
-Here is an example of the **OnValueUpdated** event being used:
+Although the slider created above is behaving correctly, it's not doing anything useful. The `UxtPinchSliderComponent` has a number of events that can be used to respond to slider input:
 
-![OnValueUpdated](Images/OnValueUpdated.png)
+- **OnUpdateState**: Event raised when slider changes state.
+- **OnBeginFocus**: Event raised when a pointer starts focusing the slider.
+- **OnUpdateFocus**: Event raised when a focusing pointer updates.
+- **OnEndFocus**: Event raised when a pointer stops focusing the slider.
+- **OnBeginGrab**: Event raised when slider is grabbed.
+- **OnUpdateValue**: Event raised when slider's value changes.
+- **OnEndGrab**: Event raised when slider is released.
+- **OnEnable**: Event raised when slider is enabled.
+- **OnDisable**: Event raised when slider is disabled.
 
-## Instance Editable Properties
+## HoloLens 2 Pinch Slider
 
-### SliderValue
-The current value of the slider in 0-1 range 
+UXTools provides a ready to use HoloLens 2 style pinch slider called the [`UxtPinchSliderActor`](xref:_u_uxt_pinch_slider_actor).
 
-### SliderStartDistance
-Where the slider track starts, as distance from center along slider axis, in local space units
+![PinchSliderActor](Images/Slider/PinchSliderActor.gif)
 
-### SliderEndDistance
-Where the slider track ends, as distance from center along slider axis, in local space units.
+This slider can be configured and extended using Blueprints or C++. There is an exampe of this in `BP_HandMenuSlider` that can be found in the hand menu example scene.
 
-### NumTickMarks
-Number of tick marks to add to the slider
-
-### TickMarkScale
-Scale of the tick marks on the slider
-
-### ThumbVisuals
-Visual representation of the slider thumb
-
-### TrackVisuals
-Visual representation of the track
-
-### TickMarkVisuals
-Visual representation of the tick marks
-
-### CollisionProfile
-Collision profile used by the slider thumb
-
+![HandMenuSlider](Images/Slider/HandMenuSlider.gif)

@@ -52,6 +52,11 @@ void FUxtTestHand::Reset()
 	}
 }
 
+UUxtPointerComponent* FUxtTestHand::GetPointer() const
+{
+	return Pointer;
+}
+
 void FUxtTestHand::Translate(const FVector& Translation)
 {
 	check(InteractionMode != EUxtInteractionMode::None && "Test hand must be configured before use");
