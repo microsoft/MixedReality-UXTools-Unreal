@@ -14,6 +14,8 @@
     href: PinchSlider.md
   - name: Far Beam
     href: FarBeam.md
+  - name: Bounds Control
+    href: BoundsControl.md
   - name: Graphics
     href: Graphics.md
   - name: Utilities
