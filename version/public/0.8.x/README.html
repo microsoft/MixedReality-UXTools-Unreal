@@ -76,34 +76,48 @@
 
 <p><img src="Docs/Images/MRTK_Unreal_UXT_Banner_Rounded.png" alt="Mixed Reality Toolkit"></p>
 <h1 id="introduction">Introduction</h1>
-<p>UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help in the implementation of features commonly needed when developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the included features are complete and robust enough to use in your own projects. Only HoloLens 2 is supported at the moment.</p>
-<p>Features:</p>
+<p>UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the current features are complete and robust enough to use in your own projects.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Only HoloLens 2 development is supported at the moment.</p>
+</div>
+<p>The current features include:</p>
 <ul>
-<li><a href="Docs/InputSimulation.html">Input simulation</a>: simulated articulated hands and head pose for use in-editor. Great for improving development iteration times.</li>
-<li><a href="Docs/HandInteraction.html">Hand interaction actor</a>: used to interact with our UX components with articulated hands.</li>
-<li><a href="Docs/PressableButton.html">Pressable button component</a>: low level component used to drive the state of button blueprints. An example button blueprint is provided.</li>
-<li><a href="Docs/Manipulator.html">Manipulator component</a>: allows moving and rotating an actor via one or two hand manipulation.</li>
-<li><a href="Docs/FollowComponent.html">Follow behaviour component</a>: keeps an actor or component within sight of another component, usually the camera.</li>
+<li><a href="Docs/InputSimulation.html">Input simulation</a> - Simulates articulated hands and head pose that you can use in-editor. This is great for improving development iteration times.</li>
+<li><a href="Docs/HandInteraction.html">Hand interaction actor</a> - Used to interact with our UX components with articulated hands.</li>
+<li><a href="Docs/PressableButton.html">Pressable button component</a> - Low level component used to drive the state of button blueprints. An example button blueprint is provided.</li>
+<li><a href="Docs/Manipulator.html">Manipulator component</a> - Allows moving and rotating an actor with either one or two hand manipulation.</li>
+<li><a href="Docs/FollowComponent.html">Follow behaviour component</a> - Keeps an actor or component within sight of another component, usually the camera.</li>
 </ul>
-<p><img src="Docs/Images/Features.png" alt="Features"></p>
 <p>Included but still in development is a bounding box component that allows manipulation of an actor's transform via affordances.</p>
+<p><img src="Docs/Images/Features.png" alt="Features"></p>
 <h1 id="getting-started">Getting Started</h1>
 <ol>
-<li>Get UE 4.25 preview 6 or later. Earlier previews or UE versions are not supported.</li>
-<li>Clone this repository.</li>
-<li>Checkout public/0.8.x. Bear in mind this branch is alive, it is not a release, and will be <strong>updated regularly with potentially breaking changes</strong>. There will be a release tag (e.g. release/0.8.0) marked as such in GitHub.</li>
+<li>Download <a href="https://www.unrealengine.com/get-now">UE 4.25.1</a> or later. Earlier versions are not supported.</li>
+<li><a href="https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop">Clone</a> this repository.</li>
+<li><a href="https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches">Checkout</a> public/0.8.x.
+<ul>
+<li>Bear in mind that this branch is alive. It's not a release, and will be <strong>updated regularly with potentially breaking changes</strong>. There will be a release tag (e.g. release/0.8.0) marked as such in GitHub.</li>
+</ul>
+</li>
 </ol>
-<p>At this point it can be useful to have a look at the example maps provided in the UX Tools Game (<em>/UXToolsGame</em>) to get familiar with the plugin's functionality.</p>
+<p>It's a good idea to have a look at the example maps provided in the <strong>UX Tools Game</strong> (/UXToolsGame) to get familiar with how the plugin works.</p>
 <p>To use the plugin in a game:</p>
 <ol>
-<li>Copy <em>/UXToolsGame/Plugins/UXTools</em> to the game's <em>Plugins</em> directory. Make sure the game project is a code one in order to be able to build the plugin sources.</li>
-<li>Open the game project and enable the UX Tools plugin in the plugins menu.</li>
+<li><p>Copy the <strong>UXTools</strong> folder in <strong>/UXToolsGame/Plugins/</strong> to your game's <strong>Plugins</strong> directory.</p>
+<ul>
+<li>Make sure the game project is a code one (not a BluePrint-only game) in order to be able to build the plugin sources.</li>
+</ul>
+</li>
+<li><p>Open the game project and enable the <strong>UX Tools</strong> plugin in the plugins menu.</p>
+</li>
 </ol>
+<p>You can find a complete setup guide in the <a href="https://docs.microsoft.com/windows/mixed-reality/unreal-uxt-ch1">MRTK Getting Started</a> tutorial series.</p>
 <p>To make sure everything is working as expected, add a hand interaction actor and an instance of the simple button blueprint to a level and try pressing the button with the simulated hands when playing in the editor.</p>
 <h1 id="documentation">Documentation</h1>
 <p>The latest version of the documentation can be found <a href="https://microsoft.github.io/MixedReality-UXTools-Unreal">here</a>.</p>
 <h1 id="feedback-and-contributions">Feedback and Contributions</h1>
-<p>Due to the early stage of the project and the likelihood of internal refactors, we are not in a position to accept external contributions via pull requests at this time. However, contributions and feedback in the shape of bug reports, suggestions and feature requests are welcome and encouraged.</p>
+<p>Due to the early stage of the project and the likelihood of internal refactors, we are not in a position to accept external contributions through pull requests at this time. However, contributions and feedback in the shape of bug reports, suggestions and feature requests are always welcome!</p>
 </article>
           </div>
           

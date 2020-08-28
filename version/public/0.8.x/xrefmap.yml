@@ -864,6 +864,28 @@ references:
   href: api/_f_uxt_poke_pointer_focus.html
   fullName: FUxtPokePointerFocus
   nameWithType: FUxtPokePointerFocus
+- uid: _f_uxt_poke_pointer_focus.BeginPoke(UUxtNearPointerComponent *)
+  name: BeginPoke(UUxtNearPointerComponent *Pointer)
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_BeginPoke_UUxtNearPointerComponent___
+  fullName: void FUxtPokePointerFocus::BeginPoke(UUxtNearPointerComponent *Pointer)
+  nameWithType: FUxtPokePointerFocus::BeginPoke(UUxtNearPointerComponent *Pointer)
+- uid: _f_uxt_poke_pointer_focus.BeginPoke*
+  name: BeginPoke
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_BeginPoke_
+  isSpec: "True"
+  fullName: void FUxtPokePointerFocus::BeginPoke
+  nameWithType: FUxtPokePointerFocus::BeginPoke
+- uid: _f_uxt_poke_pointer_focus.EndPoke(UUxtNearPointerComponent *)
+  name: EndPoke(UUxtNearPointerComponent *Pointer)
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_EndPoke_UUxtNearPointerComponent___
+  fullName: void FUxtPokePointerFocus::EndPoke(UUxtNearPointerComponent *Pointer)
+  nameWithType: FUxtPokePointerFocus::EndPoke(UUxtNearPointerComponent *Pointer)
+- uid: _f_uxt_poke_pointer_focus.EndPoke*
+  name: EndPoke
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_EndPoke_
+  isSpec: "True"
+  fullName: void FUxtPokePointerFocus::EndPoke
+  nameWithType: FUxtPokePointerFocus::EndPoke
 - uid: _f_uxt_poke_pointer_focus.GetClosestPointOnTarget(const UActorComponent *,const UPrimitiveComponent *,const FVector &,FVector &)
   name: GetClosestPointOnTarget(const UActorComponent *Target, const UPrimitiveComponent *Primitive, const FVector &Point, FVector &OutClosestPoint)
   href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_GetClosestPointOnTarget_const_UActorComponent___const_UPrimitiveComponent___const_FVector___FVector___
@@ -897,6 +919,17 @@ references:
   isSpec: "True"
   fullName: bool FUxtPokePointerFocus::ImplementsTargetInterface
   nameWithType: FUxtPokePointerFocus::ImplementsTargetInterface
+- uid: _f_uxt_poke_pointer_focus.IsPoking()
+  name: IsPoking()
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_IsPoking__
+  fullName: bool FUxtPokePointerFocus::IsPoking()
+  nameWithType: FUxtPokePointerFocus::IsPoking()
+- uid: _f_uxt_poke_pointer_focus.IsPoking*
+  name: IsPoking
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_IsPoking_
+  isSpec: "True"
+  fullName: bool FUxtPokePointerFocus::IsPoking
+  nameWithType: FUxtPokePointerFocus::IsPoking
 - uid: _f_uxt_poke_pointer_focus.RaiseEnterFocusEvent(UObject *,UUxtNearPointerComponent *)
   name: RaiseEnterFocusEvent(UObject *Target, UUxtNearPointerComponent *Pointer)
   href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_RaiseEnterFocusEvent_UObject___UUxtNearPointerComponent___
@@ -930,6 +963,17 @@ references:
   isSpec: "True"
   fullName: void FUxtPokePointerFocus::RaiseUpdateFocusEvent
   nameWithType: FUxtPokePointerFocus::RaiseUpdateFocusEvent
+- uid: _f_uxt_poke_pointer_focus.UpdatePoke(UUxtNearPointerComponent *)
+  name: UpdatePoke(UUxtNearPointerComponent *Pointer)
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_UpdatePoke_UUxtNearPointerComponent___
+  fullName: void FUxtPokePointerFocus::UpdatePoke(UUxtNearPointerComponent *Pointer)
+  nameWithType: FUxtPokePointerFocus::UpdatePoke(UUxtNearPointerComponent *Pointer)
+- uid: _f_uxt_poke_pointer_focus.UpdatePoke*
+  name: UpdatePoke
+  href: api/_f_uxt_poke_pointer_focus.html#_f_uxt_poke_pointer_focus_UpdatePoke_
+  isSpec: "True"
+  fullName: void FUxtPokePointerFocus::UpdatePoke
+  nameWithType: FUxtPokePointerFocus::UpdatePoke
 - uid: _f_uxt_pressable_button_component_visualizer
   name: FUxtPressableButtonComponentVisualizer
   href: api/_f_uxt_pressable_button_component_visualizer.html
@@ -2839,6 +2883,11 @@ references:
   href: api/_u_uxt_near_pointer_component.html#_u_uxt_near_pointer_component_bFocusLocked
   fullName: bool UUxtNearPointerComponent::bFocusLocked
   nameWithType: UUxtNearPointerComponent::bFocusLocked
+- uid: _u_uxt_near_pointer_component.DebounceDepth
+  name: DebounceDepth
+  href: api/_u_uxt_near_pointer_component.html#_u_uxt_near_pointer_component_DebounceDepth
+  fullName: float UUxtNearPointerComponent::DebounceDepth
+  nameWithType: UUxtNearPointerComponent::DebounceDepth
 - uid: _u_uxt_near_pointer_component.EndPlay(const EEndPlayReason::Type)
   name: EndPlay(const EEndPlayReason::Type EndPlayReason)
   href: api/_u_uxt_near_pointer_component.html#_u_uxt_near_pointer_component_EndPlay_const_EEndPlayReason__Type_
@@ -3076,6 +3125,17 @@ references:
   isSpec: "True"
   fullName: void UUxtPressableButtonComponent::BeginPlay
   nameWithType: UUxtPressableButtonComponent::BeginPlay
+- uid: _u_uxt_pressable_button_component.GetFrontFaceCollisionMargin()
+  name: GetFrontFaceCollisionMargin()
+  href: api/_u_uxt_pressable_button_component.html#_u_uxt_pressable_button_component_GetFrontFaceCollisionMargin__
+  fullName: float UUxtPressableButtonComponent::GetFrontFaceCollisionMargin()
+  nameWithType: UUxtPressableButtonComponent::GetFrontFaceCollisionMargin()
+- uid: _u_uxt_pressable_button_component.GetFrontFaceCollisionMargin*
+  name: GetFrontFaceCollisionMargin
+  href: api/_u_uxt_pressable_button_component.html#_u_uxt_pressable_button_component_GetFrontFaceCollisionMargin_
+  isSpec: "True"
+  fullName: float UUxtPressableButtonComponent::GetFrontFaceCollisionMargin
+  nameWithType: UUxtPressableButtonComponent::GetFrontFaceCollisionMargin
 - uid: _u_uxt_pressable_button_component.GetPokeBehaviour_Implementation()
   name: GetPokeBehaviour_Implementation()
   href: api/_u_uxt_pressable_button_component.html#_u_uxt_pressable_button_component_GetPokeBehaviour_Implementation__
@@ -3334,6 +3394,17 @@ references:
   isSpec: "True"
   fullName: void UUxtPressableButtonComponent::SetCollisionProfile
   nameWithType: UUxtPressableButtonComponent::SetCollisionProfile
+- uid: _u_uxt_pressable_button_component.SetFrontFaceCollisionMargin(float)
+  name: SetFrontFaceCollisionMargin(float Distance)
+  href: api/_u_uxt_pressable_button_component.html#_u_uxt_pressable_button_component_SetFrontFaceCollisionMargin_float_
+  fullName: void UUxtPressableButtonComponent::SetFrontFaceCollisionMargin(float Distance)
+  nameWithType: UUxtPressableButtonComponent::SetFrontFaceCollisionMargin(float Distance)
+- uid: _u_uxt_pressable_button_component.SetFrontFaceCollisionMargin*
+  name: SetFrontFaceCollisionMargin
+  href: api/_u_uxt_pressable_button_component.html#_u_uxt_pressable_button_component_SetFrontFaceCollisionMargin_
+  isSpec: "True"
+  fullName: void UUxtPressableButtonComponent::SetFrontFaceCollisionMargin
+  nameWithType: UUxtPressableButtonComponent::SetFrontFaceCollisionMargin
 - uid: _u_uxt_pressable_button_component.SetVisuals(USceneComponent *)
   name: SetVisuals(USceneComponent *Visuals)
   href: api/_u_uxt_pressable_button_component.html#_u_uxt_pressable_button_component_SetVisuals_USceneComponent___
