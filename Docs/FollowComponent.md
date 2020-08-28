@@ -1,3 +1,13 @@
+---
+title: Follow Component
+description: Guide to Follow, a component used to make an actor follow the user.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, follow component, leashing
+---
+
 # FollowComponent
 
 The FollowComponent is used to keep objects "following" the user by applying a set of constraints on the component's owner.

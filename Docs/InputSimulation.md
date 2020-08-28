@@ -1,3 +1,13 @@
+---
+title: Input Simulation
+description: Guide to Input Simulation, a system for providing simulated hand input and head pose when playing in the editor.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, Input Simulation
+---
+
 # Input Simulation
 
 Input simulation is using mouse and keyboard input in the editor to simulate a Head-Mounted Display (HMD) as well as
