@@ -11,6 +11,7 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
 
 namespace
 {
@@ -151,7 +152,10 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 			if (DistanceToTarget > Epsilon)
 			{
-				SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance));
+				FTransform TargetTransform = GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance);
+				SetWorldTransform(UUxtInternalFunctionLibrary::SmoothLerp(
+					GetComponentTransform(), TargetTransform, HandPointer->LocationSmoothingFactor, HandPointer->RotationSmoothingFactor,
+					0.0f, DeltaTime));
 			}
 
 			const float DistanceOffset = 1.0f;

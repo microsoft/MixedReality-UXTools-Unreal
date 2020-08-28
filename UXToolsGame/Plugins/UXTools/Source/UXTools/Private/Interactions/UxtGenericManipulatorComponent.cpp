@@ -24,7 +24,6 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	OneHandRotationMode = EUxtOneHandRotationMode::MaintainOriginalRotation;
 	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
 	ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::KeepVelocity | EUxtReleaseBehavior::KeepAngularVelocity);
-	Smoothing = 100.0f;
 }
 
 void UUxtGenericManipulatorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -196,7 +195,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 	Constraints->ApplyTranslationConstraints(TargetTransform, true, IsNearManipulation());
 
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	TargetTransform = SmoothTransform(TargetTransform, SmoothingFactor, SmoothingFactor, DeltaTime);
 
 	ApplyTargetTransform(TargetTransform);
 }
@@ -228,19 +227,19 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 		Constraints->ApplyTranslationConstraints(TargetTransform, false, IsNearManipulation());
 	}
 
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	TargetTransform = SmoothTransform(TargetTransform, SmoothingFactor, SmoothingFactor, DeltaTime);
 
 	ApplyTargetTransform(TargetTransform);
 }
 
-float UUxtGenericManipulatorComponent::GetSmoothing() const
+float UUxtGenericManipulatorComponent::GetSmoothingFactor() const
 {
-	return Smoothing;
+	return SmoothingFactor;
 }
 
-void UUxtGenericManipulatorComponent::SetSmoothing(float NewSmoothing)
+void UUxtGenericManipulatorComponent::SetSmoothingFactor(float NewSmoothingFactor)
 {
-	Smoothing = FMath::Max(NewSmoothing, 0.0f);
+	SmoothingFactor = FMath::Max(NewSmoothingFactor, 0.0f);
 }
 
 void UUxtGenericManipulatorComponent::OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)

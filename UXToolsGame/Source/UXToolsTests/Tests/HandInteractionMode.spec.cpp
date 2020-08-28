@@ -69,7 +69,9 @@ void HandInteractionModeSpec::Define()
 			HandActor->SetHand(EControllerHand::Left);
 
 			NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
+			UxtTestUtils::DisablePointerSmoothing(NearPointer);
 			FarPointer = HandActor->FindComponentByClass<UUxtFarPointerComponent>();
+			UxtTestUtils::DisablePointerSmoothing(FarPointer);
 
 			Target = UxtTestUtils::CreateTestBoxWithComponent<UUxtGrabTargetComponent>(World, Center);
 

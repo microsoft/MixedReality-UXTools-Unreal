@@ -55,14 +55,14 @@ public:
 	void RotateAboutAxis(const FTransform& SourceTransform, const FVector& Pivot, const FVector& Axis, FTransform& TargetTransform) const;
 
 	/**
-	 * Apply a low-pass filter to the source transform location and rotation to smooth out jittering.
-	 * Target transform is a exponentially weighted average of the current component transform and the source transform based on the time
-	 * step.
+	 * Apply a smoothing filter to reduce jitter.
+	 *
+	 * @see UUxtInternalFunctionLibrary::SmoothLerp
 	 */
 	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
-	void SmoothTransform(
-		const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds,
-		FTransform& TargetTransform) const;
+	UPARAM(DisplayName = "SmoothedTransform")
+	FTransform SmoothTransform(
+		const FTransform& SourceTransform, float LocationSmoothingFactor, float RotationSmoothingFactor, float DeltaSeconds) const;
 
 	/**
 	 * Cache the initial world space and camera space transform.

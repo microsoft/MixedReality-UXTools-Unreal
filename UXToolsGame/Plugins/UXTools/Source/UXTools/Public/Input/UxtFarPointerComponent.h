@@ -78,8 +78,8 @@ public:
 	virtual FTransform GetCursorTransform() const override;
 
 private:
-	/** Called every tick to update the pointer pose with the latest information from the hand tracker. */
-	void OnPointerPoseUpdated(const FQuat& NewOrientation, const FVector& NewOrigin);
+	/** Called every tick after the pointer pose is updated with the latest information from the hand tracker. */
+	void OnPointerPoseUpdated();
 
 	/** Called every tick to update the pressed state with the latest information from the hand tracker. */
 	void SetPressed(bool bNewPressed);

@@ -57,7 +57,7 @@ void ManipulatorMoveAxisConstraintSpec::Define()
 
 			UUxtGenericManipulatorComponent* Manipulator =
 				UxtTestUtils::CreateTestBoxWithComponent<UUxtGenericManipulatorComponent>(World, Center);
-			Manipulator->SetSmoothing(0.0f); // disable smoothing to get accurate results when moving objects
+			Manipulator->SetSmoothingFactor(0.0f); // disable smoothing to get accurate results when moving objects
 
 			// Add constraint
 			MoveAxisConstraint = NewObject<UUxtMoveAxisConstraint>(Manipulator->GetOwner());

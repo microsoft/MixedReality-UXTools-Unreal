@@ -58,6 +58,7 @@ void FFarPointerSpec::Define()
 			Pointer = NewObject<UUxtFarPointerComponent>(PointerActor);
 			Pointer->RegisterComponent();
 			Pointer->Hand = Hand;
+			UxtTestUtils::DisablePointerSmoothing(Pointer);
 
 			// Subscribe to enable/disable events
 			PointerListener = NewObject<UFarPointerListenerComponent>(PointerActor);

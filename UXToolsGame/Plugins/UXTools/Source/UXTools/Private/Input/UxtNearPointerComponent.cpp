@@ -17,6 +17,7 @@
 #include "Materials/MaterialParameterCollectionInstance.h"
 #include "PhysicsEngine/BodySetup.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
 
 namespace
 {
@@ -138,6 +139,8 @@ UUxtNearPointerComponent::UUxtNearPointerComponent()
 
 	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
 	ParameterCollection = Finder.Object;
+
+	LocationSmoothingFactor = 0.0001f;
 }
 
 UUxtNearPointerComponent::~UUxtNearPointerComponent()
@@ -219,8 +222,11 @@ void UUxtNearPointerComponent::UpdateParameterCollection(FVector IndexTipPositio
 void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	// Update cached transforms
-	GrabPointerTransform = CalcGrabPointerTransform(Hand);
-	PokePointerTransform = CalcPokePointerTransform(Hand);
+	GrabPointerTransform = UUxtInternalFunctionLibrary::SmoothLerp(
+		GrabPointerTransform, CalcGrabPointerTransform(Hand), LocationSmoothingFactor, RotationSmoothingFactor, 0.0f, DeltaTime);
+	PokePointerTransform = UUxtInternalFunctionLibrary::SmoothLerp(
+		PokePointerTransform, CalcPokePointerTransform(Hand), LocationSmoothingFactor, RotationSmoothingFactor, 0.0f, DeltaTime);
+
 	UpdateParameterCollection(PokePointerTransform.GetLocation());
 
 	// Unlock focus if targets have been removed,

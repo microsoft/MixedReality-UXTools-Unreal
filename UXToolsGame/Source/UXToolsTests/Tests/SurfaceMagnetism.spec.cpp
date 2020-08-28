@@ -32,7 +32,6 @@ const FVector ActorLocation = FVector(0, 0, 0);
 const FVector TargetLocation = FVector(135, 0, 0);
 const FVector SurfaceLocation = FVector(600, 0, 0);
 
-UUxtNearPointerComponent* Pointer;
 const float TargetScale = .3f;
 const float SurfaceScale = 7.f;
 UUxtSurfaceMagnetism* SurfaceMagnetismComponent;
@@ -56,9 +55,12 @@ void FSurfaceMagnetism::Define()
 			// HandInteraction actor
 			HandInteractionActor = World->SpawnActor<AUxtHandInteractionActor>();
 			HandInteractionActor->SetHand(EControllerHand::Left);
-
-			// pointer
-			Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", ActorLocation);
+			TArray<UUxtPointerComponent*> PointerComponents;
+			HandInteractionActor->GetComponents<UUxtPointerComponent>(PointerComponents, true);
+			for (auto* Pointer : PointerComponents)
+			{
+				UxtTestUtils::DisablePointerSmoothing(Cast<UUxtPointerComponent>(Pointer));
+			}
 
 			// Target Actor
 			TargetActor = World->SpawnActor<AActor>();
@@ -109,8 +111,6 @@ void FSurfaceMagnetism::Define()
 			FrameQueue.Reset();
 			HandInteractionActor->Destroy();
 			HandInteractionActor = nullptr;
-			Pointer->GetOwner()->Destroy();
-			Pointer = nullptr;
 		});
 
 		LatentIt("Target should snap to surface when pointing", [this](const FDoneDelegate& Done) {

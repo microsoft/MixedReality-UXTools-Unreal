@@ -10,6 +10,7 @@
 #include "Interactions/Manipulation/UxtTwoHandScaleLogic.h"
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Utils/UxtFunctionLibrary.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
 
 UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
 {
@@ -98,40 +99,24 @@ void UUxtManipulatorComponentBase::RotateAboutAxis(
 	TargetTransform *= FTransform(Pivot);
 }
 
-void UUxtManipulatorComponentBase::SmoothTransform(
-	const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds,
-	FTransform& TargetTransform) const
+FTransform UUxtManipulatorComponentBase::SmoothTransform(
+	const FTransform& TargetTransform, float LocationSmoothingFactor, float RotationSmoothingFactor, float DeltaSeconds) const
 {
-	FVector SmoothLoc;
-	FQuat SmoothRot;
+	FTransform SmoothedTransform;
 
-	FTransform CurTransform = TransformTarget->GetComponentTransform();
+	const FTransform& CurTransform = TransformTarget->GetComponentTransform();
 
-	FVector CurLoc = CurTransform.GetLocation();
-	FVector SourceLoc = SourceTransform.GetLocation();
-	if (LocationSmoothing <= 0.0f)
-	{
-		SmoothLoc = SourceLoc;
-	}
-	else
-	{
-		float Weight = FMath::Clamp(FMath::Exp(-LocationSmoothing * DeltaSeconds), 0.0f, 1.0f);
-		SmoothLoc = FMath::Lerp(CurLoc, SourceLoc, Weight);
-	}
+	const FVector CurLoc = CurTransform.GetLocation();
+	const FVector SourceLoc = TargetTransform.GetLocation();
+	SmoothedTransform.SetLocation(UUxtInternalFunctionLibrary::SmoothLerp(CurLoc, SourceLoc, LocationSmoothingFactor, DeltaSeconds));
 
-	FQuat CurRot = CurTransform.GetRotation();
-	FQuat SourceRot = SourceTransform.GetRotation();
-	if (RotationSmoothing <= 0.0f)
-	{
-		SmoothRot = SourceRot;
-	}
-	else
-	{
-		float Weight = FMath::Clamp(FMath::Exp(-RotationSmoothing * DeltaSeconds), 0.0f, 1.0f);
-		SmoothRot = FMath::Lerp(CurRot, SourceRot, Weight);
-	}
+	const FQuat CurRot = CurTransform.GetRotation();
+	const FQuat SourceRot = TargetTransform.GetRotation();
+	SmoothedTransform.SetRotation(UUxtInternalFunctionLibrary::SmoothLerp(CurRot, SourceRot, RotationSmoothingFactor, DeltaSeconds));
 
-	TargetTransform.SetComponents(SmoothRot, SmoothLoc, SourceTransform.GetScale3D());
+	SmoothedTransform.SetScale3D(TargetTransform.GetScale3D());
+
+	return SmoothedTransform;
 }
 
 void UUxtManipulatorComponentBase::SetInitialTransform()
