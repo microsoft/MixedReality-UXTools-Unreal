@@ -57,6 +57,14 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 		{
 			SetPressed(bNewPressed);
 		}
+
+		FQuat WristOrientation;
+		FVector WristLocation;
+		float WristRadius;
+		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristLocation, WristRadius))
+		{
+			ControllerOrientation = WristOrientation;
+		}
 	}
 
 	SetEnabled(bIsTracked);
@@ -254,6 +262,11 @@ FVector UUxtFarPointerComponent::GetPointerOrigin() const
 FQuat UUxtFarPointerComponent::GetPointerOrientation() const
 {
 	return PointerOrientation;
+}
+
+FQuat UUxtFarPointerComponent::GetControllerOrientation() const
+{
+	return ControllerOrientation;
 }
 
 FVector UUxtFarPointerComponent::GetRayStart() const
