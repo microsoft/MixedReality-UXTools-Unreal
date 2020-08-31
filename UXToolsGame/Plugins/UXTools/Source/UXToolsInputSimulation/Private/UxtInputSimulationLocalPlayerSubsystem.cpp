@@ -3,6 +3,7 @@
 
 #include "UxtInputSimulationLocalPlayerSubsystem.h"
 #include "UxtInputSimulationActor.h"
+#include "UxtInputSimulationComponent.h"
 
 #include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
@@ -131,6 +132,12 @@ void UUxtInputSimulationLocalPlayerSubsystem::OnGameModePostLogin(AGameModeBase*
 {
 	if (NewPlayer->Player == GetLocalPlayer())
 	{
+		// Create an input sim component on the PlayerController.
+		// Player controllers are persistent between map loads.
+		UActorComponent* InputSimComponent = NewObject<UUxtInputSimulationComponent>(NewPlayer, TEXT("InputSimulation"));
+		NewPlayer->AddInstanceComponent(InputSimComponent);
+		InputSimComponent->RegisterComponent();
+
 		SetPlayerCameraTarget(NewPlayer);
 	}
 }
