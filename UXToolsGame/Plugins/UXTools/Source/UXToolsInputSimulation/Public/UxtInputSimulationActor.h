@@ -6,6 +6,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
+#include "UxtInputSimulationState.h"
+
 #include "UxtInputSimulationActor.generated.h"
 
 struct FWindowsMixedRealityInputSimulationHandState;
@@ -23,28 +25,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	/** Get the current animation pose of a hand.
-	 *  If the hand is currently controlled by user input it will use the current target pose,
-	 *  otherwise the default pose is used.
-	 */
-	UFUNCTION(BlueprintPure, Category = InputSimulation)
-	FName GetTargetPose(EControllerHand Hand) const;
-
-	/** Set the target animation pose for a hand. */
-	UFUNCTION(BlueprintCallable, Category = InputSimulation)
-	void SetTargetPose(EControllerHand Hand, FName PoseName);
-
-	/** Reset the default target animation pose for a hand. */
-	UFUNCTION(BlueprintCallable, Category = InputSimulation)
-	void ResetTargetPose(EControllerHand Hand);
-
-	/** Get the current target transform for a hand.
-	 *  If bAnimate is true then the transform should be blended over time,
-	 *  otherwise the target transform should be applied immediately.
-	 */
-	UFUNCTION(BlueprintPure, Category = InputSimulation)
-	void GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const;
-
 	UFUNCTION(BlueprintGetter)
 	UUxtInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
 
@@ -53,14 +33,6 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	USkeletalMeshComponent* GetRightHand() const { return RightHand; }
-
-	/** True if the hand is currently visible. */
-	UFUNCTION(BlueprintPure, Category = InputSimulation)
-	bool IsHandVisible(EControllerHand Hand) const;
-
-	/** True if the hand is currently controlled by the user. */
-	UFUNCTION(BlueprintPure, Category = InputSimulation)
-	bool IsHandControlled(EControllerHand Hand) const;
 
 private:
 
@@ -89,33 +61,9 @@ private:
 
 	/** Add head movement input along a local axis. */
 	void AddHeadMovementInputImpl(EAxis::Type Axis, float Value);
-	/** Add hand movement input along a local axis. */
-	void AddHandMovementInputImpl(EAxis::Type TranslationAxis, float Value);
-	/** Add hand rotation input about a local axis. */
-	void AddHandRotationInputImpl(EAxis::Type RotationAxis, float Value);
-
-	/** Set the mesh for the given hand to the default location. */
-	void SetDefaultHandLocation(EControllerHand Hand);
-
-	/** Set the rotation for the given hand to the rest rotation. */
-	void SetDefaultHandRotation(EControllerHand Hand);
-
-	/** Set the hand visibility. */
-	void SetHandVisibility(EControllerHand Hand, bool bIsVisible);
-
-	/** Enable control of a simulated hand by the user.
-	 *  Returns true if hand control was successfully changed.
-	 */
-	bool SetHandControlEnabled(EControllerHand Hand, bool bEnabled);
 
 	/** Set rotation option to interpret look rotation as rotation of hands instead */
 	void SetHandRotationEnabled(bool bEnabled);
-
-	/** Toggle the target pose for all currently active hands.
-	 *  - If all hands use the target pose already, all hands will reset to the default pose.
-	 *  - If any hand does NOT use the target pose already, all hands will use it.
-	 */
-	void TogglePoseForControlledHands(FName PoseName);
 
 	/** Create actor components for HMD simulation. */
 	void SetupHeadComponents();
@@ -123,6 +71,8 @@ private:
 	void SetupHandComponents();
 	/** Returns the skeletal mesh for the given hand. */
 	USkeletalMeshComponent* GetHandMesh(EControllerHand Hand) const;
+	/** Update hand mesh component based on simulation state */
+	void UpdateHandMeshComponent(EControllerHand Hand);
 
 	/** Copy results of hand animation into the hand state. */
 	void UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const;
@@ -147,16 +97,10 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetRightHand, Category = InputSimulation)
 	USkeletalMeshComponent* RightHand;
 
-	/** Set of hands that are actively controlled by user input. */
-	TSet<EControllerHand> ControlledHands;
-
 	/** If true, the look rotation will be interpreted as hand rotation instead. */
 	bool bEnableHandRotation = false;
 
-	/** Current target pose for each hand. */
-	TMap<EControllerHand, FName> TargetPoses;
-
-	/** Transform offset for each hand, relative to the rest pose. */
-	TMap<EControllerHand, FTransform> HandTransforms;
+	/** Persistent simulation state, cached for quick runtime access. */
+	TWeakObjectPtr<UUxtInputSimulationState> SimulationStateWeak;
 
 };

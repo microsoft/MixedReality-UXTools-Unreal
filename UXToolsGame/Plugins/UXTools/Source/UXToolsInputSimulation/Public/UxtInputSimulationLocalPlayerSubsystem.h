@@ -12,6 +12,7 @@
 class AGameModeBase;
 class APlayerController;
 class UCameraComponent;
+class UUxtInputSimulationState;
 
 /** Subsystem that creates an actor for simulation when a game is started. */
 UCLASS(ClassGroup = UXTools)
@@ -21,6 +22,10 @@ class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationLocalPlayerSubsystem
 	GENERATED_BODY()
 
 public:
+
+	/** Get the persistent simulation state */
+	UFUNCTION(BlueprintGetter)
+	UUxtInputSimulationState* GetSimulationState() const;
 
 	//
 	// USubsystem implementation
@@ -54,5 +59,8 @@ private:
 	 * Using a separate camera component will use the HMD position though, even if the camera itself is not moved.
 	 */
 	TWeakObjectPtr<AActor> HmdCameraActorWeak;
+
+	UPROPERTY(BlueprintGetter = GetSimulationState, Category = InputSimulation)
+	UUxtInputSimulationState* SimulationState;
 
 };
