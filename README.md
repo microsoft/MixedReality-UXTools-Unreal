@@ -13,6 +13,7 @@ Features:
 - [Pressable button component](Docs/PressableButton.md) - Low level component used to drive the state of button blueprints. Example button blueprints are provided.
 - [Pinch Slider](Docs/PinchSlider.md) - Allows the user to continuously change a value by moving the slider thumb along the track.
 - [Bounds Control](Docs/BoundsControl.md) - Allows the user to change the position, rotation, and size of an actor, using _affordances_.
+- [Hand Menu](Docs/HandMenu.md) - Allows users to quickly bring up a hand-attached UI for frequently used functions.
 - [Manipulator component](Docs/Manipulator.md) - Allows moving, rotating and scaling an actor with either one or two hand manipulation.
 - [Follow behaviour component](Docs/FollowComponent.md) - Keeps an actor or component within sight of another component, usually the camera.
 - [Hand constraint component](Docs/HandConstraintComponent.md) - Keeps the actor position and rotation aligned with a hand while avoiding overlaping with it.
@@ -35,7 +36,7 @@ If you just want to add UXT to your game project, the quickest thing to do is to
 1. Obtain the packaged plugin zip from the latest release page (e.g. _UXTools.0.9.0.zip_).
 1. Unzip the file directly into your project's _Plugins_ folder. The _Plugins_ folder should be located at the root of your project, where the _.uproject_ file is. Create it if it doesn't exist.
 1. Make sure your game project is a code one, as opposed to blueprint-only, if you are planning to package it for HoloLens. Otherwise UE will fail to package it because it can't build the plugin sources.
-1. Open your project and enable the _UX Tools_ plugin in the plugins menu. 
+1. Open your project and enable the _UX Tools_ plugin in the plugins menu.
 
 You should now have access to all of the plugin features. The first thing you want to do is probably add a hand interaction actor per hand to your map or pawn so you can use your hands to drive the controls and behaviors provided in UXT. You can find a complete setup guide in the [Getting Started](https://docs.microsoft.com/windows/mixed-reality/unreal-uxt-ch1) tutorial series.
 
@@ -44,10 +45,10 @@ You should now have access to all of the plugin features. The first thing you wa
 If you want to explore the different UXT features or want a reference for how to use them we recommend having a look at the example maps contained in the _UX Tools Game_ (/UXToolsGame) in this repository. For that you should:
 
 1. [Clone](https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop) this repository.
-1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) public/0.9.x. 
+1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) public/0.9.x.
     * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. release/0.9.0) marked as such in GitHub.
 
-You can now open the _UX Tools Game_ (/UXToolsGame) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub. 
+You can now open the _UX Tools Game_ (/UXToolsGame) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub.
 
 ## Packaged UX Tools game
 

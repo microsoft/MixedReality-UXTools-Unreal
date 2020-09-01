@@ -3,6 +3,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+
 #include "Interactions/Constraints/UxtTransformConstraint.h"
 #include "Interactions/UxtManipulationFlags.h"
 
@@ -19,7 +20,6 @@ class UXTOOLS_API UUxtRotationAxisConstraint : public UUxtTransformConstraint
 {
 	GENERATED_BODY()
 public:
-
 	virtual EUxtTransformMode GetConstraintType() const;
 	virtual void ApplyConstraint(FTransform& Transform) const;
 

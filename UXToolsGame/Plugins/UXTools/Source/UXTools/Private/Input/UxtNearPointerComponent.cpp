@@ -2,20 +2,22 @@
 // Licensed under the MIT License.
 
 #include "Input/UxtNearPointerComponent.h"
+
+#include "UXTools.h"
+
+#include "Components/BoxComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/World.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "Input/UxtPointerFocus.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
-#include "UXTools.h"
-
-#include "Engine/World.h"
-#include "Components/PrimitiveComponent.h"
-#include "Components/BoxComponent.h"
-#include "Components/StaticMeshComponent.h"
-#include "PhysicsEngine/BodySetup.h"
-#include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
+#include "PhysicsEngine/BodySetup.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
 
 namespace
 {
@@ -37,7 +39,7 @@ namespace
 	 * Used for checking on which side of a front face pokable's front face the pointer
 	 * sphere is. This is important as BeginPoke can only be called if the pointer sphere
 	 * was not behind in the previous tick and is now behind in this tick.
-	 * 
+	 *
 	 * This function assumes that the given primitive has a box collider.
 	 */
 	bool IsBehindFrontFace(UPrimitiveComponent* Primitive, FVector PointerPosition, float Radius)
@@ -47,13 +49,16 @@ namespace
 		// Front face pokables must have a box-shaped collider
 		if (!IsBoxShape(*Primitive))
 		{
-			UE_LOG(UXTools, Warning, TEXT("Primitive %s has some collision "
-				"shape other than box"), *Primitive->GetFName().ToString());
+			UE_LOG(
+				UXTools, Warning,
+				TEXT("Primitive %s has some collision "
+					 "shape other than box"),
+				*Primitive->GetFName().ToString());
 			return false;
 		}
 
 		const FMatrix ComponentTransform = Primitive->GetComponentTransform().ToMatrixWithScale();
-		
+
 		FVector LocalPosition = ComponentTransform.InverseTransformPosition(PointerPosition);
 
 		FBoxSphereBounds Bounds = Primitive->CalcLocalBounds();
@@ -79,7 +84,7 @@ namespace
 		return true;
 	}
 
-	/** 
+	/**
 	 * Used to determine whether if poke has ended with a front face pokable. A poke
 	 * ends if:
 	 * - The pointer sphere moves back in front of the front face of the pokable
@@ -97,8 +102,11 @@ namespace
 		// Front face pokables must have a box-shaped collider
 		if (!IsBoxShape(*Primitive))
 		{
-			UE_LOG(UXTools, Warning, TEXT("Primitive %s has some collision "
-				"shape other than box"), *Primitive->GetFName().ToString());
+			UE_LOG(
+				UXTools, Warning,
+				TEXT("Primitive %s has some collision "
+					 "shape other than box"),
+				*Primitive->GetFName().ToString());
 			return false;
 		}
 
@@ -118,7 +126,7 @@ namespace
 
 		return !FMath::SphereAABBIntersection(PokeSphere, PokableVolume);
 	}
-}
+} // namespace
 UUxtNearPointerComponent::UUxtNearPointerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -131,6 +139,8 @@ UUxtNearPointerComponent::UUxtNearPointerComponent()
 
 	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
 	ParameterCollection = Finder.Object;
+
+	LocationSmoothingFactor = 0.0001f;
 }
 
 UUxtNearPointerComponent::~UUxtNearPointerComponent()
@@ -165,12 +175,15 @@ static FTransform CalcGrabPointerTransform(EControllerHand Hand)
 	FQuat IndexTipOrientation, ThumbTipOrientation;
 	FVector IndexTipPosition, ThumbTipPosition;
 	float IndexTipRadius, ThumbTipRadius;
-	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius)
-		&& UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
+	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
+			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius) &&
+		UUxtHandTrackingFunctionLibrary::GetHandJointState(
+			Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
 	{
 		// Use the midway point between the thumb and index finger tips for grab
 		const float LerpFactor = 0.5f;
-		return FTransform(FMath::Lerp(IndexTipOrientation, ThumbTipOrientation, LerpFactor), FMath::Lerp(IndexTipPosition, ThumbTipPosition, LerpFactor));
+		return FTransform(
+			FMath::Lerp(IndexTipOrientation, ThumbTipOrientation, LerpFactor), FMath::Lerp(IndexTipPosition, ThumbTipPosition, LerpFactor));
 	}
 	return FTransform::Identity;
 }
@@ -180,7 +193,8 @@ static FTransform CalcPokePointerTransform(EControllerHand Hand)
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;
 	float IndexTipRadius;
-	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
+			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return FTransform(IndexTipOrientation, IndexTipPosition);
 	}
@@ -192,13 +206,15 @@ void UUxtNearPointerComponent::UpdateParameterCollection(FVector IndexTipPositio
 	if (ParameterCollection)
 	{
 		UMaterialParameterCollectionInstance* ParameterCollectionInstance = GetWorld()->GetParameterCollectionInstance(ParameterCollection);
-		static FName ParameterNames[] = { "LeftPointerPosition", "RightPointerPosition" };
+		static FName ParameterNames[] = {"LeftPointerPosition", "RightPointerPosition"};
 		FName ParameterName = Hand == EControllerHand::Left ? ParameterNames[0] : ParameterNames[1];
 		const bool bFoundParameter = ParameterCollectionInstance->SetVectorParameterValue(ParameterName, IndexTipPosition);
 
 		if (!bFoundParameter)
 		{
-			UE_LOG(UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(), *ParameterCollection->GetPathName());
+			UE_LOG(
+				UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(),
+				*ParameterCollection->GetPathName());
 		}
 	}
 }
@@ -206,8 +222,11 @@ void UUxtNearPointerComponent::UpdateParameterCollection(FVector IndexTipPositio
 void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	// Update cached transforms
-	GrabPointerTransform = CalcGrabPointerTransform(Hand);
-	PokePointerTransform = CalcPokePointerTransform(Hand);
+	GrabPointerTransform = UUxtInternalFunctionLibrary::SmoothLerp(
+		GrabPointerTransform, CalcGrabPointerTransform(Hand), LocationSmoothingFactor, RotationSmoothingFactor, 0.0f, DeltaTime);
+	PokePointerTransform = UUxtInternalFunctionLibrary::SmoothLerp(
+		PokePointerTransform, CalcPokePointerTransform(Hand), LocationSmoothingFactor, RotationSmoothingFactor, 0.0f, DeltaTime);
+
 	UpdateParameterCollection(PokePointerTransform.GetLocation());
 
 	// Unlock focus if targets have been removed,
@@ -234,12 +253,13 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 		FCollisionQueryParams QueryParams(NAME_None, false);
 
 		TArray<FOverlapResult> Overlaps;
-		/*bool HasBlockingOverlap = */ GetWorld()->OverlapMultiByChannel(Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius), QueryParams);
+		/*bool HasBlockingOverlap = */ GetWorld()->OverlapMultiByChannel(
+			Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius), QueryParams);
 
 		GrabFocus->SelectClosestTarget(this, GrabPointerTransform, Overlaps);
 		PokeFocus->SelectClosestTarget(this, PokePointerTransform, Overlaps);
 	}
-	
+
 	// Update poking state based on poke target
 	UpdatePokeInteraction();
 
@@ -339,12 +359,13 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 
 			switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 			{
-				case EUxtPokeBehaviour::FrontFace:
-					endedPoking = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius() + DebounceDepth, PokeDepth);
-					break;
-				case EUxtPokeBehaviour::Volume:
-					endedPoking = !Primitive->OverlapComponent(PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius() + DebounceDepth));
-					break;
+			case EUxtPokeBehaviour::FrontFace:
+				endedPoking = IsFrontFacePokeEnded(Primitive, PokePointerLocation, GetPokePointerRadius() + DebounceDepth, PokeDepth);
+				break;
+			case EUxtPokeBehaviour::Volume:
+				endedPoking = !Primitive->OverlapComponent(
+					PokePointerLocation, FQuat::Identity, FCollisionShape::MakeSphere(GetPokePointerRadius() + DebounceDepth));
+				break;
 			}
 
 			if (endedPoking)
@@ -378,7 +399,8 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 		}
 
 		FHitResult HitResult;
-		GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetPokePointerRadius()));
+		GetWorld()->SweepSingleByChannel(
+			HitResult, Start, End, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(GetPokePointerRadius()));
 
 		if (HitResult.GetComponent() == Primitive)
 		{
@@ -386,15 +408,15 @@ void UUxtNearPointerComponent::UpdatePokeInteraction()
 
 			switch (IUxtPokeTarget::Execute_GetPokeBehaviour(Target))
 			{
-				case EUxtPokeBehaviour::FrontFace:
-				{
-					bool bIsFacingPrimitive = IsFacingPrimitive(PokePointerTransform.GetUnitAxis(EAxis::X), Primitive);
-					startedPoking = !bWasBehindFrontFace && isBehind && bIsFacingPrimitive;
-					break;
-				}
-				case EUxtPokeBehaviour::Volume:
-					startedPoking = true;
-					break;
+			case EUxtPokeBehaviour::FrontFace:
+			{
+				bool bIsFacingPrimitive = IsFacingPrimitive(PokePointerTransform.GetUnitAxis(EAxis::X), Primitive);
+				startedPoking = !bWasBehindFrontFace && isBehind && bIsFacingPrimitive;
+				break;
+			}
+			case EUxtPokeBehaviour::Volume:
+				startedPoking = true;
+				break;
 			}
 
 			if (startedPoking)
@@ -488,7 +510,8 @@ float UUxtNearPointerComponent::GetPokePointerRadius() const
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;
 	float IndexTipRadius;
-	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
+			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return IndexTipRadius;
 	}

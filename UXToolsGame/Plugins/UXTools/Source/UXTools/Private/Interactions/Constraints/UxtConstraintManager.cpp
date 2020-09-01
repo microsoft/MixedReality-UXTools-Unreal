@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 #include "UxtConstraintManager.h"
+
 #include "GameFramework/Actor.h"
 
-UxtConstraintManager::UxtConstraintManager(AActor& OwningActor)
-: Actor(OwningActor)
+UxtConstraintManager::UxtConstraintManager(AActor& OwningActor) : Actor(OwningActor)
 {
 }
 
@@ -33,15 +33,15 @@ void UxtConstraintManager::Initialize(FTransform& WorldPose)
 	}
 }
 
-void UxtConstraintManager::ApplyConstraintsForType(FTransform& Transform, bool IsOneHanded, bool IsNear, EUxtTransformMode TransformType) const
+void UxtConstraintManager::ApplyConstraintsForType(
+	FTransform& Transform, bool IsOneHanded, bool IsNear, EUxtTransformMode TransformType) const
 {
 	int32 HandMode = static_cast<int32>(IsOneHanded ? EUxtGenericManipulationMode::OneHanded : EUxtGenericManipulationMode::TwoHanded);
 	int32 InteractionMode = static_cast<int32>(IsNear ? EUxtInteractionMode::Near : EUxtInteractionMode::Far);
 
 	for (UUxtTransformConstraint* Constraint : Constraints)
 	{
-		if (Constraint->GetConstraintType() == TransformType &&
-			Constraint->HandType & HandMode &&
+		if (Constraint->GetConstraintType() == TransformType && Constraint->HandType & HandMode &&
 			Constraint->InteractionMode & InteractionMode)
 		{
 			Constraint->ApplyConstraint(Transform);
@@ -55,7 +55,7 @@ void UxtConstraintManager::Update(const FTransform& TargetTransform)
 	TArray<UUxtTransformConstraint*> UpToDateConstraints;
 	Actor.GetComponents<UUxtTransformConstraint>(UpToDateConstraints);
 
-	// iterate over new constraints and make sure we have them in our constraints cache 
+	// iterate over new constraints and make sure we have them in our constraints cache
 	// initialize and add any new constraints
 	int processedCachedConstraints = 0;
 	int addedConstraints = 0;

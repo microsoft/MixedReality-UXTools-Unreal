@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 #include "Utils/UxtFunctionLibrary.h"
+
 #include "AudioDevice.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+
 #include "Kismet/GameplayStatics.h"
 #if WITH_EDITOR
 #include "Editor/EditorEngine.h"
 #endif
-
 
 FTransform UUxtFunctionLibrary::GetHeadPose(UObject* WorldContextObject)
 {
@@ -33,7 +34,8 @@ bool UUxtFunctionLibrary::IsInEditor()
 		UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine);
 		if (EdEngine->GetPlayInEditorSessionInfo().IsSet())
 		{
-			return EdEngine->GetPlayInEditorSessionInfo()->OriginalRequestParams.SessionPreviewTypeOverride != EPlaySessionPreviewType::VRPreview;
+			return EdEngine->GetPlayInEditorSessionInfo()->OriginalRequestParams.SessionPreviewTypeOverride !=
+				   EPlaySessionPreviewType::VRPreview;
 		}
 	}
 #endif

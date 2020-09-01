@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
+
 #include "UxtToggleGroupComponent.generated.h"
 
 class UUxtToggleStateComponent;
@@ -26,24 +28,20 @@ class UXTOOLS_API UUxtToggleGroupComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-
 	/** Mutates the selected index, broadcasts events, and performs bounds checking. */
 	UFUNCTION(BlueprintSetter, Category = "Toggle Group")
 	void SetSelectedIndex(int32 Index);
 
 	/** Accessor to the selected index. */
 	UFUNCTION(BlueprintGetter, Category = "Toggle Group")
-	int32 GetSelectedIndex() const
-	{
-		return SelectedIndex;
-	}
+	int32 GetSelectedIndex() const { return SelectedIndex; }
 
 	/** Adds a toggle state to the end of the ToggleStates list. Returns true if the insertion was successful. */
 	UFUNCTION(BlueprintCallable, Category = "Toggle Group")
 	bool AddToggleState(UUxtToggleStateComponent* ToggleState);
 
-	/** Adds a toggle state to a specific index within the ToggleStates list. Increments the selection index if the 
-	    toggle state is added before the current selection index. Returns true if the insertion was successful. */
+	/** Adds a toggle state to a specific index within the ToggleStates list. Increments the selection index if the
+		toggle state is added before the current selection index. Returns true if the insertion was successful. */
 	UFUNCTION(BlueprintCallable, Category = "Toggle Group")
 	bool InsertToggleState(UUxtToggleStateComponent* ToggleState, int32 Index);
 
@@ -57,10 +55,7 @@ public:
 
 	/** Returns how many toggle states are within the group. */
 	UFUNCTION(BlueprintPure, Category = "Toggle Group")
-	int32 GetGroupCount() const
-	{
-		return ToggleStates.Num();
-	}
+	int32 GetGroupCount() const { return ToggleStates.Num(); }
 
 	/** Returns the index of the ToggleState in the ToggleStates list, if the ToggleState does not exist returns INDEX_NONE (-1). */
 	UFUNCTION(BlueprintPure, Category = "Toggle Group")
@@ -74,7 +69,6 @@ public:
 	FUxtToggleGroupSelectionChangedDelegate OnGroupSelectionChanged;
 
 protected:
-
 	/** Extracts references from the ToggleReferences and sets the initial selection. */
 	virtual void BeginPlay() override;
 
@@ -88,7 +82,6 @@ protected:
 	TArray<ToggleStateWeak> ToggleStates;
 
 private:
-
 	/** Defragments the list of ToggleStates in case any components were deleted without explicitly being removed. */
 	void CompactLostReferences();
 
@@ -96,11 +89,13 @@ private:
 	void ApplySelection();
 
 	/** The currently selected index within the group. A value of INDEX_NONE (-1) means nothing within the group is selected. */
-	UPROPERTY(EditAnywhere, meta = (ClampMin = "-1"), BlueprintSetter = "SetSelectedIndex", BlueprintGetter = "GetSelectedIndex", Category = "Toggle Group")
+	UPROPERTY(
+		EditAnywhere, meta = (ClampMin = "-1"), BlueprintSetter = "SetSelectedIndex", BlueprintGetter = "GetSelectedIndex",
+		Category = "Toggle Group")
 	int32 SelectedIndex = INDEX_NONE;
 
-	/** Details panel exposed list of toggle states to initially populate the ToggleStates list with. The component property name is optional, 
-	    if `None` is specified the first UUxtToggleStateComponent found is used.*/
+	/** Details panel exposed list of toggle states to initially populate the ToggleStates list with. The component property name is
+	   optional, if `None` is specified the first UUxtToggleStateComponent found is used.*/
 	UPROPERTY(EditAnywhere, meta = (AllowedClasses = "UUxtToggleStateComponent"), Category = "Toggle Group")
 	TArray<FComponentReference> ToggleReferences;
 };

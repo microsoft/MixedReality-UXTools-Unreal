@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
+
 #include "UxtToggleStateComponent.generated.h"
 
 class UUxtToggleStateComponent;
@@ -23,17 +25,13 @@ class UXTOOLS_API UUxtToggleStateComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-
 	/** Mutates the checked flag and broadcasts events if the state changes.  */
 	UFUNCTION(BlueprintSetter, Category = "Toggle State")
 	void SetIsChecked(bool IsChecked);
 
 	/** Accessor to the checked flag. */
 	UFUNCTION(BlueprintGetter, Category = "Toggle State")
-	bool IsChecked() const
-	{
-		return bIsChecked;
-	}
+	bool IsChecked() const { return bIsChecked; }
 
 	//
 	// Events
@@ -43,9 +41,7 @@ public:
 	FUxtToggledDelegate OnToggled;
 
 protected:
-
 	/** The current toggled state, true if checked, false is not checked. */
 	UPROPERTY(EditAnywhere, BlueprintSetter = "SetIsChecked", BlueprintGetter = "IsChecked", Category = "Toggle State")
 	bool bIsChecked = false;
-
 };

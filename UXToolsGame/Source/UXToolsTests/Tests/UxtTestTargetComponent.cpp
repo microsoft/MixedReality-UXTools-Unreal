@@ -3,15 +3,16 @@
 
 #include "UxtTestTargetComponent.h"
 
-#include "Input/UxtNearPointerComponent.h"
-#include "UxtTestUtils.h"
 #include "UxtTestHandTracker.h"
+#include "UxtTestUtils.h"
 
 #include "Components/PrimitiveComponent.h"
+#include "Input/UxtNearPointerComponent.h"
 
 namespace
 {
-	bool GetDefaultClosestPointOnPrimitive(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface, float& OutDistanceSqr)
+	bool GetDefaultClosestPointOnPrimitive(
+		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface, float& OutDistanceSqr)
 	{
 		OutPointOnSurface = Point;
 		OutDistanceSqr = -1.f;
@@ -27,12 +28,11 @@ namespace
 				OutDistanceSqr = DistanceSqr;
 				return true;
 			}
-
 		}
 
 		return false;
 	}
-}
+} // namespace
 
 void UTestGrabTarget::BeginPlay()
 {
@@ -101,7 +101,8 @@ EUxtPokeBehaviour UTestPokeTarget::GetPokeBehaviour_Implementation() const
 	return EUxtPokeBehaviour::FrontFace;
 }
 
-bool UTestPokeTarget::GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+bool UTestPokeTarget::GetClosestPoint_Implementation(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
 {
 	OutNormal = Primitive->GetComponentTransform().GetUnitAxis(EAxis::X);
 

@@ -5,7 +5,9 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
+
 #include "Components/ActorComponent.h"
+
 #include "UxtPointerComponent.generated.h"
 
 /**
@@ -17,14 +19,13 @@ class UXTOOLS_API UUxtPointerComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-
 	UUxtPointerComponent() = default;
 
 	/** Get the lock state of the pointer. */
 	UFUNCTION(BlueprintCallable, Category = "Pointer")
 	bool GetFocusLocked() const;
 
-	/** 
+	/**
 	 * Set the lock state of the pointer.
 	 * Locked pointers don't update their hit, remaining focused on the primitive they were hitting until unlocked.
 	 */
@@ -39,14 +40,27 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pointer")
 	virtual FTransform GetCursorTransform() const PURE_VIRTUAL(UUxtPointerComponent::GetCursorTransform, return FTransform::Identity;);
 
-public:
-
 	/** The hand to be used for targeting. TODO: replace with generic input device. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pointer")
 	EControllerHand Hand = EControllerHand::AnyHand;
 
-protected:
+	/**
+	 * Smoothing factor used for Location interpolation.
+	 *
+	 * @see UUxtInternalFunctionLibrary::SmoothLerp
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pointer", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	float LocationSmoothingFactor = 0.01f;
 
+	/**
+	 * Smoothing factor used for Rotation interpolation.
+	 *
+	 * @see UUxtInternalFunctionLibrary::SmoothLerp
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pointer", meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	float RotationSmoothingFactor = 0.01f;
+
+protected:
 	/** The lock state of the pointer. */
 	bool bFocusLocked = false;
 };

@@ -3,10 +3,11 @@
 
 #pragma once
 #include "CoreMinimal.h"
+
 #include "Interactions/UxtGrabTargetComponent.h"
 
 /**
- * Implements common logic for rotating holograms using a handlebar metaphor. 
+ * Implements common logic for rotating holograms using a handlebar metaphor.
  *
  * Each frame, object_rotation_delta = rotation_delta(current_hands_vector, previous_hands_vector)
  * where hands_vector is the vector between two hand/controller positions.
@@ -26,7 +27,6 @@ public:
 	FQuat Update(GrabPointers PointerData) const;
 
 private:
-
 	FVector StartHandleBar;
 	FQuat StartRotation;
 };

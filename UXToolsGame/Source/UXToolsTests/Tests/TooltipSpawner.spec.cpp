@@ -1,32 +1,34 @@
+#include "Engine.h"
+#include "EngineUtils.h"
+#include "FrameQueue.h"
+#include "TooltipEventListener.h"
+#include "UxtTestHandTracker.h"
+#include "UxtTestUtils.h"
+
 #include "Components/SplineMeshComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Controls/UxtFarBeamComponent.h"
 #include "Controls/UxtFarCursorComponent.h"
-#include "Engine.h"
-#include "EngineUtils.h"
-#include "FrameQueue.h"
 #include "GameFramework/Actor.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Templates/SharedPointer.h"
 #include "Tests/AutomationCommon.h"
-#include "TooltipEventListener.h"
 #include "Tooltips/UxtTooltipActor.h"
 #include "Tooltips/UxtTooltipSpawnerComponent.h"
 #include "Utils/UxtFunctionLibrary.h"
-#include "UxtTestHandTracker.h"
-#include "UxtTestUtils.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 
-BEGIN_DEFINE_SPEC(TooltipSpawnerSpec, "UXTools.TooltipTest", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
+BEGIN_DEFINE_SPEC(
+	TooltipSpawnerSpec, "UXTools.TooltipTest", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
 
 UTooltipEventListener* EventListener = nullptr;
 UUxtFarPointerComponent* Pointer = nullptr;
 FUxtTestHandTracker* HandTracker;
 FVector Center;
 FFrameQueue FrameQueue;
-AActor *TooltipSpawnerActor = nullptr;
+AActor* TooltipSpawnerActor = nullptr;
 EControllerHand Hand = EControllerHand::Right;
 UPrimitiveComponent* HitPrimitive = nullptr;
 
@@ -34,13 +36,10 @@ const FVector PivotOffset = FVector(10.0f, 5.0f, 1.f);
 
 END_DEFINE_SPEC(TooltipSpawnerSpec)
 
-
 void TooltipSpawnerSpec::Define()
 {
-	Describe("TooltipSpawner", [this]
-	{
-		BeforeEach([this]
-		{
+	Describe("TooltipSpawner", [this] {
+		BeforeEach([this] {
 			// Load the empty test map to run the test in.
 			TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
@@ -54,7 +53,7 @@ void TooltipSpawnerSpec::Define()
 			// Root.
 			USceneComponent* RootNode = NewObject<USceneComponent>(TooltipSpawnerActor);
 			TooltipSpawnerActor->SetRootComponent(RootNode);
-			
+
 			// Mesh.
 			UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(TooltipSpawnerActor);
 			TooltipSpawnerActor->SetRootComponent(MeshComponent);
@@ -91,7 +90,7 @@ void TooltipSpawnerSpec::Define()
 				Pointer->RegisterComponent();
 				Pointer->Hand = Hand;
 				Pointer->RayLength = 10.0f;
-				
+
 				// Beam.
 				UUxtFarBeamComponent* Beam = NewObject<UUxtFarBeamComponent>(PointerActor);
 				Beam->AttachToComponent(Root, FAttachmentTransformRules::KeepRelativeTransform);
@@ -104,8 +103,7 @@ void TooltipSpawnerSpec::Define()
 			}
 		});
 
-		AfterEach([this]
-		{
+		AfterEach([this] {
 			UxtTestUtils::DisableTestHandTracker();
 
 			Pointer->GetOwner()->Destroy();
@@ -118,7 +116,8 @@ void TooltipSpawnerSpec::Define()
 			HitPrimitive = nullptr;
 
 			FrameQueue.Reset();
-			auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+			auto* TooltipSpawnerComponent =
+				Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 			TooltipSpawnerComponent->OnShowTooltip.RemoveAll(EventListener);
 
 			EventListener = nullptr;
@@ -130,22 +129,17 @@ void TooltipSpawnerSpec::Define()
 			GEngine->ForceGarbageCollection();
 		});
 
-		LatentIt("Creating/destroying the tooltip spawner", [this](const FDoneDelegate& Done)
-		{
+		LatentIt("Creating/destroying the tooltip spawner", [this](const FDoneDelegate& Done) {
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				TestTrue(TEXT("Construction."), TooltipSpawnerActor->IsValidLowLevel());
-			});
+			FrameQueue.Enqueue([this] { TestTrue(TEXT("Construction."), TooltipSpawnerActor->IsValidLowLevel()); });
 			FrameQueue.Skip();
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
-		LatentIt("Spawn/Unspawn on focus", [this](const FDoneDelegate& Done)
-		{
-			FrameQueue.Enqueue([this]
-			{
-				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+		LatentIt("Spawn/Unspawn on focus", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] {
+				auto* TooltipSpawnerComponent =
+					Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 				TooltipSpawnerComponent->AppearType = EUxtTooltipAppearType::AppearOnFocusEnter;
 				TooltipSpawnerComponent->VanishType = EUxtTooltipVanishType::VanishOnFocusExit;
 				TooltipSpawnerComponent->VanishDelay = 0.f;
@@ -153,41 +147,29 @@ void TooltipSpawnerSpec::Define()
 				TooltipSpawnerComponent->Lifetime = 10.f;
 			});
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
+			FrameQueue.Enqueue([this] {
 				TestEqual(TEXT("We should not have received an onshow event."), EventListener->ShowCount, 0);
 				TestEqual(TEXT("We should not have received an onhide event."), EventListener->HideCount, 0);
 			});
 			FrameQueue.Skip(2);
-			FrameQueue.Enqueue([this]
-			{
-				Pointer->RayLength = 100.0f;
-			});
+			FrameQueue.Enqueue([this] { Pointer->RayLength = 100.0f; });
 			FrameQueue.Skip(2);
-			FrameQueue.Enqueue([this]
-			{
+			FrameQueue.Enqueue([this] {
 				TestEqual(TEXT("We should have received an onshow event."), EventListener->ShowCount, 1);
 				TestEqual(TEXT("We should not have received an onhide event."), EventListener->HideCount, 0);
 			});
 
-			FrameQueue.Enqueue([this]
-			{
-				Pointer->RayLength = 10.0f;
-			});
+			FrameQueue.Enqueue([this] { Pointer->RayLength = 10.0f; });
 			FrameQueue.Skip(2);
-			FrameQueue.Enqueue([this]
-			{
-				TestEqual(TEXT("We should have received an onhide event."), EventListener->HideCount, 1);
-			});
+			FrameQueue.Enqueue([this] { TestEqual(TEXT("We should have received an onhide event."), EventListener->HideCount, 1); });
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
-		LatentIt("Spawn/Unspawn on tap", [this](const FDoneDelegate& Done)
-		{
+		LatentIt("Spawn/Unspawn on tap", [this](const FDoneDelegate& Done) {
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+			FrameQueue.Enqueue([this] {
+				auto* TooltipSpawnerComponent =
+					Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 				TooltipSpawnerComponent->AppearType = EUxtTooltipAppearType::AppearOnTap;
 				TooltipSpawnerComponent->VanishType = EUxtTooltipVanishType::VanishOnTap;
 				TooltipSpawnerComponent->VanishDelay = 0.f;
@@ -195,45 +177,21 @@ void TooltipSpawnerSpec::Define()
 				TooltipSpawnerComponent->Lifetime = 10.f;
 			});
 			FrameQueue.Skip(2);
-			FrameQueue.Enqueue([this]
-			{
-				Pointer->RayLength = 100.0f;
-			});
+			FrameQueue.Enqueue([this] { Pointer->RayLength = 100.0f; });
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				TestEqual(TEXT("We should have received an onshow event."), EventListener->ShowCount, 0);
-			});
-			FrameQueue.Enqueue([this]
-			{
-				UxtTestUtils::GetTestHandTracker().SetSelectPressed(true);
-			});
+			FrameQueue.Enqueue([this] { TestEqual(TEXT("We should have received an onshow event."), EventListener->ShowCount, 0); });
+			FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetSelectPressed(true); });
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				UxtTestUtils::GetTestHandTracker().SetSelectPressed(false);
-			});
+			FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetSelectPressed(false); });
 			FrameQueue.Skip(2);
-			FrameQueue.Enqueue([this]
-			{
-				TestEqual(TEXT("We should have received an onshow event."), EventListener->ShowCount, 1);
-			});
+			FrameQueue.Enqueue([this] { TestEqual(TEXT("We should have received an onshow event."), EventListener->ShowCount, 1); });
 
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				UxtTestUtils::GetTestHandTracker().SetSelectPressed(true);
-			});
+			FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetSelectPressed(true); });
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				UxtTestUtils::GetTestHandTracker().SetSelectPressed(false);
-			});
+			FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetSelectPressed(false); });
 			FrameQueue.Skip(2);
-			FrameQueue.Enqueue([this]
-			{
-				TestEqual(TEXT("We should have received an onhide event."), EventListener->HideCount, 1);
-			});
+			FrameQueue.Enqueue([this] { TestEqual(TEXT("We should have received an onhide event."), EventListener->HideCount, 1); });
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
@@ -242,7 +200,8 @@ void TooltipSpawnerSpec::Define()
 			FrameQueue.Skip();
 			FrameQueue.Enqueue([this]
 			{
-				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+				auto* TooltipSpawnerComponent =
+		Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 				TooltipSpawnerComponent->AppearType = EUxtTooltipAppearType::AppearOnFocusEnter;
 				TooltipSpawnerComponent->VanishType = EUxtTooltipVanishType::VanishOnFocusExit;
 				TooltipSpawnerComponent->VanishDelay = 0.f;
@@ -270,7 +229,8 @@ void TooltipSpawnerSpec::Define()
 		{
 			FrameQueue.Enqueue([this]
 			{
-				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+				auto* TooltipSpawnerComponent =
+		Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 				TooltipSpawnerComponent->AppearType = EUxtTooltipAppearType::AppearOnFocusEnter;
 				TooltipSpawnerComponent->VanishType = EUxtTooltipVanishType::VanishOnFocusExit;
 				TooltipSpawnerComponent->VanishDelay = 1.f;
@@ -317,7 +277,8 @@ void TooltipSpawnerSpec::Define()
 			FrameQueue.Skip();
 			FrameQueue.Enqueue([this]
 			{
-				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+				auto* TooltipSpawnerComponent =
+		Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 				TooltipSpawnerComponent->AppearType = EUxtTooltipAppearType::AppearOnFocusEnter;
 				TooltipSpawnerComponent->VanishType = EUxtTooltipVanishType::VanishOnFocusExit;
 				TooltipSpawnerComponent->VanishDelay = 0.f;
@@ -342,12 +303,11 @@ void TooltipSpawnerSpec::Define()
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});*/
 
-		LatentIt("Pivot Offset", [this](const FDoneDelegate& Done)
-		{
+		LatentIt("Pivot Offset", [this](const FDoneDelegate& Done) {
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+			FrameQueue.Enqueue([this] {
+				auto* TooltipSpawnerComponent =
+					Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
 				TooltipSpawnerComponent->AppearType = EUxtTooltipAppearType::AppearOnFocusEnter;
 				TooltipSpawnerComponent->VanishType = EUxtTooltipVanishType::VanishOnFocusExit;
 				TooltipSpawnerComponent->VanishDelay = 0.f;
@@ -357,16 +317,14 @@ void TooltipSpawnerSpec::Define()
 				TooltipSpawnerComponent->Pivot->SetRelativeLocation(PivotOffset);
 			});
 			FrameQueue.Skip();
-			FrameQueue.Enqueue([this]
-			{
-				Pointer->RayLength = 100.0f;
-			});
+			FrameQueue.Enqueue([this] { Pointer->RayLength = 100.0f; });
 			FrameQueue.Skip(2);
-			FrameQueue.Enqueue([this]
-			{
+			FrameQueue.Enqueue([this] {
 				TestEqual(TEXT("We should have received an onshow event."), EventListener->ShowCount, 1);
-				auto* TooltipSpawnerComponent = Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
-				TestTrue(TEXT("The tooltip component should not be null when spawned."), TooltipSpawnerComponent->SpawnedTooltip != nullptr);
+				auto* TooltipSpawnerComponent =
+					Cast<UUxtTooltipSpawnerComponent>(TooltipSpawnerActor->GetComponentByClass(UUxtTooltipSpawnerComponent::StaticClass()));
+				TestTrue(
+					TEXT("The tooltip component should not be null when spawned."), TooltipSpawnerComponent->SpawnedTooltip != nullptr);
 				if (TooltipSpawnerComponent->SpawnedTooltip)
 				{
 					auto Position = TooltipSpawnerComponent->SpawnedTooltip->GetActorLocation();

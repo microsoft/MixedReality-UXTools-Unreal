@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 #include "HandTracking/UxtTouchBasedHandTrackerSubsystem.h"
-#include "HandTracking/UxtTouchBasedHandTrackerComponent.h"
-#include "GameFramework/PlayerController.h"
-#include "GameFramework/GameModeBase.h"
+
 #include "Engine/World.h"
+#include "GameFramework/GameModeBase.h"
+#include "GameFramework/PlayerController.h"
+#include "HandTracking/UxtTouchBasedHandTrackerComponent.h"
 
 bool UUxtTouchBasedHandTrackerSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {

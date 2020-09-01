@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 #include "Utils/UxtInternalFunctionLibrary.h"
+
+#include "Engine/Engine.h"
 #include "Engine/Font.h"
 #include "Engine/Texture2D.h"
-#include "Engine/Engine.h"
 
 bool UUxtInternalFunctionLibrary::HexCodePointToFString(const FString& Input, FString& Output)
 {
@@ -137,4 +138,15 @@ FVector UUxtInternalFunctionLibrary::Slerp(const FVector& Vector1, const FVector
 	}
 
 	return Vector1 * Scale1 + Vector2 * Scale2;
+}
+
+FTransform UUxtInternalFunctionLibrary::SmoothLerp(
+	const FTransform& From, const FTransform& To, const float LocFactor, const float RotFactor, const float ScaleFactor,
+	const float DeltaTime)
+{
+	FTransform LerpTransform;
+	LerpTransform.SetLocation(SmoothLerp(From.GetLocation(), To.GetLocation(), LocFactor, DeltaTime));
+	LerpTransform.SetRotation(SmoothLerp(From.GetRotation(), To.GetRotation(), RotFactor, DeltaTime));
+	LerpTransform.SetScale3D(SmoothLerp(From.GetScale3D(), To.GetScale3D(), ScaleFactor, DeltaTime));
+	return LerpTransform;
 }

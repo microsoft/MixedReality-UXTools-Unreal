@@ -3,56 +3,58 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+
 #include "Blueprint/UserWidget.h"
+#include "GameFramework/Actor.h"
 
 #include "UxtTooltipActor.generated.h"
 
 class USplineMeshComponent;
 class UWidgetComponent;
 
-/** 
-* Tooltip Actor. This object represents a tooltip in the 3D world.
-* 
-* The tooltip can point to an Actor/Component and it will draw a line between the two.
-* The tooltip will automatically parent itself to the target.
-*
-* The tooltip is designed for text but it allows the user to set any Blueprint Widget.
-* If you don't want to create a new Widget Blueprint, you can use the SetText function which will use a C++ slate widget.
-*
-* The Tooltip Actor's component hierarchy looks like this.
-* Tooltip
-*        |_SceneRoot
-*                   |_BackPlate
-*                   |_TooltipWidgetComponent
-*...................|_Anchor
-*                   |_SplineMeshComponent
-*
-* The SplineMeshComponent is used to draw the line between the tooltip and the target actor.
-*
-* The Anchor allows the user to provide an offset to the target to control the end of the spline.
-*
-* The tooltip with auto anchoring mode will try to bind the spline to the sides/corners of the widget.
-*
-* The tooltip is also "billboarded" to the camera.
-*
-* When no blueprint widget has been configured, the tooltip reverts to a slate widget printing some default text.
-*
-* There's a Margin property that can be used to add space between the text and the border of the back plate.
-*/
-UCLASS( ClassGroup=("UXTools - Experimental"), meta = (BlueprintSpawnableComponent), HideCategories = (Object,  LOD, Physics, Materials, StaticMesh, Default, Collision))
+/**
+ * Tooltip Actor. This object represents a tooltip in the 3D world.
+ *
+ * The tooltip can point to an Actor/Component and it will draw a line between the two.
+ * The tooltip will automatically parent itself to the target.
+ *
+ * The tooltip is designed for text but it allows the user to set any Blueprint Widget.
+ * If you don't want to create a new Widget Blueprint, you can use the SetText function which will use a C++ slate widget.
+ *
+ * The Tooltip Actor's component hierarchy looks like this.
+ * Tooltip
+ *        |_SceneRoot
+ *                   |_BackPlate
+ *                   |_TooltipWidgetComponent
+ *...................|_Anchor
+ *                   |_SplineMeshComponent
+ *
+ * The SplineMeshComponent is used to draw the line between the tooltip and the target actor.
+ *
+ * The Anchor allows the user to provide an offset to the target to control the end of the spline.
+ *
+ * The tooltip with auto anchoring mode will try to bind the spline to the sides/corners of the widget.
+ *
+ * The tooltip is also "billboarded" to the camera.
+ *
+ * When no blueprint widget has been configured, the tooltip reverts to a slate widget printing some default text.
+ *
+ * There's a Margin property that can be used to add space between the text and the border of the back plate.
+ */
+UCLASS(
+	ClassGroup = ("UXTools - Experimental"), meta = (BlueprintSpawnableComponent),
+	HideCategories = (Object, LOD, Physics, Materials, StaticMesh, Default, Collision))
 class UXTOOLS_API AUxtTooltipActor : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-public:	
-	
+public:
 	/**
-	* Function used to set the target actor/component at runtime.
-	* It is possible to only provide an actor without its component.
-	* This will result in pointing to the root component.
-	* The tooltip will automatically parent itself to the target actor.
-	*/
+	 * Function used to set the target actor/component at runtime.
+	 * It is possible to only provide an actor without its component.
+	 * This will result in pointing to the root component.
+	 * The tooltip will automatically parent itself to the target actor.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Tooltip")
 	void SetTarget(AActor* TargetActor, UActorComponent* TargetComponent);
 
@@ -63,13 +65,12 @@ public:
 	/** The widget rendered by this tooltip. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tooltip")
 	TSubclassOf<UUserWidget> WidgetClass = nullptr; // pointer to the widget class it will instantiate.
-	
+
 	/** An offset on the target position. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Tooltip")
 	USceneComponent* Anchor = nullptr;
 
 protected:
-
 	//
 	// AActor interface
 
@@ -78,7 +79,7 @@ protected:
 	/** Used to tick in editor. */
 	virtual bool ShouldTickIfViewportsOnly() const override;
 	virtual void OnConstruction(const FTransform& Transform) override;
-	
+
 	//
 	// UObject interface
 #if WITH_EDITOR
@@ -92,10 +93,10 @@ private:
 	/** Updates the different properties of the class. */
 	void UpdateComponent();
 
-	/** 
-	*  Update the start and the end of the spline so that it follows the tooltip and its target.
-	*  The Start and End point come from the SplineMeshComponent and are in local space to the component.
-	*/
+	/**
+	 *  Update the start and the end of the spline so that it follows the tooltip and its target.
+	 *  The Start and End point come from the SplineMeshComponent and are in local space to the component.
+	 */
 	void UpdateSpline();
 
 	/** Update the the backplate to have a scale that matches the current widget and scale. */
@@ -108,9 +109,9 @@ private:
 	void UpdateWidget();
 
 	/**
-	* It is assumed that a widget is square shaped, there's an anchor on each corner and on each sides of the square.
-	* This checks which anchor is closest to the end position (the target) and return the position of the closest.
-	*/
+	 * It is assumed that a widget is square shaped, there's an anchor on each corner and on each sides of the square.
+	 * This checks which anchor is closest to the end position (the target) and return the position of the closest.
+	 */
 	FVector GetClosestAnchorToTarget(FVector EndPosition) const;
 
 	/** Actor root component */
@@ -135,7 +136,7 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, AdvancedDisplay, Category = "Tooltip")
 	class USplineMeshComponent* SplineMeshComponent;
-	
+
 	/** The target actor/component pointed at by this tooltip. */
 	UPROPERTY(EditAnywhere, Category = "Tooltip")
 	FComponentReference TooltipTarget;
@@ -143,7 +144,7 @@ private:
 	/** Margin adds a small margin around the text. */
 	UPROPERTY(EditAnywhere, Category = "Tooltip")
 	float Margin = 20.0f;
-	
+
 	/** Tightly coupled with those classes to keep the interface clean. */
 	friend class UUxtTooltipSpawnerComponent;
 	friend class TooltipSpec;

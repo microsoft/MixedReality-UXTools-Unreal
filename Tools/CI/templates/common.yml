@@ -3,6 +3,19 @@ parameters:
     StrictMode: false
 
 steps:
+# Generate a list of files modified in the current pull request.
+- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  - template: modifiedfiles.yml
+    parameters:
+      changesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+
+- task: PowerShell@2
+  displayName: "Verify code formatting"
+  inputs:
+    targetType: 'filePath'
+    filePath: $(UXTSourceDir)\Tools\scripts\FormatSource.ps1
+    arguments: -ClangFormat $(Build.ArtifactStagingDirectory)/clang-format.$(ClangFormat.Version)/clang-format.exe -ModifiedOnly $False -UseVS2019 $True -Verify $True -ChangesFile  $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+
 # For the plugin build to succeed UE4 needs to be installed outside of the agent working directory.
 # The tools directory location needs to be manually set on the build agent using AGENT_TOOLSDIRECTORY environment variable.
 # This is due to UE4 using relative paths (between Engine and Source being built) for some of the identifiers in generated source files.

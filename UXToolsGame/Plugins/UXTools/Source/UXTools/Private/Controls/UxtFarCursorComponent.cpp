@@ -2,16 +2,17 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtFarCursorComponent.h"
-#include "Input/UxtFarPointerComponent.h"
-#include "GameFramework/Actor.h"
-#include "Utils/UxtFunctionLibrary.h"
+
 #include "UXTools.h"
 
+#include "GameFramework/Actor.h"
+#include "Input/UxtFarPointerComponent.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 UUxtFarCursorComponent::UUxtFarCursorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	
+
 	// Will start ticking when the far pointer is enabled
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 

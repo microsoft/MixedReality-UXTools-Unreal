@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtRingCursorComponent.h"
-#include "Engine/StaticMesh.h"
-#include "Components/StaticMeshComponent.h"
-#include "Materials/MaterialInstanceDynamic.h"
-#include "GameFramework/Actor.h"
-#include "UObject/ConstructorHelpers.h"
 
+#include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
+#include "GameFramework/Actor.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "UObject/ConstructorHelpers.h"
 
 UUxtRingCursorComponent::UUxtRingCursorComponent()
 {
@@ -33,7 +33,6 @@ UUxtRingCursorComponent::UUxtRingCursorComponent()
 	static ConstructorHelpers::FObjectFinder<UMaterialInterface> BorderMaterialFinder(TEXT("/UXTools/Pointers/Materials/M_Shadow"));
 	check(BorderMaterialFinder.Object);
 	SetMaterial(1, BorderMaterialFinder.Object);
-
 }
 
 void UUxtRingCursorComponent::OnRegister()

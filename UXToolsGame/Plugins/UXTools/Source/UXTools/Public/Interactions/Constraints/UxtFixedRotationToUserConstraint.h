@@ -3,6 +3,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+
 #include "Interactions/Constraints/UxtTransformConstraint.h"
 
 #include "UxtFixedRotationToUserConstraint.generated.h"
@@ -18,13 +19,11 @@ class UXTOOLS_API UUxtFixedRotationToUserConstraint : public UUxtTransformConstr
 {
 	GENERATED_BODY()
 public:
-
 	virtual void Initialize(const FTransform& WorldPose) override;
 	virtual EUxtTransformMode GetConstraintType() const override;
 	virtual void ApplyConstraint(FTransform& Transform) const override;
 
 public:
-
 	/** Should roll be excluded from locking to the users orientation */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints)
 	bool bExcludeRoll = true;

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "InputCoreTypes.h"
+
 #include "Interactions/UxtInteractionMode.h"
 #include "Math/TransformNonVectorized.h"
 
@@ -16,7 +17,6 @@ class UUxtPointerComponent;
 class FUxtTestHand
 {
 public:
-
 	FUxtTestHand(EControllerHand TargetHand);
 
 	/** Configure the hand for a test by spawning the appropriate pointer aiming at the TargetLocation. */
@@ -24,6 +24,9 @@ public:
 
 	/** Reset the hand after a test. */
 	void Reset();
+
+	/** Get the pointer attached to the hand. */
+	UUxtPointerComponent* GetPointer() const;
 
 	/** Translate the hand by the given vector. */
 	void Translate(const FVector& Translation);
@@ -41,7 +44,6 @@ public:
 	void SetGrabbing(bool bIsGrabbing);
 
 private:
-
 	/** The hand. */
 	EControllerHand Hand = EControllerHand::AnyHand;
 

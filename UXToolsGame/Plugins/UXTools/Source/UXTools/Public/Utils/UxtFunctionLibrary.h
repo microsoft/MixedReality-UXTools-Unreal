@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Kismet/BlueprintFunctionLibrary.h"
+
 #include "UxtFunctionLibrary.generated.h"
 
 struct FComponentReference;
@@ -18,7 +20,6 @@ class UXTOOLS_API UUxtFunctionLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-
 	/** Returns the world space position and orientation of the head. */
 	UFUNCTION(BlueprintPure, Category = "UXTools", meta = (WorldContext = "WorldContextObject", UnsafeDuringActorConstruction = "true"))
 	static FTransform GetHeadPose(UObject* WorldContextObject);
@@ -35,4 +36,3 @@ public:
 	 */
 	static USceneComponent* GetSceneComponentFromReference(const FComponentReference& ComponentRef, AActor* Owner);
 };
-

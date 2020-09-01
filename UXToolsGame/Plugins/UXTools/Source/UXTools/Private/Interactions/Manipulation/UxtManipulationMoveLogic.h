@@ -17,10 +17,13 @@ class UxtManipulationMoveLogic
 {
 public:
 	/** Setup move logic by caching initial input values */
-	void Setup(const FTransform& PointerCentroidPose, const FVector& GrabCentroid, const FTransform& ObjectTransform, const FVector& HeadPosition);
-	
+	void Setup(
+		const FTransform& PointerCentroidPose, const FVector& GrabCentroid, const FTransform& ObjectTransform, const FVector& HeadPosition);
+
 	/** Provide updated input and head/camera position to retrieve new object position*/
-	FVector Update(const FTransform& PointerCentroidPose, const FQuat& ObjectRotation, const FVector& ObjectScale, bool UsePointerRotation, const FVector& HeadPosition) const;
+	FVector Update(
+		const FTransform& PointerCentroidPose, const FQuat& ObjectRotation, const FVector& ObjectScale, bool UsePointerRotation,
+		const FVector& HeadPosition) const;
 
 private:
 	float PointerRefDistance;

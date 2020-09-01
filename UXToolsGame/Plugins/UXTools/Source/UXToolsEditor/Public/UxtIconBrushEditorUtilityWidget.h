@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "EditorUtilityWidget.h"
+
 #include "UxtIconBrushEditorUtilityWidget.generated.h"
 
 UCLASS(ClassGroup = UXToolsEditor)
@@ -13,12 +14,8 @@ class UUxtIconBrushEditorUtilityWidget : public UEditorUtilityWidget
 	GENERATED_BODY()
 
 public:
-
 	/** Sets the unique identifier for the tab this EditorUtilityWidget was spawned into. */
-	void SetTabID(FName ID)
-	{
-		TabID = ID;
-	}
+	void SetTabID(FName ID) { TabID = ID; }
 
 	/** Sets the property handle which will be queried and altered for FUxtIconBrush properties. */
 	void SetPropertyHandle(TSharedRef<IPropertyHandle> InPropertyHandle)
@@ -29,13 +26,9 @@ public:
 
 	/** Returns true if a non-null PropertyHandle is set. */
 	UFUNCTION(BlueprintCallable, Category = "Icon Brush Editor Utility Widget")
-	bool HasValidPropertyHandle() const
-	{
-		return PropertyHandle.IsValid();
-	}
+	bool HasValidPropertyHandle() const { return PropertyHandle.IsValid(); }
 
 protected:
-
 	/** Event which triggers when the PropertyHandle is changed. */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Icon Brush Editor Utility Widget")
 	void OnPropertyHandleChanged();
@@ -61,7 +54,5 @@ protected:
 	FName TabID;
 
 private:
-
 	TWeakPtr<IPropertyHandle> PropertyHandle;
-
 };

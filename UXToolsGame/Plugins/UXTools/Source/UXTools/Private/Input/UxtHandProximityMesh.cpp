@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 #include "Input/UxtHandProximityMesh.h"
+
 #include "ProceduralMeshComponent.h"
+
 #include "Math/UnrealMathUtility.h"
 
 // Populate buffers with mesh data based on cone parameters.
@@ -45,18 +47,15 @@ void FUxtHandProximityMeshData::Build(float ConeAngle, float ConeOffset, float C
 
 	// UV mapping functions
 
-	auto NearPlaneUVMap = [TanConeAngle, NearPlane](const FVector& Position) -> FVector2D
-	{
+	auto NearPlaneUVMap = [TanConeAngle, NearPlane](const FVector& Position) -> FVector2D {
 		const float Scale = 0.24f / (TanConeAngle * NearPlane);
 		return FVector2D(0.25f + Position.Y * Scale, 0.25f + Position.Z * Scale);
 	};
-	auto FarPlaneUVMap = [SinConeAngle, FarRadius](const FVector& Position) -> FVector2D
-	{
+	auto FarPlaneUVMap = [SinConeAngle, FarRadius](const FVector& Position) -> FVector2D {
 		const float Scale = 0.24f / (SinConeAngle * FarRadius);
 		return FVector2D(0.75f + Position.Y * Scale, 0.25f + Position.Z * Scale);
 	};
-	auto ConeUVMap = [CosConeAngle, FarRadius, NearPlane](const FVector& Position) -> FVector2D
-	{
+	auto ConeUVMap = [CosConeAngle, FarRadius, NearPlane](const FVector& Position) -> FVector2D {
 		const float Scale = 0.24f / (CosConeAngle * FarRadius - NearPlane);
 		return FVector2D(0.5f + FMath::Atan2(Position.Z, Position.Y) / (2.0f * PI) * 0.48f, 0.75f + Position.X * Scale);
 	};

@@ -86,7 +86,8 @@ function New-BuildConfiguration
     [CmdletBinding()]
     param (
         [string]$OutPath,
-        [boolean]$UseStaticAnalyzer = $True
+        [boolean]$UseStaticAnalyzer = $True,
+        [boolean]$UseUnityBuild = $True
     )
     process
     {
@@ -94,6 +95,9 @@ function New-BuildConfiguration
         $Lines = @()
         $Lines += "<?xml version=`"1.0`" encoding=`"utf-8`" ?>"
         $Lines += "<Configuration xmlns=`"https://www.unrealengine.com/BuildConfiguration`">"
+        $Lines += "    <BuildConfiguration>"
+        $Lines += "        <bUseUnityBuild>" + "$UseUnityBuild".ToLower() + "</bUseUnityBuild>"
+        $Lines += "    </BuildConfiguration>"
         $Lines += "    <WindowsPlatform>"
         if ($UseStaticAnalyzer)
         {
@@ -257,7 +261,8 @@ function Start-UAT
         [Parameter(Mandatory=$true)]
         [string[]]$CommandArgs,
         [boolean]$UseStaticAnalyzer = $True,
-        [boolean]$WarningsAsErrors = $True
+        [boolean]$WarningsAsErrors = $True,
+        [boolean]$UseUnityBuild = $True
     )
     process
     {
@@ -284,6 +289,7 @@ function Start-UAT
         # Write BuildConfiguration.xml file
         New-BuildConfiguration -OutPath $UserBuildConfigurationPath `
                                -UseStaticAnalyzer $UseStaticAnalyzer `
+                               -UseUnityBuild $UseUnityBuild `
                                -ErrorAction Stop
 
         $Arguments = ($CommandArgs -join " ")

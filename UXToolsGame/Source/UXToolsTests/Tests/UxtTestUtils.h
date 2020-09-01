@@ -4,11 +4,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Misc/AutomationTest.h"
 #include "InputCoreTypes.h"
-#include "GameFramework/Actor.h"
-#include "Engine/World.h"
+
 #include "Components/StaticMeshComponent.h"
+#include "Engine/World.h"
+#include "GameFramework/Actor.h"
+#include "Misc/AutomationTest.h"
 
 class FUxtTestHandTracker;
 class IUxtHandTracker;
@@ -17,12 +18,12 @@ class UTestPokeTarget;
 class UUxtNearPointerComponent;
 class UUxtGrabTargetComponent;
 class UUxtFarPointerComponent;
+class UUxtPointerComponent;
 
 /** Utility functions for UXTools testing. */
 struct UxtTestUtils
 {
 public:
-
 	/** Loads the given map. Returns null in case of failure. */
 	static UWorld* LoadMap(const FString& MapName);
 
@@ -39,26 +40,33 @@ public:
 	static UStaticMeshComponent* CreateBoxStaticMesh(AActor* Owner, FVector Scale = FVector::OneVector);
 
 	/** Create a basic near pointer actor. */
-	static UUxtNearPointerComponent* CreateNearPointer(UWorld *World, FName Name, const FVector &Position, EControllerHand Hand = EControllerHand::Right, bool IsGrasped = false, bool AddMeshVisualizer = true);
+	static UUxtNearPointerComponent* CreateNearPointer(
+		UWorld* World, FName Name, const FVector& Position, EControllerHand Hand = EControllerHand::Right, bool IsGrasped = false,
+		bool AddMeshVisualizer = true);
 
 	/** Create a basic far pointer actor. */
-	static UUxtFarPointerComponent* CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand = EControllerHand::Right ,bool IsGrasped = false);
-	
+	static UUxtFarPointerComponent* CreateFarPointer(
+		UWorld* World, FName Name, const FVector& Position, EControllerHand Hand = EControllerHand::Right, bool IsGrasped = false);
+
 	/** Create a grabbable target actor. */
-	static UTestGrabTarget* CreateNearPointerGrabTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
+	static UTestGrabTarget* CreateNearPointerGrabTarget(
+		UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"),
+		float meshScale = 1.0f);
 
 	/** Create a test box actor with attached TestComponent*/
 	template <typename TestComponent>
 	static TestComponent* CreateTestBoxWithComponent(UWorld* World, const FVector& Location);
 
 	/** Create a pokable target actor. */
-	static UTestPokeTarget* CreateNearPointerPokeTarget(UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"), float meshScale = 1.0f);
+	static UTestPokeTarget* CreateNearPointerPokeTarget(
+		UWorld* World, const FVector& Location, const FString& meshFilename = TEXT("/Engine/BasicShapes/Cube.Cube"),
+		float meshScale = 1.0f);
 
 	/** Create a background target without a scene component or primitive. */
 	static UTestGrabTarget* CreateNearPointerBackgroundTarget(UWorld* World);
 
 	/** Creates a test camera that is set as the new view target in the playercontroller.
-	    Transform modifications on the returned USceneComponent will transform the active test camera.*/
+		Transform modifications on the returned USceneComponent will transform the active test camera.*/
 	static USceneComponent* CreateTestCamera(UWorld* World);
 	//
 	// Hand tracker implementation with mutable state for testing.
@@ -72,8 +80,10 @@ public:
 	/** Restore the default hand tracker implementation. */
 	static void DisableTestHandTracker();
 
-public:
+	/** Disable all smoothing in the given Pointer, since interpolated frames would interfere in test results */
+	static void DisablePointerSmoothing(UUxtPointerComponent* Pointer);
 
+public:
 	/** Hand tracker implementation for tests. */
 	static FUxtTestHandTracker TestHandTracker;
 
@@ -83,7 +93,6 @@ public:
 
 /** Latent command to ensure the hand tracker is restored after a test is completed */
 DEFINE_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand);
-
 
 template <typename TestComponent>
 TestComponent* UxtTestUtils::CreateTestBoxWithComponent(UWorld* World, const FVector& Location)

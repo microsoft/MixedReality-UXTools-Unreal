@@ -4,11 +4,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Controls/UxtBaseObjectCollection.h"
-#include "Interactions/UxtPokeTarget.h"
-#include "Interactions/UxtFarTarget.h"
-#include <Curves/CurveFloat.h>
 #include "UxtBackPlateComponent.h"
+
+#include "Controls/UxtBaseObjectCollection.h"
+#include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtPokeTarget.h"
+
+#include <Curves/CurveFloat.h>
+
 #include "UxtScrollingObjectCollection.generated.h"
 
 //
@@ -17,6 +20,7 @@ class UBoxComponent;
 class UUxtNearPointerComponent;
 class UUxtFarPointerComponent;
 
+// clang-format off
 
 //
 // Enums
@@ -35,7 +39,9 @@ enum class EUxtPaginateResult : uint8
 	Failed_ConcurrentInteraction	UMETA(ScriptName = "Failed, Concurrent User Interaction", Tooltip = "The operation was aborted because there is another interaction with the object." ),
 };
 
-UENUM(meta=(Bitflags))
+// clang-format on
+
+UENUM(meta = (Bitflags))
 enum class EInteractionTypeBits
 {
 	NearInteraction,
@@ -46,7 +52,7 @@ enum class EInteractionTypeBits
 //
 // Types
 
-USTRUCT(BlueprintType, NoExport) 
+USTRUCT(BlueprintType, NoExport)
 struct FScrollingCollectionProperties
 {
 	/** The Center of the viewable area, relative to the Scrolling Collection Component. */
@@ -64,36 +70,36 @@ struct FScrollingCollectionProperties
 
 //
 // Delegates
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtScrollingObjectCollectionUpdated, FScrollingCollectionProperties const &, Properties);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtScrollingObjectCollectionUpdated, FScrollingCollectionProperties const&, Properties);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FUxtScrollingObjectCollectionOnPaginationEnd, EUxtPaginateResult, Result);
-
 
 /**
  * Component that adds a scrollable object menu to the actor to which it is attached
  */
-UCLASS(ClassGroup = ("UXTools - Experimental"), meta=(BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtScrollingObjectCollection : public UUxtBaseObjectCollection, public IUxtPokeTarget, public IUxtFarTarget
+UCLASS(ClassGroup = ("UXTools - Experimental"), meta = (BlueprintSpawnableComponent))
+class UXTOOLS_API UUxtScrollingObjectCollection
+	: public UUxtBaseObjectCollection
+	, public IUxtPokeTarget
+	, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
-public:	
-
+public:
 	/** Sets the number of columns or rows in respect to ViewableArea and ScrollDirection.*/
 	UFUNCTION(BlueprintCallable, Category = "Scrolling Object Collection")
 	void SetTiers(int32 IncomingTiers);
 
 	/** Move the collection up or down (or left or right) in multiples of #ViewableArea. */
 	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Callback"), Category = "Scrolling Object Collection")
-	void PageBy( const int32 NumPages, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd & Callback);
+	void PageBy(const int32 NumPages, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& Callback);
 
 	/** Move the collection up or down (or left or right) in multiples of #ViewableArea. */
 	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Callback"), Category = "Scrolling Object Collection")
-	void MoveByItems(const int32 NumItems, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd & Callback);
+	void MoveByItems(const int32 NumItems, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& Callback);
 
 	/** Adds an actor to the collection at runtime.  */
 	UFUNCTION(BlueprintCallable, Category = "Scrolling Object Collection")
 	void AddActorToCollection(AActor* ActorToAdd);
-
 
 	/** Return current scroll direction */
 	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Callback"), Category = "Scrolling Object Collection")
@@ -135,7 +141,7 @@ public:
 	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "1.0"), Category = "UxTools|Scrolling Properties")
 	float ScrollSmoothing;
 
-	/** Velocity damping factor. 
+	/** Velocity damping factor.
 	 * For no velocity to be retained set this value to 1.0.
 	 * Note: This is currently applied per frame and is frame rate dependent, WIP to adjust for frame rate. */
 	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "1.0"), Category = "UxTools|Scrolling Properties")
@@ -149,8 +155,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "UxTools|Scrolling Properties")
 	FRuntimeFloatCurve PaginationCurve;
 
-	/** Strength of the snap to effect. 
-	 *	A value of 1.0 will result in instant snap to the closest item. 
+	/** Strength of the snap to effect.
+	 *	A value of 1.0 will result in instant snap to the closest item.
 	 *	A value of 0.0 will disable the snap effect.
 	 *	Note also that VelocityDamping will affect the feel of the snap. When damping is low or zero
 	 *	the snap will be more prominent and the boundary between adjacent cells will feel sharper. */
@@ -167,7 +173,7 @@ public:
 
 	/** Set the backplate for this component. */
 	UFUNCTION(BlueprintCallable)
-	void SetBackPlate(UUxtBackPlateComponent* Plate) { BackPlate = Plate;}
+	void SetBackPlate(UUxtBackPlateComponent* Plate) { BackPlate = Plate; }
 
 protected:
 	// Called when the game starts
@@ -186,7 +192,8 @@ protected:
 	virtual void OnUpdatePoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
-	virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
+	virtual bool GetClosestPoint_Implementation(
+		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 
 	//
 	// IUxtFarTarget interface
@@ -197,7 +204,6 @@ protected:
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
 
 private:
-
 	/** Called to reset the visibility of all attached actors based on current collection state. */
 	void ResetCollectionVisibility();
 
@@ -231,13 +237,13 @@ private:
 	/** Verify and evaluate the pagination curve.
 	 *	@retval Returns true if it is possible to evaluate the curve at the time between first and last keyframes.
 	 */
-	bool VerifyAndEvaluatePaginationCurve(const float EvalTime, float * const Output) const;
+	bool VerifyAndEvaluatePaginationCurve(const float EvalTime, float* const Output) const;
 
 	/** Get the net offset which is the sum of Offset, InteractionOffset, and PaginationOffset. */
 	float GetCurrentNetOffset() const;
 
 	/** Get the current min and max valid offset. */
-	void GetValidOffsetRange( float * const Minimum, float * const Maximum ) const;
+	void GetValidOffsetRange(float* const Minimum, float* const Maximum) const;
 
 	/** Take interaction point and turn this into a collection item target */
 	int ConvertWorldSpacePositionToButtonIndex(FVector WorldSpaceLocation);
@@ -246,28 +252,29 @@ private:
 	UFUNCTION()
 	void CheckScrollOrClick();
 
-	/** Callback to determine if we have passed movement threshold for a scroll or if we should treat the action as a click - but for far pointer */
+	/** Callback to determine if we have passed movement threshold for a scroll or if we should treat the action as a click - but for far
+	 * pointer */
 	UFUNCTION()
-		void CheckScrollOrClickFarPointer();
+	void CheckScrollOrClickFarPointer();
 	/** Current Poke Target we are passing messages to */
 
 	UPROPERTY()
-		TScriptInterface<IUxtPokeTarget> PokeTarget;
+	TScriptInterface<IUxtPokeTarget> PokeTarget;
 
 	/** Current Far Target we are passing messages to */
 	UPROPERTY()
-		TScriptInterface<IUxtFarTarget> FarTarget;
+	TScriptInterface<IUxtFarTarget> FarTarget;
 
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 
 	/** Called when a property in the inspector is edited */
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-#endif // WITH_EDITORONLY_DATA 
+#endif // WITH_EDITORONLY_DATA
 
 	/** Number of columns or rows in respect to ViewableArea and ScrollDirection. */
 	UPROPERTY(EditAnywhere, meta = (UIMin = "1"), Category = "UXTools|Collection Properties")
 	int32 Tiers;
-	
+
 	/** Blue BackPlate  */
 	UPROPERTY()
 	UUxtBackPlateComponent* BackPlate;
@@ -285,7 +292,7 @@ private:
 	TWeakObjectPtr<UUxtNearPointerComponent> PokePointer;
 
 	/** If not null, far pointer that is currently the focus of any interaction. */
-	TWeakObjectPtr<UUxtFarPointerComponent>	FarPointer;
+	TWeakObjectPtr<UUxtFarPointerComponent> FarPointer;
 
 	/** Local space offset along the direction of scroll at the start of the interaction. */
 	float InteractionOrigin;
@@ -322,14 +329,14 @@ private:
 	/** Handle for the callback to check if we are scrolling or clicking */
 	FTimerHandle ScrollOrClickHandle;
 
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 	/** Record whether the collection has been initialized at least once while in the editor. */
 	bool bCollectionInitializedInEditor;
-#endif // WITH_EDITORONLY_DATA 
+#endif // WITH_EDITORONLY_DATA
 };
 
 /**
- * 
+ *
  */
 inline float UUxtScrollingObjectCollection::GetCurrentNetOffset() const
 {
@@ -337,7 +344,7 @@ inline float UUxtScrollingObjectCollection::GetCurrentNetOffset() const
 }
 
 /**
- * 
+ *
  */
 inline FVector UUxtScrollingObjectCollection::LocationWorldToLocal(const FVector WorldSpaceLocation) const
 {

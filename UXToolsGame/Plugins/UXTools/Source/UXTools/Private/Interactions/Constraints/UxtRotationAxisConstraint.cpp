@@ -26,7 +26,7 @@ void UUxtRotationAxisConstraint::ApplyConstraint(FTransform& Transform) const
 		Eulers.Z = 0;
 	}
 
-	Transform.SetRotation(bUseLocalSpaceForConstraint
-		? WorldPoseOnManipulationStart.GetRotation() * FQuat::MakeFromEuler(Eulers)
-		: FQuat::MakeFromEuler(Eulers) * WorldPoseOnManipulationStart.GetRotation());
+	Transform.SetRotation(
+		bUseLocalSpaceForConstraint ? WorldPoseOnManipulationStart.GetRotation() * FQuat::MakeFromEuler(Eulers)
+									: FQuat::MakeFromEuler(Eulers) * WorldPoseOnManipulationStart.GetRotation());
 }

@@ -8,11 +8,9 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(UXToolsEditor, All, All)
 
-
 class FUXToolsEditorModule : public IModuleInterface
 {
 public:
-
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 };

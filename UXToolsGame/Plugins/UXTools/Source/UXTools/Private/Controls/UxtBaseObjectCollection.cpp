@@ -2,24 +2,20 @@
 // Licensed under the MIT License.
 
 #include "UxtBaseObjectCollection.h"
+
 #include "GameFramework/Actor.h"
 
 namespace
 {
 	struct ComparisonPredicate
 	{
-		FORCEINLINE bool operator()(const AActor& A, const AActor& B) const
-		{
-			return ComparisonFunctor.Execute(&A, &B);
-		}
+		FORCEINLINE bool operator()(const AActor& A, const AActor& B) const { return ComparisonFunctor.Execute(&A, &B); }
 
-		ComparisonPredicate(FUxtSortScrollingObjectCollectionDelegate Functor)
-			: ComparisonFunctor(Functor)
-		{}
+		ComparisonPredicate(FUxtSortScrollingObjectCollectionDelegate Functor) : ComparisonFunctor(Functor) {}
 
 		FUxtSortScrollingObjectCollectionDelegate ComparisonFunctor;
 	};
-}
+} // namespace
 
 /**
  *
@@ -59,4 +55,3 @@ const TArray<AActor*>& UUxtBaseObjectCollection::CollectAttachedActors()
 /**
  *
  */
-

@@ -1,38 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 #include "Controls/UxtScrollingObjectCollection.h"
-#include "Utils/UxtMathUtilsFunctionLibrary.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtFarPointerComponent.h"
-#include "Controls/UxtCollectionObject.h"
-#include "Interactions/UxtInteractionUtils.h"
 
-#include "GameFramework/Actor.h"
-#include "Components/BoxComponent.h"
-#include "Components/PrimitiveComponent.h"
 #include "DrawDebugHelpers.h"
-#include "Engine/World.h"
 #include "TimerManager.h"
 
+#include "Components/BoxComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "Controls/UxtCollectionObject.h"
+#include "Engine/World.h"
+#include "GameFramework/Actor.h"
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
+#include "Interactions/UxtInteractionUtils.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
-#define check_validscrolldirection() checkf(ScrollDirection == EUxtScrollDirection::UpAndDown || ScrollDirection == EUxtScrollDirection::LeftAndRight, TEXT("Unsupported scroll direction."))
+#define check_validscrolldirection()                                                                               \
+	checkf(                                                                                                        \
+		ScrollDirection == EUxtScrollDirection::UpAndDown || ScrollDirection == EUxtScrollDirection::LeftAndRight, \
+		TEXT("Unsupported scroll direction."))
 
 namespace
 {
-	template<EInteractionTypeBits T>
+	template <EInteractionTypeBits T>
 	constexpr int32 InteractionTypeToBit()
 	{
 		return 1 << static_cast<int32>(T);
 	}
 
-	template<EInteractionTypeBits T>
+	template <EInteractionTypeBits T>
 	constexpr inline bool TestInteractionTypeBitmask(const int32 Bitmask)
 	{
 		return Bitmask & InteractionTypeToBit<T>();
 	}
-}
+} // namespace
 
 const int32 ScrollingObjectCollectionMinTiers = 1;
 
@@ -40,7 +42,9 @@ const int32 ScrollingObjectCollectionMinTiers = 1;
  *
  */
 UUxtScrollingObjectCollection::UUxtScrollingObjectCollection()
-	: CanScroll(InteractionTypeToBit<EInteractionTypeBits::NearInteraction>() | InteractionTypeToBit<EInteractionTypeBits::FarInteraction>() | InteractionTypeToBit<EInteractionTypeBits::TouchInteraction>())
+	: CanScroll(
+		  InteractionTypeToBit<EInteractionTypeBits::NearInteraction>() | InteractionTypeToBit<EInteractionTypeBits::FarInteraction>() |
+		  InteractionTypeToBit<EInteractionTypeBits::TouchInteraction>())
 	, ScrollDirection(EUxtScrollDirection::UpAndDown)
 	, CellWidth(3.2f)
 	, CellHeight(3.2f)
@@ -59,7 +63,7 @@ UUxtScrollingObjectCollection::UUxtScrollingObjectCollection()
 	, PaginationDelta(0.0f)
 	, PaginationOffset(0.0f)
 	, PaginationTime(0.0f)
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 	, bCollectionInitializedInEditor(false)
 #endif // WITH_EDITORONLY_DATA
 {
@@ -68,7 +72,7 @@ UUxtScrollingObjectCollection::UUxtScrollingObjectCollection()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 	bTickInEditor = true;
 #endif // WITH_EDITORONLY_DATA
 
@@ -114,7 +118,7 @@ void UUxtScrollingObjectCollection::BeginPlay()
 
 	// We also need to ensure that the box component is correct the collection has been initialized
 	// It might seem sensible to call ConfigureBoxComponent from within InitializeCollection, however
-	// InitializeCollection will be called while in editor, any time that a property is edited, which 
+	// InitializeCollection will be called while in editor, any time that a property is edited, which
 	// is before the box component is created here in BeginPlay. The collection properties are constant
 	// while in play so we should never need to reconfigure the box component after this point.
 	// Unless components are added at runtime, in which case we are after BeginPlay has been called anyway
@@ -132,7 +136,6 @@ void UUxtScrollingObjectCollection::BeginPlay()
 	}
 }
 
-
 /**
  *
  */
@@ -141,12 +144,13 @@ void UUxtScrollingObjectCollection::TickComponent(float DeltaTime, ELevelTick Ti
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 	// There doesn't seem to be a virtual function that is called to initialize the component only in editor and when
-	// child actors have themselves been initialized and are available. Hence, in the constructor we have allowed 
+	// child actors have themselves been initialized and are available. Hence, in the constructor we have allowed
 	// tick in editor, and here we will initialize the collection once before disallowing any further tick in editor.
 	// Note that this is only done to ensure that the collection is presented correctly in the editor, before any properties
-	// are edited. At runtime the collection is initialized in BeginPlay (as InitializeComponent seems not to be called in some circumstances!)
+	// are edited. At runtime the collection is initialized in BeginPlay (as InitializeComponent seems not to be called in some
+	// circumstances!)
 	if (!bCollectionInitializedInEditor)
 	{
 		InitializeCollection();
@@ -175,9 +179,9 @@ void UUxtScrollingObjectCollection::TickCollectionOffset(const float DeltaTime)
 {
 	if (PaginationDelta != 0.0f)
 	{
-		// If we have a non zero pagination delta at the same time as an active interaction it means that either PageBy or MoveByItems was called
-		// and the option to allow while interactions was true, or the pagination request go there just before the interaction started.
-		// In either case it seems reasonable for the pagination to take priority over the active interaction.
+		// If we have a non zero pagination delta at the same time as an active interaction it means that either PageBy or MoveByItems was
+		// called and the option to allow while interactions was true, or the pagination request go there just before the interaction
+		// started. In either case it seems reasonable for the pagination to take priority over the active interaction.
 		float Progress;
 		if (VerifyAndEvaluatePaginationCurve(PaginationTime += DeltaTime, &Progress))
 		{
@@ -243,7 +247,6 @@ void UUxtScrollingObjectCollection::TickCollectionOffset(const float DeltaTime)
 			}
 		}
 
-
 		// Is the Offset beyond valid extents, if so we want to be able to spring back
 		if (Offset < MinimumValidOffset)
 		{
@@ -285,14 +288,16 @@ void UUxtScrollingObjectCollection::TickCollectionOffset(const float DeltaTime)
 
 			// We will add to the offset and scale the velocity based on the strength of the snap to effect
 			// The result should be that we stick to the snap location if we don't already have enough velocity to take us past
-			// it and towards the next location. Note that a strength of 1.0f will result in an instant snap to the location and a zeroing of the velocity
+			// it and towards the next location. Note that a strength of 1.0f will result in an instant snap to the location and a zeroing
+			// of the velocity
 			Offset += OffsetDeltaToSnap * SnapToStrength;
 			OffsetVelocity = FMath::Lerp(OffsetVelocity, 0.0f, SnapToStrength);
 
 			// Update the offset with any residual velocity
 			Offset += OffsetVelocity * DeltaTime;
 
-			// Dampen the velocity. Zero the velocity below a threshold to prevent potentially ugly slow crawl when the numbers get very small.
+			// Dampen the velocity. Zero the velocity below a threshold to prevent potentially ugly slow crawl when the numbers get very
+			// small.
 			if (FMath::Abs(OffsetVelocity = FMath::Lerp(OffsetVelocity, 0.0f, VelocityDamping)) < 0.0001f)
 			{
 				OffsetVelocity = 0.0f;
@@ -302,7 +307,8 @@ void UUxtScrollingObjectCollection::TickCollectionOffset(const float DeltaTime)
 
 	// apply the calculated offset based on the InteractionOffset, this should be valid to do regardless
 	// of whether there is an active interaction or not.
-	CollectionRoot->SetRelativeLocation(GetCurrentNetOffset() * (ScrollDirection == EUxtScrollDirection::UpAndDown ? FVector::UpVector : FVector::RightVector));
+	CollectionRoot->SetRelativeLocation(
+		GetCurrentNetOffset() * (ScrollDirection == EUxtScrollDirection::UpAndDown ? FVector::UpVector : FVector::RightVector));
 }
 
 /**
@@ -321,8 +327,8 @@ void UUxtScrollingObjectCollection::InitializeCollection()
 	// If the @ScrollDirection property is set to LeftAndRight then all that needs to be done at the point
 	// is to swap the axis in which the offsets are applied, placement logic remains the same
 	// Use pointers to member to make this transparent within the loop below.
-	float FVector::* pTier = &FVector::Y;
-	float FVector::* pOrtho = &FVector::Z;
+	float FVector::*pTier = &FVector::Y;
+	float FVector::*pOrtho = &FVector::Z;
 	float TierOffset = TierDir * CellWidth;
 	float OrthoOffset = OrthoDir * CellHeight;
 	if (ScrollDirection == EUxtScrollDirection::LeftAndRight)
@@ -374,7 +380,6 @@ void UUxtScrollingObjectCollection::InitializeCollection()
 	Properties.Center.*pTier = TierOffset * (Tiers - 1) * 0.5f;
 	Properties.Center.*pOrtho = OrthoOffset * (ViewableArea - 1) * 0.5f;
 
-
 	if (BackPlate)
 	{
 		FVector CurrentRelative = BackPlate->GetRelativeLocation();
@@ -382,12 +387,7 @@ void UUxtScrollingObjectCollection::InitializeCollection()
 		CurrentRelative.Z = Properties.Center.Z;
 		BackPlate->SetRelativeLocation(CurrentRelative);
 		BackPlate->SetRelativeScale3D(FVector(Properties.Width, Properties.Height, 1.0f));
-
 	}
-
-
-
-
 
 	// Raise event so that the containing Blueprint can respond
 	if (OnCollectionUpdated.IsBound())
@@ -395,7 +395,7 @@ void UUxtScrollingObjectCollection::InitializeCollection()
 		OnCollectionUpdated.Broadcast(Properties);
 	}
 
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 	bCollectionInitializedInEditor = true;
 #endif // WITH_EDITORONLY_DATA
 }
@@ -406,9 +406,9 @@ void UUxtScrollingObjectCollection::InitializeCollection()
 void UUxtScrollingObjectCollection::ResetCollectionVisibility()
 {
 	// Based on the current total offset of the collection we can determine which items are visible
-	// within the viewable area. The offset is signed such that an offset below zero mean that the 
+	// within the viewable area. The offset is signed such that an offset below zero mean that the
 	// first visible entry would have a negative index (if it existed), conversely a positive offset
-	// means that entry 0 is off the front of the viewable area and we can see a section of entries 
+	// means that entry 0 is off the front of the viewable area and we can see a section of entries
 	// starting with  a later entry.
 	// When calculating the first visible we should round down; similarly we should round up for the
 	// last visible. Hence we can't rely on an implicit float to in cast.
@@ -427,7 +427,7 @@ void UUxtScrollingObjectCollection::ResetCollectionVisibility()
 		Actors[i]->SetActorTickEnabled(!bHidden);
 		Actors[i]->SetActorEnableCollision(!bHidden);
 
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 		Actors[i]->SetIsTemporarilyHiddenInEditor(bHidden);
 #endif // WITH_EDITORONLY_DATA
 	}
@@ -440,7 +440,7 @@ void UUxtScrollingObjectCollection::ConfigureBoxComponent()
 {
 	checkf(BoxComponent, TEXT("Attempting to configure box component before it has been created in BeginPlay."));
 
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 	check(bCollectionInitializedInEditor);
 #endif // WITH_EDITORONLY_DATA
 
@@ -495,14 +495,14 @@ void UUxtScrollingObjectCollection::ConfigureBoxComponent()
 float UUxtScrollingObjectCollection::GetScrollOffsetFromLocation(const FVector LocalSpaceLocation) const
 {
 	// We know that the scroll offset is aligned to one of two possible axes in local space.
-	const float FVector::* pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Z : &FVector::Y);
+	const float FVector::*pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Z : &FVector::Y);
 	return LocalSpaceLocation.*pOffset;
 }
 
 float UUxtScrollingObjectCollection::GetTierOffsetFromLocation(const FVector LocalSpaceLocation) const
 {
 	// We know that the tier offset is aligned to one of two possible axes in local space.
-	const float FVector::* pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Y : &FVector::Z);
+	const float FVector::*pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Y : &FVector::Z);
 	return LocalSpaceLocation.*pOffset;
 }
 
@@ -545,7 +545,8 @@ void UUxtScrollingObjectCollection::SetTiers(int32 IncomingTiers)
 /**
  *
  */
-void UUxtScrollingObjectCollection::PageBy(const int32 NumPages, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& callback)
+void UUxtScrollingObjectCollection::PageBy(
+	const int32 NumPages, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& callback)
 {
 	MoveByItems(NumPages * ViewableArea, bAnimate, callback);
 }
@@ -553,7 +554,8 @@ void UUxtScrollingObjectCollection::PageBy(const int32 NumPages, const bool bAni
 /**
  *
  */
-void UUxtScrollingObjectCollection::MoveByItems(const int32 NumItems, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& Callback)
+void UUxtScrollingObjectCollection::MoveByItems(
+	const int32 NumItems, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& Callback)
 {
 	// In order to keep things simple lets not allow the pagination request if ...
 	// ... the collection is already in the middle of another pagination.
@@ -574,13 +576,14 @@ void UUxtScrollingObjectCollection::MoveByItems(const int32 NumItems, const bool
 
 	// What is the target offset that will take us where we want to be?
 	// Remember to account for the possibility that we are halfway into a cell
-	// Also we should clamp the current net offset to the allowable range to adjust for the 
+	// Also we should clamp the current net offset to the allowable range to adjust for the
 	// edge case where we are mid bounce and don't want that to effect where we end up
 	float MinOffset, MaxOffset;
 	GetValidOffsetRange(&MinOffset, &MaxOffset);
 	const float EffectiveOffset = FMath::Clamp(GetCurrentNetOffset(), MinOffset, MaxOffset);
 	const float SingleCellOffset = GetSingleCellOffset();
-	const float CurrentOffsetIntoCell = SingleCellOffset * (EffectiveOffset / SingleCellOffset - FMath::FloorToFloat(EffectiveOffset / SingleCellOffset));
+	const float CurrentOffsetIntoCell =
+		SingleCellOffset * (EffectiveOffset / SingleCellOffset - FMath::FloorToFloat(EffectiveOffset / SingleCellOffset));
 
 	// what is the valid range of offset deltas that can be applied by this pagination
 	// i.e. we don't want the pagination to scroll past the end of the collection
@@ -611,7 +614,6 @@ void UUxtScrollingObjectCollection::AddActorToCollection(AActor* ActorToAdd)
 		InitializeCollection();
 		ConfigureBoxComponent();
 	}
-
 }
 
 /**
@@ -625,7 +627,7 @@ void UUxtScrollingObjectCollection::GetValidOffsetRange(float* const Minimum, fl
 
 int UUxtScrollingObjectCollection::ConvertWorldSpacePositionToButtonIndex(FVector WorldSpaceLocation)
 {
-	//Setup like we did for the initial layout
+	// Setup like we did for the initial layout
 	const float TierDir = -1.0f;
 	const float OrthoDir = -1.0f;
 
@@ -633,7 +635,6 @@ int UUxtScrollingObjectCollection::ConvertWorldSpacePositionToButtonIndex(FVecto
 	float OrthoOffset = CellHeight;
 	float TierBoundsOffset = 0.5f;
 	float OrthoBoundsOffset = -0.5f;
-
 
 	if (ScrollDirection == EUxtScrollDirection::LeftAndRight)
 	{
@@ -647,20 +648,19 @@ int UUxtScrollingObjectCollection::ConvertWorldSpacePositionToButtonIndex(FVecto
 
 	// Map local space position onto grid
 
-	//Get Row 
+	// Get Row
 	float OrthPosition = GetScrollOffsetFromLocation(LocalSpacePosition) * OrthoDir;
-	OrthPosition += OrthoBoundsOffset * OrthoOffset; // offset by 1/2 height to account for bounds : middle of actor isn't the boundary	
+	OrthPosition += OrthoBoundsOffset * OrthoOffset; // offset by 1/2 height to account for bounds : middle of actor isn't the boundary
 	int SelectedRow = FMath::Max(0, FMath::FloorToInt(OrthPosition / OrthoOffset));
 	SelectedRow = SelectedRow * Tiers;
-	//Get Column
+	// Get Column
 	float TierPosition = GetTierOffsetFromLocation(LocalSpacePosition) * TierDir;
-	TierPosition += TierBoundsOffset * TierOffset; // offset by 1/2 height to account for bounds : middle of actor isn't the boundary	
+	TierPosition += TierBoundsOffset * TierOffset; // offset by 1/2 height to account for bounds : middle of actor isn't the boundary
 	int SelectedTier = FMath::Max(FMath::FloorToInt(TierPosition / TierOffset), 0);
 
 	// Merge the column and row indexes
 	return SelectedRow + SelectedTier;
 }
-
 
 void UUxtScrollingObjectCollection::CheckScrollOrClick()
 {
@@ -686,14 +686,10 @@ void UUxtScrollingObjectCollection::CheckScrollOrClick()
 						{
 							PokeTarget->OnBeginPoke_Implementation(Pointer);
 						}
-
 					}
-
 				}
-
 			}
 		}
-
 	}
 }
 
@@ -721,14 +717,10 @@ void UUxtScrollingObjectCollection::CheckScrollOrClickFarPointer()
 						{
 							FarTarget->OnFarPressed_Implementation(Pointer);
 						}
-
 					}
-
 				}
-
 			}
 		}
-
 	}
 }
 
@@ -750,8 +742,7 @@ bool UUxtScrollingObjectCollection::VerifyAndEvaluatePaginationCurve(const float
 	}
 }
 
-
-#if WITH_EDITORONLY_DATA 
+#if WITH_EDITORONLY_DATA
 /**
  *
  */
@@ -762,14 +753,12 @@ void UUxtScrollingObjectCollection::PostEditChangeProperty(FPropertyChangedEvent
 	InitializeCollection();
 }
 
-#endif // WITH_EDITORONLY_DATA 
-
+#endif // WITH_EDITORONLY_DATA
 
 bool UUxtScrollingObjectCollection::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	return Primitive == BoxComponent;
 }
-
 
 void UUxtScrollingObjectCollection::OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer)
 {
@@ -784,7 +773,7 @@ void UUxtScrollingObjectCollection::OnBeginPoke_Implementation(UUxtNearPointerCo
 	{
 		PokePointer = Pointer;
 		// Need to lock focus so that nothing contained within the collection has the opportunity to do so
-		// otherwise things start to get quite messy. Events will be passed to objects contained by the 
+		// otherwise things start to get quite messy. Events will be passed to objects contained by the
 		// collection if they implement the interface IUxtCollectionObject.
 		Pointer->SetFocusLocked(true);
 
@@ -798,16 +787,16 @@ void UUxtScrollingObjectCollection::OnBeginPoke_Implementation(UUxtNearPointerCo
 		UWorld* World = GetWorld();
 		if (World)
 		{
-			World->GetTimerManager().SetTimer(ScrollOrClickHandle, this, &UUxtScrollingObjectCollection::CheckScrollOrClick, ScrollOrClickTime, false);
+			World->GetTimerManager().SetTimer(
+				ScrollOrClickHandle, this, &UUxtScrollingObjectCollection::CheckScrollOrClick, ScrollOrClickTime, false);
 		}
 
-
 		// Work around for issue when bReleaseAtScrollBoundary is false. In this case EUxtPokeBehaviour::FrontFace
-		// is returned from GetPokeBehaviour_Implementation. This results in a call to IsFrontFacePokeEnded (UxtNearPointerComponent.cpp) 
-		// from UUxtNearPointerComponent::UpdatePokeInteraction. From a casual reading of that function it appears as if the SphereAABBIntersection
-		// test will result in the test failing if the cursor moves out of the side of the box, and not just if the cursor is in front of the front face.
-		// Again, this is a very casual reading of the function but it does appear to match the behaviour the we are seeing.
-		// So to work around this temporarily, we can just pad out the extents of the box in Y and Z directions.
+		// is returned from GetPokeBehaviour_Implementation. This results in a call to IsFrontFacePokeEnded (UxtNearPointerComponent.cpp)
+		// from UUxtNearPointerComponent::UpdatePokeInteraction. From a casual reading of that function it appears as if the
+		// SphereAABBIntersection test will result in the test failing if the cursor moves out of the side of the box, and not just if the
+		// cursor is in front of the front face. Again, this is a very casual reading of the function but it does appear to match the
+		// behaviour the we are seeing. So to work around this temporarily, we can just pad out the extents of the box in Y and Z directions.
 		if (!bReleaseAtScrollBoundary)
 		{
 			BoxComponent->SetBoxExtent(FVector(BoxComponentExtents.X, BoxComponentExtents.Y * 2.0f, BoxComponentExtents.Z * 2.0f));
@@ -822,9 +811,13 @@ void UUxtScrollingObjectCollection::OnUpdatePoke_Implementation(UUxtNearPointerC
 {
 	if (PokePointer.Get() == Pointer)
 	{
-		InteractionOffset = FMath::Lerp(InteractionOffset, GetScrollOffsetFromLocation(LocationWorldToLocal(Pointer->GetGrabPointerTransform().GetLocation())) - InteractionOrigin, ScrollSmoothing);
+		InteractionOffset = FMath::Lerp(
+			InteractionOffset,
+			GetScrollOffsetFromLocation(LocationWorldToLocal(Pointer->GetGrabPointerTransform().GetLocation())) - InteractionOrigin,
+			ScrollSmoothing);
 
-		// If, at any point, InteractionOffset becomes larger that the ClickMovementThreshold then we need to record that fact, and alert any interested parties.
+		// If, at any point, InteractionOffset becomes larger that the ClickMovementThreshold then we need to record that fact, and alert
+		// any interested parties.
 		if (FMath::Abs(InteractionOffset) > ClickMovementThreshold)
 		{
 			bHasHitClickMovementThreshold = true;
@@ -867,7 +860,8 @@ EUxtPokeBehaviour UUxtScrollingObjectCollection::GetPokeBehaviour_Implementation
 	return bReleaseAtScrollBoundary ? EUxtPokeBehaviour::Volume : EUxtPokeBehaviour::FrontFace;
 }
 
-bool UUxtScrollingObjectCollection::GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+bool UUxtScrollingObjectCollection::GetClosestPoint_Implementation(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
 {
 	OutNormal = GetComponentTransform().GetUnitAxis(EAxis::X);
 
@@ -893,7 +887,7 @@ void UUxtScrollingObjectCollection::OnFarPressed_Implementation(UUxtFarPointerCo
 	{
 		FarPointer = Pointer;
 		// Need to lock focus so that nothing contained within the collection has the opportunity to do so
-		// otherwise things start to get quite messy. Events will be passed to objects contained by the 
+		// otherwise things start to get quite messy. Events will be passed to objects contained by the
 		// collection if they implement the interface IUxtCollectionObject.
 		Pointer->SetFocusLocked(true);
 
@@ -907,9 +901,9 @@ void UUxtScrollingObjectCollection::OnFarPressed_Implementation(UUxtFarPointerCo
 		UWorld* World = GetWorld();
 		if (World)
 		{
-			World->GetTimerManager().SetTimer(ScrollOrClickHandle, this, &UUxtScrollingObjectCollection::CheckScrollOrClickFarPointer, ScrollOrClickTime, false);
+			World->GetTimerManager().SetTimer(
+				ScrollOrClickHandle, this, &UUxtScrollingObjectCollection::CheckScrollOrClickFarPointer, ScrollOrClickTime, false);
 		}
-
 	}
 }
 
@@ -920,9 +914,12 @@ void UUxtScrollingObjectCollection::OnFarDragged_Implementation(UUxtFarPointerCo
 {
 	if (FarPointer.Get() == Pointer)
 	{
-		InteractionOffset = FMath::Lerp(InteractionOffset, GetScrollOffsetFromLocation(LocationWorldToLocal(Pointer->GetPointerOrigin())) - InteractionOrigin, ScrollSmoothing);
+		InteractionOffset = FMath::Lerp(
+			InteractionOffset, GetScrollOffsetFromLocation(LocationWorldToLocal(Pointer->GetPointerOrigin())) - InteractionOrigin,
+			ScrollSmoothing);
 
-		// If, at any point, InteractionOffset becomes larger that the ClickMovementThreshold then we need to record that fact, and alert any interested parties.
+		// If, at any point, InteractionOffset becomes larger that the ClickMovementThreshold then we need to record that fact, and alert
+		// any interested parties.
 		if (FMath::Abs(InteractionOffset) > ClickMovementThreshold)
 		{
 			bHasHitClickMovementThreshold = true;
@@ -952,7 +949,5 @@ void UUxtScrollingObjectCollection::OnFarReleased_Implementation(UUxtFarPointerC
 			FarTarget->OnFarReleased_Implementation(Pointer);
 			FarTarget = nullptr;
 		}
-
 	}
 }
-

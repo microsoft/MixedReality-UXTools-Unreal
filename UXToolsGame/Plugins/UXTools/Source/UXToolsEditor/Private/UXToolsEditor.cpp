@@ -2,22 +2,23 @@
 // Licensed under the MIT License.
 
 #include "UXToolsEditor.h"
-#include "UxtPressableButtonComponentVisualizer.h"
-#include "UxtIconBrushCustomization.h"
-#include "Controls/UxtIconBrush.h"
-#include "UxtTooltipSpawnerComponentVisualizer.h"
-#include "Tooltips/UxtTooltipSpawnerComponent.h"
-#include "UnrealEdGlobals.h"
-#include "Editor/UnrealEdEngine.h"
+
 #include "ISettingsModule.h"
+#include "UnrealEdGlobals.h"
+#include "UxtIconBrushCustomization.h"
+#include "UxtPressableButtonComponentVisualizer.h"
 #include "UxtRuntimeSettings.h"
+#include "UxtTooltipSpawnerComponentVisualizer.h"
+
+#include "Controls/UxtIconBrush.h"
+#include "Editor/UnrealEdEngine.h"
+#include "Tooltips/UxtTooltipSpawnerComponent.h"
 
 IMPLEMENT_GAME_MODULE(FUXToolsEditorModule, UXToolsEditor);
 
 DEFINE_LOG_CATEGORY(UXToolsEditor)
 
 #define LOCTEXT_NAMESPACE "UXToolsEditor"
-
 
 void FUXToolsEditorModule::StartupModule()
 {
@@ -39,21 +40,20 @@ void FUXToolsEditorModule::StartupModule()
 		}
 	}
 
-
 	// Register customizations
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
-	PropertyModule.RegisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName(), FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FUxtIconBrushCustomization::MakeInstance));
+	PropertyModule.RegisterCustomPropertyTypeLayout(
+		FUxtIconBrush::StaticStruct()->GetFName(),
+		FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FUxtIconBrushCustomization::MakeInstance));
 
 	// Register settings
 	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
 	if (SettingsModule != nullptr)
 	{
 		{
-			SettingsModule->RegisterSettings("Project", "Plugins", "UXTools",
-				LOCTEXT("RuntimeSettingsName", "UX Tools"),
-				LOCTEXT("RuntimeSettingsDescription", "Project settings for UX Tools"),
-				GetMutableDefault<UUxtRuntimeSettings>()
-			);
+			SettingsModule->RegisterSettings(
+				"Project", "Plugins", "UXTools", LOCTEXT("RuntimeSettingsName", "UX Tools"),
+				LOCTEXT("RuntimeSettingsDescription", "Project settings for UX Tools"), GetMutableDefault<UUxtRuntimeSettings>());
 		}
 	}
 }

@@ -4,9 +4,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Interface.h"
-#include "UxtFarTarget.generated.h"
 
+#include "UObject/Interface.h"
+
+#include "UxtFarTarget.generated.h"
 
 UINTERFACE(BlueprintType)
 class UUxtFarTarget : public UInterface
@@ -22,7 +23,6 @@ class UXTOOLS_API IUxtFarTarget
 	GENERATED_BODY()
 
 public:
-
 	/** Returns true if the given primitive should be considerered a valid focus target. */
 	UFUNCTION(BlueprintNativeEvent)
 	bool IsFarFocusable(const UPrimitiveComponent* Primitive);

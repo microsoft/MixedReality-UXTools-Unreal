@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 #include "Behaviors/UxtFollowComponent.h"
-#include "Kismet/GameplayStatics.h"
+
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "Utils/UxtInternalFunctionLibrary.h"
-
 
 namespace
 {
@@ -46,7 +46,8 @@ namespace
 		return (PI / 2) - FMath::Acos(FVector::DotProduct(Vec, Normal));
 	}
 
-	bool AngularClamp(FTransform FollowTransform, bool bIgnoreVertical, float MaxHorizontalDegrees, float MaxVerticalDegrees, FVector& CurrentToTarget)
+	bool AngularClamp(
+		FTransform FollowTransform, bool bIgnoreVertical, float MaxHorizontalDegrees, float MaxVerticalDegrees, FVector& CurrentToTarget)
 	{
 		if (CurrentToTarget.Size() <= 0)
 		{
@@ -110,8 +111,10 @@ namespace
 		return bAngularClamped;
 	}
 
-	bool DistanceClamp(FTransform FollowTransform, bool bMoveToDefault, bool bIgnorePitch, float MinDistance, float DefaultDistance, float MaxDistance, FVector& CurrentToTarget)
- 	{
+	bool DistanceClamp(
+		FTransform FollowTransform, bool bMoveToDefault, bool bIgnorePitch, float MinDistance, float DefaultDistance, float MaxDistance,
+		FVector& CurrentToTarget)
+	{
 		FVector GoalDirection = CurrentToTarget;
 		GoalDirection.Normalize();
 
@@ -161,7 +164,8 @@ namespace
 		}
 	}
 
-	void ComputeOrientation(EUxtFollowOrientBehavior OrientationType, FVector FollowPosition, FVector CurrentToTarget, FQuat& CurrentRotation)
+	void ComputeOrientation(
+		EUxtFollowOrientBehavior OrientationType, FVector FollowPosition, FVector CurrentToTarget, FQuat& CurrentRotation)
 	{
 		switch (OrientationType)
 		{
@@ -203,7 +207,7 @@ namespace
 
 		return FMath::RadiansToDegrees(Angle) > DeadzoneDegrees;
 	}
-}
+} // namespace
 
 UUxtFollowComponent::UUxtFollowComponent()
 {
@@ -240,7 +244,6 @@ void UUxtFollowComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 		UpdateTransformToGoal(!bInterpolatePose, DeltaTime);
 	}
 }
-
 
 FTransform UUxtFollowComponent::GetFollowTransform()
 {
@@ -284,7 +287,8 @@ void UUxtFollowComponent::UpdateLeashing()
 		}
 		else
 		{
-			bAngularClamped = AngularClamp(FollowTransform, bIgnoreCameraPitchAndRoll, MaxViewHorizontalDegrees, MaxViewVerticalDegrees, ToTarget);
+			bAngularClamped =
+				AngularClamp(FollowTransform, bIgnoreCameraPitchAndRoll, MaxViewHorizontalDegrees, MaxViewVerticalDegrees, ToTarget);
 		}
 	}
 
@@ -292,15 +296,15 @@ void UUxtFollowComponent::UpdateLeashing()
 	bool bDistanceClamped = false;
 	if (!bIgnoreDistanceClamp)
 	{
-		bDistanceClamped = DistanceClamp(FollowTransform, bAngularClamped, bIgnoreCameraPitchAndRoll, MinimumDistance, DefaultDistance, MaximumDistance, ToTarget);
+		bDistanceClamped = DistanceClamp(
+			FollowTransform, bAngularClamped, bIgnoreCameraPitchAndRoll, MinimumDistance, DefaultDistance, MaximumDistance, ToTarget);
 		ApplyVerticalClamp(VerticalMaxDistance, ToTarget);
 	}
 
 	// Figure out goal rotation of the element based on orientation setting
 	FQuat NewGoalRotation = FQuat::Identity;
 	EUxtFollowOrientBehavior OrientationBehavior = OrientationType;
-	if (bAngularClamped || bDistanceClamped ||
-		OrientationType == EUxtFollowOrientBehavior::FaceCamera ||
+	if (bAngularClamped || bDistanceClamped || OrientationType == EUxtFollowOrientBehavior::FaceCamera ||
 		PassedOrientationDeadzone(ToTarget, TargetRotation, FollowTransform.GetLocation(), OrientToCameraDeadzoneDegrees))
 	{
 		OrientationBehavior = EUxtFollowOrientBehavior::FaceCamera;

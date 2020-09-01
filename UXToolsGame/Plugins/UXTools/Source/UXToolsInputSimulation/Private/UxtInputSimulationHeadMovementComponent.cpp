@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 #include "UxtInputSimulationHeadMovementComponent.h"
+
 #include "UxtRuntimeSettings.h"
 
 #include "Camera/PlayerCameraManager.h"
-#include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 #include "Engine/LocalPlayer.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 #define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
 
@@ -107,7 +108,8 @@ void UUxtInputSimulationHeadMovementComponent::BeginPlay()
 	MovementInput = FVector::ZeroVector;
 }
 
-void UUxtInputSimulationHeadMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UUxtInputSimulationHeadMovementComponent::TickComponent(
+	float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 

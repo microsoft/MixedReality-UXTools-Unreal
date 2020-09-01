@@ -3,20 +3,21 @@
 
 #include "UxtTestUtils.h"
 
-#include "Components/StaticMeshComponent.h"
-#include "GameFramework/Actor.h"
-#include "Tests/AutomationCommon.h"
 #include "Engine.h"
 #include "EngineUtils.h"
-#include "Features/IModularFeatures.h"
+#include "UxtTestHandTracker.h"
+#include "UxtTestTargetComponent.h"
 
+#include "Components/StaticMeshComponent.h"
 #include "Controls/UxtFarBeamComponent.h"
 #include "Controls/UxtFarCursorComponent.h"
+#include "Features/IModularFeatures.h"
+#include "GameFramework/Actor.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
+#include "Input/UxtPointerComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
-#include "UxtTestTargetComponent.h"
-#include "UxtTestHandTracker.h"
+#include "Tests/AutomationCommon.h"
 
 namespace
 {
@@ -47,7 +48,7 @@ namespace
 
 		return Actor;
 	}
-}
+} // namespace
 
 FUxtTestHandTracker UxtTestUtils::TestHandTracker;
 
@@ -70,7 +71,7 @@ UWorld* UxtTestUtils::LoadMap(const FString& MapName)
 
 void UxtTestUtils::ExitGame()
 {
-	// Copied from FExitGameCommand 
+	// Copied from FExitGameCommand
 	if (APlayerController* TargetPC = UGameplayStatics::GetPlayerController(GetTestWorld(), 0))
 	{
 		TargetPC->ConsoleCommand(TEXT("Exit"), true);
@@ -79,11 +80,13 @@ void UxtTestUtils::ExitGame()
 
 // Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
 // Marked as temporary there, hence, this one is temporary, too.
-UWorld* UxtTestUtils::GetTestWorld() {
+UWorld* UxtTestUtils::GetTestWorld()
+{
 	const TIndirectArray<FWorldContext>& WorldContexts = GEngine->GetWorldContexts();
-	for (const FWorldContext& Context : WorldContexts) {
-		if (((Context.WorldType == EWorldType::PIE) || (Context.WorldType == EWorldType::Game))
-			&& (Context.World() != nullptr)) {
+	for (const FWorldContext& Context : WorldContexts)
+	{
+		if (((Context.WorldType == EWorldType::PIE) || (Context.WorldType == EWorldType::Game)) && (Context.World() != nullptr))
+		{
 			return Context.World();
 		}
 	}
@@ -93,7 +96,7 @@ UWorld* UxtTestUtils::GetTestWorld() {
 
 UWorld* UxtTestUtils::CreateTestWorld()
 {
-	UWorld *world = UWorld::CreateWorld(EWorldType::PIE, true, TEXT("TestWorld"));
+	UWorld* world = UWorld::CreateWorld(EWorldType::PIE, true, TEXT("TestWorld"));
 	return world;
 }
 
@@ -144,12 +147,19 @@ void UxtTestUtils::DisableTestHandTracker()
 	}
 }
 
-UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName Name, const FVector &Location, EControllerHand Hand, bool IsGrasped, bool AddMeshVisualizer)
+void UxtTestUtils::DisablePointerSmoothing(UUxtPointerComponent* Pointer)
+{
+	Pointer->LocationSmoothingFactor = 0;
+	Pointer->RotationSmoothingFactor = 0;
+}
+
+UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(
+	UWorld* World, FName Name, const FVector& Location, EControllerHand Hand, bool IsGrasped, bool AddMeshVisualizer)
 {
 	FActorSpawnParameters ActorParams;
 	ActorParams.Name = Name;
 	ActorParams.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
-	AActor *PointerActor = World->SpawnActor<AActor>(ActorParams);
+	AActor* PointerActor = World->SpawnActor<AActor>(ActorParams);
 
 	USceneComponent* Root = NewObject<USceneComponent>(PointerActor);
 	PointerActor->SetRootComponent(Root);
@@ -159,6 +169,7 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 	UUxtNearPointerComponent* Pointer = NewObject<UUxtNearPointerComponent>(PointerActor);
 	Pointer->RegisterComponent();
 	Pointer->Hand = Hand;
+	DisablePointerSmoothing(Pointer);
 
 	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped);
 	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Location);
@@ -174,7 +185,8 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 	return Pointer;
 }
 
-UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand, bool IsGrasped)
+UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(
+	UWorld* World, FName Name, const FVector& Position, EControllerHand Hand, bool IsGrasped)
 {
 	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Position, Hand);
 	UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FQuat::Identity, Hand);
@@ -195,6 +207,7 @@ UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Nam
 	UUxtFarPointerComponent* Pointer = NewObject<UUxtFarPointerComponent>(PointerActor);
 	Pointer->RegisterComponent();
 	Pointer->Hand = Hand;
+	DisablePointerSmoothing(Pointer);
 
 	// Beam
 	UUxtFarBeamComponent* Beam = NewObject<UUxtFarBeamComponent>(PointerActor);
@@ -209,17 +222,19 @@ UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Nam
 	return Pointer;
 }
 
-UTestGrabTarget* UxtTestUtils::CreateNearPointerGrabTarget(UWorld *World, const FVector &Location, const FString &MeshFilename, float MeshScale)
+UTestGrabTarget* UxtTestUtils::CreateNearPointerGrabTarget(
+	UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
 {
 	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale);
 
-	UTestGrabTarget *TestTarget = NewObject<UTestGrabTarget>(Actor);
+	UTestGrabTarget* TestTarget = NewObject<UTestGrabTarget>(Actor);
 	TestTarget->RegisterComponent();
 
 	return TestTarget;
 }
 
-UTestPokeTarget* UxtTestUtils::CreateNearPointerPokeTarget(UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
+UTestPokeTarget* UxtTestUtils::CreateNearPointerPokeTarget(
+	UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
 {
 	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale);
 

@@ -9,7 +9,6 @@ EUxtTransformMode UUxtMoveAxisConstraint::GetConstraintType() const
 
 void UUxtMoveAxisConstraint::ApplyConstraint(FTransform& Transform) const
 {
-
 	FQuat InverseRotation = WorldPoseOnManipulationStart.GetRotation().Inverse();
 	FVector Position = Transform.GetLocation();
 

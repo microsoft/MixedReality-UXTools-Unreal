@@ -2,23 +2,22 @@
 // Licensed under the MIT License.
 
 #include "UxtInputSimulationActor.h"
+
 #include "UxtInputSimulationHeadMovementComponent.h"
 #include "UxtInputSimulationLocalPlayerSubsystem.h"
 #include "UxtRuntimeSettings.h"
-
 #include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
 #include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerInput.h"
-#include "Misc/RuntimeErrors.h"
 #include "Kismet/GameplayStatics.h"
+#include "Misc/RuntimeErrors.h"
 
 #define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
 
-AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	// Tick after updates to copy data to the input simulation subsystem
 	PrimaryActorTick.bCanEverTick = true;
@@ -107,7 +106,7 @@ namespace
 	const FName Axis_TurnRate = TEXT("InputSimulation_TurnRate");
 	const FName Axis_LookUp = TEXT("InputSimulation_LookUp");
 	const FName Axis_LookUpRate = TEXT("InputSimulation_LookUpRate");
-}
+} // namespace
 
 static void InitializeDefaultInputSimulationMappings()
 {
@@ -156,7 +155,7 @@ static void InitializeDefaultInputSimulationMappings()
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_LookUpRate, EKeys::Gamepad_RightY, -1.f));
 
 		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_Scroll, EKeys::MouseWheelAxis, 3.f));
-		//UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_ScrollRate, ???, 1.f));
+		// UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_ScrollRate, ???, 1.f));
 	}
 }
 
@@ -374,7 +373,9 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 			HandState.bHasPointerPose = true;
 
 			USceneComponent* ParentComp = MeshComp->GetAttachParent();
-			FVector ShoulderPos = (Hand == EControllerHand::Left ? Settings->ShoulderPosition.MirrorByVector(FVector::RightVector) : Settings->ShoulderPosition);
+			FVector ShoulderPos =
+				(Hand == EControllerHand::Left ? Settings->ShoulderPosition.MirrorByVector(FVector::RightVector)
+											   : Settings->ShoulderPosition);
 			if (ParentComp)
 			{
 				ShoulderPos = ParentComp->GetComponentTransform().TransformPosition(ShoulderPos);

@@ -24,7 +24,6 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	OneHandRotationMode = EUxtOneHandRotationMode::MaintainOriginalRotation;
 	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
 	ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::KeepVelocity | EUxtReleaseBehavior::KeepAngularVelocity);
-	Smoothing = 100.0f;
 }
 
 void UUxtGenericManipulatorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -88,72 +87,74 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 	OutTargetTransform = InSourceTransform;
 	switch (OneHandRotationMode)
 	{
-		case EUxtOneHandRotationMode::MaintainOriginalRotation:
-		{
-			return true;
-		}
+	case EUxtOneHandRotationMode::MaintainOriginalRotation:
+	{
+		return true;
+	}
 
-		case EUxtOneHandRotationMode::RotateAboutObjectCenter:
-		{
-			FVector objectCenterAsPivot = InSourceTransform.GetLocation();
-			FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
-			OutTargetTransform.SetRotation(UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, objectCenterAsPivot).GetRotation());
-			return true;
-		}
+	case EUxtOneHandRotationMode::RotateAboutObjectCenter:
+	{
+		FVector objectCenterAsPivot = InSourceTransform.GetLocation();
+		FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
+		OutTargetTransform.SetRotation(
+			UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, objectCenterAsPivot).GetRotation());
+		return true;
+	}
 
-		case EUxtOneHandRotationMode::RotateAboutGrabPoint:
-		{
-			FVector GrabPointAsPivot = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, PrimaryPointerData);
-			FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
-			FQuat Orientation = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, GrabPointAsPivot).GetRotation();
-			OutTargetTransform.SetRotation(Orientation);
-			return true;
-		}
+	case EUxtOneHandRotationMode::RotateAboutGrabPoint:
+	{
+		FVector GrabPointAsPivot = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, PrimaryPointerData);
+		FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
+		FQuat Orientation =
+			UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, GrabPointAsPivot).GetRotation();
+		OutTargetTransform.SetRotation(Orientation);
+		return true;
+	}
 
-		case EUxtOneHandRotationMode::MaintainRotationToUser:
-		{
-			FQuat Orientation = GetViewInvariantRotation();
-			OutTargetTransform.SetRotation(Orientation);
-			return true;
-		}
+	case EUxtOneHandRotationMode::MaintainRotationToUser:
+	{
+		FQuat Orientation = GetViewInvariantRotation();
+		OutTargetTransform.SetRotation(Orientation);
+		return true;
+	}
 
-		case EUxtOneHandRotationMode::GravityAlignedMaintainRotationToUser:
-		{
-			FQuat Orientation = GetViewInvariantRotation();
+	case EUxtOneHandRotationMode::GravityAlignedMaintainRotationToUser:
+	{
+		FQuat Orientation = GetViewInvariantRotation();
 
-			// Decompose and keep only the gravity-aligned twist component of the orientation
-			FQuat OrientationSwing, OrientationTwist;
-			Orientation.ToSwingTwist(FVector::UpVector, OrientationSwing, OrientationTwist);
+		// Decompose and keep only the gravity-aligned twist component of the orientation
+		FQuat OrientationSwing, OrientationTwist;
+		Orientation.ToSwingTwist(FVector::UpVector, OrientationSwing, OrientationTwist);
 
-			OutTargetTransform.SetRotation(OrientationTwist);
-			return true;
-		}
+		OutTargetTransform.SetRotation(OrientationTwist);
+		return true;
+	}
 
-		case EUxtOneHandRotationMode::FaceUser:
-		{
-			FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
-			FVector ObjectLoc = InSourceTransform.GetLocation();
+	case EUxtOneHandRotationMode::FaceUser:
+	{
+		FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
+		FVector ObjectLoc = InSourceTransform.GetLocation();
 
-			// Make the object face the user
-			FVector Forward = HeadLoc - ObjectLoc;
-			FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
+		// Make the object face the user
+		FVector Forward = HeadLoc - ObjectLoc;
+		FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
 
-			OutTargetTransform.SetRotation(Orientation);
-			return true;
-		}
+		OutTargetTransform.SetRotation(Orientation);
+		return true;
+	}
 
-		case EUxtOneHandRotationMode::FaceAwayFromUser:
-		{
-			FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
-			FVector ObjectLoc = InSourceTransform.GetLocation();
+	case EUxtOneHandRotationMode::FaceAwayFromUser:
+	{
+		FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
+		FVector ObjectLoc = InSourceTransform.GetLocation();
 
-			// Make the object face away from the user
-			FVector Forward = ObjectLoc - HeadLoc;
-			FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
+		// Make the object face away from the user
+		FVector Forward = ObjectLoc - HeadLoc;
+		FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
 
-			OutTargetTransform.SetRotation(Orientation);
-			return true;
-		}
+		OutTargetTransform.SetRotation(Orientation);
+		return true;
+	}
 	}
 
 	return false;
@@ -194,7 +195,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 	Constraints->ApplyTranslationConstraints(TargetTransform, true, IsNearManipulation());
 
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	TargetTransform = SmoothTransform(TargetTransform, SmoothingFactor, SmoothingFactor, DeltaTime);
 
 	ApplyTargetTransform(TargetTransform);
 }
@@ -226,20 +227,19 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 		Constraints->ApplyTranslationConstraints(TargetTransform, false, IsNearManipulation());
 	}
 
-
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	TargetTransform = SmoothTransform(TargetTransform, SmoothingFactor, SmoothingFactor, DeltaTime);
 
 	ApplyTargetTransform(TargetTransform);
 }
 
-float UUxtGenericManipulatorComponent::GetSmoothing() const
+float UUxtGenericManipulatorComponent::GetSmoothingFactor() const
 {
-	return Smoothing;
+	return SmoothingFactor;
 }
 
-void UUxtGenericManipulatorComponent::SetSmoothing(float NewSmoothing)
+void UUxtGenericManipulatorComponent::SetSmoothingFactor(float NewSmoothingFactor)
 {
-	Smoothing = FMath::Max(NewSmoothing, 0.0f);
+	SmoothingFactor = FMath::Max(NewSmoothingFactor, 0.0f);
 }
 
 void UUxtGenericManipulatorComponent::OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
@@ -272,8 +272,8 @@ void UUxtGenericManipulatorComponent::OnRelease(UUxtGrabTargetComponent* Grabbab
 			const bool bKeepLinearVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepVelocity);
 			const bool bKeepAngularVelocity = ReleaseBehavior & static_cast<int32>(EUxtReleaseBehavior::KeepAngularVelocity);
 
-			if (const AUxtHandInteractionActor* Hand =
-				Cast<AUxtHandInteractionActor>(GrabPointer.NearPointer ? GrabPointer.NearPointer->GetOwner() : GrabPointer.FarPointer->GetOwner()))
+			if (const AUxtHandInteractionActor* Hand = Cast<AUxtHandInteractionActor>(
+					GrabPointer.NearPointer ? GrabPointer.NearPointer->GetOwner() : GrabPointer.FarPointer->GetOwner()))
 			{
 				Target->SetPhysicsLinearVelocity(bKeepLinearVelocity ? Hand->GetHandVelocity() : FVector::ZeroVector);
 				Target->SetPhysicsAngularVelocityInDegrees(bKeepAngularVelocity ? Hand->GetHandAngularVelocity() : FVector::ZeroVector);

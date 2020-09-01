@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "UObject/Interface.h"
+
 #include "UxtPokeTarget.generated.h"
 
 class UPrimitiveComponent;
@@ -31,7 +33,6 @@ class UXTOOLS_API IUxtPokeTarget
 	GENERATED_BODY()
 
 public:
-
 	/** Returns true if the given primitive should be considerered a valid focus target. */
 	UFUNCTION(BlueprintNativeEvent)
 	bool IsPokeFocusable(const UPrimitiveComponent* Primitive) const;
@@ -47,7 +48,7 @@ public:
 	/** Raised when a pointer focuses the actor. */
 	UFUNCTION(BlueprintNativeEvent)
 	void OnEnterPokeFocus(UUxtNearPointerComponent* Pointer);
-	
+
 	/** Raised when a pointer has been updated while focused. */
 	UFUNCTION(BlueprintNativeEvent)
 	void OnUpdatePokeFocus(UUxtNearPointerComponent* Pointer);

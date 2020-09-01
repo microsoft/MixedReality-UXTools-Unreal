@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
+
 #include "UxtTooltipSpawnerComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShowTooltip);
@@ -44,24 +46,27 @@ enum class EUxtTooltipRemainType : uint8
 };
 
 /**
-*  Component used to "script" the behavior of a dynamic tooltip. 
-*  This can be useful if your scene contains multiple tooltips and you don't want to create/render them all at once.
-*
-*  It's possible to configure upon what action the tooltip spawns/unspawn.
-*
-*  Different delays and lifetime can be configured.
-*
-*  OnHide and OnShow are broadcast when the tooltip is created/destroyed.
-*
-*  The Pivot can be used to offset the spawned tooltip.
-*/
-UCLASS( ClassGroup=("UXTools - Experimental"), meta=(BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtTooltipSpawnerComponent : public USceneComponent, public IUxtGrabTarget, public IUxtFarTarget, public IUxtPokeTarget
+ *  Component used to "script" the behavior of a dynamic tooltip.
+ *  This can be useful if your scene contains multiple tooltips and you don't want to create/render them all at once.
+ *
+ *  It's possible to configure upon what action the tooltip spawns/unspawn.
+ *
+ *  Different delays and lifetime can be configured.
+ *
+ *  OnHide and OnShow are broadcast when the tooltip is created/destroyed.
+ *
+ *  The Pivot can be used to offset the spawned tooltip.
+ */
+UCLASS(ClassGroup = ("UXTools - Experimental"), meta = (BlueprintSpawnableComponent))
+class UXTOOLS_API UUxtTooltipSpawnerComponent
+	: public USceneComponent
+	, public IUxtGrabTarget
+	, public IUxtFarTarget
+	, public IUxtPokeTarget
 {
 	GENERATED_UCLASS_BODY()
 
-public:	
-
+public:
 	/** Delegate to drive OnShow events. */
 	UPROPERTY(BlueprintAssignable, Category = "Tooltip")
 	FOnShowTooltip OnShowTooltip;
@@ -102,10 +107,10 @@ private:
 
 	/** Triggers the tooltip destruction procedure. */
 	void DestroyTooltip();
-	
+
 	/** If we're in timeout mode, this function will schedule the destruction of the toolip. */
 	void ScheduleDeathAfterLifetime();
-	
+
 	/** Parameter to script what will spawn the tooltip. */
 	UPROPERTY(EditAnywhere, Category = "Tooltip")
 	EUxtTooltipAppearType AppearType = EUxtTooltipAppearType::AppearOnFocusEnter;
@@ -162,8 +167,8 @@ private:
 	FTimerHandle TimerHandle;
 	/** Timers to control the Lifetime. */
 	FTimerHandle LifetimeTimerHandle;
-	
+
 	/** Tightly coupled with these classes to keep the interface clean. */
 	friend class FUxtTooltipSpawnerComponentVisualizer;
-	friend class TooltipSpawnerSpec;	
+	friend class TooltipSpawnerSpec;
 };

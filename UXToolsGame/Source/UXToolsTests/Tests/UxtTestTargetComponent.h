@@ -4,12 +4,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
-#include "Misc/AutomationTest.h"
-
 #include "FrameQueue.h"
+
+#include "Components/SceneComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
+#include "Misc/AutomationTest.h"
 
 #include "UxtTestTargetComponent.generated.h"
 
@@ -20,12 +20,13 @@ class FUxtTestHandTracker;
  * Target for grab tests that counts grab events.
  */
 UCLASS()
-class UXTOOLSTESTS_API UTestGrabTarget : public UActorComponent, public IUxtGrabTarget
+class UXTOOLSTESTS_API UTestGrabTarget
+	: public UActorComponent
+	, public IUxtGrabTarget
 {
 	GENERATED_BODY()
 
 public:
-
 	virtual void BeginPlay() override;
 
 	//
@@ -47,19 +48,19 @@ public:
 
 	// If the target should enable focus lock on the pointer while grabbed.
 	bool bUseFocusLock = false;
-
 };
 
 /**
  * Target for poke tests that counts poke events.
  */
 UCLASS()
-class UXTOOLSTESTS_API UTestPokeTarget : public UActorComponent, public IUxtPokeTarget
+class UXTOOLSTESTS_API UTestPokeTarget
+	: public UActorComponent
+	, public IUxtPokeTarget
 {
 	GENERATED_BODY()
 
 public:
-
 	virtual void BeginPlay() override;
 
 	//
@@ -67,7 +68,8 @@ public:
 
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
-	virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
+	virtual bool GetClosestPoint_Implementation(
+		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
@@ -84,5 +86,4 @@ public:
 
 	// If the target should enable focus lock on the pointer while poked.
 	bool bUseFocusLock = false;
-
 };

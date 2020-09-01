@@ -2,17 +2,20 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtPressableButtonComponent.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtFarPointerComponent.h"
+
 #include "UXTools.h"
+
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtInteractionUtils.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 
-#include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
+
 #include <Components/BoxComponent.h>
 #include <Components/ShapeComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include <GameFramework/Actor.h>
 
 // Sets default values for this component's properties
 UUxtPressableButtonComponent::UUxtPressableButtonComponent()
@@ -39,7 +42,7 @@ void UUxtPressableButtonComponent::SetFrontFaceCollisionFraction(float Distance)
 	}
 }
 
-USceneComponent* UUxtPressableButtonComponent::GetVisuals() const 
+USceneComponent* UUxtPressableButtonComponent::GetVisuals() const
 {
 	return Cast<USceneComponent>(VisualsReference.GetComponent(GetOwner()));
 }
@@ -159,8 +162,7 @@ void UUxtPressableButtonComponent::SetMaxPushDistance(float Distance)
 bool UUxtPressableButtonComponent::VisualBoundsFilter(const USceneComponent* Component)
 {
 	// Allow mesh and shape components to be considered in bounds calculations.
-	return (Cast <const UMeshComponent>(Component) != nullptr || 
-			Cast <const UShapeComponent>(Component) != nullptr);
+	return (Cast<const UMeshComponent>(Component) != nullptr || Cast<const UShapeComponent>(Component) != nullptr);
 }
 
 // Called when the game starts
@@ -293,7 +295,7 @@ bool UUxtPressableButtonComponent::CanEditChange(const FProperty* Property) cons
 
 	if (IsEditable && Property != nullptr)
 	{
-		// When a button's push behavior is compressible the max push distance is auto-calculated and should not be 
+		// When a button's push behavior is compressible the max push distance is auto-calculated and should not be
 		// edited by the user.
 		if (Property->GetFName() == GET_MEMBER_NAME_CHECKED(UUxtPressableButtonComponent, MaxPushDistance))
 		{
@@ -343,7 +345,8 @@ bool UUxtPressableButtonComponent::IsPokeFocusable_Implementation(const UPrimiti
 	return !bIsDisabled && (Primitive == BoxComponent);
 }
 
-bool UUxtPressableButtonComponent::GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+bool UUxtPressableButtonComponent::GetClosestPoint_Implementation(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
 {
 	OutNormal = GetComponentTransform().GetUnitAxis(EAxis::X);
 
@@ -421,9 +424,8 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
-	FVector Axis = bUseAbsolutePushDistance ?
-		GetComponentTransform().GetUnitAxis(EAxis::X) : 
-		GetComponentTransform().GetScaledAxis(EAxis::X);
+	FVector Axis =
+		bUseAbsolutePushDistance ? GetComponentTransform().GetUnitAxis(EAxis::X) : GetComponentTransform().GetScaledAxis(EAxis::X);
 	return GetRestPosition() - (Axis * CurrentPushDistance);
 }
 
@@ -501,7 +503,10 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 {
 	if (!BoxComponent)
 	{
-		UE_LOG(UXTools, Error, TEXT("Attempting to configure the box component for '%s' before it is initialised, the button will not work properly."), *GetOwner()->GetName());
+		UE_LOG(
+			UXTools, Error,
+			TEXT("Attempting to configure the box component for '%s' before it is initialised, the button will not work properly."),
+			*GetOwner()->GetName());
 		return;
 	}
 

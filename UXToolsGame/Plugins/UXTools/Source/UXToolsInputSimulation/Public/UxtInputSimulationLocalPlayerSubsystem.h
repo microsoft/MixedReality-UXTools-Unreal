@@ -5,8 +5,10 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
-#include "Subsystems/LocalPlayerSubsystem.h"
 #include "WindowsMixedRealityHandTrackingTypes.h"
+
+#include "Subsystems/LocalPlayerSubsystem.h"
+
 #include "UxtInputSimulationLocalPlayerSubsystem.generated.h"
 
 class AGameModeBase;
@@ -16,13 +18,11 @@ class UUxtInputSimulationState;
 
 /** Subsystem that creates an actor for simulation when a game is started. */
 UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationLocalPlayerSubsystem
-	: public ULocalPlayerSubsystem
+class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationLocalPlayerSubsystem : public ULocalPlayerSubsystem
 {
 	GENERATED_BODY()
 
 public:
-
 	/** Get the persistent simulation state */
 	UFUNCTION(BlueprintGetter)
 	UUxtInputSimulationState* GetSimulationState() const;
@@ -35,7 +35,6 @@ public:
 	virtual void Deinitialize() override;
 
 private:
-
 	void CreateActors(UWorld* World);
 	void CreateInputSimActor(UWorld* World);
 	void CreateHmdCameraActor(UWorld* World);
@@ -50,7 +49,6 @@ private:
 	void OnPostLoadMapWithWorld(UWorld* LoadedWorld);
 
 private:
-
 	/** Primary actor that performs input simulation and stores resulting data in the input simulation engine subsystem. */
 	TWeakObjectPtr<AActor> InputSimActorWeak;
 
@@ -62,5 +60,4 @@ private:
 
 	UPROPERTY(BlueprintGetter = GetSimulationState, Category = InputSimulation)
 	UUxtInputSimulationState* SimulationState;
-
 };

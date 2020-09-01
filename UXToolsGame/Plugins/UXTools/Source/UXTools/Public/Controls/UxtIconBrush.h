@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "UxtIconBrush.generated.h"
 
 class UFont;

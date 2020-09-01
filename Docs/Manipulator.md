@@ -31,13 +31,15 @@ Scaling uses the change in distance between hands.
 
 ### Smoothing
 
-The generic manipulator has a simple smoothing option to reduce jittering from noisy input. This becomes especially important with one-handed rotation, where hand tracking can be unreliable and the resulting transform amplifies jittering.
+In addition to pointers' smoothing (which is performed by default), a _Manipulator_ can apply a second pass of smoothing on top of it by using `UUxtManipulatorComponentBase::SmoothTransform`, which uses the same technique:
 
-The smoothing method is based on a low-pass filter that gets applied to the source transform location and rotation. The resulting actor transform `T_final` is a exponentially weighted average of the current transform `T_current` and the raw target transform `T_target` based on the time step:
+`Lerp(Source, Target, 1 - SmoothingFactor^DeltaTime)`
 
-`T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )`
+This gives some room to customization, since smoothing is configurable both in the _Manipulator_ and in each _Pointer_.
 
-### Notes
+## Notes
+
+### Manipulating a Procedural Mesh
 
 When using the _Generic Manipulator_ with a _Procedural Mesh_, you will need to:
 
@@ -50,3 +52,15 @@ When using the _Generic Manipulator_ with a _Procedural Mesh_, you will need to:
 ![CreateCollision](Images/Manipulator/CreateCollision.png)
 
 This is due to UXTools only querying for simple collision volumes when detecting interaction targets, in order to ensure correct detection in all situations. You can read more about simple vs complex collisions [here](https://docs.unrealengine.com/en-US/Engine/Physics/SimpleVsComplex/index.html).
+
+### Manipulating physics-enabled components
+
+Sometimes you want to manipulate components that are physics-enabled, that is, components affected by gravity and collisions with other actors. If your physically simulated component (e.g. a _Static Mesh Component_ with _Simulate Physics_ enabled) is the root component of the actor, _Generic Manipulator_ will work out of the box. If the component is not the root, you'll have to set it as the target component of the manipulator:
+
+![PhysicsEnabledManipulation](Images/Manipulator/PhysicsEnabledManipulation.png)
+
+This is necessary because:
+* By default _Generic Manipulator_ modifies the transform of the actor's root component.
+* Physics-enabled components [detach themselves][set-simulate-physics] from their attach parents automatically at simulation start.
+
+[set-simulate-physics]: https://docs.unrealengine.com/en-US/API/Runtime/Engine/Components/UPrimitiveComponent/SetSimulatePhysics/index.html

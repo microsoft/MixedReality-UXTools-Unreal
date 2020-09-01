@@ -36,11 +36,7 @@ if ([String]::IsNullOrEmpty($ProjectPath))
     $ProjectPath = Resolve-Path -Path "$PSScriptRoot\..\..\UXToolsGame\UXToolsGame.uproject"
 }
 
-$BuildTarget = "UXToolsGameNonUnity"    
-if ($UnityBuild)
-{
-    $BuildTarget = "UXToolsGame"
-}
+$BuildTarget = "UXToolsGame"
 
 $CommandArgs = "BuildCookRun", `
                "-project=`"$ProjectPath`"", `
@@ -71,7 +67,12 @@ if (-not [String]::IsNullOrEmpty($CookFlavor))
     $CommandArgs += "-cookflavor=$CookFlavor"
 }
 
-$Result = Start-UAT -UnrealEngine $UnrealEngine -CommandArgs $CommandArgs -UseStaticAnalyzer $UseStaticAnalyzer -ErrorAction Stop
+if (-not $UnityBuild)
+{
+    $CommandArgs += "-DisableUnity"
+}
+
+$Result = Start-UAT -UnrealEngine $UnrealEngine -CommandArgs $CommandArgs -UseStaticAnalyzer $UseStaticAnalyzer -UseUnityBuild $UnityBuild -ErrorAction Stop
 
 $RC = 0
 if ($Result)

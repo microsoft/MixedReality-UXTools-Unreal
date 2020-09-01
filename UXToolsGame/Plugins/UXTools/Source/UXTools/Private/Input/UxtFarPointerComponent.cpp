@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 #include "Input/UxtFarPointerComponent.h"
-#include "Engine/World.h"
+
 #include "CollisionQueryParams.h"
-#include "Interactions/UxtFarTarget.h"
-#include "Components/PrimitiveComponent.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
-#include "Utils/UxtFunctionLibrary.h"
-#include "Materials/MaterialParameterCollectionInstance.h"
 #include "UXTools.h"
+
+#include "Components/PrimitiveComponent.h"
+#include "Engine/World.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "Interactions/UxtFarTarget.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtFunctionLibrary.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
 
 UUxtFarPointerComponent::UUxtFarPointerComponent()
 {
@@ -40,17 +42,28 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	FQuat NewOrientation;
 	FVector NewOrigin;
 	const bool bIsTracked = UUxtHandTrackingFunctionLibrary::GetHandPointerPose(Hand, NewOrientation, NewOrigin);
-	
-	
 
 	if (bIsTracked)
 	{
-		OnPointerPoseUpdated(NewOrientation, NewOrigin);
+		// Interpolating here directly affects both the cursor and ray
+		NewOrientation = UUxtInternalFunctionLibrary::SmoothLerp(PointerOrientation, NewOrientation, RotationSmoothingFactor, DeltaTime);
+		NewOrigin = UUxtInternalFunctionLibrary::SmoothLerp(PointerOrigin, NewOrigin, LocationSmoothingFactor, DeltaTime);
+		PointerOrientation = NewOrientation;
+		PointerOrigin = NewOrigin;
+		OnPointerPoseUpdated();
 		UpdateParameterCollection(GetHitPoint());
 		bool bNewPressed;
 		if (UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(Hand, bNewPressed))
 		{
 			SetPressed(bNewPressed);
+		}
+
+		FQuat WristOrientation;
+		FVector WristLocation;
+		float WristRadius;
+		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristLocation, WristRadius))
+		{
+			ControllerOrientation = WristOrientation;
 		}
 	}
 
@@ -104,11 +117,8 @@ static UObject* FindFarTarget(UPrimitiveComponent* Primitive)
 	return nullptr;
 }
 
-void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, const FVector& NewOrigin)
+void UUxtFarPointerComponent::OnPointerPoseUpdated()
 {
-	PointerOrientation = NewOrientation;
-	PointerOrigin = NewOrigin;
-
 	UPrimitiveComponent* OldPrimitive = GetHitPrimitive();
 	UPrimitiveComponent* NewPrimitive;
 
@@ -228,7 +238,7 @@ void UUxtFarPointerComponent::SetEnabled(bool bNewEnabled)
 		{
 			// Release pointer if it was pressed
 			SetPressed(false);
-			
+
 			// Raise focus exit on the current target
 			if (UObject* FarTarget = GetFarTarget())
 			{
@@ -252,6 +262,11 @@ FVector UUxtFarPointerComponent::GetPointerOrigin() const
 FQuat UUxtFarPointerComponent::GetPointerOrientation() const
 {
 	return PointerOrientation;
+}
+
+FQuat UUxtFarPointerComponent::GetControllerOrientation() const
+{
+	return ControllerOrientation;
 }
 
 FVector UUxtFarPointerComponent::GetRayStart() const
@@ -284,7 +299,7 @@ bool UUxtFarPointerComponent::IsEnabled() const
 	return bEnabled;
 }
 
-UObject* UUxtFarPointerComponent::GetFarTarget() const 
+UObject* UUxtFarPointerComponent::GetFarTarget() const
 {
 	return FarTargetWeak.Get();
 }
@@ -294,13 +309,15 @@ void UUxtFarPointerComponent::UpdateParameterCollection(FVector IndexTipPosition
 	if (ParameterCollection)
 	{
 		UMaterialParameterCollectionInstance* ParameterCollectionInstance = GetWorld()->GetParameterCollectionInstance(ParameterCollection);
-		static FName ParameterNames[] = { "LeftPointerPosition", "RightPointerPosition" };
+		static FName ParameterNames[] = {"LeftPointerPosition", "RightPointerPosition"};
 		FName ParameterName = Hand == EControllerHand::Left ? ParameterNames[0] : ParameterNames[1];
 		const bool bFoundParameter = ParameterCollectionInstance->SetVectorParameterValue(ParameterName, IndexTipPosition);
 
 		if (!bFoundParameter)
 		{
-			UE_LOG(UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(), *ParameterCollection->GetPathName());
+			UE_LOG(
+				UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(),
+				*ParameterCollection->GetPathName());
 		}
 	}
 }

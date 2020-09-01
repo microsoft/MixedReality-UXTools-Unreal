@@ -15,6 +15,7 @@ param(
     [string]$PackageOutDir,
     [string]$PluginPath = $null,
     [string]$TargetPlatforms = "Win64+HoloLens+Android",
+    [boolean]$Clean = $false,
     [boolean]$StrictMode = $false
 )
 
@@ -30,13 +31,18 @@ $CommandArgs = "BuildPlugin", `
                "-Package=`"$PackageOutDir`"", `
                "-TargetPlatforms=`"$TargetPlatforms`""
 
+if ($Clean)
+{
+    $CommandArgs += "-Clean"
+}
+
 if ($StrictMode)
 {
     $CommandArgs += "-StrictIncludes"
 }
 
 # Static Analyzer turned off for Plugin Build as it reports errors in Engine when building Shipping config 
-$Result = Start-UAT -UnrealEngine $UnrealEngine -CommandArgs $CommandArgs -UseStaticAnalyzer $False -ErrorAction Stop
+$Result = Start-UAT -UnrealEngine $UnrealEngine -CommandArgs $CommandArgs -UseStaticAnalyzer $False -UseUnityBuild (-not $StrictMode) -ErrorAction Stop
 
 $RC = 0
 if ($Result)

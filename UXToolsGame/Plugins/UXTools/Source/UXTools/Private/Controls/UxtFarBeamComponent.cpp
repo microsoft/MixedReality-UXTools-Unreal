@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtFarBeamComponent.h"
-#include "Input/UxtFarPointerComponent.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Materials/MaterialInstanceDynamic.h"
-#include "GameFramework/Actor.h"
-#include "UXTools.h"
-#include "Engine/StaticMesh.h"
 
+#include "UXTools.h"
+
+#include "Engine/StaticMesh.h"
+#include "GameFramework/Actor.h"
+#include "Input/UxtFarPointerComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "UObject/ConstructorHelpers.h"
 
 UUxtFarBeamComponent::UUxtFarBeamComponent()
 {
@@ -26,7 +27,6 @@ UUxtFarBeamComponent::UUxtFarBeamComponent()
 	SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetHiddenInGame(true);
 	BindGrab = BindSplineLength = false;
-	
 }
 
 void UUxtFarBeamComponent::BeginPlay()
@@ -50,10 +50,8 @@ void UUxtFarBeamComponent::BeginPlay()
 		FarPointer->OnFarPointerEnabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerEnabled);
 		FarPointer->OnFarPointerDisabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerDisabled);
 		UMaterial* Material = GetMaterial(0)->GetMaterial();
-		
+
 		SetBeamMaterial(Material);
-
-
 	}
 	else
 	{
@@ -114,7 +112,6 @@ void UUxtFarBeamComponent::SetBeamMaterial(UMaterial* NewMaterial)
 				{
 					BindSplineLength = true;
 				}
-
 			}
 		}
 	}
@@ -129,17 +126,15 @@ void UUxtFarBeamComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 		const FVector End = FarPointer->GetHitPoint() + FarPointer->GetHitNormal() * HoverDistance;
 		float Len = (Start - End).Size();
 
-		FVector Target = Start +( FarPointer->GetPointerOrientation().GetForwardVector() * Len);
+		FVector Target = Start + (FarPointer->GetPointerOrientation().GetForwardVector() * Len);
 		// Use hand forward vector to influence the beam start tangent
 		FVector SourceTangent = FarPointer->GetPointerOrientation().RotateVector(FVector(50, 0, 0));
 		// Make end tangent point directly at the target
-		FVector EndTangent =  End - Target;
+		FVector EndTangent = End - Target;
 		SetStartPosition(Start, false);
 		SetEndPosition(End, false);
 		SetStartTangent(SourceTangent, false);
 		SetEndTangent(EndTangent, true);
-
-		
 
 		if (MID)
 		{
@@ -147,7 +142,7 @@ void UUxtFarBeamComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 			{
 				MID->SetScalarParameterValue(FName("SplineLength"), Len);
 			}
-			
+
 			if (BindGrab)
 			{
 				if (FarPointer->IsPressed())
@@ -159,7 +154,6 @@ void UUxtFarBeamComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 					MID->SetScalarParameterValue(FName("IsGrabbing"), 0.0f);
 				}
 			}
-			
 		}
 	}
 }

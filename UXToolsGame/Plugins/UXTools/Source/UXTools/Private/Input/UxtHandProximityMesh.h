@@ -12,8 +12,8 @@ class UProceduralMeshComponent;
  *  The volume is constructed radially symmetric around the forward axis.
  *  The near face is a simple disc, while the front is a spherical section.
  *  The tip of the cylinder is the origin of the mesh.
- * 
- * 
+ *
+ *
  *               *------
  *              *       ------
  *             *              ------
@@ -26,7 +26,6 @@ class UProceduralMeshComponent;
 class FUxtHandProximityMeshData
 {
 public:
-
 	// Populate buffers with mesh data based on cone parameters.
 	void Build(float ConeAngle, float ConeOffset, float ConeSideLength, int32 NewNumSegments);
 

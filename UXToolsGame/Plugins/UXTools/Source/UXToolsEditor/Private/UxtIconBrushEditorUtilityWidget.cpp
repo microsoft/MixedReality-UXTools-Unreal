@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "UxtIconBrushEditorUtilityWidget.h"
+
 #include "Controls/UxtIconBrush.h"
 #include "Engine/Font.h"
 

@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "UObject/Interface.h"
+
 #include "UxtGrabTarget.generated.h"
 
 class UUxtNearPointerComponent;
@@ -21,7 +23,6 @@ class UXTOOLS_API IUxtGrabTarget
 	GENERATED_BODY()
 
 public:
-
 	/** Returns true if the given primitive should be considerered a valid focus target. */
 	UFUNCTION(BlueprintNativeEvent)
 	bool IsGrabFocusable(const UPrimitiveComponent* Primitive);

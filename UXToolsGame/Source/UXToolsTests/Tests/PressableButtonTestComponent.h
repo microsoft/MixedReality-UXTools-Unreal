@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
 #include "Input/UxtPointerComponent.h"
 #include "Misc/AutomationTest.h"
@@ -20,18 +21,11 @@ class UPressableButtonTestComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
+	UFUNCTION()
+	void IncrementPressed(UUxtPressableButtonComponent* ButtonComponent, UUxtPointerComponent* Pointer) { PressedCount++; }
 
 	UFUNCTION()
-	void IncrementPressed(UUxtPressableButtonComponent* ButtonComponent, UUxtPointerComponent* Pointer)
-	{
-		PressedCount++;
-	}
-
-	UFUNCTION()
-	void IncrementReleased(UUxtPressableButtonComponent* ButtonComponent, UUxtPointerComponent* Pointer)
-	{
-		ReleasedCount++;
-	}
+	void IncrementReleased(UUxtPressableButtonComponent* ButtonComponent, UUxtPointerComponent* Pointer) { ReleasedCount++; }
 
 	int PressedCount = 0;
 	int ReleasedCount = 0;

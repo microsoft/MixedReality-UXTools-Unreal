@@ -5,9 +5,10 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
+
 #include "Controls/UxtUIElementComponent.h"
-#include "Interactions/UxtPokeTarget.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtPokeTarget.h"
 
 #include "UxtTouchableVolumeComponent.generated.h"
 
@@ -19,26 +20,32 @@ class UShapeComponent;
 //
 // Delegates
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtVolumeBeginFocusDelegate, UUxtTouchableVolumeComponent*, Volume, UObject*, Pointer, bool, bWasAlreadyFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FUxtVolumeBeginFocusDelegate, UUxtTouchableVolumeComponent*, Volume, UObject*, Pointer, bool, bWasAlreadyFocused);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtVolumeUpdateFocusDelegate, UUxtTouchableVolumeComponent*, Volume, UObject*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FUxtVolumeEndFocusDelegate, UUxtTouchableVolumeComponent*, Volume, UObject*, Pointer, bool, bIsStillFocused);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtVolumeBeginPokeDelegate, UUxtTouchableVolumeComponent*, Volume, UUxtNearPointerComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtVolumeUpdatePokeDelegate, UUxtTouchableVolumeComponent*, Volume, UUxtNearPointerComponent*, Pointer);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtVolumeEndPokeDelegate, UUxtTouchableVolumeComponent*, Volume, UUxtNearPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
+	FUxtVolumeEndFocusDelegate, UUxtTouchableVolumeComponent*, Volume, UObject*, Pointer, bool, bIsStillFocused);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtVolumeBeginPokeDelegate, UUxtTouchableVolumeComponent*, Volume, UUxtNearPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtVolumeUpdatePokeDelegate, UUxtTouchableVolumeComponent*, Volume, UUxtNearPointerComponent*, Pointer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FUxtVolumeEndPokeDelegate, UUxtTouchableVolumeComponent*, Volume, UUxtNearPointerComponent*, Pointer);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtVolumeEnabledDelegate, UUxtTouchableVolumeComponent*, Volume);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtVolumeDisabledDelegate, UUxtTouchableVolumeComponent*, Volume);
-
 
 /**
  * Component that turns the actor it is attached to into a touchable volume.
  */
-UCLASS( ClassGroup = UXTools, meta=(BlueprintSpawnableComponent) )
-class UXTOOLS_API UUxtTouchableVolumeComponent : public UUxtUIElementComponent, public IUxtPokeTarget, public IUxtFarTarget
+UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+class UXTOOLS_API UUxtTouchableVolumeComponent
+	: public UUxtUIElementComponent
+	, public IUxtPokeTarget
+	, public IUxtFarTarget
 {
 	GENERATED_BODY()
 
 public:
-
 	/** Set if the touchable volume is enabled */
 	UFUNCTION(BlueprintCallable, Category = "Touchable Volume")
 	void SetEnabled(bool Enabled);
@@ -52,7 +59,8 @@ public:
 	//
 	// Events
 
-	/** Event raised when a pointer starts focusing the touchable volume. WasFocused indicates if the volume was already focused by another pointer. */
+	/** Event raised when a pointer starts focusing the touchable volume. WasFocused indicates if the volume was already focused by another
+	 * pointer. */
 	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
 	FUxtVolumeBeginFocusDelegate OnBeginFocus;
 
@@ -60,7 +68,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
 	FUxtVolumeUpdateFocusDelegate OnUpdateFocus;
 
-	/** Event raised when a pointer ends focusing the touchable volume. IsFocused indicates if the volume is still focused by another pointer. */
+	/** Event raised when a pointer ends focusing the touchable volume. IsFocused indicates if the volume is still focused by another
+	 * pointer. */
 	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
 	FUxtVolumeEndFocusDelegate OnEndFocus;
 
@@ -85,7 +94,6 @@ public:
 	FUxtVolumeDisabledDelegate OnVolumeDisabled;
 
 protected:
-
 	//
 	// UActorComponent interface
 
@@ -93,10 +101,11 @@ protected:
 
 	//
 	// IUxtPokeTarget interface
-	
+
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
-	virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
+	virtual bool GetClosestPoint_Implementation(
+		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
@@ -125,7 +134,6 @@ protected:
 	void OnInputTouchLeaveHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 
 private:
-
 	/** Get the current contact state of the volume */
 	bool IsContacted() const;
 
@@ -146,7 +154,7 @@ private:
 
 	/** List of currently poking pointers. */
 	TSet<UUxtNearPointerComponent*> PokePointers;
-	
+
 	/** Far pointer currently pressing the button if any */
 	TWeakObjectPtr<UUxtFarPointerComponent> FarPointerWeak;
 

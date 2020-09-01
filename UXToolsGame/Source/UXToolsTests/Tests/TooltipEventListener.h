@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
 #include "Misc/AutomationTest.h"
 
@@ -18,16 +19,10 @@ class UTooltipEventListener : public UActorComponent
 
 public:
 	UFUNCTION()
-	void OnShow()
-	{
-		ShowCount++;
-	}
+	void OnShow() { ShowCount++; }
 
 	UFUNCTION()
-	void OnHide()
-	{
-		HideCount++;
-	}
+	void OnHide() { HideCount++; }
 
 	int ShowCount = 0;
 	int HideCount = 0;

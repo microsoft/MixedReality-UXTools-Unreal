@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Interactions/Constraints/UxtTransformConstraint.h"
 
 #include "UxtMaintainApparentSizeConstraint.generated.h"
@@ -19,13 +20,11 @@ class UXTOOLS_API UUxtMaintainApparentSizeConstraint : public UUxtTransformConst
 {
 	GENERATED_BODY()
 public:
-
 	virtual void Initialize(const FTransform& WorldPose) override;
 	virtual EUxtTransformMode GetConstraintType() const override;
 	virtual void ApplyConstraint(FTransform& Transform) const override;
 
 private:
-
 	/** The initial distance from the object to the head. */
 	float InitialDistance;
 };

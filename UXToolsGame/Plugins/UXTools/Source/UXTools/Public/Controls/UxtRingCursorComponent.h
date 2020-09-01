@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/StaticMeshComponent.h"
+
 #include "UxtRingCursorComponent.generated.h"
 
 class UMaterialInstanceDynamic;
@@ -12,13 +14,12 @@ class UMaterialInstanceDynamic;
 /**
  * Displays a flat ring facing -X. The ring radius can be set directly or via the component scale.
  */
-UCLASS( ClassGroup = UXTools, HideCategories = (StaticMesh, Materials), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = UXTools, HideCategories = (StaticMesh, Materials), meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtRingCursorComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	 
-public:
 
+public:
 	UUxtRingCursorComponent();
 
 	UFUNCTION(BlueprintGetter)
@@ -37,7 +38,6 @@ public:
 	void SetBorderColor(FColor NewBorderColor);
 
 protected:
-
 	virtual void OnRegister() override;
 
 	/** Used to update the radius in response to scale changes. */
@@ -56,7 +56,6 @@ protected:
 	UStaticMesh* PressMesh;
 
 private:
-
 	void SetRadius(float Radius, bool bUpdateScale);
 
 	/** Dynamic instance of the ring material. */
