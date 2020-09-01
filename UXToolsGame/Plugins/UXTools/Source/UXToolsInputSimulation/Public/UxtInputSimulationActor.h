@@ -61,16 +61,17 @@ private:
 
 	/** Add head movement input along a local axis. */
 	void AddHeadMovementInputImpl(EAxis::Type Axis, float Value);
-
-	/** Set rotation option to interpret look rotation as rotation of hands instead */
-	void SetHandRotationEnabled(bool bEnabled);
+	/** Add head rotation input along a local axis. */
+	void AddHeadRotationInputImpl(EAxis::Type Axis, float Value);
 
 	/** Create actor components for HMD simulation. */
 	void SetupHeadComponents();
 	/** Create actor components for hand simulation. */
 	void SetupHandComponents();
+
 	/** Returns the skeletal mesh for the given hand. */
 	USkeletalMeshComponent* GetHandMesh(EControllerHand Hand) const;
+
 	/** Update hand mesh component based on simulation state */
 	void UpdateHandMeshComponent(EControllerHand Hand);
 
@@ -96,9 +97,6 @@ private:
 	/** Skeletal mesh component for the right hand. */
 	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetRightHand, Category = InputSimulation)
 	USkeletalMeshComponent* RightHand;
-
-	/** If true, the look rotation will be interpreted as hand rotation instead. */
-	bool bEnableHandRotation = false;
 
 	/** Persistent simulation state, cached for quick runtime access. */
 	TWeakObjectPtr<UUxtInputSimulationState> SimulationStateWeak;

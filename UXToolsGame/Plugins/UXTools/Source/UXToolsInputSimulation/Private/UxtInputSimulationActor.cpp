@@ -39,16 +39,10 @@ AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& Obj
 
 void AUxtInputSimulationActor::SetupHeadComponents()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-
 	HeadMovement = CreateDefaultSubobject<UUxtInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
 	AddOwnedComponent(HeadMovement);
 	// Add tick dependency so the head movement happens before the actor copies the result
 	AddTickPrerequisiteComponent(HeadMovement);
-
-	// Initialize runtime state
-
-	HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
 }
 
 void AUxtInputSimulationActor::SetupHandComponents()
@@ -197,6 +191,17 @@ void AUxtInputSimulationActor::BeginPlay()
 		}
 	}
 
+	// Initialize non-persistent data from the engine subsystem
+	if (auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
+	{
+		const auto* const Settings = UUxtRuntimeSettings::Get();
+
+		// Head movement flag only gets initialized from UxtRuntimeSettings, not simulated yet
+		HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
+
+		SetActorLocationAndRotation(InputSim->GetHeadPosition(), InputSim->GetHeadOrientation());
+	}
+
 	if (ensure(InputComponent != nullptr))
 	{
 		if (bAddDefaultInputBindings)
@@ -236,21 +241,17 @@ void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 
 	if (auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
 	{
-		if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
-		{
-			// Copy Simulated input data to the engine subsystem
+		// Copy Simulated input data to the engine subsystem
 
-			bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
+		bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
+		FQuat HeadRotation = GetActorRotation().Quaternion();
+		FVector HeadLocation = GetActorLocation();
 
-			FQuat HeadRotation = GetActorRotation().Quaternion();
-			FVector HeadLocation = GetActorLocation();
+		FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
+		UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
+		UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
 
-			FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
-			UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
-			UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
-
-			InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadRotation, HeadLocation, LeftHandState, RightHandState);
-		}
+		InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadRotation, HeadLocation, LeftHandState, RightHandState);
 	}
 }
 
@@ -468,12 +469,18 @@ void AUxtInputSimulationActor::OnControlRightHandReleased()
 
 void AUxtInputSimulationActor::OnHandRotatePressed()
 {
-	SetHandRotationEnabled(true);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->HandInputMode = EUxtInputSimulationHandMode::Rotation;
+	}
 }
 
 void AUxtInputSimulationActor::OnHandRotateReleased()
 {
-	SetHandRotationEnabled(false);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->HandInputMode = EUxtInputSimulationHandMode::Movement;
+	}
 }
 
 void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
@@ -521,32 +528,17 @@ void AUxtInputSimulationActor::AddInputMoveUp(float Value)
 	AddHeadMovementInputImpl(EAxis::Z, Value);
 }
 
-namespace
-{
-	const float InputYawScale = 2.5;
-	const float InputPitchScale = 1.75;
-	const float InputRollScale = 5.0;
-}
-
 void AUxtInputSimulationActor::AddInputLookUp(float Value)
 {
 	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		if (State->IsAnyHandControlled())
 		{
-			if (bEnableHandRotation)
-			{
-				// Y axis changes hand pitch.
-				State->AddHandRotationInput(EAxis::Y, Value);
-			}
-			else
-			{
-				State->AddHandMovementInput(EAxis::Z, Value);
-			}
+			State->AddHandInput(EAxis::Z, Value);
 		}
 		else
 		{
-			HeadMovement->AddRotationInput(FRotator(Value * InputPitchScale, 0, 0));
+			AddHeadRotationInputImpl(EAxis::Z, Value);
 		}
 	}
 }
@@ -557,19 +549,11 @@ void AUxtInputSimulationActor::AddInputTurn(float Value)
 	{
 		if (State->IsAnyHandControlled())
 		{
-			if (bEnableHandRotation)
-			{
-				// X axis changes hand yaw.
-				State->AddHandRotationInput(EAxis::Z, Value);
-			}
-			else
-			{
-				State->AddHandMovementInput(EAxis::Y, Value);
-			}
+			State->AddHandInput(EAxis::Y, Value);
 		}
 		else
 		{
-			HeadMovement->AddRotationInput(FRotator(0, Value * InputYawScale, 0));
+			AddHeadRotationInputImpl(EAxis::Y, Value);
 		}
 	}
 }
@@ -580,19 +564,11 @@ void AUxtInputSimulationActor::AddInputScroll(float Value)
 	{
 		if (State->IsAnyHandControlled())
 		{
-			if (bEnableHandRotation)
-			{
-				// Scroll changes hand roll.
-				State->AddHandRotationInput(EAxis::X, Value * InputRollScale);
-			}
-			else
-			{
-				State->AddHandMovementInput(EAxis::X, Value);
-			}
+			State->AddHandInput(EAxis::X, Value);
 		}
 		else
 		{
-			// No rotation on scrolling
+			// No head rotation on scrolling
 		}
 	}
 }
@@ -603,9 +579,13 @@ void AUxtInputSimulationActor::AddHeadMovementInputImpl(EAxis::Type Axis, float 
 	HeadMovement->AddMovementInput(Dir * Value);
 }
 
-void AUxtInputSimulationActor::SetHandRotationEnabled(bool bEnabled)
+void AUxtInputSimulationActor::AddHeadRotationInputImpl(EAxis::Type Axis, float Value)
 {
-	bEnableHandRotation = bEnabled;
+	EAxis::Type RotationAxis = FUxtInputAnimationUtils::GetInputRotationAxis(Axis);
+	float RotationValue = FUxtInputAnimationUtils::GetHeadRotationInputValue(RotationAxis, Value);
+	FRotator RotationInput = FRotator::ZeroRotator;
+	RotationInput.SetComponentForAxis(RotationAxis, RotationValue);
+	HeadMovement->AddRotationInput(RotationInput);
 }
 
 #undef LOCTEXT_NAMESPACE

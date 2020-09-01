@@ -7,6 +7,22 @@
 #include "InputCoreTypes.h"
 #include "UxtInputSimulationState.generated.h"
 
+struct FUxtInputAnimationUtils
+{
+	static const float InputYawScale;
+	static const float InputPitchScale;
+	static const float InputRollScale;
+
+	/** Select rotation axis for head or hand rotation modes. */
+	static EAxis::Type GetInputRotationAxis(EAxis::Type MoveAxis);
+
+	/** Scale hand rotation input value. */
+	static float GetHandRotationInputValue(EAxis::Type RotationAxis, float MoveValue);
+
+	/** Scale head rotation input value. */
+	static float GetHeadRotationInputValue(EAxis::Type RotationAxis, float MoveValue);
+};
+
 /**
  * Simulation state for a single hand.
  */
@@ -23,6 +39,15 @@ struct FUxtInputSimulationHandState
 
 	/** Target pose. */
 	FName TargetPose = NAME_None;
+};
+
+UENUM(BlueprintType)
+enum class EUxtInputSimulationHandMode : uint8
+{
+	/** Move hands when adding input */
+	Movement,
+	/** Rotate hands when adding input */
+	Rotation,
 };
 
 /**
@@ -74,6 +99,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	void GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const;
 
+	/** Add hand movement or rotation, depending on hand input mode. */
+	UFUNCTION(BlueprintCallable, Category = InputSimulation)
+	void AddHandInput(EAxis::Type Axis, float Value);
+
 	/** Add hand movement input along a local axis to all controlled hands. */
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	void AddHandMovementInput(EAxis::Type TranslationAxis, float Value);
@@ -111,6 +140,12 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	void TogglePoseForControlledHands(FName PoseName);
+
+public:
+
+	/** If true, input will be interpreted as hand rotation instead of movement. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSimulation)
+	EUxtInputSimulationHandMode HandInputMode = EUxtInputSimulationHandMode::Movement;
 
 private:
 

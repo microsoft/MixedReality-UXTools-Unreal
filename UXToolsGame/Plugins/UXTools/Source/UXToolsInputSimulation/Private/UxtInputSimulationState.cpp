@@ -6,6 +6,50 @@
 
 #define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
 
+const float FUxtInputAnimationUtils::InputYawScale = 2.5f;
+const float FUxtInputAnimationUtils::InputPitchScale = 1.75f;
+const float FUxtInputAnimationUtils::InputRollScale = 5.0f;
+
+/** Select rotation axis for head or hand rotation modes. */
+EAxis::Type FUxtInputAnimationUtils::GetInputRotationAxis(EAxis::Type MoveAxis)
+{
+	switch (MoveAxis)
+	{
+		// Roll with forward axis
+		case EAxis::X: return EAxis::X;
+			// Yaw with right axis
+		case EAxis::Y: return EAxis::Z;
+			// Pitch with up axis
+		case EAxis::Z: return EAxis::Y;
+	}
+	return EAxis::None;
+}
+
+/** Scale hand rotation input value. */
+float FUxtInputAnimationUtils::GetHandRotationInputValue(EAxis::Type RotationAxis, float MoveValue)
+{
+	switch (RotationAxis)
+	{
+		case EAxis::X: return MoveValue * InputRollScale;
+		case EAxis::Y: return MoveValue * InputPitchScale;
+		case EAxis::Z: return MoveValue * InputYawScale;
+	}
+	return 0.0f;
+}
+
+/** Scale head rotation input value. */
+float FUxtInputAnimationUtils::GetHeadRotationInputValue(EAxis::Type RotationAxis, float MoveValue)
+{
+	switch (RotationAxis)
+	{
+		case EAxis::X: return 0.0f; // No head roll
+		case EAxis::Y: return MoveValue * InputPitchScale;
+		case EAxis::Z: return MoveValue * InputYawScale;
+	}
+	return 0.0f;
+}
+
+
 UUxtInputSimulationState::UUxtInputSimulationState()
 {
 	Reset();
@@ -120,6 +164,22 @@ void UUxtInputSimulationState::GetTargetHandTransform(EControllerHand Hand, FTra
 		TargetTransform = FTransform(HandTransform.GetRotation() * RestRotation.Quaternion().Inverse(), HandTransform.GetLocation(), Scale3D);
 		// No animation between user rotations
 		bAnimate = false;
+	}
+}
+
+void UUxtInputSimulationState::AddHandInput(EAxis::Type Axis, float Value)
+{
+	EAxis::Type RotationAxis = FUxtInputAnimationUtils::GetInputRotationAxis(Axis);
+	float RotationValue = FUxtInputAnimationUtils::GetHandRotationInputValue(RotationAxis, Value);
+
+	switch (HandInputMode)
+	{
+		case EUxtInputSimulationHandMode::Movement:
+			AddHandMovementInput(Axis, Value);
+			break;
+		case EUxtInputSimulationHandMode::Rotation:
+			AddHandRotationInput(RotationAxis, RotationValue);
+			break;
 	}
 }
 
