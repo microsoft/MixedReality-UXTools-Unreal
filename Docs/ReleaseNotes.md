@@ -24,6 +24,18 @@ The new [`UxtUIElementComponent`](UIElements.md) allows an actor's visibility to
 
 ![HandMenuExample](Images/HandMenu/HandMenu.gif)
 
+### Surface Magnetism (experimental)
+
+This new component (far interaction only) allows an actor to stick to a surface.
+
+It works both with other actors in the scene
+
+![SurfaceMagnetism](Images/ReleaseNotes/surface_magnetism.gif)
+
+as well as a spatial mesh
+
+![SurfaceMagnetismSpatialMesh](Images/ReleaseNotes/surface_magnetism_spatial_mesh.gif)
+
 ### Pointer and cursor smoothing
 
 Pointers and cursors now perform smoothing, which greatly reduces their jitter.
@@ -92,3 +104,7 @@ As [smoothing has been introduced for pointers and cursors](#pointer-and-cursor-
 - The `UUxtGenericManipulator::Smoothing` property and its accessors now have `Factor` appended, for the sake of consistency. This also prevents from inadvertently reusing the old value (e.g. deserializing a previously created component).
 
 ## Known issues
+
+### Surface Magnetism's actor jumps to zero
+
+This happens if the hand ray isn't hitting anything to stick to when grabbing starts for the first time. It will work properly afterwards.
