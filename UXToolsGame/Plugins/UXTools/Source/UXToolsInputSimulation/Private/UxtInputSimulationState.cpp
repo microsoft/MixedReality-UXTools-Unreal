@@ -60,12 +60,11 @@ void UUxtInputSimulationState::Reset()
 	const auto* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
-	SetHandVisibility(EControllerHand::Left, Settings->bStartWithHandsEnabled);
-	SetHandVisibility(EControllerHand::Right, Settings->bStartWithHandsEnabled);
-	SetDefaultHandLocation(EControllerHand::Left);
-	SetDefaultHandLocation(EControllerHand::Right);
-	SetDefaultHandRotation(EControllerHand::Left);
-	SetDefaultHandRotation(EControllerHand::Right);
+	RelativeHeadPosition = FVector::ZeroVector;
+	RelativeHeadOrientation = FQuat::Identity;
+
+	ResetHandState(EControllerHand::Left);
+	ResetHandState(EControllerHand::Right);
 }
 
 bool UUxtInputSimulationState::IsHandVisible(EControllerHand Hand) const
@@ -80,8 +79,7 @@ void UUxtInputSimulationState::SetHandVisibility(EControllerHand Hand, bool bIsV
 		// Reset hand position when it becomes visible
 		if (!IsHandVisible(Hand))
 		{
-			SetDefaultHandLocation(Hand);
-			SetDefaultHandRotation(Hand);
+			ResetHandState(Hand);
 		}
 	}
 	else
@@ -226,6 +224,19 @@ void UUxtInputSimulationState::AddHandRotationInput(EAxis::Type RotationAxis, fl
 			}
 		}
 	}
+}
+
+void UUxtInputSimulationState::ResetHandState(EControllerHand Hand)
+{
+	const UUxtRuntimeSettings* Settings = UUxtRuntimeSettings::Get();
+	check(Settings);
+
+	SetDefaultHandLocation(Hand);
+	SetDefaultHandRotation(Hand);
+	ResetTargetPose(Hand);
+
+	// Avoid recursive SetHandVisibility function call by changing state directly
+	HandStates.FindOrAdd(Hand).bIsVisible = Settings->bStartWithHandsEnabled;
 }
 
 void UUxtInputSimulationState::SetDefaultHandLocation(EControllerHand Hand)

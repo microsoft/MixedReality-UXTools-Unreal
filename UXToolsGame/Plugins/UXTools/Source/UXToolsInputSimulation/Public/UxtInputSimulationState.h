@@ -66,6 +66,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	void Reset();
 
+	/** Reset hand state to default. */
+	UFUNCTION(BlueprintCallable, Category = InputSimulation)
+	void ResetHandState(EControllerHand Hand);
+
 	/** True if the hand is currently visible. */
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
 	bool IsHandVisible(EControllerHand Hand) const;
