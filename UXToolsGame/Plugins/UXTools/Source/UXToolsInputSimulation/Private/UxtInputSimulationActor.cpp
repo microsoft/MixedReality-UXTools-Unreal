@@ -190,15 +190,17 @@ void AUxtInputSimulationActor::BeginPlay()
 		}
 	}
 
-	// Initialize non-persistent data from the engine subsystem
-	if (auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
+	// Initialize non-persistent data from simulation state
+	if (const UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		const auto* const Settings = UUxtRuntimeSettings::Get();
 
 		// Head movement flag only gets initialized from UxtRuntimeSettings, not simulated yet
 		HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
 
-		SetActorLocationAndRotation(InputSim->GetHeadPosition(), InputSim->GetHeadOrientation());
+		// Controller is used as the stage and the HMD moves relative to it
+		HeadMovement->UpdatedComponent->SetRelativeLocation(State->RelativeHeadPosition);
+		HeadMovement->UpdatedComponent->SetRelativeRotation(State->RelativeHeadOrientation);
 	}
 
 	if (ensure(InputComponent != nullptr))
@@ -238,19 +240,28 @@ void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 	UpdateHandMeshComponent(EControllerHand::Left);
 	UpdateHandMeshComponent(EControllerHand::Right);
 
+	// Copy head pose to the simulation state for persistence
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->RelativeHeadPosition = HeadMovement->UpdatedComponent->GetRelativeLocation();
+		State->RelativeHeadOrientation = HeadMovement->UpdatedComponent->GetRelativeRotation().Quaternion();
+	}
+
+	// Update input simulation data
 	if (auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
 	{
-		// Copy Simulated input data to the engine subsystem
-
+		// Actor movement is used directly as HMD pose
 		bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
-		FQuat HeadRotation = GetActorRotation().Quaternion();
-		FVector HeadLocation = GetActorLocation();
+		FQuat HeadOrientation = HeadMovement->UpdatedComponent->GetComponentRotation().Quaternion();
+		FVector HeadPosition = HeadMovement->UpdatedComponent->GetComponentLocation();
 
+		// Construct new hand state from animation
 		FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
 		UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
 		UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
 
-		InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadRotation, HeadLocation, LeftHandState, RightHandState);
+		// Copy simulated input data to the engine subsystem
+		InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadOrientation, HeadPosition, LeftHandState, RightHandState);
 	}
 }
 

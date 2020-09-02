@@ -147,6 +147,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSimulation)
 	EUxtInputSimulationHandMode HandInputMode = EUxtInputSimulationHandMode::Movement;
 
+	/** Head position relative to the character controller. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSimulation)
+	FVector RelativeHeadPosition = FVector::ZeroVector;
+
+	/** Head orientation relative to the character controller. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSimulation)
+	FQuat RelativeHeadOrientation = FQuat::Identity;
+
 private:
 
 	/** Current target pose for each hand. */
