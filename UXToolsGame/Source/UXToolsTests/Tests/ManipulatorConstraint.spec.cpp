@@ -41,7 +41,7 @@ namespace
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
 		Manipulator->OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutObjectCenter;
 		Manipulator->TargetComponent = TargetComponent;
-		Manipulator->SetSmoothingFactor(0.0f);
+		Manipulator->SetSmoothing(0.0f);
 		Manipulator->RegisterComponent();
 
 		Actor->SetActorLocation(TargetLocation);

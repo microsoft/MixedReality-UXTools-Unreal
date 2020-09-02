@@ -28,9 +28,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintGetter)
-	float GetSmoothingFactor() const;
+	float GetSmoothing() const;
 	UFUNCTION(BlueprintSetter)
-	void SetSmoothingFactor(float NewSmoothingFactor);
+	void SetSmoothing(float NewSmoothing);
 
 protected:
 	void UpdateOneHandManipulation(float DeltaSeconds);
@@ -75,17 +75,18 @@ private:
 	UFUNCTION()
 	void OnRelease(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
-	/**
-	 * Motion smoothing factor to apply while manipulating the object.
+	/** Motion smoothing factor to apply while manipulating the object.
 	 *
-	 * @see UUxtManipulatorComponentBase::SmoothTransform
+	 * A low-pass filter is applied to the source transform location and rotation to smooth out jittering.
+	 * The new actor transform is a exponentially weighted average of the current transform and the raw target transform based on the time
+	 * step:
 	 *
-	 * It is deactivated it by default, since pointers already perform basic smoothing.
+	 * T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )
 	 */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetSmoothingFactor, BlueprintSetter = SetSmoothingFactor, Category = GenericManipulator,
+		EditAnywhere, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = GenericManipulator,
 		meta = (ClampMin = "0.0"))
-	float SmoothingFactor = 0;
+	float Smoothing;
 
 	/** Was the target simulating physics */
 	bool bWasSimulatingPhysics = false;

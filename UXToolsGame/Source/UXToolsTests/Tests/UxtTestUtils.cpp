@@ -15,7 +15,6 @@
 #include "GameFramework/Actor.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtPointerComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Tests/AutomationCommon.h"
 
@@ -147,12 +146,6 @@ void UxtTestUtils::DisableTestHandTracker()
 	}
 }
 
-void UxtTestUtils::DisablePointerSmoothing(UUxtPointerComponent* Pointer)
-{
-	Pointer->LocationSmoothingFactor = 0;
-	Pointer->RotationSmoothingFactor = 0;
-}
-
 UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(
 	UWorld* World, FName Name, const FVector& Location, EControllerHand Hand, bool IsGrasped, bool AddMeshVisualizer)
 {
@@ -169,7 +162,6 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(
 	UUxtNearPointerComponent* Pointer = NewObject<UUxtNearPointerComponent>(PointerActor);
 	Pointer->RegisterComponent();
 	Pointer->Hand = Hand;
-	DisablePointerSmoothing(Pointer);
 
 	UxtTestUtils::GetTestHandTracker().SetGrabbing(IsGrasped);
 	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Location);
@@ -207,7 +199,6 @@ UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(
 	UUxtFarPointerComponent* Pointer = NewObject<UUxtFarPointerComponent>(PointerActor);
 	Pointer->RegisterComponent();
 	Pointer->Hand = Hand;
-	DisablePointerSmoothing(Pointer);
 
 	// Beam
 	UUxtFarBeamComponent* Beam = NewObject<UUxtFarBeamComponent>(PointerActor);

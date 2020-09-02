@@ -81,26 +81,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "UXTools Internal")
 	static FVector Slerp(const FVector& Vector1, const FVector& Vector2, const float Slerp);
 
-	/**
-	 * Smoothed wrapper for FMath::Lerp.
-	 *
-	 * @see www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/
-	 *
-	 * Note that using an SmoothingFactor of 0 will yield the Target value (i.e. no smoothing).
-	 */
-	template <typename T>
-	static T SmoothLerp(const T& Source, const T& Target, const float SmoothingFactor, const float DeltaTime)
-	{
-		return FMath::Lerp(Source, Target, FMath::Clamp(1 - FMath::Pow(SmoothingFactor, DeltaTime), 0.0f, 1.0f));
-	}
-
-	/**
-	 * Specific overload of @ref SmoothLerp for FTransforms.
-	 */
-	static FTransform SmoothLerp(
-		const FTransform& From, const FTransform& To, const float LocFactor, const float RotFactor, const float ScaleFactor,
-		const float DeltaTime);
-
 	/** Get the object from a TSoftObjectPtr, loading it synchronously if it is not loaded. */
 	template <typename T>
 	static T* GetObjectFromPtr(const TSoftObjectPtr<T>& ObjectPtr)

@@ -36,18 +36,6 @@ as well as a spatial mesh
 
 ![SurfaceMagnetismSpatialMesh](Images/ReleaseNotes/surface_magnetism_spatial_mesh.gif)
 
-### Pointer and cursor smoothing
-
-Pointers and cursors now perform smoothing, which greatly reduces their jitter.
-
-0.9.0:
-
-![FarPointerJitter](Images/ReleaseNotes/far_pointer_jitter.gif)
-
-0.10.0:
-
-![FarPointerNoJitter](Images/ReleaseNotes/far_pointer_no_jitter.gif)
-
 ## Breaking changes
 
 ### Make poke target return normal for cursor transform
@@ -94,14 +82,6 @@ Event changes:
 ### BP_SimpleSlider - Moved to a native implementation and renamed to UxtPinchSliderActor
 
 `BP_SimpleSlider` has been replaced by `AUxtPinchSliderActor`. It has the same feature set as `BP_SimpleSlider` and can be extended from either Blueprints or C++.
-
-### Manipulator smoothing changes
-
-As [smoothing has been introduced for pointers and cursors](#pointer-and-cursor-smoothing), we have simplified `UUxtManipulatorComponentBase::SmoothTransform` to use the same smoothing technique. Therefore:
-
-- The meaning of its parameters is different. Please, revisit and appropriately adjust the _smoothing factor_ arguments.
-- It now returns an `FTransform`, instead of receiving an output parameter.
-- The `UUxtGenericManipulator::Smoothing` property and its accessors now have `Factor` appended, for the sake of consistency. This also prevents from inadvertently reusing the old value (e.g. deserializing a previously created component).
 
 ## Known issues
 

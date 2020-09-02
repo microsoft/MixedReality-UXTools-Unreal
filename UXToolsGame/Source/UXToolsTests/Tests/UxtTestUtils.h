@@ -18,7 +18,6 @@ class UTestPokeTarget;
 class UUxtNearPointerComponent;
 class UUxtGrabTargetComponent;
 class UUxtFarPointerComponent;
-class UUxtPointerComponent;
 
 /** Utility functions for UXTools testing. */
 struct UxtTestUtils
@@ -79,9 +78,6 @@ public:
 
 	/** Restore the default hand tracker implementation. */
 	static void DisableTestHandTracker();
-
-	/** Disable all smoothing in the given Pointer, since interpolated frames would interfere in test results */
-	static void DisablePointerSmoothing(UUxtPointerComponent* Pointer);
 
 public:
 	/** Hand tracker implementation for tests. */
