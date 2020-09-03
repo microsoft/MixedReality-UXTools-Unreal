@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #include "UxtInputSimulationLocalPlayerSubsystem.h"
-#include "UxtInputSimulationComponent.h"
 #include "UxtInputSimulationState.h"
 
 #include "IHeadMountedDisplay.h"
@@ -142,12 +141,6 @@ void UUxtInputSimulationLocalPlayerSubsystem::OnGameModePostLogin(AGameModeBase*
 {
 	if (NewPlayer->Player == GetLocalPlayer())
 	{
-		// Create an input sim component on the PlayerController.
-		// Player controllers are persistent between map loads.
-		UActorComponent* InputSimComponent = NewObject<UUxtInputSimulationComponent>(NewPlayer, TEXT("InputSimulation"));
-		NewPlayer->AddInstanceComponent(InputSimComponent);
-		InputSimComponent->RegisterComponent();
-
 		SetPlayerCameraTarget(NewPlayer);
 	}
 }
