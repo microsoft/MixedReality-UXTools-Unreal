@@ -106,6 +106,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetVisuals(USceneComponent* Visuals);
 
+	/** Set scene component reference to be used for the moving visuals. This method should be called if the visual reference should be
+	 * serialized. */
+	void SetVisuals(const FComponentReference& ComponentReference);
+
 	/** Set collision profile used by the button collider */
 	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
 	void SetCollisionProfile(FName Profile);

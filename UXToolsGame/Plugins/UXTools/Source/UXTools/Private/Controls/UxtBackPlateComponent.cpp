@@ -19,13 +19,10 @@ UUxtBackPlateComponent::UUxtBackPlateComponent()
 	check(MeshFinder.Object);
 	SetStaticMesh(MeshFinder.Object);
 
-	// clang-format off
-	// Bug, the FObjectFinder does not pull in files referenced by UMaterialExpressionCustom::IncludeFilePaths and fails to compile during cooking.
-	//static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Materials/MI_HoloLens2BackPlate"));
-	//check(MaterialFinder.Object);
-	//Material = MaterialFinder.Object;
-	//SetMaterial(0, Material);
-	// clang-format on
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Materials/MI_HoloLens2BackPlate"));
+	check(MaterialFinder.Object);
+	Material = MaterialFinder.Object;
+	SetMaterial(0, Material);
 
 	// Initialize the mesh to point down the +X axis with the default scale.
 	SetRelativeRotation(FRotator(90, 0, 0));
@@ -39,6 +36,7 @@ void UUxtBackPlateComponent::PostEditChangeProperty(FPropertyChangedEvent& Prope
 	{
 		UpdateMaterialParameters();
 	}
+
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 #endif
@@ -64,6 +62,8 @@ void UUxtBackPlateComponent::OnRegister()
 
 void UUxtBackPlateComponent::OnUpdateTransform(EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport)
 {
+	Super::OnUpdateTransform(UpdateTransformFlags, Teleport);
+
 	UpdateMaterialParameters();
 }
 
