@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 #include "UxtInputSimulationLocalPlayerSubsystem.h"
-#include "UxtInputSimulationState.h"
 
 #include "IHeadMountedDisplay.h"
 #include "UxtInputSimulationActor.h"
+#include "UxtInputSimulationState.h"
 #include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
 #include "Camera/CameraComponent.h"

@@ -298,7 +298,6 @@ void AUxtInputSimulationActor::UpdateHandMeshComponent(EControllerHand Hand)
 			HandMesh->SetVisibility(bVisible);
 		}
 	}
-
 }
 
 void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const

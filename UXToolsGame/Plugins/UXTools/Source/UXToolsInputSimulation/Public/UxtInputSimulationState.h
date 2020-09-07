@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
+
 #include "UxtInputSimulationState.generated.h"
 
 struct FUxtInputAnimationUtils
@@ -59,7 +60,6 @@ class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationState : public UObject
 	GENERATED_BODY()
 
 public:
-
 	UUxtInputSimulationState();
 
 	/** Reset to default. */
@@ -146,7 +146,6 @@ public:
 	void TogglePoseForControlledHands(FName PoseName);
 
 public:
-
 	/** If true, input will be interpreted as hand rotation instead of movement. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSimulation)
 	EUxtInputSimulationHandMode HandInputMode = EUxtInputSimulationHandMode::Movement;
@@ -160,8 +159,6 @@ public:
 	FQuat RelativeHeadOrientation = FQuat::Identity;
 
 private:
-
 	/** Current target pose for each hand. */
 	TMap<EControllerHand, FUxtInputSimulationHandState> HandStates;
-
 };

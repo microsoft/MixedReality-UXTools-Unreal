@@ -4,10 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UxtInputSimulationState.h"
 
 #include "GameFramework/Actor.h"
-
-#include "UxtInputSimulationState.h"
 
 #include "UxtInputSimulationActor.generated.h"
 
@@ -96,5 +95,4 @@ private:
 
 	/** Persistent simulation state, cached for quick runtime access. */
 	TWeakObjectPtr<UUxtInputSimulationState> SimulationStateWeak;
-
 };

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "UxtInputSimulationState.h"
+
 #include "UxtRuntimeSettings.h"
 
 #define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
@@ -15,12 +16,15 @@ EAxis::Type FUxtInputAnimationUtils::GetInputRotationAxis(EAxis::Type MoveAxis)
 {
 	switch (MoveAxis)
 	{
-		// Roll with forward axis
-		case EAxis::X: return EAxis::X;
-			// Yaw with right axis
-		case EAxis::Y: return EAxis::Z;
-			// Pitch with up axis
-		case EAxis::Z: return EAxis::Y;
+	// Roll with forward axis
+	case EAxis::X:
+		return EAxis::X;
+		// Yaw with right axis
+	case EAxis::Y:
+		return EAxis::Z;
+		// Pitch with up axis
+	case EAxis::Z:
+		return EAxis::Y;
 	}
 	return EAxis::None;
 }
@@ -30,9 +34,12 @@ float FUxtInputAnimationUtils::GetHandRotationInputValue(EAxis::Type RotationAxi
 {
 	switch (RotationAxis)
 	{
-		case EAxis::X: return MoveValue * InputRollScale;
-		case EAxis::Y: return MoveValue * InputPitchScale;
-		case EAxis::Z: return MoveValue * InputYawScale;
+	case EAxis::X:
+		return MoveValue * InputRollScale;
+	case EAxis::Y:
+		return MoveValue * InputPitchScale;
+	case EAxis::Z:
+		return MoveValue * InputYawScale;
 	}
 	return 0.0f;
 }
@@ -42,13 +49,15 @@ float FUxtInputAnimationUtils::GetHeadRotationInputValue(EAxis::Type RotationAxi
 {
 	switch (RotationAxis)
 	{
-		case EAxis::X: return 0.0f; // No head roll
-		case EAxis::Y: return MoveValue * InputPitchScale;
-		case EAxis::Z: return MoveValue * InputYawScale;
+	case EAxis::X:
+		return 0.0f; // No head roll
+	case EAxis::Y:
+		return MoveValue * InputPitchScale;
+	case EAxis::Z:
+		return MoveValue * InputYawScale;
 	}
 	return 0.0f;
 }
-
 
 UUxtInputSimulationState::UUxtInputSimulationState()
 {
@@ -109,10 +118,7 @@ TArray<EControllerHand> UUxtInputSimulationState::GetControlledHands() const
 {
 	TArray<EControllerHand> Keys;
 	HandStates.GetKeys(Keys);
-	return Keys.FilterByPredicate([this](EControllerHand Hand) -> bool
-		{
-			return HandStates[Hand].bIsControlled;
-		});
+	return Keys.FilterByPredicate([this](EControllerHand Hand) -> bool { return HandStates[Hand].bIsControlled; });
 }
 
 bool UUxtInputSimulationState::SetHandControlEnabled(EControllerHand Hand, bool bEnabled)
@@ -170,12 +176,12 @@ void UUxtInputSimulationState::AddHandInput(EAxis::Type Axis, float Value)
 
 	switch (HandInputMode)
 	{
-		case EUxtInputSimulationHandMode::Movement:
-			AddHandMovementInput(Axis, Value);
-			break;
-		case EUxtInputSimulationHandMode::Rotation:
-			AddHandRotationInput(RotationAxis, RotationValue);
-			break;
+	case EUxtInputSimulationHandMode::Movement:
+		AddHandMovementInput(Axis, Value);
+		break;
+	case EUxtInputSimulationHandMode::Rotation:
+		AddHandRotationInput(RotationAxis, RotationValue);
+		break;
 	}
 }
 
