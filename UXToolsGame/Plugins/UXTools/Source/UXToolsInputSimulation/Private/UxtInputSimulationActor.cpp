@@ -46,7 +46,7 @@ void AUxtInputSimulationActor::SetupHeadComponents()
 
 void AUxtInputSimulationActor::SetupHandComponents()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 
 	LeftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LeftHand"));
 	AddOwnedComponent(LeftHand);
@@ -169,7 +169,7 @@ void AUxtInputSimulationActor::BeginPlay()
 		SimulationStateWeak.Reset();
 		if (const ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(PC->Player))
 		{
-			if (auto* InputSim = LocalPlayer->GetSubsystem<UUxtInputSimulationLocalPlayerSubsystem>())
+			if (UUxtInputSimulationLocalPlayerSubsystem* InputSim = LocalPlayer->GetSubsystem<UUxtInputSimulationLocalPlayerSubsystem>())
 			{
 				SimulationStateWeak = InputSim->GetSimulationState();
 			}
@@ -193,7 +193,7 @@ void AUxtInputSimulationActor::BeginPlay()
 	// Initialize non-persistent data from simulation state
 	if (const UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const auto* const Settings = UUxtRuntimeSettings::Get();
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 
 		// Head movement flag only gets initialized from UxtRuntimeSettings, not simulated yet
 		HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
@@ -248,7 +248,8 @@ void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 	}
 
 	// Update input simulation data
-	if (auto* InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
+	if (UWindowsMixedRealityInputSimulationEngineSubsystem* InputSim =
+			UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
 	{
 		// Actor movement is used directly as HMD pose
 		bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
@@ -310,7 +311,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 		return;
 	}
 
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
 
@@ -499,7 +500,7 @@ void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
 {
 	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const auto* const Settings = UUxtRuntimeSettings::Get();
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 		check(Settings);
 		State->TogglePoseForControlledHands(Settings->PrimaryHandPose);
 	}
@@ -509,7 +510,7 @@ void AUxtInputSimulationActor::OnSecondaryHandPosePressed()
 {
 	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const auto* const Settings = UUxtRuntimeSettings::Get();
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 		check(Settings);
 		State->TogglePoseForControlledHands(Settings->SecondaryHandPose);
 	}
@@ -519,7 +520,7 @@ void AUxtInputSimulationActor::OnMenuHandPosePressed()
 {
 	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const auto* const Settings = UUxtRuntimeSettings::Get();
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 		check(Settings);
 		State->TogglePoseForControlledHands(Settings->MenuHandPose);
 	}
