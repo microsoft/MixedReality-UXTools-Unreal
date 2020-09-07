@@ -5,6 +5,7 @@
 
 #include "IHeadMountedDisplay.h"
 #include "UxtInputSimulationActor.h"
+#include "UxtInputSimulationState.h"
 #include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
 #include "Camera/CameraComponent.h"
@@ -17,6 +18,11 @@
 
 #define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
 
+UUxtInputSimulationState* UUxtInputSimulationLocalPlayerSubsystem::GetSimulationState() const
+{
+	return SimulationState;
+}
+
 bool UUxtInputSimulationLocalPlayerSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
 	return UWindowsMixedRealityInputSimulationEngineSubsystem::IsInputSimulationEnabled();
@@ -24,6 +30,8 @@ bool UUxtInputSimulationLocalPlayerSubsystem::ShouldCreateSubsystem(UObject* Out
 
 void UUxtInputSimulationLocalPlayerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
+	SimulationState = NewObject<UUxtInputSimulationState>();
+
 	// Subscribe to PostLoadMap event to recreate the actors after a map has been destroyed.
 	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UUxtInputSimulationLocalPlayerSubsystem::OnPostLoadMapWithWorld);
 
@@ -40,6 +48,8 @@ void UUxtInputSimulationLocalPlayerSubsystem::Deinitialize()
 {
 	DestroyInputSimActor();
 	DestroyHmdCameraActor();
+
+	SimulationState = nullptr;
 }
 
 void UUxtInputSimulationLocalPlayerSubsystem::CreateActors(UWorld* World)

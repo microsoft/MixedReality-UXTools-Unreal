@@ -4,12 +4,14 @@
 #include "UxtInputSimulationActor.h"
 
 #include "UxtInputSimulationHeadMovementComponent.h"
+#include "UxtInputSimulationLocalPlayerSubsystem.h"
 #include "UxtRuntimeSettings.h"
 #include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
 #include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/Engine.h"
+#include "Engine/LocalPlayer.h"
 #include "GameFramework/PlayerInput.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/RuntimeErrors.h"
@@ -37,21 +39,15 @@ AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& Obj
 
 void AUxtInputSimulationActor::SetupHeadComponents()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-
 	HeadMovement = CreateDefaultSubobject<UUxtInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
 	AddOwnedComponent(HeadMovement);
 	// Add tick dependency so the head movement happens before the actor copies the result
 	AddTickPrerequisiteComponent(HeadMovement);
-
-	// Initialize runtime state
-
-	HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
 }
 
 void AUxtInputSimulationActor::SetupHandComponents()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 
 	LeftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LeftHand"));
 	AddOwnedComponent(LeftHand);
@@ -90,18 +86,6 @@ void AUxtInputSimulationActor::SetupHandComponents()
 	// Disable shadows
 	LeftHand->SetCastShadow(false);
 	RightHand->SetCastShadow(false);
-
-	//
-	// Init runtime state
-
-	SetHandVisibility(EControllerHand::Left, Settings->bStartWithHandsEnabled);
-	SetHandVisibility(EControllerHand::Right, Settings->bStartWithHandsEnabled);
-
-	// Initial location
-	SetDefaultHandLocation(EControllerHand::Left);
-	SetDefaultHandLocation(EControllerHand::Right);
-	SetDefaultHandRotation(EControllerHand::Left);
-	SetDefaultHandRotation(EControllerHand::Right);
 }
 
 namespace
@@ -182,6 +166,16 @@ void AUxtInputSimulationActor::BeginPlay()
 
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
 	{
+		// Cache persistent simulation state for quick access
+		SimulationStateWeak.Reset();
+		if (const ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(PC->Player))
+		{
+			if (UUxtInputSimulationLocalPlayerSubsystem* InputSim = LocalPlayer->GetSubsystem<UUxtInputSimulationLocalPlayerSubsystem>())
+			{
+				SimulationStateWeak = InputSim->GetSimulationState();
+			}
+		}
+
 		// Explicitly enable input: The input sim actor may be created after loading a map,
 		// in which case auto-enabling input does not work.
 		EnableInput(PC);
@@ -195,6 +189,19 @@ void AUxtInputSimulationActor::BeginPlay()
 			Pawn->SetActorHiddenInGame(true);
 			Pawn->SetActorEnableCollision(false);
 		}
+	}
+
+	// Initialize non-persistent data from simulation state
+	if (const UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+
+		// Head movement flag only gets initialized from UxtRuntimeSettings, not simulated yet
+		HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
+
+		// Controller is used as the stage and the HMD moves relative to it
+		HeadMovement->UpdatedComponent->SetRelativeLocation(State->RelativeHeadPosition);
+		HeadMovement->UpdatedComponent->SetRelativeRotation(State->RelativeHeadOrientation);
 	}
 
 	if (ensure(InputComponent != nullptr))
@@ -231,27 +238,33 @@ void AUxtInputSimulationActor::BeginPlay()
 
 void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 {
-	auto* const InputSim = UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
-	if (!InputSim)
+	UpdateHandMeshComponent(EControllerHand::Left);
+	UpdateHandMeshComponent(EControllerHand::Right);
+
+	// Copy head pose to the simulation state for persistence
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		return;
+		State->RelativeHeadPosition = HeadMovement->UpdatedComponent->GetRelativeLocation();
+		State->RelativeHeadOrientation = HeadMovement->UpdatedComponent->GetRelativeRotation().Quaternion();
 	}
 
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
+	// Update input simulation data
+	if (UWindowsMixedRealityInputSimulationEngineSubsystem* InputSim =
+			UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
+	{
+		// Actor movement is used directly as HMD pose
+		bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
+		FQuat HeadOrientation = HeadMovement->UpdatedComponent->GetComponentRotation().Quaternion();
+		FVector HeadPosition = HeadMovement->UpdatedComponent->GetComponentLocation();
 
-	// Copy Simulated input data to the engine subsystem
+		// Construct new hand state from animation
+		FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
+		UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
+		UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
 
-	bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
-
-	FQuat HeadRotation = GetActorRotation().Quaternion();
-	FVector HeadLocation = GetActorLocation();
-
-	FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
-	UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
-	UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
-
-	InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadRotation, HeadLocation, LeftHandState, RightHandState);
+		// Copy simulated input data to the engine subsystem
+		InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadOrientation, HeadPosition, LeftHandState, RightHandState);
+	}
 }
 
 USkeletalMeshComponent* AUxtInputSimulationActor::GetHandMesh(EControllerHand Hand) const
@@ -267,82 +280,43 @@ USkeletalMeshComponent* AUxtInputSimulationActor::GetHandMesh(EControllerHand Ha
 	return nullptr;
 }
 
-FName AUxtInputSimulationActor::GetTargetPose(EControllerHand Hand) const
-{
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-
-	const FName* HandTargetPose = TargetPoses.Find(Hand);
-	return HandTargetPose ? *HandTargetPose : Settings->DefaultHandPose;
-}
-
-void AUxtInputSimulationActor::SetTargetPose(EControllerHand Hand, FName PoseName)
-{
-	TargetPoses.FindOrAdd(Hand) = PoseName;
-}
-
-void AUxtInputSimulationActor::ResetTargetPose(EControllerHand Hand)
-{
-	TargetPoses.Remove(Hand);
-}
-
-void AUxtInputSimulationActor::GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const
-{
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-
-	// Mirror the left hand.
-	FVector Scale3D = (Hand == EControllerHand::Left ? FVector(1, -1, 1) : FVector(1, 1, 1));
-
-	FRotator RestRotation = Settings->HandRestOrientation;
-	if (Hand == EControllerHand::Left)
-	{
-		RestRotation.Yaw = -RestRotation.Yaw;
-		RestRotation.Roll = -RestRotation.Roll;
-	}
-
-	const FTransform& HandTransform = HandTransforms.FindRef(Hand);
-	if (GetTargetPose(Hand) == Settings->MenuHandPose)
-	{
-		// Use a camera-facing rotation for the menu pose
-		FRotator UserFacing = (Hand == EControllerHand::Left ? FRotator(30, 150, -20) : FRotator(30, 210, 20));
-		TargetTransform = FTransform(UserFacing, HandTransform.GetLocation(), Scale3D);
-		// Blend in and out of the menu pose
-		bAnimate = true;
-	}
-	else
-	{
-		TargetTransform =
-			FTransform(HandTransform.GetRotation() * RestRotation.Quaternion().Inverse(), HandTransform.GetLocation(), Scale3D);
-		// No animation between user rotations
-		bAnimate = false;
-	}
-}
-
-bool AUxtInputSimulationActor::IsHandVisible(EControllerHand Hand) const
+void AUxtInputSimulationActor::UpdateHandMeshComponent(EControllerHand Hand)
 {
 	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
 	{
-		return HandMesh->IsVisible();
-	}
-	return false;
-}
+		bool bVisible;
+		if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+		{
+			bVisible = State->IsHandVisible(Hand);
+		}
+		else
+		{
+			bVisible = false;
+		}
 
-bool AUxtInputSimulationActor::IsHandControlled(EControllerHand Hand) const
-{
-	return ControlledHands.Contains(Hand);
+		if (HandMesh->IsVisible() != bVisible)
+		{
+			HandMesh->SetVisibility(bVisible);
+		}
+	}
 }
 
 void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const
 {
 	typedef FWindowsMixedRealityInputSimulationHandState::ButtonStateArray ButtonStateArray;
 
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	UUxtInputSimulationState* State = SimulationStateWeak.Get();
+	if (!State)
+	{
+		return;
+	}
+
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
 
 	// Visible hands are considered tracked
-	bool IsTracked = IsHandVisible(Hand);
+	bool IsTracked = State->IsHandVisible(Hand);
 
 	HandState.TrackingStatus = IsTracked ? ETrackingStatus::Tracked : ETrackingStatus::NotTracked;
 
@@ -438,7 +412,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 
 	HandState.IsButtonPressed = 0;
 
-	FName TargetPose = GetTargetPose(Hand);
+	FName TargetPose = State->GetTargetPose(Hand);
 	const FUxtRuntimeSettingsButtonSet* pTargetActions = Settings->HandPoseButtonMappings.Find(TargetPose);
 	if (pTargetActions)
 	{
@@ -460,94 +434,96 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 
 void AUxtInputSimulationActor::OnToggleLeftHandPressed()
 {
-	SetHandVisibility(EControllerHand::Left, !IsHandVisible(EControllerHand::Left));
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->SetHandVisibility(EControllerHand::Left, !State->IsHandVisible(EControllerHand::Left));
+	}
 }
 
 void AUxtInputSimulationActor::OnToggleRightHandPressed()
 {
-	SetHandVisibility(EControllerHand::Right, !IsHandVisible(EControllerHand::Right));
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->SetHandVisibility(EControllerHand::Right, !State->IsHandVisible(EControllerHand::Right));
+	}
 }
 
 void AUxtInputSimulationActor::OnControlLeftHandPressed()
 {
-	SetHandControlEnabled(EControllerHand::Left, true);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->SetHandControlEnabled(EControllerHand::Left, true);
+	}
 }
 
 void AUxtInputSimulationActor::OnControlLeftHandReleased()
 {
-	SetHandControlEnabled(EControllerHand::Left, false);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->SetHandControlEnabled(EControllerHand::Left, false);
+	}
 }
 
 void AUxtInputSimulationActor::OnControlRightHandPressed()
 {
-	SetHandControlEnabled(EControllerHand::Right, true);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->SetHandControlEnabled(EControllerHand::Right, true);
+	}
 }
 
 void AUxtInputSimulationActor::OnControlRightHandReleased()
 {
-	SetHandControlEnabled(EControllerHand::Right, false);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->SetHandControlEnabled(EControllerHand::Right, false);
+	}
 }
 
 void AUxtInputSimulationActor::OnHandRotatePressed()
 {
-	SetHandRotationEnabled(true);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		State->HandInputMode = EUxtInputSimulationHandMode::Rotation;
+	}
 }
 
 void AUxtInputSimulationActor::OnHandRotateReleased()
 {
-	SetHandRotationEnabled(false);
-}
-
-void AUxtInputSimulationActor::TogglePoseForControlledHands(FName PoseName)
-{
-	// Check if all hands are using the pose
-	bool bAllHandsUsingPose = true;
-	for (EControllerHand Hand : ControlledHands)
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		if (GetTargetPose(Hand) != PoseName)
-		{
-			bAllHandsUsingPose = false;
-			break;
-		}
-	}
-
-	if (bAllHandsUsingPose)
-	{
-		// All hands currently using the target pose, toggle "off" by resetting to default
-		for (EControllerHand Hand : ControlledHands)
-		{
-			ResetTargetPose(Hand);
-		}
-	}
-	else
-	{
-		// Not all hands using the target pose, toggle "on" by setting it
-		for (EControllerHand Hand : ControlledHands)
-		{
-			SetTargetPose(Hand, PoseName);
-		}
+		State->HandInputMode = EUxtInputSimulationHandMode::Movement;
 	}
 }
 
 void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-	TogglePoseForControlledHands(Settings->PrimaryHandPose);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+		check(Settings);
+		State->TogglePoseForControlledHands(Settings->PrimaryHandPose);
+	}
 }
 
 void AUxtInputSimulationActor::OnSecondaryHandPosePressed()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-	TogglePoseForControlledHands(Settings->SecondaryHandPose);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+		check(Settings);
+		State->TogglePoseForControlledHands(Settings->SecondaryHandPose);
+	}
 }
 
 void AUxtInputSimulationActor::OnMenuHandPosePressed()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-	TogglePoseForControlledHands(Settings->MenuHandPose);
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	{
+		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+		check(Settings);
+		State->TogglePoseForControlledHands(Settings->MenuHandPose);
+	}
 }
 
 void AUxtInputSimulationActor::AddInputMoveForward(float Value)
@@ -565,70 +541,48 @@ void AUxtInputSimulationActor::AddInputMoveUp(float Value)
 	AddHeadMovementInputImpl(EAxis::Z, Value);
 }
 
-namespace
-{
-	const float InputYawScale = 2.5;
-	const float InputPitchScale = 1.75;
-	const float InputRollScale = 5.0;
-} // namespace
-
 void AUxtInputSimulationActor::AddInputLookUp(float Value)
 {
-	if (ControlledHands.Num() > 0)
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		if (bEnableHandRotation)
+		if (State->IsAnyHandControlled())
 		{
-			// Y axis changes hand pitch.
-			AddHandRotationInputImpl(EAxis::Y, Value);
+			State->AddHandInput(EAxis::Z, Value);
 		}
 		else
 		{
-			AddHandMovementInputImpl(EAxis::Z, Value);
+			AddHeadRotationInputImpl(EAxis::Z, Value);
 		}
-	}
-	else
-	{
-		HeadMovement->AddRotationInput(FRotator(Value * InputPitchScale, 0, 0));
 	}
 }
 
 void AUxtInputSimulationActor::AddInputTurn(float Value)
 {
-	if (ControlledHands.Num() > 0)
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		if (bEnableHandRotation)
+		if (State->IsAnyHandControlled())
 		{
-			// X axis changes hand yaw.
-			AddHandRotationInputImpl(EAxis::Z, Value);
+			State->AddHandInput(EAxis::Y, Value);
 		}
 		else
 		{
-			AddHandMovementInputImpl(EAxis::Y, Value);
+			AddHeadRotationInputImpl(EAxis::Y, Value);
 		}
-	}
-	else
-	{
-		HeadMovement->AddRotationInput(FRotator(0, Value * InputYawScale, 0));
 	}
 }
 
 void AUxtInputSimulationActor::AddInputScroll(float Value)
 {
-	if (ControlledHands.Num() > 0)
+	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		if (bEnableHandRotation)
+		if (State->IsAnyHandControlled())
 		{
-			// Scroll changes hand roll.
-			AddHandRotationInputImpl(EAxis::X, Value * InputRollScale);
+			State->AddHandInput(EAxis::X, Value);
 		}
 		else
 		{
-			AddHandMovementInputImpl(EAxis::X, Value);
+			// No head rotation on scrolling
 		}
-	}
-	else
-	{
-		// No rotation on scrolling
 	}
 }
 
@@ -638,123 +592,13 @@ void AUxtInputSimulationActor::AddHeadMovementInputImpl(EAxis::Type Axis, float 
 	HeadMovement->AddMovementInput(Dir * Value);
 }
 
-void AUxtInputSimulationActor::AddHandMovementInputImpl(EAxis::Type TranslationAxis, float Value)
+void AUxtInputSimulationActor::AddHeadRotationInputImpl(EAxis::Type Axis, float Value)
 {
-	if (Value != 0.f)
-	{
-		FVector Dir = FRotationMatrix::Identity.GetUnitAxis(TranslationAxis);
-		for (EControllerHand Hand : ControlledHands)
-		{
-			FTransform& HandTransform = HandTransforms.FindChecked(Hand);
-
-			HandTransform.AddToTranslation(Dir * Value);
-		}
-	}
-}
-
-void AUxtInputSimulationActor::AddHandRotationInputImpl(EAxis::Type RotationAxis, float Value)
-{
-	if (Value != 0.f)
-	{
-		const UUxtRuntimeSettings* Settings = UUxtRuntimeSettings::Get();
-		check(Settings);
-
-		for (EControllerHand Hand : ControlledHands)
-		{
-			FRotator DeltaRot = FRotator::ZeroRotator;
-			DeltaRot.SetComponentForAxis(RotationAxis, Value);
-			// Mirror roll value so hands turn in opposite directions for symmetry.
-			if (Hand == EControllerHand::Left)
-			{
-				DeltaRot.Roll = -DeltaRot.Roll;
-			}
-
-			FTransform& HandTransform = HandTransforms.FindChecked(Hand);
-
-			FRotator NewRot = HandTransform.Rotator() + DeltaRot;
-			NewRot.Pitch = FMath::ClampAngle(NewRot.Pitch, -90.0f, 90.0f);
-			HandTransform.SetRotation(NewRot.Quaternion());
-		}
-	}
-}
-
-void AUxtInputSimulationActor::SetDefaultHandLocation(EControllerHand Hand)
-{
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-
-	FTransform& HandTransform = HandTransforms.FindOrAdd(Hand);
-
-	FVector DefaultPos = Settings->DefaultHandPosition;
-	if (Hand == EControllerHand::Left)
-	{
-		DefaultPos.Y = -DefaultPos.Y;
-	}
-	HandTransform.SetLocation(DefaultPos);
-}
-
-void AUxtInputSimulationActor::SetDefaultHandRotation(EControllerHand Hand)
-{
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-
-	FTransform& HandTransform = HandTransforms.FindOrAdd(Hand);
-
-	FRotator DefaultRot = Settings->HandRestOrientation;
-	if (Hand == EControllerHand::Left)
-	{
-		DefaultRot.Yaw = -DefaultRot.Yaw;
-		DefaultRot.Roll = -DefaultRot.Roll;
-	}
-	HandTransform.SetRotation(DefaultRot.Quaternion());
-}
-
-void AUxtInputSimulationActor::SetHandVisibility(EControllerHand Hand, bool bIsVisible)
-{
-	if (bIsVisible)
-	{
-		// Reset hand position when it becomes visible
-		if (!IsHandVisible(Hand))
-		{
-			SetDefaultHandLocation(Hand);
-			SetDefaultHandRotation(Hand);
-		}
-	}
-	else
-	{
-		// Untracked hands can not be controlled.
-		SetHandControlEnabled(Hand, false);
-	}
-
-	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
-	{
-		HandMesh->SetVisibility(bIsVisible);
-	}
-}
-
-bool AUxtInputSimulationActor::SetHandControlEnabled(EControllerHand Hand, bool bEnabled)
-{
-	if (bEnabled)
-	{
-		// Only allow control when the hand is visible.
-		if (!IsHandVisible(Hand))
-		{
-			return false;
-		}
-
-		ControlledHands.Add(Hand);
-		return true;
-	}
-	else
-	{
-		ControlledHands.Remove(Hand);
-		return true;
-	}
-}
-
-void AUxtInputSimulationActor::SetHandRotationEnabled(bool bEnabled)
-{
-	bEnableHandRotation = bEnabled;
+	EAxis::Type RotationAxis = FUxtInputAnimationUtils::GetInputRotationAxis(Axis);
+	float RotationValue = FUxtInputAnimationUtils::GetHeadRotationInputValue(RotationAxis, Value);
+	FRotator RotationInput = FRotator::ZeroRotator;
+	RotationInput.SetComponentForAxis(RotationAxis, RotationValue);
+	HeadMovement->AddRotationInput(RotationInput);
 }
 
 #undef LOCTEXT_NAMESPACE
