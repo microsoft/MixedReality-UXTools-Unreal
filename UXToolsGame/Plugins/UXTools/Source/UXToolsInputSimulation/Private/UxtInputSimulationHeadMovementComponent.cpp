@@ -3,8 +3,6 @@
 
 #include "UxtInputSimulationHeadMovementComponent.h"
 
-#include "UxtRuntimeSettings.h"
-
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
 #include "Engine/LocalPlayer.h"
@@ -112,9 +110,6 @@ void UUxtInputSimulationHeadMovementComponent::TickComponent(
 	float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
 
 	if (!UpdatedComponent || ShouldSkipUpdate(DeltaTime))
 	{

@@ -57,9 +57,6 @@ UUxtInputSimulationState::UUxtInputSimulationState()
 
 void UUxtInputSimulationState::Reset()
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
-	check(Settings);
-
 	RelativeHeadPosition = FVector::ZeroVector;
 	RelativeHeadOrientation = FQuat::Identity;
 
@@ -135,7 +132,7 @@ bool UUxtInputSimulationState::SetHandControlEnabled(EControllerHand Hand, bool 
 
 void UUxtInputSimulationState::GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	// Mirror the left hand.
@@ -201,9 +198,6 @@ void UUxtInputSimulationState::AddHandRotationInput(EAxis::Type RotationAxis, fl
 {
 	if (Value != 0.f)
 	{
-		const UUxtRuntimeSettings* Settings = UUxtRuntimeSettings::Get();
-		check(Settings);
-
 		for (auto& KeyValuePair : HandStates)
 		{
 			EControllerHand Hand = KeyValuePair.Key;
@@ -241,7 +235,7 @@ void UUxtInputSimulationState::ResetHandState(EControllerHand Hand)
 
 void UUxtInputSimulationState::SetDefaultHandLocation(EControllerHand Hand)
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	FUxtInputSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
@@ -256,7 +250,7 @@ void UUxtInputSimulationState::SetDefaultHandLocation(EControllerHand Hand)
 
 void UUxtInputSimulationState::SetDefaultHandRotation(EControllerHand Hand)
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	FUxtInputSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
@@ -272,7 +266,7 @@ void UUxtInputSimulationState::SetDefaultHandRotation(EControllerHand Hand)
 
 FName UUxtInputSimulationState::GetTargetPose(EControllerHand Hand) const
 {
-	const auto* const Settings = UUxtRuntimeSettings::Get();
+	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
 	check(Settings);
 
 	const FUxtInputSimulationHandState& HandState = HandStates.FindRef(Hand);
