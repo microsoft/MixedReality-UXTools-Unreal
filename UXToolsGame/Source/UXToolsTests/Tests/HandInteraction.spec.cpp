@@ -51,9 +51,7 @@ void HandInteractionSpec::Define()
 		HandActor->SetHand(EControllerHand::Left);
 
 		NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
-		UxtTestUtils::DisablePointerSmoothing(NearPointer);
 		FarPointer = HandActor->FindComponentByClass<UUxtFarPointerComponent>();
-		UxtTestUtils::DisablePointerSmoothing(FarPointer);
 		FarBeam = HandActor->FindComponentByClass<UUxtFarBeamComponent>();
 		TestTrue("Components found", NearPointer && FarPointer && FarBeam);
 

@@ -6,15 +6,17 @@
 #include "Controls/UxtIconBrush.h"
 #include "Engine/Font.h"
 
-static const FName IconBrushStringName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, IconString);
-static const FName IconBrushFontName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, IconFont);
+static const FName IconBrushIconName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, Icon);
+static const FName IconBrushTextBrushName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, TextBrush);
+static const FName TextBrushFontName = GET_MEMBER_NAME_CHECKED(FUxtTextBrush, Font);
 
 UFont* UUxtIconBrushEditorUtilityWidget::GetIconBrushFont() const
 {
 	if (TSharedPtr<IPropertyHandle> LockedObserver = PropertyHandle.Pin())
 	{
 		UObject* Object = nullptr;
-		if (LockedObserver->GetChildHandle(IconBrushFontName)->GetValue(Object) == FPropertyAccess::Success)
+		if (LockedObserver->GetChildHandle(IconBrushTextBrushName)->GetChildHandle(TextBrushFontName)->GetValue(Object) ==
+			FPropertyAccess::Success)
 		{
 			return Cast<UFont>(Object);
 		}
@@ -27,7 +29,9 @@ bool UUxtIconBrushEditorUtilityWidget::SetIconBrushFont(const UFont* Font)
 {
 	if (TSharedPtr<IPropertyHandle> LockedObserver = PropertyHandle.Pin())
 	{
-		return (LockedObserver->GetChildHandle(IconBrushFontName)->SetValue(Font) == FPropertyAccess::Success);
+		return (
+			LockedObserver->GetChildHandle(IconBrushTextBrushName)->GetChildHandle(TextBrushFontName)->SetValue(Font) ==
+			FPropertyAccess::Success);
 	}
 
 	return false;
@@ -39,7 +43,7 @@ bool UUxtIconBrushEditorUtilityWidget::GetIconBrushString(FString& IconString) c
 
 	if (TSharedPtr<IPropertyHandle> LockedObserver = PropertyHandle.Pin())
 	{
-		return (LockedObserver->GetChildHandle(IconBrushStringName)->GetValue(IconString) == FPropertyAccess::Success);
+		return (LockedObserver->GetChildHandle(IconBrushIconName)->GetValue(IconString) == FPropertyAccess::Success);
 	}
 
 	return false;
@@ -49,7 +53,7 @@ bool UUxtIconBrushEditorUtilityWidget::SetIconBrushString(const FString& IconStr
 {
 	if (TSharedPtr<IPropertyHandle> LockedObserver = PropertyHandle.Pin())
 	{
-		return (LockedObserver->GetChildHandle(IconBrushStringName)->SetValue(IconString) == FPropertyAccess::Success);
+		return (LockedObserver->GetChildHandle(IconBrushIconName)->SetValue(IconString) == FPropertyAccess::Success);
 	}
 
 	return false;

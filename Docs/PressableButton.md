@@ -48,51 +48,60 @@ Here are some examples of these events in use in the SimpleButton blueprint samp
 ![ButtonHoverEvents](Images/PressableButton/ButtonHoverEvents.png)
 ![ButtonEvents](Images/PressableButton/ButtonEvents.png)
 
-## HoloLens 2 Button Blueprint
+## Button Actors
 
-The HoloLens 2 button blueprint, named `BP_ButtonHoloLens2`, is a button blueprint that provides configurable HoloLens 2 Shell style visuals and behaviors. Please see the [graphics documentation](Graphics.md) for more information about the button's shaders and materials.
+To provide HoloLens 2 style button visuals and behaviors UX Tools contains an actor named named `UxtPressableButtonActor`. The `UxtPressableButtonActor` automatically constructs a customizable button front plate, back plate, icon, and label hierarchy. The button visuals are tied to custom shaders and materials, please see the [graphics documentation](Graphics.md) for more information.
 
-![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2.png)
+![ButtonActor](Images/PressableButton/ButtonActor.png)
 
 ### Visual Configuration
 
-To aid in the time it takes to configure buttons, a handful of blueprint variables are exposed which react to changes made during edit time and runtime. 
+To aid in the time it takes to configure buttons, a handful of actor properties are exposed which react to changes made during edit time and runtime.
 
-![ButtonHoloLens2VisualConfig](Images/PressableButton/ButtonHoloLens2VisualConfig.png)
+![ButtonActorVisualConfig](Images/PressableButton/ButtonActorVisualConfig.png)
 
-For example, changing the `Button Size` from (16, 32, 32) to (16, 64, 32) will automatically scale the button's front and back plates to create a wide button without effecting the button icon or label.
+For example, changing the `Millimeter Size` from (16, 32, 32) to (16, 64, 32) will automatically scale the button's front and back plates to create a wide button without effecting the button icon or label.
 
-Updating the `Button Label` will automatically adjust the button's text render component. Changing the `Button Icon` to a new unicode code point will generate the appropriate unicode character to index into a font containing the icon (e.g. `Font_SegoeMDL2_Regular_42`). Note, the font atlas will need to be updated to support any new icons which are not already present within the font atlas. 
+Changing the `Icon` to a new unicode code point will generate the appropriate unicode character to index into a font containing the icon (e.g. `Font_SegoeMDL2_Regular_42`). Note, the font atlas will need to be updated to support any new icons which are not already present within the font atlas. Changing the `Label` will update the underlying text render component. Toggling the `IsPlated` checkbox will hide the back plate. Hiding the back plate is recommended when buttons are close enough to share a common back plate. 
 
 - To add a new icon, open the icon font, such as `Font_SegoeMDL2_Regular_42`. Under "Import Options" select the "Chars" property. Paste your icon's unicode character into the "Chars" property and save the font. Finally reimport the font uasset.
 
 ### Scripting Logic
 
-All `UxtPressableButtonComponent` events are passed up to the parent `BP_ButtonHoloLens2` via the `BP_BaseButton` base class. So, any `BP_BaseButton` variables in other blueprints can easily bind to button events from the variable details panel without having to search for a child button component. In the below example "Hello" is printed when a `BP_BaseButton`, or any derived classes, are pressed:
+Any blueprints which use `UxtPressableButtonActor` as a parent class (or any of its derived classes) can easily respond to button events by selecting the "Button Component" and binding to the available button events. In this case "Hello" will be printed when the button is pressed: 
 
-![ButtonHoloLens2Events](Images/PressableButton/ButtonHoloLens2Events.png)
+![ButtonActorEvents](Images/PressableButton/ButtonActorBindEvent.png)
 
-### HoloLens 2 Button Variants
+If a blueprint needs to respond to a button event externally, such as a button child actor. This can be achieved with the below graph in the case of a child actor component:
 
-A handful of derived `BP_ButtonHoloLens2` blueprints exist to exhibit behavior not found on a typical pressable button. Non-typical behavior includes a binary button state achieved with the `UUxtToggleGroupComponent`. To control groups of mutually exclusive `UxtToggleStateComponents`, like [radio buttons](https://en.wikipedia.org/wiki/Radio_button), supply a `UUxtToggleGroupComponent` with a list of `UxtToggleStateComponents`.
+![ButtonActorBindEventExternal](Images/PressableButton/ButtonActorBindEventExternal.png)
 
-- `BP_ButtonHoloLens2Toggle`, displays an additional back plate based on the button's `UxtToggleStateComponent` checked property.
+ - Acquire the child actor from the "Child Button" child actor component
+ - Get the "Button Component" from the child actor
+ - Bind the "On Button Pressed" event to a custom event
+ - In this case "Hello" will be printed when the button is pressed
 
-![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Toggle.png)
+### Button Actor Variants
 
-- `BP_ButtonHoloLens2ToggleCheck`, displays a check box icon based on the button's `UxtToggleStateComponent` checked property.
+A handful of derived `UxtPressableButtonActors` exist to exhibit behavior not found on a typical pressable button. Non-typical behavior includes a binary button state achieved with the `UUxtToggleGroup`. To control groups of mutually exclusive `UxtToggleStates` like [radio buttons](https://en.wikipedia.org/wiki/Radio_button). To make a group of buttons mutually exclusive supply a `UUxtToggleGroup` with a list of `UxtToggleStates`.
 
-![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Check.png)
+- `UxtPressableToggleButton`, displays an additional back plate based on the button's `UxtToggleState` checked property.
 
-- `BP_ButtonHoloLens2ToggleSwitch`, displays a switch icon based on the button's `UxtToggleStateComponent` checked property.
+![ButtonActorToggle](Images/PressableButton/ButtonActorToggle.png)
 
-![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Switch.png)
+- `UxtPressableCheckButton`, displays a check box icon based on the button's `UxtToggleState` checked property.
 
-- `BP_ButtonHoloLens2ToggleRadio`, displays a radio circle icon based on the button's `UxtToggleStateComponent` checked property. Radio buttons are intended to be used with the `UUxtToggleGroupComponent` to ensure only one button is checked at a time.
+![ButtonActorCheck](Images/PressableButton/ButtonActorCheck.png)
 
-![ButtonHoloLens2](Images/PressableButton/ButtonHoloLens2Radio.png)
+- `UxtPressableSwitchButton`, displays a switch icon based on the button's `UxtToggleState` checked property.
 
-## Public Properties
+![ButtonActorSwitch](Images/PressableButton/ButtonActorSwitch.png)
+
+- `UxtPressableRadioButton`, displays a radio circle icon based on the button's `UxtToggleState` checked property. Radio buttons are intended to be used with the `UUxtToggleGroup` to ensure only one button is checked at a time.
+
+![ButtonActorRadio](Images/PressableButton/ButtonActorRadio.png)
+
+## Pressable Button Component Public Properties
 
 ### Push Behavior
 How the visuals should react when the button is pressed. Translate means the visuals move move along the local x-axis. Compress means the visuals will scale along the x-axis. Note, when compressed the visual's pivot should align with the back face of the compressible region. In other words, the plane visualized by the [max push distance](#max-push-distance).

@@ -34,7 +34,7 @@ namespace
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
 		Manipulator->TargetComponent = TargetComponent;
 		Manipulator->ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::None);
-		Manipulator->SetSmoothingFactor(0.0f);
+		Manipulator->SetSmoothing(0.0f);
 		Manipulator->RegisterComponent();
 
 		Actor->SetActorLocation(TargetLocation);

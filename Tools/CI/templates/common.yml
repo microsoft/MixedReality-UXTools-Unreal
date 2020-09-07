@@ -118,3 +118,15 @@ steps:
     targetType: 'filePath'
     filePath: $(UXTSourceDir)\Tools\scripts\CheckHistory.ps1
     workingDirectory: $(UXTSourceDir)
+
+- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  - powershell: |
+      $DescPath = "$(Agent.TempDirectory)\PR-description.txt"
+      $Content = $(ToolsDir)\scripts\GetPullRequestDescription.ps1 `
+        -OutPath $DescPath `
+        -ProjectUrl $(System.TeamFoundationCollectionUri) `
+        -PullRequestId $(System.PullRequest.PullRequestId)
+      $(UXTSourceDir)\Tools\scripts\CheckFileKeywords.ps1 -Path $DescPath
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    displayName: 'Check Pull Request description'

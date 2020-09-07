@@ -40,7 +40,7 @@ void FUxtIconBrushCustomization::CustomizeChildren(
 
 		// Under the IconString, display a button to open the character map viewer.
 		FName PropertyName = PropHandle->GetProperty()->GetFName();
-		if (PropertyName == GET_MEMBER_NAME_CHECKED(FUxtIconBrush, IconString))
+		if (PropertyName == GET_MEMBER_NAME_CHECKED(FUxtIconBrush, Icon))
 		{
 			Builder.AddProperty(PropHandle.ToSharedRef());
 
@@ -56,7 +56,7 @@ void FUxtIconBrushCustomization::CustomizeChildren(
 											.IsEnabled((MakeAttributeLambda([=] {
 												// Enable the button only when the IconBrushContentType is set to UnicodeCharacter or String.
 												uint8 Enum = 0;
-												const FName ChildName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, IconContentType);
+												const FName ChildName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, ContentType);
 												const bool Success =
 													PropertyHandle->GetChildHandle(ChildName)->GetValue(Enum) == FPropertyAccess::Success;
 												return Success &&

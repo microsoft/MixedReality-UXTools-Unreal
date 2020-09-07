@@ -13,7 +13,6 @@
 #include "Materials/MaterialParameterCollectionInstance.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Utils/UxtFunctionLibrary.h"
-#include "Utils/UxtInternalFunctionLibrary.h"
 
 UUxtFarPointerComponent::UUxtFarPointerComponent()
 {
@@ -45,12 +44,7 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 	if (bIsTracked)
 	{
-		// Interpolating here directly affects both the cursor and ray
-		NewOrientation = UUxtInternalFunctionLibrary::SmoothLerp(PointerOrientation, NewOrientation, RotationSmoothingFactor, DeltaTime);
-		NewOrigin = UUxtInternalFunctionLibrary::SmoothLerp(PointerOrigin, NewOrigin, LocationSmoothingFactor, DeltaTime);
-		PointerOrientation = NewOrientation;
-		PointerOrigin = NewOrigin;
-		OnPointerPoseUpdated();
+		OnPointerPoseUpdated(NewOrientation, NewOrigin);
 		UpdateParameterCollection(GetHitPoint());
 		bool bNewPressed;
 		if (UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(Hand, bNewPressed))
@@ -117,8 +111,11 @@ static UObject* FindFarTarget(UPrimitiveComponent* Primitive)
 	return nullptr;
 }
 
-void UUxtFarPointerComponent::OnPointerPoseUpdated()
+void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, const FVector& NewOrigin)
 {
+	PointerOrientation = NewOrientation;
+	PointerOrigin = NewOrigin;
+
 	UPrimitiveComponent* OldPrimitive = GetHitPrimitive();
 	UPrimitiveComponent* NewPrimitive;
 

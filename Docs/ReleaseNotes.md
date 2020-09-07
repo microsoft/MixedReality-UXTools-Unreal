@@ -24,17 +24,17 @@ The new [`UxtUIElementComponent`](UIElements.md) allows an actor's visibility to
 
 ![HandMenuExample](Images/HandMenu/HandMenu.gif)
 
-### Pointer and cursor smoothing
+### Surface Magnetism (experimental)
 
-Pointers and cursors now perform smoothing, which greatly reduces their jitter.
+This new component (far interaction only) allows an actor to stick to a surface.
 
-0.9.0:
+It works both with other actors in the scene
 
-![FarPointerJitter](Images/ReleaseNotes/far_pointer_jitter.gif)
+![SurfaceMagnetism](Images/ReleaseNotes/surface_magnetism.gif)
 
-0.10.0:
+as well as a spatial mesh
 
-![FarPointerNoJitter](Images/ReleaseNotes/far_pointer_no_jitter.gif)
+![SurfaceMagnetismSpatialMesh](Images/ReleaseNotes/surface_magnetism_spatial_mesh.gif)
 
 ## Breaking changes
 
@@ -83,12 +83,8 @@ Event changes:
 
 `BP_SimpleSlider` has been replaced by `AUxtPinchSliderActor`. It has the same feature set as `BP_SimpleSlider` and can be extended from either Blueprints or C++.
 
-### Manipulator smoothing changes
-
-As [smoothing has been introduced for pointers and cursors](#pointer-and-cursor-smoothing), we have simplified `UUxtManipulatorComponentBase::SmoothTransform` to use the same smoothing technique. Therefore:
-
-- The meaning of its parameters is different. Please, revisit and appropriately adjust the _smoothing factor_ arguments.
-- It now returns an `FTransform`, instead of receiving an output parameter.
-- The `UUxtGenericManipulator::Smoothing` property and its accessors now have `Factor` appended, for the sake of consistency. This also prevents from inadvertently reusing the old value (e.g. deserializing a previously created component).
-
 ## Known issues
+
+### Surface Magnetism's actor jumps to zero
+
+This happens if the hand ray isn't hitting anything to stick to when grabbing starts for the first time. It will work properly afterwards.

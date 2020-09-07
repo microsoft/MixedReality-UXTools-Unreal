@@ -31,11 +31,11 @@ Scaling uses the change in distance between hands.
 
 ### Smoothing
 
-In addition to pointers' smoothing (which is performed by default), a _Manipulator_ can apply a second pass of smoothing on top of it by using `UUxtManipulatorComponentBase::SmoothTransform`, which uses the same technique:
+The generic manipulator has a simple smoothing option to reduce jittering from noisy input. This becomes especially important with one-handed rotation, where hand tracking can be unreliable and the resulting transform amplifies jittering.
 
-`Lerp(Source, Target, 1 - SmoothingFactor^DeltaTime)`
+The smoothing method is based on a low-pass filter that gets applied to the source transform location and rotation. The resulting actor transform `T_final` is a exponentially weighted average of the current transform `T_current` and the raw target transform `T_target` based on the time step:
 
-This gives some room to customization, since smoothing is configurable both in the _Manipulator_ and in each _Pointer_.
+`T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )`
 
 ## Notes
 

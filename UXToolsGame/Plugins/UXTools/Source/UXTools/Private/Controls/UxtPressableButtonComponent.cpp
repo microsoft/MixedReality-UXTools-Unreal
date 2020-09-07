@@ -57,6 +57,18 @@ void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 	}
 }
 
+void UUxtPressableButtonComponent::SetVisuals(const FComponentReference& ComponentReference)
+{
+	VisualsReference = ComponentReference;
+
+	USceneComponent* Visuals = GetVisuals();
+
+	if (Visuals && BoxComponent)
+	{
+		ConfigureBoxComponent(Visuals);
+	}
+}
+
 void UUxtPressableButtonComponent::SetCollisionProfile(FName Profile)
 {
 	CollisionProfile = Profile;
@@ -153,7 +165,10 @@ float UUxtPressableButtonComponent::GetMaxPushDistance() const
 
 void UUxtPressableButtonComponent::SetMaxPushDistance(float Distance)
 {
-	if (PushBehavior != EUxtPushBehavior::Compress)
+	// The push distance is automatically calculated based on the button visuals when the behavior is compress. But, if this method is
+	// called at "edit time" allow the push distance to be mutated in case it is used for visualizations.
+	TEnumAsByte<EWorldType::Type> WorldType = GetWorld()->WorldType;
+	if ((WorldType == EWorldType::Editor) || (WorldType == EWorldType::EditorPreview) || PushBehavior != EUxtPushBehavior::Compress)
 	{
 		MaxPushDistance = Distance;
 	}

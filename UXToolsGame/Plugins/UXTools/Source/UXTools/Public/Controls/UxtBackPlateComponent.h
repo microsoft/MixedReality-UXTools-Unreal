@@ -36,7 +36,7 @@ protected:
 	/** Applies updated material parameters and instantiates a dynamic material property if necessary. */
 	virtual void UpdateMaterialParameters();
 
-	/** The default back plate material. */
+	/** The current back plate material. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetBackPlateMaterial", BlueprintSetter = "SetBackPlateMaterial", Category = "Back Plate")
 	UMaterialInterface* Material = nullptr;
 

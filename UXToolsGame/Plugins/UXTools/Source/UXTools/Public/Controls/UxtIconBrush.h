@@ -5,9 +5,9 @@
 
 #include "CoreMinimal.h"
 
-#include "UxtIconBrush.generated.h"
+#include "Controls/UxtTextBrush.h"
 
-class UFont;
+#include "UxtIconBrush.generated.h"
 
 UENUM(BlueprintType)
 enum class EUxtIconBrushContentType : uint8
@@ -29,15 +29,16 @@ struct UXTOOLS_API FUxtIconBrush
 {
 	GENERATED_BODY()
 
-	/** Describes what the icon brush content represents. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Icon Brush")
-	EUxtIconBrushContentType IconContentType;
-
-	/** The font used by the IconString. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Icon Brush")
-	UFont* IconFont;
-
+public:
 	/** String of characters representing a Unicode symbol, or a literal string. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Icon Brush")
-	FString IconString;
+	FString Icon = "EBD2";
+
+	/** Describes what the icon brush content represents. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Icon Brush")
+	EUxtIconBrushContentType ContentType = EUxtIconBrushContentType::UnicodeCharacter;
+
+	/** Text settings for the icon. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Icon Brush")
+	FUxtTextBrush TextBrush;
 };

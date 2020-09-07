@@ -120,7 +120,11 @@ bool UUxtInternalFunctionLibrary::IsPlayInMobilePreview(const UObject* WorldCont
 
 FVector UUxtInternalFunctionLibrary::Slerp(const FVector& Vector1, const FVector& Vector2, const float Slerp)
 {
-	float Dot = FVector::DotProduct(Vector1.GetSafeNormal(), Vector2.GetSafeNormal());
+	FVector Vector1Dir, Vector2Dir;
+	float Vector1Size, Vector2Size;
+	Vector1.ToDirectionAndLength(Vector1Dir, Vector1Size);
+	Vector2.ToDirectionAndLength(Vector2Dir, Vector2Size);
+	float Dot = FVector::DotProduct(Vector1Dir, Vector2Dir);
 
 	float Scale1, Scale2;
 	if (Dot < 0.9999f)
@@ -137,16 +141,8 @@ FVector UUxtInternalFunctionLibrary::Slerp(const FVector& Vector1, const FVector
 		Scale2 = Slerp;
 	}
 
-	return Vector1 * Scale1 + Vector2 * Scale2;
-}
+	FVector ResultDir = Vector1Dir * Scale1 + Vector2Dir * Scale2;
+	float ResultSize = FMath::Lerp(Vector1Size, Vector2Size, Slerp);
 
-FTransform UUxtInternalFunctionLibrary::SmoothLerp(
-	const FTransform& From, const FTransform& To, const float LocFactor, const float RotFactor, const float ScaleFactor,
-	const float DeltaTime)
-{
-	FTransform LerpTransform;
-	LerpTransform.SetLocation(SmoothLerp(From.GetLocation(), To.GetLocation(), LocFactor, DeltaTime));
-	LerpTransform.SetRotation(SmoothLerp(From.GetRotation(), To.GetRotation(), RotFactor, DeltaTime));
-	LerpTransform.SetScale3D(SmoothLerp(From.GetScale3D(), To.GetScale3D(), ScaleFactor, DeltaTime));
-	return LerpTransform;
+	return ResultDir * ResultSize;
 }
