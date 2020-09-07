@@ -9,6 +9,8 @@
 
 class UMaterialInterface;
 class UCurveFloat;
+class UStaticMesh;
+class USoundBase;
 
 /**
  * Structure containing data representing button visual assets and properties.
