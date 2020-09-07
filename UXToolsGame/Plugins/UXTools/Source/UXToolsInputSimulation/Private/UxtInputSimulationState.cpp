@@ -138,13 +138,6 @@ void UUxtInputSimulationState::GetTargetHandTransform(EControllerHand Hand, FTra
 	// Mirror the left hand.
 	FVector Scale3D = (Hand == EControllerHand::Left ? FVector(1, -1, 1) : FVector(1, 1, 1));
 
-	FRotator RestRotation = Settings->HandRestOrientation;
-	if (Hand == EControllerHand::Left)
-	{
-		RestRotation.Yaw = -RestRotation.Yaw;
-		RestRotation.Roll = -RestRotation.Roll;
-	}
-
 	const FTransform& HandTransform = HandStates.FindRef(Hand).RelativeTransform;
 	if (GetTargetPose(Hand) == Settings->MenuHandPose)
 	{
@@ -156,7 +149,15 @@ void UUxtInputSimulationState::GetTargetHandTransform(EControllerHand Hand, FTra
 	}
 	else
 	{
-		TargetTransform = FTransform(HandTransform.GetRotation() * RestRotation.Quaternion().Inverse(), HandTransform.GetLocation(), Scale3D);
+		FRotator RestRotation = Settings->HandRestOrientation;
+		if (Hand == EControllerHand::Left)
+		{
+			RestRotation.Yaw = -RestRotation.Yaw;
+			RestRotation.Roll = -RestRotation.Roll;
+		}
+
+		TargetTransform =
+			FTransform(HandTransform.GetRotation() * RestRotation.Quaternion().Inverse(), HandTransform.GetLocation(), Scale3D);
 		// No animation between user rotations
 		bAnimate = false;
 	}
