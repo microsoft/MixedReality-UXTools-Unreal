@@ -15,7 +15,12 @@ class UXTOOLSTESTS_API UGrabTickTestComponent : public UUxtGrabTargetComponent
 	GENERATED_BODY()
 
 public:
-	UGrabTickTestComponent() { PrimaryComponentTick.bCanEverTick = true; }
+	UGrabTickTestComponent()
+	{
+		PrimaryComponentTick.bCanEverTick = true;
+		PrimaryComponentTick.bStartWithTickEnabled = false;
+		bAutoActivate = true;
+	}
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override { ++NumTicks; }
 

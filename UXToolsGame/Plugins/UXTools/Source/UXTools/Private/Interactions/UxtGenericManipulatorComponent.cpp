@@ -18,6 +18,8 @@
 UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	bAutoActivate = true;
 
 	// Default values
 	ManipulationModes = static_cast<int32>(EUxtGenericManipulationMode::OneHanded | EUxtGenericManipulationMode::TwoHanded);

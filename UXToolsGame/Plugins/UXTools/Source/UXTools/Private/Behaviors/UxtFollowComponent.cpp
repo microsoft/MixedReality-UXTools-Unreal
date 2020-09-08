@@ -212,6 +212,8 @@ namespace
 UUxtFollowComponent::UUxtFollowComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	bAutoActivate = true;
 }
 
 void UUxtFollowComponent::Recenter()
@@ -238,11 +240,8 @@ void UUxtFollowComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (IsActive())
-	{
-		UpdateLeashing();
-		UpdateTransformToGoal(!bInterpolatePose, DeltaTime);
-	}
+	UpdateLeashing();
+	UpdateTransformToGoal(!bInterpolatePose, DeltaTime);
 }
 
 FTransform UUxtFollowComponent::GetFollowTransform()

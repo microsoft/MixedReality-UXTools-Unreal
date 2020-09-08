@@ -98,6 +98,8 @@ namespace
 UUxtHandConstraintComponent::UUxtHandConstraintComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	bAutoActivate = true;
 }
 
 EControllerHand UUxtHandConstraintComponent::GetTrackedHand() const

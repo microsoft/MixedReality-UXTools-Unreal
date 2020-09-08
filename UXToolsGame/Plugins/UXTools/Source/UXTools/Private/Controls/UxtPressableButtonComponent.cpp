@@ -21,6 +21,8 @@
 UUxtPressableButtonComponent::UUxtPressableButtonComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	bAutoActivate = true;
 }
 
 float UUxtPressableButtonComponent::GetFrontFaceCollisionFraction() const

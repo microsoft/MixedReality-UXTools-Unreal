@@ -27,6 +27,8 @@ FTransform FUxtBoundsControlAffordanceInfo::GetWorldTransform(const FBox& Bounds
 UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	bAutoActivate = true;
 
 	static ConstructorHelpers::FClassFinder<AActor> FaceAffordanceClassFinder(TEXT("/UXTools/BoundsControl/BP_DefaultFaceAffordance"));
 	FaceAffordanceClass = FaceAffordanceClassFinder.Class;
