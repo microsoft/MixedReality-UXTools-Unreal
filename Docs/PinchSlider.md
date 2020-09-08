@@ -1,3 +1,13 @@
+---
+title: Pinch Slider
+description: Guide to Pinch Slider, a 3D slider control designed for hand interactions.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, Pinch Slider
+---
+
 # Pinch slider
 
 A pinch slider component allows the user to continuously change a value by moving the slider thumb along a track.

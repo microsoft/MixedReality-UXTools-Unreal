@@ -1,3 +1,13 @@
+---
+title: Bounds Control
+description: Guide to Bounds Control, a component that allows you to rotate, translate and scale an actor using affordances.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, bounds control, bounding box
+---
+
 # BoundsControl
 
 Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using _affordances_. Affordances are grabbable areas on corners, edges, and faces of the actor's bounding box.

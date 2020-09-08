@@ -144,16 +144,9 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 		if (Target)
 		{
+			SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance));
+
 			const float DistanceToTarget = FVector::Dist(PointOnTarget, PointerTransform.GetLocation());
-
-			// Must use an epsilon to avoid unreliable rotations as we get closer to the target
-			const float Epsilon = 0.000001;
-
-			if (DistanceToTarget > Epsilon)
-			{
-				SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance));
-			}
-
 			const float DistanceOffset = 1.0f;
 			// Scale radius with the distance to the target
 			float Alpha = (DistanceToTarget - DistanceOffset) / MaxDistanceToTarget;

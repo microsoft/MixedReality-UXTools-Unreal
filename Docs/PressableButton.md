@@ -1,3 +1,13 @@
+---
+title: Pressable Button
+description: Guide to Pressable Button, a 3D button control designed for hand interactions.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, Pressable Button
+---
+
 # Pressable button
 
 A button gives the user a way to trigger an immediate action. It is one of the most foundational components in mixed reality.

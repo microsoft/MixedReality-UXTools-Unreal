@@ -1,3 +1,13 @@
+---
+title: Contributing
+description: Learn about how to contribute to UXT.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, contributing
+---
+
 # Contributing to UX Tools for Unreal Engine
 
 Due to the early stage of the project and the likelihood of internal refactors, we are not in a position to accept external contributions via pull requests at this time. However, contributions and feedback in the shape of bug reports, suggestions and feature requests are welcome and encouraged.
