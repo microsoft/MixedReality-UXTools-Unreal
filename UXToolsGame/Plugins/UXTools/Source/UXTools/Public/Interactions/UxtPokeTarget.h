@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "UObject/Interface.h"
+
 #include "UxtPokeTarget.generated.h"
 
 class UPrimitiveComponent;
@@ -31,10 +33,17 @@ class UXTOOLS_API IUxtPokeTarget
 	GENERATED_BODY()
 
 public:
-
 	/** Returns true if the given primitive should be considerered a valid focus target. */
 	UFUNCTION(BlueprintNativeEvent)
-	bool IsPokeFocusable(const UPrimitiveComponent* Primitive);
+	bool IsPokeFocusable(const UPrimitiveComponent* Primitive) const;
+
+	/** Returns which poke behaviour this target supports. */
+	UFUNCTION(BlueprintNativeEvent)
+	EUxtPokeBehaviour GetPokeBehaviour() const;
+
+	/** Returns the closest point to Point on the given Primitive. Also provides the surface normal. */
+	UFUNCTION(BlueprintNativeEvent)
+	bool GetClosestPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const;
 
 	/** Raised when a pointer focuses the actor. */
 	UFUNCTION(BlueprintNativeEvent)
@@ -47,10 +56,6 @@ public:
 	/** Raised when a pointer stops focusing the actor. */
 	UFUNCTION(BlueprintNativeEvent)
 	void OnExitPokeFocus(UUxtNearPointerComponent* Pointer);
-
-	/** Returns which poke behaviour this target supports. */
-	UFUNCTION(BlueprintNativeEvent)
-	EUxtPokeBehaviour GetPokeBehaviour() const;
 
 	/** Raised when a pointer poke volume starts overlapping the actor. */
 	UFUNCTION(BlueprintNativeEvent)

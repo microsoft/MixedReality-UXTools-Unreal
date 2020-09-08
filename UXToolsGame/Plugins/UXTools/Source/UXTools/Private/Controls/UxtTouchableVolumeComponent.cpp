@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtTouchableVolumeComponent.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtFarPointerComponent.h"
+
 #include "UXTools.h"
+
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtInteractionUtils.h"
 
+#include <Components/PrimitiveComponent.h>
 #include <GameFramework/Actor.h>
 #include <GameFramework/PlayerController.h>
-#include <Components/PrimitiveComponent.h>
 #include <Kismet/GameplayStatics.h>
 
 void UUxtTouchableVolumeComponent::SetEnabled(bool Enabled)
@@ -62,6 +64,27 @@ void UUxtTouchableVolumeComponent::BeginPlay()
 			Primitive->OnInputTouchLeave.AddDynamic(this, &UUxtTouchableVolumeComponent::OnInputTouchLeaveHandler);
 		}
 	}
+}
+
+bool UUxtTouchableVolumeComponent::GetClosestPoint_Implementation(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+{
+	float NotUsed;
+	if (FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed))
+	{
+		if (OutClosestPoint == Point)
+		{
+			OutNormal = OutClosestPoint - Primitive->GetComponentLocation();
+		}
+		else
+		{
+			OutNormal = OutClosestPoint - Point;
+		}
+
+		OutNormal.Normalize();
+		return true;
+	}
+	return false;
 }
 
 void UUxtTouchableVolumeComponent::OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
@@ -122,7 +145,7 @@ void UUxtTouchableVolumeComponent::OnExitFocus(UObject* Pointer)
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
-bool UUxtTouchableVolumeComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtTouchableVolumeComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	if (bIsDisabled)
 	{

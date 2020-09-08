@@ -4,10 +4,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Kismet/BlueprintFunctionLibrary.h"
-#include "HandTracking/IUxtHandTracker.h"
-#include "UxtHandTrackingFunctionLibrary.generated.h"
 
+#include "HandTracking/IUxtHandTracker.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+
+#include "UxtHandTrackingFunctionLibrary.generated.h"
 
 /**
  * Library of hand tracking functions for UX Tools.
@@ -18,20 +19,23 @@ class UXTOOLS_API UUxtHandTrackingFunctionLibrary : public UBlueprintFunctionLib
 	GENERATED_BODY()
 
 public:
-
-	/** Obtain the state of the given joint. Returns false if the hand is not currently tracked, in which case the values of the output parameters are unchanged. */
+	/** Obtain the state of the given joint. Returns false if the hand is not currently tracked, in which case the values of the output
+	 * parameters are unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetHandJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius);
 
-	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged. */
+	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is
+	 * unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetHandPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition);
 
-	/** Obtain current grabbed state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is unchanged. */
+	/** Obtain current grabbed state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is
+	 * unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetIsHandGrabbing(EControllerHand Hand, bool& OutIsGrabbing);
 
-	/** Obtain current selection state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is unchanged. */
+	/** Obtain current selection state. Returns false if the hand is not currently tracked, in which case the value of the output parameter
+	 * is unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetIsHandSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed);
 

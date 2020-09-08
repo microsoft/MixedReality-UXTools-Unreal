@@ -1,2 +1,35 @@
+*			text=auto
+
+# Source
+*.cpp		text
+*.cs		text
+*.h			text
+
+# Config
+*.ini		text
+
+# Docs
+*.md		text
+
 # Shell scripts need unix line endings
-*.sh text eol=lf
+*.sh		text	eol=lf
+
+# Windows scripts
+*.bat		text	eol=crlf
+*.ps1		text	eol=crlf
+
+# Data serialisation
+*.json		text
+*.xml		text
+*.yaml		text
+*.yml		text
+
+# Images
+*.gif		binary
+*.ico		binary
+*.jpg		binary
+*.png		binary
+
+# UE4
+*.uasset	binary
+*.umap		binary

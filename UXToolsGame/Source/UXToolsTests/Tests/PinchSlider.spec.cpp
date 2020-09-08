@@ -1,338 +1,353 @@
-#include "Engine.h"
-#include "EngineUtils.h"
-#include "GameFramework/Actor.h"
-#include "Tests/AutomationCommon.h"
-#include "UxtTestHandTracker.h"
-#include "Utils/UxtFunctionLibrary.h"
-#include "UxtTestUtils.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "FrameQueue.h"
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-#include "Templates/SharedPointer.h"
-#include "Controls/UxtPinchSliderComponent.h"
+#include "Engine.h"
+#include "FrameQueue.h"
 #include "PinchSliderTestComponent.h"
+#include "UxtTestHand.h"
+#include "UxtTestHandTracker.h"
+#include "UxtTestUtils.h"
+
+#include "Controls/UxtPinchSliderComponent.h"
+#include "Input/UxtPointerComponent.h"
+#include "Tests/AutomationCommon.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 
 namespace
 {
-	UUxtPinchSliderComponent* CreateTestComponent(UWorld* World, const FVector& Location)
+	const FVector TargetLocation(150, 0, 0);
+
+	UUxtPinchSliderComponent* CreateTestComponent()
 	{
-		AActor* Actor = World->SpawnActor<AActor>();
+		AActor* Actor = UxtTestUtils::GetTestWorld()->SpawnActor<AActor>();
 
-		USceneComponent* Root = NewObject<USceneComponent>(Actor);
-		Actor->SetRootComponent(Root);
-		Root->SetWorldLocation(Location);
-		Root->RegisterComponent();
+		UStaticMeshComponent* Thumb = UxtTestUtils::CreateBoxStaticMesh(Actor);
+		Thumb->RegisterComponent();
 
-		UUxtPinchSliderComponent* TestTarget = NewObject<UUxtPinchSliderComponent>(Actor);
-		TestTarget->SetWorldLocation(Location);
-		TestTarget->SetSmoothing(0.0f);
-		TestTarget->RegisterComponent();
+		UUxtPinchSliderComponent* PinchSlider = NewObject<UUxtPinchSliderComponent>(Actor);
+		PinchSlider->SetVisuals(Thumb);
+		PinchSlider->SetTrackLength(10.0f);
+		PinchSlider->SetValue(0.5f);
+		PinchSlider->SetSmoothing(0.0f);
+		PinchSlider->RegisterComponent();
 
-		FString MeshFilename = TEXT("/UXTools/Slider/Meshes/SM_Button_Oval_Concave_12x24mm_optimized.SM_Button_Oval_Concave_12x24mm_optimized");
+		Actor->SetRootComponent(PinchSlider);
+		Actor->SetActorLocation(TargetLocation);
 
-		if (!MeshFilename.IsEmpty())
-		{
-			UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(Actor);
-			Mesh->SetupAttachment(Actor->GetRootComponent());
-			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
-			Mesh->SetGenerateOverlapEvents(true);
-
-			UStaticMesh* MeshAsset = LoadObject<UStaticMesh>(Actor, *MeshFilename);
-			Mesh->SetStaticMesh(MeshAsset);
-			Mesh->RegisterComponent();
-
-			TestTarget->SetThumbVisuals(Mesh);
-			TestTarget->SetSliderStartDistance(0.0f);
-			TestTarget->SetSliderEndDistance(10.0f);
-			TestTarget->SetSliderValue(0.0f);
-
-		}
-		return TestTarget;
+		return PinchSlider;
 	}
-}
+
+	UPinchSliderTestComponent* CreateEventCaptureComponent(UUxtPinchSliderComponent* Slider)
+	{
+		UPinchSliderTestComponent* EventCaptureComponent = NewObject<UPinchSliderTestComponent>(Slider->GetOwner());
+
+		Slider->OnUpdateState.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnUpdateState);
+		Slider->OnBeginFocus.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnBeginFocus);
+		Slider->OnUpdateFocus.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnUpdateFocus);
+		Slider->OnEndFocus.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnEndFocus);
+		Slider->OnBeginGrab.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnBeginGrab);
+		Slider->OnUpdateValue.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnUpdateValue);
+		Slider->OnEndGrab.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnEndGrab);
+		Slider->OnEnable.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnEnable);
+		Slider->OnDisable.AddDynamic(EventCaptureComponent, &UPinchSliderTestComponent::OnDisable);
+
+		EventCaptureComponent->RegisterComponent();
+
+		return EventCaptureComponent;
+	}
+} // namespace
 
 BEGIN_DEFINE_SPEC(PinchSliderSpec, "UXTools.PinchSlider", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
 
-const int NumPointers = 2;
-UUxtPinchSliderComponent* Slider;
-UPinchSliderTestComponent* EventCaptureObj;
-UUxtNearPointerComponent* Pointer;
-FVector Center;
+UUxtPinchSliderComponent* Target;
+UPinchSliderTestComponent* EventCaptureComponent;
+
 FFrameQueue FrameQueue;
-const float MoveBy = 50.0f;
-float StartValue;
+FUxtTestHand Hand = FUxtTestHand(EControllerHand::Right);
 
 END_DEFINE_SPEC(PinchSliderSpec)
 
 void PinchSliderSpec::Define()
 {
-	Describe("Pinch Slider", [this]
-		{
-			BeforeEach([this]
-				{
-					// Load the empty test map to run the test in.
-					TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+	BeforeEach([this] {
+		TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
-					UWorld* World = UxtTestUtils::GetTestWorld();
-					FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
-					UxtTestUtils::EnableTestHandTracker();
-					Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", FVector::ZeroVector);
+		UWorld* World = UxtTestUtils::GetTestWorld();
+		FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-					Center = FVector(MoveBy, 0, 0);
-					Slider = CreateTestComponent(World, Center);
-					EventCaptureObj = NewObject<UPinchSliderTestComponent>(Slider->GetOwner());
-					EventCaptureObj->RegisterComponent();
+		Target = CreateTestComponent();
+		EventCaptureComponent = CreateEventCaptureComponent(Target);
 
-					Slider->OnBeginInteraction.AddDynamic(EventCaptureObj, &UPinchSliderTestComponent::OnInteractionStarted);
-					Slider->OnEndInteraction.AddDynamic(EventCaptureObj, &UPinchSliderTestComponent::OnInteractionEnded);
-					Slider->OnBeginFocus.AddDynamic(EventCaptureObj, &UPinchSliderTestComponent::OnFocusEnter);
-					Slider->OnEndFocus.AddDynamic(EventCaptureObj, &UPinchSliderTestComponent::OnFocusExit);
-					Slider->OnUpdateValue.AddDynamic(EventCaptureObj, &UPinchSliderTestComponent::OnValueUpdated);
+		UxtTestUtils::EnableTestHandTracker();
+		Hand.Configure(EUxtInteractionMode::Near, TargetLocation);
+	});
 
-					World->UpdateWorldComponents(false, false);
-				});
+	AfterEach([this] {
+		Target->GetOwner()->Destroy();
+		Target = nullptr;
+		EventCaptureComponent = nullptr;
 
-			AfterEach([this]
-				{
-					UxtTestUtils::DisableTestHandTracker();
-					FrameQueue.Reset();
-					Slider->GetOwner()->Destroy();
-					Slider = nullptr;
-					Pointer->GetOwner()->Destroy();
-					Pointer = nullptr;
+		Hand.Reset();
+		UxtTestUtils::DisableTestHandTracker();
 
-					// Force GC so that destroyed actors are removed from the world.
-					// Running multiple tests will otherwise cause errors when creating duplicate actors.
-					GEngine->ForceGarbageCollection();
-				});
+		FrameQueue.Reset();
+	});
 
-			LatentIt("Thumb should be grabbable", [this](const FDoneDelegate& Done)
-				{
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
-						});
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							FVector Unused;
-							UObject* Target = Pointer->GetFocusedGrabTarget(Unused);
-							TestEqual("Thumb is grabbed", Target, (UObject*)Slider);
-						});
+	Describe("Basic functionality", [this] {
+		LatentIt("should update value on move", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
 
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
-				});
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
 
-			LatentIt("Value should update on grab and move", [this](const FDoneDelegate& Done)
-				{
+				Hand.Translate(FVector::RightVector * 2.5f);
+			});
 
-					StartValue = Slider->GetSliderValue();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
-						});
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 10, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							TestEqual("Slider value", Slider->GetSliderValue(), 1.00f);
-							TestTrue("Slider value has updated", StartValue != Slider->GetSliderValue());
-						});
+			FrameQueue.Enqueue([this] { TestEqual("Value has updated", Target->GetValue(), 0.75f); });
 
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
-				});
-
-			LatentIt("Value should be correct", [this](const FDoneDelegate& Done)
-				{
-
-					StartValue = Slider->GetSliderValue();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
-						});
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 10 / 2.0f, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							TestEqual("Slider value", Slider->GetSliderValue(), 0.50f);
-							TestTrue("Slider Value has updated", StartValue != Slider->GetSliderValue());
-						});
-
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
-				});
-
-			LatentIt("Events should fire", [this](const FDoneDelegate& Done)
-				{
-
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
-							TestFalse("Focus enter false on start", EventCaptureObj->OnFocusEnterReceived);
-							TestFalse("Focus exit false on start", EventCaptureObj->OnFocusExitReceived);
-							TestFalse("Interaction started false on start", EventCaptureObj->OnInteractionStartedReceived);
-							TestFalse("Interaction ended false on start", EventCaptureObj->OnInteractionEndedReceived);
-							TestFalse("Interaction ended false on start", EventCaptureObj->OnValueUpdatedReceived);
-						});
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							TestTrue("Focus enter fired on Focus", EventCaptureObj->OnFocusEnterReceived);
-							TestEqual("Current state", Slider->GetCurrentState(), EUxtSliderState::Focus);
-						});
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(-MoveBy, 0, 0));
-						});
-
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(-MoveBy, 0, 0));
-							TestTrue("Focus exit fired on Focus exit", EventCaptureObj->OnFocusExitReceived);
-							TestEqual("Current state", Slider->GetCurrentState(), EUxtSliderState::Default);
-						});
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-							TestTrue("Interaction started fired on interaction", EventCaptureObj->OnInteractionStartedReceived);
-							TestEqual("Current state", Slider->GetCurrentState(), EUxtSliderState::Grab);
-						});
-
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 10, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-							TestTrue("Value updated fired on value update", EventCaptureObj->OnValueUpdatedReceived);
-						});
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(false);
-
-						});
-					FrameQueue.Skip();
-					FrameQueue.Enqueue([this]
-						{
-							TestTrue("Interaction ended fired on end interaction", EventCaptureObj->OnInteractionEndedReceived);
-							TestEqual("Current state", Slider->GetCurrentState(), EUxtSliderState::Default);
-						});
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
-				});
-
-			LatentIt("should not be grabbed when disabled", [this](const FDoneDelegate& Done)
-				{
-					FrameQueue.Enqueue([this]
-						{
-							Slider->SetEnabled(false);
-							TestFalse("Slider is disabled", Slider->IsEnabled());
-
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-
-					FrameQueue.Enqueue([this]
-						{
-							TestFalse("Slider is not grabbed", Slider->IsGrabbed());
-						});
-
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
-				});
-
-			LatentIt("should release pointers when disabled mid grab", [this](const FDoneDelegate& Done)
-				{
-					FrameQueue.Enqueue([this]
-						{
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-							UxtTestUtils::GetTestHandTracker().SetGrabbing(true);
-						});
-
-					FrameQueue.Enqueue([this]
-						{
-							TestTrue("Slider is grabbed", Slider->IsGrabbed());
-							TestTrue("Pointer is locked", Pointer->GetFocusLocked());
-
-							Slider->SetEnabled(false);
-							TestFalse("Slider is not grabbed", Slider->IsGrabbed());
-							TestFalse("Pointer is not locked", Pointer->GetFocusLocked());
-						});
-
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
-				});
-
-			LatentIt("should move to focused state when enabled with focus", [this](const FDoneDelegate& Done)
-				{
-					FrameQueue.Enqueue([this]
-						{
-							Slider->SetEnabled(false);
-							UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector(MoveBy, 0, 0));
-						});
-
-					FrameQueue.Enqueue([this]
-						{
-							TestFalse("Slider is not focused", Slider->IsFocused());
-
-							Slider->SetEnabled(true);
-							TestTrue("Slider is focused", Slider->IsFocused());
-						});
-
-					FrameQueue.Enqueue([Done] { Done.Execute(); });
-				});
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
+
+		LatentIt("should limit value within the set bounds", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] {
+				Target->SetValueLowerBound(0.2f);
+				Target->SetValueUpperBound(0.8f);
+				Hand.SetGrabbing(true);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+
+				Hand.Translate(FVector::LeftVector * 5.0f);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Value has been limited by lower bound", Target->GetValue(), 0.2f);
+
+				Hand.Translate(FVector::RightVector * 10.0f);
+			});
+
+			FrameQueue.Enqueue([this] { TestEqual("Value has been limited by upper bound", Target->GetValue(), 0.8f); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should not be grabbable when disabled", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Target->SetEnabled(false); });
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is disabled", Target->GetState(), EUxtSliderState::Disabled);
+
+				Hand.SetGrabbing(true);
+			});
+
+			FrameQueue.Enqueue([this] { TestNotEqual("Slider is not grabbed", Target->GetState(), EUxtSliderState::Grabbed); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should release locked pointers on disable", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+				TestTrue("Pointer is locked", Hand.GetPointer()->GetFocusLocked());
+
+				Target->SetEnabled(false);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is disabled", Target->GetState(), EUxtSliderState::Disabled);
+				TestFalse("Pointer is not locked", Hand.GetPointer()->GetFocusLocked());
+			});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+	});
+
+	Describe("State transitions", [this] {
+		LatentIt("should move to default state when released without focus", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+
+				Hand.Translate(FVector::RightVector * 100.0f);
+			});
+
+			FrameQueue.Enqueue([this] { Hand.SetGrabbing(false); });
+
+			// We need to skip a frame here as the slider will receive an end grab event before an end focus event.
+			// This is due to the grabbing pointer being focus-locked to the slider until the grab is released.
+			// e.g.
+			// | Frame 1              | Frame 2    | Frame 3     |
+			// | Release -> EndGrab() | EndFocus() | TestEqual() |
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this] { TestEqual("Slider is in default state", Target->GetState(), EUxtSliderState::Default); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should move to focused state when released with focus", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+
+				Hand.SetGrabbing(false);
+			});
+
+			FrameQueue.Enqueue([this] { TestEqual("Slider is focused", Target->GetState(), EUxtSliderState::Focused); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should move to default state when enabled without focus", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] {
+				Target->SetEnabled(false);
+				Hand.Translate(FVector::RightVector * 100.0f);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is disabled", Target->GetState(), EUxtSliderState::Disabled);
+
+				Target->SetEnabled(true);
+			});
+
+			FrameQueue.Enqueue([this] { TestEqual("Slider is in default state", Target->GetState(), EUxtSliderState::Default); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should move to focused state when enabled with focus", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Target->SetEnabled(false); });
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is disabled", Target->GetState(), EUxtSliderState::Disabled);
+
+				Target->SetEnabled(true);
+			});
+
+			FrameQueue.Enqueue([this] { TestEqual("Slider is focused", Target->GetState(), EUxtSliderState::Focused); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+	});
+
+	Describe("Interaction events", [this] {
+		LatentIt("should trigger state update events", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Hand.Translate(FVector::RightVector * 100); });
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is in default state", Target->GetState(), EUxtSliderState::Default);
+				TestTrue("OnUpdateState event received", EventCaptureComponent->OnUpdateStateReceived);
+
+				EventCaptureComponent->Reset();
+				Hand.Translate(FVector::LeftVector * 100);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is in focused state", Target->GetState(), EUxtSliderState::Focused);
+				TestTrue("OnUpdateState event received", EventCaptureComponent->OnUpdateStateReceived);
+
+				EventCaptureComponent->Reset();
+				Hand.SetGrabbing(true);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is in grabbed state", Target->GetState(), EUxtSliderState::Grabbed);
+				TestTrue("OnUpdateState event received", EventCaptureComponent->OnUpdateStateReceived);
+
+				EventCaptureComponent->Reset();
+				Target->SetEnabled(false);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is in disabled state", Target->GetState(), EUxtSliderState::Disabled);
+				TestTrue("OnUpdateState event received", EventCaptureComponent->OnUpdateStateReceived);
+			});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should trigger focus events", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] { Hand.Translate(FVector::RightVector * 100); });
+
+			FrameQueue.Enqueue([this] {
+				TestNotEqual("Slider is not focused", Target->GetState(), EUxtSliderState::Focused);
+				EventCaptureComponent->Reset();
+
+				Hand.Translate(FVector::LeftVector * 100);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is focused", Target->GetState(), EUxtSliderState::Focused);
+				TestTrue("OnBeginFocus event received", EventCaptureComponent->OnBeginFocusReceived);
+
+				Hand.Translate(FVector::RightVector * 100);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestNotEqual("Slider is not focused", Target->GetState(), EUxtSliderState::Focused);
+				TestTrue("OnUpdateFocus event received", EventCaptureComponent->OnUpdateFocusReceived);
+				TestTrue("OnEndFocus event received", EventCaptureComponent->OnEndFocusReceived);
+			});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should trigger grab events", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] {
+				TestNotEqual("Slider is not grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+
+				Hand.SetGrabbing(true);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+				TestTrue("OnBeginGrab event received", EventCaptureComponent->OnBeginGrabReceived);
+
+				Hand.Translate(FVector::RightVector * 10);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestTrue("OnUpdateValue event received", EventCaptureComponent->OnUpdateValueReceived);
+
+				Hand.SetGrabbing(false);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestNotEqual("Slider is not grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+				TestTrue("OnEndGrab event received", EventCaptureComponent->OnEndGrabReceived);
+			});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should trigger enable / disable events", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] {
+				TestNotEqual("Slider is not disabled", Target->GetState(), EUxtSliderState::Disabled);
+
+				Target->SetEnabled(false);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is disabled", Target->GetState(), EUxtSliderState::Disabled);
+				TestTrue("OnDisable event received", EventCaptureComponent->OnDisableReceived);
+
+				Target->SetEnabled(true);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestNotEqual("Slider is not disabled", Target->GetState(), EUxtSliderState::Disabled);
+				TestTrue("OnEnable event received", EventCaptureComponent->OnEnableReceived);
+			});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+	});
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS

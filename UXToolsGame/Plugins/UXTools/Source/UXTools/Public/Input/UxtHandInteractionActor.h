@@ -4,12 +4,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "GameFramework/Actor.h"
+#include "Interactions/UxtInteractionMode.h"
+
 #include "UxtHandInteractionActor.generated.h"
 
+class UProceduralMeshComponent;
 class UUxtNearPointerComponent;
 class UUxtFarPointerComponent;
-
 
 /**
  * Actor that drives hand interactions with components that implement the far, grab and poke target interfaces.
@@ -22,9 +25,8 @@ UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtHandInteractionActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	
+
+public:
 	AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer);
 
 	//
@@ -58,9 +60,26 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetRayLength(float NewRayLength);
 
-	/** Distance from the hand to the closest grab or poke target at which near interaction activates. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (DisplayAfter = "PokeRadius"))
-	float NearActivationDistance = 20.0f;
+	UFUNCTION(BlueprintCallable)
+	FVector GetHandVelocity() const { return Velocity; }
+	UFUNCTION(BlueprintCallable)
+	FVector GetHandAngularVelocity() const { return AngularVelocity; }
+
+	// Size of the hand activation cone in degrees
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0", ClampMax = "90.0"))
+	float ProximityConeAngle = 33.0f;
+
+	// Offset of the tip of the hand activation cone behind the palm
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0"))
+	float ProximityConeOffset = 8.0f;
+
+	// The length of the side of the cone (note: not the height of the cone)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0"))
+	float ProximityConeSideLength = 35.0f;
+
+	// A lerp factor between the palm direction and the index finger direction used to build the cone direction
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	float ProximityConeAngleLerp = 0.9f;
 
 	/** Create default visuals for the near cursor. Changes to this value after BeginPlay have no effect. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction")
@@ -78,15 +97,33 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
 	bool bShowNearCursorOnGrabTargets = false;
 
+	/** Active interaction modes */
+	UPROPERTY(
+		Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
+	int32 InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
+
 private:
+	/** Generates a cone-shaped mesh for proximity testing. */
+	void UpdateProximityMesh();
+
+	/** Update the velocity of the hand. */
+	void UpdateVelocity(float DeltaTime);
+
+	/** Check if there are near interaction targets in the proximity cone to switch between near and far interaction.
+	 *  The proximity cone is intended to represent a natural volume where a person would intend to interact with a physical object.
+	 *  OutHasNearTarget is true if a near interaction target was found overlapping the proximity cone.
+	 *  Returns false if hands are not tracking.
+	 */
+	bool QueryProximityVolume(bool& OutHasNearTarget);
 
 	/** Determine if the hand pose is valid for making selections. */
 	bool IsInPointingPose() const;
 
 private:
-
 	/** Articulated hand used to drive interactions. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
+	UPROPERTY(
+		EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction",
+		meta = (ExposeOnSpawn = true))
 	EControllerHand Hand;
 
 	/** Offset from the hand ray origin at which the far ray used for far target selection starts. */
@@ -111,6 +148,24 @@ private:
 	UPROPERTY(Transient)
 	UUxtFarPointerComponent* FarPointer;
 
-	bool bHadTracking = false;
-	FVector PrevQueryPosition;
+	/** Runtime mesh component used for detecting proximity of near interaction targets. */
+	UPROPERTY(VisibleAnywhere, Transient)
+	UProceduralMeshComponent* ProximityTrigger;
+
+	/** Set to true for visualizing the proximity mesh. */
+	bool bRenderProximityMesh = false;
+
+	/** The current velocity of the hand. */
+	FVector Velocity = FVector::ZeroVector;
+
+	/** The current angular velocity of the hand. */
+	FVector AngularVelocity = FVector::ZeroVector;
+
+	// Velocity internal state
+	static const int VelocityUpdateInterval = 6;
+	uint64 CurrentFrame = 0;
+	FVector VelocityPositionsCache[VelocityUpdateInterval];
+	FVector VelocityNormalsCache[VelocityUpdateInterval];
+	FVector VelocityPositionsSum = FVector::ZeroVector;
+	FVector VelocityNormalsSum = FVector::ZeroVector;
 };

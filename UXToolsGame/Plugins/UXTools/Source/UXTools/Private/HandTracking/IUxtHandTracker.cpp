@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "HandTracking/IUxtHandTracker.h"
+
 #include "Features/IModularFeatures.h"
 
 FName IUxtHandTracker::GetModularFeatureName()

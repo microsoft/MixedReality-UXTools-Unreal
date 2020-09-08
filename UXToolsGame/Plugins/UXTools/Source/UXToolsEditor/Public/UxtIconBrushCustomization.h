@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "IPropertyTypeCustomization.h"
+
 #include "Input/Reply.h"
 
 class IPropertyHandle;
@@ -15,17 +16,17 @@ class IPropertyHandle;
 class FUxtIconBrushCustomization : public IPropertyTypeCustomization
 {
 public:
-
 	static TSharedRef<IPropertyTypeCustomization> MakeInstance();
 
 protected:
-
 	// IDetailCustomization interface
-	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils) override;
-	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle, IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils) override;
+	virtual void CustomizeHeader(
+		TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow,
+		IPropertyTypeCustomizationUtils& CustomizationUtils) override;
+	virtual void CustomizeChildren(
+		TSharedRef<IPropertyHandle> PropertyHandle, IDetailChildrenBuilder& ChildBuilder,
+		IPropertyTypeCustomizationUtils& CustomizationUtils) override;
 
 private:
-
 	FReply OnShowEditor(TSharedRef<IPropertyHandle> PropertyHandle);
-
 };

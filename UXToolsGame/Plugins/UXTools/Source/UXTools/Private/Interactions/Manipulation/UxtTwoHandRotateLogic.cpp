@@ -8,12 +8,13 @@ namespace
 	{
 		if (PointerData.Num() > 1)
 		{
-			return UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[1]) - UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[0]);
+			return UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[1]) -
+				   UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(PointerData[0]);
 		}
 
 		return FVector::ZeroVector;
 	}
-}
+} // namespace
 
 void UxtTwoHandManipulationRotateLogic::Setup(GrabPointers PointerData, const FQuat& HostRotation)
 {
@@ -28,4 +29,3 @@ FQuat UxtTwoHandManipulationRotateLogic::Update(GrabPointers PointerData) const
 	Rot.Normalize();
 	return Rot * StartRotation;
 }
-

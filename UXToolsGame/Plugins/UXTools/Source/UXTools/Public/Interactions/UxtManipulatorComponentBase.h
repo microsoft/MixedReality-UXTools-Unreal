@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Interactions/UxtGrabTargetComponent.h"
+
 #include "UxtManipulatorComponentBase.generated.h"
 
 class UxtManipulationMoveLogic;
@@ -28,7 +30,6 @@ class UXTOOLS_API UUxtManipulatorComponentBase : public UUxtGrabTargetComponent
 	GENERATED_BODY()
 
 public:
-
 	UUxtManipulatorComponentBase();
 	~UUxtManipulatorComponentBase();
 
@@ -37,28 +38,31 @@ public:
 	 * If more than one pointer is used then the centroid of the grab points and targets is used.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
-	void MoveToTargets(const FTransform &SourceTransform, FTransform &TargetTransform, bool UsePointerRotation) const;
+	void MoveToTargets(const FTransform& SourceTransform, FTransform& TargetTransform, bool UsePointerRotation) const;
 
 	/**
 	 * Rotates the source transform around the pivot point such that the pointers line up with current targets.
 	 * If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
-	void RotateAroundPivot(const FTransform &SourceTransform, const FVector &Pivot, FTransform &TargetTransform) const;
+	void RotateAroundPivot(const FTransform& SourceTransform, const FVector& Pivot, FTransform& TargetTransform) const;
 
 	/**
 	 * Rotates the source transform around the pivot point on the given axis such that the pointers line up with current targets.
 	 * If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
-	void RotateAboutAxis(const FTransform &SourceTransform, const FVector &Pivot, const FVector &Axis, FTransform &TargetTransform) const;
+	void RotateAboutAxis(const FTransform& SourceTransform, const FVector& Pivot, const FVector& Axis, FTransform& TargetTransform) const;
 
 	/**
 	 * Apply a low-pass filter to the source transform location and rotation to smooth out jittering.
-	 * Target transform is a exponentially weighted average of the current component transform and the source transform based on the time step.
+	 * Target transform is a exponentially weighted average of the current component transform and the source transform based on the time
+	 * step.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
-	void SmoothTransform(const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds, FTransform& TargetTransform) const;
+	void SmoothTransform(
+		const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds,
+		FTransform& TargetTransform) const;
 
 	/**
 	 * Cache the initial world space and camera space transform.
@@ -73,24 +77,26 @@ public:
 	 * Relative transform between the manipulator component and the root scene component is preserved.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
-	void ApplyTargetTransform(const FTransform &TargetTransform);
+	void ApplyTargetTransform(const FTransform& TargetTransform);
+
+	/** Get the component the manipulator is targeting. */
+	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
+	USceneComponent* GetTargetComponent();
 
 protected:
-
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UxtManipulationMoveLogic* MoveLogic; // computes move for one and two hands
+	UxtManipulationMoveLogic* MoveLogic;                   // computes move for one and two hands
 	UxtTwoHandManipulationRotateLogic* TwoHandRotateLogic; // computes rotation for two hands
-	UxtTwoHandManipulationScaleLogic* TwoHandScaleLogic; // computes scale for two hands
-	
+	UxtTwoHandManipulationScaleLogic* TwoHandScaleLogic;   // computes scale for two hands
+
 	UxtConstraintManager* Constraints; // constraint manager - applies constraints to transform changes
 private:
-
 	UFUNCTION()
-	void OnManipulationStarted(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer);
+	void OnManipulationStarted(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
 	UFUNCTION()
 	void OnManipulationEnd(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
@@ -98,7 +104,6 @@ private:
 	void UpdateManipulationLogic(int NumGrabPointers);
 
 public:
-
 	UPROPERTY(BlueprintAssignable, Category = "Manipulator Component")
 	FUxtUpdateTransformDelegate OnUpdateTransform;
 

@@ -3,6 +3,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+
 #include "Interactions/UxtGrabTargetComponent.h"
 
 /**
@@ -25,7 +26,6 @@ public:
 	FVector Update(GrabPointers PointerData) const;
 
 private:
-
 	FVector StartObjectScale;
 	float StartHandDistanceMeters;
 };

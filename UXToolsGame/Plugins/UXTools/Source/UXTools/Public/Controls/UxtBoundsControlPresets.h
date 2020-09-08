@@ -4,9 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CoreUObject.h"
 
 struct FUxtBoundsControlAffordanceInfo;
-
 
 /** Possible presets for common bounding box configurations. */
 UENUM()
@@ -26,9 +26,8 @@ enum class EUxtBoundsControlPreset : uint8
 	AllRotate,
 };
 
-
 struct FUxtBoundsControlPresetUtils
 {
 	/** Get the list of affordances contained in a preset. */
-	static const TArray<FUxtBoundsControlAffordanceInfo> &GetPresetAffordances(EUxtBoundsControlPreset Preset);
+	static const TArray<FUxtBoundsControlAffordanceInfo>& GetPresetAffordances(EUxtBoundsControlPreset Preset);
 };

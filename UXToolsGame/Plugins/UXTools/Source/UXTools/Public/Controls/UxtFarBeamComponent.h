@@ -4,7 +4,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/SplineMeshComponent.h"
+
 #include "UxtFarBeamComponent.generated.h"
 
 class UUxtFarPointerComponent;
@@ -18,7 +20,6 @@ class UXTOOLS_API UUxtFarBeamComponent : public USplineMeshComponent
 	GENERATED_BODY()
 
 public:
-
 	UUxtFarBeamComponent();
 
 	//
@@ -39,7 +40,6 @@ public:
 	float HoverDistance = 0.5f;
 
 private:
-
 	UFUNCTION()
 	void OnFarPointerEnabled(UUxtFarPointerComponent* FarPointer);
 
@@ -57,5 +57,4 @@ private:
 	bool BindGrab;
 	/** Should we send spline length to the material */
 	bool BindSplineLength;
-
 };

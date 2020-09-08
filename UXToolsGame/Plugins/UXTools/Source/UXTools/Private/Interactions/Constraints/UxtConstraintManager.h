@@ -3,11 +3,12 @@
 
 #pragma once
 #include "CoreMinimal.h"
-#include "Interactions/UxtManipulationFlags.h"
+
 #include "Interactions/Constraints/UxtTransformConstraint.h"
+#include "Interactions/UxtManipulationFlags.h"
 
 /**
- * Manages constraints for a given object and ensures that Scale/Rotation/Translation 
+ * Manages constraints for a given object and ensures that Scale/Rotation/Translation
  * constraints are executed separately.
  */
 class UxtConstraintManager
@@ -30,10 +31,9 @@ public:
 
 	/** Compares existing registered constraints with up to date constraint list attached to actor */
 	void Update(const FTransform& TargetTransform);
+
 private:
-
 	void ApplyConstraintsForType(FTransform& Transform, bool IsOneHanded, bool IsNear, EUxtTransformMode TransformType) const;
-
 
 	TArray<UUxtTransformConstraint*> Constraints;
 	const AActor& Actor;

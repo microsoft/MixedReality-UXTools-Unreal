@@ -2,23 +2,25 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtPressableButtonComponent.h"
-#include "Input/UxtNearPointerComponent.h"
-#include "Input/UxtFarPointerComponent.h"
+
 #include "UXTools.h"
+
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtInteractionUtils.h"
 #include "Utils/UxtMathUtilsFunctionLibrary.h"
 
-#include <GameFramework/Actor.h>
 #include <DrawDebugHelpers.h>
+
 #include <Components/BoxComponent.h>
 #include <Components/ShapeComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include <GameFramework/Actor.h>
 
 // Sets default values for this component's properties
 UUxtPressableButtonComponent::UUxtPressableButtonComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 }
 
 float UUxtPressableButtonComponent::GetFrontFaceCollisionFraction() const
@@ -40,7 +42,7 @@ void UUxtPressableButtonComponent::SetFrontFaceCollisionFraction(float Distance)
 	}
 }
 
-USceneComponent* UUxtPressableButtonComponent::GetVisuals() const 
+USceneComponent* UUxtPressableButtonComponent::GetVisuals() const
 {
 	return Cast<USceneComponent>(VisualsReference.GetComponent(GetOwner()));
 }
@@ -48,6 +50,18 @@ USceneComponent* UUxtPressableButtonComponent::GetVisuals() const
 void UUxtPressableButtonComponent::SetVisuals(USceneComponent* Visuals)
 {
 	VisualsReference.OverrideComponent = Visuals;
+
+	if (Visuals && BoxComponent)
+	{
+		ConfigureBoxComponent(Visuals);
+	}
+}
+
+void UUxtPressableButtonComponent::SetVisuals(const FComponentReference& ComponentReference)
+{
+	VisualsReference = ComponentReference;
+
+	USceneComponent* Visuals = GetVisuals();
 
 	if (Visuals && BoxComponent)
 	{
@@ -151,7 +165,10 @@ float UUxtPressableButtonComponent::GetMaxPushDistance() const
 
 void UUxtPressableButtonComponent::SetMaxPushDistance(float Distance)
 {
-	if (PushBehavior != EUxtPushBehavior::Compress)
+	// The push distance is automatically calculated based on the button visuals when the behavior is compress. But, if this method is
+	// called at "edit time" allow the push distance to be mutated in case it is used for visualizations.
+	TEnumAsByte<EWorldType::Type> WorldType = GetWorld()->WorldType;
+	if ((WorldType == EWorldType::Editor) || (WorldType == EWorldType::EditorPreview) || PushBehavior != EUxtPushBehavior::Compress)
 	{
 		MaxPushDistance = Distance;
 	}
@@ -160,8 +177,7 @@ void UUxtPressableButtonComponent::SetMaxPushDistance(float Distance)
 bool UUxtPressableButtonComponent::VisualBoundsFilter(const USceneComponent* Component)
 {
 	// Allow mesh and shape components to be considered in bounds calculations.
-	return (Cast <const UMeshComponent>(Component) != nullptr || 
-			Cast <const UShapeComponent>(Component) != nullptr);
+	return (Cast<const UMeshComponent>(Component) != nullptr || Cast<const UShapeComponent>(Component) != nullptr);
 }
 
 // Called when the game starts
@@ -294,7 +310,7 @@ bool UUxtPressableButtonComponent::CanEditChange(const FProperty* Property) cons
 
 	if (IsEditable && Property != nullptr)
 	{
-		// When a button's push behavior is compressible the max push distance is auto-calculated and should not be 
+		// When a button's push behavior is compressible the max push distance is auto-calculated and should not be
 		// edited by the user.
 		if (Property->GetFName() == GET_MEMBER_NAME_CHECKED(UUxtPressableButtonComponent, MaxPushDistance))
 		{
@@ -304,6 +320,7 @@ bool UUxtPressableButtonComponent::CanEditChange(const FProperty* Property) cons
 
 	return IsEditable;
 }
+
 #endif
 
 bool UUxtPressableButtonComponent::IsContacted() const
@@ -338,9 +355,18 @@ void UUxtPressableButtonComponent::OnExitFocus(UUxtPointerComponent* Pointer)
 	OnEndFocus.Broadcast(this, Pointer, bIsFocused);
 }
 
-bool UUxtPressableButtonComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtPressableButtonComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	return !bIsDisabled && (Primitive == BoxComponent);
+}
+
+bool UUxtPressableButtonComponent::GetClosestPoint_Implementation(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+{
+	OutNormal = GetComponentTransform().GetUnitAxis(EAxis::X);
+
+	float NotUsed;
+	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
 void UUxtPressableButtonComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
@@ -413,9 +439,8 @@ float UUxtPressableButtonComponent::CalculatePushDistance(const UUxtNearPointerC
 
 FVector UUxtPressableButtonComponent::GetCurrentButtonLocation() const
 {
-	FVector Axis = bUseAbsolutePushDistance ?
-		GetComponentTransform().GetUnitAxis(EAxis::X) : 
-		GetComponentTransform().GetScaledAxis(EAxis::X);
+	FVector Axis =
+		bUseAbsolutePushDistance ? GetComponentTransform().GetUnitAxis(EAxis::X) : GetComponentTransform().GetScaledAxis(EAxis::X);
 	return GetRestPosition() - (Axis * CurrentPushDistance);
 }
 
@@ -493,7 +518,10 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 {
 	if (!BoxComponent)
 	{
-		UE_LOG(UXTools, Error, TEXT("Attempting to configure the box component for '%s' before it is initialised, the button will not work properly."), *GetOwner()->GetName());
+		UE_LOG(
+			UXTools, Error,
+			TEXT("Attempting to configure the box component for '%s' before it is initialised, the button will not work properly."),
+			*GetOwner()->GetName());
 		return;
 	}
 

@@ -2,65 +2,20 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtBoundsControlComponent.h"
+
+#include "DrawDebugHelpers.h"
+
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
-#include "DrawDebugHelpers.h"
-#include "Utils/UxtMathUtilsFunctionLibrary.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
-#if WITH_EDITOR
+#if WITH_EDITORONLY_DATA
 #include "EditorActorFolders.h"
 #endif
 
-
-static FBox CalculateNestedActorBoundsInGivenSpace(const AActor* Actor, const FTransform& WorldToCalcSpace, bool bNonColliding)
-{
-	FBox Box(ForceInit);
-
-	for (const UActorComponent* ActorComponent : Actor->GetComponents())
-	{
-		if (!ActorComponent->IsRegistered())
-		{
-			continue;
-		}
-
-		if (const UPrimitiveComponent* PrimitiveComponent = Cast<const UPrimitiveComponent>(ActorComponent))
-		{
-			// Only use collidable components to find collision bounding box.
-			if (bNonColliding || PrimitiveComponent->IsCollisionEnabled())
-			{
-				const FTransform& ComponentToWorld = PrimitiveComponent->GetComponentTransform();
-				const FTransform ComponentToCalcSpace = ComponentToWorld * WorldToCalcSpace;
-
-				const FBoxSphereBounds ComponentBoundsCalcSpace = PrimitiveComponent->CalcBounds(ComponentToCalcSpace);
-				const FBox ComponentBox = ComponentBoundsCalcSpace.GetBox();
-
-				Box += ComponentBox;
-			}
-		}
-
-		if (const UChildActorComponent* ChildActor = Cast<const UChildActorComponent>(ActorComponent))
-		{
-			if (const AActor* NestedActor = ChildActor->GetChildActor())
-			{
-				Box += CalculateNestedActorBoundsInGivenSpace(NestedActor, WorldToCalcSpace, bNonColliding);
-			}
-		}
-	}
-
-	return Box;
-}
-
-static FBox CalculateNestedActorBoundsInLocalSpace(const AActor* Actor, bool bNonColliding)
-{
-	const FTransform& ActorToWorld = Actor->GetTransform();
-	const FTransform WorldToActor = ActorToWorld.Inverse();
-
-	return CalculateNestedActorBoundsInGivenSpace(Actor, WorldToActor, true);
-}
-
-FTransform FUxtBoundsControlAffordanceInfo::GetWorldTransform(const FBox &Bounds, const FTransform &RootTransform) const
+FTransform FUxtBoundsControlAffordanceInfo::GetWorldTransform(const FBox& Bounds, const FTransform& RootTransform) const
 {
 	FVector Location = Bounds.GetCenter() + Bounds.GetExtent() * BoundsLocation;
 	FRotator Rotation = BoundsRotation;
@@ -69,11 +24,9 @@ FTransform FUxtBoundsControlAffordanceInfo::GetWorldTransform(const FBox &Bounds
 	return FTransform(RootTransform.TransformRotation(FQuat(Rotation)), RootTransform.TransformPosition(Location), Scale);
 }
 
-
 UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
 
 	static ConstructorHelpers::FClassFinder<AActor> FaceAffordanceClassFinder(TEXT("/UXTools/BoundsControl/BP_DefaultFaceAffordance"));
 	FaceAffordanceClass = FaceAffordanceClassFinder.Class;
@@ -81,6 +34,8 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 	EdgeAffordanceClass = EdgeAffordanceClassFinder.Class;
 	static ConstructorHelpers::FClassFinder<AActor> CornerAffordanceClassFinder(TEXT("/UXTools/BoundsControl/BP_DefaultCornerAffordance"));
 	CornerAffordanceClass = CornerAffordanceClassFinder.Class;
+	MinimumBoundsScale = 0.1f;
+	MaximumBoundsScale = 5.0f;
 }
 
 const TMap<AActor*, const FUxtBoundsControlAffordanceInfo*>& UUxtBoundsControlComponent::GetActorAffordanceMap()
@@ -140,14 +95,38 @@ const TArray<FUxtBoundsControlAffordanceInfo>& UUxtBoundsControlComponent::GetUs
 	}
 }
 
+float UUxtBoundsControlComponent::GetMaximumBoundsScale() const
+{
+	return MaximumBoundsScale;
+}
+
+void UUxtBoundsControlComponent::SetMaximumBoundsScale(float Value)
+{
+	MaximumBoundsScale = Value;
+}
+
+void UUxtBoundsControlComponent::SetMinimumBoundsScale(float Value)
+{
+	MinimumBoundsScale = Value;
+}
+
+float UUxtBoundsControlComponent::GetMinimumBoundsScale() const
+{
+	return MinimumBoundsScale;
+}
+
 TSubclassOf<class AActor> UUxtBoundsControlComponent::GetAffordanceKindActorClass(EUxtBoundsControlAffordanceKind Kind) const
 {
 	switch (Kind)
 	{
-	case EUxtBoundsControlAffordanceKind::Center:	return CenterAffordanceClass;
-	case EUxtBoundsControlAffordanceKind::Face:	return FaceAffordanceClass;
-	case EUxtBoundsControlAffordanceKind::Edge:	return EdgeAffordanceClass;
-	case EUxtBoundsControlAffordanceKind::Corner:	return CornerAffordanceClass;
+	case EUxtBoundsControlAffordanceKind::Center:
+		return CenterAffordanceClass;
+	case EUxtBoundsControlAffordanceKind::Face:
+		return FaceAffordanceClass;
+	case EUxtBoundsControlAffordanceKind::Edge:
+		return EdgeAffordanceClass;
+	case EUxtBoundsControlAffordanceKind::Corner:
+		return CornerAffordanceClass;
 	}
 
 	return nullptr;
@@ -160,14 +139,14 @@ const FBox& UUxtBoundsControlComponent::GetBounds() const
 
 void UUxtBoundsControlComponent::ComputeBoundsFromComponents()
 {
-	Bounds = CalculateNestedActorBoundsInLocalSpace(GetOwner(), true);
+	Bounds = UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInLocalSpace(GetOwner(), true);
 
 	UpdateAffordanceTransforms();
 }
 
 void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 {
-	for (const auto &item : ActorAffordanceMap)
+	for (const auto& item : ActorAffordanceMap)
 	{
 		FTransform affordanceTransform = item.Value->GetWorldTransform(Bounds, GetOwner()->GetActorTransform());
 		item.Key->SetActorTransform(affordanceTransform);
@@ -189,8 +168,8 @@ void UUxtBoundsControlComponent::BeginPlay()
 
 	//
 	// Create affordances
-	
-#if WITH_EDITOR
+
+#if WITH_EDITORONLY_DATA
 	static UEnum* AffordanceKindEnum = StaticEnum<EUxtBoundsControlAffordanceKind>();
 	check(AffordanceKindEnum);
 
@@ -205,23 +184,27 @@ void UUxtBoundsControlComponent::BeginPlay()
 	}
 #endif
 
-	const auto &usedAffordances = GetUsedAffordances();
-	for (const FUxtBoundsControlAffordanceInfo &affordance : usedAffordances)
+	const TArray<FUxtBoundsControlAffordanceInfo>& usedAffordances = GetUsedAffordances();
+	for (const FUxtBoundsControlAffordanceInfo& affordance : usedAffordances)
 	{
-		auto affordanceClass = (affordance.ActorClass != nullptr ? affordance.ActorClass : GetAffordanceKindActorClass(affordance.Kind));
+		TSubclassOf<AActor> affordanceClass = affordance.ActorClass;
+		if (affordanceClass == nullptr)
+		{
+			affordanceClass = GetAffordanceKindActorClass(affordance.Kind);
+		}
 		if (IsValid(affordanceClass))
 		{
 			FActorSpawnParameters Params;
 			Params.Name = FName(GetOwner()->GetName() + TEXT("_Affordance"));
 			Params.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
 			Params.Owner = GetOwner();
-			AActor *affordanceActor = GetWorld()->SpawnActor<AActor>(affordanceClass, Params);
+			AActor* affordanceActor = GetWorld()->SpawnActor<AActor>(affordanceClass, Params);
 
 			if (affordanceActor != nullptr)
 			{
 				ActorAffordanceMap.Add(affordanceActor, &affordance);
 
-				UUxtGrabTargetComponent *grabbable = affordanceActor->FindComponentByClass<UUxtGrabTargetComponent>();
+				UUxtGrabTargetComponent* grabbable = affordanceActor->FindComponentByClass<UUxtGrabTargetComponent>();
 				if (grabbable != nullptr)
 				{
 					grabbable->OnBeginGrab.AddDynamic(this, &UUxtBoundsControlComponent::OnPointerBeginGrab);
@@ -229,14 +212,13 @@ void UUxtBoundsControlComponent::BeginPlay()
 					grabbable->OnEndGrab.AddDynamic(this, &UUxtBoundsControlComponent::OnPointerEndGrab);
 				}
 
-#if WITH_EDITOR
+#if WITH_EDITORONLY_DATA
 				if (FActorFolders::IsAvailable())
 				{
-					affordanceActor->SetActorLabel(FString::Printf(TEXT("%s %s (%.0f %.0f %.0f)"),
-						*GetOwner()->GetName(),
-						*AffordanceKindEnum->GetDisplayNameTextByValue((int64)affordance.Kind).ToString(),
-						affordance.BoundsLocation.X, affordance.BoundsLocation.Y, affordance.BoundsLocation.Z
-						));
+					affordanceActor->SetActorLabel(FString::Printf(
+						TEXT("%s %s (%.0f %.0f %.0f)"), *GetOwner()->GetName(),
+						*AffordanceKindEnum->GetDisplayNameTextByValue((int64)affordance.Kind).ToString(), affordance.BoundsLocation.X,
+						affordance.BoundsLocation.Y, affordance.BoundsLocation.Z));
 					affordanceActor->SetFolderPath_Recursively(FolderPath);
 				}
 #endif
@@ -260,7 +242,7 @@ void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReaso
 
 		// Find the grab target in use by this pointer
 		UUxtGrabTargetComponent* grabbable = nullptr;
-		for (auto item : ActorAffordanceMap)
+		for (const auto& item : ActorAffordanceMap)
 		{
 			if (item.Value == affordanceInfo)
 			{
@@ -278,9 +260,9 @@ void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReaso
 	}
 
 	// Destroy affordances
-	for (const auto &item : ActorAffordanceMap)
+	for (const auto& item : ActorAffordanceMap)
 	{
-		if(!item.Key->IsActorBeingDestroyed() && item.Key->GetWorld() != nullptr )
+		if (!item.Key->IsActorBeingDestroyed() && item.Key->GetWorld() != nullptr)
 		{
 			GetWorld()->DestroyActor(item.Key);
 		}
@@ -299,8 +281,8 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 		// Get the active affordance data
 		// Only one grab at a time supported for now
 		check(ActiveAffordanceGrabPointers.Num() == 1);
-		const FUxtBoundsControlAffordanceInfo &affordance = *ActiveAffordanceGrabPointers[0].Key;
-		const FUxtGrabPointerData &grabPointer = ActiveAffordanceGrabPointers[0].Value;
+		const FUxtBoundsControlAffordanceInfo& affordance = *ActiveAffordanceGrabPointers[0].Key;
+		const FUxtGrabPointerData& grabPointer = ActiveAffordanceGrabPointers[0].Value;
 
 		FBox newBounds;
 		FQuat deltaRotation;
@@ -315,6 +297,12 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 
 			FVector pivot = InitialTransform.TransformPosition(InitialBounds.GetCenter());
 			newTransform = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(newTransform, deltaRotation.Rotator(), pivot);
+
+			FVector MinBox = FVector(MinimumBoundsScale, MinimumBoundsScale, MinimumBoundsScale);
+			FVector MaxBox = FVector(MaximumBoundsScale, MaximumBoundsScale, MaximumBoundsScale);
+
+			newTransform.SetScale3D(newTransform.GetScale3D().BoundToBox(MinBox, MaxBox));
+
 			GetOwner()->SetActorTransform(newTransform);
 		}
 
@@ -327,7 +315,9 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 	}
 }
 
-void UUxtBoundsControlComponent::ComputeModifiedBounds(const FUxtBoundsControlAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation) const
+void UUxtBoundsControlComponent::ComputeModifiedBounds(
+	const FUxtBoundsControlAffordanceInfo& Affordance, const FUxtGrabPointerData& GrabPointer, FBox& OutBounds,
+	FQuat& OutDeltaRotation) const
 {
 	//
 	// Look up settings for the affordance
@@ -354,7 +344,6 @@ void UUxtBoundsControlComponent::ComputeModifiedBounds(const FUxtBoundsControlAf
 	{
 	case EUxtBoundsControlAffordanceAction::Resize:
 	{
-
 		FVector localDelta = localTarget - localGrabPoint;
 		FVector constrainedDelta = affordanceConstraint.TransformVector(localDelta);
 
@@ -404,9 +393,9 @@ void UUxtBoundsControlComponent::ComputeModifiedBounds(const FUxtBoundsControlAf
 	}
 }
 
-void UUxtBoundsControlComponent::OnPointerBeginGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
+void UUxtBoundsControlComponent::OnPointerBeginGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
 {
-	const FUxtBoundsControlAffordanceInfo **pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
+	const FUxtBoundsControlAffordanceInfo** pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
 	check(pAffordance != nullptr);
 
 	FUxtGrabPointerData bboxGrabPointer;
@@ -442,9 +431,9 @@ void UUxtBoundsControlComponent::OnPointerUpdateGrab(UUxtGrabTargetComponent* Gr
 	}
 }
 
-void UUxtBoundsControlComponent::OnPointerEndGrab(UUxtGrabTargetComponent *Grabbable, FUxtGrabPointerData GrabPointer)
+void UUxtBoundsControlComponent::OnPointerEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
 {
-	const FUxtBoundsControlAffordanceInfo **pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
+	const FUxtBoundsControlAffordanceInfo** pAffordance = ActorAffordanceMap.Find(Grabbable->GetOwner());
 	check(pAffordance != nullptr);
 
 	if (TryReleaseGrabPointer(**pAffordance))
@@ -453,7 +442,8 @@ void UUxtBoundsControlComponent::OnPointerEndGrab(UUxtGrabTargetComponent *Grabb
 	}
 }
 
-bool UUxtBoundsControlComponent::TryActivateGrabPointer(const FUxtBoundsControlAffordanceInfo &Affordance, const FUxtGrabPointerData &GrabPointer)
+bool UUxtBoundsControlComponent::TryActivateGrabPointer(
+	const FUxtBoundsControlAffordanceInfo& Affordance, const FUxtGrabPointerData& GrabPointer)
 {
 	if (ActiveAffordanceGrabPointers.Num() == 0)
 	{
@@ -465,13 +455,10 @@ bool UUxtBoundsControlComponent::TryActivateGrabPointer(const FUxtBoundsControlA
 	return false;
 }
 
-bool UUxtBoundsControlComponent::TryReleaseGrabPointer(const FUxtBoundsControlAffordanceInfo &Affordance)
+bool UUxtBoundsControlComponent::TryReleaseGrabPointer(const FUxtBoundsControlAffordanceInfo& Affordance)
 {
 	int numRemoved = ActiveAffordanceGrabPointers.RemoveAll(
-		[&Affordance](const TPair<const FUxtBoundsControlAffordanceInfo*, FUxtGrabPointerData> &item)
-		{
-			return item.Key == &Affordance;
-		});
+		[&Affordance](const TPair<const FUxtBoundsControlAffordanceInfo*, FUxtGrabPointerData>& item) { return item.Key == &Affordance; });
 	return numRemoved > 0;
 }
 
@@ -487,7 +474,7 @@ FUxtGrabPointerData* UUxtBoundsControlComponent::FindGrabPointer(const FUxtBound
 	return nullptr;
 }
 
-bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox &Box, const FBox &RelativeTo, FTransform &OutTransform)
+bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox& Box, const FBox& RelativeTo, FTransform& OutTransform)
 {
 	FVector extA = Box.GetExtent();
 	FVector extB = RelativeTo.GetExtent();
@@ -497,4 +484,3 @@ bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox &Box, const 
 	OutTransform = FTransform(FRotator::ZeroRotator, Box.GetCenter() - RelativeTo.GetCenter() * scale, scale);
 	return valid;
 }
-

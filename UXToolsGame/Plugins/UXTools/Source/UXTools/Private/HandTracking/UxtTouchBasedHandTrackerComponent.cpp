@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 #include "HandTracking/UxtTouchBasedHandTrackerComponent.h"
-#include "Utils/UxtFunctionLibrary.h"
-#include "GameFramework/PlayerController.h"
-#include "Features/IModularFeatures.h"
 
+#include "Features/IModularFeatures.h"
+#include "GameFramework/PlayerController.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 void UUxtTouchBasedHandTrackerComponent::BeginPlay()
 {
@@ -35,14 +35,16 @@ void UUxtTouchBasedHandTrackerComponent::EndPlay(const EEndPlayReason::Type EndP
 	Super::EndPlay(EndPlayReason);
 }
 
-bool UUxtTouchBasedHandTrackerComponent::GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
+bool UUxtTouchBasedHandTrackerComponent::GetJointState(
+	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
 	OutRadius = 0;
 	bool bTracked = GetPointerPose(Hand, OutOrientation, OutPosition);
 
 	if (bTracked && Joint == EUxtHandJoint::Palm)
 	{
-		// Use head orientation as the palm's one as it is used to check if the hand is in pointing pose in AUxtHandInteractionActor::IsInPointingPose
+		// Use head orientation as the palm's one as it is used to check if the hand is in pointing pose in
+		// AUxtHandInteractionActor::IsInPointingPose
 		OutOrientation = UUxtFunctionLibrary::GetHeadPose(PlayerController).GetRotation();
 	}
 

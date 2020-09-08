@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "Controls/UxtBackPlateComponent.h"
+
 #include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
@@ -18,11 +19,10 @@ UUxtBackPlateComponent::UUxtBackPlateComponent()
 	check(MeshFinder.Object);
 	SetStaticMesh(MeshFinder.Object);
 
-	// Bug, the FObjectFinder does not pull in files referenced by UMaterialExpressionCustom::IncludeFilePaths and fails to compile during cooking.
-	//static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Materials/MI_HoloLens2BackPlate"));
-	//check(MaterialFinder.Object);
-	//Material = MaterialFinder.Object;
-	//SetMaterial(0, Material);
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("/UXTools/Materials/MI_HoloLens2BackPlate"));
+	check(MaterialFinder.Object);
+	Material = MaterialFinder.Object;
+	SetMaterial(0, Material);
 
 	// Initialize the mesh to point down the +X axis with the default scale.
 	SetRelativeRotation(FRotator(90, 0, 0));
@@ -36,6 +36,7 @@ void UUxtBackPlateComponent::PostEditChangeProperty(FPropertyChangedEvent& Prope
 	{
 		UpdateMaterialParameters();
 	}
+
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 #endif
@@ -61,6 +62,8 @@ void UUxtBackPlateComponent::OnRegister()
 
 void UUxtBackPlateComponent::OnUpdateTransform(EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport)
 {
+	Super::OnUpdateTransform(UpdateTransformFlags, Teleport);
+
 	UpdateMaterialParameters();
 }
 
@@ -73,7 +76,7 @@ void UUxtBackPlateComponent::UpdateMaterialParameters()
 		return;
 	}
 
-	const float Width = GetRelativeScale3D().Y;
+	const float Width = GetComponentScale().Y;
 
 	if (Width == 0.0f)
 	{

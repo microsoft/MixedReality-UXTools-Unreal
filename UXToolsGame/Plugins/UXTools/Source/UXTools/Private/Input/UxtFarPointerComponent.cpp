@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 #include "Input/UxtFarPointerComponent.h"
-#include "Engine/World.h"
-#include "CollisionQueryParams.h"
-#include "Interactions/UxtFarTarget.h"
-#include "Components/PrimitiveComponent.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
-#include "Utils/UxtFunctionLibrary.h"
 
+#include "CollisionQueryParams.h"
+#include "UXTools.h"
+
+#include "Components/PrimitiveComponent.h"
+#include "Engine/World.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "Interactions/UxtFarTarget.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 UUxtFarPointerComponent::UUxtFarPointerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// Tick after physics so we query against the most recent state.
-	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PostPhysics;
+	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
+	ParameterCollection = Finder.Object;
+	// Tick before controls
+	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PrePhysics;
 }
 
 void UUxtFarPointerComponent::SetActive(bool bNewActive, bool bReset)
@@ -41,11 +45,19 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	if (bIsTracked)
 	{
 		OnPointerPoseUpdated(NewOrientation, NewOrigin);
-
+		UpdateParameterCollection(GetHitPoint());
 		bool bNewPressed;
 		if (UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(Hand, bNewPressed))
 		{
 			SetPressed(bNewPressed);
+		}
+
+		FQuat WristOrientation;
+		FVector WristLocation;
+		float WristRadius;
+		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristLocation, WristRadius))
+		{
+			ControllerOrientation = WristOrientation;
 		}
 	}
 
@@ -61,9 +73,9 @@ void UUxtFarPointerComponent::SetFocusLocked(bool bLocked)
 		// Store current hit info in hit primitive space
 		if (UPrimitiveComponent* HitPrimitive = GetHitPrimitive())
 		{
-			const FTransform WorldToTarget = HitPrimitive->GetComponentTransform().Inverse();
-			HitPointLocal = WorldToTarget.TransformPosition(HitPoint);
-			HitNormalLocal = WorldToTarget.TransformVectorNoScale(HitNormal);
+			const FTransform WorldToTarget = HitPrimitive->GetComponentTransform();
+			HitPointLocal = WorldToTarget.InverseTransformPosition(HitPoint);
+			HitNormalLocal = WorldToTarget.InverseTransformVectorNoScale(HitNormal);
 		}
 	}
 }
@@ -129,7 +141,7 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 	{
 		// Line trace to find new primitive
 		FHitResult Hit;
-		const auto Forward = PointerOrientation.GetForwardVector();
+		const FVector Forward = PointerOrientation.GetForwardVector();
 		FVector Start = PointerOrigin + Forward * RayStartOffset;
 		FVector End = Start + Forward * RayLength;
 		GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel);
@@ -223,7 +235,7 @@ void UUxtFarPointerComponent::SetEnabled(bool bNewEnabled)
 		{
 			// Release pointer if it was pressed
 			SetPressed(false);
-			
+
 			// Raise focus exit on the current target
 			if (UObject* FarTarget = GetFarTarget())
 			{
@@ -247,6 +259,11 @@ FVector UUxtFarPointerComponent::GetPointerOrigin() const
 FQuat UUxtFarPointerComponent::GetPointerOrientation() const
 {
 	return PointerOrientation;
+}
+
+FQuat UUxtFarPointerComponent::GetControllerOrientation() const
+{
+	return ControllerOrientation;
 }
 
 FVector UUxtFarPointerComponent::GetRayStart() const
@@ -279,7 +296,25 @@ bool UUxtFarPointerComponent::IsEnabled() const
 	return bEnabled;
 }
 
-UObject* UUxtFarPointerComponent::GetFarTarget() const 
+UObject* UUxtFarPointerComponent::GetFarTarget() const
 {
 	return FarTargetWeak.Get();
+}
+
+void UUxtFarPointerComponent::UpdateParameterCollection(FVector IndexTipPosition)
+{
+	if (ParameterCollection)
+	{
+		UMaterialParameterCollectionInstance* ParameterCollectionInstance = GetWorld()->GetParameterCollectionInstance(ParameterCollection);
+		static FName ParameterNames[] = {"LeftPointerPosition", "RightPointerPosition"};
+		FName ParameterName = Hand == EControllerHand::Left ? ParameterNames[0] : ParameterNames[1];
+		const bool bFoundParameter = ParameterCollectionInstance->SetVectorParameterValue(ParameterName, IndexTipPosition);
+
+		if (!bFoundParameter)
+		{
+			UE_LOG(
+				UXTools, Warning, TEXT("Unable to find %s parameter in material parameter collection %s."), *ParameterName.ToString(),
+				*ParameterCollection->GetPathName());
+		}
+	}
 }

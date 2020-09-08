@@ -3,8 +3,9 @@
 
 #pragma once
 
-#include "HandTracking/IUxtHandTracker.h"
 #include "InputCoreTypes.h"
+
+#include "HandTracking/IUxtHandTracker.h"
 
 struct FUxtTestHandData
 {
@@ -33,11 +34,11 @@ struct FUxtTestHandData
 class FUxtTestHandTracker : public IUxtHandTracker
 {
 public:
-
-	// 
+	//
 	// IUxtHandTracker interface
 
-	virtual bool GetJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override;
+	virtual bool GetJointState(
+		EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override;
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override;
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const override;
 	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const override;
@@ -73,11 +74,9 @@ public:
 	void SetAllJointRadii(float Radius, EControllerHand Hand = EControllerHand::AnyHand);
 
 private:
-
 	/** Data for the left hand. */
 	FUxtTestHandData LeftHandData;
 
 	/** Data for the right hand. */
 	FUxtTestHandData RightHandData;
 };
-

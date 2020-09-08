@@ -5,8 +5,10 @@
 
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
-#include "Components/ActorComponent.h"
 #include "UxtPointerComponent.h"
+
+#include "Components/ActorComponent.h"
+
 #include "UxtNearPointerComponent.generated.h"
 
 struct FUxtGrabPointerFocus;
@@ -24,11 +26,10 @@ class UXTOOLS_API UUxtNearPointerComponent : public UUxtPointerComponent
 	GENERATED_BODY()
 
 public:
-
 	UUxtNearPointerComponent();
 	virtual ~UUxtNearPointerComponent();
 
-	// 
+	//
 	// UActorComponent interface
 
 	virtual void BeginPlay() override;
@@ -36,7 +37,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void SetActive(bool bNewActive, bool bReset = false) override;
 
-	// 
+	//
 	// UUxtPointerComponent interface
 
 	virtual UObject* GetFocusTarget() const override;
@@ -47,11 +48,19 @@ public:
 
 	/** Returns currently focused grab target or null if there is none. */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget) const;
+	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/** Returns currently focused poke target or null if there is none. */
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
-	UObject* GetFocusedPokeTarget(FVector& OutClosestPointOnTarget) const;
+	UObject* GetFocusedPokeTarget(FVector& OutClosestPointOnTarget, FVector& Normal) const;
+
+	/** Returns currently focused grab primitive or null if there is none. */
+	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UPrimitiveComponent* GetFocusedGrabPrimitive(FVector& OutClosestPointOnTarget, FVector& Normal) const;
+
+	/** Returns currently focused poke primitive or null if there is none. */
+	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UPrimitiveComponent* GetFocusedPokePrimitive(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/**
 	 * Set a focused grab target explicitly which will receive grasp events.
@@ -69,13 +78,16 @@ public:
 
 	UFUNCTION(BlueprintGetter)
 	bool IsGrabbing() const;
-    
+
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	bool GetIsPoking() const;
+
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetGrabPointerTransform() const;
+
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	FTransform GetPokePointerTransform() const;
+
 	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
 	float GetPokePointerRadius() const;
 
@@ -83,9 +95,11 @@ public:
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
-	float ProximityRadius = 11.0f;
+	float ProximityRadius = 20.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	float PokeRadius = 0.75f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	float GrabRadius = 3.5f;
 
@@ -95,18 +109,17 @@ public:
 	 * will receive a poke end event.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
-	float PokeDepth = 20.0f;
-	
+	float PokeDepth = 30.0f;
+
 	/**
 	 * The distance the fingertip must be from a pokeable in order to fire a poke end event. This is
-	 * used in order to distinguish the queries for poke begin and poke end so you cannot easily 
+	 * used in order to distinguish the queries for poke begin and poke end so you cannot easily
 	 * cause end touch to fire one frame and begin touch to fire on the next frame.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
 	float DebounceDepth = 0.5f;
 
 protected:
-
 	/** Focus of the grab pointer */
 	FUxtGrabPointerFocus* GrabFocus;
 
@@ -114,7 +127,6 @@ protected:
 	FUxtPokePointerFocus* PokeFocus;
 
 private:
-
 	void UpdateParameterCollection(FVector IndexTipPosition);
 
 	/** Parameter collection used to store the finger tip position */

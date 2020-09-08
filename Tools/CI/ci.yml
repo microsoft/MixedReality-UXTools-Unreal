@@ -32,25 +32,24 @@ stages:
       submodules: true
     - checkout: build-tools
     - template: templates/common.yml
+      parameters:
+        StrictMode: true
 
-    - script: >
-        $(UAT)
-        BuildCookRun
-        -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject
-        -clean
-        -cook
-        -package
-        -allmaps
-        -build
-        -stage
-        -targetplatform=Android
-        -cookflavor=Multi
-        -clientconfig=Development
-        -serverconfig=Development
-        -target=UXToolsGame
-        -pak
-        -archive
-        -archivedirectory=$(Build.ArtifactStagingDirectory)/packages
+    - powershell: |
+        # Switch MobileMultiView setting to False due to a rendering issue (https://udn.unrealengine.com/questions/578554/view.html)
+        $IniPath = "$(UXTSourceDir)\UXToolsGame\Config\DefaultEngine.ini"
+        $NewContent = (Get-Content -Raw -Encoding Ascii -Path $IniPath) -ireplace "(vr.MobileMultiView\s*=\s*)True",'$1False'
+        $NewContent | Out-File -FilePath $IniPath -Encoding Ascii -Force 
+        $(UXTSourceDir)\Tools\scripts\BuildProject.ps1 `
+          -UnrealEngine $(UnrealEngine) `
+          -Platform Android `
+          -Configuration Development `
+          -CookFlavor Multi -Clean $True `
+          -UnityBuild $False `
+          -ArchivePath $(Build.ArtifactStagingDirectory)/packages
+        $returncode = $LastExitCode
+        & git checkout -- "$IniPath"
+        exit $returncode
       displayName: 'Build Android Development'
 
     - task: PublishBuildArtifacts@1

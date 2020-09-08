@@ -3,11 +3,36 @@
 
 #include "UxtTestTargetComponent.h"
 
-#include "Input/UxtNearPointerComponent.h"
-#include "UxtTestUtils.h"
 #include "UxtTestHandTracker.h"
+#include "UxtTestUtils.h"
 
 #include "Components/PrimitiveComponent.h"
+#include "Input/UxtNearPointerComponent.h"
+
+namespace
+{
+	bool GetDefaultClosestPointOnPrimitive(
+		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface, float& OutDistanceSqr)
+	{
+		OutPointOnSurface = Point;
+		OutDistanceSqr = -1.f;
+
+		if (Primitive->IsRegistered() && Primitive->IsCollisionEnabled())
+		{
+			FVector ClosestPoint;
+			float DistanceSqr = -1.f;
+
+			if (Primitive->GetSquaredDistanceToCollision(Point, DistanceSqr, ClosestPoint))
+			{
+				OutPointOnSurface = ClosestPoint;
+				OutDistanceSqr = DistanceSqr;
+				return true;
+			}
+		}
+
+		return false;
+	}
+} // namespace
 
 void UTestGrabTarget::BeginPlay()
 {
@@ -62,6 +87,27 @@ void UTestPokeTarget::BeginPlay()
 
 	BeginFocusCount = 0;
 	EndFocusCount = 0;
+	BeginPokeCount = 0;
+	EndPokeCount = 0;
+}
+
+bool UTestPokeTarget::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return true;
+}
+
+EUxtPokeBehaviour UTestPokeTarget::GetPokeBehaviour_Implementation() const
+{
+	return EUxtPokeBehaviour::FrontFace;
+}
+
+bool UTestPokeTarget::GetClosestPoint_Implementation(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const
+{
+	OutNormal = Primitive->GetComponentTransform().GetUnitAxis(EAxis::X);
+
+	float NotUsed;
+	return GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
 void UTestPokeTarget::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
@@ -76,16 +122,6 @@ void UTestPokeTarget::OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent*
 void UTestPokeTarget::OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++EndFocusCount;
-}
-
-EUxtPokeBehaviour UTestPokeTarget::GetPokeBehaviour() const
-{
-	return EUxtPokeBehaviour::FrontFace;
-}
-
-bool UTestPokeTarget::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive)
-{
-	return true;
 }
 
 void UTestPokeTarget::OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer)

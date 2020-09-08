@@ -11,10 +11,9 @@ class UPrimitiveComponent;
 class FUxtInteractionUtils
 {
 public:
-
 	/** Calculates the point on the target surface that is closest to the point passed in.
 	 *  Return value indicates whether a point was found.
 	 */
-	static bool GetDefaultClosestPointOnPrimitive(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface, float& OutDistanceSqr);
-
+	static bool GetDefaultClosestPointOnPrimitive(
+		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface, float& OutDistanceSqr);
 };

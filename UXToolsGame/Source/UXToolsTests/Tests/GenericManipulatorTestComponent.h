@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/ActorComponent.h"
 #include "Misc/AutomationTest.h"
 
@@ -19,14 +20,9 @@ class UGenericManipulatorTestComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
-
 	UFUNCTION()
-	void UpdateTransform(USceneComponent* TargetComponent, FTransform Transform)
-	{
-		TransformUpdateCount++;
-	}
+	void UpdateTransform(USceneComponent* TargetComponent, FTransform Transform) { TransformUpdateCount++; }
 
 public:
-
 	int TransformUpdateCount = 0;
 };

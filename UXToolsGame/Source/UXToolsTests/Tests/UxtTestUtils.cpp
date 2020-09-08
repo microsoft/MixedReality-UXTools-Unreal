@@ -3,24 +3,24 @@
 
 #include "UxtTestUtils.h"
 
-#include "Components/StaticMeshComponent.h"
-#include "GameFramework/Actor.h"
-#include "Tests/AutomationCommon.h"
 #include "Engine.h"
 #include "EngineUtils.h"
-#include "Features/IModularFeatures.h"
+#include "UxtTestHandTracker.h"
+#include "UxtTestTargetComponent.h"
 
+#include "Components/StaticMeshComponent.h"
 #include "Controls/UxtFarBeamComponent.h"
 #include "Controls/UxtFarCursorComponent.h"
+#include "Features/IModularFeatures.h"
+#include "GameFramework/Actor.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
-#include "UxtTestTargetComponent.h"
-#include "UxtTestHandTracker.h"
+#include "Tests/AutomationCommon.h"
 
 namespace
 {
-	AActor* CreateNearPointerTargetActor(UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale, bool bUseBoxCollision)
+	AActor* CreateNearPointerTargetActor(UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
 	{
 		AActor* Actor = World->SpawnActor<AActor>();
 		USceneComponent* Root = NewObject<USceneComponent>(Actor);
@@ -33,37 +33,21 @@ namespace
 		{
 			UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(Actor);
 			Mesh->SetupAttachment(Actor->GetRootComponent());
+			Mesh->Rename(TEXT("TargetSM"));
 			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
-			Mesh->SetGenerateOverlapEvents(!bUseBoxCollision);
+			Mesh->SetCollisionProfileName(TEXT("UI"));
+			Mesh->SetGenerateOverlapEvents(true);
 
 			UStaticMesh* MeshAsset = LoadObject<UStaticMesh>(Actor, *MeshFilename);
 			Mesh->SetStaticMesh(MeshAsset);
 			Mesh->SetRelativeScale3D(FVector::OneVector * MeshScale);
 
 			Mesh->RegisterComponent();
-
-			if (bUseBoxCollision)
-			{
-				Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-				UBoxComponent* Box = NewObject<UBoxComponent>(Actor);
-				Box->SetupAttachment(Actor->GetRootComponent());
-
-				FVector Min, Max;
-				Mesh->GetLocalBounds(Min, Max);
-
-				Box->SetBoxExtent((Max - Min) * 0.5f);
-
-				FTransform BoxTransform = FTransform((Max + Min) / 2) * Mesh->GetComponentTransform();
-				Box->SetWorldTransform(BoxTransform);
-				Box->SetCollisionProfileName(TEXT("UI"));
-			}
 		}
 
 		return Actor;
 	}
-}
+} // namespace
 
 FUxtTestHandTracker UxtTestUtils::TestHandTracker;
 
@@ -86,7 +70,7 @@ UWorld* UxtTestUtils::LoadMap(const FString& MapName)
 
 void UxtTestUtils::ExitGame()
 {
-	// Copied from FExitGameCommand 
+	// Copied from FExitGameCommand
 	if (APlayerController* TargetPC = UGameplayStatics::GetPlayerController(GetTestWorld(), 0))
 	{
 		TargetPC->ConsoleCommand(TEXT("Exit"), true);
@@ -95,11 +79,13 @@ void UxtTestUtils::ExitGame()
 
 // Copy of the hidden method GetAnyGameWorld() in AutomationCommon.cpp.
 // Marked as temporary there, hence, this one is temporary, too.
-UWorld* UxtTestUtils::GetTestWorld() {
+UWorld* UxtTestUtils::GetTestWorld()
+{
 	const TIndirectArray<FWorldContext>& WorldContexts = GEngine->GetWorldContexts();
-	for (const FWorldContext& Context : WorldContexts) {
-		if (((Context.WorldType == EWorldType::PIE) || (Context.WorldType == EWorldType::Game))
-			&& (Context.World() != nullptr)) {
+	for (const FWorldContext& Context : WorldContexts)
+	{
+		if (((Context.WorldType == EWorldType::PIE) || (Context.WorldType == EWorldType::Game)) && (Context.World() != nullptr))
+		{
 			return Context.World();
 		}
 	}
@@ -109,7 +95,7 @@ UWorld* UxtTestUtils::GetTestWorld() {
 
 UWorld* UxtTestUtils::CreateTestWorld()
 {
-	UWorld *world = UWorld::CreateWorld(EWorldType::PIE, true, TEXT("TestWorld"));
+	UWorld* world = UWorld::CreateWorld(EWorldType::PIE, true, TEXT("TestWorld"));
 	return world;
 }
 
@@ -160,12 +146,13 @@ void UxtTestUtils::DisableTestHandTracker()
 	}
 }
 
-UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName Name, const FVector &Location, EControllerHand Hand, bool IsGrasped, bool AddMeshVisualizer)
+UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(
+	UWorld* World, FName Name, const FVector& Location, EControllerHand Hand, bool IsGrasped, bool AddMeshVisualizer)
 {
 	FActorSpawnParameters ActorParams;
 	ActorParams.Name = Name;
 	ActorParams.NameMode = FActorSpawnParameters::ESpawnActorNameMode::Requested;
-	AActor *PointerActor = World->SpawnActor<AActor>(ActorParams);
+	AActor* PointerActor = World->SpawnActor<AActor>(ActorParams);
 
 	USceneComponent* Root = NewObject<USceneComponent>(PointerActor);
 	PointerActor->SetRootComponent(Root);
@@ -190,7 +177,8 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(UWorld *World, FName N
 	return Pointer;
 }
 
-UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Name, const FVector& Position, EControllerHand Hand, bool IsGrasped)
+UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(
+	UWorld* World, FName Name, const FVector& Position, EControllerHand Hand, bool IsGrasped)
 {
 	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Position, Hand);
 	UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FQuat::Identity, Hand);
@@ -225,19 +213,21 @@ UUxtFarPointerComponent* UxtTestUtils::CreateFarPointer(UWorld* World, FName Nam
 	return Pointer;
 }
 
-UTestGrabTarget* UxtTestUtils::CreateNearPointerGrabTarget(UWorld *World, const FVector &Location, const FString &MeshFilename, float MeshScale)
+UTestGrabTarget* UxtTestUtils::CreateNearPointerGrabTarget(
+	UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
 {
-	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale , false);
+	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale);
 
-	UTestGrabTarget *TestTarget = NewObject<UTestGrabTarget>(Actor);
+	UTestGrabTarget* TestTarget = NewObject<UTestGrabTarget>(Actor);
 	TestTarget->RegisterComponent();
 
 	return TestTarget;
 }
 
-UTestPokeTarget* UxtTestUtils::CreateNearPointerPokeTarget(UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
+UTestPokeTarget* UxtTestUtils::CreateNearPointerPokeTarget(
+	UWorld* World, const FVector& Location, const FString& MeshFilename, float MeshScale)
 {
-	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale, true);
+	AActor* Actor = CreateNearPointerTargetActor(World, Location, MeshFilename, MeshScale);
 
 	UTestPokeTarget* TestTarget = NewObject<UTestPokeTarget>(Actor);
 	TestTarget->RegisterComponent();
@@ -255,6 +245,19 @@ UTestGrabTarget* UxtTestUtils::CreateNearPointerBackgroundTarget(UWorld* World)
 	return testTarget;
 }
 
+USceneComponent* UxtTestUtils::CreateTestCamera(UWorld* World)
+{
+	AActor* CameraActor = World->SpawnActor<AActor>();
+	USceneComponent* RootComponent = NewObject<USceneComponent>(CameraActor, TEXT("RootComponent"));
+	CameraActor->SetRootComponent(RootComponent);
+	UCameraComponent* CameraComponent = NewObject<UCameraComponent>(CameraActor, TEXT("Camera"));
+	CameraComponent->SetupAttachment(RootComponent);
+
+	APlayerController* OurPlayerController = UGameplayStatics::GetPlayerController(World, 0);
+	OurPlayerController->SetViewTarget(CameraActor);
+
+	return RootComponent;
+}
 
 bool FUxtDisableTestHandTrackerCommand::Update()
 {
