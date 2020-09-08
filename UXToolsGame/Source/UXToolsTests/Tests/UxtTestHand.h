@@ -43,6 +43,9 @@ public:
 	/** Set the grab state of the hand. */
 	void SetGrabbing(bool bIsGrabbing);
 
+	/** Get the hand transform */
+	FTransform GetTransform() const;
+
 private:
 	/** The hand. */
 	EControllerHand Hand = EControllerHand::AnyHand;

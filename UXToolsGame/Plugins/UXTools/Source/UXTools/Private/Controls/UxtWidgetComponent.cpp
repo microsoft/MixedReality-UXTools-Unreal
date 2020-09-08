@@ -61,9 +61,9 @@ void UUxtWidgetComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerCompone
 
 	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
 	// If this check fails, a non poke focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		FVector2D LocalHitLocation;
+	FVector2D LocalHitLocation;
 	Widget->GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
 	Pointers.Add(Pointer, LocalHitLocation);
@@ -76,9 +76,9 @@ void UUxtWidgetComponent::OnUpdatePokeFocus_Implementation(UUxtNearPointerCompon
 
 	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
 	// If this check fails, a non poke focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		PointerMove(ClosestPoint, Pointer, Widget);
+	PointerMove(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
@@ -90,9 +90,9 @@ void UUxtWidgetComponent::OnExitPokeFocus_Implementation(UUxtNearPointerComponen
 
 		// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
 		// If this check fails, a non poke focusable object has received focus.
-		check(Widget)
+		check(Widget);
 
-			PointerUp(ClosestPoint, Pointer, Widget);
+		PointerUp(ClosestPoint, Pointer, Widget);
 	}
 
 	Pointers.Remove(Pointer);
@@ -105,9 +105,9 @@ void UUxtWidgetComponent::OnBeginPoke_Implementation(UUxtNearPointerComponent* P
 
 	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
 	// If this check fails, a non poke focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		PointerDown(ClosestPoint, Pointer, Widget);
+	PointerDown(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer)
@@ -117,9 +117,9 @@ void UUxtWidgetComponent::OnEndPoke_Implementation(UUxtNearPointerComponent* Poi
 
 	// Primitive should be castable to widget component as this is a condition in IsPokeFocusable.
 	// If this check fails, a non poke focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		PointerUp(ClosestPoint, Pointer, Widget);
+	PointerUp(ClosestPoint, Pointer, Widget);
 }
 
 bool UUxtWidgetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
@@ -134,9 +134,9 @@ void UUxtWidgetComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent
 
 	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
 	// If this check fails, a non far focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		FVector2D LocalHitLocation;
+	FVector2D LocalHitLocation;
 	Widget->GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
 	Pointers.Add(Pointer, LocalHitLocation);
@@ -149,9 +149,9 @@ void UUxtWidgetComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerCompone
 
 	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
 	// If this check fails, a non far focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		PointerMove(ClosestPoint, Pointer, Widget);
+	PointerMove(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)
@@ -163,9 +163,9 @@ void UUxtWidgetComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent*
 
 		// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
 		// If this check fails, a non far focusable object has received focus.
-		check(Widget)
+		check(Widget);
 
-			PointerUp(ClosestPoint, Pointer, Widget);
+		PointerUp(ClosestPoint, Pointer, Widget);
 	}
 
 	Pointers.Remove(Pointer);
@@ -178,9 +178,9 @@ void UUxtWidgetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* P
 
 	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
 	// If this check fails, a non far focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		PointerDown(ClosestPoint, Pointer, Widget);
+	PointerDown(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
@@ -190,9 +190,9 @@ void UUxtWidgetComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* 
 
 	// Primitive should be castable to widget component as this is a condition in IsFarFocusable.
 	// If this check fails, a non far focusable object has received focus.
-	check(Widget)
+	check(Widget);
 
-		PointerUp(ClosestPoint, Pointer, Widget);
+	PointerUp(ClosestPoint, Pointer, Widget);
 }
 
 void UUxtWidgetComponent::PointerMove(const FVector& ClosestPoint, UUxtPointerComponent* Pointer, UWidgetComponent* Widget)

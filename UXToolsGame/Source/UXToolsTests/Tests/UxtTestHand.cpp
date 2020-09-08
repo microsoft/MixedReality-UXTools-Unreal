@@ -108,3 +108,8 @@ void FUxtTestHand::SetGrabbing(bool bIsGrabbing)
 		break;
 	}
 }
+
+FTransform FUxtTestHand::GetTransform() const
+{
+	return Transform;
+}
