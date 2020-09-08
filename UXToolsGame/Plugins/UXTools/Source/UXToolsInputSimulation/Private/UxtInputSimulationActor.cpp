@@ -109,60 +109,12 @@ namespace
 	const FName Axis_LookUpRate = TEXT("InputSimulation_LookUpRate");
 } // namespace
 
-static void InitializeDefaultInputSimulationMappings()
+void AUxtInputSimulationActor::OnConstruction(const FTransform& Transform)
 {
-	static bool bMappingsAdded = false;
-	if (!bMappingsAdded)
-	{
-		bMappingsAdded = true;
+	Super::OnConstruction(Transform);
 
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ToggleLeftHand, EKeys::T));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ToggleRightHand, EKeys::Y));
-
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlLeftHand, EKeys::LeftShift));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlRightHand, EKeys::LeftAlt));
-
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_HandRotate, EKeys::RightMouseButton));
-
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_PrimaryHandPose, EKeys::LeftMouseButton));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_SecondaryHandPose, EKeys::MiddleMouseButton));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_MenuHandPose, EKeys::Home));
-
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::W, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::S, -1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::Up, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::Down, -1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::Gamepad_LeftY, 1.f));
-
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveRight, EKeys::A, -1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveRight, EKeys::D, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveRight, EKeys::Gamepad_LeftX, 1.f));
-
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_LeftThumbstick, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_RightThumbstick, -1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_FaceButton_Bottom, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::SpaceBar, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::LeftControl, -1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::C, -1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::E, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Q, -1.f));
-
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_Turn, EKeys::MouseX, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_TurnRate, EKeys::Gamepad_RightX, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_TurnRate, EKeys::Left, -1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_TurnRate, EKeys::Right, 1.f));
-
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_LookUp, EKeys::MouseY, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_LookUpRate, EKeys::Gamepad_RightY, -1.f));
-
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_Scroll, EKeys::MouseWheelAxis, 3.f));
-		// UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_ScrollRate, ???, 1.f));
-	}
-}
-
-void AUxtInputSimulationActor::BeginPlay()
-{
-	Super::BeginPlay();
+	// Note: using OnConstruction rather than BeginPlay for early initialization of simulation data,
+	// to ensure it is valid when other actors request data for HMD, hand tracking, etc.
 
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
 	{
@@ -180,15 +132,8 @@ void AUxtInputSimulationActor::BeginPlay()
 		// in which case auto-enabling input does not work.
 		EnableInput(PC);
 
-		if (APawn* Pawn = PC->GetPawn())
-		{
-			// Attach to the player pawn so the start location matches the HMD camera, which is relative to the pawn.
-			AttachToActor(Pawn, FAttachmentTransformRules::KeepRelativeTransform);
-
-			// Hide the pawn for the local player
-			Pawn->SetActorHiddenInGame(true);
-			Pawn->SetActorEnableCollision(false);
-		}
+		// Attach to the player controller so the start location matches the HMD camera, which is relative to the controller.
+		AttachToActor(PC, FAttachmentTransformRules::KeepRelativeTransform);
 	}
 
 	// Initialize non-persistent data from simulation state
@@ -204,34 +149,29 @@ void AUxtInputSimulationActor::BeginPlay()
 		HeadMovement->UpdatedComponent->SetRelativeRotation(State->RelativeHeadOrientation);
 	}
 
+	// Make sure device data is updated once before the first tick
+	UpdateSimulatedDeviceData();
+}
+
+void AUxtInputSimulationActor::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Hide the pawn for the local player
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+	{
+		if (APawn* Pawn = PC->GetPawn())
+		{
+			Pawn->SetActorHiddenInGame(true);
+			Pawn->SetActorEnableCollision(false);
+		}
+	}
+
 	if (ensure(InputComponent != nullptr))
 	{
 		if (bAddDefaultInputBindings)
 		{
-			InitializeDefaultInputSimulationMappings();
-
-			InputComponent->BindAction(Action_ToggleLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleLeftHandPressed);
-			InputComponent->BindAction(Action_ToggleRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleRightHandPressed);
-
-			InputComponent->BindAction(Action_ControlLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlLeftHandPressed);
-			InputComponent->BindAction(Action_ControlLeftHand, IE_Released, this, &AUxtInputSimulationActor::OnControlLeftHandReleased);
-			InputComponent->BindAction(Action_ControlRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlRightHandPressed);
-			InputComponent->BindAction(Action_ControlRightHand, IE_Released, this, &AUxtInputSimulationActor::OnControlRightHandReleased);
-
-			InputComponent->BindAction(Action_HandRotate, IE_Pressed, this, &AUxtInputSimulationActor::OnHandRotatePressed);
-			InputComponent->BindAction(Action_HandRotate, IE_Released, this, &AUxtInputSimulationActor::OnHandRotateReleased);
-
-			InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnPrimaryHandPosePressed);
-			InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnSecondaryHandPosePressed);
-			InputComponent->BindAction(Action_MenuHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnMenuHandPosePressed);
-
-			InputComponent->BindAxis(Axis_MoveForward, this, &AUxtInputSimulationActor::AddInputMoveForward);
-			InputComponent->BindAxis(Axis_MoveRight, this, &AUxtInputSimulationActor::AddInputMoveRight);
-			InputComponent->BindAxis(Axis_MoveUp, this, &AUxtInputSimulationActor::AddInputMoveUp);
-
-			InputComponent->BindAxis(Axis_LookUp, this, &AUxtInputSimulationActor::AddInputLookUp);
-			InputComponent->BindAxis(Axis_Turn, this, &AUxtInputSimulationActor::AddInputTurn);
-			InputComponent->BindAxis(Axis_Scroll, this, &AUxtInputSimulationActor::AddInputScroll);
+			BindInputEvents();
 		}
 	}
 }
@@ -248,23 +188,7 @@ void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 		State->RelativeHeadOrientation = HeadMovement->UpdatedComponent->GetRelativeRotation().Quaternion();
 	}
 
-	// Update input simulation data
-	if (UWindowsMixedRealityInputSimulationEngineSubsystem* InputSim =
-			UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled())
-	{
-		// Actor movement is used directly as HMD pose
-		bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
-		FQuat HeadOrientation = HeadMovement->UpdatedComponent->GetComponentRotation().Quaternion();
-		FVector HeadPosition = HeadMovement->UpdatedComponent->GetComponentLocation();
-
-		// Construct new hand state from animation
-		FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
-		UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
-		UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
-
-		// Copy simulated input data to the engine subsystem
-		InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadOrientation, HeadPosition, LeftHandState, RightHandState);
-	}
+	UpdateSimulatedDeviceData();
 }
 
 USkeletalMeshComponent* AUxtInputSimulationActor::GetHandMesh(EControllerHand Hand) const
@@ -430,6 +354,108 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 	{
 		HandState.IsButtonPressed = 0;
 	}
+}
+
+void AUxtInputSimulationActor::UpdateSimulatedDeviceData() const
+{
+	UWindowsMixedRealityInputSimulationEngineSubsystem* InputSim =
+		UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
+	if (!InputSim)
+	{
+		return;
+	}
+
+	// Actor movement is used directly as HMD pose
+	bool bHasPositionalTracking = HeadMovement->IsHeadMovementEnabled();
+	FQuat HeadOrientation = HeadMovement->UpdatedComponent->GetComponentRotation().Quaternion();
+	FVector HeadPosition = HeadMovement->UpdatedComponent->GetComponentLocation();
+
+	// Construct new hand state from animation
+	FWindowsMixedRealityInputSimulationHandState LeftHandState, RightHandState;
+	UpdateSimulatedHandState(EControllerHand::Left, LeftHandState);
+	UpdateSimulatedHandState(EControllerHand::Right, RightHandState);
+
+	// Copy simulated input data to the engine subsystem
+	InputSim->UpdateSimulatedData(bHasPositionalTracking, HeadOrientation, HeadPosition, LeftHandState, RightHandState);
+}
+
+static void InitializeDefaultInputSimulationMappings()
+{
+	static bool bMappingsAdded = false;
+	if (!bMappingsAdded)
+	{
+		bMappingsAdded = true;
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ToggleLeftHand, EKeys::T));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ToggleRightHand, EKeys::Y));
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlLeftHand, EKeys::LeftShift));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_ControlRightHand, EKeys::LeftAlt));
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_HandRotate, EKeys::RightMouseButton));
+
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_PrimaryHandPose, EKeys::LeftMouseButton));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_SecondaryHandPose, EKeys::MiddleMouseButton));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(Action_MenuHandPose, EKeys::Home));
+
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::W, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::S, -1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::Up, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::Down, -1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveForward, EKeys::Gamepad_LeftY, 1.f));
+
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveRight, EKeys::A, -1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveRight, EKeys::D, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveRight, EKeys::Gamepad_LeftX, 1.f));
+
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_LeftThumbstick, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_RightThumbstick, -1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_FaceButton_Bottom, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::SpaceBar, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::LeftControl, -1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::C, -1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::E, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_MoveUp, EKeys::Q, -1.f));
+
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_Turn, EKeys::MouseX, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_TurnRate, EKeys::Gamepad_RightX, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_TurnRate, EKeys::Left, -1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_TurnRate, EKeys::Right, 1.f));
+
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_LookUp, EKeys::MouseY, 1.f));
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_LookUpRate, EKeys::Gamepad_RightY, -1.f));
+
+		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_Scroll, EKeys::MouseWheelAxis, 3.f));
+		// UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping(Axis_ScrollRate, ???, 1.f));
+	}
+}
+
+void AUxtInputSimulationActor::BindInputEvents()
+{
+	InitializeDefaultInputSimulationMappings();
+
+	InputComponent->BindAction(Action_ToggleLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleLeftHandPressed);
+	InputComponent->BindAction(Action_ToggleRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleRightHandPressed);
+
+	InputComponent->BindAction(Action_ControlLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlLeftHandPressed);
+	InputComponent->BindAction(Action_ControlLeftHand, IE_Released, this, &AUxtInputSimulationActor::OnControlLeftHandReleased);
+	InputComponent->BindAction(Action_ControlRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlRightHandPressed);
+	InputComponent->BindAction(Action_ControlRightHand, IE_Released, this, &AUxtInputSimulationActor::OnControlRightHandReleased);
+
+	InputComponent->BindAction(Action_HandRotate, IE_Pressed, this, &AUxtInputSimulationActor::OnHandRotatePressed);
+	InputComponent->BindAction(Action_HandRotate, IE_Released, this, &AUxtInputSimulationActor::OnHandRotateReleased);
+
+	InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnPrimaryHandPosePressed);
+	InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnSecondaryHandPosePressed);
+	InputComponent->BindAction(Action_MenuHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnMenuHandPosePressed);
+
+	InputComponent->BindAxis(Axis_MoveForward, this, &AUxtInputSimulationActor::AddInputMoveForward);
+	InputComponent->BindAxis(Axis_MoveRight, this, &AUxtInputSimulationActor::AddInputMoveRight);
+	InputComponent->BindAxis(Axis_MoveUp, this, &AUxtInputSimulationActor::AddInputMoveUp);
+
+	InputComponent->BindAxis(Axis_LookUp, this, &AUxtInputSimulationActor::AddInputLookUp);
+	InputComponent->BindAxis(Axis_Turn, this, &AUxtInputSimulationActor::AddInputTurn);
+	InputComponent->BindAxis(Axis_Scroll, this, &AUxtInputSimulationActor::AddInputScroll);
 }
 
 void AUxtInputSimulationActor::OnToggleLeftHandPressed()
