@@ -7,6 +7,7 @@
 
 class AActor;
 class UPrimitiveComponent;
+class UUxtInputSubsystem;
 
 class FUxtInteractionUtils
 {

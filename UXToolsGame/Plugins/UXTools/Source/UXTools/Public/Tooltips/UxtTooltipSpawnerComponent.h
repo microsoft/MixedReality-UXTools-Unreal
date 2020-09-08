@@ -6,8 +6,11 @@
 
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtGrabHandler.h"
 #include "Interactions/UxtGrabTarget.h"
+#include "Interactions/UxtPokeHandler.h"
 #include "Interactions/UxtPokeTarget.h"
 
 #include "UxtTooltipSpawnerComponent.generated.h"
@@ -61,8 +64,11 @@ UCLASS(ClassGroup = ("UXTools - Experimental"), meta = (BlueprintSpawnableCompon
 class UXTOOLS_API UUxtTooltipSpawnerComponent
 	: public USceneComponent
 	, public IUxtGrabTarget
+	, public IUxtGrabHandler
 	, public IUxtFarTarget
+	, public IUxtFarHandler
 	, public IUxtPokeTarget
+	, public IUxtPokeHandler
 {
 	GENERATED_UCLASS_BODY()
 
@@ -84,13 +90,21 @@ protected:
 
 	//
 	// IUxtGrabTarget interface
-	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtGrabHandler interface
+	virtual bool CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 
 	///
 	// IUxtFarTarget interface
-	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtFarHandler interface
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override;
@@ -98,6 +112,10 @@ protected:
 	//
 	// IUxtPokeTarget interface
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtGrabHandler interface
+	virtual bool CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 

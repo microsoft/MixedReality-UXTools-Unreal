@@ -7,7 +7,9 @@
 
 #include "Components/StaticMeshComponent.h"
 #include "Controls/UxtUIElementComponent.h"
+#include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtGrabHandler.h"
 #include "Interactions/UxtGrabTarget.h"
 
 #include "UxtPinchSliderComponent.generated.h"
@@ -56,7 +58,9 @@ UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtPinchSliderComponent
 	: public UUxtUIElementComponent
 	, public IUxtGrabTarget
+	, public IUxtGrabHandler
 	, public IUxtFarTarget
+	, public IUxtFarHandler
 {
 	GENERATED_BODY()
 
@@ -172,8 +176,11 @@ protected:
 
 	//
 	// IUxtGrabTarget interface.
+	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 
-	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	//
+	// IUxtGrabHandler interface
+	virtual bool CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
@@ -183,8 +190,11 @@ protected:
 
 	//
 	// IUxtFarTarget interface.
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 
-	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	//
+	// IUxtFarHandler interface
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;

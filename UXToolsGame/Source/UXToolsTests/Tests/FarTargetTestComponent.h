@@ -7,6 +7,7 @@
 
 #include "Components/ActorComponent.h"
 #include "Input/UxtFarPointerComponent.h"
+#include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
 
 #include "FarTargetTestComponent.generated.h"
@@ -16,6 +17,7 @@ UCLASS()
 class UXTOOLSTESTS_API UFarTargetTestComponent
 	: public UActorComponent
 	, public IUxtFarTarget
+	, public IUxtFarHandler
 {
 	GENERATED_BODY()
 
@@ -23,7 +25,12 @@ public:
 	//
 	// IUxtFarTarget interface
 
-	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override { return true; }
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override { return true; }
+
+	//
+	// IUxtFarHandler interface
+
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override { return true; }
 
 	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override { NumEnter++; }
 

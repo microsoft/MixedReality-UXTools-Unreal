@@ -54,6 +54,11 @@ bool UUxtWidgetComponent::GetClosestPoint_Implementation(
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
+bool UUxtWidgetComponent::CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const
+{
+	return Cast<UWidgetComponent>(Primitive) != nullptr;
+}
+
 void UUxtWidgetComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	FVector ClosestPoint;
@@ -122,7 +127,12 @@ void UUxtWidgetComponent::OnEndPoke_Implementation(UUxtNearPointerComponent* Poi
 	PointerUp(ClosestPoint, Pointer, Widget);
 }
 
-bool UUxtWidgetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtWidgetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return Cast<UWidgetComponent>(Primitive) != nullptr;
+}
+
+bool UUxtWidgetComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
 	return Cast<UWidgetComponent>(Primitive) != nullptr;
 }

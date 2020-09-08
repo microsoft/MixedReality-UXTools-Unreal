@@ -7,7 +7,9 @@
 #include "InputCoreTypes.h"
 
 #include "Controls/UxtUIElementComponent.h"
+#include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtPokeHandler.h"
 #include "Interactions/UxtPokeTarget.h"
 
 #include "UxtTouchableVolumeComponent.generated.h"
@@ -41,7 +43,9 @@ UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtTouchableVolumeComponent
 	: public UUxtUIElementComponent
 	, public IUxtPokeTarget
+	, public IUxtPokeHandler
 	, public IUxtFarTarget
+	, public IUxtFarHandler
 {
 	GENERATED_BODY()
 
@@ -96,16 +100,18 @@ public:
 protected:
 	//
 	// UActorComponent interface
-
 	virtual void BeginPlay() override;
 
 	//
 	// IUxtPokeTarget interface
-
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
 	virtual bool GetClosestPoint_Implementation(
 		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
+
+	//
+	// IUxtPokeHandler interface
+	virtual bool CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
@@ -115,8 +121,11 @@ protected:
 
 	//
 	// IUxtFarTarget interface
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 
-	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	//
+	// IUxtFarHandler interface
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override;
@@ -125,7 +134,6 @@ protected:
 
 	//
 	// Touch input handlers
-
 	UFUNCTION()
 	void OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	UFUNCTION()

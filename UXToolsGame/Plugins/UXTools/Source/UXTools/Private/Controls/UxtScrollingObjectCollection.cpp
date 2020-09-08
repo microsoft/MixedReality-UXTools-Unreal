@@ -686,7 +686,7 @@ void UUxtScrollingObjectCollection::CheckScrollOrClick()
 						PokeTarget = IUxtCollectionObject::Execute_GetPokeTarget(Actors[ButtonIndex]);
 						if (PokeTarget)
 						{
-							PokeTarget->OnBeginPoke_Implementation(Pointer);
+							IUxtPokeHandler::Execute_OnBeginPoke(PokeTarget.GetObject(), Pointer);
 						}
 					}
 				}
@@ -717,7 +717,7 @@ void UUxtScrollingObjectCollection::CheckScrollOrClickFarPointer()
 						FarTarget = IUxtCollectionObject::Execute_GetFarTarget(Actors[ButtonIndex]);
 						if (FarTarget)
 						{
-							FarTarget->OnFarPressed_Implementation(Pointer);
+							IUxtFarHandler::Execute_OnFarPressed(FarTarget.GetObject(), Pointer);
 						}
 					}
 				}
@@ -758,6 +758,11 @@ void UUxtScrollingObjectCollection::PostEditChangeProperty(FPropertyChangedEvent
 #endif // WITH_EDITORONLY_DATA
 
 bool UUxtScrollingObjectCollection::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return Primitive == BoxComponent;
+}
+
+bool UUxtScrollingObjectCollection::CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const
 {
 	return Primitive == BoxComponent;
 }
@@ -846,7 +851,7 @@ void UUxtScrollingObjectCollection::OnEndPoke_Implementation(UUxtNearPointerComp
 
 		if (PokeTarget)
 		{
-			PokeTarget->OnEndPoke_Implementation(Pointer);
+			IUxtPokeHandler::Execute_OnEndPoke(PokeTarget.GetObject(), Pointer);
 			PokeTarget = nullptr;
 		}
 
@@ -871,7 +876,12 @@ bool UUxtScrollingObjectCollection::GetClosestPoint_Implementation(
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
-bool UUxtScrollingObjectCollection::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtScrollingObjectCollection::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return Primitive == BoxComponent;
+}
+
+bool UUxtScrollingObjectCollection::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
 	return Primitive == BoxComponent;
 }
@@ -948,7 +958,7 @@ void UUxtScrollingObjectCollection::OnFarReleased_Implementation(UUxtFarPointerC
 
 		if (FarTarget)
 		{
-			FarTarget->OnFarReleased_Implementation(Pointer);
+			IUxtFarHandler::Execute_OnFarReleased(FarTarget.GetObject(), Pointer);
 			FarTarget = nullptr;
 		}
 	}

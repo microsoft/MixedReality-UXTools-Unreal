@@ -134,7 +134,12 @@ void UUxtPinchSliderComponent::PostEditChangeProperty(FPropertyChangedEvent& Pro
 }
 #endif
 
-bool UUxtPinchSliderComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtPinchSliderComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return Primitive == BoxComponent;
+}
+
+bool UUxtPinchSliderComponent::CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const
 {
 	return Primitive == BoxComponent;
 }
@@ -176,9 +181,14 @@ void UUxtPinchSliderComponent::OnEndGrab_Implementation(UUxtNearPointerComponent
 	EndGrab(Pointer);
 }
 
-bool UUxtPinchSliderComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtPinchSliderComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	return Primitive == BoxComponent;
+}
+
+bool UUxtPinchSliderComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
+{
+	return BoxComponent == Primitive;
 }
 
 void UUxtPinchSliderComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer)

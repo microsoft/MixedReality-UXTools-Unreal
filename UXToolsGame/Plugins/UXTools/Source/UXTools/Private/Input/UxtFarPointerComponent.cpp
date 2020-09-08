@@ -9,7 +9,9 @@
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "Input/UxtInputSubsystem.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtInteractionUtils.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Utils/UxtFunctionLibrary.h"
@@ -153,9 +155,9 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 			// Raise focus exit on old target
 			if (OldPrimitive)
 			{
-				if (UObject* FarTarget = GetFarTarget())
+				if (GetFarTarget())
 				{
-					IUxtFarTarget::Execute_OnExitFarFocus(FarTarget, this);
+					UUxtInputSubsystem::RaiseExitFarFocus(OldPrimitive, this);
 				}
 			}
 
@@ -180,22 +182,22 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 	// Raise events on current target
 	if (NewPrimitive)
 	{
-		if (UObject* FarTarget = GetFarTarget())
+		if (GetFarTarget())
 		{
 			// Focus events
 			if (NewPrimitive == OldPrimitive)
 			{
-				IUxtFarTarget::Execute_OnUpdatedFarFocus(FarTarget, this);
+				UUxtInputSubsystem::RaiseUpdatedFarFocus(NewPrimitive, this);
 			}
 			else
 			{
-				IUxtFarTarget::Execute_OnEnterFarFocus(FarTarget, this);
+				UUxtInputSubsystem::RaiseEnterFarFocus(NewPrimitive, this);
 			}
 
 			// Dragged event
 			if (IsPressed())
 			{
-				IUxtFarTarget::Execute_OnFarDragged(FarTarget, this);
+				UUxtInputSubsystem::RaiseFarDragged(NewPrimitive, this);
 			}
 		}
 	}
@@ -207,16 +209,15 @@ void UUxtFarPointerComponent::SetPressed(bool bNewPressed)
 	{
 		bPressed = bNewPressed;
 
-		if (UObject* FarTarget = GetFarTarget())
+		UPrimitiveComponent* TargetPrimitive = GetHitPrimitive();
+
+		if (bPressed)
 		{
-			if (bPressed)
-			{
-				IUxtFarTarget::Execute_OnFarPressed(FarTarget, this);
-			}
-			else
-			{
-				IUxtFarTarget::Execute_OnFarReleased(FarTarget, this);
-			}
+			UUxtInputSubsystem::RaiseFarPressed(TargetPrimitive, this);
+		}
+		else
+		{
+			UUxtInputSubsystem::RaiseFarReleased(TargetPrimitive, this);
 		}
 	}
 }
@@ -237,9 +238,10 @@ void UUxtFarPointerComponent::SetEnabled(bool bNewEnabled)
 			SetPressed(false);
 
 			// Raise focus exit on the current target
-			if (UObject* FarTarget = GetFarTarget())
+			UPrimitiveComponent* TargetPrimitive = GetHitPrimitive();
+			if (GetFarTarget() && TargetPrimitive)
 			{
-				IUxtFarTarget::Execute_OnExitFarFocus(FarTarget, this);
+				UUxtInputSubsystem::RaiseExitFarFocus(TargetPrimitive, this);
 			}
 
 			HitPrimitiveWeak = nullptr;

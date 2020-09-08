@@ -160,6 +160,21 @@ bool UUxtTouchableVolumeComponent::IsPokeFocusable_Implementation(const UPrimiti
 	return true;
 }
 
+bool UUxtTouchableVolumeComponent::CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const
+{
+	if (bIsDisabled)
+	{
+		return false;
+	}
+
+	if (TouchablePrimitives.Num() > 0)
+	{
+		return TouchablePrimitives.Contains(const_cast<UPrimitiveComponent*>(Primitive));
+	}
+
+	return true;
+}
+
 void UUxtTouchableVolumeComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnEnterFocus(Pointer);
@@ -213,7 +228,22 @@ EUxtPokeBehaviour UUxtTouchableVolumeComponent::GetPokeBehaviour_Implementation(
 	return EUxtPokeBehaviour::Volume;
 }
 
-bool UUxtTouchableVolumeComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtTouchableVolumeComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	if (bIsDisabled)
+	{
+		return false;
+	}
+
+	if (TouchablePrimitives.Num() > 0)
+	{
+		return TouchablePrimitives.Contains(const_cast<UPrimitiveComponent*>(Primitive));
+	}
+
+	return true;
+}
+
+bool UUxtTouchableVolumeComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
 	if (bIsDisabled)
 	{

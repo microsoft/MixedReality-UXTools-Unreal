@@ -42,6 +42,11 @@ void UTestGrabTarget::BeginPlay()
 	EndFocusCount = 0;
 }
 
+bool UTestGrabTarget::CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const
+{
+	return true;
+}
+
 void UTestGrabTarget::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	++BeginFocusCount;
@@ -56,7 +61,7 @@ void UTestGrabTarget::OnExitGrabFocus_Implementation(UUxtNearPointerComponent* P
 	++EndFocusCount;
 }
 
-bool UTestGrabTarget::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UTestGrabTarget::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	return true;
 }
@@ -108,6 +113,11 @@ bool UTestPokeTarget::GetClosestPoint_Implementation(
 
 	float NotUsed;
 	return GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
+}
+
+bool UTestPokeTarget::CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const
+{
+	return true;
 }
 
 void UTestPokeTarget::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)

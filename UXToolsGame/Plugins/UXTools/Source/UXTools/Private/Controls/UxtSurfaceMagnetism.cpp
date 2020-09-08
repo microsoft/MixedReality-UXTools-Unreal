@@ -106,6 +106,11 @@ void UUxtSurfaceMagnetism::BeginPlay()
 	SetCollisionProfileName(CollisionProfile);
 }
 
+bool UUxtSurfaceMagnetism::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
+{
+	return this == Primitive;
+}
+
 void UUxtSurfaceMagnetism::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
 	if (Pointer)
@@ -206,7 +211,7 @@ void UUxtSurfaceMagnetism::TraceAndSetActorLocation(FVector Start, FVector End, 
 	}
 }
 
-bool UUxtSurfaceMagnetism::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtSurfaceMagnetism::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	return this == Primitive;
 }

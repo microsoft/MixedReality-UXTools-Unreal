@@ -27,7 +27,7 @@ class UUxtPokeTarget : public UInterface
 	GENERATED_BODY()
 };
 
-/** Interface for components that can be poked. */
+/** Interface to implement to enable poke interaction for given primitives. */
 class UXTOOLS_API IUxtPokeTarget
 {
 	GENERATED_BODY()
@@ -44,28 +44,4 @@ public:
 	/** Returns the closest point to Point on the given Primitive. Also provides the surface normal. */
 	UFUNCTION(BlueprintNativeEvent)
 	bool GetClosestPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const;
-
-	/** Raised when a pointer focuses the actor. */
-	UFUNCTION(BlueprintNativeEvent)
-	void OnEnterPokeFocus(UUxtNearPointerComponent* Pointer);
-
-	/** Raised when a pointer has been updated while focused. */
-	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdatePokeFocus(UUxtNearPointerComponent* Pointer);
-
-	/** Raised when a pointer stops focusing the actor. */
-	UFUNCTION(BlueprintNativeEvent)
-	void OnExitPokeFocus(UUxtNearPointerComponent* Pointer);
-
-	/** Raised when a pointer poke volume starts overlapping the actor. */
-	UFUNCTION(BlueprintNativeEvent)
-	void OnBeginPoke(UUxtNearPointerComponent* Pointer);
-
-	/** Raised while a pointer poke volume is overlapping the actor. */
-	UFUNCTION(BlueprintNativeEvent)
-	void OnUpdatePoke(UUxtNearPointerComponent* Pointer);
-
-	/** Raised when a pointer poke volume stops overlapping the actor. */
-	UFUNCTION(BlueprintNativeEvent)
-	void OnEndPoke(UUxtNearPointerComponent* Pointer);
 };

@@ -7,7 +7,9 @@
 #include "FrameQueue.h"
 
 #include "Components/SceneComponent.h"
+#include "Interactions/UxtGrabHandler.h"
 #include "Interactions/UxtGrabTarget.h"
+#include "Interactions/UxtPokeHandler.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Misc/AutomationTest.h"
 
@@ -23,6 +25,7 @@ UCLASS()
 class UXTOOLSTESTS_API UTestGrabTarget
 	: public UActorComponent
 	, public IUxtGrabTarget
+	, public IUxtGrabHandler
 {
 	GENERATED_BODY()
 
@@ -31,12 +34,14 @@ public:
 
 	//
 	// IUxtGrabTarget interface
+	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 
+	//
+	// IUxtGrabHandler interface
+	virtual bool CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitGrabFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
-
-	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 	virtual void OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer) override;
 
@@ -57,6 +62,7 @@ UCLASS()
 class UXTOOLSTESTS_API UTestPokeTarget
 	: public UActorComponent
 	, public IUxtPokeTarget
+	, public IUxtPokeHandler
 {
 	GENERATED_BODY()
 
@@ -64,13 +70,15 @@ public:
 	virtual void BeginPlay() override;
 
 	//
-	// IUxtGrabTarget interface
-
+	// IUxtPokeTarget interface
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
 	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
 	virtual bool GetClosestPoint_Implementation(
 		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 
+	//
+	// IUxtPokeHandler interface
+	virtual bool CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent* Pointer) override;

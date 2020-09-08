@@ -7,7 +7,9 @@
 #include "UxtBackPlateComponent.h"
 
 #include "Controls/UxtBaseObjectCollection.h"
+#include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
+#include "Interactions/UxtPokeHandler.h"
 #include "Interactions/UxtPokeTarget.h"
 
 #include <Curves/CurveFloat.h>
@@ -80,7 +82,9 @@ UCLASS(ClassGroup = ("UXTools - Experimental"), meta = (BlueprintSpawnableCompon
 class UXTOOLS_API UUxtScrollingObjectCollection
 	: public UUxtBaseObjectCollection
 	, public IUxtPokeTarget
+	, public IUxtPokeHandler
 	, public IUxtFarTarget
+	, public IUxtFarHandler
 {
 	GENERATED_BODY()
 
@@ -188,17 +192,24 @@ protected:
 	//
 	// IUxtPokeTarget interface
 	virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
-	virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
-	virtual void OnUpdatePoke_Implementation(UUxtNearPointerComponent* Pointer) override;
-	virtual void OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 	virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override;
 	virtual bool GetClosestPoint_Implementation(
 		const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const override;
 
 	//
-	// IUxtFarTarget interface
+	// IUxtPokeHandler interface
+	virtual bool CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const override;
+	virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnUpdatePoke_Implementation(UUxtNearPointerComponent* Pointer) override;
+	virtual void OnEndPoke_Implementation(UUxtNearPointerComponent* Pointer) override;
 
-	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
+	//
+	// IUxtFarTarget interface
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtFarHandler interface
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;

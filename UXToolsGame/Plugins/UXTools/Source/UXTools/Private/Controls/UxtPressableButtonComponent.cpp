@@ -371,6 +371,11 @@ bool UUxtPressableButtonComponent::GetClosestPoint_Implementation(
 	return FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(Primitive, Point, OutClosestPoint, NotUsed);
 }
 
+bool UUxtPressableButtonComponent::CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const
+{
+	return !bIsDisabled && (Primitive == BoxComponent);
+}
+
 void UUxtPressableButtonComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	OnEnterFocus(Pointer);
@@ -491,7 +496,12 @@ void UUxtPressableButtonComponent::UpdateMaxPushDistance()
 	}
 }
 
-bool UUxtPressableButtonComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtPressableButtonComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return !bIsDisabled && (Primitive == BoxComponent);
+}
+
+bool UUxtPressableButtonComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
 	return !bIsDisabled && (Primitive == BoxComponent);
 }

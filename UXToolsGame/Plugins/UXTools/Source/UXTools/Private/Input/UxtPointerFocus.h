@@ -99,11 +99,11 @@ protected:
 		FVector& OutNormal) const = 0;
 
 	/** Notify the target object that it has entered focus. */
-	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
+	virtual void RaiseEnterFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const = 0;
 	/** Notify the focused target object that the pointer has been updated. */
-	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
+	virtual void RaiseUpdateFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const = 0;
 	/** Notify the target object that it has exited focus. */
-	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const = 0;
+	virtual void RaiseExitFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const = 0;
 
 private:
 	/** Weak reference to the currently focused target. */
@@ -141,9 +141,9 @@ protected:
 		const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint,
 		FVector& OutNormal) const override;
 
-	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
-	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
-	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseEnterFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseUpdateFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseExitFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const override;
 
 private:
 	bool bIsGrabbing = false;
@@ -171,9 +171,9 @@ protected:
 		const UActorComponent* Target, const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint,
 		FVector& OutNormal) const override;
 
-	virtual void RaiseEnterFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
-	virtual void RaiseUpdateFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
-	virtual void RaiseExitFocusEvent(UObject* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseEnterFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseUpdateFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const override;
+	virtual void RaiseExitFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const override;
 
 private:
 	bool bIsPoking = false;

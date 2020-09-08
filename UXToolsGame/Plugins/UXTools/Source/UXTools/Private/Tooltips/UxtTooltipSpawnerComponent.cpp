@@ -151,6 +151,11 @@ bool UUxtTooltipSpawnerComponent::IsPokeFocusable_Implementation(const UPrimitiv
 	return true;
 }
 
+bool UUxtTooltipSpawnerComponent::CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const
+{
+	return true;
+}
+
 void UUxtTooltipSpawnerComponent::OnEnterPokeFocus_Implementation(UUxtNearPointerComponent* Pointer)
 {
 	if (SpawnedTooltip == nullptr && AppearType == EUxtTooltipAppearType::AppearOnFocusEnter)
@@ -167,7 +172,12 @@ void UUxtTooltipSpawnerComponent::OnExitPokeFocus_Implementation(UUxtNearPointer
 	}
 }
 
-bool UUxtTooltipSpawnerComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtTooltipSpawnerComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return true;
+}
+
+bool UUxtTooltipSpawnerComponent::CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const
 {
 	return true;
 }
@@ -188,7 +198,12 @@ void UUxtTooltipSpawnerComponent::OnExitGrabFocus_Implementation(UUxtNearPointer
 	}
 }
 
-bool UUxtTooltipSpawnerComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtTooltipSpawnerComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	return true;
+}
+
+bool UUxtTooltipSpawnerComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
 	return true;
 }

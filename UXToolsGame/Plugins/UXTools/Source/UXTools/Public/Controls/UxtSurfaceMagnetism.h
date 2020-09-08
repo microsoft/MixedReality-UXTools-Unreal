@@ -7,6 +7,7 @@
 
 #include "Components/BoxComponent.h"
 #include "Input/UxtFarPointerComponent.h"
+#include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
 
 #include "UxtSurfaceMagnetism.generated.h"
@@ -27,6 +28,7 @@ UCLASS(ClassGroup = ("UXTools - Experimental"), HideCategories = (Shape), meta =
 class UXTOOLS_API UUxtSurfaceMagnetism
 	: public UBoxComponent
 	, public IUxtFarTarget
+	, public IUxtFarHandler
 {
 	GENERATED_BODY()
 
@@ -127,11 +129,16 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void OnComponentCreated() override;
 	virtual void BeginPlay() override;
+
 	//
 	// IUxtFarTarget interface
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtFarHandler interface
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override;
 	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override;
 	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override;
-	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override;
 
 private:
 	/** Internal function to set owning actors location based on a trace */

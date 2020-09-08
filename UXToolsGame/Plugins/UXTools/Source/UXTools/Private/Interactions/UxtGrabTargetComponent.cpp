@@ -221,11 +221,11 @@ bool UUxtGrabTargetComponent::ForceEndGrab()
 	// End grab for all pointers
 	for (UUxtNearPointerComponent* Pointer : NearPointers)
 	{
-		IUxtGrabTarget::Execute_OnEndGrab(this, Pointer);
+		IUxtGrabHandler::Execute_OnEndGrab(this, Pointer);
 	}
 	for (UUxtFarPointerComponent* Pointer : FarPointers)
 	{
-		IUxtFarTarget::Execute_OnFarReleased(this, Pointer);
+		IUxtFarHandler::Execute_OnFarReleased(this, Pointer);
 	}
 
 	return true;
@@ -266,9 +266,14 @@ void UUxtGrabTargetComponent::BeginPlay()
 	UpdateComponentTickEnabled();
 }
 
-bool UUxtGrabTargetComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtGrabTargetComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	// We treat all primitives in the actor as grabbable by default.
+	return true;
+}
+
+bool UUxtGrabTargetComponent::CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const
+{
 	return true;
 }
 
@@ -330,7 +335,6 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompone
 	{
 		// release near pointer if we are not supporting near interaction
 		OnEndGrab_Implementation(Pointer);
-		return;
 	}
 	// Update the copy of the pointer data in the grab pointer array
 	for (FUxtGrabPointerData& GrabData : GrabPointers)
@@ -375,9 +379,14 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 	UpdateComponentTickEnabled();
 }
 
-bool UUxtGrabTargetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive)
+bool UUxtGrabTargetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
 	// We treat all primitives in the actor as far targets by default.
+	return true;
+}
+
+bool UUxtGrabTargetComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
+{
 	return true;
 }
 
@@ -457,7 +466,6 @@ void UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponen
 	{
 		// release far pointer if we are not supporting far interaction
 		OnFarReleased_Implementation(Pointer);
-		return;
 	}
 
 	// Update the copy of the pointer data in the grab pointer array
