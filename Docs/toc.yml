@@ -1,3 +1,8 @@
+- name: Welcome to UX Tools
+  href: WelcomeToUXTools.md
+  items:
+    - name: Installation Guide
+      href: Installation.md 
 - name: Feature Overview
   items:
   - name: Input Simulation
