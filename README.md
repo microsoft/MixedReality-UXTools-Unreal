@@ -12,7 +12,7 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 # Getting started with UX Tools
 
 | [![Getting Started and Documentation](Docs/Images/MRTK_Icon_GettingStarted.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/WelcomeToUXTools.html)<br/>[Getting Started](hhttps://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/WelcomeToUXTools.html)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)|
-|:---|:---|:---|:---|
+|:---|:---|:---|
 
 # Build status
 
@@ -26,7 +26,7 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 <!-- LUIS: Do you have a small UE image like the Unity one used as a placeholder below? -->
 <!-- LUIS: Are the descriptions and required software content correct? -->
  | [![Utilities](Docs/Images/Windows-Logo.png)](https://developer.microsoft.com/windows/downloads/windows-10-sdk) [Windows SDK 18362+](https://developer.microsoft.com/windows/downloads/windows-10-sdk)| [![Unreal](Docs/Images/Unity-Logo.png)](https://www.unrealengine.com/get-now) [Unreal 4.25.3 or later](https://www.unrealengine.com/get-now)| [![Visual Studio 2019](Docs/Images/VS-Logo.png)](http://dev.windows.com/downloads) [Visual Studio 2019](http://dev.windows.com/downloads)|
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- | 
 | To build apps with MRTK-Unreal and UX Tools, you need the Windows 10 May 2019 Update SDK. <br> To run apps for immersive headsets, you need the Windows 10 Fall Creators Update. | The Unreal Engine provides support for building mixed reality projects in Windows 10 | Visual Studio is used for code editing and deploying app packages |
 
 # Feature areas
@@ -38,7 +38,7 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 # Tools
 
 |  [![Utilities](Docs/Images/Utilities.png)](Docs/Utilities.md) [Utilities](Docs/Utilities.md) | [![Graphics](Docs/Images/Graphics.png)](Docs/Graphics.md) [Graphics](Docs/Graphics.md) | 
-|:--- | :--- | :--- | :--- |
+|:--- | :--- | 
 | Plugin containing a handful of tools that augment the Unreal Engine editor | Breakdown of shaders, materials, and graphics techniques used to render UX components | 
 
 # Example maps
