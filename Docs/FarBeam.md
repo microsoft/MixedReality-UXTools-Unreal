@@ -1,7 +1,16 @@
+---
+title: Far Beam
+description: Guide to Far Beam, a component used to visualize the ray used for far interactions.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, far beam
+---
+
 # Far Beam
 
 The far beam component allows the user to visualise elements in the scene they can interact with from afar.
-
 
 If you wish to customise the look of the beam, you can set the beam material by calling SetBeamMaterial with the material you wish to use. This material can have the following parameters if you wish to use them in your material.
 

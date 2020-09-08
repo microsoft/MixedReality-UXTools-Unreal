@@ -1,3 +1,13 @@
+---
+title: Graphics
+description: Guide to graphic resources and techniques in UXT.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, Graphics, rendering, materials
+---
+
 # Graphics
 
 UX Tools contains a handful of graphics and rendering techniques to implement [Fluent Design System](https://www.microsoft.com/design/fluent) principles, and remain performant on Mixed Reality devices.

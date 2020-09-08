@@ -1,3 +1,13 @@
+---
+title: Release Notes
+description: Release notes for the latest UXT release.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, release notes
+---
+
 # UX Tools 0.10.0 release notes
 
 - [What's new](#whats-new)

@@ -1,3 +1,13 @@
+---
+title: Utilities
+description: Guide to UX utilities that augment the Unreal Engine editor.
+author: luis-valverde-ms
+ms.author: luval
+ms.date: 08/25/2020
+ms.localizationpriority: high
+keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, development, MRTK, UXT, UX Tools, Utilities
+---
+
 # Utilities
 
 UX Tools contains a handful of utilities that augment the Unreal Engine editor.
