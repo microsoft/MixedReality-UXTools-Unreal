@@ -1,4 +1,4 @@
-# FollowComponent
+# WidgetComponent
 
 The UXT widget component is used to make UXT interaction work with Unreal Engine's own widget component.
 
@@ -13,7 +13,7 @@ After doing this, you should be able to see your widget when you play in editor.
 
 ![WidgetComponent](Images/WidgetComponent.png)
 
-This should be all the set up required. When you play in editor now, you should be able to poke and far grab the ui elements in your widget actor.
+This should be all the set up required. When you play in editor now, you should be able to use far interaction and poke to interact with the ui elements in your widget actor.
 
 ![FarGrab](Images/FarGrabWidget.gif)
 
@@ -21,4 +21,4 @@ This should be all the set up required. When you play in editor now, you should 
 
 ## Behavior Details
 
-The UXT widget component only supports far grab and near poke, and not near grab. For this reason, some UI elements may not behave like their UXT counterparts. For example, the slider widget follows the poking finger, whereas the UXT pinch slider requires a grab for near interaction.
+The UXT widget component only supports far interaction and near poke, and not near grab. For this reason, some UI elements may not behave like their UXT counterparts. For example, the slider widget follows the poking finger, whereas the UXT pinch slider requires a grab for near interaction.
