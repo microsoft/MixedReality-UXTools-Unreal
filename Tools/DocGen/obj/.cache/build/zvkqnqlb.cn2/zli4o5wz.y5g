@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Pressable Button | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Pressable Button | UXT Documentation ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="pressable-button" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="11">Pressable button</h1>
+
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="13">A button gives the user a way to trigger an immediate action. It is one of the most foundational components in mixed reality.</p>
+<h2 id="creating-a-pressable-button-from-scratch" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="15">Creating a pressable button from scratch</h2>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="17">The first step of creating a button from scratch is adding the <a href="xref:_u_uxt_pressable_button_component" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="17"><code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="17">UxtPressableButtonComponent</code></a> to an actor blueprint. This is a low level component that drives button logic. This is followed by creating some moving visuals. Moving visuals are essential for pressable button interaction as they're visualizing pressed and released state.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="19"><img src="Images/PressableButton/MovingVisuals.gif" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="19" alt="MovingVisuals"></p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="21">Add a <a href="https://docs.unrealengine.com/en-US/Engine/Components/StaticMesh/index.html" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="21"><code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="21">StaticMeshComponent</code></a> (or any <a href="https://docs.unrealengine.com/en-US/API/Runtime/Engine/Components/USceneComponent/index.html" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="21"><code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="21">SceneComponent</code></a>) to the actor and set the visuals property of the <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="21">UxtPressableButtonComponent</code> to reference this new mesh. Also ensure that the local positive x-axis of this mesh component points in the direction the button is expected to be pushed. Any component children of this mesh will move along with it as the button is pushed.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="23">It is important to note that the <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="23">UxtPressableButtonComponent</code> uses the component assigned to the visuals property to construct a <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="23">BoxComponent</code> that is used for poke and far interactions. The <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="23">UxtPressableButtonComponent</code> uses the the visuals property component bounds, and child bounds, to create this box collider.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="25">If the button is configured correctly, the button should now react to presses during play. As well as this, the button planes visualizations will be visible in editor while <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="25">UxtPressableButtonComponent</code> is selected. These planes represent some of the properties of the button.</p>
+<ul sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="27">
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="27">The solid white plane is the front plane. if the finger crosses this plane from the front, the button will be <strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="27">pushed</strong>. The front plane aligns with the front face of the <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="27">BoxComponent</code> discussed earlier</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="28">The dashed light grey plane is drawn so that it is PressedDistance away from the front plane. If the finger crosses this plane from the front, the button will be <strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="28">pressed</strong>. There is more information about this under <a href="#pressed-fraction" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="28">Pressed Fraction</a>.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="29">The solid dark grey plane is drawn so that it is MaxPushDistance away from the front plane. The moving visuals will not move beyond this plane. There is more information about this under <a href="#max-push-distance" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="29">Max Push Distance</a>.</li>
+</ul>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="31">A distinction is being made here between <strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="31">push</strong> and <strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="31">press</strong>. A button can be pushed without being pressed. A button will only fire OnButtonPressed once it has been pushed beyond the PressedDistance. If a button needs to respond to push, OnBeginPoke and OnEndPoke can be used.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="33"><img src="Images/PressableButton/ButtonPlanes.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="33" alt="ButtonPlanes"></p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="35">Some buttons may also have static visuals. Static visuals can be created by adding another mesh component, making sure that it is not a child of the moving visuals.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="37">Configuring the component hierarchy so that the buttons work should be simple. The only things that are essential are that the pressable button component is not a child of the moving visuals. Also ensure that only visuals that should move with press are children of the moving visuals. Here are some examples of configurations of the button hierarchy that will work:</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="39"><img src="Images/PressableButton/ButtonSetup.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="39" alt="ButtonSetup"></p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="41"><img src="Images/PressableButton/ButtonWithText.gif" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="41" alt="ButtonWithText"></p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="43">Although this button is behaving correctly, it's not doing anything useful. The pressable button events can be used in a blueprint in order to respond to press/release. There are a few useful events that can be used:</p>
+<ul sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="45">
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="45"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="45">OnBeginFocus</strong>: This event is called when a pointer starts giving focus to the button.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="46"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="46">OnUpdateFocus</strong>: This event is called for every tick that the button has focus from a pointer. A button will hold focus while it is being pressed.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="47"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="47">OnEndFocus</strong>: This event is called when a pointer stops giving focus to the button.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="48"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="48">OnBeginPoke</strong>: This event is called when a near pointer starts pushing the button. See description above for the difference between a push and a press.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="49"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="49">OnUpdatePoke</strong>: This event is called tick that a pointer is pushing the button. See description above for the difference between a push and a press.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="50"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="50">OnEndPoke</strong>: This event is called when a near pointer stops pushing the button. See description above for the difference between a push and a press.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="51"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="51">OnButtonPressed</strong>: Called when the current push distance of the button exceeds the <a href="#pressed-fraction" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="51">pressed fraction</a>.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="52"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="52">OnButtonReleased</strong>: Called when the current push distance of the button subceeds the <a href="#pressed-fraction" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="52">released fraction</a>.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="53"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="53">OnButtonEnabled</strong>: Called when the button is enabled.</li>
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="54"><strong sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="54">OnButtonDisabled</strong>: Called when the button is disabled. This will not raise a release event if the button is disabled while pressed.</li>
+</ul>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="56">Here are some examples of these events in use in the SimpleButton blueprint sample provided with UXT:</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="58"><img src="Images/PressableButton/ButtonHoverEvents.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="58" alt="ButtonHoverEvents">
+<img src="Images/PressableButton/ButtonEvents.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="59" alt="ButtonEvents"></p>
+<h2 id="hololens-2-button-blueprint" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="61">HoloLens 2 Button Blueprint</h2>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="63">The HoloLens 2 button blueprint, named <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="63">BP_ButtonHoloLens2</code>, is a button blueprint that provides configurable HoloLens 2 Shell style visuals and behaviors. Please see the <a href="Graphics.html" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="63">graphics documentation</a> for more information about the button's shaders and materials.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="65"><img src="Images/PressableButton/ButtonHoloLens2.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="65" alt="ButtonHoloLens2"></p>
+<h3 id="visual-configuration" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="67">Visual Configuration</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="69">To aid in the time it takes to configure buttons, a handful of blueprint variables are exposed which react to changes made during edit time and runtime.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="71"><img src="Images/PressableButton/ButtonHoloLens2VisualConfig.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="71" alt="ButtonHoloLens2VisualConfig"></p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="73">For example, changing the <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="73">Button Size</code> from (16, 32, 32) to (16, 64, 32) will automatically scale the button's front and back plates to create a wide button without effecting the button icon or label.</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="75">Updating the <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="75">Button Label</code> will automatically adjust the button's text render component. Changing the <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="75">Button Icon</code> to a new unicode code point will generate the appropriate unicode character to index into a font containing the icon (e.g. <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="75">Font_SegoeMDL2_Regular_42</code>). Note, the font atlas will need to be updated to support any new icons which are not already present within the font atlas.</p>
+<ul sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="77">
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="77">To add a new icon, open the icon font, such as <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="77">Font_SegoeMDL2_Regular_42</code>. Under &quot;Import Options&quot; select the &quot;Chars&quot; property. Paste your icon's unicode character into the &quot;Chars&quot; property and save the font. Finally reimport the font uasset.</li>
+</ul>
+<h3 id="scripting-logic" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="79">Scripting Logic</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="81">All <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="81">UxtPressableButtonComponent</code> events are passed up to the parent <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="81">BP_ButtonHoloLens2</code> via the <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="81">BP_BaseButton</code> base class. So, any <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="81">BP_BaseButton</code> variables in other blueprints can easily bind to button events from the variable details panel without having to search for a child button component. In the below example &quot;Hello&quot; is printed when a <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="81">BP_BaseButton</code>, or any derived classes, are pressed:</p>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="83"><img src="Images/PressableButton/ButtonHoloLens2Events.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="83" alt="ButtonHoloLens2Events"></p>
+<h3 id="hololens-2-button-variants" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="85">HoloLens 2 Button Variants</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="87">A handful of derived <code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="87">BP_ButtonHoloLens2</code> blueprints exist to exhibit behavior not found on a typical pressable button. These variants include:</p>
+<ul sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="89">
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="89"><code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="89">BP_ButtonHoloLens2Toggle</code>, displays an additional back plate based on the button's toggle state.</li>
+</ul>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="91"><img src="Images/PressableButton/ButtonHoloLens2Toggle.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="91" alt="ButtonHoloLens2"></p>
+<ul sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="93">
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="93"><code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="93">BP_ButtonHoloLens2ToggleCheck</code>, displays a check box icon based on the button's toggle state.</li>
+</ul>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="95"><img src="Images/PressableButton/ButtonHoloLens2Check.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="95" alt="ButtonHoloLens2"></p>
+<ul sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="97">
+<li sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="97"><code sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="97">BP_ButtonHoloLens2ToggleSwitch</code>, displays a switch icon based on the button's toggle state.</li>
+</ul>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="99"><img src="Images/PressableButton/ButtonHoloLens2Switch.png" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="99" alt="ButtonHoloLens2"></p>
+<h2 id="public-properties" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="101">Public Properties</h2>
+<h3 id="push-behavior" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="103">Push Behavior</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="104">How the visuals should react when the button is pressed. Translate means the visuals move move along the local x-axis. Compress means the visuals will scale along the x-axis. Note, when compressed the visual's pivot should align with the back face of the compressible region. In other words, the plane visualized by the <a href="#max-push-distance" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="104">max push distance</a>.</p>
+<h3 id="max-push-distance" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="106">Max Push Distance</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="107">The maximum distance the button can move.</p>
+<h3 id="pressed-fraction" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="109">Pressed Fraction</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="110">The fraction of the maximum push distance that an unpressed button needs to be pushed in order for the button pressed event to fire.</p>
+<h3 id="released-fraction" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="112">Released Fraction</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="113">The fraction of the maximum push distance that a pressed button needs to be pushed in order for the button released event to fire.</p>
+<h3 id="recovery-speed" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="115">Recovery Speed</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="116">The speed at which the button visuals return to the their resting position when no longer being touched by near interaction or selected using far interaction.</p>
+<h3 id="front-face-collision-margin" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="118">Front Face Collision Margin</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="119">The distance in front of the visuals front face to place the front of the button box collider.</p>
+<h3 id="visuals" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="121">Visuals</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="122">A reference to the scene component that represents the moving part of the button. The extents of the button collider will also be constructed using this scene component and child bounds.</p>
+<h3 id="collision-profile" sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="124">Collision Profile</h3>
+<p sourcefile="../../Docs/PressableButton.md" sourcestartlinenumber="125">The collision profile used for the button collider, which is constructed using the moving visuals mesh component extents.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/hferrone/MixedReality-UXTools-Unreal/blob/docs-update-0.9.x/Docs/PressableButton.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

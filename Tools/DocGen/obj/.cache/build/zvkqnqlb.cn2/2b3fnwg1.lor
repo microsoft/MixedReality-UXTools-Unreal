@@ -1,0 +1,1 @@
+{"../../toc.yml":[{"File":"../../toc.yml","LogLevel":"warning","Message":"Unable to find either toc.yml or toc.md inside tempcode2yaml/api/. Make sure the file is included in config file docfx.json!","Phase":"BuildCommand.BuildCore.Build Document.CompilePhaseHandlerWithIncremental.TocDocumentProcessor.Prebuild.BuildTocDocument"}]}

@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Manipulator Component | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Manipulator Component | UXT Documentation ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="manipulator-components">Manipulator Components</h1>
+
+<p>Manipulator components allow an actor to be picked up by a user and then moved, rotated or scaled.</p>
+<h2 id="generic-manipulator">Generic Manipulator</h2>
+<p>The <em>Generic Manipulator</em> component is a general-purpose implementation of the <em>Manipulator Component Base</em>. It supports both one and two-handed manipulation with a number of configurable settings to change its behavior.</p>
+<h3 id="one-handed-manipulation">One-handed manipulation</h3>
+<p>If one-handed manipulation is enabled the actor can be moved with just one hand. This mode supports movement and rotation, but not scaling of the actor.</p>
+<p>The way hand rotation translates into actor rotation depends on the <em>One Hand Rotation Mode</em>:</p>
+<ul>
+<li><em>Maintain Original Rotation</em>: Does not rotate object as it is being moved.</li>
+<li><em>Rotate About Object Center</em>: Only works for articulated hands/controllers. Rotate object using rotation of the hand/controller, but about the object center point. Useful for inspecting at a distance.</li>
+<li><em>Rotate About Grab Point</em>: Only works for articulated hands/controllers. Rotate object as if it was being held by hand/controller. Useful for inspection.</li>
+<li><em>Maintain Rotation To User</em>: Maintains the object's original rotation for Y/Z axis to the user.</li>
+<li><em>Gravity Aligned Maintain Rotation To User</em>: Maintains object's original rotation to user, but makes the object vertical. Useful for bounding boxes.</li>
+<li><em>Face User</em>: Ensures object always faces the user. Useful for slates/panels.</li>
+<li><em>Face Away From User</em>: Ensures object always faces away from user. Useful for slates/panels that are configured backwards.</li>
+</ul>
+<h3 id="two-handed-manipulation">Two-handed manipulation</h3>
+<p>If two-handed manipulation is enabled the actor can be moved, rotated, and scaled by grabbing it with both hands. Each of these actions can be enabled or disabled separately as needed, e.g. an actor can have rotation and scaling enabled while movement is disabled.</p>
+<p>Movement uses the center point between both hands, so each hand contributes half of the translation.</p>
+<p>Rotation is based on imaginary axis between both hands. The actor will rotate with the change of this axis, while avoiding roll around it.</p>
+<p>Scaling uses the change in distance between hands.</p>
+<h3 id="smoothing">Smoothing</h3>
+<p>The generic manipulator has a simple smoothing option to reduce jittering from noisy input. This becomes especially important with one-handed rotation, where hand tracking can be unreliable and the resulting transform amplifies jittering.</p>
+<p>The smoothing method is based on a low-pass filter that gets applied to the source transform location and rotation. The resulting actor transform <code>T_final</code> is a exponentially weighted average of the current transform <code>T_current</code> and the raw target transform <code>T_target</code> based on the time step:</p>
+<p><code>T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )</code></p>
+<h3 id="notes">Notes</h3>
+<p>When using the <em>Generic Manipulator</em> with a <em>Procedural Mesh</em>, you will need to:</p>
+<ul>
+<li>Disable &quot;Use Complex as Simple Collision&quot; on the <em>Procedural Mesh</em>.</li>
+</ul>
+<p><img src="Images/Manipulator/UseComplexAsSimpleCollision.png" alt="UseComplexAsSimpleCollision"></p>
+<ul>
+<li>Set &quot;Create Collision&quot; when creating the <em>Procedural Mesh</em>.</li>
+</ul>
+<p><img src="Images/Manipulator/CreateCollision.png" alt="CreateCollision"></p>
+<p>This is due to UXTools only querying for simple collision volumes when detecting interaction targets, in order to ensure correct detection in all situations. You can read more about simple vs complex collisions <a href="https://docs.unrealengine.com/en-US/Engine/Physics/SimpleVsComplex/index.html">here</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/hferrone/MixedReality-UXTools-Unreal/blob/docs-update-0.9.x/Docs/Manipulator.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Release Notes | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Release Notes | UXT Documentation ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="ux-tools-090-release-notes">UX Tools 0.9.0 release notes</h1>
+
+<ul>
+<li><a href="#whats-new">What's new</a></li>
+<li><a href="#breaking-changes">Breaking changes</a></li>
+<li><a href="#known-issues">Known issues</a></li>
+</ul>
+<p>This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us but is not the current focus.</p>
+<p>Unreal 4.25 required.</p>
+<h2 id="whats-new">What's new</h2>
+<h3 id="hololens-2-style-buttons">HoloLens 2 style buttons</h3>
+<p>Expanding on our previous <a href="PressableButton.html">pressable button</a> work, the toolkit now provides blueprints that mimic HoloLens 2 button visuals and behaviors. The goal of the <code>BP_ButtonHoloLens2</code> blueprint is to be easily configurable via the details panel. For examples please see the <code>ButtonExample</code> level.</p>
+<p><img src="Images/PressableButton/ButtonHoloLens2.png" alt="ButtonHoloLens2"></p>
+<p>A handful of derived <code>BP_ButtonHoloLens2</code> blueprints exist to exhibit behavior not found on a typical pressable button. These variants include:</p>
+<ul>
+<li><code>BP_ButtonHoloLens2Toggle</code>, which displays an additional back plate based on the button's toggle state.</li>
+</ul>
+<p><img src="Images/PressableButton/ButtonHoloLens2Toggle.png" alt="ButtonHoloLens2"></p>
+<ul>
+<li><code>BP_ButtonHoloLens2ToggleCheck</code>, which displays a check box icon based on the button's toggle state.</li>
+</ul>
+<p><img src="Images/PressableButton/ButtonHoloLens2Check.png" alt="ButtonHoloLens2"></p>
+<ul>
+<li><code>BP_ButtonHoloLens2ToggleSwitch</code>, which displays a switch icon based on the button's toggle state.</li>
+</ul>
+<p><img src="Images/PressableButton/ButtonHoloLens2Switch.png" alt="ButtonHoloLens2"></p>
+<h3 id="pinch-slider">Pinch slider</h3>
+<p>We're increasing our collection of UX controls with another classic: the <a href="PinchSlider.html">slider</a>. We now provide a low level component to construct your own sliders with support for both far and near interaction. There's also a simple, customizable slider blueprint for out-of-the-box use.</p>
+<p><img src="Images/slider.gif" alt="Slider"></p>
+<h3 id="improved-far-beam-visuals">Improved far beam visuals</h3>
+<p>The visuals for the <a href="FarBeam.html">far beam</a> displayed when in far interaction mode now match closely the ones in the HoloLens 2 Shell. The beam is dashed and fades out away from the end points to be less intrusive by default and becomes solid and bends while dragging to give a better sense of physical connection.</p>
+<p><img src="Images/FarBeam.png" alt="FarBeam"></p>
+<h3 id="generic-manipulator-improvements">Generic manipulator improvements</h3>
+<h4 id="custom-manipulation-targets">Custom manipulation targets</h4>
+<p>The <code>UUxtGenericManipulatorComponent</code> now allows you to target any <code>SceneComponent</code> as the subject for the manipulation. You can find this in the advanced properties for the Generic Manipulator.</p>
+<p><img src="Images/Manipulator/CustomTarget.png" alt="CustomTarget"></p>
+<h4 id="interaction-mode-toggle">Interaction mode toggle</h4>
+<p>You can now find an <em>Interaction Mode</em> setting in the <code>UUxtGenericManipulatorComponent</code> that allows you to toggle far or near interaction with the object.</p>
+<h4 id="constraint-system">Constraint system</h4>
+<p><code>UUxtGenericManipulatorComponent</code> now comes with a constraint system that allows for more flexible usage of translation, rotation and scale constraints. In this version we've added <code>UUxtMoveAxisConstraint</code> for constraining movement along a certain axis while interacting with an object. There's going to be a variety of other constraints in future releases.</p>
+<h4 id="manipulation-flags-modifiable-in-blueprints">Manipulation flags modifiable in Blueprints</h4>
+<p>Flags used by <code>UUxtGenericManipulatorComponent</code>, like Manipulation or Interaction Mode can now be used and set as Bitflags in Blueprints.</p>
+<h3 id="performant-shaders-and-material-functions">Performant shaders and material functions</h3>
+<p>New shaders and rendering techniques were added to implement <a href="https://www.microsoft.com/design/fluent">Fluent Design System</a> principles, and remain performant on Mixed Reality devices. Please see the <a href="Graphics.html">graphics documentation</a> for more information.</p>
+<p><img src="Images/Graphics/GraphicsSimpleLit.png" alt="GraphicsSimpleLit"></p>
+<h3 id="new-editor-utility-blueprints-and-widgets">New editor utility Blueprints and widgets</h3>
+<p>Editor tools were created to make it easier to configure and align UX controls. For more details see the <a href="Utilities.html">utilities documentation</a>.</p>
+<p><img src="Images/Utilities/UtilitiesIconBrushEditor.png" alt="UtilitiesIconBrushEditor"></p>
+<p><img src="Images/Utilities/UtilitiesAlignActors.png" alt="AlignActors"></p>
+<h3 id="configurable-front-face-fraction-for-buttons">Configurable front face fraction for buttons</h3>
+<p>Similar to the existing pressed and released fractions on the pressable button, the new <code>FrontFaceCollisionFraction</code> can be used to move the pokable button volume some fraction of the max push distance in front of the visuals front face.</p>
+<p><img src="Images/PressableButton/FrontFaceCollisionFraction.gif" alt="FrontFaceCollisionFraction"></p>
+<h3 id="hand-constraints">Hand constraints</h3>
+<p>Actors can now be made to follow hands by adding this constraint component. The actor will be placed next to the hand without overlapping it. See <a href="HandConstraintComponent.html">documentation</a> for details.</p>
+<p>The <em>Palm-Up</em> constraint is an extended constraint which becomes enabled when the hand is facing the user. This is particularly useful for hand menus. See <a href="PalmUpConstraintComponent.html">documentation</a> for details.</p>
+<p><img src="Images/HandConstraint/Zones.png" alt="Zones of the hand constraint"></p>
+<h3 id="new-touchable-volume-component">New touchable volume component</h3>
+<p>Component that emits focus and poke events like the Pressable Button, but uses arbitrary touchable volumes. A primitive component must be added to the same actor. Events can be used in blueprints to react to user interaction.</p>
+<p><img src="Images/TouchableVolume/Example.gif" alt="TouchableVolumeComponent"></p>
+<h3 id="forced-grab-cancelation">Forced grab cancelation</h3>
+<p>Grab target interactions can now be force-cancelled by calling the <em>ForceEndGrab</em> function.</p>
+<h2 id="breaking-changes">Breaking changes</h2>
+<h3 id="pushbehaviour-and-maxpushdistance-made-private-in-pressable-button-component">PushBehaviour and MaxPushDistance made private in pressable button component</h3>
+<p><code>UUxtPressableButtonComponent::PushBehavior</code> and <code>UUxtPressableButtonComponent::MaxPushDistance</code> have been moved to private to enforce <code>MaxPushDistance</code> constraints with compressible buttons (MaxPushDistance is auto calculated for buttons with a compress push behavior). Please use the associated getters/setters from now on.</p>
+<h3 id="button-states">Button states</h3>
+<p><code>UUxtPressableButtonComponent</code>'s <code>IsFocused()</code>, <code>IsPressed()</code> and <code>IsDisabled()</code> have been have been removed in favor of <code>GetState()</code>. These don't map 1:1, as before it was possible for <code>IsFocused()</code> and <code>IsPressed()</code> to be true simultaneously. <code>GetState()</code> will only give you the primary state of the button (e.g. Pressed). You can track the sub-states of the button using the begin/end events triggered by the button or combinations of overall states.</p>
+<h3 id="add-option-to-switch-between-local-and-world-space-for-button-distances">Add option to switch between local and world space for button distances</h3>
+<p>MaxPushDistance is now in button local space. There are two ways of fixing this if you wish the button planes to remain in the same positions in space as they were before updating uxt:</p>
+<ol>
+<li>If you want button distances in world space, record the value of <em>Max Push Distance</em>, switch the button property <em>Use Absolute Push Distance</em> to true and set <em>Max Push Distance</em> to the old value.</li>
+<li>If you want button distances in local space, complete step 1. and then switch the button property <em>Use Absolute Push Distance</em> back to false. The <em>Max Push Distance</em> will update automatically.</li>
+</ol>
+<h3 id="fix-buttons-so-that-they-face-positive-x">Fix buttons so that they face positive X</h3>
+<p>Buttons now depress towards negative x. This means that buttons will need to be rotated in order to function properly.</p>
+<ol>
+<li><p>Open your button blueprint, if you select the pressable button component you'll notice that the button planes are now aligned with the wrong side of the button. You should see a plane drawn with a solid white line on what you used to consider the back of the button visuals.</p>
+</li>
+<li><p>Transform your movable button visuals so that the new front face is at the same location as the old front face, except reflected on the other side of the blueprint origin. Depending on your individual case, You may not need to transform your visuals at all, you may get away with only translating or you may need to both translate and rotate your button visuals. Here's a rough visualization of this reflection:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Before Update</th>
+<th style="text-align: center;">After Update</th>
+<th style="text-align: center;">After Transform</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">• ¦ |</td>
+<td style="text-align: center;">• | ¦</td>
+<td style="text-align: center;">| ¦ •</td>
+</tr>
+</tbody>
+</table>
+<p>| → Front Plane, ¦ → Back Plane, • → Blueprint Origin</p>
+</li>
+<li><p>Translate or rotate any other parts of your button blueprint so that it works with the new button orientation and location (e.g. rotate text to face new front plane, move baseplate so that it aligns with the new back of the button).</p>
+</li>
+<li><p>Wherever this blueprint is used (maps, other blueprints etc.) you will need to rotate the actor 180° around the z-axis.</p>
+</li>
+</ol>
+<h3 id="rename-the-uxtboundingboxmanipulatorcomponent-and-related-classes-to-boundscontrol">Rename the UxtBoundingBoxManipulatorComponent and related classes to BoundsControl</h3>
+<p>Existing assets referencing those types will have to be re-saved as the redirects for the names changes will be eventually removed. Code references to the renamed types will have to be updated.</p>
+<h3 id="shader-compilation-errors-when-ray-tracing-is-supported">Shader compilation errors when ray tracing is supported</h3>
+<p>If you are running UE 4.25.0 and your computer's GPU supports ray tracing you must disable UE 4.25 ray tracing support for UXT's custom shaders to compile. To disable ray tracing navigate to C:\Program Files\Epic Games\UE_4.25\Engine\Config\Windows (or where your installation is located), open <code>DataDrivenPlatformInfo.ini</code> and change <code>bSupportsRayTracing=true</code> to <code>bSupportsRayTracing=false</code></p>
+<p>This setting change is not required in UE 4.25.1 (or later) or people with Epic's 13205426 changelist. This warning is also in the Getting Started portion of the README.</p>
+<h3 id="fix-uxtfollowcomponent-to-work-with-x-convention">Fix UxtFollowComponent to work with +X convention</h3>
+<p><code>UUxtFollowComponent</code> now works appropriately, following (Actor's) +X convention. That means that, if an asset was rotated by 180º in any subcomponent to be displayed as expected, that should now be reverted, rotating the Actor appropriately instead.</p>
+<h2 id="known-issues">Known issues</h2>
+<h3 id="visual-glitch-with-boundscontrol-when-the-affordances-overlap">Visual glitch with BoundsControl when the affordances overlap</h3>
+<p>This can be worked around by preventing the actor from being scaled down past the point at which this occurs.</p>
+<h3 id="buttons-can-be-pressed-from-behind">Buttons can be pressed from behind</h3>
+<p>If you stand behind a button you can press it by moving the finger through the button and back.</p>
+<h3 id="generic-manipulator">Generic manipulator</h3>
+<ul>
+<li>Rotation about object center via generic manipulator should use wrist rotation.</li>
+<li>Not working if physics is enabled and mesh is not actor root.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/hferrone/MixedReality-UXTools-Unreal/blob/docs-update-0.9.x/Docs/ReleaseNotes.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
