@@ -30,8 +30,7 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer) 
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> Mesh(TEXT("StaticMesh'/UXTools/Pointers/Meshes/SM_Tube.SM_Tube'"));
 	check(Mesh.Object);
-	static ConstructorHelpers::FObjectFinder<UMaterial> Material(
-		TEXT("Material'/UXTools/Tooltip/Hololense2/M_TooltipSpline.M_TooltipSpline'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial> Material(TEXT("Material'/UXTools/Tooltip/M_TooltipSpline.M_TooltipSpline'"));
 	check(Material.Object);
 
 	SplineMeshComponent->SetStaticMesh(Mesh.Object);
@@ -64,7 +63,7 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer) 
 		TEXT("StaticMesh'/UXTools/Models/SM_BackPlateRoundedThick_4.SM_BackPlateRoundedThick_4'"));
 	check(BackPlateMesh.Object);
 	static ConstructorHelpers::FObjectFinder<UMaterialInstanceConstant> BackPlateMaterial(
-		TEXT("MaterialInstanceConstant'/UXTools/Tooltip/Hololense2/MI_TooltipBackPlate.MI_TooltipBackPlate'"));
+		TEXT("MaterialInstanceConstant'/UXTools/Tooltip/MI_TooltipBackPlate.MI_TooltipBackPlate'"));
 	check(BackPlateMaterial.Object);
 	BackPlate->SetStaticMesh(BackPlateMesh.Object);
 	BackPlate->SetMaterial(0, BackPlateMaterial.Object);
