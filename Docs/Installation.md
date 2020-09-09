@@ -12,7 +12,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 ## Prerequisites
 
-Before getting started with UX Tools, make sure that you have [installed the required tools](https://docs.microsoft.com/windows/mixed-reality/install-the-tools?tabs=unity) and [Unreal Engine 4.25.3 or later](https://www.unrealengine.com/get-now), as earlier versions are not supported.
+Before getting started with UX Tools, make sure that you have [installed the required tools](https://docs.microsoft.com/windows/mixed-reality/install-the-tools?tabs=unreal).
 
 ## Getting the prebuilt plugin
 
@@ -22,7 +22,7 @@ If you just want to add UXT to your game project, the quickest way is through th
 1. Make sure your game project is a code one, as opposed to blueprint-only, if you are planning to package it for HoloLens. Otherwise UE will fail to package it because it can't build the plugin sources.
 1. Open your project and enable the _UX Tools_ plugin in the plugins menu. 
 
-You now have access to all of the plugin features. The first thing you want to do is probably add a hand interaction actor per hand to your map or pawn so you can use your hands to drive the controls and behaviors provided in UXT. You can find a complete setup guide in the [Getting Started](https://docs.microsoft.com/windows/mixed-reality/unreal-uxt-ch1) tutorial series.
+You now have access to all of the plugin features. The first thing you want to do is probably add a hand interaction actor per hand to your map or pawn so you can use your hands to drive the controls and behaviors provided in UXT.
 
 ## Next steps
 

@@ -11,29 +11,26 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 
 # Getting started with UX Tools
 
-| [![Getting Started and Documentation](Docs/Images/MRTK_Icon_GettingStarted.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/WelcomeToUXTools.html)<br/>[Getting Started](hhttps://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/WelcomeToUXTools.html)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)|
+| [![Getting Started and Documentation](Docs/Images/MRTK_Icon_GettingStarted.png)](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview?tabs=mrtk%2Casa)<br/>[Getting Started](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview?tabs=mrtk%2Casa)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)|
 |:---|:---|:---|
-
-# Build status
-
-<!-- LUIS: Does UXT have CI and Docs status links? If so, can you update below? -->
-| Branch | CI Status | Docs Status |
-|---|---|---|
-| `public/0.9.x` |[![CI Status](https://dev.azure.com/aipmr/MixedRealityToolkit-Unity-CI/_apis/build/status/public/mrtk_CI?branchName=mrtk_development)](https://dev.azure.com/aipmr/MixedRealityToolkit-Unity-CI/_build/latest?definitionId=15)|[![Docs Status](https://dev.azure.com/aipmr/MixedRealityToolkit-Unity-CI/_apis/build/status/public/mrtk_docs?branchName=mrtk_development)](https://dev.azure.com/aipmr/MixedRealityToolkit-Unity-CI/_build/latest?definitionId=7)
 
 # Required software
 
-<!-- LUIS: Do you have a small UE image like the Unity one used as a placeholder below? -->
-<!-- LUIS: Are the descriptions and required software content correct? -->
- | [![Utilities](Docs/Images/Windows-Logo.png)](https://developer.microsoft.com/windows/downloads/windows-10-sdk) [Windows SDK 18362+](https://developer.microsoft.com/windows/downloads/windows-10-sdk)| [![Unreal](Docs/Images/Unity-Logo.png)](https://www.unrealengine.com/get-now) [Unreal 4.25.3 or later](https://www.unrealengine.com/get-now)| [![Visual Studio 2019](Docs/Images/VS-Logo.png)](http://dev.windows.com/downloads) [Visual Studio 2019](http://dev.windows.com/downloads)|
+ | [![Utilities](Docs/Images/Windows-Logo.png)](https://developer.microsoft.com/windows/downloads/windows-10-sdk) [Windows SDK 18362+](https://developer.microsoft.com/windows/downloads/windows-10-sdk)| [![Unreal](Docs/Images/Unreal-Logo.png)](https://www.unrealengine.com/get-now) [Unreal 4.25.3 or later](https://www.unrealengine.com/get-now)| [![Visual Studio 2019](Docs/Images/VS-Logo.png)](http://dev.windows.com/downloads) [Visual Studio 2019](http://dev.windows.com/downloads)|
 | :--- | :--- | :--- | 
-| To build apps with MRTK-Unreal and UX Tools, you need the Windows 10 May 2019 Update SDK. <br> To run apps for immersive headsets, you need the Windows 10 Fall Creators Update. | The Unreal Engine provides support for building mixed reality projects in Windows 10 | Visual Studio is used for code editing and deploying app packages |
+| To build apps with MRTK-Unreal and UX Tools, you need the Windows 10 May 2019 Update SDK | The Unreal Engine provides support for building mixed reality projects in Windows 10 | Visual Studio is used for code editing |
 
-# Feature areas
+# UX building blocks
 
-| ![Input Simulation](Docs/Images/Input-System.png) [Input Simulation](Docs/InputSimulation.md)<br/>&nbsp;  | ![Hand Interaction](Docs/Images/Hand-Tracking.png) [Hand Interaction](Docs/HandInteraction.md) | ![Pressable Button](Docs/Images/Pressable-Button.png) [Pressable Button](Docs/PressableButton.md) | ![Pinch Slider](Docs/Images/Hand-Tracking.png) [Pinch Slider](Docs/PinchSlider.md)<br/>&nbsp; | ![Bounds Control](Docs/Images/Bounds-Control.png) [Bounds Control](Docs/BoundsControl.md)|
-| :--- | :--- | :--- | :--- | :--- |
-| ![Manipulators](Docs/Images/Hand-Tracking.png) [Manipulators](Docs/Manipulator.md)<br/>&nbsp; | ![Follow Behavior](Docs/Images/Follow-Behavior.png) [Follow Behavior](Docs/FollowComponent.md)<br/>&nbsp; | ![Hand Constraints](Docs/Images/Hand-Tracking.png) [Hand Constraints](Docs/HandConstraintComponent.md) | ![Palm Constraints](Docs/Images/Hand-Tracking.png) [Palm Constraints](Docs/PalmUpConstraintComponent.md) | ![Far Beam](Docs/Images/Far-Beam.png) [Far Beam](Docs/FarBeam.md) |
+|  [![Input Simulation](Docs/Images/InputSim_MoveLeftHand.png)](Docs/InputSimulation.md) [Input Simulation](Docs/InputSimulation.md) | [![Hand Interaction](Docs/Images/PokeInteraction.png)](Docs/HandInteraction.md) [Hand Interaction](Docs/HandInteraction.md) | [![Pressable Button](Docs/Images/PressableButton/ButtonHoloLens2.png)](Docs/PressableButton.md) [Pressable Button](Docs/PressableButton.md) |
+|:--- | :--- | :--- |
+| Mouse and keyboard input in the editor to simulate a Head-Mounted Display and hand tracking | Hand interaction actor that takes care of creating and driving pointers and visuals for interactions | A button gives the user a way to trigger an immediate action |
+|  [![Pinch Slider](Docs/Images/Pinch-Slider.jpg)](Docs/PinchSlider.md) [Pinch Slider](Docs/PinchSlider.md) | [![Bounds Control](Docs/Images/BoundsControl.png)](Docs/BoundsControl.md) [Bounds Control](Docs/BoundsControl.md) | [![Manipulators](Docs/Images/Hand-Interaction.png)](Docs/Manipulator.md) [Manipulators](Docs/Manipulator.md) |
+| A component allows the user to continuously change a value by moving the slider thumb along the track | A component that allows the user to change the position, rotation, and size of an actor | A component that allows an actor to be picked up by a user and then moved, rotated or scaled |
+|  [![Follow Behavior](Docs/Images/FollowComponent.png)](Docs/FollowComponent.md) [Follow Behavior](Docs/FollowComponent.md) | [![Hand Constraints](Docs/Images/HandConstraint/Zones.jpg)](Docs/HandConstraintComponent.md) [Hand Constraints](Docs/HandConstraintComponent.md) | [![Palm Constraints](Docs/Images/HandConstraint/PalmUpFacingCamera.png)](Docs/PalmUpConstraintComponent.md) [Palm Constraints](Docs/PalmUpConstraintComponent.md) |
+| A component used to keep objects "following" the user by applying a set of constraints on the component's owner | A component that calculates a goal based on hand tracking and moves the owning actor | A hand constraint component specialization that activates only when the palm is facing the player |
+|  [![Far Beam](Docs/Images/FarBeam.png)](Docs/FarBeam.md) [Far Beam](Docs/FarBeam.md) | 
+| A component allowing the user to visualize elements in the scene they can interact with from afar |
 
 # Tools
 
