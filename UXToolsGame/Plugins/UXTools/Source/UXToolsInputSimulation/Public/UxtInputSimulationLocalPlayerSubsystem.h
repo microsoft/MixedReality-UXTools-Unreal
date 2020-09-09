@@ -12,6 +12,7 @@
 #include "UxtInputSimulationLocalPlayerSubsystem.generated.h"
 
 class AGameModeBase;
+class AController;
 class APlayerController;
 class UCameraComponent;
 class UUxtInputSimulationState;
@@ -35,16 +36,14 @@ public:
 	virtual void Deinitialize() override;
 
 private:
-	void CreateActors(UWorld* World);
 	void CreateInputSimActor(UWorld* World);
 	void CreateHmdCameraActor(UWorld* World);
 
 	void DestroyInputSimActor();
 	void DestroyHmdCameraActor();
 
-	void SetPlayerCameraTarget(APlayerController* PlayerController);
-
 	void OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer);
+	void OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting);
 
 	void OnPostLoadMapWithWorld(UWorld* LoadedWorld);
 

@@ -20,6 +20,7 @@ class UXTOOLSINPUTSIMULATION_API AUxtInputSimulationActor : public AActor
 	GENERATED_UCLASS_BODY()
 
 public:
+	virtual void OnConstruction(const FTransform& Transform);
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -33,6 +34,9 @@ public:
 	USkeletalMeshComponent* GetRightHand() const { return RightHand; }
 
 private:
+	/** Bind input events to handler functions. */
+	void BindInputEvents();
+
 	void OnToggleLeftHandPressed();
 	void OnToggleRightHandPressed();
 
@@ -74,6 +78,9 @@ private:
 
 	/** Copy results of hand animation into the hand state. */
 	void UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const;
+
+	/** Update the simulated device data from animation and movement results. */
+	void UpdateSimulatedDeviceData() const;
 
 public:
 	/** If true, adds default input bindings for input simulation. */
