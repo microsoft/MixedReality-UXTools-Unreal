@@ -103,7 +103,7 @@ void FollowComponentSpec::Define()
 
 			FVector Center(50, 0, 0);
 			Follow = CreateTestComponent(World, Center);
-			Follow->MoveToDefaultDistanceLerpTime = 0;
+			Follow->LerpTime = 0;
 			Follow->bInterpolatePose = false;
 		});
 

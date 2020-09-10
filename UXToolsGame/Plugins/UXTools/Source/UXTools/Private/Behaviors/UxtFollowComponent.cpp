@@ -326,8 +326,8 @@ void UUxtFollowComponent::UpdateTransformToGoal(bool bSkipInterpolation, float D
 		FVector CurrentPosition = GetOwner()->GetTransform().GetLocation();
 		FVector CurrentDirection = CurrentPosition - FollowPosition;
 		FQuat CurrentRotation = GetOwner()->GetTransform().GetRotation();
-		WorkingTransform.SetLocation(FollowPosition + SmoothTo(CurrentDirection, ToTarget, DeltaTime, .5f));
-		WorkingTransform.SetRotation(SmoothTo(CurrentRotation, TargetRotation, DeltaTime, .5f));
+		WorkingTransform.SetLocation(FollowPosition + SmoothTo(CurrentDirection, ToTarget, DeltaTime, LerpTime));
+		WorkingTransform.SetRotation(SmoothTo(CurrentRotation, TargetRotation, DeltaTime, LerpTime));
 	}
 
 	GetOwner()->SetActorTransform(WorkingTransform, false);

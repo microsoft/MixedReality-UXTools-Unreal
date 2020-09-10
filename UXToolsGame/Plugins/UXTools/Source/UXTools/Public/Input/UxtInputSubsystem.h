@@ -122,35 +122,42 @@ private:
 
 	/** Dispatch the given event to interested handlers that share a parent Actor with Target. */
 	template <typename HandlerType, typename FuncType>
-	void ExecuteHierarchy(UPrimitiveComponent* Target, const FuncType& Callback) const;
+	void ExecuteHierarchy(UPrimitiveComponent* Target, const FuncType& Callback, const TSet<UObject*>& Handled) const;
 
 private:
 	// Map contains array of listeners for each type of handler registered
-	TMap<UClass*, TArray<UObject*>> Listeners;
+	TMap<UClass*, TSet<UObject*>> Listeners;
 };
 
 template <typename HandlerType, typename FuncType>
 void UUxtInputSubsystem::RaiseEvent(UPrimitiveComponent* Target, const FuncType& Callback) const
 {
+	// If a global listener is under the same actor as Target, dispatching an event to it
+	// would duplicate the event, as it will also be dispatched here and in ExecuteHierarchy.
+	// In these situations, in order to only dispatch once, we keep track of a set of handlers
+	// that have already received this event.
+	TSet<UObject*> Handled;
+
 	for (UObject* Handler : Listeners.FindRef(HandlerType::StaticClass()))
 	{
 		if (CanHandle<HandlerType>(Handler, Target))
 		{
 			Callback(Handler);
+			Handled.Add(Handler);
 		}
 	}
 
-	ExecuteHierarchy<HandlerType>(Target, Callback);
+	ExecuteHierarchy<HandlerType>(Target, Callback, Handled);
 }
 
 template <typename HandlerType, typename FuncType>
-void UUxtInputSubsystem::ExecuteHierarchy(UPrimitiveComponent* Target, const FuncType& Callback) const
+void UUxtInputSubsystem::ExecuteHierarchy(UPrimitiveComponent* Target, const FuncType& Callback, const TSet<UObject*>& Handled) const
 {
 	if (Target)
 	{
 		for (UActorComponent* Child : Target->GetOwner()->GetComponents())
 		{
-			if (Child->Implements<HandlerType>() && CanHandle<HandlerType>(Child, Target))
+			if (Child->Implements<HandlerType>() && CanHandle<HandlerType>(Child, Target) && !Handled.Contains(Child))
 			{
 				Callback(Child);
 			}
