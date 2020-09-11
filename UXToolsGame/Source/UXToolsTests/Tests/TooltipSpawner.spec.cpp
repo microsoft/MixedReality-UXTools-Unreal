@@ -69,6 +69,14 @@ void TooltipSpawnerSpec::Define()
 			TooltipSpawnerComponent->OnShowTooltip.AddDynamic(EventListener, &UTooltipEventListener::OnShow);
 			TooltipSpawnerComponent->OnHideTooltip.AddDynamic(EventListener, &UTooltipEventListener::OnHide);
 
+			// Pivot.
+			USceneComponent* TooltipPivotComponent = NewObject<USceneComponent>(TooltipSpawnerActor);
+			TooltipPivotComponent->SetupAttachment(TooltipSpawnerActor->GetRootComponent());
+			TooltipPivotComponent->RegisterComponent();
+
+			TooltipSpawnerComponent->Pivot.ComponentProperty = NAME_None;
+			TooltipSpawnerComponent->Pivot.PathToComponent = TooltipPivotComponent->GetPathName(TooltipSpawnerActor);
+
 			TooltipSpawnerActor->SetActorLocation(Center);
 
 			// Hand Tracker.
@@ -314,8 +322,8 @@ void TooltipSpawnerSpec::Define()
 				TooltipSpawnerComponent->AppearDelay = 0.f;
 				TooltipSpawnerComponent->Lifetime = 5.f;
 				TooltipSpawnerComponent->bIsAutoAnchoring = false;
-				if (USceneComponent* PivotComponent =
-						Cast<USceneComponent>(TooltipSpawnerComponent->Pivot.GetComponent(TooltipSpawnerActor)))
+				USceneComponent* PivotComponent = Cast<USceneComponent>(TooltipSpawnerComponent->Pivot.GetComponent(TooltipSpawnerActor));
+				if (TestNotNull(TEXT("Pivot component should be valid"), PivotComponent))
 				{
 					PivotComponent->SetRelativeLocation(PivotOffset);
 				}
