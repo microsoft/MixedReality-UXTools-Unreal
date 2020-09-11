@@ -21,30 +21,7 @@ UUxtTooltipSpawnerComponent::UUxtTooltipSpawnerComponent(const FObjectInitialize
 	SetMobility(EComponentMobility::Movable);
 }
 
-void UUxtTooltipSpawnerComponent::OnComponentCreated()
-{
-	Pivot = NewObject<USceneComponent>(this, "Pivot");
-	Pivot->SetupAttachment(this);
-	Pivot->RegisterComponent();
-
-	Super::OnComponentCreated();
-
-	// This is to correct an offset that is automatically created when instancing the tooltip.
-	SetRelativeLocation(FVector(0, 0, 0), false);
-}
-
-void UUxtTooltipSpawnerComponent::OnComponentDestroyed(bool bDestroyingHierarchy)
-{
-	if (Pivot)
-	{
-		Pivot->DestroyComponent();
-		Pivot = nullptr;
-	}
-
-	Super::OnComponentDestroyed(bDestroyingHierarchy);
-}
-
-void UUxtTooltipSpawnerComponent::BeginDestroy()
+void UUxtTooltipSpawnerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	if (UWorld* World = GetWorld())
 	{
@@ -52,7 +29,16 @@ void UUxtTooltipSpawnerComponent::BeginDestroy()
 		TimerManager.ClearTimer(TimerHandle);
 		TimerManager.ClearTimer(LifetimeTimerHandle);
 	}
-	Super::BeginDestroy();
+
+	Super::EndPlay(EndPlayReason);
+}
+
+void UUxtTooltipSpawnerComponent::OnComponentCreated()
+{
+	Super::OnComponentCreated();
+
+	// This is to correct an offset that is automatically created when instancing the tooltip.
+	SetRelativeLocation(FVector(0, 0, 0), false);
 }
 
 void UUxtTooltipSpawnerComponent::CreateTooltip()
@@ -75,7 +61,8 @@ void UUxtTooltipSpawnerComponent::CreateTooltip()
 		SpawnedTooltip->bIsAutoAnchoring = bIsAutoAnchoring;
 
 		AActor* Owner = GetOwner();
-		const FVector Offset = Pivot->GetRelativeLocation() * Owner->GetActorScale3D();
+		const USceneComponent* PivotComponent = Cast<USceneComponent>(Pivot.GetComponent(Owner));
+		const FVector Offset = PivotComponent ? PivotComponent->GetRelativeLocation() * Owner->GetActorScale3D() : FVector::ZeroVector;
 		const FVector FinalTooltipLocation = GetOwner()->GetActorLocation() + Offset;
 		SpawnedTooltip->SetActorLocation(FinalTooltipLocation);
 		SpawnedTooltip->SetActorScale3D(WidgetScale);

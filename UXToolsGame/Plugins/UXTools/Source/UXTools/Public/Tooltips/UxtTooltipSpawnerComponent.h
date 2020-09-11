@@ -73,6 +73,9 @@ class UXTOOLS_API UUxtTooltipSpawnerComponent
 	GENERATED_UCLASS_BODY()
 
 public:
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+public:
 	/** Delegate to drive OnShow events. */
 	UPROPERTY(BlueprintAssignable, Category = "Tooltip")
 	FOnShowTooltip OnShowTooltip;
@@ -85,8 +88,6 @@ protected:
 	//
 	// UActorComponent interface
 	virtual void OnComponentCreated() override;
-	virtual void OnComponentDestroyed(bool bDestroyingHierarchy) override;
-	virtual void BeginDestroy() override;
 
 	//
 	// IUxtGrabTarget interface
@@ -162,8 +163,8 @@ private:
 	FText TooltipText;
 
 	/** An offset to specify where the tooltip will be spawned. */
-	UPROPERTY(VisibleAnywhere, Category = "Tooltip")
-	USceneComponent* Pivot = nullptr;
+	UPROPERTY(EditAnywhere, Category = "Tooltip", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
+	FComponentReference Pivot;
 
 	/** Overrides the auto anchor on the spawned tooltip. */
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Tooltip")
