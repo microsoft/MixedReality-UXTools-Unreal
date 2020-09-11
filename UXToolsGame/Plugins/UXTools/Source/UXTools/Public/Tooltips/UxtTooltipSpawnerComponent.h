@@ -164,7 +164,7 @@ private:
 	FText TooltipText;
 
 	/** An offset to specify where the tooltip will be spawned. */
-	UPROPERTY(VisibleAnywhere, Category = "Tooltip", meta=(UseComponentPicker, AllowedClasses="SceneComponent"))
+	UPROPERTY(EditAnywhere, Category = "Tooltip", meta=(UseComponentPicker, AllowedClasses="SceneComponent"))
 	FComponentReference Pivot;
 
 	/** Overrides the auto anchor on the spawned tooltip. */
