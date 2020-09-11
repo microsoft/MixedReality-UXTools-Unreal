@@ -73,7 +73,6 @@ class UXTOOLS_API UUxtTooltipSpawnerComponent
 	GENERATED_UCLASS_BODY()
 
 public:
-	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:

@@ -21,11 +21,6 @@ UUxtTooltipSpawnerComponent::UUxtTooltipSpawnerComponent(const FObjectInitialize
 	SetMobility(EComponentMobility::Movable);
 }
 
-void UUxtTooltipSpawnerComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void UUxtTooltipSpawnerComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	if (UWorld* World = GetWorld())
