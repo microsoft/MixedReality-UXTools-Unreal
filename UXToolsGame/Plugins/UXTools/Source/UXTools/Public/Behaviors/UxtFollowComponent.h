@@ -125,7 +125,7 @@ public:
 
 	/** Rate at which its owner will move toward default distance when angular leashing */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowSmoothing)
-	float MoveToDefaultDistanceLerpTime = 10.0f;
+	float LerpTime = 0.1f;
 
 protected:
 	virtual void BeginPlay() override;
