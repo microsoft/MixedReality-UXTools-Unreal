@@ -314,7 +314,11 @@ void TooltipSpawnerSpec::Define()
 				TooltipSpawnerComponent->AppearDelay = 0.f;
 				TooltipSpawnerComponent->Lifetime = 5.f;
 				TooltipSpawnerComponent->bIsAutoAnchoring = false;
-				TooltipSpawnerComponent->Pivot->SetRelativeLocation(PivotOffset);
+				if (USceneComponent* PivotComponent =
+						Cast<USceneComponent>(TooltipSpawnerComponent->Pivot.GetComponent(TooltipSpawnerActor)))
+				{
+					PivotComponent->SetRelativeLocation(PivotOffset);
+				}
 			});
 			FrameQueue.Skip();
 			FrameQueue.Enqueue([this] { Pointer->RayLength = 100.0f; });

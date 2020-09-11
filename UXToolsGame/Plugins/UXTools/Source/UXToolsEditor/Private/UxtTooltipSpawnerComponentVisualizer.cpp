@@ -20,8 +20,9 @@ void FUxtTooltipSpawnerComponentVisualizer::DrawVisualization(
 
 	const auto LineColor = FLinearColor::White;
 
-	const AActor* Owner = TooltipSpawner->GetOwner();
-	const FVector Offset = TooltipSpawner->Pivot->GetRelativeLocation() * Owner->GetActorScale3D();
+	AActor* Owner = TooltipSpawner->GetOwner();
+	const USceneComponent* PivotComponent = Cast<USceneComponent>(TooltipSpawner->Pivot.GetComponent(Owner));
+	const FVector Offset = PivotComponent ? PivotComponent->GetRelativeLocation() * Owner->GetActorScale3D() : FVector::ZeroVector;
 	const FVector LineStart = TooltipSpawner->GetOwner()->GetActorLocation();
 	const FVector LineEnd = LineStart + Offset;
 	const float LineThickness = 0.05f;
