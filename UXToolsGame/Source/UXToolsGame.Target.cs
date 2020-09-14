@@ -11,7 +11,7 @@ public class UXToolsGameTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { "UXToolsGame", "UXToolsTests" } );
+		ExtraModuleNames.AddRange( new string[] { "UXToolsGame" } );
 	}
 }
 
