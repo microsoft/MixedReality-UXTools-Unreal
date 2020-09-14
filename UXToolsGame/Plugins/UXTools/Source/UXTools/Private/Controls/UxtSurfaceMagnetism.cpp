@@ -120,6 +120,13 @@ void UUxtSurfaceMagnetism::OnFarPressed_Implementation(UUxtFarPointerComponent* 
 		SetComponentTickEnabled(true);
 		OnMagnetismStarted.Broadcast(this);
 		bInteractionHalted = false;
+
+		// Initialize target with current transform
+		if (AActor* MyActor = GetOwner())
+		{
+			TargetLocation = MyActor->GetActorLocation();
+			TargetRotation = MyActor->GetActorRotation();
+		}
 	}
 }
 
@@ -172,11 +179,11 @@ void UUxtSurfaceMagnetism::TraceAndSetActorLocation(FVector Start, FVector End, 
 				World->LineTraceSingleByChannel(
 					Hit, Start, End, TraceChannel, QueryParams)) // if far pointer isn't valid we are just interping to target position
 			{
-				HitLocation = Hit.Location + (ImpactNormalOffset * Hit.ImpactNormal);
-				HitRotation = UKismetMathLibrary::MakeRotFromX(Hit.ImpactNormal);
+				TargetLocation = Hit.Location + (ImpactNormalOffset * Hit.ImpactNormal);
+				TargetRotation = UKismetMathLibrary::MakeRotFromX(Hit.ImpactNormal);
 				if (bOnlyYawEnabled)
 				{
-					HitRotation.Pitch = HitRotation.Roll = 0.0f;
+					TargetRotation.Pitch = TargetRotation.Roll = 0.0f;
 				}
 
 				if (TraceRayOffset != 0.0f) // check to avoid doing a normalise when we don't need it
@@ -184,22 +191,25 @@ void UUxtSurfaceMagnetism::TraceAndSetActorLocation(FVector Start, FVector End, 
 					FVector Offset = Start - End;
 					Offset.Normalize();
 					Offset *= TraceRayOffset;
-					HitLocation += Offset;
+					TargetLocation += Offset;
 				}
 			}
 
 			MyActor->SetActorLocationAndRotation(
-				bSmoothPosition ? FMath::VInterpTo(MyActor->GetActorLocation(), HitLocation, DeltaTime, PositionInterpValue) : HitLocation,
-				bSmoothRotation ? FMath::RInterpTo(MyActor->GetActorRotation(), HitRotation, DeltaTime, RotationInterpValue) : HitRotation);
+				bSmoothPosition ? FMath::VInterpTo(MyActor->GetActorLocation(), TargetLocation, DeltaTime, PositionInterpValue)
+								: TargetLocation,
+				bSmoothRotation ? FMath::RInterpTo(MyActor->GetActorRotation(), TargetRotation, DeltaTime, RotationInterpValue)
+								: TargetRotation);
 
 			if (bInteractionHalted)
 			{
 				const float DistanceThresholdSquare = 1.0f;
 				const float RotationThreshold = 0.95f;
 
-				bool DistanceThresholdMet = FVector::DistSquared(MyActor->GetActorLocation(), HitLocation) < DistanceThresholdSquare;
+				bool DistanceThresholdMet = FVector::DistSquared(MyActor->GetActorLocation(), TargetLocation) < DistanceThresholdSquare;
 				bool RotationThresholdMet =
-					FVector::DotProduct(MyActor->GetActorForwardVector(), HitRotation.Quaternion().GetForwardVector()) > RotationThreshold;
+					FVector::DotProduct(MyActor->GetActorForwardVector(), TargetRotation.Quaternion().GetForwardVector()) >
+					RotationThreshold;
 
 				if (DistanceThresholdMet && RotationThresholdMet)
 				{

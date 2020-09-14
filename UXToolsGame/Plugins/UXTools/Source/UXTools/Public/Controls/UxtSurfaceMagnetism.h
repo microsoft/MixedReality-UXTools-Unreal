@@ -226,10 +226,10 @@ private:
 	TWeakObjectPtr<UUxtFarPointerComponent> FarPointerWeak;
 
 	/** Stored target point (used if we are smoothing location) */
-	FVector HitLocation;
+	FVector TargetLocation;
 
 	/** Stored target rotation (used if we are smoothing rotation)*/
-	FRotator HitRotation;
+	FRotator TargetRotation;
 
 	/** Interaction has ended  (used if we are smoothing location or rotation)*/
 	bool bInteractionHalted;
