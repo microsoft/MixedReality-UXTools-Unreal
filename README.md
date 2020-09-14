@@ -11,7 +11,7 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 
 # Getting started with UX Tools
 
-| [![Getting Started and Documentation](Docs/Images/MRTK_Icon_GettingStarted.png)](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview?tabs=mrtk%2Casa)<br/>[Getting Started](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview?tabs=mrtk%2Casa)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)|
+| [![Getting Started and Documentation](Docs/Images/MRTK_Icon_GettingStarted.png)](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview)<br/>[Getting Started](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)|
 |:---|:---|:---|
 
 # Required software
@@ -22,14 +22,14 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 
 # UX building blocks
 
-|  [![Input Simulation](Docs/Images/InputSim_MoveLeftHand.png)](Docs/InputSimulation.md) [Input Simulation](Docs/InputSimulation.md) | [![Hand Interaction](Docs/Images/PokeInteraction.png)](Docs/HandInteraction.md) [Hand Interaction](Docs/HandInteraction.md) | [![Pressable Button](Docs/Images/PressableButton/ButtonHoloLens2.png)](Docs/PressableButton.md) [Pressable Button](Docs/PressableButton.md) |
+| <img src="Docs/Images/InputSim_MoveLeftHand.png" width="1200" height="572" /> [Input Simulation](Docs/InputSimulation.md) | <img src="Docs/Images/PokeInteraction.png" width="1200" height="572" /> [Hand Interaction](Docs/HandInteraction.md) | <img src="Docs/Images/PressableButton/ButtonHoloLens2.png" width="1200" height="572" /> [Pressable Button](Docs/PressableButton.md) |
 |:--- | :--- | :--- |
 | Mouse and keyboard input in the editor to simulate a Head-Mounted Display and hand tracking | Hand interaction actor that takes care of creating and driving pointers and visuals for interactions | A button gives the user a way to trigger an immediate action |
-|  [![Pinch Slider](Docs/Images/Pinch-Slider.png)](Docs/PinchSlider.md) [Pinch Slider](Docs/PinchSlider.md) | [![Bounds Control](Docs/Images/BoundsControl.png)](Docs/BoundsControl.md) [Bounds Control](Docs/BoundsControl.md) | [![Manipulators](Docs/Images/Hand-Interaction.png)](Docs/Manipulator.md) [Manipulators](Docs/Manipulator.md) |
+| <img src="Docs/Images/Pinch-Slider.png" width="1200" height="572" /> [Pinch Slider](Docs/PinchSlider.md) | <img src="Docs/Images/BoundsControl.png" width="1200" height="572" /> [Bounds Control](Docs/BoundsControl.md) | <img src="Docs/Images/Hand-Interaction.png" width="1200" height="572" /> [Manipulators](Docs/Manipulator.md) |
 | A component allows the user to continuously change a value by moving the slider thumb along the track | A component that allows the user to change the position, rotation, and size of an actor | A component that allows an actor to be picked up by a user and then moved, rotated or scaled |
-|  [![Follow Behavior](Docs/Images/FollowComponent.png)](Docs/FollowComponent.md) [Follow Behavior](Docs/FollowComponent.md) | [![Hand Constraints](Docs/Images/HandConstraint/Zones.png)](Docs/HandConstraintComponent.md) [Hand Constraints](Docs/HandConstraintComponent.md) | [![Palm Constraints](Docs/Images/HandConstraint/PalmUpFacingCamera.png)](Docs/PalmUpConstraintComponent.md) [Palm Constraints](Docs/PalmUpConstraintComponent.md) |
+| <img src="Docs/Images/FollowComponent.png" width="1200" height="572" /> [Follow Behavior](Docs/FollowComponent.md) | <img src="Docs/Images/HandConstraint/Zones.png" width="1200" height="572" /> [Hand Constraints](Docs/HandConstraintComponent.md) | <img src="Docs/Images/HandConstraint/PalmUpFacingCamera.png" width="1200" height="572" /> [Palm Constraints](Docs/PalmUpConstraintComponent.md) |
 | A component used to keep objects "following" the user by applying a set of constraints on the component's owner | A component that calculates a goal based on hand tracking and moves the owning actor | A hand constraint component specialization that activates only when the palm is facing the player |
-|  [![Far Beam](Docs/Images/FarBeam.png)](Docs/FarBeam.md) [Far Beam](Docs/FarBeam.md) | 
+| <img src="Docs/Images/FarBeam.png" width="1200" height="572" /> [Far Beam](Docs/FarBeam.md) | 
 | A component allowing the user to visualize elements in the scene they can interact with from afar |
 
 # Tools
