@@ -28,6 +28,10 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
+	// Tick post-physics to ensure the UxtGenericManipulatorComponent ticks before this one.
+	// This prevents the affordances from lagging by one frame when used with a manipulator and also allows them to react to other external
+	// changes.
+	PrimaryComponentTick.TickGroup = TG_PostPhysics;
 	bAutoActivate = true;
 
 	static ConstructorHelpers::FClassFinder<AActor> FaceAffordanceClassFinder(TEXT("/UXTools/BoundsControl/BP_DefaultFaceAffordance"));
