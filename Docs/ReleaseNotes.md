@@ -105,6 +105,10 @@ The preset assets contain a list of affordance configs, each of which consist of
 * The action performed by the affordance (resize, scale, translate, rotate).
 * Flag to toggle uniform actions, i.e. allow non-uniform scaling of the bounds.
 
+### BP_TextActor - Moved to a native implementation and renamed to UxtTextRenderActor
+
+`BP_TextActor` has been replaced by `AUxtTextRenderActor`. It has the same feature set as `BP_TextActor` and can be extended from either Blueprints or C++.
+
 ## Known issues
 
 ### Surface Magnetism's actor jumps to zero

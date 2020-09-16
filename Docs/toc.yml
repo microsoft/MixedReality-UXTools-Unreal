@@ -20,6 +20,8 @@
     href: BoundsControl.md
   - name: Graphics
     href: Graphics.md
+  - name: Text
+    href: Text.md
   - name: Utilities
     href: Utilities.md
 - name: Contributing

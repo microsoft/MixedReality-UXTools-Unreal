@@ -21,6 +21,7 @@ Features:
 - [Far beam component](Docs/FarBeam.md) - Allows the user to visualise elements in the scene they can interact with from afar.
 - [UIElement component](Docs/UIElements.md) - Allows for easily hiding/showing groups of UI elements (including nested panels) while remembering the individual visibility setting for each element.
 - [Graphics documentation](Docs/Graphics.md) - Breakdown of shaders, materials, and graphics techniques used to render UX components.
+- [Text documentation](Docs/Text.md) - Explanation of actors, materials, and fonts used to render text.
 - The plugin also contains a handful of [utilities](Docs/Utilities.md) that augment the Unreal Engine editor.
 
 ![Features](Docs/Images/Features.png)
