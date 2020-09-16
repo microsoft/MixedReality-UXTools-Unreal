@@ -93,6 +93,18 @@ Event changes:
 
 `BP_SimpleSlider` has been replaced by `AUxtPinchSliderActor`. It has the same feature set as `BP_SimpleSlider` and can be extended from either Blueprints or C++.
 
+### UxtBoundsControlComponent - Presets become a data asset
+
+The `Preset` property of the bounds control component has been replaced with a data asset, which can be more easily copied and customized by users. All six presets exist as data assets in `UXTools Content/Bounds Control/Presets`. The `Config` property on existing bounds control components may need to be updated.
+* Default: corners resize bounds, edges rotate them.
+* Slate2D: only has front side affordances, all of them resize bounds.
+* AllResize, AllScale, AllTranslate, AllRotate: have all possible affordances with the same action, mostly for testing.
+
+The preset assets contain a list of affordance configs, each of which consist of
+* A placement enum, e.g. "Corner Front Top Left", "Edge Right Bottom".
+* The action performed by the affordance (resize, scale, translate, rotate).
+* Flag to toggle uniform actions, i.e. allow non-uniform scaling of the bounds.
+
 ## Known issues
 
 ### Surface Magnetism's actor jumps to zero

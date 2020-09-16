@@ -16,37 +16,39 @@ To enable bounds control on an actor, add a UxtBoundsControl component. The comp
 
 ![FollowComponent](Images/BoundsControl.png)
 
-## Bounds Control Presets
+## Bounds Control Config
 
-These presets configure the overall set of affordances that are created and the way they affect the actor transform:
+Bounds control uses `UxtBoundsControlConfig` data assets that describe the layout of affordances.
 
-* _Default_: Uniform resizing with corners and rotation with edges.
-* _Slate2D_: Only front corners and edges are shown, all resize.
-* _AllResize_: Full set of affordances, all resizing.
-* _AllTranslate_: Full set of affordances, all translating.
-* _AllScale_: Full set of affordances, all scaling.
-* _AllRotate_: Full set of affordances, all rotating.
+A number of presets exist for standard behavior in _Bounds Control/Presets_:
+* _BoundsControlDefault_: Uniform resizing with corners and rotation with edges.
+* _BoundsControlSlate2D_: Only front corners and edges are shown, all resize.
+* _BoundsControlAllResize_: Full set of affordances, all resizing.
+* _BoundsControlAllTranslate_: Full set of affordances, all translating.
+* _BoundsControlAllScale_: Full set of affordances, all scaling.
+* _BoundsControlAllRotate_: Full set of affordances, all rotating.
+Users can create custom bounds control setups by copying or adding new `UxtBoundsControlConfig` data assets.
 
-## Affordance Configuration
+The config asset contains a list of affordances. Each affordance is described by its _Placement_ on the bounding box, a combination of the affordance kind and directions, for example:
+* `CornerFrontTopLeft`
+* `EdgeBottomRight`
+* `FaceBack`
+* `Center`
 
-There are four types of affordances:
-* _Corner_: Each corner of the bounding box. Can move in all three dimensions.
-* _Edge_: Middle of each edge of the bounding box. Movement is restricted to the plane perpendicular to the edge.
-* _Face_: Center of each side of the bounding box. Movement is restricted to the axis along the face normal.
-* _Center_: Center of the bounding box (not enabled by default).
-
-Grabbing and moving an affordance can be configured for different effects on the actor transform:
+The affordance _Action_ describes the effect on the bounding box when moving the affordance:
 * _Resize_: Move only one side of the bounding box.
 * _Translate_: Move both sides of the bounding box in parallel.
 * _Scale_: Scale the bounding box, moving both sides in opposite directions.
 * _Rotate_: Rotate the bounding box about its center point.
 
+The _Uniform Action_ flag can be turned off to allow non-uniform scaling and translation.
+
 ## Affordance classes
 
-To modify the appearance of the affordances the user can replace the default classes used by the bounds control. A different class is used for each of the four kinds of affordance (Corner, Edge, Face, Center). These classes are instantiated at runtime by the bounds control component to create grabbable actors.
+An actor instance is created for each affordance at runtime. The actor class used for each kind of affordance (Corner, Edge, Face, Center) can be changed on the bounds control component (`Corner Affordance Class` etc.).
 
 When creating custom affordance blueprints a few conditions should be kept in mind:
-* The affordance should by default be oriented in the _forward_, _right_, _up_ direction. Each affordance instance is rotated by the bounds control to match its placement on the bounding box.
+* The affordance mesh should by default be oriented in the _forward_, _right_, _up_ direction. Each affordance instance is rotated by the bounds control to match its placement on the bounding box.
 * The affordance should have a UxtGrabTargetComponent to make it grabbable. The bounds control will use these components to react to user input.
 
   The affordance does not need to handle user input or grab events itself. It is automatically placed by the bounds control.

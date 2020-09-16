@@ -93,7 +93,7 @@ void BoundsControlSpec::Define()
 			for (const auto& Entry : Target->GetActorAffordanceMap())
 			{
 				const AActor* AffordanceActor = Entry.Key;
-				const FUxtBoundsControlAffordanceInfo* AffordanceInfo = Entry.Value;
+				const FUxtAffordanceConfig* AffordanceInfo = Entry.Value;
 
 				const FTransform ExpectedTransform = AffordanceInfo->GetWorldTransform(Bounds, ActorTransform);
 				const FTransform Result = AffordanceActor->GetTransform();
