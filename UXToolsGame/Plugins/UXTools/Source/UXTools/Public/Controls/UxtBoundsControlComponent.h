@@ -99,6 +99,8 @@ protected:
 	/** Callback when an affordance is being released. */
 	UFUNCTION()
 	void OnPointerEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
+	/** Callback when the parent actor is moved. */
+	void OnActorTransformUpdate(USceneComponent* UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport);
 
 	/**
 	 * Try to activate the given grab pointer on the bounding box.

@@ -19,10 +19,6 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
-	// Tick post-physics to ensure the UxtGenericManipulatorComponent ticks before this one.
-	// This prevents the affordances from lagging by one frame when used with a manipulator and also allows them to react to other external
-	// changes.
-	PrimaryComponentTick.TickGroup = TG_PostPhysics;
 	bAutoActivate = true;
 
 	static ConstructorHelpers::FClassFinder<AActor> FaceAffordanceClassFinder(TEXT("/UXTools/BoundsControl/BP_DefaultFaceAffordance"));
@@ -130,6 +126,8 @@ void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 void UUxtBoundsControlComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetOwner()->GetRootComponent()->TransformUpdated.AddUObject(this, &UUxtBoundsControlComponent::OnActorTransformUpdate);
 
 	if (bInitBoundsFromActor)
 	{
@@ -278,13 +276,10 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 
 			GetOwner()->SetActorTransform(NewTransform);
 		}
-
-		UpdateAffordanceTransforms();
 	}
 	else if (!GetOwner()->GetActorTransform().Equals(InitialTransform))
 	{
 		InitialTransform = GetOwner()->GetActorTransform();
-		UpdateAffordanceTransforms();
 	}
 }
 
@@ -412,6 +407,12 @@ void UUxtBoundsControlComponent::OnPointerEndGrab(UUxtGrabTargetComponent* Grabb
 	{
 		OnManipulationEnded.Broadcast(this, **AffordancePtr, Grabbable);
 	}
+}
+
+void UUxtBoundsControlComponent::OnActorTransformUpdate(
+	USceneComponent* UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport)
+{
+	UpdateAffordanceTransforms();
 }
 
 bool UUxtBoundsControlComponent::TryActivateGrabPointer(const FUxtAffordanceConfig& Affordance, const FUxtGrabPointerData& GrabPointer)
