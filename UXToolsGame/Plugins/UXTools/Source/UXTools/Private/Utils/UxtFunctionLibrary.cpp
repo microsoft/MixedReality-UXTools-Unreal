@@ -11,8 +11,16 @@
 #include "Editor/EditorEngine.h"
 #endif
 
+bool UUxtFunctionLibrary::bUseTestData = false;
+FTransform UUxtFunctionLibrary::TestHeadPose = FTransform::Identity;
+
 FTransform UUxtFunctionLibrary::GetHeadPose(UObject* WorldContextObject)
 {
+	if (bUseTestData)
+	{
+		return TestHeadPose;
+	}
+
 	FRotator Rotation;
 	FVector Position;
 	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(Rotation, Position);

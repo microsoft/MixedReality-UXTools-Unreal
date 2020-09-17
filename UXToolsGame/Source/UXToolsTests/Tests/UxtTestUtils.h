@@ -64,6 +64,15 @@ public:
 	/** Create a background target without a scene component or primitive. */
 	static UTestGrabTarget* CreateNearPointerBackgroundTarget(UWorld* World);
 
+	/** When true, test data will be used for head pose. */
+	static void SetTestHeadEnabled(bool bEnabled);
+
+	/** Set the simulated head pose location to the given location. */
+	static void SetTestHeadLocation(const FVector& Location);
+
+	/** Set the simulated head pose rotation to the given rotation. */
+	static void SetTestHeadRotation(const FRotator& Rotation);
+
 	/** Creates a test camera that is set as the new view target in the playercontroller.
 		Transform modifications on the returned USceneComponent will transform the active test camera.*/
 	static USceneComponent* CreateTestCamera(UWorld* World);

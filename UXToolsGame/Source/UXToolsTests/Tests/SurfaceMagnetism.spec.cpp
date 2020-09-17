@@ -111,6 +111,8 @@ void FSurfaceMagnetism::Define()
 			HandInteractionActor = nullptr;
 			Pointer->GetOwner()->Destroy();
 			Pointer = nullptr;
+			TargetActor->Destroy();
+			SurfaceActor->Destroy();
 		});
 
 		LatentIt("Target should snap to surface when pointing", [this](const FDoneDelegate& Done) {

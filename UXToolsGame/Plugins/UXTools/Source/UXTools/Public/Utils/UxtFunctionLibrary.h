@@ -35,4 +35,11 @@ public:
 	 * This allows it to detect components not contained in a blueprint.
 	 */
 	static USceneComponent* GetSceneComponentFromReference(const FComponentReference& ComponentRef, AActor* Owner);
+
+public:
+	/** When true, the methods in this class will use test data. Intended for tests and internal usage only. */
+	static bool bUseTestData;
+
+	/** When bUseTestData is true, GetHeadPose will return this transform. */
+	static FTransform TestHeadPose;
 };

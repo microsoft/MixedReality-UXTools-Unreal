@@ -21,6 +21,11 @@ UPrimitiveComponent* UUxtTapToPlaceComponent::GetTargetComponent() const
 void UUxtTapToPlaceComponent::SetTargetComponent(UPrimitiveComponent* Target)
 {
 	TargetComponent.OverrideComponent = Target;
+	if (Target)
+	{
+		FBoxSphereBounds Bounds = Target->CalcLocalBounds();
+		SurfaceNormalOffset = Bounds.BoxExtent.X * Target->GetComponentTransform().GetScale3D().X;
+	}
 }
 
 void UUxtTapToPlaceComponent::StartPlacement()
@@ -60,7 +65,7 @@ void UUxtTapToPlaceComponent::BeginPlay()
 
 	if (UPrimitiveComponent* Target = GetTargetComponent())
 	{
-		FBoxSphereBounds Bounds = GetTargetComponent()->CalcLocalBounds();
+		FBoxSphereBounds Bounds = Target->CalcLocalBounds();
 		SurfaceNormalOffset = Bounds.BoxExtent.X * Target->GetComponentTransform().GetScale3D().X;
 	}
 }

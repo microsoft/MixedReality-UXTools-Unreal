@@ -17,6 +17,7 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Tests/AutomationCommon.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 namespace
 {
@@ -263,4 +264,19 @@ bool FUxtDisableTestHandTrackerCommand::Update()
 {
 	UxtTestUtils::DisableTestHandTracker();
 	return true;
+}
+
+void UxtTestUtils::SetTestHeadEnabled(bool bEnabled)
+{
+	UUxtFunctionLibrary::bUseTestData = bEnabled;
+}
+
+void UxtTestUtils::SetTestHeadLocation(const FVector& Location)
+{
+	UUxtFunctionLibrary::TestHeadPose.SetLocation(Location);
+}
+
+void UxtTestUtils::SetTestHeadRotation(const FRotator& Rotation)
+{
+	UUxtFunctionLibrary::TestHeadPose.SetRotation(Rotation.Quaternion());
 }
