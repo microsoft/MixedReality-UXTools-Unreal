@@ -64,6 +64,11 @@ We also provide the UX Tools game pre-packaged for HoloLens 2 so you can try out
 
 The latest version of the documentation can be found [here](https://microsoft.github.io/MixedReality-UXTools-Unreal).
 
+# Sample apps made with UX Tools
+
+| [![Chess App](Docs/Images/Samples_Chess.png)](https://docs.microsoft.com/en-us/windows/mixed-reality/develop/unreal/tutorials/unreal-uxt-ch1) | [![Kippy's Escape](Docs/Images/Samples_KE.jpg)](https://aka.ms/KippysEscape) |
+|:--- |:--- |
+| This simple [Chess App](https://github.com/microsoft/MixedReality-Unreal-Samples/tree/master/ChessApp) is the final result of following the getting started tutorial located on Microsoft's Mixed Reality docs. If you're new to mixed reality development and UX Tools, get started here: [Build a chess app with MRTK UX Tools](https://docs.microsoft.com/en-us/windows/mixed-reality/develop/unreal/tutorials/unreal-uxt-ch1) | [Kippy's Escape](https://github.com/microsoft/MixedReality-Unreal-KippysEscape) is an open-source HoloLens 2 sample app demonstrating how to use UX Tools components to create a fun and interactive mixed reality experience. Read the story behind the app: [The Making of Kippy's Escape](https://aka.ms/KippysEscape) |
 
 # Feedback and contributions
 
