@@ -11,6 +11,7 @@ Features:
 - [Input simulation](Docs/InputSimulation.md) - Simulates articulated hands and head pose that you can use in-editor. This is great for improving development iteration times.
 - [Hand interaction actor](Docs/HandInteraction.md) - Used to interact with our UX components with articulated hands.
 - [Pressable button component](Docs/PressableButton.md) - Low level component used to drive the state of button blueprints. Example button blueprints are provided.
+- [Touchable volume component](Docs/TouchableVolume.md) - Allows the user to interact with an object by touching it.
 - [Pinch Slider](Docs/PinchSlider.md) - Allows the user to continuously change a value by moving the slider thumb along the track.
 - [Bounds Control](Docs/BoundsControl.md) - Allows the user to change the position, rotation, and size of an actor, using _affordances_.
 - [Hand Menu](Docs/HandMenu.md) - Allows users to quickly bring up a hand-attached UI for frequently used functions.
