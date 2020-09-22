@@ -1,7 +1,6 @@
 trigger:
 - master
 - public/*
-- framestore
 
 variables:
 - template: settings/common.yml
