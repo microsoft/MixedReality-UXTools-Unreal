@@ -344,7 +344,7 @@ bool AUxtPressableButtonActor::AnimateFocus(float DeltaTime)
 	const float CurveTime =
 		(ButtonBrush.Visuals.IconFocusCurve != nullptr) ? ButtonBrush.Visuals.IconFocusCurve->GetFloatValue(FocusTimer) : FocusTimer;
 	IconComponent->SetRelativeLocation(FMath::Lerp(
-		IconBrush.TextBrush.RelativeLocation, IconBrush.TextBrush.RelativeLocation + (GetActorForwardVector() * (GetSize().X * -0.25f)),
+		IconBrush.TextBrush.RelativeLocation, IconBrush.TextBrush.RelativeLocation + (FVector::ForwardVector * (GetSize().X * 0.25f)),
 		CurveTime));
 
 	return FocusTimer == 0;
