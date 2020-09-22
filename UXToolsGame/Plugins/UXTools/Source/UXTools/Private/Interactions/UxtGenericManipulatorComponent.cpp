@@ -96,21 +96,10 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 	}
 
 	case EUxtOneHandRotationMode::RotateAboutObjectCenter:
-	{
-		FVector objectCenterAsPivot = InSourceTransform.GetLocation();
-		FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
-		OutTargetTransform.SetRotation(
-			UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, objectCenterAsPivot).GetRotation());
-		return true;
-	}
-
 	case EUxtOneHandRotationMode::RotateAboutGrabPoint:
 	{
-		FVector GrabPointAsPivot = UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(InSourceTransform, PrimaryPointerData);
-		FRotator DeltaRot = UUxtGrabPointerDataFunctionLibrary::GetRotationOffset(InSourceTransform, PrimaryPointerData);
-		FQuat Orientation =
-			UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(InSourceTransform, DeltaRot, GrabPointAsPivot).GetRotation();
-		OutTargetTransform.SetRotation(Orientation);
+		const FTransform GripTransform = UUxtGrabPointerDataFunctionLibrary::GetGripTransform(PrimaryPointerData);
+		OutTargetTransform.SetRotation((PrimaryPointerData.GripToObject * GripTransform).GetRotation());
 		return true;
 	}
 

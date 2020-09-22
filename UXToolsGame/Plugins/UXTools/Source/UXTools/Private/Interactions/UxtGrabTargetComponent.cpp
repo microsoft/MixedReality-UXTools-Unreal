@@ -4,10 +4,23 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 
 #include "Engine/World.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtInteractionMode.h"
 #include "Interactions/UxtInteractionUtils.h"
+
+namespace
+{
+	FTransform GetHandGripTransform(EControllerHand Hand)
+	{
+		FQuat GripOrientation;
+		FVector GripPosition;
+		float GripRadius;
+		UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Palm, GripOrientation, GripPosition, GripRadius);
+		return FTransform{GripOrientation, GripPosition};
+	}
+} // namespace
 
 FVector UUxtGrabPointerDataFunctionLibrary::GetGrabLocation(const FTransform& Transform, const FUxtGrabPointerData& GrabData)
 {
@@ -61,7 +74,7 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(const FUxtGra
 	}
 	else if (ensure(GrabData.NearPointer != nullptr))
 	{
-		return GrabData.NearPointer->GetGrabPointerTransform();
+		return GrabData.GripToGrabPoint * GetHandGripTransform(GrabData.NearPointer->Hand);
 	}
 
 	return FTransform::Identity;
@@ -69,16 +82,21 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(const FUxtGra
 
 FVector UUxtGrabPointerDataFunctionLibrary::GetPointerLocation(const FUxtGrabPointerData& GrabData)
 {
+	return UUxtGrabPointerDataFunctionLibrary::GetPointerTransform(GrabData).GetLocation();
+}
+
+FTransform UUxtGrabPointerDataFunctionLibrary::GetGripTransform(const FUxtGrabPointerData& GrabData)
+{
 	if (GrabData.FarPointer != nullptr)
 	{
-		return GrabData.FarPointer->GetPointerOrigin();
+		return FTransform(GrabData.FarPointer->GetControllerOrientation(), GrabData.FarPointer->GetHitPoint());
 	}
 	else if (ensure(GrabData.NearPointer != nullptr))
 	{
-		return GrabData.NearPointer->GetGrabPointerTransform().GetLocation();
+		return GetHandGripTransform(GrabData.NearPointer->Hand);
 	}
 
-	return FVector::ZeroVector;
+	return FTransform::Identity;
 }
 
 UUxtGrabTargetComponent::UUxtGrabTargetComponent()
@@ -317,6 +335,8 @@ void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponen
 	FUxtGrabPointerData GrabData;
 	GrabData.NearPointer = Pointer;
 	GrabData.StartTime = GetWorld()->GetTimeSeconds();
+
+	GrabData.GripToGrabPoint = Pointer->GetGrabPointerTransform() * GetHandGripTransform(Pointer->Hand).Inverse();
 	InitGrabTransform(GrabData);
 
 	GrabPointers.Add(GrabData);
@@ -341,7 +361,7 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompone
 	{
 		if (GrabData.NearPointer == Pointer)
 		{
-			GrabData.GrabPointTransform = Pointer->GetGrabPointerTransform();
+			GrabData.GrabPointTransform = GrabData.GripToGrabPoint * GetHandGripTransform(Pointer->Hand);
 
 			OnUpdateGrab.Broadcast(this, GrabData);
 		}
@@ -392,24 +412,24 @@ bool UUxtGrabTargetComponent::CanHandleFar_Implementation(UPrimitiveComponent* P
 
 void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) const
 {
+	const FTransform ComponentTransform = FTransform(GetComponentRotation(), GetComponentLocation());
+	const FTransform GripTransform = UUxtGrabPointerDataFunctionLibrary::GetGripTransform(GrabData);
 	if (GrabData.NearPointer != nullptr)
 	{
-		GrabData.GrabPointTransform = GrabData.NearPointer->GetGrabPointerTransform();
-		FTransform TransformNoScale = FTransform(GetComponentRotation(), GetComponentLocation());
-		GrabData.LocalGrabPoint = GrabData.GrabPointTransform * TransformNoScale.Inverse();
+		GrabData.GrabPointTransform = GrabData.GripToGrabPoint * GripTransform;
+		GrabData.LocalGrabPoint = GrabData.GrabPointTransform * ComponentTransform.Inverse();
 	}
 	else if (ensure(GrabData.FarPointer != nullptr))
 	{
 		// store initial grab point in object space
-		FTransform TransformAtRayEnd(GrabData.FarPointer->GetControllerOrientation(), GrabData.FarPointer->GetHitPoint());
-		GrabData.GrabPointTransform = TransformAtRayEnd;
-		FTransform TransformNoScale = FTransform(GetComponentRotation(), GetComponentLocation());
-		GrabData.LocalGrabPoint = TransformAtRayEnd * TransformNoScale.Inverse();
+		GrabData.GrabPointTransform = GripTransform;
+		GrabData.LocalGrabPoint = GripTransform * ComponentTransform.Inverse();
 
 		// store ray hit point in pointer space
 		FTransform PointerTransform(GrabData.FarPointer->GetControllerOrientation(), GrabData.FarPointer->GetPointerOrigin());
-		GrabData.FarRayHitPointInPointer = TransformAtRayEnd * PointerTransform.Inverse();
+		GrabData.FarRayHitPointInPointer = GripTransform * PointerTransform.Inverse();
 	}
+	GrabData.GripToObject = ComponentTransform * GripTransform.Inverse();
 }
 
 void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)

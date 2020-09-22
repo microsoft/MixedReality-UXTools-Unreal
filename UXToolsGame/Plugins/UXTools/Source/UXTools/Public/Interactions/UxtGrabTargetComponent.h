@@ -45,6 +45,23 @@ struct UXTOOLS_API FUxtGrabPointerData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
 	FTransform LocalGrabPoint;
 
+	/**
+	 * Transform of the grab point in near pointer's grip local space at the start of the interaction.
+	 *
+	 * This is useful to prevent grab point's position changes after grab starts from altering object's transform (e.g.
+	 * animation of InputSim's hand).
+	 *
+	 * Far pointer doesn't need this because its grip transform is already at grab point.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	FTransform GripToGrabPoint;
+
+	/**
+	 * Transform of the object in pointer's grip local space at the start of the interaction.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	FTransform GripToObject;
+
 	/** Far pointer only property -> describes the relative transform of the grab point to the pointer transform (pointer origin /
 	 * orientation) This is needed to calculate the new grab point on the object on pointer translations / rotations */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
@@ -99,6 +116,15 @@ public:
 	/** Returns the world space pointer location */
 	UFUNCTION(BluePrintPure, Category = "GrabPointer")
 	static FVector GetPointerLocation(const FUxtGrabPointerData& GrabData);
+
+	/**
+	 * Returns the pointer's grip transform in world space.
+	 *
+	 * This represents a reference point in the pointer, which corresponds to the actual grip joint's transform
+	 * for the near pointer and the hit point's transform for the far pointer.
+	 */
+	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	static FTransform GetGripTransform(const FUxtGrabPointerData& GrabData);
 };
 
 /** Delegate for handling a far focus enter events. */
