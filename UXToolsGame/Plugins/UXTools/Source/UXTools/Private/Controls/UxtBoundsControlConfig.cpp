@@ -7,39 +7,39 @@ namespace
 {
 	FMatrix MakeDiagonalMatrix(float X, float Y, float Z)
 	{
-		float Norm2 = X * X + Y * Y + Z * Z;
-		float InvNorm = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
+		const float Norm2 = X * X + Y * Y + Z * Z;
+		const float InvNorm = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
 		return FMatrix(FVector(X * X, 0, 0), FVector(0, Y * Y, 0), FVector(0, 0, Z * Z), FVector4(0, 0, 0, 1)) * InvNorm;
 	}
 
 	FMatrix MakeUniformMatrix(float X, float Y, float Z)
 	{
-		float Norm2 = X * X + Y * Y + Z * Z;
-		float InvNorm = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
+		const float Norm2 = X * X + Y * Y + Z * Z;
+		const float InvNorm = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
 		return FMatrix(FVector(X * X, X * Y, X * Z), FVector(Y * X, Y * Y, Y * Z), FVector(Z * X, Z * Y, Z * Z), FVector4(0, 0, 0, 1)) *
 			   InvNorm;
 	}
 
 	FMatrix MakeAxialConstraintMatrix(const FVector& Axis)
 	{
-		float Norm2 = Axis.SizeSquared();
-		float InvNorm2 = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
+		const float Norm2 = Axis.SizeSquared();
+		const float InvNorm2 = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
 		// Projection on the axis by outer product: M = outer(a, a)
-		float X = Axis.X;
-		float Y = Axis.Y;
-		float Z = Axis.Z;
+		const float X = Axis.X;
+		const float Y = Axis.Y;
+		const float Z = Axis.Z;
 		return FMatrix(FVector(X * X, X * Y, X * Z), FVector(Y * X, Y * Y, Y * Z), FVector(Z * X, Z * Y, Z * Z), FVector4(0, 0, 0, 1)) *
 			   InvNorm2;
 	}
 
 	FMatrix MakePlanarConstraintMatrix(const FVector& Normal)
 	{
-		float Norm2 = Normal.SizeSquared();
-		float InvNorm2 = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
+		const float Norm2 = Normal.SizeSquared();
+		const float InvNorm2 = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
 		// Projection on the plane by outer product: M = I - outer(n, n)
-		float X = Normal.X;
-		float Y = Normal.Y;
-		float Z = Normal.Z;
+		const float X = Normal.X;
+		const float Y = Normal.Y;
+		const float Z = Normal.Z;
 		return FMatrix(
 				   FVector(1.0f - X * X, X * Y, X * Z), FVector(Y * X, 1.0f - Y * Y, Y * Z), FVector(Z * X, Z * Y, 1.0f - Z * Z),
 				   FVector4(0, 0, 0, 1)) *
@@ -256,25 +256,29 @@ EUxtAffordanceKind FUxtAffordanceConfig::GetAffordanceKind() const
 	return EUxtAffordanceKind::Center;
 }
 
-FMatrix FUxtAffordanceConfig::GetConstraintMatrix() const
+FMatrix FUxtAffordanceConfig::GetConstraintMatrix(int32 LockedAxes) const
 {
-	// Allow movement on non-aligned axes
+	// Bounds location is used to determine DoF and mirroring.
+	// Zero value will disable movement on that axis.
 	const FVector P = GetBoundsLocation();
+	const float X = LockedAxes & static_cast<int32>(EUxtAxisFlags::X) ? 0.0f : P.X;
+	const float Y = LockedAxes & static_cast<int32>(EUxtAxisFlags::Y) ? 0.0f : P.Y;
+	const float Z = LockedAxes & static_cast<int32>(EUxtAxisFlags::Z) ? 0.0f : P.Z;
 	if (bUniformAction && IsUniformConstraintSupported(Action))
 	{
-		return MakeUniformMatrix(P.X, P.Y, P.Z);
+		return MakeUniformMatrix(X, Y, Z);
 	}
 	else
 	{
-		return MakeDiagonalMatrix(P.X, P.Y, P.Z);
+		return MakeDiagonalMatrix(X, Y, Z);
 	}
 }
 
 FTransform FUxtAffordanceConfig::GetWorldTransform(const FBox& Bounds, const FTransform& RootTransform) const
 {
-	FVector Location = Bounds.GetCenter() + Bounds.GetExtent() * GetBoundsLocation();
-	FRotator Rotation = GetBoundsRotation();
-	FVector Scale = FVector::OneVector;
+	const FVector Location = Bounds.GetCenter() + Bounds.GetExtent() * GetBoundsLocation();
+	const FRotator Rotation = GetBoundsRotation();
+	const FVector Scale = FVector::OneVector;
 
 	return FTransform(RootTransform.TransformRotation(FQuat(Rotation)), RootTransform.TransformPosition(Location), Scale);
 }

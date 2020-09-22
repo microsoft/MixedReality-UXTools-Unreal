@@ -43,6 +43,8 @@ The affordance _Action_ describes the effect on the bounding box when moving the
 
 The _Uniform Action_ flag can be turned off to allow non-uniform scaling and translation.
 
+_Locked Axes_ flags restrict actions in the local space of the bounds control. For example, if the `X` axis is locked then moving an affordance forward will not have an effect. Two axes can be locked to allow movement only along the remaining axis.
+
 ## Affordance classes
 
 An actor instance is created for each affordance at runtime. The actor class used for each kind of affordance (Corner, Edge, Face, Center) can be changed on the bounds control component (`Corner Affordance Class` etc.).
