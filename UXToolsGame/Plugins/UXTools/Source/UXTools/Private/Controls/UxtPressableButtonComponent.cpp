@@ -542,6 +542,14 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 	Parent->GetChildrenComponents(true, SceneComponents);
 	SceneComponents.Add(Parent);
 
+	// If the actor's collision is disabled, we need to enable it before disabling collision on the primitive components.
+	// This is because the it will restore the previous collision state when re-enabled (i.e. re-enabling collision on the components)
+	const bool bActorCollisionDisabled = !GetOwner()->GetActorEnableCollision();
+	if (bActorCollisionDisabled)
+	{
+		GetOwner()->SetActorEnableCollision(true);
+	}
+
 	for (USceneComponent* SceneComponent : SceneComponents)
 	{
 		if (UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(SceneComponent))
@@ -574,6 +582,12 @@ void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent
 	VisualsScaleLocal = Parent->GetRelativeScale3D();
 
 	UpdateMaxPushDistance();
+
+	// Disable the actor's collision if we enabled it earlier.
+	if (bActorCollisionDisabled)
+	{
+		GetOwner()->SetActorEnableCollision(false);
+	}
 }
 
 void UUxtPressableButtonComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)

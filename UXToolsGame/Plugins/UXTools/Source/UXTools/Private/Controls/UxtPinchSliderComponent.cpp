@@ -334,6 +334,14 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent()
 {
 	if (BoxComponent)
 	{
+		// If the actor's collision is disabled, we need to enable it before disabling collision on the primitive components.
+		// This is because the it will restore the previous collision state when re-enabled (i.e. re-enabling collision on the components)
+		const bool bActorCollisionDisabled = !GetOwner()->GetActorEnableCollision();
+		if (bActorCollisionDisabled)
+		{
+			GetOwner()->SetActorEnableCollision(true);
+		}
+
 		// Disable collision on all primitive components.
 		TArray<UPrimitiveComponent*> Components;
 		GetOwner()->GetComponents<UPrimitiveComponent>(Components);
@@ -351,6 +359,12 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent()
 			BoxComponent->SetBoxExtent((Max - Min) * 0.5f);
 			BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Thumb->GetComponentTransform());
 			BoxComponent->SetCollisionProfileName(CollisionProfile);
+		}
+
+		// Disable the actor's collision if we enabled it earlier.
+		if (bActorCollisionDisabled)
+		{
+			GetOwner()->SetActorEnableCollision(false);
 		}
 	}
 }
