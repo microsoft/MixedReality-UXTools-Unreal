@@ -6,6 +6,28 @@
 #include "Input/UxtInputSubsystem.h"
 #include "Utils/UxtFunctionLibrary.h"
 
+namespace
+{
+	FQuat GetOrientationQuat(FVector Forward, FVector Up = FVector::UpVector)
+	{
+		FVector Right = FVector::CrossProduct(Up, Forward);
+		Up = FVector::CrossProduct(Forward, Right);
+
+		Forward.Normalize();
+		Right.Normalize();
+		Up.Normalize();
+
+		if (Forward.SizeSquared() == 0 || Right.SizeSquared() == 0 || Up.SizeSquared() == 0)
+		{
+			return FQuat::Identity;
+		}
+
+		FMatrix Axes;
+		Axes.SetAxes(&Forward, &Right, &Up);
+		return FQuat(Axes);
+	}
+} // namespace
+
 UUxtTapToPlaceComponent::UUxtTapToPlaceComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -91,6 +113,7 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 			FVector HitPosition = Start + HeadPose.GetUnitAxis(EAxis::X) * DefaultPlacementDistance;
 			FVector Facing = HeadPose.GetLocation() - HitPosition;
+			FVector Up = FVector::UpVector;
 			if (Result.GetComponent())
 			{
 				// Add SurfaceNormalOffset so object is placed touching the surface, rather than overlapping with it
@@ -99,6 +122,10 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 				if (OrientationType == EUxtTapToPlaceOrientBehavior::AlignToSurface)
 				{
 					Facing = Result.Normal;
+					if (Facing == FVector::UpVector)
+					{
+						Up = HitPosition - HeadPose.GetLocation();
+					}
 				}
 				else
 				{
@@ -109,6 +136,7 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 			if (KeepOrientationVertical)
 			{
 				Facing.Z = 0;
+				Up = FVector::UpVector;
 			}
 
 			FVector Position;
@@ -121,12 +149,12 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 				float LerpAmount = LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime;
 				Position = FMath::Lerp(TargetPos, HitPosition, LerpAmount);
-				Orientation = FQuat::Slerp(TargetRot, Facing.ToOrientationQuat(), LerpAmount);
+				Orientation = FQuat::Slerp(TargetRot, GetOrientationQuat(Facing, Up), LerpAmount);
 			}
 			else
 			{
 				Position = HitPosition;
-				Orientation = Facing.ToOrientationQuat();
+				Orientation = GetOrientationQuat(Facing, Up);
 			}
 
 			Target->SetWorldLocation(Position);
