@@ -9,6 +9,9 @@
 
 AUxtPressableToggleButtonActor::AUxtPressableToggleButtonActor()
 {
+	// Set the default button label.
+	Label = FText::FromString("Toggle");
+
 	// Create the component hierarchy.
 	ToggleStateComponent = CreateDefaultSubobject<UUxtToggleStateComponent>(TEXT("UxtToggleState"));
 	TogglePlateComponent = CreateAndAttachComponent<UUxtBackPlateComponent>(TEXT("UxtToggleBackPlate"), BackPlatePivotComponent);

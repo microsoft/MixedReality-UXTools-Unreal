@@ -13,7 +13,7 @@
  * A derived actor of AUxtPressableRadioButtonActor which represents the toggle state with a switch that animates
  * left and right.
  */
-UCLASS(ClassGroup = UXTools, Config = UXTools)
+UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtPressableSwitchButtonActor : public AUxtPressableRadioButtonActor
 {
 	GENERATED_BODY()
@@ -49,13 +49,11 @@ public:
 protected:
 	/** Structure which contains properties for the button's icon when switched off. */
 	UPROPERTY(
-		EditAnywhere, Config, BlueprintGetter = "GetSwitchedOffIconBrush", BlueprintSetter = "SetSwitchedOffIconBrush",
-		Category = "SwitchButton")
+		EditAnywhere, BlueprintGetter = "GetSwitchedOffIconBrush", BlueprintSetter = "SetSwitchedOffIconBrush", Category = "SwitchButton")
 	FUxtIconBrush SwitchedOffIconBrush;
 
 	/** Structure which contains properties for the button's icon when switched on. */
 	UPROPERTY(
-		EditAnywhere, Config, BlueprintGetter = "GetSwitchedOnIconBrush", BlueprintSetter = "SetSwitchedOnIconBrush",
-		Category = "SwitchButton")
+		EditAnywhere, BlueprintGetter = "GetSwitchedOnIconBrush", BlueprintSetter = "SetSwitchedOnIconBrush", Category = "SwitchButton")
 	FUxtIconBrush SwitchedOnIconBrush;
 };

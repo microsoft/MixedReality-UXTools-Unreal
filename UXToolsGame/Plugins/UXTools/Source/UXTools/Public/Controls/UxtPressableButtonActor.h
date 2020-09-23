@@ -21,7 +21,7 @@ class UAudioComponent;
  * icon, and label. All button properties within this class are reactive at edit and runtime. This actor also contains
  * behaviors to support icon focus animation and sound playback. This class is extensible to support derived button types.
  */
-UCLASS(ClassGroup = UXTools, Config = UXTools)
+UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtPressableButtonActor : public AUxtBasePressableButtonActor
 {
 	GENERATED_BODY()
@@ -163,20 +163,20 @@ protected:
 
 	/** Structure which contains properties for the button's icon. */
 	UPROPERTY(
-		EditAnywhere, Config, BlueprintGetter = "GetIconBrush", BlueprintSetter = "SetIconBrush", Category = "Button",
+		EditAnywhere, BlueprintGetter = "GetIconBrush", BlueprintSetter = "SetIconBrush", Category = "Button",
 		meta = (EditCondition = "bCanEditIconBrush"))
 	FUxtIconBrush IconBrush;
 
 	/** Localizable text for the label. */
-	UPROPERTY(EditAnywhere, Config, BlueprintGetter = "GetLabel", BlueprintSetter = "SetLabel", Category = "Button")
-	FText Label;
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetLabel", BlueprintSetter = "SetLabel", Category = "Button")
+	FText Label = FText::FromString("16x32x32mm");
 
 	/** Text settings for the label. */
-	UPROPERTY(EditAnywhere, Config, BlueprintGetter = "GetLabelTextBrush", BlueprintSetter = "SetLabelTextBrush", Category = "Button")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetLabelTextBrush", BlueprintSetter = "SetLabelTextBrush", Category = "Button")
 	FUxtTextBrush LabelTextBrush;
 
 	/** Structure which contains properties for the button's appearance and behavior. */
-	UPROPERTY(EditAnywhere, Config, BlueprintGetter = "GetButtonBrush", BlueprintSetter = "SetButtonBrush", Category = "Button")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetButtonBrush", BlueprintSetter = "SetButtonBrush", Category = "Button")
 	FUxtButtonBrush ButtonBrush;
 
 	/** Pivot component to support back plate compression visuals. */

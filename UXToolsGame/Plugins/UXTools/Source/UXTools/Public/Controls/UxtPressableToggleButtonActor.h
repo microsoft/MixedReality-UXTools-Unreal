@@ -15,7 +15,7 @@ class UUxtToggleStateComponent;
  * A derived actor of AUxtPressableButtonActor with a UUxtToggleStateComponent component to track state and visuals for a
  * button can which can be toggled on or off (checked or unchecked).
  */
-UCLASS(ClassGroup = UXTools, Config = UXTools)
+UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtPressableToggleButtonActor : public AUxtPressableButtonActor
 {
 	GENERATED_BODY()
