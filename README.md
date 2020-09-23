@@ -4,20 +4,19 @@
 
 UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the current features are complete and robust enough to use in your own projects.  
 
-> [!NOTE]
-> Only HoloLens 2 development is supported at the moment. 
+| NOTE: Only HoloLens 2 development is supported at the moment.  |
+| --- | 
 
 ![Features](Docs/Images/Features.png)
 
 # Getting started with UX Tools
 
-If you're new to MRTK or Mixed Reality development in Unreal, **we recommend starting at the beginning of our** [Unreal development journey](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview) in the Microsoft Docs. The Unreal development journey is specifically tailored to walk new developers through the installation, core concepts, and usage of the UX Tools. 
+If you're new to MRTK or Mixed Reality development in Unreal, **we recommend starting at the beginning of our** [Unreal development journey](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview) in the Microsoft Docs. The Unreal development journey is specifically tailored to walk new developers through the installation, core concepts, and usage of the UX Tools.
 
-> [!CAUTION]
-> The Unreal development journey currently uses **UX Tools 0.9.x** and **Unreal 4.25.3 or later**.
+ | CAUTION: The Unreal development journey currently uses **UX Tools 0.9.x** and **Unreal 4.25.3 or later**.  |
+| --- | 
 
-> [!NOTE]
-> If you're already familiar with Mixed Reality development in Unreal, you can find the installation instructions for the UX Tools plugin [here](Docs/Installation.md).
+If you're already familiar with Mixed Reality development in Unreal, you can find the installation instructions for the UX Tools plugin [here](Docs/Installation.md).
 
 # Documentation
 
