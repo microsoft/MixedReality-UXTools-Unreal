@@ -11,6 +11,7 @@
 
 class USplineMeshComponent;
 class UWidgetComponent;
+class UUxtBackPlateComponent;
 
 /**
  * Tooltip Actor. This object represents a tooltip in the 3D world.
@@ -122,9 +123,9 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, AdvancedDisplay, Category = "Tooltip")
 	UWidgetComponent* TooltipWidgetComponent = nullptr;
 
-	/** The actual widget component that gets created.*/
+	/** The back plate which frames the widget component.*/
 	UPROPERTY(VisibleDefaultsOnly, AdvancedDisplay, Category = "Tooltip")
-	UStaticMeshComponent* BackPlate = nullptr;
+	UUxtBackPlateComponent* BackPlate = nullptr;
 
 	/** Whether the tooltip is always facing the camera. */
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Tooltip")

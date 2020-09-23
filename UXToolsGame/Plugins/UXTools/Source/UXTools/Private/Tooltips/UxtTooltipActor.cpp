@@ -5,6 +5,7 @@
 
 #include "Components/SplineMeshComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Controls/UxtBackPlateComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/Material.h"
@@ -58,18 +59,9 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer) 
 	TooltipWidgetComponent->SetCastShadow(false);
 
 	// Back Plate.
-	BackPlate = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, "BackPlate");
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> BackPlateMesh(
-		TEXT("StaticMesh'/UXTools/Models/SM_BackPlateRoundedThick_4.SM_BackPlateRoundedThick_4'"));
-	check(BackPlateMesh.Object);
-	static ConstructorHelpers::FObjectFinder<UMaterialInstanceConstant> BackPlateMaterial(
-		TEXT("MaterialInstanceConstant'/UXTools/Tooltip/MI_TooltipBackPlate.MI_TooltipBackPlate'"));
-	check(BackPlateMaterial.Object);
-	BackPlate->SetStaticMesh(BackPlateMesh.Object);
-	BackPlate->SetMaterial(0, BackPlateMaterial.Object);
+	BackPlate = ObjectInitializer.CreateDefaultSubobject<UUxtBackPlateComponent>(this, "BackPlate");
 	BackPlate->SetupAttachment(SceneRoot);
 	BackPlate->SetRelativeLocation(FVector(-0.01f, 0, 0), false);
-	BackPlate->SetRelativeRotation(FRotator{90.f, 0.0f, 0.0f}); // The model needs a 90 degrees rotation to be aligned with the widget.
 	BackPlate->SetRelativeScale3D(FVector{0.f, 0.0f, 0.0f});
 	BackPlate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	BackPlate->SetCastShadow(false);
@@ -175,7 +167,7 @@ void AUxtTooltipActor::UpdateBackPlate()
 	FVector rotatedScale = BackPlate->GetRelativeRotation().RotateVector(Orig);
 	rotatedScale.X = FMath::Abs(rotatedScale.X);
 	rotatedScale.Y = FMath::Abs(rotatedScale.Y);
-	rotatedScale.Z = FMath::Abs(rotatedScale.Z);
+	rotatedScale.Z = 1.6f;
 	BackPlate->SetRelativeScale3D(rotatedScale);
 }
 

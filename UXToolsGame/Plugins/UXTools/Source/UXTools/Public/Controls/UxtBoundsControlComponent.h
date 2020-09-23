@@ -74,6 +74,7 @@ public:
 	void ComputeBoundsFromComponents();
 
 public:
+	/** Configuration of the bounds control affordances. */
 	UPROPERTY(EditAnywhere, Category = BoundsControl)
 	UUxtBoundsControlConfig* Config;
 

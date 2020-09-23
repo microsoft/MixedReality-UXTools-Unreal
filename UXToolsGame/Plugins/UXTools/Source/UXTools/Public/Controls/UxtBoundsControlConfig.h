@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 
 #include "Engine/DataAsset.h"
+#include "Interactions/UxtManipulationFlags.h"
 
 #include "UxtBoundsControlConfig.generated.h"
 
@@ -86,8 +87,9 @@ struct UXTOOLS_API FUxtAffordanceConfig
 	/** Constraint matrix defining possible movement directions or rotation axes.
 	 * Drag vectors during interaction are multiplied with this matrix.
 	 * If UniformAction is true the action will apply on all axes equally.
+	 * LockedAxes flags place additional constraints on local axes.
 	 */
-	FMatrix GetConstraintMatrix() const;
+	FMatrix GetConstraintMatrix(int32 LockedAxes) const;
 
 	/**
 	 * Transform from affordance local space to world space, based on the root transform.
@@ -119,4 +121,8 @@ class UXTOOLS_API UUxtBoundsControlConfig : public UDataAsset
 public:
 	UPROPERTY(EditAnywhere, Category = BoundsControl)
 	TArray<FUxtAffordanceConfig> Affordances;
+
+	/** Locked axes when changing bounds. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl, meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	int32 LockedAxes = 0;
 };

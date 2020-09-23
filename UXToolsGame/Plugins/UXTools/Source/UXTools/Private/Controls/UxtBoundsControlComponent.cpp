@@ -290,7 +290,7 @@ void UUxtBoundsControlComponent::ComputeModifiedBounds(
 	// Look up settings for the affordance
 
 	const FVector AffordanceLoc = Affordance.GetBoundsLocation();
-	const FMatrix AffordanceConstraint = Affordance.GetConstraintMatrix();
+	const FMatrix AffordanceConstraint = Affordance.GetConstraintMatrix(Config ? Config->LockedAxes : 0);
 
 	//
 	// Compute grab pointer movement
@@ -315,8 +315,9 @@ void UUxtBoundsControlComponent::ComputeModifiedBounds(
 		FVector ConstrainedDelta = AffordanceConstraint.TransformVector(LocalDelta);
 
 		// Influence factors based on location: only move the side the affordance is on
-		FVector MinFactor = (-AffordanceLoc).ComponentMax(FVector::ZeroVector);
-		FVector MaxFactor = AffordanceLoc.ComponentMax(FVector::ZeroVector);
+		FVector MaxFactor =
+			FVector(AffordanceLoc.X > 0.0f ? 1.0f : 0.0f, AffordanceLoc.Y > 0.0f ? 1.0f : 0.0f, AffordanceLoc.Z > 0.0f ? 1.0f : 0.0f);
+		FVector MinFactor = FVector::OneVector - MaxFactor;
 		OutBounds.Min += ConstrainedDelta * MinFactor;
 		OutBounds.Max += ConstrainedDelta * MaxFactor;
 		break;
@@ -339,8 +340,9 @@ void UUxtBoundsControlComponent::ComputeModifiedBounds(
 		FVector ConstrainedDelta = AffordanceConstraint.TransformVector(LocalDelta);
 
 		// Influence factors based on location: move opposing sides in opposite directions
-		FVector MinFactor = -AffordanceLoc;
-		FVector MaxFactor = AffordanceLoc;
+		FVector MaxFactor =
+			FVector(AffordanceLoc.X > 0.0f ? 1.0f : -1.0f, AffordanceLoc.Y > 0.0f ? 1.0f : -1.0f, AffordanceLoc.Z > 0.0f ? 1.0f : -1.0f);
+		FVector MinFactor = -MaxFactor;
 		OutBounds.Min += ConstrainedDelta * MinFactor;
 		OutBounds.Max += ConstrainedDelta * MaxFactor;
 		break;
