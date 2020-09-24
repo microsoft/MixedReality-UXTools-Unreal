@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Introduction | UXT Documentation </title>
+    <title>What are the UX Tools? | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Introduction | UXT Documentation ">
+    <meta name="title" content="What are the UX Tools? | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href="./Docs/Images/uxt_favicon.ico">
@@ -75,40 +75,116 @@
             <article class="content wrap" id="_content" data-uid="">
 
 <p><img src="Docs/Images/MRTK_Unreal_UXT_Banner_Rounded.png" alt="Mixed Reality Toolkit"></p>
-<h1 id="introduction">Introduction</h1>
+<h1 id="what-are-the-ux-tools">What are the UX Tools?</h1>
 <p>UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for mixed reality applications. The project is still in early development (it provides a small set of features and breaking changes are to be expected) but the current features are complete and robust enough to use in your own projects.</p>
-<div class="NOTE">
-<h5>Note</h5>
-<p>Only HoloLens 2 development is supported at the moment.</p>
-</div>
-<p>Features:</p>
-<ul>
-<li><a href="Docs/InputSimulation.html">Input simulation</a> - Simulates articulated hands and head pose that you can use in-editor. This is great for improving development iteration times.</li>
-<li><a href="Docs/HandInteraction.html">Hand interaction actor</a> - Used to interact with our UX components with articulated hands.</li>
-<li><a href="Docs/PressableButton.html">Pressable button component</a> - Low level component used to drive the state of button blueprints. Example button blueprints are provided.</li>
-<li><a href="Docs/PinchSlider.html">Pinch Slider</a> - Allows the user to continuously change a value by moving the slider thumb along the track.</li>
-<li><a href="Docs/BoundsControl.html">Bounds Control</a> - Allows the user to change the position, rotation, and size of an actor, using <em>affordances</em>.</li>
-<li><a href="Docs/Manipulator.html">Manipulator component</a> - Allows moving, rotating and scaling an actor with either one or two hand manipulation.</li>
-<li><a href="Docs/FollowComponent.html">Follow behaviour component</a> - Keeps an actor or component within sight of another component, usually the camera.</li>
-<li><a href="Docs/HandConstraintComponent.html">Hand constraint component</a> - Keeps the actor position and rotation aligned with a hand while avoiding overlaping with it.</li>
-<li><a href="Docs/PalmUpConstraintComponent.html">Palm up constraint component</a> - A <a href="Docs/HandConstraintComponent.html">Hand constraint</a> specialization that activates only when the palm is facing the player.</li>
-<li><a href="Docs/FarBeam.html">Far beam component</a> - Allows the user to visualise elements in the scene they can interact with from afar.</li>
-<li><a href="Docs/Graphics.html">Graphics documentation</a> - Breakdown of shaders, materials, and graphics techniques used to render UX components.</li>
-<li>The plugin also contains a handful of <a href="Docs/Utilities.html">utilities</a> that augment the Unreal Engine editor.</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>NOTE: Only HoloLens 2 development is supported at the moment.</th>
+</tr>
+</thead>
+</table>
 <p><img src="Docs/Images/Features.png" alt="Features"></p>
-<h1 id="getting-started">Getting started</h1>
-<p>First of all, make sure you have UE 4.25.3 or later. You can download it <a href="https://www.unrealengine.com/get-now">here</a>. Earlier versions are not supported.</p>
-<h2 id="prebuilt-plugin">Prebuilt plugin</h2>
-<p>If you just want to add UXT to your game project, the quickest thing to do is to use the packaged plugin provided in the release page:</p>
-<ol>
-<li>Obtain the packaged plugin zip from the latest release page (e.g. <em>UXTools.0.9.0.zip</em>).</li>
-<li>Unzip the file directly into your project's <em>Plugins</em> folder. The <em>Plugins</em> folder should be located at the root of your project, where the <em>.uproject</em> file is. Create it if it doesn't exist.</li>
-<li>Make sure your game project is a code one, as opposed to blueprint-only, if you are planning to package it for HoloLens. Otherwise UE will fail to package it because it can't build the plugin sources.</li>
-<li>Open your project and enable the <em>UX Tools</em> plugin in the plugins menu.</li>
-</ol>
-<p>You should now have access to all of the plugin features. The first thing you want to do is probably add a hand interaction actor per hand to your map or pawn so you can use your hands to drive the controls and behaviors provided in UXT. You can find a complete setup guide in the <a href="https://docs.microsoft.com/windows/mixed-reality/unreal-uxt-ch1">Getting Started</a> tutorial series.</p>
-<h2 id="example-maps">Example maps</h2>
+<h1 id="getting-started-with-ux-tools">Getting started with UX Tools</h1>
+<p>If you're new to MRTK or Mixed Reality development in Unreal, <strong>we recommend starting at the beginning of our</strong> <a href="https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview">Unreal development journey</a> in the Microsoft Docs. The Unreal development journey is specifically tailored to walk new developers through the installation, core concepts, and usage of the UX Tools.</p>
+<table>
+<thead>
+<tr>
+<th>CAUTION: The Unreal development journey currently uses <strong>UX Tools 0.9.x</strong> and <strong>Unreal 4.25.3 or later</strong>.</th>
+</tr>
+</thead>
+</table>
+<p>If you're already familiar with Mixed Reality development in Unreal, you can find the installation instructions for the UX Tools plugin <a href="Docs/Installation.html">here</a>.</p>
+<h1 id="documentation">Documentation</h1>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><a href="https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/WelcomeToUXTools.html"><img src="Docs/Images/MRTK_Icon_Welcome.png" alt="Getting Started and Documentation"></a><br><a href="https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview">Welcome to UX Tools</a></th>
+<th style="text-align: left;"><a href="https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html"><img src="Docs/Images/MRTK_Icon_FeatureGuides.png" alt="Feature Guides"></a><br><a href="https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html">Feature Guides</a></th>
+<th style="text-align: left;"><a href="https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html"><img src="Docs/Images/MRTK_Icon_APIReference.png" alt="API Reference"></a><br><a href="https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html">API Reference</a></th>
+</tr>
+</thead>
+</table>
+<h1 id="required-software">Required software</h1>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><a href="https://developer.microsoft.com/windows/downloads/windows-10-sdk"><img src="Docs/Images/Windows-Logo.png" alt="Utilities"></a> <a href="https://developer.microsoft.com/windows/downloads/windows-10-sdk">Windows SDK 18362+</a></th>
+<th style="text-align: left;"><a href="https://www.unrealengine.com/get-now"><img src="Docs/Images/Unreal-Logo.png" alt="Unreal"></a> <a href="https://www.unrealengine.com/get-now">Unreal 4.25.3 or later</a></th>
+<th style="text-align: left;"><a href="http://dev.windows.com/downloads"><img src="Docs/Images/VS-Logo.png" alt="Visual Studio 2019"></a> <a href="http://dev.windows.com/downloads">Visual Studio 2019</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">To build apps with MRTK-Unreal and UX Tools, you need the Windows 10 May 2019 Update SDK</td>
+<td style="text-align: left;">The Unreal Engine provides support for building mixed reality projects in Windows 10</td>
+<td style="text-align: left;">Visual Studio is used for code editing</td>
+</tr>
+</tbody>
+</table>
+<h1 id="ux-building-blocks">UX building blocks</h1>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><img src="Docs/Images/InputSim_MoveLeftHand.png"> <a href="Docs/InputSimulation.html">Input Simulation</a></th>
+<th style="text-align: left;"><img src="Docs/Images/PokeInteraction.png"> <a href="Docs/HandInteraction.html">Hand Interaction</a></th>
+<th style="text-align: left;"><img src="Docs/Images/MRTK_Button_Main.png"> <a href="Docs/PressableButton.html">Pressable Button</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Mouse and keyboard input in the editor to simulate a Head-Mounted Display and hand tracking</td>
+<td style="text-align: left;">Hand interaction actor that takes care of creating and driving pointers and visuals for interactions</td>
+<td style="text-align: left;">A button gives the user a way to trigger an immediate action</td>
+</tr>
+<tr>
+<td style="text-align: left;"><img src="Docs/Images/Pinch-Slider.png"> <a href="Docs/PinchSlider.html">Pinch Slider</a></td>
+<td style="text-align: left;"><img src="Docs/Images/MRTK_BoundingBox_Main.png"> <a href="Docs/BoundsControl.html">Bounds Control</a></td>
+<td style="text-align: left;"><img src="Docs/Images/Hand-Interaction.png"> <a href="Docs/Manipulator.html">Manipulators</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">A component allows the user to continuously change a value by moving the slider thumb along the track</td>
+<td style="text-align: left;">A component that allows the user to change the position, rotation, and size of an actor</td>
+<td style="text-align: left;">A component that allows an actor to be picked up by a user and then moved, rotated or scaled</td>
+</tr>
+<tr>
+<td style="text-align: left;"><img src="Docs/Images/FollowComponent.png"> <a href="Docs/FollowComponent.html">Follow Behavior</a></td>
+<td style="text-align: left;"><img src="Docs/Images/HandConstraint/HandContraintsBack.png"> <a href="Docs/HandConstraintComponent.html">Hand Constraints</a></td>
+<td style="text-align: left;"><img src="Docs/Images/HandConstraint/HandContraintsFront.png"> <a href="Docs/PalmUpConstraintComponent.html">Palm Constraints</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">A component used to keep objects &quot;following&quot; the user by applying a set of constraints on the component's owner</td>
+<td style="text-align: left;">A component that calculates a goal based on hand tracking and moves the owning actor</td>
+<td style="text-align: left;">A hand constraint component specialization that activates only when the palm is facing the player</td>
+</tr>
+<tr>
+<td style="text-align: left;"><img src="Docs/Images/FarBeam.png"> <a href="Docs/FarBeam.html">Far Beam</a></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">A component allowing the user to visualize elements in the scene they can interact with from afar</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="tools">Tools</h1>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"><a href="Docs/Utilities.html"><img src="Docs/Images/Utilities.png" alt="Utilities"></a> <a href="Docs/Utilities.html">Utilities</a></th>
+<th style="text-align: left;"><a href="Docs/Graphics.html"><img src="Docs/Images/Graphics.png" alt="Graphics"></a> <a href="Docs/Graphics.html">Graphics</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Plugin containing a handful of tools that augment the Unreal Engine editor</td>
+<td style="text-align: left;">Breakdown of shaders, materials, and graphics techniques used to render UX components</td>
+</tr>
+</tbody>
+</table>
+<h1 id="example-maps">Example maps</h1>
 <p>If you want to explore the different UXT features or want a reference for how to use them we recommend having a look at the example maps contained in the <em>UX Tools Game</em> (/UXToolsGame) in this repository. For that you should:</p>
 <ol>
 <li><a href="https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop">Clone</a> this repository.</li>
@@ -119,14 +195,12 @@
 </li>
 </ol>
 <p>You can now open the <em>UX Tools Game</em> (/UXToolsGame) and explore individual example maps or open the <em>Loader</em> level to access some of the examples from a centralized hub.</p>
-<h2 id="packaged-ux-tools-game">Packaged UX Tools game</h2>
+<h1 id="packaged-ux-tools-game">Packaged UX Tools game</h1>
 <p>We also provide the UX Tools game pre-packaged for HoloLens 2 so you can try out the main UXT features directly on device easily. To use it:</p>
 <ol>
 <li>Obtain the packaged game from the latest release page (e.g. <em>UXTGame-HoloLens.0.9.0.zip</em>) and unzip it to a local directory.</li>
 <li>Install it in the device via the <a href="https://docs.microsoft.com/en-us/windows/uwp/debug-test-perf/device-portal-hololens">Device Portal</a>.</li>
 </ol>
-<h1 id="documentation">Documentation</h1>
-<p>The latest version of the documentation can be found <a href="https://microsoft.github.io/MixedReality-UXTools-Unreal">here</a>.</p>
 <h1 id="feedback-and-contributions">Feedback and contributions</h1>
 <p>Due to the early stage of the project and the likelihood of internal refactors, we are not in a position to accept external contributions through pull requests at this time. However, contributions and feedback in the shape of bug reports, suggestions and feature requests are always welcome!</p>
 </article>
