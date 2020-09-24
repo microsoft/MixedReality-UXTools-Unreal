@@ -10,6 +10,9 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 # Input Simulation
 
+> [!CAUTION]
+> If you're new to MRTK or Mixed Reality development in Unreal, we recommend starting at the beginning of our [Unreal development journey](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview), which was specifically created to walk you through installation, core concepts, and usage.
+
 Input simulation is using mouse and keyboard input in the editor to simulate a Head-Mounted Display (HMD) as well as
 hand tracking and other features. This allows testing Mixed-Reality features, such as buttons and interactions, without
 a physical device.
