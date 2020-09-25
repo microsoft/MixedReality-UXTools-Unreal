@@ -276,6 +276,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			if (bHandIsGrabbing)
 			{
 				GrabFocus->BeginGrab(this);
+				PokeFocus->ClearFocus(this);
 			}
 			else
 			{
