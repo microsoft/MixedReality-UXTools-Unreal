@@ -18,6 +18,8 @@
     href: FarBeam.md
   - name: Bounds Control
     href: BoundsControl.md
+  - name: Surface Magnetism
+    href: SurfaceMagnetism.md
   - name: Graphics
     href: Graphics.md
   - name: Text
