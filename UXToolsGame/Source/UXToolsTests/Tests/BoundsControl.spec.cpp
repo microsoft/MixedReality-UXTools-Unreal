@@ -93,12 +93,14 @@ void BoundsControlSpec::Define()
 			for (const auto& Entry : Target->GetActorAffordanceMap())
 			{
 				const AActor* AffordanceActor = Entry.Key;
-				const FUxtAffordanceConfig* AffordanceInfo = Entry.Value;
+				const FUxtAffordanceInstance& AffordanceInstance = Entry.Value;
 
-				const FTransform ExpectedTransform = AffordanceInfo->GetWorldTransform(Bounds, ActorTransform);
-				const FTransform Result = AffordanceActor->GetTransform();
+				FVector ExpectedLocation;
+				FQuat ExpectedRotation;
+				AffordanceInstance.Config.GetWorldLocationAndRotation(Bounds, ActorTransform, ExpectedLocation, ExpectedRotation);
 
-				TestTrue("Affordance has updated", Result.Equals(ExpectedTransform));
+				TestTrue("Affordance location has updated", AffordanceActor->GetActorLocation().Equals(ExpectedLocation));
+				TestTrue("Affordance rotation has updated", AffordanceActor->GetActorQuat().Equals(ExpectedRotation));
 			}
 		});
 
