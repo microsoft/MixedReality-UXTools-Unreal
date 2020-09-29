@@ -52,6 +52,12 @@ as well as a spatial mesh
 
 ![SurfaceMagnetismSpatialMesh](Images/ReleaseNotes/surface_magnetism_spatial_mesh.gif)
 
+### Follow component
+
+The [follow component](FollowComponent.md) now has the ability to maintain a fixed vertical distance from the camera. This can be used to prevent the actor from obstructing the user's vision.
+
+![FollowFixedVerticalDistance](Images/Follow/FixedVerticalDistance.gif)
+
 ## Breaking changes
 
 ### Make poke target return normal for cursor transform
