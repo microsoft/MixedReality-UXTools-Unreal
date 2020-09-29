@@ -5,6 +5,7 @@
 
 #include "DrawDebugHelpers.h"
 
+#include "Components/MeshComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
