@@ -13,14 +13,14 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 
 If you're new to MRTK or Mixed Reality development in Unreal, **we recommend starting at the beginning of our** [Unreal development journey](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview) in the Microsoft Docs. The Unreal development journey is specifically tailored to walk new developers through the installation, core concepts, and usage of the UX Tools.
 
- | CAUTION: The Unreal development journey currently uses **UX Tools 0.9.x** and **Unreal 4.25.3 or later**.  |
+ | CAUTION: The Unreal development journey currently uses **UX Tools 0.10.x** and **Unreal 4.25.3 or later**.  |
 | --- | 
 
 If you're already familiar with Mixed Reality development in Unreal, you can find the installation instructions for the UX Tools plugin [here](Docs/Installation.md).
 
 # Documentation
 
-| [![Getting Started and Documentation](Docs/Images/MRTK_Icon_Welcome.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/WelcomeToUXTools.html)<br/>[Welcome to UX Tools](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.9.x/api/_a_uxt_hand_interaction_actor.html)|
+| [![Getting Started and Documentation](Docs/Images/MRTK_Icon_Welcome.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.10.x/Docs/WelcomeToUXTools.html)<br/>[Welcome to UX Tools](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.10.x/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.10.x/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.10.x/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.10.x/api/_a_uxt_hand_interaction_actor.html)|
 |:---|:---|:---
 
 # Required software
@@ -31,14 +31,14 @@ If you're already familiar with Mixed Reality development in Unreal, you can fin
 
 # UX building blocks
 
-| <img src="Docs/Images/InputSim_MoveLeftHand.png"/> [Input Simulation](Docs/InputSimulation.md) | <img src="Docs/Images/PokeInteraction.png" /> [Hand Interaction](Docs/HandInteraction.md) | <img src="Docs/Images/MRTK_Button_Main.png" /> [Pressable Button](Docs/PressableButton.md) |
+| [![Input Simulation](Docs/Images/InputSimulation_Main.png)](Docs/InputSimulation.md) [Input Simulation](Docs/InputSimulation.md)| [![Hand Interaction](Docs/Images/PokeInteraction.png)](Docs/HandInteraction.md) [Hand Interaction](Docs/HandInteraction.md)| [![Pressable Button](Docs/Images/MRTK_Button_Main.png)](Docs/PressableButton.md) [Pressable Button](Docs/PressableButton.md)|
 |:--- | :--- | :--- |
 | Mouse and keyboard input in the editor to simulate a Head-Mounted Display and hand tracking | Hand interaction actor that takes care of creating and driving pointers and visuals for interactions | A button gives the user a way to trigger an immediate action |
-| <img src="Docs/Images/Pinch-Slider.png" /> [Pinch Slider](Docs/PinchSlider.md) | <img src="Docs/Images/MRTK_BoundingBox_Main.png" /> [Bounds Control](Docs/BoundsControl.md) | <img src="Docs/Images/Hand-Interaction.png" /> [Manipulators](Docs/Manipulator.md) |
+| [![Pinch Slider](Docs/Images/Pinch-Slider.png)](Docs/PinchSlider.md) [Pinch Slider](Docs/PinchSlider.md)| [![Bounds Control](Docs/Images/MRTK_BoundingBox_Main.png)](Docs/BoundsControl.md) [Bounds Control](Docs/BoundsControl.md)| [![Manipulators](Docs/Images/Hand-Interaction.png)](Docs/Manipulator.md) [Manipulators](Docs/Manipulator.md)|
 | A component allows the user to continuously change a value by moving the slider thumb along the track | A component that allows the user to change the position, rotation, and size of an actor | A component that allows an actor to be picked up by a user and then moved, rotated or scaled |
-| <img src="Docs/Images/FollowComponent.png" /> [Follow Behavior](Docs/FollowComponent.md) | <img src="Docs/Images/HandConstraint/HandContraintsBack.png" /> [Hand Constraints](Docs/HandConstraintComponent.md) | <img src="Docs/Images/HandConstraint/HandContraintsFront.png" /> [Palm Constraints](Docs/PalmUpConstraintComponent.md) |
+| [![Follow Behavior](Docs/Images/FollowComponent.png)](Docs/FollowComponent.md) [Follow Behavior](Docs/FollowComponent.md)| [![Hand Constraints](Docs/Images/HandConstraint/HandContraintsBack.png)](Docs/HandConstraintComponent.md) [Hand Constraints](Docs/HandConstraintComponent.md)| [![Palm Constraints](Docs/Images/HandConstraint/HandContraintsFront.png)](Docs/PalmUpConstraintComponent.md) [Palm Constraints](Docs/PalmUpConstraintComponent.md)|
 | A component used to keep objects "following" the user by applying a set of constraints on the component's owner | A component that calculates a goal based on hand tracking and moves the owning actor | A hand constraint component specialization that activates only when the palm is facing the player |
-| <img src="Docs/Images/FarBeam.png" /> [Far Beam](Docs/FarBeam.md) | 
+| [![Far Beam](Docs/Images/FarBeam.png)](Docs/FarBeam.md) [Far Beam](Docs/FarBeam.md) | 
 | A component allowing the user to visualize elements in the scene they can interact with from afar |
 
 # Tools
@@ -52,8 +52,8 @@ If you're already familiar with Mixed Reality development in Unreal, you can fin
 If you want to explore the different UXT features or want a reference for how to use them we recommend having a look at the example maps contained in the _UX Tools Game_ (/UXToolsGame) in this repository. For that you should:
 
 1. [Clone](https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop) this repository.
-1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) public/0.9.x.
-    * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. release/0.9.0) marked as such in GitHub.
+1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) public/0.10.x.
+    * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. release/0.10.0) marked as such in GitHub.
 
 You can now open the _UX Tools Game_ (/UXToolsGame) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub.
 
@@ -61,7 +61,7 @@ You can now open the _UX Tools Game_ (/UXToolsGame) and explore individual examp
 
 We also provide the UX Tools game pre-packaged for HoloLens 2 so you can try out the main UXT features directly on device easily. To use it:
 
-1. Obtain the packaged game from the latest release page (e.g. _UXTGame-HoloLens.0.9.0.zip_) and unzip it to a local directory.
+1. Obtain the packaged game from the latest release page (e.g. _UXTGame-HoloLens.0.10.0.zip_) and unzip it to a local directory.
 1. Install it in the device via the [Device Portal](https://docs.microsoft.com/en-us/windows/uwp/debug-test-perf/device-portal-hololens).
 
 # Sample apps made with UX Tools
