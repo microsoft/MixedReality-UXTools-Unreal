@@ -178,8 +178,8 @@ void AUxtPressableButtonActor::ConstructVisuals()
 
 	const FVector Size = GetSize();
 
-	// Swizzle the back plate size to match the content basis and leave the depth unmodified.
-	BackPlateMeshComponent->SetRelativeScale3D(FVector(Size.Z, Size.Y, BackPlateMeshComponent->GetRelativeScale3D().Z));
+	// Leave the depth unmodified.
+	BackPlateMeshComponent->SetRelativeScale3D(FVector(BackPlateMeshComponent->GetRelativeScale3D().X, Size.Y, Size.Z));
 	BackPlateMeshComponent->SetVisibility(bIsPlated);
 
 	FrontPlateCenterComponent->SetRelativeLocation(FVector(Size.X * 0.5f, 0, 0));

@@ -7,9 +7,10 @@
 
 #include "Modules/ModuleManager.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(UXTools, All, All)
-
-class FUXToolsModule : public IModuleInterface
+/**
+ * Module for shader specific functionality.
+ */
+class FUXToolsShadersModule : public IModuleInterface
 {
 public:
 	/** IModuleInterface implementation */

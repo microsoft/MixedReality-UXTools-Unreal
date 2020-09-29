@@ -121,6 +121,12 @@ The preset assets contain a list of affordance configs, each of which consist of
 
 `BP_TextActor` has been replaced by `AUxtTextRenderActor`. It has the same feature set as `BP_TextActor` and can be extended from either Blueprints or C++.
 
+### UxtBackPlateComponent - Can now be scaled via parent transforms
+
+`UxtBackPlateComponents` now scale correctly when parent components are scaled. Any existing `UxtBackPlateComponents` may need to have their 'x' and 'z' scales swapped. 
+
+Unreal doesn't account for parent child rotations when applying parent child scales, so it was possible to run into situations where scaling the parent would not scale the child back plate appropriately. Before this change back plates where scaled as "_height_ x _width_ x _depth_" and are now scaled via the Unreal's traditional "_depth_ x _width_ x _height_" convention. For more information please see the [graphics documentation](Graphics.md#rounded-edge-thick).
+
 ## Known issues
 
 ### Surface Magnetism's actor jumps to zero

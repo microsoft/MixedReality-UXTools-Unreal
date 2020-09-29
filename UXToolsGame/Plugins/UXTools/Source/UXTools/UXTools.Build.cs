@@ -14,7 +14,7 @@ public class UXTools : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "LiveLinkInterface", "RenderCore", "ProceduralMeshComponent" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "Projects", "RenderCore", "Slate", "SlateCore", "UMG", "RHI" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "UMG", "RHI" });
 
 		if (Target.bBuildEditor)
 		{

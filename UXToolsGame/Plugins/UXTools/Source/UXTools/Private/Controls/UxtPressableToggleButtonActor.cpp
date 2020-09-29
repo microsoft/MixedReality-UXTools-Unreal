@@ -51,9 +51,9 @@ void AUxtPressableToggleButtonActor::ConstructVisuals()
 			TogglePlateComponent->SetBackPlateMaterial(ButtonBrush.Visuals.TogglePlateMaterial);
 		}
 
-		// Swizzle the toggle plate size to match the content basis and leave the depth unmodified.
+		// Srt the toggle plate to be 90% of the back plate, leave the depth unmodified.
 		const FVector Size = GetSize();
-		TogglePlateComponent->SetRelativeScale3D(FVector(Size.Z * 0.9f, Size.Y * 0.9f, BackPlateMeshComponent->GetRelativeScale3D().Z));
+		TogglePlateComponent->SetRelativeScale3D(FVector(BackPlateMeshComponent->GetRelativeScale3D().X, Size.Y * 0.9f, Size.Z * 0.9f));
 		TogglePlateComponent->SetRelativeLocation(FVector(0.16f, 0, 0));
 	}
 

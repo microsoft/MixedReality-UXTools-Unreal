@@ -154,21 +154,10 @@ void AUxtTooltipActor::UpdateBackPlate()
 		return;
 	}
 
-	// The original backplate mesh didn't have correct orientation to match the widget.
-	// a 90 degree rotation has been given to the back plate but now when scaling,
-	// it applies the scaling on the pre-rotated model which makes it not the same as the widget.
-	// Here we essentially figure out the scale pre-rotation and then rotate by the relative rotation
-	// given to make the backplate have the same orientation as the widget. Fixing the mesh might
-	// be a more correct solution but at this point, the source asset is missing and trying
-	// to import my own backplate makes the shader explode.
 	const FVector ActorScale = GetActorScale3D();
 	const FVector2D WidgetSize = TooltipWidgetComponent->GetCurrentDrawSize() + Margin;
-	const FVector Orig = FVector(1.0f, WidgetSize.X, WidgetSize.Y) * ActorScale;
-	FVector rotatedScale = BackPlate->GetRelativeRotation().RotateVector(Orig);
-	rotatedScale.X = FMath::Abs(rotatedScale.X);
-	rotatedScale.Y = FMath::Abs(rotatedScale.Y);
-	rotatedScale.Z = 1.6f;
-	BackPlate->SetRelativeScale3D(rotatedScale);
+	const FVector BackPlateScale = FVector(UUxtBackPlateComponent::GetDefaultBackPlateDepth(), WidgetSize.X, WidgetSize.Y) * ActorScale;
+	BackPlate->SetRelativeScale3D(BackPlateScale);
 }
 
 // Function called often to update the state of the tooltip.
