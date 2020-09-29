@@ -2,18 +2,10 @@
 # pr: none
 
 trigger:
-- public/0.9.x
+- public/*
 
 variables:
-- template: settings/common.yml
 - template: settings/docs.yml
-
-resources:
-  repositories:
-  - repository: github
-    type: github
-    endpoint: github
-    name: microsoft/MixedReality-UXTools-Unreal
 
 jobs:
 - job:
@@ -23,23 +15,14 @@ jobs:
     clean: all
   variables:
     DestRepoUrl: https://github.com/microsoft/MixedReality-UXTools-Unreal.git
-    SrcRepoDir: $(Build.SourcesDirectory)\MixedReality-UXTools-Unreal
-    DstRepoDir: $(Build.SourcesDirectory)\dstrepo
+    SrcRepoDir: $(Build.SourcesDirectory)
+    DstRepoDir: $(Build.ArtifactStagingDirectory)\dstrepo
     SrcBranch: $(Build.SourceBranch)
+    UXTSourceDir: $(Build.SourcesDirectory)
   steps:
   - checkout: self
     clean: true
     submodules: true
-
-  - checkout: github
-    clean: true
-
-  - powershell: |
-      $SrcBranchShort = "$(SrcBranch)" -replace "^refs/heads/",""
-      Write-Host "Changing GitHub branch to $SrcBranchShort"
-      Push-Location "$(SrcRepoDir)"
-      git checkout $SrcBranchShort 
-    displayName: "Change source branch"
 
   - template: templates\docs.yml
     parameters:
@@ -50,7 +33,6 @@ jobs:
       email: $(GitHub.email)
       username: $(GitHub.username)
       DestRepoUrl: $(DestRepoUrl)
-      WebScriptsBranch: public/0.9.x  # branch with the latest index.html and web folder (TODO: switch back to master when merged)
-      PublishOnlyWebScripts: true
+      WebScriptsBranch: $(WebScriptsBranch)  # branch with the latest index.html and web folder (set in ADO)
       commit: and(succeeded(),
                   not(eq(variables['Build.Reason'], 'PullRequest')))
