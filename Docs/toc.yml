@@ -27,6 +27,8 @@
     href: FarBeam.md
   - name: Bounds Control
     href: BoundsControl.md
+  - name: Tap To Place
+    href: TapToPlaceComponent.md
   - name: Surface Magnetism
     href: SurfaceMagnetism.md
   - name: Graphics

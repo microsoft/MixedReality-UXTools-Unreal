@@ -34,6 +34,12 @@ The new [`UxtUIElementComponent`](UIElements.md) allows an actor's visibility to
 
 ![HandMenuExample](Images/HandMenu/HandMenu.gif)
 
+### Tap to Place
+
+[Tap to place](TapToPlaceComponent.md) is a new far interaction component that can be used to easily place primitive components against surfaces. It works with collidable surfaces in the scene, as well as with the spatial mesh.
+
+![TapToPlace](Images/TapToPlace.gif)
+
 ### Surface Magnetism (experimental)
 
 This new component (far interaction only) allows an actor to stick to a surface.
