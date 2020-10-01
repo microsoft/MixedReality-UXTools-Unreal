@@ -176,6 +176,9 @@ protected:
 	/** Update animated properties such as affordance highlights. */
 	void UpdateAnimation(float DeltaTime);
 
+	/** Returns true if the affordance instance is currently bing grabbed. */
+	bool IsAffordanceGrabbed(const FUxtAffordanceInstance* Affordance) const;
+
 	/**
 	 * Compute the relative translation and scale between two boxes.
 	 * Returns false if relative scale can not be computed.

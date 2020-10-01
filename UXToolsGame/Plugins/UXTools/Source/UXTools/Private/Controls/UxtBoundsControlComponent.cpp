@@ -158,9 +158,18 @@ void UUxtBoundsControlComponent::UpdateAnimation(float DeltaTime)
 				MinDistance = FVector::Distance(FVector(RightPosition), AffordanceActor->GetActorLocation());
 			}
 
-			// Hide affordances outside the visibility distance
-			bIsVisible = MinDistance < AffordanceVisibilityDistance;
-			Opacity = FMath::IsNearlyZero(AffordanceVisibilityDistance) ? 0.0f : 1.0f - MinDistance / AffordanceVisibilityDistance;
+			// If any affordances are being grabbed make sure the grabbed affordace is visible and other affordances are not visible.
+			if (ActiveAffordanceGrabPointers.Num() != 0)
+			{
+				bIsVisible = IsAffordanceGrabbed(&AffordanceInstance);
+				Opacity = bIsVisible ? 1.0f : 0.0f;
+			}
+			else
+			{
+				// Hide affordances outside the visibility distance
+				bIsVisible = MinDistance < AffordanceVisibilityDistance;
+				Opacity = FMath::IsNearlyZero(AffordanceVisibilityDistance) ? 0.0f : 1.0f - MinDistance / AffordanceVisibilityDistance;
+			}
 		}
 
 		AffordanceActor->SetActorHiddenInGame(!bIsVisible);
@@ -181,6 +190,19 @@ void UUxtBoundsControlComponent::UpdateAnimation(float DeltaTime)
 
 		AffordanceActor->SetActorScale3D(FVector::OneVector * (1.0f + 0.2f * AffordanceInstance.FocusedTransition));
 	}
+}
+
+bool UUxtBoundsControlComponent::IsAffordanceGrabbed(const FUxtAffordanceInstance* Affordance) const
+{
+	for (auto& Pair : ActiveAffordanceGrabPointers)
+	{
+		if (Pair.Key == Affordance)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void UUxtBoundsControlComponent::BeginPlay()
