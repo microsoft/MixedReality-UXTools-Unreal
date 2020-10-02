@@ -37,8 +37,9 @@ END_DEFINE_SPEC(HandConstraintComponentSpec)
 
 bool HandConstraintComponentSpec::TestQuatEqual(const FString& What, const FQuat& Actual, const FQuat& Expected, float Tolerance)
 {
-	// Compare vector parts, quaternions are normalized
-	return TestEqual(What, FVector(Actual.X, Actual.Y, Actual.Z), FVector(Expected.X, Expected.Y, Expected.Z), Tolerance);
+	return TestEqual(What, Actual.GetAxisX(), Expected.GetAxisX(), Tolerance) &&
+		   TestEqual(What, Actual.GetAxisY(), Expected.GetAxisY(), Tolerance) &&
+		   TestEqual(What, Actual.GetAxisZ(), Expected.GetAxisZ(), Tolerance);
 }
 
 void HandConstraintComponentSpec::TestGoal(const FVector& ExpectedLocation, const FQuat& ExpectedRotation)

@@ -117,6 +117,12 @@ The preset assets contain a list of affordance configs, each of which consist of
 * The action performed by the affordance (resize, scale, translate, rotate).
 * Flag to toggle uniform actions, i.e. allow non-uniform scaling of the bounds.
 
+### UxtBoundsControlComponent - Affordance blueprints replaced with simple meshes
+
+Bounds control component now uses simple mesh assets for affordances instead of full blueprint classes. The existing static meshes from affordance BPs can continue to be used.
+
+If the affordances classes (e.g. `CornerAffordanceClass`) on a BoundsControlComponent have been customized then the new equivalent mesh property (e.g. `CornerAffordanceMesh`) needs to be set.
+
 ### BP_TextActor - Moved to a native implementation and renamed to UxtTextRenderActor
 
 `BP_TextActor` has been replaced by `AUxtTextRenderActor`. It has the same feature set as `BP_TextActor` and can be extended from either Blueprints or C++.
