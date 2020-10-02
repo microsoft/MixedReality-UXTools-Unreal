@@ -1,7 +1,14 @@
+- name: Welcome to UX Tools
+  href: WelcomeToUXTools.md
+  items:
+    - name: Installation Guide
+      href: Installation.md 
 - name: Feature Overview
   items:
   - name: Input Simulation
     href: InputSimulation.md
+  - name: Hand Constraints
+    href: HandConstraintComponent.md
   - name: Hand Interaction
     href: HandInteraction.md
   - name: Pressable Button
@@ -12,6 +19,8 @@
     href: Manipulator.md
   - name: Follow Component
     href: FollowComponent.md
+  - name: Palm Constraints
+    href: PalmUpConstraintComponent.md
   - name: Pinch Slider
     href: PinchSlider.md
   - name: Far Beam
