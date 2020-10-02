@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 #include "UXTools.h"
-#include "Interfaces/IPluginManager.h"
+
 #include "ShaderCore.h"
+
+#include "Interfaces/IPluginManager.h"
 
 DEFINE_LOG_CATEGORY(UXTools)
 
@@ -23,5 +25,5 @@ void FUXToolsModule::ShutdownModule()
 }
 
 #undef LOCTEXT_NAMESPACE
-	
+
 IMPLEMENT_MODULE(FUXToolsModule, UXTools)

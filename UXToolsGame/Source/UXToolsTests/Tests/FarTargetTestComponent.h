@@ -4,60 +4,47 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactions/UxtFarTarget.h"
-#include "Input/UxtFarPointerComponent.h"
-#include "Components/ActorComponent.h"
-#include "FarTargetTestComponent.generated.h"
 
+#include "Components/ActorComponent.h"
+#include "Input/UxtFarPointerComponent.h"
+#include "Interactions/UxtFarHandler.h"
+#include "Interactions/UxtFarTarget.h"
+
+#include "FarTargetTestComponent.generated.h"
 
 /** Component used to count the far interaction events raised on an actor. */
 UCLASS()
-class UXTOOLSTESTS_API UFarTargetTestComponent : public UActorComponent, public IUxtFarTarget
+class UXTOOLSTESTS_API UFarTargetTestComponent
+	: public UActorComponent
+	, public IUxtFarTarget
+	, public IUxtFarHandler
 {
 	GENERATED_BODY()
 
 public:
-
 	//
 	// IUxtFarTarget interface
 
-	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) override
-	{
-		return true;
-	}
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override { return true; }
 
-	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override
-	{
-		NumEnter++;
-	}
+	//
+	// IUxtFarHandler interface
 
-	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override
-	{
-		NumUpdated++;
-	}
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override { return true; }
 
-	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override
-	{
-		NumExit++;
-	}
+	virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override { NumEnter++; }
 
-	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override
-	{
-		NumPressed++;
-	}
+	virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override { NumUpdated++; }
 
-	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override
-	{
-		NumDragged++;
-	}
+	virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer) override { NumExit++; }
 
-	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override
-	{
-		NumReleased++;
-	}
+	virtual void OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer) override { NumPressed++; }
+
+	virtual void OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer) override { NumDragged++; }
+
+	virtual void OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer) override { NumReleased++; }
 
 public:
-
 	int NumEnter = 0;
 	int NumUpdated = 0;
 	int NumExit = 0;
@@ -65,4 +52,3 @@ public:
 	int NumDragged = 0;
 	int NumReleased = 0;
 };
-

@@ -4,11 +4,12 @@
 #include "UxtTestHand.h"
 
 #include "Engine.h"
-#include "Input/UxtFarPointerComponent.h"
-#include "Input/UxtPointerComponent.h"
-#include "Input/UxtNearPointerComponent.h"
 #include "UxtTestHandTracker.h"
 #include "UxtTestUtils.h"
+
+#include "Input/UxtFarPointerComponent.h"
+#include "Input/UxtNearPointerComponent.h"
+#include "Input/UxtPointerComponent.h"
 
 FUxtTestHand::FUxtTestHand(EControllerHand TargetHand)
 {
@@ -23,19 +24,19 @@ void FUxtTestHand::Configure(EUxtInteractionMode TargetInteractionMode, const FV
 
 	switch (InteractionMode)
 	{
-		case EUxtInteractionMode::Near:
-			Transform.SetLocation(TargetLocation + FVector(-5, 0, 0));
-			Pointer = UxtTestUtils::CreateNearPointer(UxtTestUtils::GetTestWorld(), "Near Pointer", Transform.GetLocation(), Hand);
-			break;
+	case EUxtInteractionMode::Near:
+		Transform.SetLocation(TargetLocation + FVector(-5, 0, 0));
+		Pointer = UxtTestUtils::CreateNearPointer(UxtTestUtils::GetTestWorld(), "Near Pointer", Transform.GetLocation(), Hand);
+		break;
 
-		case EUxtInteractionMode::Far:
-			Transform.SetLocation(TargetLocation + FVector(-200, 0, 0));
-			Pointer = UxtTestUtils::CreateFarPointer(UxtTestUtils::GetTestWorld(), "Far Pointer", Transform.GetLocation(), Hand);
-			break;
+	case EUxtInteractionMode::Far:
+		Transform.SetLocation(TargetLocation + FVector(-200, 0, 0));
+		Pointer = UxtTestUtils::CreateFarPointer(UxtTestUtils::GetTestWorld(), "Far Pointer", Transform.GetLocation(), Hand);
+		break;
 
-		default:
-			checkNoEntry();
-			break;
+	default:
+		checkNoEntry();
+		break;
 	}
 }
 
@@ -49,6 +50,11 @@ void FUxtTestHand::Reset()
 		Pointer->GetOwner()->Destroy();
 		Pointer = nullptr;
 	}
+}
+
+UUxtPointerComponent* FUxtTestHand::GetPointer() const
+{
+	return Pointer;
 }
 
 void FUxtTestHand::Translate(const FVector& Translation)
@@ -89,16 +95,21 @@ void FUxtTestHand::SetGrabbing(bool bIsGrabbing)
 
 	switch (InteractionMode)
 	{
-		case EUxtInteractionMode::Near:
-			UxtTestUtils::GetTestHandTracker().SetGrabbing(bIsGrabbing, Hand);
-			break;
+	case EUxtInteractionMode::Near:
+		UxtTestUtils::GetTestHandTracker().SetGrabbing(bIsGrabbing, Hand);
+		break;
 
-		case EUxtInteractionMode::Far:
-			UxtTestUtils::GetTestHandTracker().SetSelectPressed(bIsGrabbing, Hand);
-			break;
+	case EUxtInteractionMode::Far:
+		UxtTestUtils::GetTestHandTracker().SetSelectPressed(bIsGrabbing, Hand);
+		break;
 
-		default:
-			checkNoEntry();
-			break;
+	default:
+		checkNoEntry();
+		break;
 	}
+}
+
+FTransform FUxtTestHand::GetTransform() const
+{
+	return Transform;
 }

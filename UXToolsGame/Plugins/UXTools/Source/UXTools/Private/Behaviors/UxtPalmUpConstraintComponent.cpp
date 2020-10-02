@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 #include "Behaviors/UxtPalmUpConstraintComponent.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
-#include "Utils/UxtFunctionLibrary.h"
-#include "Engine/World.h"
 
 #include "DrawDebugHelpers.h"
+
+#include "Engine/World.h"
+#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "Utils/UxtFunctionLibrary.h"
 
 bool UUxtPalmUpConstraintComponent::IsHandUsableForConstraint(EControllerHand NewHand) const
 {
@@ -42,8 +43,9 @@ bool UUxtPalmUpConstraintComponent::IsHandUsableForConstraint(EControllerHand Ne
 		FQuat IndexRotation, RingRotation;
 		FVector IndexLocation, RingLocation;
 		float IndexRadius, RingRadius;
-		if (   !UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::IndexTip, IndexRotation, IndexLocation, IndexRadius)
-			|| !UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::RingTip, RingRotation, RingLocation, RingRadius))
+		if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(
+				NewHand, EUxtHandJoint::IndexTip, IndexRotation, IndexLocation, IndexRadius) ||
+			!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::RingTip, RingRotation, RingLocation, RingRadius))
 		{
 			return false;
 		}

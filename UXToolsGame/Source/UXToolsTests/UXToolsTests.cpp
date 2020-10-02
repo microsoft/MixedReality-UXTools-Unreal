@@ -19,5 +19,5 @@ void FUXToolsTestsModule::ShutdownModule()
 }
 
 #undef LOCTEXT_NAMESPACE
-	
+
 IMPLEMENT_MODULE(FUXToolsTestsModule, UXToolsTests)

@@ -4,8 +4,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
 #include "InputCoreTypes.h"
+
+#include "Components/ActorComponent.h"
+
 #include "UxtHandConstraintComponent.generated.h"
 
 class UUxtHandConstraintComponent;
@@ -53,20 +55,19 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtHandConstraintEndTrackingDelegat
 
 /**
  * Component that calculates a goal based on hand tracking and moves the owning actor.
- * 
+ *
  * Several zones around the hand supported: radial and ulnar for the thumb side and its opposite,
  * as well as above and below the hand. The goal position is computed by casting a ray
  * in the direction of the zone at a bounding box around the hand joints.
  *
  * The constraint can be oriented on either the hand rotation alone or facing the player.
  */
-UCLASS(ClassGroup = UXTools, meta=(BlueprintSpawnableComponent))
+UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtHandConstraintComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-
 	UUxtHandConstraintComponent();
 
 	UFUNCTION(BlueprintGetter)
@@ -92,7 +93,6 @@ public:
 	virtual bool IsHandUsableForConstraint(EControllerHand NewHand) const;
 
 public:
-
 	/**
 	 * Hand to use for the constraint.
 	 * If set to 'Any Hand' the first tracked hand will be used, until tracking is lost.
@@ -101,7 +101,7 @@ public:
 	EControllerHand Hand = EControllerHand::AnyHand;
 
 	/** Safe zone that determines the target location of the constraint relative to the hand. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Hand Constraint")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint")
 	EUxtHandConstraintZone Zone = EUxtHandConstraintZone::UlnarSide;
 
 	/** Determines how the offset vector is computed. */
@@ -154,12 +154,10 @@ public:
 	FUxtHandConstraintEndTrackingDelegate OnEndTracking;
 
 protected:
-
 	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-
 	/** Direction of the safe zone from the hand origin. */
 	FVector GetZoneDirection(const FVector& HandLocation, const FQuat& HandRotation) const;
 
@@ -188,7 +186,6 @@ private:
 	void AddMovement(float DeltaTime);
 
 private:
-
 	/** Actual hand that is currently tracked for the constraint. */
 	UPROPERTY(BlueprintGetter = GetTrackedHand, Transient, Category = "Hand Constraint")
 	EControllerHand TrackedHand;
@@ -212,5 +209,4 @@ private:
 	/** Goal rotation for the constraint. */
 	UPROPERTY(BlueprintGetter = GetGoalRotation, Transient, Category = "Hand Constraint")
 	FQuat GoalRotation;
-
 };

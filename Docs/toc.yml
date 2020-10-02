@@ -13,6 +13,8 @@
     href: HandInteraction.md
   - name: Pressable Button
     href: PressableButton.md
+  - name: UI Elements
+    href: UIElements.md
   - name: Manipulator
     href: Manipulator.md
   - name: Follow Component
@@ -27,8 +29,9 @@
     href: BoundsControl.md
   - name: Graphics
     href: Graphics.md
+  - name: Text
+    href: Text.md
   - name: Utilities
     href: Utilities.md
 - name: Contributing
   href: CONTRIBUTING.md
-  

@@ -2,16 +2,25 @@
 // Licensed under the MIT License.
 
 #include "Utils/UxtFunctionLibrary.h"
+
 #include "AudioDevice.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+
 #include "Kismet/GameplayStatics.h"
 #if WITH_EDITOR
 #include "Editor/EditorEngine.h"
 #endif
 
+bool UUxtFunctionLibrary::bUseTestData = false;
+FTransform UUxtFunctionLibrary::TestHeadPose = FTransform::Identity;
 
 FTransform UUxtFunctionLibrary::GetHeadPose(UObject* WorldContextObject)
 {
+	if (bUseTestData)
+	{
+		return TestHeadPose;
+	}
+
 	FRotator Rotation;
 	FVector Position;
 	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(Rotation, Position);
@@ -31,31 +40,45 @@ bool UUxtFunctionLibrary::IsInEditor()
 	if (GIsEditor)
 	{
 		UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine);
-		return !EdEngine->bUseVRPreviewForPlayWorld;
+		if (EdEngine->GetPlayInEditorSessionInfo().IsSet())
+		{
+			return EdEngine->GetPlayInEditorSessionInfo()->OriginalRequestParams.SessionPreviewTypeOverride !=
+				   EPlaySessionPreviewType::VRPreview;
+		}
 	}
 #endif
 	return false;
 }
 
-
-USceneComponent* UUxtFunctionLibrary::GetSceneComponentFromReference(const FComponentReference& ComponentRef, const AActor* Owner)
+USceneComponent* UUxtFunctionLibrary::GetSceneComponentFromReference(const FComponentReference& ComponentRef, AActor* Owner)
 {
-	if (ComponentRef.ComponentProperty != NAME_None)
+	if (ComponentRef.OverrideComponent.IsValid())
 	{
-		// FComponentReference::GetComponent() doesn't seem to find the component if it's not part of the inherited blueprint.
-		const AActor* Actor = ComponentRef.OtherActor ? ComponentRef.OtherActor : Owner;
-		const TSet<UActorComponent*>& Components = Actor->GetComponents();
+		return Cast<USceneComponent>(ComponentRef.OverrideComponent.Get());
+	}
 
-		for (UActorComponent* Component : Components)
+	if (AActor* Actor = ComponentRef.OtherActor ? ComponentRef.OtherActor : Owner)
+	{
+		if (ComponentRef.ComponentProperty != NAME_None)
 		{
-			if (Component->GetFName() == ComponentRef.ComponentProperty)
+			for (UActorComponent* Component : Actor->GetComponents())
 			{
-				USceneComponent* SceneComponent = Cast<USceneComponent>(Component);
-				if (SceneComponent)
+				if (Component->GetFName() == ComponentRef.ComponentProperty)
 				{
-					return SceneComponent;
+					if (USceneComponent* SceneComponent = Cast<USceneComponent>(Component))
+					{
+						return SceneComponent;
+					}
 				}
 			}
+		}
+		else if (!ComponentRef.PathToComponent.IsEmpty())
+		{
+			return FindObject<USceneComponent>(Actor, *ComponentRef.PathToComponent);
+		}
+		else
+		{
+			return Actor->GetRootComponent();
 		}
 	}
 

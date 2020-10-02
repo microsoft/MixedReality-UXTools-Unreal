@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "Engine.h"
 #include "EngineUtils.h"
+
 #include "Logging/MessageLog.h"
-#include "Misc/Paths.h"
 #include "Misc/AutomationTest.h"
 #include "Misc/MapErrors.h"
+#include "Misc/Paths.h"
 #include "Modules/ModuleManager.h"
 #include "Tests/AutomationCommon.h"
 
@@ -17,12 +18,11 @@ static const bool LoadMapsRecursive = true;
 static const bool IncludeOnlyOnDiskAssets = true;
 static const float StreamResourceTimeout = 10.0f;
 
-IMPLEMENT_COMPLEX_AUTOMATION_TEST(FLoadAllMapsTest, "UXTools.LoadAllMaps",
-	EAutomationTestFlags::EditorContext |
-	EAutomationTestFlags::ClientContext |
-	EAutomationTestFlags::ProductFilter)
+IMPLEMENT_COMPLEX_AUTOMATION_TEST(
+	FLoadAllMapsTest, "UXTools.LoadAllMaps",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::ClientContext | EAutomationTestFlags::ProductFilter)
 
-void FLoadAllMapsTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray <FString>& OutTestCommands) const
+void FLoadAllMapsTest::GetTests(TArray<FString>& OutBeautifiedNames, TArray<FString>& OutTestCommands) const
 {
 	FAssetRegistryModule& AssetRegistryModule = FModuleManager::Get().LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));
 	TArray<FAssetData> PackageAssetData;
@@ -55,4 +55,3 @@ bool FLoadAllMapsTest::RunTest(const FString& Parameters)
 
 	return true;
 }
-

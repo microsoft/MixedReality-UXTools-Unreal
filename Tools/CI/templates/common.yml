@@ -1,7 +1,21 @@
 parameters:
     TestOutputDir: $(Build.ArtifactStagingDirectory)\TestResults  # path to JSON file that will be produced by UE4 tests
+    StrictMode: false
 
 steps:
+# Generate a list of files modified in the current pull request.
+- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  - template: modifiedfiles.yml
+    parameters:
+      changesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+
+- task: PowerShell@2
+  displayName: "Verify code formatting"
+  inputs:
+    targetType: 'filePath'
+    filePath: $(UXTSourceDir)\Tools\scripts\FormatSource.ps1
+    arguments: -ClangFormat $(Build.ArtifactStagingDirectory)/clang-format.$(ClangFormat.Version)/clang-format.exe -ModifiedOnly $False -UseVS2019 $True -Verify $True -ChangesFile  $(Build.ArtifactStagingDirectory)\build\changedfiles.txt
+
 # For the plugin build to succeed UE4 needs to be installed outside of the agent working directory.
 # The tools directory location needs to be manually set on the build agent using AGENT_TOOLSDIRECTORY environment variable.
 # This is due to UE4 using relative paths (between Engine and Source being built) for some of the identifiers in generated source files.
@@ -13,13 +27,10 @@ steps:
     filePath: $(ToolsDir)\scripts\install_package.ps1
     arguments: -feedName ue4-internal -versionFile $(UXTSourceDir)\EditorVersion.json -destination $(Agent.ToolsDirectory)\ue4 -artifactTool $(Agent.WorkFolder)\ArtifactTool_win10-x64_0.2.128\artifacttool.exe -pipelineVariableName UnrealEngine -PAT $(UE4FeedPAT) -RemovePackagesOlderThanDays 14 -IgnoreCleanUpErrors $false
 
-- script: >
-    $(UAT)
-    BuildPlugin
-    -Plugin="$(UXToolsPluginSourceDir)\UXTools.uplugin"
-    -Package="$(UXToolsPluginOutputDir)"
-    -TargetPlatforms="Win64+HoloLens+Android"
-    -target=UXToolsGameNonUnity
+- task: PowerShell@2
+  inputs:
+    filePath: $(UXTSourceDir)\Tools\scripts\BuildPlugin.ps1
+    arguments: -UnrealEngine $(UnrealEngine) -PackageOutDir $(UXToolsPluginOutputDir) -StrictMode $${{ parameters.StrictMode }}
   displayName: 'Build UXTools plugin'
 
 - task: PublishBuildArtifacts@1
@@ -45,20 +56,10 @@ steps:
     Copy-Item -Path $(UXToolsPluginOutputDir) -Destination $(UXToolsPluginSourceDir) -Recurse
   displayName: 'Replace plugin source with prebuilt files'
 
-- script: >
-    $(UAT)
-    BuildCookRun
-    -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject
-    -clean
-    -cook
-    -allmaps
-    -build
-    -stage
-    -package
-    -platform=Win64
-    -clientconfig=Development
-    -serverconfig=Development
-    -target=UXToolsGameNonUnity
+- task: PowerShell@2
+  inputs:
+    filePath: $(UXTSourceDir)\Tools\scripts\BuildProject.ps1
+    arguments: -UnrealEngine $(UnrealEngine) -Platform Win64 -Configuration Development -Clean $True -UnityBuild $False
   displayName: 'Build UXToolsGame (Win64|Development)'
 
 - script: '$(UE4Editor) $(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log -ReportOutputPath="${{ parameters.TestOutputDir }}\EditorTests"'
@@ -98,23 +99,10 @@ steps:
     copy "$(signingCertificate.secureFilePath)" "$(UXTSourceDir)\UXToolsGame\Build\HoloLens\SigningCertificate.pfx"
   displayName: 'Copy self-signing certificate (HoloLens)'
 
-- script: >
-    $(UAT)
-    BuildCookRun
-    -project=$(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject
-    -clean
-    -cook
-    -allmaps
-    -build
-    -stage
-    -package
-    -platform=HoloLens
-    -clientconfig=Development
-    -serverconfig=Development
-    -target=UXToolsGame
-    -pak
-    -archive
-    -archivedirectory=$(Build.ArtifactStagingDirectory)/packages
+- task: PowerShell@2
+  inputs:
+    filePath: $(UXTSourceDir)\Tools\scripts\BuildProject.ps1
+    arguments: -UnrealEngine $(UnrealEngine) -Platform HoloLens -Configuration Development -Clean $True -UnityBuild $False -ArchivePath $(Build.ArtifactStagingDirectory)/packages
   displayName: 'Build HoloLens ARM64 Development'
 
 - task: PublishBuildArtifacts@1
@@ -130,3 +118,15 @@ steps:
     targetType: 'filePath'
     filePath: $(UXTSourceDir)\Tools\scripts\CheckHistory.ps1
     workingDirectory: $(UXTSourceDir)
+
+- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  - powershell: |
+      $DescPath = "$(Agent.TempDirectory)\PR-description.txt"
+      $Content = $(ToolsDir)\scripts\GetPullRequestDescription.ps1 `
+        -OutPath $DescPath `
+        -ProjectUrl $(System.TeamFoundationCollectionUri) `
+        -PullRequestId $(System.PullRequest.PullRequestId)
+      $(UXTSourceDir)\Tools\scripts\CheckFileKeywords.ps1 -Path $DescPath
+    env:
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+    displayName: 'Check Pull Request description'

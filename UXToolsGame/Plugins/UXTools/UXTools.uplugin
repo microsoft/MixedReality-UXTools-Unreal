@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
-	"Version": 2,
-	"VersionName": "0.9.0",
+	"Version": 3,
+	"VersionName": "0.10.0",
 	"FriendlyName": "Mixed Reality UX Tools",
 	"Description": "Set of tools and utilities to add interactivity to mixed reality applications",
 	"Category": "Other",
@@ -74,6 +74,10 @@
 				"Win64",
 				"HoloLens"
 			]
+		},
+		{
+			"Name": "ProceduralMeshComponent",
+			"Enabled": true
 		}
 	]
 }

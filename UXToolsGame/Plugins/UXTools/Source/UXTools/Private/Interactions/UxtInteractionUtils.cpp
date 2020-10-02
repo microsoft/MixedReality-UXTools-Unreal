@@ -6,7 +6,8 @@
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
 
-bool FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface, float& OutDistanceSqr)
+bool FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(
+	const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutPointOnSurface, float& OutDistanceSqr)
 {
 	OutPointOnSurface = Point;
 	OutDistanceSqr = -1.f;
@@ -22,7 +23,6 @@ bool FUxtInteractionUtils::GetDefaultClosestPointOnPrimitive(const UPrimitiveCom
 			OutDistanceSqr = DistanceSqr;
 			return true;
 		}
-
 	}
 
 	return false;

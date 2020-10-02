@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 #include "Interactions/Manipulation/UxtManipulationMoveLogic.h"
-#include "Utils/UxtFunctionLibrary.h"
+
 #include "CoreMinimal.h"
+
+#include "Utils/UxtFunctionLibrary.h"
 
 namespace
 {
@@ -25,9 +27,10 @@ namespace
 			return FVector2D::Distance(PointerPosXZ, HeadPosXZ);
 		}
 	}
-}
+} // namespace
 
-void UxtManipulationMoveLogic::Setup(const FTransform& PointerCentroidPose, const FVector& GrabCentroid, const FTransform& ObjectTransform, const FVector& HeadPosition)
+void UxtManipulationMoveLogic::Setup(
+	const FTransform& PointerCentroidPose, const FVector& GrabCentroid, const FTransform& ObjectTransform, const FVector& HeadPosition)
 {
 	PointerRefDistance = GetDistanceToBody(PointerCentroidPose.GetLocation(), HeadPosition);
 	PointerPosIndependenOfHead = PointerRefDistance != 0;
@@ -41,7 +44,9 @@ void UxtManipulationMoveLogic::Setup(const FTransform& PointerCentroidPose, cons
 	GrabToObject = ObjectTransform.GetLocation() - GrabCentroid;
 }
 
-FVector UxtManipulationMoveLogic::Update(const FTransform& PointerCentroidPose, const FQuat& ObjectRotation, const FVector& ObjectScale, bool UsePointerRotation, const FVector& HeadPosition) const
+FVector UxtManipulationMoveLogic::Update(
+	const FTransform& PointerCentroidPose, const FQuat& ObjectRotation, const FVector& ObjectScale, bool UsePointerRotation,
+	const FVector& HeadPosition) const
 {
 	float DistanceRatio = 1.0f;
 
@@ -62,6 +67,7 @@ FVector UxtManipulationMoveLogic::Update(const FTransform& PointerCentroidPose, 
 	}
 	else
 	{
-		return PointerCentroidPose.GetLocation() + (PointerCentroidPose.GetRotation() * PointerLocalGrabPoint + GrabToObject) * DistanceRatio;
+		return PointerCentroidPose.GetLocation() +
+			   (PointerCentroidPose.GetRotation() * PointerLocalGrabPoint + GrabToObject) * DistanceRatio;
 	}
 }
