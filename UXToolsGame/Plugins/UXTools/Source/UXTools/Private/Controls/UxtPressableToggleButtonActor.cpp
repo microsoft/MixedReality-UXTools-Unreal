@@ -88,7 +88,20 @@ void AUxtPressableToggleButtonActor::OnButtonPressed(UUxtPressableButtonComponen
 {
 	Super::OnButtonPressed(Button, Pointer);
 
-	ToggleStateComponent->SetIsChecked(!ToggleStateComponent->IsChecked());
+	if (!bToggleOnRelease)
+	{
+		ToggleStateComponent->SetIsChecked(!ToggleStateComponent->IsChecked());
+	}
+}
+
+void AUxtPressableToggleButtonActor::OnButtonReleased(UUxtPressableButtonComponent* Button, UUxtPointerComponent* Pointer)
+{
+	Super::OnButtonReleased(Button, Pointer);
+
+	if (bToggleOnRelease)
+	{
+		ToggleStateComponent->SetIsChecked(!ToggleStateComponent->IsChecked());
+	}
 }
 
 void AUxtPressableToggleButtonActor::OnButtonToggled(UUxtToggleStateComponent* ToggleState)
