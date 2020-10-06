@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EngineDefines.h"
 #include "InputCoreTypes.h"
 #include "UxtPointerComponent.h"
 
