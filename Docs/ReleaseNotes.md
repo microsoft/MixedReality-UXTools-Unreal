@@ -58,6 +58,18 @@ The [follow component](FollowComponent.md) now has the ability to maintain a fix
 
 ![FollowFixedVerticalDistance](Images/Follow/FixedVerticalDistance.gif)
 
+### Visual Logging
+
+UXTools hand interaction supports visual logging now. This is useful for debugging interactions intuitively in the editor. To enable visual logging simply follow the standard Unreal Editor instructions [here](https://docs.unrealengine.com/en-US/Gameplay/Tools/VisualLogger/index.html).
+
+Currently supported features include:
+* Basic hand tracking (joint positions and pointer pose)
+* Near pointers (grab and poke)
+* Far pointer
+* Proximity detection (switching near vs. far)
+
+![FollowFixedVerticalDistance](Images/VisualLogging/GrabPointer.png)
+
 ## Breaking changes
 
 ### Make poke target return normal for cursor transform

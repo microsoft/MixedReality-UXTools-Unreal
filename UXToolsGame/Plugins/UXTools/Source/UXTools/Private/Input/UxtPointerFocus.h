@@ -77,6 +77,13 @@ public:
 	/** Find a component of the actor that implements the required interface. */
 	UActorComponent* FindInterfaceComponent(AActor* Owner) const;
 
+#if ENABLE_VISUAL_LOG
+public:
+	TWeakObjectPtr<const UObject> VLogOwnerWeak;
+	FName VLogCategory;
+	FColor VLogColor;
+#endif // ENABLE_VISUAL_LOG
+
 protected:
 	/** Set the focus to the given target object, primitive, and point on the target. */
 	void SetFocus(UUxtNearPointerComponent* Pointer, const FTransform& PointerTransform, const FUxtPointerFocusSearchResult& FocusResult);
@@ -104,6 +111,10 @@ protected:
 	virtual void RaiseUpdateFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const = 0;
 	/** Notify the target object that it has exited focus. */
 	virtual void RaiseExitFocusEvent(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer) const = 0;
+
+#if ENABLE_VISUAL_LOG
+	void VLogFocus(const UPrimitiveComponent* Primitive, const FVector& PointOnTarget, const FVector& Normal, bool bIsFocus) const;
+#endif // ENABLE_VISUAL_LOG
 
 private:
 	/** Weak reference to the currently focused target. */

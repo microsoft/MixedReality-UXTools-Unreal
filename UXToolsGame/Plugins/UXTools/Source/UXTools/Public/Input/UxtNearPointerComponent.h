@@ -11,6 +11,7 @@
 
 #include "UxtNearPointerComponent.generated.h"
 
+struct FUxtPointerFocus;
 struct FUxtGrabPointerFocus;
 struct FUxtPokePointerFocus;
 class UMaterialParameterCollection;
@@ -128,6 +129,12 @@ protected:
 
 private:
 	void UpdateParameterCollection(FVector IndexTipPosition);
+
+#if ENABLE_VISUAL_LOG
+	void VLogPointer(
+		const FName& LogCategoryName, const FColor& LogColor, const FString& Label, const FVector& PointerLocation, float PointerRadius,
+		const FUxtPointerFocus* Focus) const;
+#endif // ENABLE_VISUAL_LOG
 
 	/** Parameter collection used to store the finger tip position */
 	UPROPERTY(Transient)

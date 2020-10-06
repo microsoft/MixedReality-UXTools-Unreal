@@ -119,6 +119,12 @@ private:
 	/** Determine if the hand pose is valid for making selections. */
 	bool IsInPointingPose() const;
 
+#if ENABLE_VISUAL_LOG
+	void VLogHandJoints() const;
+	void VLogProximityQuery(
+		const FVector& ConeTip, const FQuat& ConeOrientation, const TArray<FOverlapResult>& Overlaps, bool bHasNearTarget) const;
+#endif // ENABLE_VISUAL_LOG
+
 private:
 	/** Articulated hand used to drive interactions. */
 	UPROPERTY(
