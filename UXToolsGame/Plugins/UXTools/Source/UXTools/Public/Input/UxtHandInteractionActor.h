@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EngineDefines.h"
 
 #include "GameFramework/Actor.h"
 #include "Interactions/UxtInteractionMode.h"
