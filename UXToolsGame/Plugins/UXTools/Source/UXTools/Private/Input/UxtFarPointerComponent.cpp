@@ -149,7 +149,10 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 		const FVector Forward = PointerOrientation.GetForwardVector();
 		FVector Start = PointerOrigin + Forward * RayStartOffset;
 		FVector End = Start + Forward * RayLength;
-		GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel);
+
+		// Query for simple collision volumes
+		FCollisionQueryParams QueryParams(NAME_None, false);
+		GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel, QueryParams);
 
 		NewPrimitive = Hit.GetComponent();
 

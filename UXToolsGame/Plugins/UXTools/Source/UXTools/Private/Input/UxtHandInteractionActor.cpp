@@ -26,6 +26,7 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	// Do not delay pointers' tick unnecessarily
 	PrimaryActorTick.TickGroup = ETickingGroup::TG_PrePhysics;
 
+	SetActorEnableCollision(false);
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent")));
 
 	NearPointer = CreateDefaultSubobject<UUxtNearPointerComponent>(TEXT("NearPointer"));

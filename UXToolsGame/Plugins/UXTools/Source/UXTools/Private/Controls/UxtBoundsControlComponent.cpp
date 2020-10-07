@@ -277,7 +277,6 @@ void UUxtBoundsControlComponent::UpdateAffordanceAnimation(float DeltaTime)
 			FMath::Clamp(AffordanceInstance.ActiveTransition + (bAffordanceIsActive ? TransitionDelta : -TransitionDelta), 0.0f, 1.0f);
 
 		AffordancePrimitive->SetHiddenInGame(!bIsVisible);
-		AffordancePrimitive->SetCollisionEnabled(bIsVisible ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
 		if (AffordanceInstance.DynamicMaterial)
 		{
 			AffordanceInstance.DynamicMaterial->SetScalarParameterValue(OpacityParam, Opacity);

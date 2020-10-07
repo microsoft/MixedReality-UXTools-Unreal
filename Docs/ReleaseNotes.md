@@ -141,9 +141,13 @@ If the affordances classes (e.g. `CornerAffordanceClass`) on a BoundsControlComp
 
 ### UxtBackPlateComponent - Can now be scaled via parent transforms
 
-`UxtBackPlateComponents` now scale correctly when parent components are scaled. Any existing `UxtBackPlateComponents` may need to have their 'x' and 'z' scales swapped. 
+`UxtBackPlateComponents` now scale correctly when parent components are scaled. Any existing `UxtBackPlateComponents` may need to have their 'x' and 'z' scales swapped.
 
 Unreal doesn't account for parent child rotations when applying parent child scales, so it was possible to run into situations where scaling the parent would not scale the child back plate appropriately. Before this change back plates where scaled as "_height_ x _width_ x _depth_" and are now scaled via the Unreal's traditional "_depth_ x _width_ x _height_" convention. For more information please see the [graphics documentation](Graphics.md#rounded-edge-thick).
+
+### UxtFarPointerComponent
+
+The `UxtFarPointerComponent` now uses simple collision primitives instead of complex collision primitives for its interactions. Any objects that require the complex collision mesh be used with the far pointer should set the mesh's _Collision Complexity_ to _Use Complex Collision As Simple_ under its collision settings.
 
 ## Known issues
 
