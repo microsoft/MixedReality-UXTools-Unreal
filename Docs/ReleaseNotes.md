@@ -58,6 +58,12 @@ The [follow component](FollowComponent.md) now has the ability to maintain a fix
 
 ![FollowFixedVerticalDistance](Images/Follow/FixedVerticalDistance.gif)
 
+### UMG widgets
+
+The new [Widget component](WidgetComponent.md) allows interaction with Unreal Engine's UMG widgets.
+
+![WidgetsOverview](Images/Widget/Overview.gif)
+
 ### Visual Logging
 
 UXTools hand interaction supports visual logging now. This is useful for debugging interactions intuitively in the editor. To enable visual logging simply follow the standard Unreal Editor instructions [here](https://docs.unrealengine.com/en-US/Gameplay/Tools/VisualLogger/index.html).
@@ -68,7 +74,7 @@ Currently supported features include:
 * Far pointer
 * Proximity detection (switching near vs. far)
 
-![FollowFixedVerticalDistance](Images/VisualLogging/GrabPointer.png)
+![GrabPointerVisualLogging](Images/VisualLogging/GrabPointer.png)
 
 ## Breaking changes
 

@@ -5,6 +5,7 @@ The UXT widget component is used to make UXT interaction work with Unreal Engine
 ## Usage
 
 Create your widget as normal:
+
 - Create a [widget class blueprint](https://docs.unrealengine.com/en-US/Engine/UMG/UserGuide/WidgetBlueprints/index.html) asset, and design your UI there.
 - Create an actor and add a UE4 [widget component](https://docs.unrealengine.com/en-US/Engine/Components/Widget/index.html).
 - Set the widget class to your widget asset.
@@ -15,9 +16,9 @@ After doing this, you should be able to see your widget when you play in editor.
 
 This should be all the set up required. When you play in editor now, you should be able to use far interaction and poke to interact with the ui elements in your widget actor.
 
-![FarGrab](Images/FarGrabWidget.gif)
+![FarGrab](Images/Widget/FarGrabWidget.gif)
 
-![NearPoke](Images/NearPokeWidget.gif)
+![NearPoke](Images/Widget/NearPokeWidget.gif)
 
 ## Behavior Details
 
