@@ -14,6 +14,10 @@
 
 namespace
 {
+	const float InitalCursorFadeScaler = 2;
+	const float TargetCursorFadeScaler = 1;
+	const float CursorFadeSpeed = 10.0f;
+
 	/**
 	 * The cursor interpolates between two different transforms as it approaches the target.
 	 * The first transform, which has a greater influence further away from the target, is
@@ -115,6 +119,9 @@ void UUxtFingerCursorComponent::BeginPlay()
 	FingerMaterialInstance = CreateDynamicMaterialInstance(0, Material);
 
 	SetRadius(CursorScale);
+
+	// Initialize the fade to 200% to that it can be interpolated to 100% when enabled. Note, the cursor begins to appear at around 130%.
+	ProximityFade = InitalCursorFadeScaler;
 }
 
 void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -155,7 +162,8 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				Alpha = DistanceToTarget / HandPointer->ProximityRadius;
 			}
 
-			FingerMaterialInstance->SetScalarParameterValue(FName("Proximity Distance"), Alpha);
+			FingerMaterialInstance->SetScalarParameterValue(FName("Proximity Distance"), Alpha * ProximityFade);
+			ProximityFade = FMath::Lerp(ProximityFade, TargetCursorFadeScaler, DeltaTime * CursorFadeSpeed);
 
 			// Ensure the cursor is not hidden when the hand pointer is active.
 			if (bHiddenInGame)
@@ -167,6 +175,8 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		{
 			// Hide mesh when the pointer is inactive.
 			SetHiddenInGame(true);
+
+			ProximityFade = InitalCursorFadeScaler;
 		}
 	}
 }

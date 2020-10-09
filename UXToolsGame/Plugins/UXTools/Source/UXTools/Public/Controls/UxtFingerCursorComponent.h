@@ -46,4 +46,7 @@ private:
 
 	/** Near pointer in use. */
 	TWeakObjectPtr<UUxtNearPointerComponent> HandPointerWeak;
+
+	/** Scaler applied to the Proximity Distance to fade the cursor in when enabled. */
+	float ProximityFade;
 };
