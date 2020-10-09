@@ -123,35 +123,41 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 	if (UUxtNearPointerComponent* HandPointer = HandPointerWeak.Get())
 	{
-		FVector PointOnTarget;
-		FVector SurfaceNormal;
-		FTransform PointerTransform;
-
-		UObject* Target = HandPointer->GetFocusedPokeTarget(PointOnTarget, SurfaceNormal);
-		if (Target)
+		if (HandPointer->IsActive())
 		{
-			PointerTransform = HandPointer->GetPokePointerTransform();
-		}
-		else if (bShowOnGrabTargets)
-		{
-			Target = HandPointer->GetFocusedGrabTarget(PointOnTarget, SurfaceNormal);
+			FVector PointOnTarget;
+			FVector SurfaceNormal;
+			FTransform PointerTransform;
 
+			UObject* Target = HandPointer->GetFocusedPokeTarget(PointOnTarget, SurfaceNormal);
 			if (Target)
 			{
-				PointerTransform = HandPointer->GetGrabPointerTransform();
+				PointerTransform = HandPointer->GetPokePointerTransform();
 			}
-		}
+			else if (bShowOnGrabTargets)
+			{
+				Target = HandPointer->GetFocusedGrabTarget(PointOnTarget, SurfaceNormal);
 
-		if (Target)
-		{
+				if (Target)
+				{
+					PointerTransform = HandPointer->GetGrabPointerTransform();
+				}
+			}
+
 			SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance));
 
-			const float DistanceToTarget = FVector::Dist(PointOnTarget, PointerTransform.GetLocation());
-			const float DistanceOffset = 1.0f;
-			// Scale radius with the distance to the target
-			float Alpha = (DistanceToTarget - DistanceOffset) / MaxDistanceToTarget;
+			float Alpha = 1.0f;
+
+			// Scale the radius/translucency with the distance to the target.
+			if (Target)
+			{
+				const float DistanceToTarget = FVector::Dist(PointOnTarget, PointerTransform.GetLocation());
+				Alpha = DistanceToTarget / HandPointer->ProximityRadius;
+			}
+
 			FingerMaterialInstance->SetScalarParameterValue(FName("Proximity Distance"), Alpha);
 
+			// Ensure the cursor is not hidden when the hand pointer is active.
 			if (bHiddenInGame)
 			{
 				SetHiddenInGame(false);
@@ -159,7 +165,7 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 		}
 		else if (!bHiddenInGame)
 		{
-			// Hide mesh when the pointer has no target
+			// Hide mesh when the pointer is inactive.
 			SetHiddenInGame(true);
 		}
 	}

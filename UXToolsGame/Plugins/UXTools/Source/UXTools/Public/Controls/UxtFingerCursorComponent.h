@@ -23,10 +23,6 @@ class UXTOOLS_API UUxtFingerCursorComponent : public UUxtRingCursorComponent
 public:
 	UUxtFingerCursorComponent();
 
-	/** Maximum distance to the pointer target at which the cursor should be displayed. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Finger Cursor")
-	float MaxDistanceToTarget = 10.0f;
-
 	/** Cursor scale. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Finger Cursor")
 	float CursorScale = 1.0f;
