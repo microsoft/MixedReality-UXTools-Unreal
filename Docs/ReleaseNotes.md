@@ -12,7 +12,6 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 - [What's new](#whats-new)
 - [Breaking changes](#breaking-changes)
-- [Known issues](#known-issues)
 
 This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us but is not the current focus.
 
@@ -69,94 +68,136 @@ The new [Widget component](WidgetComponent.md) allows interaction with Unreal En
 UXTools hand interaction supports visual logging now. This is useful for debugging interactions intuitively in the editor. To enable visual logging simply follow the standard Unreal Editor instructions [here](https://docs.unrealengine.com/en-US/Gameplay/Tools/VisualLogger/index.html).
 
 Currently supported features include:
-* Basic hand tracking (joint positions and pointer pose)
-* Near pointers (grab and poke)
-* Far pointer
-* Proximity detection (switching near vs. far)
+
+- Basic hand tracking (joint positions and pointer pose)
+- Near pointers (grab and poke)
+- Far pointer
+- Proximity detection (switching near vs. far)
 
 ![GrabPointerVisualLogging](Images/VisualLogging/GrabPointer.png)
 
 ## Breaking changes
 
-### Make poke target return normal for cursor transform
+### BP_BaseButton and derived buttons
 
-Changes to `IUxtPokeTarget` that may need to be fixed for any class that implements this interface:
-- `IsPokeFocusable` is now `const`.
-- New method `GetClosestPoint` which returns the closest point on the given primitive and the surface normal for the pokable.
+`BP_BaseButton` and the buttons derived from it have been moved to native code.
 
-This PR also contains changes to `UUxtNearPointerComponent::GetFocusedGrabTarget` and `UUxtNearPointerComponent::GetFocusedPokeTarget`. These methods now takes another `FVector` reference in order to return the surface normal.
+- `BP_BaseButton` has been replaced by `AUxtBasePressableButtonActor`.
+- `BP_ButtonHoloLens2` has been replaced by `AUxtPressableButtonActor`.
+- `BP_ButtonHoloLens2Toggle` has been replaced by `AUxtPressableToggleButtonActor`.
+- `BP_ButtonHoloLens2ToggleCheck` has been replaced by `AUxtPressableCheckButtonActor`.
+- `BP_ButtonHoloLens2ToggleSwitch` has been replaced by `AUxtPressableSwitchButtonActor`.
 
-### UxtGrabTargetComponent - Grab point function changes
+Toggle button state and event dispatchers are now accessible through the `UUxtToggleStateComponent` instead of directly on the actor.
 
-* `UUxtGrabTargetComponent::GetGrabPointCentroid(...)` has been updated to return an `FTransform` instead of just a location vector.
-* `UUxtGrabTargetComponent::GetGrabPointCentroidTransform()` has been removed. Instead `GetGrabPointCentroid(...)` can be used by passing the target component's world transform.
-
-### UxtHandInteractionActor - Proximity detection changes
-
-* `UxtHandInteractionActor::NearActivationDistance` has been removed. The proximity detection is defined by the `ProximityCone` parameters now.
-
-### BP_ButtonHoloLens2Toggle state and event dispatchers have moved to UUxtToggleStateComponent
-
-In `BP_ButtonHoloLens2Toggle` the blueprint toggle state variables and events dispatchers are now accessible via the attached `UUxtToggleStateComponent`. Any blueprint references to the original blueprint variables or events must now be rewired to reference the variables and events within `UUxtToggleStateComponent`. The event graph within `BP_ButtonHoloLens2Toggle` can be used as an example of the required updates.
-
-### UxtPinchSliderComponent - New interface
-
-The `UxtPinchSliderComponent` has been simplified and streamlined. It now operates on the same principles as the `UxtPressableButtonComponent`.
-
-Interface changes:
-* `GetCurrentState` has been renamed to `GetState`.
-* `GetThumbVisuals` has been renamed to `GetVisuals`.
-* `GetSliderValue`/`SetSliderValue` have been renamed to `GetValue`/`SetValue`.
-* `GetSliderLowerBound`/`SetSliderLowerBound` have been renamed to `GetValueLowerBound`/`SetValueLowerBound`.
-* `GetSliderUpperBound`/`SetSliderUpperBound` have been renamed to `GetValueUpperBound`/`SetValueUpperBound`.
-* `IsGrabbed`, `IsFocused` and `IsEnabled` have been removed in favor of using `GetState`.
-* Any references to the track and tick mark visuals have been removed as they are now managed by `AUxtPinchSliderActor`.
-* `SliderStartDistance` and `SliderEndDistance` have been replaced by a single `TrackLength` property that dictates the length of the track.
-
-Event changes:
-* `OnBeginInteraction` has been renamed to `OnBeginGrab`.
-* `OnEndInteraction` has been renamed to `OnEndGrab`.
-* `OnSliderEnabled` has been renamed to `OnEnable`.
-* `OnSliderDisabled` has been renamed to `OnDisable`.
-
-### BP_SimpleSlider - Moved to a native implementation and renamed to UxtPinchSliderActor
+### BP_SimpleSlider
 
 `BP_SimpleSlider` has been replaced by `AUxtPinchSliderActor`. It has the same feature set as `BP_SimpleSlider` and can be extended from either Blueprints or C++.
 
-### UxtBoundsControlComponent - Presets become a data asset
-
-The `Preset` property of the bounds control component has been replaced with a data asset, which can be more easily copied and customized by users. All six presets exist as data assets in `UXTools Content/Bounds Control/Presets`. The `Config` property on existing bounds control components may need to be updated.
-* Default: corners resize bounds, edges rotate them.
-* Slate2D: only has front side affordances, all of them resize bounds.
-* AllResize, AllScale, AllTranslate, AllRotate: have all possible affordances with the same action, mostly for testing.
-
-The preset assets contain a list of affordance configs, each of which consist of
-* A placement enum, e.g. "Corner Front Top Left", "Edge Right Bottom".
-* The action performed by the affordance (resize, scale, translate, rotate).
-* Flag to toggle uniform actions, i.e. allow non-uniform scaling of the bounds.
-
-### UxtBoundsControlComponent - Affordance blueprints replaced with simple meshes
-
-Bounds control component now uses simple mesh assets for affordances instead of full blueprint classes. The existing static meshes from affordance BPs can continue to be used.
-
-If the affordances classes (e.g. `CornerAffordanceClass`) on a BoundsControlComponent have been customized then the new equivalent mesh property (e.g. `CornerAffordanceMesh`) needs to be set.
-
-### BP_TextActor - Moved to a native implementation and renamed to UxtTextRenderActor
+### BP_TextActor
 
 `BP_TextActor` has been replaced by `AUxtTextRenderActor`. It has the same feature set as `BP_TextActor` and can be extended from either Blueprints or C++.
 
-### UxtBackPlateComponent - Can now be scaled via parent transforms
+### EUxtInteractionMode
+
+`EUxtInteractionMode` has moved from `Interactions/UxtManipulationFlags.h` to `Interactions/UxtInteractionMode.h`.
+
+### UxtBackPlateComponent
 
 `UxtBackPlateComponents` now scale correctly when parent components are scaled. Any existing `UxtBackPlateComponents` may need to have their 'x' and 'z' scales swapped.
 
 Unreal doesn't account for parent child rotations when applying parent child scales, so it was possible to run into situations where scaling the parent would not scale the child back plate appropriately. Before this change back plates where scaled as "_height_ x _width_ x _depth_" and are now scaled via the Unreal's traditional "_depth_ x _width_ x _height_" convention. For more information please see the [graphics documentation](Graphics.md#rounded-edge-thick).
 
+### UxtBoundsControlComponent
+
+The `Preset` property of the bounds control component has been replaced with a data asset, which can be more easily copied and customized by users. All six presets exist as data assets in `UXTools Content/Bounds Control/Presets`. The `Config` property on existing bounds control components may need to be updated.
+
+- Default: corners resize bounds, edges rotate them.
+- Slate2D: only has front side affordances, all of them resize bounds.
+- AllResize, AllScale, AllTranslate, AllRotate: have all possible affordances with the same action, mostly for testing.
+
+The preset assets contain a list of affordance configs, each of which consist of
+
+- A placement enum, e.g. "Corner Front Top Left", "Edge Right Bottom".
+- The action performed by the affordance (resize, scale, translate, rotate).
+- Flag to toggle uniform actions, i.e. allow non-uniform scaling of the bounds.
+
+`FUxtBoundsControlAffordanceInfo` has been replaced with `FUxtAffordanceInstance`.
+
+- Data that was available in `FUxtBoundsControlAffordanceInfo` can be accessed through it's `Config` property.
+
+Bounds control component now uses simple mesh assets for affordances instead of full blueprint classes. The existing static meshes from affordance BPs can continue to be used.
+
+- If the affordances classes (e.g. `CornerAffordanceClass`) on a BoundsControlComponent have been customized then the new equivalent mesh property (e.g. `CornerAffordanceMesh`) needs to be set.
+
 ### UxtFarPointerComponent
 
 The `UxtFarPointerComponent` now uses simple collision primitives instead of complex collision primitives for its interactions. Any objects that require the complex collision mesh be used with the far pointer should set the mesh's _Collision Complexity_ to _Use Complex Collision As Simple_ under its collision settings.
 
-## Known issues
+### UxtFarTarget
 
-### Surface Magnetism's actor jumps to zero
+The interface for handling far interactions has been moved from `IUxtFarTarget` into `IUxtFarHandler`. There are three changes necessary to update classes inheriting from `IUxtFarTarget`:
 
-This happens if the hand ray isn't hitting anything to stick to when grabbing starts for the first time. It will work properly afterwards.
+- Inherit from `IUxtFarHandler` alongside `IUxtFarTarget`
+- Add an implementation for `IUxtFarHandler::CanHandleFar` to the class.
+- Update `IsFarFocusable` to be a `const` member function.
+
+### UxtFollowComponent
+
+`MoveToDefaultDistanceLerpTime` has been renamed to `LerpTime`.
+
+### UxtGrabTarget
+
+The interface for handling far interactions has been moved from `IUxtGrabTarget` into `IUxtGrabHandler`. There are three changes necessary to update classes inheriting from `IUxtGrabTarget`:
+
+- Inherit from `IUxtGrabHandler` alongside `IUxtGrabTarget`
+- Add an implementation for `IUxtGrabHandler::CanHandleGrab` to the class.
+- Update `IsGrabFocusable` to be a `const` member function.
+
+### UxtGrabTargetComponent
+
+- `GetGrabPointCentroid` has been updated to return an `FTransform` instead of just a location vector.
+- `GetGrabPointCentroidTransform` has been removed. Instead `GetGrabPointCentroid` can be used by passing the target component's world transform.
+
+### UxtHandInteractionActor
+
+`NearActivationDistance` has been removed. The proximity detection is defined by the `ProximityCone` parameters now.
+
+### UxtNearPointerComponent
+
+`GetFocusedGrabTarget` and `GetFocusedPokeTarget` now also return the surface normal as an output parameter.
+
+### UxtPinchSliderComponent
+
+The `UxtPinchSliderComponent` has been simplified and streamlined. It now operates on the same principles as the `UxtPressableButtonComponent`.
+
+Interface changes:
+
+- `GetCurrentState` has been renamed to `GetState`.
+- `GetThumbVisuals`/`SetThumbVisuals` has been renamed to `GetVisuals`/`SetVisuals`.
+- `GetSliderValue`/`SetSliderValue` have been renamed to `GetValue`/`SetValue`.
+- `GetSliderLowerBound`/`SetSliderLowerBound` have been renamed to `GetValueLowerBound`/`SetValueLowerBound`.
+- `GetSliderUpperBound`/`SetSliderUpperBound` have been renamed to `GetValueUpperBound`/`SetValueUpperBound`.
+- `IsGrabbed`, `IsFocused` and `IsEnabled` have been removed in favor of using `GetState`.
+- Any references to the track and tick mark visuals have been removed as they are now managed by `AUxtPinchSliderActor`.
+- `SliderStartDistance` and `SliderEndDistance` have been replaced by a single `TrackLength` property that dictates the length of the track.
+
+Event changes:
+
+- `OnBeginInteraction` has been renamed to `OnBeginGrab`.
+- `OnEndInteraction` has been renamed to `OnEndGrab`.
+- `OnSliderEnabled` has been renamed to `OnEnable`.
+- `OnSliderDisabled` has been renamed to `OnDisable`.
+
+`EUxtSliderState` changes:
+
+- `Focus` has been renamed to `Focused`.
+- `Grab` has been renamed to `Grabbed`.
+
+### UxtPokeTarget
+
+The interface for handling far interactions has been moved from `IUxtPokeTarget` into `IUxtPokeHandler`. There are three changes necessary to update classes inheriting from `IUxtPokeTarget`:
+
+- Inherit from `IUxtPokeHandler` alongside `IUxtPokeTarget`
+- Add an implementation for `IUxtPokeHandler::CanHandlePoke` to the class.
+- Update `IsPokeFocusable` to be a `const` member function.

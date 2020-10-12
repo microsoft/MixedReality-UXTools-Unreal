@@ -152,7 +152,7 @@ public:
 
 private:
 	/** The component to transform, defaults to the first primitive component if not specified */
-	UPROPERTY(EditAnywhere, meta = (UseComponentPicker, AllowedClasses = "UPrimitiveComponent"), Category = TapToPlace)
+	UPROPERTY(EditAnywhere, meta = (UseComponentPicker, AllowedClasses = "PrimitiveComponent"), Category = TapToPlace)
 	FComponentReference TargetComponent;
 
 	bool bIsBeingPlaced = false;

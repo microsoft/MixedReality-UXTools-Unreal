@@ -260,7 +260,7 @@ void TooltipSpec::Define()
 		//	FrameQueue.Skip();
 		//	FrameQueue.Enqueue([this]
 		//	{
-		//		TooltipActor->SetText(FText::FromString("Some custom text"));
+		//		TooltipActor->SetText(FText::AsCultureInvariant("Some custom text"));
 		//	});
 		//	FrameQueue.Skip(5);
 		//	FrameQueue.Enqueue([this]

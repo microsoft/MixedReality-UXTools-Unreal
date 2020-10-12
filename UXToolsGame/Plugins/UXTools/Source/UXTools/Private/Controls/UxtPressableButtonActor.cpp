@@ -237,13 +237,13 @@ void AUxtPressableButtonActor::ConstructIcon()
 		UE_CLOG(
 			!Result, UXTools, Warning, TEXT("Failed to resolve hex code point '%s' on AUxtPressableButtonActor '%s'."), *IconBrush.Icon,
 			*GetName());
-		IconComponent->SetText(FText::FromString(Output));
+		IconComponent->SetText(FText::AsCultureInvariant(Output));
 	}
 	break;
 	case EUxtIconBrushContentType::String:
 	{
 		IconComponent->SetVisibility(true);
-		IconComponent->SetText(FText::FromString(IconBrush.Icon));
+		IconComponent->SetText(FText::AsCultureInvariant(IconBrush.Icon));
 	}
 	break;
 	}

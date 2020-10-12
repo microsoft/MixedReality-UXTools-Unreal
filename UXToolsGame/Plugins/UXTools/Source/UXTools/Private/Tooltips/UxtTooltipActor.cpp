@@ -238,7 +238,7 @@ void AUxtTooltipActor::UpdateWidget()
 	{
 		TooltipWidgetComponent->SetWidgetClass(nullptr);
 		TooltipWidgetComponent->SetWidget(nullptr);
-		TooltipWidgetComponent->SetSlateWidget(SNew(STextBlock).Text(FText::FromString("Default Widget")));
+		TooltipWidgetComponent->SetSlateWidget(SNew(STextBlock).Text(FText::AsCultureInvariant("Default Widget")));
 	}
 	else if (WidgetClass && CurrentWidgetClass == nullptr) // Got a class configured by hasn't been set.
 	{
