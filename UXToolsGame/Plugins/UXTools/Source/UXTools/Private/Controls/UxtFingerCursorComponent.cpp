@@ -16,7 +16,7 @@ namespace
 {
 	const float InitalCursorFadeScaler = 2;
 	const float TargetCursorFadeScaler = 1;
-	const float CursorFadeSpeed = 10.0f;
+	const float CursorFadeSpeed = 2;
 
 	/**
 	 * The cursor interpolates between two different transforms as it approaches the target.
