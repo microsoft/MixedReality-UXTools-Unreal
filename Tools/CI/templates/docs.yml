@@ -7,8 +7,6 @@ parameters:
   username: ""
   DestRepoUrl: ""
   commit: false
-  RootBranch: master  # name of the branch that will be published into the root dir (outside of "versions" subfolder)
-  WebScriptsBranch: ""  # if running against the root folder, copy only javascript/web folder instead of full docs
 
 steps:
 # Generate a list of files modified in the current pull request.
@@ -77,61 +75,54 @@ steps:
     git config --local core.autocrlf false
 
     $SourceBranch = "$(Build.SourceBranch)".Replace("refs/heads/", "")
-    $DocsDestDir = $null
-    # files from main branch are copied into the root folder
-    if (($SourceBranch -eq "${{ parameters.RootBranch }}") -or ($SourceBranch -eq "${{ parameters.WebScriptsBranch }}"))
+    $DocsSourceDir = "${{ parameters.SourceRepoDir }}\Tools\DocGen\doc"
+
+    # docs from main branch are copied both into the versions subfolder and to the root folder (which holds the latest docs)
+    if ($SourceBranch -eq "$(RootBranch)")
     {
-        Write-Host "Delete all files apart from 'version' folder"
-        (Get-ChildItem -Path "${{ parameters.DocsRepoDir }}" -Exclude "version" | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
-        if ((Get-ChildItem -Path "${{ parameters.DocsRepoDir }}\" -Exclude "version") -ne $null)
-        {
-            Write-Host "Not all files were deleted."
-            exit 1
-        }
+      Write-Host "Publishing latest docs in the root folder"
+      $RootDocsDestDir = "${{ parameters.DocsRepoDir }}"
+
+      Write-Host "Delete all files apart from 'version' folder"
+      (Get-ChildItem -Path "$RootDocsDestDir" -Exclude "version" | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
+      if ((Get-ChildItem -Path "$RootDocsDestDir\" -Exclude "version") -ne $null)
+      {
+          Write-Host "Not all files were deleted."
+          exit 1
+      }
+
+      Write-Host "Copying modified web scripts and configuration files"
+      Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\.nojekyll" -Destination $RootDocsDestDir -Verbose -ErrorAction Stop
+      Copy-Item -Recurse -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web" -Destination $RootDocsDestDir -Verbose -ErrorAction Stop
+
+      Write-Host "Copy new generated docs from $DocsSourceDir to $RootDocsDestDir"
+      Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $RootDocsDestDir -ErrorAction Stop    
     }
 
-    if ($SourceBranch -eq "${{ parameters.RootBranch }}")
+    Write-Host "Publishing docs in the versions directory"
+    $DocsDestDir = "${{ parameters.DocsRepoDir }}\version\$SourceBranch"
+
+    if (Test-Path $DocsDestDir)
     {
-        $DocsDestDir = "${{ parameters.DocsRepoDir }}"
+      Write-Host "Delete files in $DocsDestDir"
+      (Get-ChildItem -Path $DocsDestDir | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
+
+      if ((Get-ChildItem -Path "$DocsDestDir\") -ne $null)
+      {
+          Write-Host "Not all files were deleted."
+          exit 1
+      }
+
+      Get-ChildItem $DocsDestDir | Remove-Item -Force -Recurse
     }
     else
     {
-        $DocsDestDir = "${{ parameters.DocsRepoDir }}\version\$SourceBranch"
+      Write-Host "Creating directory for current branch: $DocsDestDir"
+      New-Item -ItemType directory -Path $DocsDestDir
+    }    
 
-        if (Test-Path $DocsDestDir)
-        {
-            Write-Host "Delete files in $DocsDestDir"
-            (Get-ChildItem -Path $DocsDestDir | ForEach-Object { Remove-Item -Force -Recurse $_.FullName })
-
-            if ((Get-ChildItem -Path "$DocsDestDir\") -ne $null)
-            {
-                Write-Host "Not all files were deleted."
-                exit 1
-            }
-
-            Get-ChildItem $DocsDestDir | Remove-Item -Force -Recurse
-        }
-        else
-        {
-            Write-Host "Creating directory for current branch: $DocsDestDir"
-            New-Item -ItemType directory -Path $DocsDestDir
-        }
-    }
-    
-    if ($SourceBranch -eq "${{ parameters.WebScriptsBranch }}")
-    {
-        Write-Host "Copying modified index and web scripts"
-        Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web_root\index.html" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
-        Copy-Item -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\.nojekyll" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
-        Copy-Item -Recurse -Force -Path "${{ parameters.SourceRepoDir }}\Tools\DocGen\web" -Destination $DocsRepoDir -Verbose -ErrorAction Stop
-    }
-
-    if (($SourceBranch -ne "${{ parameters.RootBranch }}") -or ("${{ parameters.WebScriptsBeanch }}" -eq ""))
-    {
-        $DocsSourceDir = "${{ parameters.SourceRepoDir }}\Tools\DocGen\doc"
-        Write-Host "Copy new generated docs from $DocsSourceDir to $DocsDestDir"
-        Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $DocsDestDir -ErrorAction Stop
-    }
+    Write-Host "Copy new generated docs from $DocsSourceDir to $DocsDestDir"
+    Copy-Item -Recurse -Force -Path $DocsSourceDir\* -Destination $DocsDestDir -ErrorAction Stop
 
     # tread case change as a rename on case-insensitive file system 
     git config core.ignorecase false

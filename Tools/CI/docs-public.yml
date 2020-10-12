@@ -33,6 +33,5 @@ jobs:
       email: $(GitHub.email)
       username: $(GitHub.username)
       DestRepoUrl: $(DestRepoUrl)
-      WebScriptsBranch: $(WebScriptsBranch)  # branch with the latest index.html and web folder (set in ADO)
       commit: and(succeeded(),
                   not(eq(variables['Build.Reason'], 'PullRequest')))
