@@ -121,7 +121,7 @@ void UUxtFingerCursorComponent::BeginPlay()
 	SetRadius(CursorScale);
 
 	// Initialize the fade to 200% to that it can be interpolated to 100% when enabled. Note, the cursor begins to appear at around 130%.
-	ProximityFade = InitalCursorFadeScaler;
+	CursorFadeScaler = InitalCursorFadeScaler;
 }
 
 void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -151,7 +151,7 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				}
 			}
 
-			SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, AlignWithSurfaceDistance));
+			SetWorldTransform(GetCursorTransform(HandPointer->Hand, PointOnTarget, SurfaceNormal, Target ? AlignWithSurfaceDistance : -1.0f));
 
 			float Alpha = 1.0f;
 
@@ -162,8 +162,8 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				Alpha = DistanceToTarget / HandPointer->ProximityRadius;
 			}
 
-			FingerMaterialInstance->SetScalarParameterValue(FName("Proximity Distance"), Alpha * ProximityFade);
-			ProximityFade = FMath::Lerp(ProximityFade, TargetCursorFadeScaler, DeltaTime * CursorFadeSpeed);
+			FingerMaterialInstance->SetScalarParameterValue(FName("Proximity Distance"), Alpha * CursorFadeScaler);
+			CursorFadeScaler = FMath::Clamp(CursorFadeScaler - DeltaTime * CursorFadeSpeed, TargetCursorFadeScaler, InitalCursorFadeScaler);
 
 			// Ensure the cursor is not hidden when the hand pointer is active.
 			if (bHiddenInGame)
@@ -176,7 +176,7 @@ void UUxtFingerCursorComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			// Hide mesh when the pointer is inactive.
 			SetHiddenInGame(true);
 
-			ProximityFade = InitalCursorFadeScaler;
+			CursorFadeScaler = InitalCursorFadeScaler;
 		}
 	}
 }
