@@ -19,7 +19,7 @@ AUxtPressableCheckButtonActor::AUxtPressableCheckButtonActor()
 	check(DefaultTextMaterial.Object);
 
 	// Set the default button label.
-	Label = FText::FromString("Check");
+	Label = NSLOCTEXT("UxtPressableButtonActor", "LabelCheck", "Check");
 
 	// Setup the default checked icon.
 	CheckedIconBrush.Icon = "E73D";

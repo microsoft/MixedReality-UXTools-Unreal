@@ -23,7 +23,7 @@ AUxtPressableRadioButtonActor::AUxtPressableRadioButtonActor()
 	check(DefaultTextMaterial.Object);
 
 	// Set the default button label.
-	Label = FText::FromString("Radio");
+	Label = NSLOCTEXT("UxtPressableButtonActor", "LabelRadio", "Radio");
 
 	// Setup the default icon.
 	IconBrush.Icon = "F126";
@@ -42,7 +42,7 @@ AUxtPressableRadioButtonActor::AUxtPressableRadioButtonActor()
 	UE_CLOG(
 		!Result, UXTools, Warning, TEXT("Failed to resolve hex code point '%s' on AUxtPressableRadioButtonActor '%s'."), *Input,
 		*GetName());
-	CenterIconComponent->SetText(FText::FromString(Output));
+	CenterIconComponent->SetText(FText::AsCultureInvariant(Output));
 
 	RemoveTogglePlate();
 }

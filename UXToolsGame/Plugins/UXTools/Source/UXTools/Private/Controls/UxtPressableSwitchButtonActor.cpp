@@ -20,7 +20,7 @@ AUxtPressableSwitchButtonActor::AUxtPressableSwitchButtonActor()
 	check(DefaultTextMaterial.Object);
 
 	// Set the default button label.
-	Label = FText::FromString("Switch");
+	Label = NSLOCTEXT("UxtPressableButtonActor", "LabelSwitch", "Switch");
 
 	// Setup the default switched off icon.
 	SwitchedOnIconBrush.Icon = "EC11";

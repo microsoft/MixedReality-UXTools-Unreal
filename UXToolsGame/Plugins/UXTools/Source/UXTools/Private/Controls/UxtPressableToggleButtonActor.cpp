@@ -10,7 +10,7 @@
 AUxtPressableToggleButtonActor::AUxtPressableToggleButtonActor()
 {
 	// Set the default button label.
-	Label = FText::FromString("Toggle");
+	Label = NSLOCTEXT("UxtPressableButtonActor", "LabelToggle", "Toggle");
 
 	// Create the component hierarchy.
 	ToggleStateComponent = CreateDefaultSubobject<UUxtToggleStateComponent>(TEXT("UxtToggleState"));

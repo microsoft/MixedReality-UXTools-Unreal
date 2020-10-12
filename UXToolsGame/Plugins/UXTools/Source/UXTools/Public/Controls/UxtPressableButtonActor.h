@@ -169,7 +169,7 @@ protected:
 
 	/** Localizable text for the label. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetLabel", BlueprintSetter = "SetLabel", Category = "Button")
-	FText Label = FText::FromString("16x32x32mm");
+	FText Label = NSLOCTEXT("PressableButtonActor", "LabelDefault", "16x32x32mm");
 
 	/** Text settings for the label. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetLabelTextBrush", BlueprintSetter = "SetLabelTextBrush", Category = "Button")
