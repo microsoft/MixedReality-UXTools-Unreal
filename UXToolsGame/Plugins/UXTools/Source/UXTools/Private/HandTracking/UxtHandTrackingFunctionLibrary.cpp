@@ -5,6 +5,8 @@
 
 #include "Features/IModularFeatures.h"
 
+#include "GameFramework/InputSettings.h"
+
 bool UUxtHandTrackingFunctionLibrary::GetHandJointState(
 	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius)
 {
@@ -50,4 +52,19 @@ bool UUxtHandTrackingFunctionLibrary::IsHandTracked(EControllerHand Hand)
 {
 	bool NotUsed = false;
 	return GetIsHandGrabbing(Hand, NotUsed);
+}
+
+void UUxtHandTrackingFunctionLibrary::DebugActions()
+{
+	const UInputSettings* InputSettings = GetDefault<UInputSettings>();
+	if (InputSettings != nullptr)
+	{
+		TArray<FName> ActionNames;
+		InputSettings->GetActionNames(ActionNames);
+
+		for (const FName& ActionName : ActionNames)
+		{
+			UE_LOG(LogTemp, Display, TEXT("OOOOOOOO: %s"), *ActionName.ToString());
+		}
+	}
 }

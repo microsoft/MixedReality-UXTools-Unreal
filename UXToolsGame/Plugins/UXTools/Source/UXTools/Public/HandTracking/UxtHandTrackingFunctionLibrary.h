@@ -42,4 +42,7 @@ public:
 	/** Returns whether the given hand is tracked. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool IsHandTracked(EControllerHand Hand);
+
+	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
+	static void DebugActions();
 };
