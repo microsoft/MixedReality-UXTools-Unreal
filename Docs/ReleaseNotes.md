@@ -94,6 +94,8 @@ Toggle button state and event dispatchers are now accessible through the `UUxtTo
 
 `BP_SimpleSlider` has been replaced by `AUxtPinchSliderActor`. It has the same feature set as `BP_SimpleSlider` and can be extended from either Blueprints or C++.
 
+- `AUxtPinchSliderActor` now faces positive X.
+
 ### BP_TextActor
 
 `BP_TextActor` has been replaced by `AUxtTextRenderActor`. It has the same feature set as `BP_TextActor` and can be extended from either Blueprints or C++.
@@ -193,6 +195,10 @@ Event changes:
 
 - `Focus` has been renamed to `Focused`.
 - `Grab` has been renamed to `Grabbed`.
+
+Other changes:
+
+- The min / max positions on the slider have been swapped to make sliders face positive X.
 
 ### UxtPokeTarget
 

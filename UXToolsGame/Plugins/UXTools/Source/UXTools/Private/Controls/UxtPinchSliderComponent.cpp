@@ -299,7 +299,7 @@ void UUxtPinchSliderComponent::UpdateGrab(FVector DeltaPosition)
 	{
 		const FVector LocalDeltaPosition = GetComponentTransform().InverseTransformVector(DeltaPosition);
 		const float HalfTrackLength = TrackLength / 2.0f;
-		const float NewValue = (SliderStartPosition + LocalDeltaPosition.Y + HalfTrackLength) / TrackLength;
+		const float NewValue = 1 - ((SliderStartPosition + LocalDeltaPosition.Y + HalfTrackLength) / TrackLength);
 
 		SetValue(SmoothValue(Value, NewValue, Smoothing, GetWorld()->GetDeltaSeconds()));
 		UpdateVisuals();
@@ -375,7 +375,7 @@ void UUxtPinchSliderComponent::UpdateVisuals()
 	{
 		const FVector ThumbPosition = Thumb->GetRelativeLocation();
 		const float HalfTrackLength = TrackLength / 2.0f;
-		const FVector NewThumbPosition(ThumbPosition.X, FMath::Lerp(-HalfTrackLength, HalfTrackLength, Value), ThumbPosition.Z);
+		const FVector NewThumbPosition(ThumbPosition.X, FMath::Lerp(HalfTrackLength, -HalfTrackLength, Value), ThumbPosition.Z);
 		Thumb->SetRelativeLocation(NewThumbPosition);
 
 		if (BoxComponent)

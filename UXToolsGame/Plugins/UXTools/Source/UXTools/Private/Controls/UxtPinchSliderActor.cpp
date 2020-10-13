@@ -65,6 +65,7 @@ AUxtPinchSliderActor::AUxtPinchSliderActor()
 
 	Thumb = CreateDefaultSubobject<UStaticMeshComponent>("Thumb");
 	Thumb->SetupAttachment(PinchSlider);
+	Thumb->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 	Thumb->SetStaticMesh(DefaultThumbMesh.Object);
 	Thumb->SetMaterial(0, DefaultMaterial.Object);
 
@@ -74,19 +75,20 @@ AUxtPinchSliderActor::AUxtPinchSliderActor()
 
 	Track = CreateDefaultSubobject<UStaticMeshComponent>("Track");
 	Track->SetupAttachment(PinchSlider);
+	Track->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 	Track->SetStaticMesh(DefaultTrackMesh.Object);
 	Track->SetMaterial(0, DefaultMaterial.Object);
 
 	TickMarks = CreateDefaultSubobject<UInstancedStaticMeshComponent>("TickMarks");
 	TickMarks->SetupAttachment(PinchSlider);
 	TickMarks->SetRelativeLocation(FVector(0.0f, 0.0f, -1.0f));
+	TickMarks->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 	TickMarks->SetStaticMesh(DefaultTickMarkMesh.Object);
 	TickMarks->SetMaterial(0, DefaultMaterial.Object);
 
 	TextRoot = CreateDefaultSubobject<USceneComponent>("TextRoot");
 	TextRoot->SetupAttachment(PinchSlider);
 	TextRoot->SetRelativeLocation(FVector(0.0f, 0.0f, 3.5f));
-	TextRoot->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 
 	TitleText = CreateDefaultSubobject<UTextRenderComponent>("TitleText");
 	TitleText->SetupAttachment(TextRoot);
