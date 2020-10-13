@@ -31,8 +31,6 @@ stages:
       submodules: true
     - checkout: build-tools
     - template: templates/common.yml
-      parameters:
-        StrictMode: true
 
     - powershell: |
         # Switch MobileMultiView setting to False due to a rendering issue (https://udn.unrealengine.com/questions/578554/view.html)
