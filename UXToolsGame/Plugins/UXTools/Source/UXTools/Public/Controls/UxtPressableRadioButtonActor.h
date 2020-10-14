@@ -13,7 +13,7 @@
  * A derived actor of AUxtPressableToggleButtonActor which represents the toggle state with a circle icon. Radio buttons
  * are normally used in groups alongside the UUxtToggleGroupComponent.
  */
-UCLASS(ClassGroup = UXTools, Config = UXTools)
+UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtPressableRadioButtonActor : public AUxtPressableToggleButtonActor
 {
 	GENERATED_BODY()

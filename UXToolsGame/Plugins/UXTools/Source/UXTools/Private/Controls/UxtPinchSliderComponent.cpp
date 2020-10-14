@@ -299,7 +299,7 @@ void UUxtPinchSliderComponent::UpdateGrab(FVector DeltaPosition)
 	{
 		const FVector LocalDeltaPosition = GetComponentTransform().InverseTransformVector(DeltaPosition);
 		const float HalfTrackLength = TrackLength / 2.0f;
-		const float NewValue = (SliderStartPosition + LocalDeltaPosition.Y + HalfTrackLength) / TrackLength;
+		const float NewValue = 1 - ((SliderStartPosition + LocalDeltaPosition.Y + HalfTrackLength) / TrackLength);
 
 		SetValue(SmoothValue(Value, NewValue, Smoothing, GetWorld()->GetDeltaSeconds()));
 		UpdateVisuals();
@@ -334,6 +334,14 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent()
 {
 	if (BoxComponent)
 	{
+		// If the actor's collision is disabled, we need to enable it before disabling collision on the primitive components.
+		// This is because the it will restore the previous collision state when re-enabled (i.e. re-enabling collision on the components)
+		const bool bActorCollisionDisabled = !GetOwner()->GetActorEnableCollision();
+		if (bActorCollisionDisabled)
+		{
+			GetOwner()->SetActorEnableCollision(true);
+		}
+
 		// Disable collision on all primitive components.
 		TArray<UPrimitiveComponent*> Components;
 		GetOwner()->GetComponents<UPrimitiveComponent>(Components);
@@ -352,6 +360,12 @@ void UUxtPinchSliderComponent::ConfigureBoxComponent()
 			BoxComponent->SetWorldTransform(FTransform((Max + Min) / 2) * Thumb->GetComponentTransform());
 			BoxComponent->SetCollisionProfileName(CollisionProfile);
 		}
+
+		// Disable the actor's collision if we enabled it earlier.
+		if (bActorCollisionDisabled)
+		{
+			GetOwner()->SetActorEnableCollision(false);
+		}
 	}
 }
 
@@ -361,7 +375,7 @@ void UUxtPinchSliderComponent::UpdateVisuals()
 	{
 		const FVector ThumbPosition = Thumb->GetRelativeLocation();
 		const float HalfTrackLength = TrackLength / 2.0f;
-		const FVector NewThumbPosition(ThumbPosition.X, FMath::Lerp(-HalfTrackLength, HalfTrackLength, Value), ThumbPosition.Z);
+		const FVector NewThumbPosition(ThumbPosition.X, FMath::Lerp(HalfTrackLength, -HalfTrackLength, Value), ThumbPosition.Z);
 		Thumb->SetRelativeLocation(NewThumbPosition);
 
 		if (BoxComponent)

@@ -23,6 +23,7 @@ namespace
 		PinchSliderActor->SetTrackLength(10.0f);
 		PinchSliderActor->SetInitialValue(0.5f);
 		PinchSliderActor->SetActorLocation(TargetLocation);
+		PinchSliderActor->SetActorRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 
 		UUxtPinchSliderComponent* PinchSlider = PinchSliderActor->FindComponentByClass<UUxtPinchSliderComponent>();
 		PinchSlider->SetSmoothing(0.0f);

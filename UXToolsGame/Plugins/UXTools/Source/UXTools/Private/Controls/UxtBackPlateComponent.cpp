@@ -7,6 +7,14 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
 
+const float DefaultBackPlateDepth = 1.6f;
+const float DefaultBackPlateSize = 3.2f;
+
+// Specifies a rotation of 90 degrees along the x-axis to apply to the mesh component bounds.
+// Ideally we would do perform this rotation at model import time, but the back plate shader assumes 'Y' is up
+// so we also perform the same rotation in the vertex shader to avoid having to completely re-author the shader.
+const FRotator ZUpRotation(90, 0, 0);
+
 UUxtBackPlateComponent::UUxtBackPlateComponent()
 {
 	SetCastShadow(false);
@@ -24,9 +32,8 @@ UUxtBackPlateComponent::UUxtBackPlateComponent()
 	Material = MaterialFinder.Object;
 	SetMaterial(0, Material);
 
-	// Initialize the mesh to point down the +X axis with the default scale.
-	SetRelativeRotation(FRotator(90, 0, 0));
-	SetRelativeScale3D(FVector(3.2f, 3.2f, 1.6f));
+	// Set the default backplate scale to 16x32x32mm.
+	SetRelativeScale3D(FVector(DefaultBackPlateDepth, DefaultBackPlateSize, DefaultBackPlateSize));
 }
 
 #if WITH_EDITOR
@@ -53,6 +60,16 @@ void UUxtBackPlateComponent::SetBackPlateMaterial(UMaterialInterface* NewMateria
 	UpdateMaterialParameters();
 }
 
+float UUxtBackPlateComponent::GetDefaultBackPlateDepth()
+{
+	return DefaultBackPlateDepth;
+}
+
+float UUxtBackPlateComponent::GetDefaultBackPlateSize()
+{
+	return DefaultBackPlateSize;
+}
+
 void UUxtBackPlateComponent::OnRegister()
 {
 	Super::OnRegister();
@@ -65,6 +82,17 @@ void UUxtBackPlateComponent::OnUpdateTransform(EUpdateTransformFlags UpdateTrans
 	Super::OnUpdateTransform(UpdateTransformFlags, Teleport);
 
 	UpdateMaterialParameters();
+}
+
+FBoxSphereBounds UUxtBackPlateComponent::CalcBounds(const FTransform& LocalToWorld) const
+{
+	// Rotate the local bounds by ZUpRotation to ensure the bounds fit correctly.
+	FTransform RotatedLocalToWorld = LocalToWorld;
+	RotatedLocalToWorld = FTransform(ZUpRotation) * RotatedLocalToWorld;
+	// Note, scale needs to be rotated manually because multiplying FTransforms only scales the scale.
+	RotatedLocalToWorld.SetScale3D(ZUpRotation.RotateVector(RotatedLocalToWorld.GetScale3D()));
+
+	return Super::CalcBounds(RotatedLocalToWorld);
 }
 
 void UUxtBackPlateComponent::UpdateMaterialParameters()
@@ -85,7 +113,7 @@ void UUxtBackPlateComponent::UpdateMaterialParameters()
 
 	// The default material assumes a width of 32mm. If the width is 32mm then just use the default material and
 	// destroy any instances.
-	if (FMath::IsNearlyEqual(Width, 3.2f))
+	if (FMath::IsNearlyEqual(Width, DefaultBackPlateSize))
 	{
 		SetMaterial(0, Material);
 		MaterialInstance = nullptr;

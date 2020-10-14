@@ -45,14 +45,8 @@ The _Uniform Action_ flag can be turned off to allow non-uniform scaling and tra
 
 _Locked Axes_ flags restrict actions in the local space of the bounds control. For example, if the `X` axis is locked then moving an affordance forward will not have an effect. Two axes can be locked to allow movement only along the remaining axis.
 
-## Affordance classes
+## Affordance meshes
 
-An actor instance is created for each affordance at runtime. The actor class used for each kind of affordance (Corner, Edge, Face, Center) can be changed on the bounds control component (`Corner Affordance Class` etc.).
+At runtime a separate actor is created for displaying affordances. Each affordance is a StaticMesh component on the BoundsControlActor. The mesh used for each kind of affordance (Corner, Edge, Face, Center) can be changed on the bounds control component (`Corner Affordance Mesh` etc.).
 
-When creating custom affordance blueprints a few conditions should be kept in mind:
-* The affordance mesh should by default be oriented in the _forward_, _right_, _up_ direction. Each affordance instance is rotated by the bounds control to match its placement on the bounding box.
-* The affordance should have a UxtGrabTargetComponent to make it grabbable. The bounds control will use these components to react to user input.
-
-  The affordance does not need to handle user input or grab events itself. It is automatically placed by the bounds control.
-
-For customizing affordances it is recommended to use the _BoundsControl/BP_DefaultAffordanceBase_ blueprint as a base class or copy it.
+When creating custom affordance meshes they should by default be oriented in the _forward_, _right_, _up_ direction. Each instance is then automatically rotated to match its placement on the bounding box. It is recommended to use simple box collision primitives to make affordances grabbable.

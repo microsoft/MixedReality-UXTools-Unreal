@@ -34,6 +34,7 @@ namespace
 
 		Actor->SetRootComponent(PinchSlider);
 		Actor->SetActorLocation(TargetLocation);
+		Actor->SetActorRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 
 		return PinchSlider;
 	}

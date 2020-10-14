@@ -44,7 +44,7 @@ void FUxtIconBrushCustomization::CustomizeChildren(
 		{
 			Builder.AddProperty(PropHandle.ToSharedRef());
 
-			const FText Description = FText::FromString("Edit");
+			const FText Description = FText::AsCultureInvariant("Edit");
 			Builder.AddCustomRow(Description)
 				.NameContent()[SNew(STextBlock).Font(IDetailLayoutBuilder::GetDetailFont()).Text(Description)]
 				.ValueContent()
@@ -68,7 +68,7 @@ void FUxtIconBrushCustomization::CustomizeChildren(
 												this, &FUxtIconBrushCustomization::OnShowEditor,
 												PropertyHandle)[SNew(STextBlock)
 																	.Font(IDetailLayoutBuilder::GetDetailFont())
-																	.Text(FText::FromString("Open Icon Brush Editor"))]];
+																	.Text(FText::AsCultureInvariant("Open Icon Brush Editor"))]];
 		}
 		else
 		{

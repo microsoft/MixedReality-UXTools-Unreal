@@ -94,6 +94,15 @@ public:
 		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "!bIgnoreDistanceClamp", EditConditionHides), Category = FollowDistance)
 	float VerticalMaxDistance = 0.0f;
 
+	/** Ignore vertical movement and lock the Y position of the object. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowDistance)
+	bool bUseFixedVerticalOffset = false;
+
+	/** Fixed vertical position offset distance. */
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "bUseFixedVerticalOffset", EditConditionHides), Category = FollowDistance)
+	float FixedVerticalOffset = 0.0f;
+
 	/** Option to ignore angle clamping */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FollowDirection)
 	bool bIgnoreAngleClamp = false;
@@ -115,7 +124,8 @@ public:
 
 	/** Pitch offset from camera (relative to Max Distance) */
 	UPROPERTY(
-		EditAnywhere, BlueprintReadWrite, meta = (EditCondition = "bIgnoreCameraPitchAndRoll && !bIgnoreAngleClamp", EditConditionHides),
+		EditAnywhere, BlueprintReadWrite,
+		meta = (EditCondition = "bIgnoreCameraPitchAndRoll && !bIgnoreAngleClamp && !bUseFixedVerticalOffset", EditConditionHides),
 		Category = FollowDirection)
 	float PitchOffset = 0.0f;
 

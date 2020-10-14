@@ -238,6 +238,28 @@ function Read-UnrealBuildLog {
     }
 }
 
+function Get-UATPath
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$UnrealEngine
+    )
+    process
+    {
+        $UE4BatchFilesDir = "$UnrealEngine/Engine/Build/BatchFiles"
+        $UATPath = "$UE4BatchFilesDir/RunUAT.bat"
+        if ((-not (Test-Path -Path $UnrealEngine -PathType Container)) -or
+            (-not (Test-Path -Path $UATPath -PathType Leaf)))
+        {
+            Write-Host -ForegroundColor Red "Incorrect UnrealEngine path provided: $UnrealEngine"
+            Write-Host -ForegroundColor Red "UnrealEngine parameter should point to the root installation folder of Unreal Engine"
+            throw "Unreal Engine not found"
+        }
+        return $UATPath
+    }
+}
+
 <#
 .SYNOPSIS
     Build a project using Unreal Automation Tool.
@@ -266,8 +288,7 @@ function Start-UAT
     )
     process
     {
-        $UE4BatchFilesDir = "$UnrealEngine/Engine/Build/BatchFiles"
-        $UATPath = "$UE4BatchFilesDir/RunUAT.bat"
+        $UATPath = (Get-UATPath -UnrealEngine $UnrealEngine)
 
         # Remove previous build log
         $UnrealBuildLogPath = (Get-UnrealBuildLogPath -UnrealEngine $UnrealEngine)

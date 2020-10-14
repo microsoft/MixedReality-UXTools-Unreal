@@ -262,6 +262,36 @@ static float4 huxVertexOutput_Extra2;
 static float4 huxVertexOutput_Extra3;
 static float3 huxVertexOutput_Offset;
 
+// Based off \Engine\Source\Runtime\Core\Public\Math\QuatRotationTranslationMatrix.h 
+// FQuatRotationTranslationMatrix(const FQuat& Q, const FVector& Origin)
+float4x4 Quaternion_To_Matrix(float4 quat)
+{
+	float4x4 m = float4x4(float4(0, 0, 0, 0), 
+						  float4(0, 0, 0, 0), 
+						  float4(0, 0, 0, 0), 
+						  float4(0, 0, 0, 1));
+
+	float x = quat.x, y = quat.y, z = quat.z, w = quat.w;
+	float x2 = x + x, y2 = y + y, z2 = z + z;
+	float xx = x * x2, xy = x * y2, xz = x * z2;
+	float yy = y * y2, yz = y * z2, zz = z * z2;
+	float wx = w * x2, wy = w * y2, wz = w * z2;
+
+	m[0][0] = 1.0 - (yy + zz);
+	m[0][1] = xy - wz;
+	m[0][2] = xz + wy;
+
+	m[1][0] = xy + wz;
+	m[1][1] = 1.0 - (xx + zz);
+	m[1][2] = yz - wx;
+
+	m[2][0] = xz - wy;
+	m[2][1] = yz + wx;
+	m[2][2] = 1.0 - (xx + yy);
+
+	return m;
+}
+
 float3 Hushed_Vertex(
     FMaterialVertexParameters Parameters
     ,float _Radius_
@@ -297,7 +327,7 @@ float3 Hushed_Vertex(
 
 	,float3 vertexInput_Eye
 	,float inputTime
-)
+	,float4 _Z_Up_Rotation_)
 {
     float3 vertexWorldPosition = GetWorldPosition(Parameters);
     //float3 vertexLocalPosition = mul(float4(vertexWorldPosition, 1), GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal).xyz;
@@ -308,13 +338,15 @@ float3 Hushed_Vertex(
 	float3 worldTangent = Parameters.TangentToWorld[0];
 	float3 vertexLocalTangent = normalize(mul(worldTangent,(MaterialFloat3x3)(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal)));
 
+	MaterialFloat4x4 zUpRotation = Quaternion_To_Matrix(_Z_Up_Rotation_);
+
     #if USE_INSTANCING || IS_MESHPARTICLE_FACTORY
-    ObjectToWorldDir = (MaterialFloat3x3)Parameters.InstanceLocalToWorld;
+	ObjectToWorldDir = mul((MaterialFloat3x3)zUpRotation, (MaterialFloat3x3) Parameters.InstanceLocalToWorld);
     #else
-    ObjectToWorldDir = GetLocalToWorld3x3(Parameters.PrimitiveId);
+	ObjectToWorldDir = mul((MaterialFloat3x3)zUpRotation, GetLocalToWorld3x3(Parameters.PrimitiveId));
     #endif
 
-    HUX_OBJECT_TO_WORLD_POS_MATRIX = GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld;
+    HUX_OBJECT_TO_WORLD_POS_MATRIX = mul(zUpRotation, GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld);
 
     Use_Global_Left_Index_Int = useGlobalLeftIndex;
     Use_Global_Right_Index_Int = useGlobalRightIndex;

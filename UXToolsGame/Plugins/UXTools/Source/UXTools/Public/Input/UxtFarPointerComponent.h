@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EngineDefines.h"
 #include "InputCoreTypes.h"
 #include "UxtPointerComponent.h"
 
@@ -92,6 +93,10 @@ private:
 
 	/** Current far target if any. This will be a UObject implementing the UUxtFarTarget interface. */
 	UObject* GetFarTarget() const;
+
+#if ENABLE_VISUAL_LOG
+	void VLogPointer() const;
+#endif // ENABLE_VISUAL_LOG
 
 public:
 	/** Trace channel to be used in the pointer's line trace query. */

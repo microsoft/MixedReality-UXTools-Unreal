@@ -274,11 +274,9 @@ FMatrix FUxtAffordanceConfig::GetConstraintMatrix(int32 LockedAxes) const
 	}
 }
 
-FTransform FUxtAffordanceConfig::GetWorldTransform(const FBox& Bounds, const FTransform& RootTransform) const
+void FUxtAffordanceConfig::GetWorldLocationAndRotation(
+	const FBox& Bounds, const FTransform& RootTransform, FVector& OutLocation, FQuat& OutRotation) const
 {
-	const FVector Location = Bounds.GetCenter() + Bounds.GetExtent() * GetBoundsLocation();
-	const FRotator Rotation = GetBoundsRotation();
-	const FVector Scale = FVector::OneVector;
-
-	return FTransform(RootTransform.TransformRotation(FQuat(Rotation)), RootTransform.TransformPosition(Location), Scale);
+	OutLocation = RootTransform.TransformPosition(Bounds.GetCenter() + Bounds.GetExtent() * GetBoundsLocation());
+	OutRotation = RootTransform.TransformRotation(GetBoundsRotation().Quaternion());
 }
