@@ -12,7 +12,7 @@
 /**
  * A derived actor of AUxtPressableToggleButtonActor which represents the toggle state with a check icon.
  */
-UCLASS(ClassGroup = UXTools, Config = UXTools)
+UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtPressableCheckButtonActor : public AUxtPressableToggleButtonActor
 {
 	GENERATED_BODY()
@@ -47,13 +47,10 @@ public:
 
 protected:
 	/** Structure which contains properties for the button's icon when unchecked. */
-	UPROPERTY(
-		EditAnywhere, Config, BlueprintGetter = "GetUncheckedIconBrush", BlueprintSetter = "SetUncheckedIconBrush",
-		Category = "CheckButton")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetUncheckedIconBrush", BlueprintSetter = "SetUncheckedIconBrush", Category = "CheckButton")
 	FUxtIconBrush UncheckedIconBrush;
 
 	/** Structure which contains properties for the button's icon when checked. */
-	UPROPERTY(
-		EditAnywhere, Config, BlueprintGetter = "GetCheckedIconBrush", BlueprintSetter = "SetCheckedIconBrush", Category = "CheckButton")
+	UPROPERTY(EditAnywhere, BlueprintGetter = "GetCheckedIconBrush", BlueprintSetter = "SetCheckedIconBrush", Category = "CheckButton")
 	FUxtIconBrush CheckedIconBrush;
 };

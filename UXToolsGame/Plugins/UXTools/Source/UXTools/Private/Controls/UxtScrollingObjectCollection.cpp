@@ -388,7 +388,7 @@ void UUxtScrollingObjectCollection::InitializeCollection()
 		CurrentRelative.Y = Properties.Center.Y;
 		CurrentRelative.Z = Properties.Center.Z;
 		BackPlate->SetRelativeLocation(CurrentRelative);
-		BackPlate->SetRelativeScale3D(FVector(Properties.Width, Properties.Height, 1.0f));
+		BackPlate->SetRelativeScale3D(FVector(UUxtBackPlateComponent::GetDefaultBackPlateDepth(), Properties.Height, Properties.Width));
 	}
 
 	// Raise event so that the containing Blueprint can respond

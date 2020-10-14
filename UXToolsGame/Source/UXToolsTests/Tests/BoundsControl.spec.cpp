@@ -45,11 +45,20 @@ namespace
 BEGIN_DEFINE_SPEC(
 	BoundsControlSpec, "UXTools.BoundsControl", EAutomationTestFlags::ProductFilter | EAutomationTestFlags::ApplicationContextMask)
 
+bool TestQuatEqual(const FString& What, const FQuat& Actual, const FQuat& Expected, float Tolerance = KINDA_SMALL_NUMBER);
+
 UUxtBoundsControlComponent* Target;
 UUxtNearPointerComponent* NearPointer;
 FFrameQueue FrameQueue;
 
 END_DEFINE_SPEC(BoundsControlSpec)
+
+bool BoundsControlSpec::TestQuatEqual(const FString& What, const FQuat& Actual, const FQuat& Expected, float Tolerance)
+{
+	return TestEqual(What, Actual.GetAxisX(), Expected.GetAxisX(), Tolerance) &&
+		   TestEqual(What, Actual.GetAxisY(), Expected.GetAxisY(), Tolerance) &&
+		   TestEqual(What, Actual.GetAxisZ(), Expected.GetAxisZ(), Tolerance);
+}
 
 void BoundsControlSpec::Define()
 {
@@ -90,15 +99,17 @@ void BoundsControlSpec::Define()
 			const FTransform ActorTransform = Target->GetOwner()->GetTransform();
 			const FBox& Bounds = Target->GetBounds();
 
-			for (const auto& Entry : Target->GetActorAffordanceMap())
+			for (const auto& Entry : Target->GetPrimitiveAffordanceMap())
 			{
-				const AActor* AffordanceActor = Entry.Key;
-				const FUxtAffordanceConfig* AffordanceInfo = Entry.Value;
+				const UPrimitiveComponent* AffordancePrimitive = Entry.Key;
+				const FUxtAffordanceInstance& AffordanceInstance = Entry.Value;
 
-				const FTransform ExpectedTransform = AffordanceInfo->GetWorldTransform(Bounds, ActorTransform);
-				const FTransform Result = AffordanceActor->GetTransform();
+				FVector ExpectedLocation;
+				FQuat ExpectedRotation;
+				AffordanceInstance.Config.GetWorldLocationAndRotation(Bounds, ActorTransform, ExpectedLocation, ExpectedRotation);
 
-				TestTrue("Affordance has updated", Result.Equals(ExpectedTransform));
+				TestEqual("Affordance location has updated", AffordancePrimitive->GetComponentLocation(), ExpectedLocation);
+				TestQuatEqual("Affordance rotation has updated", AffordancePrimitive->GetComponentQuat(), ExpectedRotation);
 			}
 		});
 

@@ -15,7 +15,7 @@ class UUxtToggleStateComponent;
  * A derived actor of AUxtPressableButtonActor with a UUxtToggleStateComponent component to track state and visuals for a
  * button can which can be toggled on or off (checked or unchecked).
  */
-UCLASS(ClassGroup = UXTools, Config = UXTools)
+UCLASS(ClassGroup = UXTools)
 class UXTOOLS_API AUxtPressableToggleButtonActor : public AUxtPressableButtonActor
 {
 	GENERATED_BODY()
@@ -58,8 +58,11 @@ public:
 	void RemoveTogglePlate();
 
 protected:
-	/** Toggles the UUxtToggleStateComponent when the button is pressed. */
+	/** Button pressed event delegate. */
 	virtual void OnButtonPressed(UUxtPressableButtonComponent* Button, UUxtPointerComponent* Pointer) override;
+
+	/** Button released event delegate. */
+	virtual void OnButtonReleased(UUxtPressableButtonComponent* Button, UUxtPointerComponent* Pointer) override;
 
 	/** Updates the toggle visuals when the toggles state changes. */
 	UFUNCTION(Category = "Button")
@@ -68,6 +71,10 @@ protected:
 	/** Should the button be toggled on or off at BeginPlay? */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "IsInitiallyChecked", BlueprintSetter = "SetIsInitiallyChecked", Category = "ToggleButton")
 	bool bIsInitiallyChecked = false;
+
+	/** Should the button toggle on press or release? */
+	UPROPERTY(EditAnywhere, Category = "ToggleButton")
+	bool bToggleOnRelease = false;
 
 	/** Component which keeps track of the toggled state. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)

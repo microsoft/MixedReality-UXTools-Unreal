@@ -7,7 +7,7 @@
 
 #include "Controls/UxtFarBeamComponent.h"
 #include "Controls/UxtFarCursorComponent.h"
-#include "Controls/UxtSurfaceMagnetism.h"
+#include "Controls/UxtSurfaceMagnetismComponent.h"
 #include "Engine/Engine.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
@@ -35,7 +35,7 @@ const FVector SurfaceLocation = FVector(600, 0, 0);
 UUxtNearPointerComponent* Pointer;
 const float TargetScale = .3f;
 const float SurfaceScale = 7.f;
-UUxtSurfaceMagnetism* SurfaceMagnetismComponent;
+UUxtSurfaceMagnetismComponent* SurfaceMagnetismComponent;
 AActor* TargetActor;
 AActor* SurfaceActor;
 float DistCheck;
@@ -63,13 +63,15 @@ void FSurfaceMagnetism::Define()
 			// Target Actor
 			TargetActor = World->SpawnActor<AActor>();
 
-			USceneComponent* root = NewObject<USceneComponent>(TargetActor);
-			TargetActor->SetRootComponent(root);
-			root->SetWorldLocation(TargetLocation);
-			root->RegisterComponent();
+			UStaticMeshComponent* Root = UxtTestUtils::CreateBoxStaticMesh(TargetActor, FVector(0.3f));
+			TargetActor->SetRootComponent(Root);
+			Root->SetWorldLocation(TargetLocation);
+			Root->RegisterComponent();
 
-			SurfaceMagnetismComponent = NewObject<UUxtSurfaceMagnetism>(TargetActor);
-			SurfaceMagnetismComponent->SetWorldLocation(TargetLocation);
+			SurfaceMagnetismComponent = NewObject<UUxtSurfaceMagnetismComponent>(TargetActor);
+			SurfaceMagnetismComponent->SetTargetComponent(Root);
+			SurfaceMagnetismComponent->bSmoothPosition = false;
+			SurfaceMagnetismComponent->bSmoothRotation = false;
 			SurfaceMagnetismComponent->RegisterComponent();
 
 			if (!TargetFilename.IsEmpty())
@@ -83,7 +85,6 @@ void FSurfaceMagnetism::Define()
 				UStaticMesh* MeshAsset = LoadObject<UStaticMesh>(TargetActor, *TargetFilename);
 				Mesh->SetStaticMesh(MeshAsset);
 				Mesh->RegisterComponent();
-				SurfaceMagnetismComponent->SetMagnetismType(EUxtMagnetismType::Hand);
 			}
 
 			/// Surface Actor

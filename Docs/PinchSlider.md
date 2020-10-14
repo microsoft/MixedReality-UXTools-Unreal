@@ -22,9 +22,9 @@ A pinch slider component allows the user to continuously change a value by movin
 
 3. Select the UxtPinchSliderComponent and set the _Visuals_ property to reference the sphere mesh.
 
-3. Add a Cylinder static mesh to the actor and call it _Track_. Set its scale to _(0.01, 0.01, 0.5)_ and its X rotation to _90_ degrees.
+4. Add a Cylinder static mesh to the actor and call it _Track_. Set its scale to _(0.01, 0.01, 0.5)_ and its X rotation to _90_ degrees.
 
-4. If the slider is configured correctly it will look like this:
+5. If the slider is configured correctly it will look like this:
 
 ![BasicSlider](Images/Slider/BasicSlider.gif)
 
@@ -48,6 +48,6 @@ UXTools provides a ready to use HoloLens 2 style pinch slider called the `UxtPin
 
 ![PinchSliderActor](Images/Slider/PinchSliderActor.gif)
 
-This slider can be configured and extended using Blueprints or C++. There is an exampe of this in `BP_HandMenuSlider` that can be found in the hand menu example scene.
+This slider can be configured and extended using Blueprints or C++. There is an example of this in `BP_HandMenuSlider` that can be found in the hand menu example scene.
 
 ![HandMenuSlider](Images/Slider/HandMenuSlider.gif)

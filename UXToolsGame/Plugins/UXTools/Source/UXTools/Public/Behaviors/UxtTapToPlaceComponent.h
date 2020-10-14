@@ -21,6 +21,15 @@ enum EUxtTapToPlaceOrientBehavior
 	AlignToSurface UMETA(DisplayName = "AlignToSurface"),
 };
 
+UENUM(BlueprintType)
+enum EUxtTapToPlaceMode
+{
+	/** Place using look direction */
+	Head,
+	/** Place using the hand ray */
+	Hand
+};
+
 //
 // Delegates
 
@@ -113,6 +122,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlace)
 	TEnumAsByte<EUxtTapToPlaceOrientBehavior> OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
 
+	/** How the target should be placed, using head or far pointer. */
+	UPROPERTY(EditAnywhere, Category = TapToPlace)
+	TEnumAsByte<EUxtTapToPlaceMode> PlacementType = EUxtTapToPlaceMode::Head;
+
 	/** Whether the orientation of the object should pitch or roll. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlace)
 	bool KeepOrientationVertical = false;
@@ -139,7 +152,7 @@ public:
 
 private:
 	/** The component to transform, defaults to the first primitive component if not specified */
-	UPROPERTY(EditAnywhere, meta = (UseComponentPicker, AllowedClasses = "UPrimitiveComponent"), Category = TapToPlace)
+	UPROPERTY(EditAnywhere, meta = (UseComponentPicker, AllowedClasses = "PrimitiveComponent"), Category = TapToPlace)
 	FComponentReference TargetComponent;
 
 	bool bIsBeingPlaced = false;

@@ -14,10 +14,6 @@ Here are the events that you can use to hook up to your application logic:
 
 ## Instance Editable Properties
 
-### Magnetism Type
-
-The line trace for surfaces to stick to can either come from the `Head` or from the `Hand`, using the appropriate rotation in each case.
-
 ### Trace Distance
 
 Maximum length of the trace for a surface to stick to.
@@ -50,18 +46,6 @@ Distance offset from the hit point to place the target at, along the traced ray 
 
 The channel that is traced for surfaces to stick to.
 
-### Auto Bounds
-
-If `true`, the component will automatically attempt to adjust collision box size to the bounds of the owning actor.
-
-### Box Bounds
-
-If `AutoBound`s is `false`, it sets the collision box bounds.
-
-### Only Enable Yaw
+### Keep Orientation Vertical
 
 If `true`, pitch and roll are omitted.
-
-### Collision Profile
-
-The collision profile used for the interactive element (the box collision).

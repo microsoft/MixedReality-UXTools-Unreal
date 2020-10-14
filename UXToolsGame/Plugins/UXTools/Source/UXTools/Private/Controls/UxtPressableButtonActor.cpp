@@ -10,7 +10,10 @@
 #include "Controls/UxtBackPlateComponent.h"
 #include "Controls/UxtButtonBrush.h"
 #include "Controls/UxtPressableButtonComponent.h"
+#include "Engine/Font.h"
+#include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Utils/UxtInternalFunctionLibrary.h"
 
 /**
@@ -35,9 +38,81 @@ AUxtPressableButtonActor::AUxtPressableButtonActor()
 	// Don't start ticking until the button needs to be animated.
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
+	// Load the default assets.
+	static ConstructorHelpers::FObjectFinder<UFont> DefaultIconFont(
+		TEXT("Font'/UXTools/Fonts/Font_SegoeHoloMDL_Regular_42.Font_SegoeHoloMDL_Regular_42'"));
+	check(DefaultIconFont.Object);
+
+	static ConstructorHelpers::FObjectFinder<UMaterial> DefaultTextMaterial(TEXT("Material'/UXTools/Fonts/M_DefaultFont.M_DefaultFont'"));
+	check(DefaultTextMaterial.Object);
+
+	static ConstructorHelpers::FObjectFinder<UFont> DefaultLabelTextFont(
+		TEXT("Font'/UXTools/Fonts/Font_SegoeUI_Semibold_42.Font_SegoeUI_Semibold_42'"));
+	check(DefaultLabelTextFont.Object);
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> DefaultBackPlateMaterial(
+		TEXT("MaterialInstance'/UXTools/Materials/MI_HoloLens2BackPlate.MI_HoloLens2BackPlate'"));
+	check(DefaultBackPlateMaterial.Object);
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> DefaultBackPlateMesh(
+		TEXT("StaticMesh'/UXTools/Models/SM_BackPlateRoundedThick_4.SM_BackPlateRoundedThick_4'"));
+	check(DefaultBackPlateMesh.Object);
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> DefaultFrontPlateMaterial(
+		TEXT("MaterialInstance'/UXTools/Buttons/HoloLens2/MI_ButtonHoloLens2FrontPlate.MI_ButtonHoloLens2FrontPlate'"));
+	check(DefaultFrontPlateMaterial.Object);
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> DefaultFrontPlateMesh(
+		TEXT("StaticMesh'/UXTools/Models/SM_FrontPlate_PX.SM_FrontPlate_PX'"));
+	check(DefaultFrontPlateMesh.Object);
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> DefaultFrontPlatePulseLeftMaterial(
+		TEXT("MaterialInstance'/UXTools/Buttons/HoloLens2/"
+			 "MI_ButtonHoloLens2FrontPlateLocalInputLeft.MI_ButtonHoloLens2FrontPlateLocalInputLeft'"));
+	check(DefaultFrontPlatePulseLeftMaterial.Object);
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> DefaultFrontPlatePulseRightMaterial(
+		TEXT("MaterialInstance'/UXTools/Buttons/HoloLens2/"
+			 "MI_ButtonHoloLens2FrontPlateLocalInputRight.MI_ButtonHoloLens2FrontPlateLocalInputRight'"));
+	check(DefaultFrontPlatePulseRightMaterial.Object);
+
+	static ConstructorHelpers::FObjectFinder<UCurveFloat> DefaultIconFocusCurve(
+		TEXT("CurveFloat'/UXTools/Buttons/HoloLens2/FC_Hololens2IconFocus.FC_Hololens2IconFocus'"));
+	check(DefaultIconFocusCurve.Object);
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> DefaultTogglePlateMaterial(
+		TEXT("MaterialInstance'/UXTools/Buttons/HoloLens2/MI_ButtonHoloLens2BackPlateToggle.MI_ButtonHoloLens2BackPlateToggle'"));
+	check(DefaultTogglePlateMaterial.Object);
+
+	static ConstructorHelpers::FObjectFinder<USoundWave> DefaultPressedSound(
+		TEXT("SoundWave'/UXTools/Buttons/HoloLens2/S_ButtonPressed_Mono_01.S_ButtonPressed_Mono_01'"));
+	check(DefaultPressedSound.Object);
+
+	static ConstructorHelpers::FObjectFinder<USoundWave> DefaultReleasedSound(
+		TEXT("SoundWave'/UXTools/Buttons/HoloLens2/S_ButtonReleased_Mono_01.S_ButtonReleased_Mono_01'"));
+	check(DefaultReleasedSound.Object);
+
+	// Apply the default icon settings.
+	IconBrush.TextBrush.Font = DefaultIconFont.Object;
+	IconBrush.TextBrush.Material = DefaultTextMaterial.Object;
+
 	// Apply the default label settings.
+	LabelTextBrush.Font = DefaultLabelTextFont.Object;
+	LabelTextBrush.Material = DefaultTextMaterial.Object;
 	LabelTextBrush.RelativeLocation = FVector(0, 0, -1);
 	LabelTextBrush.Size = 0.5f;
+
+	// Apply the default button settings.
+	ButtonBrush.Visuals.BackPlateMaterial = DefaultBackPlateMaterial.Object;
+	ButtonBrush.Visuals.BackPlateMesh = DefaultBackPlateMesh.Object;
+	ButtonBrush.Visuals.FrontPlateMaterial = DefaultFrontPlateMaterial.Object;
+	ButtonBrush.Visuals.FrontPlateMesh = DefaultFrontPlateMesh.Object;
+	ButtonBrush.Visuals.FrontPlatePulseLeftMaterial = DefaultFrontPlatePulseLeftMaterial.Object;
+	ButtonBrush.Visuals.FrontPlatePulseRightMaterial = DefaultFrontPlatePulseRightMaterial.Object;
+	ButtonBrush.Visuals.IconFocusCurve = DefaultIconFocusCurve.Object;
+	ButtonBrush.Visuals.TogglePlateMaterial = DefaultTogglePlateMaterial.Object;
+	ButtonBrush.Audio.PressedSound = DefaultPressedSound.Object;
+	ButtonBrush.Audio.ReleasedSound = DefaultReleasedSound.Object;
 
 	// Apply default button settings and subscriptions.
 	ButtonComponent->SetPushBehavior(EUxtPushBehavior::Compress);
@@ -103,8 +178,8 @@ void AUxtPressableButtonActor::ConstructVisuals()
 
 	const FVector Size = GetSize();
 
-	// Swizzle the back plate size to match the content basis and leave the depth unmodified.
-	BackPlateMeshComponent->SetRelativeScale3D(FVector(Size.Z, Size.Y, BackPlateMeshComponent->GetRelativeScale3D().Z));
+	// Leave the depth unmodified.
+	BackPlateMeshComponent->SetRelativeScale3D(FVector(BackPlateMeshComponent->GetRelativeScale3D().X, Size.Y, Size.Z));
 	BackPlateMeshComponent->SetVisibility(bIsPlated);
 
 	FrontPlateCenterComponent->SetRelativeLocation(FVector(Size.X * 0.5f, 0, 0));
@@ -162,13 +237,13 @@ void AUxtPressableButtonActor::ConstructIcon()
 		UE_CLOG(
 			!Result, UXTools, Warning, TEXT("Failed to resolve hex code point '%s' on AUxtPressableButtonActor '%s'."), *IconBrush.Icon,
 			*GetName());
-		IconComponent->SetText(FText::FromString(Output));
+		IconComponent->SetText(FText::AsCultureInvariant(Output));
 	}
 	break;
 	case EUxtIconBrushContentType::String:
 	{
 		IconComponent->SetVisibility(true);
-		IconComponent->SetText(FText::FromString(IconBrush.Icon));
+		IconComponent->SetText(FText::AsCultureInvariant(IconBrush.Icon));
 	}
 	break;
 	}

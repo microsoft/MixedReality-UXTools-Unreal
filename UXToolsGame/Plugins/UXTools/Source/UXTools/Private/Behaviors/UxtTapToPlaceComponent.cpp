@@ -57,7 +57,6 @@ void UUxtTapToPlaceComponent::StartPlacement()
 		if (FocusLockedPointerWeak.IsValid())
 		{
 			FocusLockedPointerWeak->SetFocusLocked(false);
-			FocusLockedPointerWeak = nullptr;
 		}
 
 		bIsBeingPlaced = true;
@@ -70,6 +69,7 @@ void UUxtTapToPlaceComponent::EndPlacement()
 {
 	if (bIsBeingPlaced)
 	{
+		FocusLockedPointerWeak = nullptr;
 		bIsBeingPlaced = false;
 		UUxtInputSubsystem::UnregisterHandler(this, UUxtFarHandler::StaticClass());
 		OnEndPlacing.Broadcast(this);
@@ -100,19 +100,27 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	{
 		if (UPrimitiveComponent* Target = GetTargetComponent())
 		{
-			FTransform HeadPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
+			FTransform OriginPose;
+			switch (PlacementType)
+			{
+			case EUxtTapToPlaceMode::Head:
+				OriginPose = UUxtFunctionLibrary::GetHeadPose(GetWorld());
+				break;
+			case EUxtTapToPlaceMode::Hand:
+				OriginPose = FTransform(FocusLockedPointerWeak->GetPointerOrientation(), FocusLockedPointerWeak->GetPointerOrigin());
+			}
 
 			// Ignore the target being placed
 			FCollisionQueryParams QueryParams;
 			QueryParams.AddIgnoredComponent(Target);
 
 			FHitResult Result;
-			FVector Start = HeadPose.GetLocation();
-			FVector End = Start + HeadPose.GetUnitAxis(EAxis::X) * MaxRaycastDistance;
+			FVector Start = OriginPose.GetLocation();
+			FVector End = Start + OriginPose.GetUnitAxis(EAxis::X) * MaxRaycastDistance;
 			GetWorld()->LineTraceSingleByChannel(Result, Start, End, TraceChannel, QueryParams);
 
-			FVector HitPosition = Start + HeadPose.GetUnitAxis(EAxis::X) * DefaultPlacementDistance;
-			FVector Facing = HeadPose.GetLocation() - HitPosition;
+			FVector HitPosition = Start + OriginPose.GetUnitAxis(EAxis::X) * DefaultPlacementDistance;
+			FVector Facing = OriginPose.GetLocation() - HitPosition;
 			FVector Up = FVector::UpVector;
 			if (Result.GetComponent())
 			{
@@ -124,12 +132,12 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 					Facing = Result.Normal;
 					if (Facing == FVector::UpVector)
 					{
-						Up = HitPosition - HeadPose.GetLocation();
+						Up = HitPosition - OriginPose.GetLocation();
 					}
 				}
 				else
 				{
-					Facing = HeadPose.GetLocation() - HitPosition;
+					Facing = OriginPose.GetLocation() - HitPosition;
 				}
 			}
 

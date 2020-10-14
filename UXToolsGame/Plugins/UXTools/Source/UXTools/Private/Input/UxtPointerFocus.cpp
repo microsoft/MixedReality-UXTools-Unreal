@@ -11,6 +11,7 @@
 #include "Interactions/UxtInteractionUtils.h"
 #include "Interactions/UxtPokeHandler.h"
 #include "Interactions/UxtPokeTarget.h"
+#include "VisualLogger/VisualLogger.h"
 
 bool FUxtPointerFocusSearchResult::IsValid() const
 {
@@ -63,6 +64,10 @@ void FUxtPointerFocus::UpdateClosestTarget(const FTransform& PointerTransform)
 		if (UPrimitiveComponent* Primitive = FocusedPrimitiveWeak.Get())
 		{
 			GetClosestPointOnTarget(ClosesTarget, Primitive, PointerTransform.GetLocation(), ClosestTargetPoint, ClosestTargetNormal);
+
+#if ENABLE_VISUAL_LOG
+			VLogFocus(Primitive, ClosestTargetPoint, ClosestTargetNormal, true);
+#endif // ENABLE_VISUAL_LOG
 		}
 	}
 }
@@ -194,6 +199,10 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 						ClosestNormal = Normal;
 					}
 
+#if ENABLE_VISUAL_LOG
+					VLogFocus(Overlap.GetComponent(), PointOnTarget, Normal, false);
+#endif // ENABLE_VISUAL_LOG
+
 					// We keep the first target component that takes ownership of the primitive.
 					break;
 				}
@@ -203,6 +212,10 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 
 	if (ClosestTarget != nullptr)
 	{
+#if ENABLE_VISUAL_LOG
+		VLogFocus(ClosestPrimitive, ClosestPointOnTarget, ClosestNormal, true);
+#endif // ENABLE_VISUAL_LOG
+
 		return {ClosestTarget, ClosestPrimitive, ClosestPointOnTarget, ClosestNormal, FMath::Sqrt(MinDistanceSqr)};
 	}
 	else
@@ -251,6 +264,27 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestPointOnComponent(UActo
 		return {nullptr, nullptr, FVector::ZeroVector, FVector::ForwardVector, MAX_FLT};
 	}
 }
+
+#if ENABLE_VISUAL_LOG
+void FUxtPointerFocus::VLogFocus(
+	const UPrimitiveComponent* Primitive, const FVector& PointOnTarget, const FVector& Normal, bool bIsFocus) const
+{
+	if (!FVisualLogger::IsRecording())
+	{
+		return;
+	}
+
+	if (const UObject* VLogOwner = VLogOwnerWeak.Get())
+	{
+		const FColor FocusColor = bIsFocus ? VLogColor : FColor(VLogColor.R / 2, VLogColor.G / 2, VLogColor.B / 2, VLogColor.A);
+
+		FBoxSphereBounds PrimitiveBounds = Primitive->CalcLocalBounds();
+		UE_VLOG_OBOX(
+			VLogOwner, VLogCategory, Verbose, PrimitiveBounds.GetBox(), Primitive->GetComponentTransform().ToMatrixWithScale(), FocusColor,
+			TEXT("%s | %s"), *Primitive->GetOwner()->GetName(), *Primitive->GetName());
+	}
+}
+#endif // ENABLE_VISUAL_LOG
 
 void FUxtGrabPointerFocus::BeginGrab(UUxtNearPointerComponent* Pointer)
 {

@@ -42,6 +42,8 @@ its owner. If the distance is within the MinimumDistance and MaximumDistance the
 modify it. Otherwise, we push away or pull in the its owner along the reference forward vector.
 This will ensure that the its owner stays within the near and far planes of the frustum.
 
+**Fixed vertical Offset**: The objective of this constraint is to ensure the following actor stays at a fixed vertical distance away from the camera. This can be used to ensure the following actor always sits above/below eye level to prevent the actor from obstructing the user's vision.
+
 **Orientation**: The two options provided are constant FaceCamera or WorldLock. While world locked there are
 three conditions that will cause the its owner to face the camera:
 	Angular Clamps

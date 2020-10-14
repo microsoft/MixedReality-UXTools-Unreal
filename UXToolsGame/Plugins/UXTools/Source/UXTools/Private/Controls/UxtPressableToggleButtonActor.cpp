@@ -9,6 +9,9 @@
 
 AUxtPressableToggleButtonActor::AUxtPressableToggleButtonActor()
 {
+	// Set the default button label.
+	Label = NSLOCTEXT("UxtPressableButtonActor", "LabelToggle", "Toggle");
+
 	// Create the component hierarchy.
 	ToggleStateComponent = CreateDefaultSubobject<UUxtToggleStateComponent>(TEXT("UxtToggleState"));
 	TogglePlateComponent = CreateAndAttachComponent<UUxtBackPlateComponent>(TEXT("UxtToggleBackPlate"), BackPlatePivotComponent);
@@ -48,9 +51,9 @@ void AUxtPressableToggleButtonActor::ConstructVisuals()
 			TogglePlateComponent->SetBackPlateMaterial(ButtonBrush.Visuals.TogglePlateMaterial);
 		}
 
-		// Swizzle the toggle plate size to match the content basis and leave the depth unmodified.
+		// Srt the toggle plate to be 90% of the back plate, leave the depth unmodified.
 		const FVector Size = GetSize();
-		TogglePlateComponent->SetRelativeScale3D(FVector(Size.Z * 0.9f, Size.Y * 0.9f, BackPlateMeshComponent->GetRelativeScale3D().Z));
+		TogglePlateComponent->SetRelativeScale3D(FVector(BackPlateMeshComponent->GetRelativeScale3D().X, Size.Y * 0.9f, Size.Z * 0.9f));
 		TogglePlateComponent->SetRelativeLocation(FVector(0.16f, 0, 0));
 	}
 
@@ -85,7 +88,20 @@ void AUxtPressableToggleButtonActor::OnButtonPressed(UUxtPressableButtonComponen
 {
 	Super::OnButtonPressed(Button, Pointer);
 
-	ToggleStateComponent->SetIsChecked(!ToggleStateComponent->IsChecked());
+	if (!bToggleOnRelease)
+	{
+		ToggleStateComponent->SetIsChecked(!ToggleStateComponent->IsChecked());
+	}
+}
+
+void AUxtPressableToggleButtonActor::OnButtonReleased(UUxtPressableButtonComponent* Button, UUxtPointerComponent* Pointer)
+{
+	Super::OnButtonReleased(Button, Pointer);
+
+	if (bToggleOnRelease)
+	{
+		ToggleStateComponent->SetIsChecked(!ToggleStateComponent->IsChecked());
+	}
 }
 
 void AUxtPressableToggleButtonActor::OnButtonToggled(UUxtToggleStateComponent* ToggleState)

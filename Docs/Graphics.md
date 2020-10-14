@@ -46,6 +46,9 @@ The `M_RoundedEdgeThick` material and `Rounded_Edge_Thick.ush` shader are design
 
 ![GraphicsRoundedEdgeThick](Images/Graphics/GraphicsRoundedEdgeThick.png)
 
+> [!NOTE] 
+> Note, the `SM_BackPlateRoundedThick_#` mesh and `Rounded_Edge_Thick.ush` shader assume the local y-axis is up, and not Unreal's traditional z-axis up. These assumptions were made when the `Rounded_Edge_Thick.ush` shader was authored in a separate content creation tool. To resolve these assumptions the `UxtBackPlateComponent` and `Rounded_Edge_Thick.ush` perform an additional rotation. This rotation is transparent to the end user and should not effect anything but advanced use cases. 
+
 ### Thick Finger Ring
 
 The `M_FingerTipRing` material and `Thick_Finger_Ring.ush` shader with the `M_FingerTipRing` model are used to create a volumetric finger tip affordance.

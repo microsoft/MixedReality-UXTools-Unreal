@@ -7,8 +7,6 @@
 
 #include "Modules/ModuleManager.h"
 
-class UMaterialInterface;
-
 DECLARE_LOG_CATEGORY_EXTERN(UXTools, All, All)
 
 class FUXToolsModule : public IModuleInterface

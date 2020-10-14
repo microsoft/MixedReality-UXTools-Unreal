@@ -64,6 +64,15 @@
 			"WhitelistPlatforms": [
 				"Win64"
 			]
+		},
+		{
+			"Name": "UXToolsShaders",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
 		}
 	],
 	"Plugins": [

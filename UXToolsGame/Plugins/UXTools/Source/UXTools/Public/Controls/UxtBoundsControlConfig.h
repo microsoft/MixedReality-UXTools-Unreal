@@ -92,10 +92,10 @@ struct UXTOOLS_API FUxtAffordanceConfig
 	FMatrix GetConstraintMatrix(int32 LockedAxes) const;
 
 	/**
-	 * Transform from affordance local space to world space, based on the root transform.
-	 * Root transform scale is not included in the transform.
+	 * Location and rotation of the affordance in world space, based on the root transform.
+	 * Root transform scale is not included in the result.
 	 */
-	FTransform GetWorldTransform(const FBox& Bounds, const FTransform& RootTransform) const;
+	void GetWorldLocationAndRotation(const FBox& Bounds, const FTransform& RootTransform, FVector& OutLocation, FQuat& OutRotation) const;
 
 	/** Preset type of the affordance. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)

@@ -15,6 +15,10 @@
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
 #include "Utils/UxtFunctionLibrary.h"
+#include "VisualLogger/VisualLogger.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogUxtHandTracking, Log, All);
+DEFINE_LOG_CATEGORY_STATIC(LogUxtHandInteractionProximity, Log, All);
 
 AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& ObjectInitializer)
 {
@@ -22,6 +26,7 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	// Do not delay pointers' tick unnecessarily
 	PrimaryActorTick.TickGroup = ETickingGroup::TG_PrePhysics;
 
+	SetActorEnableCollision(false);
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent")));
 
 	NearPointer = CreateDefaultSubobject<UUxtNearPointerComponent>(TEXT("NearPointer"));
@@ -189,6 +194,10 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 				}
 			}
 
+#if ENABLE_VISUAL_LOG // VLog the proximity mesh
+			VLogProximityQuery(ConeTip, ConeOrientation, Overlaps, OutHasNearTarget);
+#endif // ENABLE_VISUAL_LOG
+
 			// Only need to change transform for visualization purposes, scene query uses an explicit transform.
 			if (bRenderProximityMesh)
 			{
@@ -206,6 +215,10 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 void AUxtHandInteractionActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+#if ENABLE_VISUAL_LOG
+	VLogHandJoints();
+#endif // ENABLE_VISUAL_LOG
 
 	const bool bHasFocusLock = NearPointer->GetFocusLocked() || FarPointer->GetFocusLocked();
 
@@ -335,3 +348,142 @@ bool AUxtHandInteractionActor::IsInPointingPose() const
 
 	return true;
 }
+
+#if ENABLE_VISUAL_LOG
+namespace
+{
+	const FColor VLogColorHandJoints = FColor(195, 195, 195);
+	const FColor VLogColorProximityNear = FColor(242, 80, 51);
+	const FColor VLogColorProximityFar = FColor(62, 121, 232);
+} // namespace
+
+void AUxtHandInteractionActor::VLogHandJoints() const
+{
+	if (!FVisualLogger::IsRecording())
+	{
+		return;
+	}
+
+	if (const IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	{
+		// Hand label at the wrist position
+		{
+			FVector WristPosition;
+			FQuat WristOrientation;
+			float WristRadius;
+			if (HandTracker->GetJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristPosition, WristRadius))
+			{
+				FString VLogHand = (Hand == EControllerHand::Left) ? TEXT("Left") : TEXT("Right");
+				UE_VLOG_LOCATION(this, LogUxtHandTracking, Log, WristPosition, 0.0f, VLogColorHandJoints, TEXT("%s Hand"), *VLogHand);
+			}
+		}
+
+		// Coordinate axes of the pointer pose
+		{
+			FVector PointerOrigin;
+			FQuat PointerOrientation;
+			if (HandTracker->GetPointerPose(Hand, PointerOrientation, PointerOrigin))
+			{
+				UE_VLOG_SEGMENT(
+					this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisX() * 15.0f, FColor::Red,
+					TEXT(""));
+				UE_VLOG_SEGMENT(
+					this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisY() * 5.0f, FColor::Green,
+					TEXT(""));
+				UE_VLOG_SEGMENT(
+					this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisZ() * 5.0f, FColor::Blue,
+					TEXT(""));
+			}
+		};
+
+		// Utility function for drawing a bone segment
+		auto VlogJointSegment = [this, HandTracker](EUxtHandJoint JointA, EUxtHandJoint JointB) {
+			FVector PositionA, PositionB;
+			FQuat OrientationA, OrientationB;
+			float RadiusA, RadiusB;
+			if (HandTracker->GetJointState(Hand, JointA, OrientationA, PositionA, RadiusA) &&
+				HandTracker->GetJointState(Hand, JointB, OrientationB, PositionB, RadiusB))
+			{
+				UE_VLOG_SEGMENT_THICK(this, LogUxtHandTracking, Log, PositionA, PositionB, VLogColorHandJoints, 5.0f, TEXT(""));
+			}
+		};
+
+		// Draw segments for finger bones
+
+		VlogJointSegment(EUxtHandJoint::ThumbMetacarpal, EUxtHandJoint::ThumbProximal);
+		VlogJointSegment(EUxtHandJoint::ThumbProximal, EUxtHandJoint::ThumbDistal);
+		VlogJointSegment(EUxtHandJoint::ThumbDistal, EUxtHandJoint::ThumbTip);
+
+		VlogJointSegment(EUxtHandJoint::IndexMetacarpal, EUxtHandJoint::IndexProximal);
+		VlogJointSegment(EUxtHandJoint::IndexProximal, EUxtHandJoint::IndexIntermediate);
+		VlogJointSegment(EUxtHandJoint::IndexIntermediate, EUxtHandJoint::IndexDistal);
+		VlogJointSegment(EUxtHandJoint::IndexDistal, EUxtHandJoint::IndexTip);
+
+		VlogJointSegment(EUxtHandJoint::MiddleMetacarpal, EUxtHandJoint::MiddleProximal);
+		VlogJointSegment(EUxtHandJoint::MiddleProximal, EUxtHandJoint::MiddleIntermediate);
+		VlogJointSegment(EUxtHandJoint::MiddleIntermediate, EUxtHandJoint::MiddleDistal);
+		VlogJointSegment(EUxtHandJoint::MiddleDistal, EUxtHandJoint::MiddleTip);
+
+		VlogJointSegment(EUxtHandJoint::RingMetacarpal, EUxtHandJoint::RingProximal);
+		VlogJointSegment(EUxtHandJoint::RingProximal, EUxtHandJoint::RingIntermediate);
+		VlogJointSegment(EUxtHandJoint::RingIntermediate, EUxtHandJoint::RingDistal);
+		VlogJointSegment(EUxtHandJoint::RingDistal, EUxtHandJoint::RingTip);
+
+		VlogJointSegment(EUxtHandJoint::LittleMetacarpal, EUxtHandJoint::LittleProximal);
+		VlogJointSegment(EUxtHandJoint::LittleProximal, EUxtHandJoint::LittleIntermediate);
+		VlogJointSegment(EUxtHandJoint::LittleIntermediate, EUxtHandJoint::LittleDistal);
+		VlogJointSegment(EUxtHandJoint::LittleDistal, EUxtHandJoint::LittleTip);
+	}
+}
+
+void AUxtHandInteractionActor::VLogProximityQuery(
+	const FVector& ConeTip, const FQuat& ConeOrientation, const TArray<FOverlapResult>& Overlaps, bool bHasNearTarget) const
+{
+	if (!FVisualLogger::IsRecording())
+	{
+		return;
+	}
+
+	const FColor VLogColor = bHasNearTarget ? VLogColorProximityNear : VLogColorProximityFar;
+	const FColor VLogColorTransparent = FColor(VLogColor.R, VLogColor.G, VLogColor.B, 32);
+
+	// Proximity detector cone
+	{
+		const FTransform VLogTransform(ConeOrientation, ConeTip);
+
+		const TArray<FProcMeshVertex>& ProcVertices = ProximityTrigger->GetProcMeshSection(0)->ProcVertexBuffer;
+		const TArray<uint32>& ProcTriangles = ProximityTrigger->GetProcMeshSection(0)->ProcIndexBuffer;
+		TArray<FVector> VLogVertices;
+		TArray<int32> VLogTriangles;
+		VLogVertices.Reserve(ProcVertices.Num());
+		VLogTriangles.Reserve(ProcTriangles.Num());
+		for (const FProcMeshVertex& ProcVertex : ProcVertices)
+		{
+			VLogVertices.Emplace(VLogTransform.TransformPosition(ProcVertex.Position));
+		}
+		for (uint32 ProcIndex : ProcTriangles)
+		{
+			VLogTriangles.Emplace((int32)ProcIndex);
+		}
+
+		UE_VLOG_MESH(
+			this, LogUxtHandInteractionProximity, Verbose, VLogVertices, VLogTriangles, VLogColorTransparent,
+			TEXT("Proximity detector mesh"));
+	}
+
+	// Overlaps
+	for (const FOverlapResult& Overlap : Overlaps)
+	{
+		if (IsNearTarget(Overlap.GetComponent()))
+		{
+			FBoxSphereBounds OverlapBounds = Overlap.GetComponent()->CalcLocalBounds();
+			FString VLogBlocking = Overlap.bBlockingHit ? TEXT("blocking") : TEXT("non-blocking");
+			UE_VLOG_OBOX(
+				this, LogUxtHandInteractionProximity, Verbose, OverlapBounds.GetBox(),
+				Overlap.GetComponent()->GetComponentTransform().ToMatrixWithScale(), VLogColor,
+				TEXT("Near interaction target overlap: Actor %s, Component %s (%s)"), *Overlap.GetActor()->GetName(),
+				*Overlap.GetComponent()->GetName(), *VLogBlocking);
+		}
+	}
+}
+#endif // ENABLE_VISUAL_LOG

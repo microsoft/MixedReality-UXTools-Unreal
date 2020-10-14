@@ -226,7 +226,7 @@ private:
 
 	/** The title text. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = GetTitle, BlueprintSetter = SetTitle, Category = "Slider Text")
-	FText Title = FText::FromString("Title");
+	FText Title = NSLOCTEXT("UxtPinchSliderActor", "TitleDefault", "Title");
 
 	UPROPERTY(
 		EditAnywhere, BlueprintGetter = GetValueTextDecimalPlaces, BlueprintSetter = SetValueTextDecimalPlaces, Category = "Slider Text",

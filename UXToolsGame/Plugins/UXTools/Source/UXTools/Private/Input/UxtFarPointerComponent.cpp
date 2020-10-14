@@ -15,6 +15,9 @@
 #include "Materials/MaterialParameterCollectionInstance.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Utils/UxtFunctionLibrary.h"
+#include "VisualLogger/VisualLogger.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogUxtFarPointer, Log, All);
 
 UUxtFarPointerComponent::UUxtFarPointerComponent()
 {
@@ -146,7 +149,10 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 		const FVector Forward = PointerOrientation.GetForwardVector();
 		FVector Start = PointerOrigin + Forward * RayStartOffset;
 		FVector End = Start + Forward * RayLength;
-		GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel);
+
+		// Query for simple collision volumes
+		FCollisionQueryParams QueryParams(NAME_None, false);
+		GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel, QueryParams);
 
 		NewPrimitive = Hit.GetComponent();
 
@@ -201,6 +207,10 @@ void UUxtFarPointerComponent::OnPointerPoseUpdated(const FQuat& NewOrientation, 
 			}
 		}
 	}
+
+#if ENABLE_VISUAL_LOG
+	VLogPointer();
+#endif // ENABLE_VISUAL_LOG
 }
 
 void UUxtFarPointerComponent::SetPressed(bool bNewPressed)
@@ -320,3 +330,45 @@ void UUxtFarPointerComponent::UpdateParameterCollection(FVector IndexTipPosition
 		}
 	}
 }
+
+#if ENABLE_VISUAL_LOG
+namespace
+{
+	FColor VLogColorFocusLocked = FColor(255, 125, 9);
+	FColor VLogColorTrace = FColor(242, 255, 9);
+	FColor VLogColorNoHit = FColor(170, 166, 89);
+} // namespace
+
+void UUxtFarPointerComponent::VLogPointer() const
+{
+	if (!FVisualLogger::IsRecording())
+	{
+		return;
+	}
+
+	UE_VLOG_SEGMENT(
+		this, LogUxtFarPointer, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisX() * 15.0f, FColor::Red, TEXT(""));
+	UE_VLOG_SEGMENT(
+		this, LogUxtFarPointer, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisY() * 5.0f, FColor::Green, TEXT(""));
+	UE_VLOG_SEGMENT(
+		this, LogUxtFarPointer, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisZ() * 5.0f, FColor::Blue, TEXT(""));
+
+	if (const UPrimitiveComponent* HitPrimitive = HitPrimitiveWeak.Get())
+	{
+		FColor VLogColor = bFocusLocked ? VLogColorFocusLocked : VLogColorTrace;
+		UE_VLOG_SEGMENT(this, LogUxtFarPointer, Verbose, PointerOrigin, HitPoint, VLogColor, TEXT(""));
+
+		FBoxSphereBounds HitPrimitiveBounds = HitPrimitive->CalcLocalBounds();
+		UE_VLOG_OBOX(
+			this, LogUxtFarPointer, Verbose, HitPrimitiveBounds.GetBox(), HitPrimitive->GetComponentTransform().ToMatrixWithScale(),
+			VLogColor, TEXT("%s | %s"), *HitPrimitive->GetOwner()->GetName(), *HitPrimitive->GetName());
+		UE_VLOG_SEGMENT(this, LogUxtFarPointer, Verbose, HitPoint, HitPoint + HitNormal * 5.0f, FColor::Yellow, TEXT(""));
+	}
+	else
+	{
+		const FVector Forward = PointerOrientation.GetForwardVector();
+		const FVector End = PointerOrigin + Forward * (RayStartOffset + RayLength);
+		UE_VLOG_SEGMENT(this, LogUxtFarPointer, Verbose, PointerOrigin, End, VLogColorNoHit, TEXT(""));
+	}
+}
+#endif // ENABLE_VISUAL_LOG

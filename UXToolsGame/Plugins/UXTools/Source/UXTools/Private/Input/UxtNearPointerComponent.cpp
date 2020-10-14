@@ -17,6 +17,10 @@
 #include "Materials/MaterialParameterCollectionInstance.h"
 #include "PhysicsEngine/BodySetup.h"
 #include "UObject/ConstructorHelpers.h"
+#include "VisualLogger/VisualLogger.h"
+
+DEFINE_LOG_CATEGORY_STATIC(LogUxtGrabPointer, Log, All);
+DEFINE_LOG_CATEGORY_STATIC(LogUxtPokePointer, Log, All);
 
 namespace
 {
@@ -125,7 +129,15 @@ namespace
 
 		return !FMath::SphereAABBIntersection(PokeSphere, PokableVolume);
 	}
+
+#if ENABLE_VISUAL_LOG
+	static FName VLogCategoryGrabPointer("LogUxtGrabPointer");
+	static FName VLogCategoryPokePointer("LogUxtPokePointer");
+	static const FColor VLogGrabFocusColor = FColor(27, 233, 130);
+	static const FColor VLogPokeFocusColor = FColor(80, 140, 241);
+#endif // ENABLE_VISUAL_LOG
 } // namespace
+
 UUxtNearPointerComponent::UUxtNearPointerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -135,6 +147,14 @@ UUxtNearPointerComponent::UUxtNearPointerComponent()
 
 	GrabFocus = new FUxtGrabPointerFocus();
 	PokeFocus = new FUxtPokePointerFocus();
+#if ENABLE_VISUAL_LOG
+	GrabFocus->VLogOwnerWeak = this;
+	PokeFocus->VLogOwnerWeak = this;
+	GrabFocus->VLogCategory = VLogCategoryGrabPointer;
+	PokeFocus->VLogCategory = VLogCategoryPokePointer;
+	GrabFocus->VLogColor = VLogGrabFocusColor;
+	PokeFocus->VLogColor = VLogPokeFocusColor;
+#endif // ENABLE_VISUAL_LOG
 
 	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
 	ParameterCollection = Finder.Object;
@@ -276,6 +296,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			if (bHandIsGrabbing)
 			{
 				GrabFocus->BeginGrab(this);
+				PokeFocus->ClearFocus(this);
 			}
 			else
 			{
@@ -285,6 +306,11 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 		bHandWasGrabbing = bHandIsGrabbing;
 	}
+
+#if ENABLE_VISUAL_LOG
+	VLogPointer(VLogCategoryGrabPointer, VLogGrabFocusColor, "Grab Pointer", GrabPointerTransform.GetLocation(), GrabRadius, GrabFocus);
+	VLogPointer(VLogCategoryPokePointer, VLogPokeFocusColor, "Poke Pointer", PokePointerTransform.GetLocation(), PokeRadius, PokeFocus);
+#endif // ENABLE_VISUAL_LOG
 }
 
 void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
@@ -511,3 +537,24 @@ float UUxtNearPointerComponent::GetPokePointerRadius() const
 	}
 	return 0;
 }
+
+#if ENABLE_VISUAL_LOG
+void UUxtNearPointerComponent::VLogPointer(
+	const FName& LogCategoryName, const FColor& LogColor, const FString& Label, const FVector& PointerLocation, float PointerRadius,
+	const FUxtPointerFocus* Focus) const
+{
+	if (!FVisualLogger::IsRecording())
+	{
+		return;
+	}
+
+	UE_VLOG_LOCATION(this, LogCategoryName, Verbose, PointerLocation, PointerRadius, LogColor, TEXT("%s"), *Label);
+
+	const FVector PointOnTarget = Focus->GetClosestTargetPoint();
+	UE_VLOG_SEGMENT(
+		this, LogCategoryName, Verbose, PointOnTarget, PointerLocation, LogColor, TEXT("%.2f"),
+		FVector::Distance(PointOnTarget, PointerLocation));
+	UE_VLOG_SEGMENT(
+		this, LogCategoryName, Verbose, PointOnTarget, PointOnTarget + Focus->GetClosestTargetNormal() * 5.0f, FColor::Yellow, TEXT(""));
+}
+#endif // ENABLE_VISUAL_LOG

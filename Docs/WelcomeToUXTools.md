@@ -10,7 +10,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 # Welcome to UX Tools
 
-![Mixed Reality Toolkit](Images/MRTK_Unreal_UXT_Banner_Rounded.png)
+![Mixed Reality Toolkit](Images/Logos/MRTK_Unreal_UXT_Banner_Rounded.png)
 
 UX Tools is the first MRTK-Unreal component to be released and is currently only supported on HoloLens 2. The component plugin includes code, blueprints, and example assets of common UX features for input simulation, hand interaction actors, press-able button components, manipulator components and follow behavior components.
 

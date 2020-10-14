@@ -260,7 +260,7 @@ void UUxtFollowComponent::UpdateLeashing()
 
 	FVector FollowPosition = FollowTransform.GetLocation();
 
-	if (bIgnoreCameraPitchAndRoll)
+	if (bIgnoreCameraPitchAndRoll && !bUseFixedVerticalOffset)
 	{
 		ApplyPitchOffset(PitchOffset, FollowTransform);
 	}
@@ -298,6 +298,11 @@ void UUxtFollowComponent::UpdateLeashing()
 		bDistanceClamped = DistanceClamp(
 			FollowTransform, bAngularClamped, bIgnoreCameraPitchAndRoll, MinimumDistance, DefaultDistance, MaximumDistance, ToTarget);
 		ApplyVerticalClamp(VerticalMaxDistance, ToTarget);
+	}
+
+	if (bUseFixedVerticalOffset)
+	{
+		ToTarget.Z = (FollowPosition.Z + FixedVerticalOffset) - WorkingTransform.GetLocation().Z;
 	}
 
 	// Figure out goal rotation of the element based on orientation setting
