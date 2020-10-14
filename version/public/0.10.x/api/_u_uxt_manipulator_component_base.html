@@ -1,0 +1,966 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UUxtManipulatorComponentBase
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UUxtManipulatorComponentBase
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_manipulator_component_base">
+  
+  
+  <h1 id="_u_uxt_manipulator_component_base" data-uid="_u_uxt_manipulator_component_base" class="text-break">Class UUxtManipulatorComponentBase
+  </h1>
+  <div class="markdown level0 summary"><p>Base class for manipulation components that react to pointer interactions.</p>
+<p>This class does not modify the actor as-is. Implementations should use the provided functions to compute a target transform from grabbing pointers and call the ApplyTargetTransform method to actually modify the actor. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">USceneComponent</span></div>
+    <div class="level2"><a class="xref" href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a></div>
+    <div class="level3"><span class="xref">UUxtManipulatorComponentBase</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_CanHandleFar_UPrimitiveComponent___">IUxtFarHandler::CanHandleFar(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_CanHandleFar_Implementation_UPrimitiveComponent___">UUxtGrabTargetComponent::CanHandleFar_Implementation(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_handler.html#_i_uxt_grab_handler_CanHandleGrab_UPrimitiveComponent___">IUxtGrabHandler::CanHandleGrab(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_CanHandleGrab_Implementation_UPrimitiveComponent___">UUxtGrabTargetComponent::CanHandleGrab_Implementation(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_FindGrabPointer_UUxtNearPointerComponent___UUxtFarPointerComponent___bool___FUxtGrabPointerData___int___">UUxtGrabTargetComponent::FindGrabPointer(UUxtNearPointerComponent *NearPointer, UUxtFarPointerComponent *FarPointer, bool &amp;Success, FUxtGrabPointerData &amp;PointerData, int &amp;Index)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_ForceEndGrab__">UUxtGrabTargetComponent::ForceEndGrab()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetGrabPointCentroid_const_FTransform___">UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform &amp;Transform)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetGrabPointers__">UUxtGrabTargetComponent::GetGrabPointers()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetPointerCentroid__">UUxtGrabTargetComponent::GetPointerCentroid()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetPrimaryGrabPointer_bool___FUxtGrabPointerData___">UUxtGrabTargetComponent::GetPrimaryGrabPointer(bool &amp;Valid, FUxtGrabPointerData &amp;PointerData)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetSecondaryGrabPointer_bool___FUxtGrabPointerData___">UUxtGrabTargetComponent::GetSecondaryGrabPointer(bool &amp;Valid, FUxtGrabPointerData &amp;PointerData)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetTargetCentroid__">UUxtGrabTargetComponent::GetTargetCentroid()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetTickOnlyWhileGrabbed__">UUxtGrabTargetComponent::GetTickOnlyWhileGrabbed()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_InteractionMode">UUxtGrabTargetComponent::InteractionMode</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_IsFarFocusable_const_UPrimitiveComponent___">IUxtFarTarget::IsFarFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___">UUxtGrabTargetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_target.html#_i_uxt_grab_target_IsGrabFocusable_const_UPrimitiveComponent___">IUxtGrabTarget::IsGrabFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_IsGrabFocusable_Implementation_const_UPrimitiveComponent___">UUxtGrabTargetComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnBeginGrab">UUxtGrabTargetComponent::OnBeginGrab</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_handler.html#_i_uxt_grab_handler_OnBeginGrab_UUxtNearPointerComponent___">IUxtGrabHandler::OnBeginGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnBeginGrab_Implementation_UUxtNearPointerComponent___">UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnEndGrab">UUxtGrabTargetComponent::OnEndGrab</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_handler.html#_i_uxt_grab_handler_OnEndGrab_UUxtNearPointerComponent___">IUxtGrabHandler::OnEndGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnEndGrab_Implementation_UUxtNearPointerComponent___">UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnEnterFarFocus">UUxtGrabTargetComponent::OnEnterFarFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnEnterFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnEnterFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___">UUxtGrabTargetComponent::OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnEnterGrabFocus">UUxtGrabTargetComponent::OnEnterGrabFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_handler.html#_i_uxt_grab_handler_OnEnterGrabFocus_UUxtNearPointerComponent___">IUxtGrabHandler::OnEnterGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnEnterGrabFocus_Implementation_UUxtNearPointerComponent___">UUxtGrabTargetComponent::OnEnterGrabFocus_Implementation(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnExitFarFocus">UUxtGrabTargetComponent::OnExitFarFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnExitFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnExitFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___">UUxtGrabTargetComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnExitGrabFocus">UUxtGrabTargetComponent::OnExitGrabFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_handler.html#_i_uxt_grab_handler_OnExitGrabFocus_UUxtNearPointerComponent___">IUxtGrabHandler::OnExitGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnExitGrabFocus_Implementation_UUxtNearPointerComponent___">UUxtGrabTargetComponent::OnExitGrabFocus_Implementation(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarDragged_UUxtFarPointerComponent___">IUxtFarHandler::OnFarDragged(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnFarDragged_Implementation_UUxtFarPointerComponent___">UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarPressed_UUxtFarPointerComponent___">IUxtFarHandler::OnFarPressed(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnFarPressed_Implementation_UUxtFarPointerComponent___">UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarReleased_UUxtFarPointerComponent___">IUxtFarHandler::OnFarReleased(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnFarReleased_Implementation_UUxtFarPointerComponent___">UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnUpdatedFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnUpdatedFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___">UUxtGrabTargetComponent::OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnUpdateFarFocus">UUxtGrabTargetComponent::OnUpdateFarFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnUpdateGrab">UUxtGrabTargetComponent::OnUpdateGrab</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_handler.html#_i_uxt_grab_handler_OnUpdateGrab_UUxtNearPointerComponent___">IUxtGrabHandler::OnUpdateGrab(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnUpdateGrab_Implementation_UUxtNearPointerComponent___">UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnUpdateGrabFocus">UUxtGrabTargetComponent::OnUpdateGrabFocus</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_grab_handler.html#_i_uxt_grab_handler_OnUpdateGrabFocus_UUxtNearPointerComponent___">IUxtGrabHandler::OnUpdateGrabFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_OnUpdateGrabFocus_Implementation_UUxtNearPointerComponent___">UUxtGrabTargetComponent::OnUpdateGrabFocus_Implementation(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_SetTickOnlyWhileGrabbed_bool_">UUxtGrabTargetComponent::SetTickOnlyWhileGrabbed(bool bEnable)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_UUxtGrabTargetComponent__">UUxtGrabTargetComponent::UUxtGrabTargetComponent()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_u_uxt_manipulator_component_base_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class UUxtManipulatorComponentBase : public xtGrabTargetComponent</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base__UUxtManipulatorComponentBase__.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.~UUxtManipulatorComponentBase()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L21">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base__UUxtManipulatorComponentBase_" data-uid="_u_uxt_manipulator_component_base.~UUxtManipulatorComponentBase*"></a>
+  <h4 id="_u_uxt_manipulator_component_base__UUxtManipulatorComponentBase__" data-uid="_u_uxt_manipulator_component_base.~UUxtManipulatorComponentBase()">~UUxtManipulatorComponentBase()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: ~UUxtManipulatorComponentBase()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_UUxtManipulatorComponentBase__.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.UUxtManipulatorComponentBase()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L14">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_UUxtManipulatorComponentBase_" data-uid="_u_uxt_manipulator_component_base.UUxtManipulatorComponentBase*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_UUxtManipulatorComponentBase__" data-uid="_u_uxt_manipulator_component_base.UUxtManipulatorComponentBase()">UUxtManipulatorComponentBase()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UUxtManipulatorComponentBase()</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_bAutoSetInitialTransform.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.bAutoSetInitialTransform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L118">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_bAutoSetInitialTransform" data-uid="_u_uxt_manipulator_component_base.bAutoSetInitialTransform">bAutoSetInitialTransform</h4>
+  <div class="markdown level1 summary"><p>If true the initial transform will be set automatically when the component is grabbed. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool bAutoSetInitialTransform= true</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_Constraints.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.Constraints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L96">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_Constraints" data-uid="_u_uxt_manipulator_component_base.Constraints">Constraints</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UxtConstraintManager * Constraints</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_uxt_constraint_manager.html">UxtConstraintManager</a> *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_InitialCameraSpaceTransform.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.InitialCameraSpaceTransform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L114">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_InitialCameraSpaceTransform" data-uid="_u_uxt_manipulator_component_base.InitialCameraSpaceTransform">InitialCameraSpaceTransform</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FTransform InitialCameraSpaceTransform</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FTransform</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_InitialTransform.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.InitialTransform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L111">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_InitialTransform" data-uid="_u_uxt_manipulator_component_base.InitialTransform">InitialTransform</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FTransform InitialTransform</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FTransform</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_MoveLogic.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.MoveLogic%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L92">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_MoveLogic" data-uid="_u_uxt_manipulator_component_base.MoveLogic">MoveLogic</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UxtManipulationMoveLogic * MoveLogic</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_uxt_manipulation_move_logic.html">UxtManipulationMoveLogic</a> *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_OnUpdateTransform.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.OnUpdateTransform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L108">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_OnUpdateTransform" data-uid="_u_uxt_manipulator_component_base.OnUpdateTransform">OnUpdateTransform</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtUpdateTransformDelegate OnUpdateTransform</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtUpdateTransformDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_TransformTarget.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.TransformTarget%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L121">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_TransformTarget" data-uid="_u_uxt_manipulator_component_base.TransformTarget">TransformTarget</h4>
+  <div class="markdown level1 summary"><p>The component to transform, will default to the root scene component if not specified </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: USceneComponent * TransformTarget= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USceneComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_TwoHandRotateLogic.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.TwoHandRotateLogic%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L93">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_TwoHandRotateLogic" data-uid="_u_uxt_manipulator_component_base.TwoHandRotateLogic">TwoHandRotateLogic</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UxtTwoHandManipulationRotateLogic * TwoHandRotateLogic</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_uxt_two_hand_manipulation_rotate_logic.html">UxtTwoHandManipulationRotateLogic</a> *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_TwoHandScaleLogic.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.TwoHandScaleLogic%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L94">View Source</a>
+  </span>
+  <h4 id="_u_uxt_manipulator_component_base_TwoHandScaleLogic" data-uid="_u_uxt_manipulator_component_base.TwoHandScaleLogic">TwoHandScaleLogic</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UxtTwoHandManipulationScaleLogic * TwoHandScaleLogic</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_uxt_two_hand_manipulation_scale_logic.html">UxtTwoHandManipulationScaleLogic</a> *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_ApplyTargetTransform_const_FTransform___.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.ApplyTargetTransform(const%20FTransform%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L147">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_ApplyTargetTransform_" data-uid="_u_uxt_manipulator_component_base.ApplyTargetTransform*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_ApplyTargetTransform_const_FTransform___" data-uid="_u_uxt_manipulator_component_base.ApplyTargetTransform(const FTransform &amp;)">ApplyTargetTransform(const FTransform &amp;TargetTransform)</h4>
+  <div class="markdown level1 summary"><p>Apply the transform to the actor root scene component. Relative transform between the manipulator component and the root scene component is preserved. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void ApplyTargetTransform(const FTransform &amp;TargetTransform)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FTransform &amp;</td>
+        <td><span class="parametername">TargetTransform</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L158">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_BeginPlay_" data-uid="_u_uxt_manipulator_component_base.BeginPlay*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_BeginPlay__" data-uid="_u_uxt_manipulator_component_base.BeginPlay()">BeginPlay()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_BeginPlay__">UUxtGrabTargetComponent::BeginPlay()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_EndPlay_const_EEndPlayReason__Type_.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.EndPlay(const%20EEndPlayReason%3A%3AType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L176">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_EndPlay_" data-uid="_u_uxt_manipulator_component_base.EndPlay*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_EndPlay_const_EEndPlayReason__Type_" data-uid="_u_uxt_manipulator_component_base.EndPlay(const EEndPlayReason::Type)">EndPlay(const EEndPlayReason::Type EndPlayReason)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const EEndPlayReason::Type</td>
+        <td><span class="parametername">EndPlayReason</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_GetTargetComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.GetTargetComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L153">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_GetTargetComponent_" data-uid="_u_uxt_manipulator_component_base.GetTargetComponent*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_GetTargetComponent__" data-uid="_u_uxt_manipulator_component_base.GetTargetComponent()">GetTargetComponent()</h4>
+  <div class="markdown level1 summary"><p>Get the component the manipulator is targeting. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: USceneComponent * GetTargetComponent()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USceneComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_MoveToTargets_const_FTransform___FTransform___bool_.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.MoveToTargets(const%20FTransform%20%26%2CFTransform%20%26%2Cbool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L28">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_MoveToTargets_" data-uid="_u_uxt_manipulator_component_base.MoveToTargets*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_MoveToTargets_const_FTransform___FTransform___bool_" data-uid="_u_uxt_manipulator_component_base.MoveToTargets(const FTransform &amp;,FTransform &amp;,bool)">MoveToTargets(const FTransform &amp;SourceTransform, FTransform &amp;TargetTransform, bool UsePointerRotation)</h4>
+  <div class="markdown level1 summary"><p>Translate the source transform such that grab points match targets. If more than one pointer is used then the centroid of the grab points and targets is used. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void MoveToTargets(const FTransform &amp;SourceTransform, FTransform &amp;TargetTransform, bool UsePointerRotation) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FTransform &amp;</td>
+        <td><span class="parametername">SourceTransform</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FTransform &amp;</td>
+        <td><span class="parametername">TargetTransform</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>bool</td>
+        <td><span class="parametername">UsePointerRotation</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_RotateAboutAxis_const_FTransform___const_FVector___const_FVector___FTransform___.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.RotateAboutAxis(const%20FTransform%20%26%2Cconst%20FVector%20%26%2Cconst%20FVector%20%26%2CFTransform%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L68">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_RotateAboutAxis_" data-uid="_u_uxt_manipulator_component_base.RotateAboutAxis*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_RotateAboutAxis_const_FTransform___const_FVector___const_FVector___FTransform___" data-uid="_u_uxt_manipulator_component_base.RotateAboutAxis(const FTransform &amp;,const FVector &amp;,const FVector &amp;,FTransform &amp;)">RotateAboutAxis(const FTransform &amp;SourceTransform, const FVector &amp;Pivot, const FVector &amp;Axis, FTransform &amp;TargetTransform)</h4>
+  <div class="markdown level1 summary"><p>Rotates the source transform around the pivot point on the given axis such that the pointers line up with current targets. If more than one pointer is used then the resulting rotation will minimize the mean square of target distances. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void RotateAboutAxis(const FTransform &amp;SourceTransform, const FVector &amp;Pivot, const FVector &amp;Axis, FTransform &amp;TargetTransform) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FTransform &amp;</td>
+        <td><span class="parametername">SourceTransform</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>const FVector &amp;</td>
+        <td><span class="parametername">Pivot</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>const FVector &amp;</td>
+        <td><span class="parametername">Axis</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FTransform &amp;</td>
+        <td><span class="parametername">TargetTransform</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_RotateAroundPivot_const_FTransform___const_FVector___FTransform___.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.RotateAroundPivot(const%20FTransform%20%26%2Cconst%20FVector%20%26%2CFTransform%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L37">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_RotateAroundPivot_" data-uid="_u_uxt_manipulator_component_base.RotateAroundPivot*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_RotateAroundPivot_const_FTransform___const_FVector___FTransform___" data-uid="_u_uxt_manipulator_component_base.RotateAroundPivot(const FTransform &amp;,const FVector &amp;,FTransform &amp;)">RotateAroundPivot(const FTransform &amp;SourceTransform, const FVector &amp;Pivot, FTransform &amp;TargetTransform)</h4>
+  <div class="markdown level1 summary"><p>Rotates the source transform around the pivot point such that the pointers line up with current targets. If more than one pointer is used then the resulting rotation will minimize the mean square of target distances. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void RotateAroundPivot(const FTransform &amp;SourceTransform, const FVector &amp;Pivot, FTransform &amp;TargetTransform) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FTransform &amp;</td>
+        <td><span class="parametername">SourceTransform</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>const FVector &amp;</td>
+        <td><span class="parametername">Pivot</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FTransform &amp;</td>
+        <td><span class="parametername">TargetTransform</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_SetInitialTransform__.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.SetInitialTransform()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L137">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_SetInitialTransform_" data-uid="_u_uxt_manipulator_component_base.SetInitialTransform*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_SetInitialTransform__" data-uid="_u_uxt_manipulator_component_base.SetInitialTransform()">SetInitialTransform()</h4>
+  <div class="markdown level1 summary"><p>Cache the initial world space and camera space transform. Manipulation should be based on these initial transform for stable results. If bAutoSetInitialTransform is true then the initial transform is updated when grabbed. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetInitialTransform()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_SmoothTransform_const_FTransform___float_float_float_FTransform___.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.SmoothTransform(const%20FTransform%20%26%2Cfloat%2Cfloat%2Cfloat%2CFTransform%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L101">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_SmoothTransform_" data-uid="_u_uxt_manipulator_component_base.SmoothTransform*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_SmoothTransform_const_FTransform___float_float_float_FTransform___" data-uid="_u_uxt_manipulator_component_base.SmoothTransform(const FTransform &amp;,float,float,float,FTransform &amp;)">SmoothTransform(const FTransform &amp;SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds, FTransform &amp;TargetTransform)</h4>
+  <div class="markdown level1 summary"><p>Apply a low-pass filter to the source transform location and rotation to smooth out jittering. Target transform is a exponentially weighted average of the current component transform and the source transform based on the time step. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SmoothTransform(const FTransform &amp;SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds, FTransform &amp;TargetTransform) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FTransform &amp;</td>
+        <td><span class="parametername">SourceTransform</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">LocationSmoothing</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">RotationSmoothing</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">DeltaSeconds</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FTransform &amp;</td>
+        <td><span class="parametername">TargetTransform</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base_TickComponent_float_ELevelTick_FActorComponentTickFunction___.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base.TickComponent(float%2CELevelTick%2CFActorComponentTickFunction%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Interactions/UxtManipulatorComponentBase.cpp/#L182">View Source</a>
+  </span>
+  <a id="_u_uxt_manipulator_component_base_TickComponent_" data-uid="_u_uxt_manipulator_component_base.TickComponent*"></a>
+  <h4 id="_u_uxt_manipulator_component_base_TickComponent_float_ELevelTick_FActorComponentTickFunction___" data-uid="_u_uxt_manipulator_component_base.TickComponent(float,ELevelTick,FActorComponentTickFunction *)">TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">DeltaTime</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ELevelTick</td>
+        <td><span class="parametername">TickType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FActorComponentTickFunction *</td>
+        <td><span class="parametername">ThisTickFunction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_manipulator_component_base.md&amp;value=---%0Auid%3A%20_u_uxt_manipulator_component_base%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtManipulatorComponentBase.h/#L28" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1833 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UUxtPressableButtonComponent
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UUxtPressableButtonComponent
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_pressable_button_component">
+  
+  
+  <h1 id="_u_uxt_pressable_button_component" data-uid="_u_uxt_pressable_button_component" class="text-break">Class UUxtPressableButtonComponent
+  </h1>
+  <div class="markdown level0 summary"><p>Component that turns the actor it is attached to into a pressable rectangular button. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">USceneComponent</span></div>
+    <div class="level2"><a class="xref" href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></div>
+    <div class="level3"><span class="xref">UUxtPressableButtonComponent</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_CanHandleFar_UPrimitiveComponent___">IUxtFarHandler::CanHandleFar(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_CanHandlePoke_UPrimitiveComponent___">IUxtPokeHandler::CanHandlePoke(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_GetClosestPoint_const_UPrimitiveComponent___const_FVector___FVector___FVector___">IUxtPokeTarget::GetClosestPoint(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_collection_object.html#_i_uxt_collection_object_GetFarTarget__">IUxtCollectionObject::GetFarTarget()</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_GetPokeBehaviour__">IUxtPokeTarget::GetPokeBehaviour()</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_collection_object.html#_i_uxt_collection_object_GetPokeTarget__">IUxtCollectionObject::GetPokeTarget()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_GetUIVisibilityInHierarchy__">UUxtUIElementComponent::GetUIVisibilityInHierarchy()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_GetUIVisibilitySelf__">UUxtUIElementComponent::GetUIVisibilitySelf()</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_IsFarFocusable_const_UPrimitiveComponent___">IUxtFarTarget::IsFarFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_IsPokeFocusable_const_UPrimitiveComponent___">IUxtPokeTarget::IsPokeFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_OnAttachmentChanged__">UUxtUIElementComponent::OnAttachmentChanged()</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnBeginPoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnBeginPoke(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnEndPoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnEndPoke(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnEnterFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnEnterFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnEnterPokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnEnterPokeFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnExitFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnExitFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnExitPokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnExitPokeFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarDragged_UUxtFarPointerComponent___">IUxtFarHandler::OnFarDragged(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarPressed_UUxtFarPointerComponent___">IUxtFarHandler::OnFarPressed(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarReleased_UUxtFarPointerComponent___">IUxtFarHandler::OnFarReleased(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_OnHideElement">UUxtUIElementComponent::OnHideElement</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_OnShowElement">UUxtUIElementComponent::OnShowElement</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnUpdatedFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnUpdatedFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnUpdatePoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnUpdatePoke(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnUpdatePokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnUpdatePokeFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_RefreshUIElement__">UUxtUIElementComponent::RefreshUIElement()</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_SetUIVisibility_EUxtUIElementVisibility_">UUxtUIElementComponent::SetUIVisibility(EUxtUIElementVisibility NewVisibility)</a>
+    </div>
+    <div>
+      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_UUxtUIElementComponent__">UUxtUIElementComponent::UUxtUIElementComponent()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_u_uxt_pressable_button_component_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class UUxtPressableButtonComponent : public xtUIElementComponent, public xtPokeTarget, public xtPokeHandler, public xtFarTarget, public xtFarHandler, public xtCollectionObject</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_UUxtPressableButtonComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.UUxtPressableButtonComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L21">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_UUxtPressableButtonComponent_" data-uid="_u_uxt_pressable_button_component.UUxtPressableButtonComponent*"></a>
+  <h4 id="_u_uxt_pressable_button_component_UUxtPressableButtonComponent__" data-uid="_u_uxt_pressable_button_component.UUxtPressableButtonComponent()">UUxtPressableButtonComponent()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: UUxtPressableButtonComponent()</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnBeginFocus.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnBeginFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L174">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnBeginFocus" data-uid="_u_uxt_pressable_button_component.OnBeginFocus">OnBeginFocus</h4>
+  <div class="markdown level1 summary"><p>Event raised when a pointer starts focusing the button. WasFocused indicates if the button was already focused by another pointer. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonBeginFocusDelegate OnBeginFocus</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonBeginFocusDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnBeginPoke.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnBeginPoke%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L187">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnBeginPoke" data-uid="_u_uxt_pressable_button_component.OnBeginPoke">OnBeginPoke</h4>
+  <div class="markdown level1 summary"><p>Event raised when a pointer starts poking the Pressable Button. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonBeginPokeDelegate OnBeginPoke</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonBeginPokeDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnButtonDisabled.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnButtonDisabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L211">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnButtonDisabled" data-uid="_u_uxt_pressable_button_component.OnButtonDisabled">OnButtonDisabled</h4>
+  <div class="markdown level1 summary"><p>Event raised when the button is disabled. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonDisabledDelegate OnButtonDisabled</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonDisabledDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnButtonEnabled.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnButtonEnabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L207">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnButtonEnabled" data-uid="_u_uxt_pressable_button_component.OnButtonEnabled">OnButtonEnabled</h4>
+  <div class="markdown level1 summary"><p>Event raised when the button is enabled. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonEnabledDelegate OnButtonEnabled</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonEnabledDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnButtonPressed.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnButtonPressed%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L199">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnButtonPressed" data-uid="_u_uxt_pressable_button_component.OnButtonPressed">OnButtonPressed</h4>
+  <div class="markdown level1 summary"><p>Event raised when the button reaches the pressed distance. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonPressedDelegate OnButtonPressed</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonPressedDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnButtonReleased.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnButtonReleased%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L203">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnButtonReleased" data-uid="_u_uxt_pressable_button_component.OnButtonReleased">OnButtonReleased</h4>
+  <div class="markdown level1 summary"><p>Event raised when the a pressed button reaches the released distance. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonReleasedDelegate OnButtonReleased</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonReleasedDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnEndFocus.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnEndFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L183">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnEndFocus" data-uid="_u_uxt_pressable_button_component.OnEndFocus">OnEndFocus</h4>
+  <div class="markdown level1 summary"><p>Event raised when a pointer ends focusing the Pressable Button. IsFocused indicates if the Pressable Button is still focused by another pointer. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonEndFocusDelegate OnEndFocus</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonEndFocusDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnEndPoke.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnEndPoke%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L195">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnEndPoke" data-uid="_u_uxt_pressable_button_component.OnEndPoke">OnEndPoke</h4>
+  <div class="markdown level1 summary"><p>Event raised when a pointer ends poking the Pressable Button. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonEndPokeDelegate OnEndPoke</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonEndPokeDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnUpdateFocus.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnUpdateFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L178">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnUpdateFocus" data-uid="_u_uxt_pressable_button_component.OnUpdateFocus">OnUpdateFocus</h4>
+  <div class="markdown level1 summary"><p>Event raised when a focusing pointer updates. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonUpdateFocusDelegate OnUpdateFocus</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonUpdateFocusDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnUpdatePoke.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnUpdatePoke%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L191">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_OnUpdatePoke" data-uid="_u_uxt_pressable_button_component.OnUpdatePoke">OnUpdatePoke</h4>
+  <div class="markdown level1 summary"><p>Event raised while a pointer is poking the Pressable Button. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtButtonUpdatePokeDelegate OnUpdatePoke</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtButtonUpdatePokeDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_PressedFraction.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.PressedFraction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L159">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_PressedFraction" data-uid="_u_uxt_pressable_button_component.PressedFraction">PressedFraction</h4>
+  <div class="markdown level1 summary"><p>Fraction of the maximum travel distance at which the button will raise the pressed event. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float PressedFraction= 0.5f</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_RecoverySpeed.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.RecoverySpeed%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L167">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_RecoverySpeed" data-uid="_u_uxt_pressable_button_component.RecoverySpeed">RecoverySpeed</h4>
+  <div class="markdown level1 summary"><p>Button movement speed while recovering </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float RecoverySpeed= 50</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_ReleasedFraction.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.ReleasedFraction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L163">View Source</a>
+  </span>
+  <h4 id="_u_uxt_pressable_button_component_ReleasedFraction" data-uid="_u_uxt_pressable_button_component.ReleasedFraction">ReleasedFraction</h4>
+  <div class="markdown level1 summary"><p>Fraction of the maximum travel distance at which a pressed button will raise the released event. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float ReleasedFraction= 0.2f</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L186">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_BeginPlay_" data-uid="_u_uxt_pressable_button_component.BeginPlay*"></a>
+  <h4 id="_u_uxt_pressable_button_component_BeginPlay__" data-uid="_u_uxt_pressable_button_component.BeginPlay()">BeginPlay()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_BeginPlay__">UUxtUIElementComponent::BeginPlay()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_CanHandleFar_Implementation_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.CanHandleFar_Implementation(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L504">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_CanHandleFar_Implementation_" data-uid="_u_uxt_pressable_button_component.CanHandleFar_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_CanHandleFar_Implementation_UPrimitiveComponent___" data-uid="_u_uxt_pressable_button_component.CanHandleFar_Implementation(UPrimitiveComponent *)">CanHandleFar_Implementation(UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool CanHandleFar_Implementation(UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_CanHandlePoke_Implementation_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.CanHandlePoke_Implementation(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L374">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_CanHandlePoke_Implementation_" data-uid="_u_uxt_pressable_button_component.CanHandlePoke_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_CanHandlePoke_Implementation_UPrimitiveComponent___" data-uid="_u_uxt_pressable_button_component.CanHandlePoke_Implementation(UPrimitiveComponent *)">CanHandlePoke_Implementation(UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool CanHandlePoke_Implementation(UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetClosestPoint_Implementation_const_UPrimitiveComponent___const_FVector___FVector___FVector___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetClosestPoint_Implementation(const%20UPrimitiveComponent%20*%2Cconst%20FVector%20%26%2CFVector%20%26%2CFVector%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L365">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetClosestPoint_Implementation_" data-uid="_u_uxt_pressable_button_component.GetClosestPoint_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetClosestPoint_Implementation_const_UPrimitiveComponent___const_FVector___FVector___FVector___" data-uid="_u_uxt_pressable_button_component.GetClosestPoint_Implementation(const UPrimitiveComponent *,const FVector &amp;,FVector &amp;,FVector &amp;)">GetClosestPoint_Implementation(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>const FVector &amp;</td>
+        <td><span class="parametername">Point</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FVector &amp;</td>
+        <td><span class="parametername">OutClosestPoint</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FVector &amp;</td>
+        <td><span class="parametername">OutNormal</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetFrontFaceCollisionFraction__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetFrontFaceCollisionFraction()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L28">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetFrontFaceCollisionFraction_" data-uid="_u_uxt_pressable_button_component.GetFrontFaceCollisionFraction*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetFrontFaceCollisionFraction__" data-uid="_u_uxt_pressable_button_component.GetFrontFaceCollisionFraction()">GetFrontFaceCollisionFraction()</h4>
+  <div class="markdown level1 summary"><p>Get the distance from the visuals front face to the collider front face. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GetFrontFaceCollisionFraction() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetMaxPushDistance__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetMaxPushDistance()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L163">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetMaxPushDistance_" data-uid="_u_uxt_pressable_button_component.GetMaxPushDistance*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetMaxPushDistance__" data-uid="_u_uxt_pressable_button_component.GetMaxPushDistance()">GetMaxPushDistance()</h4>
+  <div class="markdown level1 summary"><p>Gets the maximum distance the button can be pushed </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GetMaxPushDistance() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetPokeBehaviour_Implementation__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetPokeBehaviour_Implementation()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L432">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetPokeBehaviour_Implementation_" data-uid="_u_uxt_pressable_button_component.GetPokeBehaviour_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetPokeBehaviour_Implementation__" data-uid="_u_uxt_pressable_button_component.GetPokeBehaviour_Implementation()">GetPokeBehaviour_Implementation()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtPokeBehaviour</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetPushBehavior__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetPushBehavior()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L148">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetPushBehavior_" data-uid="_u_uxt_pressable_button_component.GetPushBehavior*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetPushBehavior__" data-uid="_u_uxt_pressable_button_component.GetPushBehavior()">GetPushBehavior()</h4>
+  <div class="markdown level1 summary"><p>Gets the button behavior when pushed </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EUxtPushBehavior GetPushBehavior() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtPushBehavior</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetScaleAdjustedMaxPushDistance__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetScaleAdjustedMaxPushDistance()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L143">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetScaleAdjustedMaxPushDistance_" data-uid="_u_uxt_pressable_button_component.GetScaleAdjustedMaxPushDistance*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetScaleAdjustedMaxPushDistance__" data-uid="_u_uxt_pressable_button_component.GetScaleAdjustedMaxPushDistance()">GetScaleAdjustedMaxPushDistance()</h4>
+  <div class="markdown level1 summary"><p>Gets the maximum distance the button can be pushed scaled by the transform's 'x' scale. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: float GetScaleAdjustedMaxPushDistance() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetState__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetState()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L121">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetState_" data-uid="_u_uxt_pressable_button_component.GetState*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetState__" data-uid="_u_uxt_pressable_button_component.GetState()">GetState()</h4>
+  <div class="markdown level1 summary"><p>Get the current state of the button </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: EUxtButtonState GetState() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtButtonState</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_GetVisuals__.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.GetVisuals()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L47">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_GetVisuals_" data-uid="_u_uxt_pressable_button_component.GetVisuals*"></a>
+  <h4 id="_u_uxt_pressable_button_component_GetVisuals__" data-uid="_u_uxt_pressable_button_component.GetVisuals()">GetVisuals()</h4>
+  <div class="markdown level1 summary"><p>Get scene component used for the moving visuals </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: USceneComponent * GetVisuals() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USceneComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.IsFarFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L499">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_IsFarFocusable_Implementation_" data-uid="_u_uxt_pressable_button_component.IsFarFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_pressable_button_component.IsFarFocusable_Implementation(const UPrimitiveComponent *)">IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_IsPokeFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.IsPokeFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L360">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_IsPokeFocusable_Implementation_" data-uid="_u_uxt_pressable_button_component.IsPokeFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_IsPokeFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_pressable_button_component.IsPokeFocusable_Implementation(const UPrimitiveComponent *)">IsPokeFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnBeginPoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnBeginPoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L394">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnBeginPoke_Implementation_" data-uid="_u_uxt_pressable_button_component.OnBeginPoke_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnBeginPoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnBeginPoke_Implementation(UUxtNearPointerComponent *)">OnBeginPoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnEndPoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnEndPoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L414">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnEndPoke_Implementation_" data-uid="_u_uxt_pressable_button_component.OnEndPoke_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnEndPoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnEndPoke_Implementation(UUxtNearPointerComponent *)">OnEndPoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEndPoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L509">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnEnterFarFocus_Implementation_" data-uid="_u_uxt_pressable_button_component.OnEnterFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent *)">OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnEnterPokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnEnterPokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L379">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnEnterPokeFocus_Implementation_" data-uid="_u_uxt_pressable_button_component.OnEnterPokeFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnEnterPokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *)">OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L593">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnExitFarFocus_Implementation_" data-uid="_u_uxt_pressable_button_component.OnExitFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent *)">OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnExitPokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnExitPokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L389">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnExitPokeFocus_Implementation_" data-uid="_u_uxt_pressable_button_component.OnExitPokeFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnExitPokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnExitPokeFocus_Implementation(UUxtNearPointerComponent *)">OnExitPokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnFarPressed_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnFarPressed_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L598">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnFarPressed_Implementation_" data-uid="_u_uxt_pressable_button_component.OnFarPressed_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnFarPressed_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnFarPressed_Implementation(UUxtFarPointerComponent *)">OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnFarReleased_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnFarReleased_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L609">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnFarReleased_Implementation_" data-uid="_u_uxt_pressable_button_component.OnFarReleased_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnFarReleased_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnFarReleased_Implementation(UUxtFarPointerComponent *)">OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L514">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnUpdatedFarFocus_Implementation_" data-uid="_u_uxt_pressable_button_component.OnUpdatedFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *)">OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnUpdatePoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnUpdatePoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L406">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnUpdatePoke_Implementation_" data-uid="_u_uxt_pressable_button_component.OnUpdatePoke_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnUpdatePoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnUpdatePoke_Implementation(UUxtNearPointerComponent *)">OnUpdatePoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatePoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_OnUpdatePokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L384">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_OnUpdatePokeFocus_Implementation_" data-uid="_u_uxt_pressable_button_component.OnUpdatePokeFocus_Implementation*"></a>
+  <h4 id="_u_uxt_pressable_button_component_OnUpdatePokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_pressable_button_component.OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *)">OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetCollisionProfile_FName_.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetCollisionProfile(FName)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L74">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetCollisionProfile_" data-uid="_u_uxt_pressable_button_component.SetCollisionProfile*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetCollisionProfile_FName_" data-uid="_u_uxt_pressable_button_component.SetCollisionProfile(FName)">SetCollisionProfile(FName Profile)</h4>
+  <div class="markdown level1 summary"><p>Set collision profile used by the button collider </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetCollisionProfile(FName Profile)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FName</td>
+        <td><span class="parametername">Profile</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetEnabled_bool_.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetEnabled(bool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L92">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetEnabled_" data-uid="_u_uxt_pressable_button_component.SetEnabled*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetEnabled_bool_" data-uid="_u_uxt_pressable_button_component.SetEnabled(bool)">SetEnabled(bool Enabled)</h4>
+  <div class="markdown level1 summary"><p>Set if the button is enabled </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetEnabled(bool Enabled)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td><span class="parametername">Enabled</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetFrontFaceCollisionFraction_float_.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetFrontFaceCollisionFraction(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L33">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetFrontFaceCollisionFraction_" data-uid="_u_uxt_pressable_button_component.SetFrontFaceCollisionFraction*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetFrontFaceCollisionFraction_float_" data-uid="_u_uxt_pressable_button_component.SetFrontFaceCollisionFraction(float)">SetFrontFaceCollisionFraction(float Distance)</h4>
+  <div class="markdown level1 summary"><p>Set the distance from the visuals front face to the collider front face. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetFrontFaceCollisionFraction(float Distance)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">Distance</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetMaxPushDistance_float_.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetMaxPushDistance(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L168">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetMaxPushDistance_" data-uid="_u_uxt_pressable_button_component.SetMaxPushDistance*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetMaxPushDistance_float_" data-uid="_u_uxt_pressable_button_component.SetMaxPushDistance(float)">SetMaxPushDistance(float Distance)</h4>
+  <div class="markdown level1 summary"><p>Sets the maximum distance the button can be pushed, does nothing when the push behavior is set to compress because the maximum distance is auto calculated </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetMaxPushDistance(float Distance)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">Distance</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetPushBehavior_EUxtPushBehavior_.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetPushBehavior(EUxtPushBehavior)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L153">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetPushBehavior_" data-uid="_u_uxt_pressable_button_component.SetPushBehavior*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetPushBehavior_EUxtPushBehavior_" data-uid="_u_uxt_pressable_button_component.SetPushBehavior(EUxtPushBehavior)">SetPushBehavior(EUxtPushBehavior Behavior)</h4>
+  <div class="markdown level1 summary"><p>Sets the button behavior when pushed </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetPushBehavior(EUxtPushBehavior Behavior)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtPushBehavior</td>
+        <td><span class="parametername">Behavior</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetUseAbsolutePushDistance_bool_.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetUseAbsolutePushDistance(bool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L83">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetUseAbsolutePushDistance_" data-uid="_u_uxt_pressable_button_component.SetUseAbsolutePushDistance*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetUseAbsolutePushDistance_bool_" data-uid="_u_uxt_pressable_button_component.SetUseAbsolutePushDistance(bool)">SetUseAbsolutePushDistance(bool bAbsolute)</h4>
+  <div class="markdown level1 summary"><p>Switch between world and local space for button distances </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetUseAbsolutePushDistance(bool bAbsolute)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td><span class="parametername">bAbsolute</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetVisuals_const_FComponentReference___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetVisuals(const%20FComponentReference%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L62">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetVisuals_" data-uid="_u_uxt_pressable_button_component.SetVisuals*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetVisuals_const_FComponentReference___" data-uid="_u_uxt_pressable_button_component.SetVisuals(const FComponentReference &amp;)">SetVisuals(const FComponentReference &amp;ComponentReference)</h4>
+  <div class="markdown level1 summary"><p>Set scene component reference to be used for the moving visuals. This method should be called if the visual reference should be serialized. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetVisuals(const FComponentReference &amp;ComponentReference)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FComponentReference &amp;</td>
+        <td><span class="parametername">ComponentReference</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_SetVisuals_USceneComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.SetVisuals(USceneComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L52">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_SetVisuals_" data-uid="_u_uxt_pressable_button_component.SetVisuals*"></a>
+  <h4 id="_u_uxt_pressable_button_component_SetVisuals_USceneComponent___" data-uid="_u_uxt_pressable_button_component.SetVisuals(USceneComponent *)">SetVisuals(USceneComponent *Visuals)</h4>
+  <div class="markdown level1 summary"><p>Set scene component to be used for the moving visuals </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetVisuals(USceneComponent *Visuals)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USceneComponent *</td>
+        <td><span class="parametername">Visuals</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.TickComponent(float%2CELevelTick%2CFActorComponentTickFunction%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L202">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_TickComponent_" data-uid="_u_uxt_pressable_button_component.TickComponent*"></a>
+  <h4 id="_u_uxt_pressable_button_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___" data-uid="_u_uxt_pressable_button_component.TickComponent(float,ELevelTick,FActorComponentTickFunction *)">TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">DeltaTime</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ELevelTick</td>
+        <td><span class="parametername">TickType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FActorComponentTickFunction *</td>
+        <td><span class="parametername">ThisTickFunction</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component_VisualBoundsFilter_const_USceneComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component.VisualBoundsFilter(const%20USceneComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonComponent.cpp/#L179">View Source</a>
+  </span>
+  <a id="_u_uxt_pressable_button_component_VisualBoundsFilter_" data-uid="_u_uxt_pressable_button_component.VisualBoundsFilter*"></a>
+  <h4 id="_u_uxt_pressable_button_component_VisualBoundsFilter_const_USceneComponent___" data-uid="_u_uxt_pressable_button_component.VisualBoundsFilter(const USceneComponent *)">VisualBoundsFilter(const USceneComponent *Component)</h4>
+  <div class="markdown level1 summary"><p>Filter function used by the button when calculating the hierarchy bounds of the visuals </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: static bool VisualBoundsFilter(const USceneComponent *Component)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const USceneComponent *</td>
+        <td><span class="parametername">Component</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_pressable_button_component.md&amp;value=---%0Auid%3A%20_u_uxt_pressable_button_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonComponent.h/#L84" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

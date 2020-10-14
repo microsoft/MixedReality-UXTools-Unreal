@@ -1,0 +1,572 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UUxtToggleGroupComponent
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UUxtToggleGroupComponent
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_toggle_group_component">
+  
+  
+  <h1 id="_u_uxt_toggle_group_component" data-uid="_u_uxt_toggle_group_component" class="text-break">Class UUxtToggleGroupComponent
+  </h1>
+  <div class="markdown level0 summary"><p>Component which controls the state of a collection of UUxtToggleStateComponent to behave like a radio group. The component ensures that only one toggle state can be toggled on at a time. Optionally, all states can be toggled off if the SelectedIndex is set to INDEX_NONE. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">UActorComponent</span></div>
+    <div class="level2"><span class="xref">UUxtToggleGroupComponent</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UUxtToggleGroupComponent</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_u_uxt_toggle_group_component_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class UUxtToggleGroupComponent</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_OnGroupSelectionChanged.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.OnGroupSelectionChanged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtToggleGroupComponent.h/#L69">View Source</a>
+  </span>
+  <h4 id="_u_uxt_toggle_group_component_OnGroupSelectionChanged" data-uid="_u_uxt_toggle_group_component.OnGroupSelectionChanged">OnGroupSelectionChanged</h4>
+  <div class="markdown level1 summary"><p>Event which broadcasts when the toggle group selection changes. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FUxtToggleGroupSelectionChangedDelegate OnGroupSelectionChanged</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FUxtToggleGroupSelectionChangedDelegate</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_ToggleStates.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.ToggleStates%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtToggleGroupComponent.h/#L82">View Source</a>
+  </span>
+  <h4 id="_u_uxt_toggle_group_component_ToggleStates" data-uid="_u_uxt_toggle_group_component.ToggleStates">ToggleStates</h4>
+  <div class="markdown level1 summary"><p>A collection of toggle states that act as one toggle group, only one state can be toggle on at a time. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: TArray&lt;ToggleStateWeak&gt; ToggleStates</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TArray&lt;ToggleStateWeak&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_AddToggleState_UUxtToggleStateComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.AddToggleState(UUxtToggleStateComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L19">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_AddToggleState_" data-uid="_u_uxt_toggle_group_component.AddToggleState*"></a>
+  <h4 id="_u_uxt_toggle_group_component_AddToggleState_UUxtToggleStateComponent___" data-uid="_u_uxt_toggle_group_component.AddToggleState(UUxtToggleStateComponent *)">AddToggleState(UUxtToggleStateComponent *ToggleState)</h4>
+  <div class="markdown level1 summary"><p>Adds a toggle state to the end of the ToggleStates list. Returns true if the insertion was successful. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool AddToggleState(UUxtToggleStateComponent *ToggleState)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UUxtToggleStateComponent *</td>
+        <td><span class="parametername">ToggleState</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L94">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_BeginPlay_" data-uid="_u_uxt_toggle_group_component.BeginPlay*"></a>
+  <h4 id="_u_uxt_toggle_group_component_BeginPlay__" data-uid="_u_uxt_toggle_group_component.BeginPlay()">BeginPlay()</h4>
+  <div class="markdown level1 summary"><p>Extracts references from the ToggleReferences and sets the initial selection. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_EmptyGroup__.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.EmptyGroup()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L72">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_EmptyGroup_" data-uid="_u_uxt_toggle_group_component.EmptyGroup*"></a>
+  <h4 id="_u_uxt_toggle_group_component_EmptyGroup__" data-uid="_u_uxt_toggle_group_component.EmptyGroup()">EmptyGroup()</h4>
+  <div class="markdown level1 summary"><p>Removes all toggle states from the ToggleStates list and invalidates the selected index. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void EmptyGroup()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_GetGroupCount__.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.GetGroupCount()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtToggleGroupComponent.h/#L58">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_GetGroupCount_" data-uid="_u_uxt_toggle_group_component.GetGroupCount*"></a>
+  <h4 id="_u_uxt_toggle_group_component_GetGroupCount__" data-uid="_u_uxt_toggle_group_component.GetGroupCount()">GetGroupCount()</h4>
+  <div class="markdown level1 summary"><p>Returns how many toggle states are within the group. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: int32 GetGroupCount() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int32</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_GetSelectedIndex__.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.GetSelectedIndex()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtToggleGroupComponent.h/#L37">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_GetSelectedIndex_" data-uid="_u_uxt_toggle_group_component.GetSelectedIndex*"></a>
+  <h4 id="_u_uxt_toggle_group_component_GetSelectedIndex__" data-uid="_u_uxt_toggle_group_component.GetSelectedIndex()">GetSelectedIndex()</h4>
+  <div class="markdown level1 summary"><p>Accessor to the selected index. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: int32 GetSelectedIndex() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int32</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_GetToggleStateIndex_const_UUxtToggleStateComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.GetToggleStateIndex(const%20UUxtToggleStateComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L89">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_GetToggleStateIndex_" data-uid="_u_uxt_toggle_group_component.GetToggleStateIndex*"></a>
+  <h4 id="_u_uxt_toggle_group_component_GetToggleStateIndex_const_UUxtToggleStateComponent___" data-uid="_u_uxt_toggle_group_component.GetToggleStateIndex(const UUxtToggleStateComponent *)">GetToggleStateIndex(const UUxtToggleStateComponent *ToggleState)</h4>
+  <div class="markdown level1 summary"><p>Returns the index of the ToggleState in the ToggleStates list, if the ToggleState does not exist returns INDEX_NONE (-1). </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: int32 GetToggleStateIndex(const UUxtToggleStateComponent *ToggleState) const</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UUxtToggleStateComponent *</td>
+        <td><span class="parametername">ToggleState</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int32</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_InsertToggleState_UUxtToggleStateComponent___int32_.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.InsertToggleState(UUxtToggleStateComponent%20*%2Cint32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L24">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_InsertToggleState_" data-uid="_u_uxt_toggle_group_component.InsertToggleState*"></a>
+  <h4 id="_u_uxt_toggle_group_component_InsertToggleState_UUxtToggleStateComponent___int32_" data-uid="_u_uxt_toggle_group_component.InsertToggleState(UUxtToggleStateComponent *,int32)">InsertToggleState(UUxtToggleStateComponent *ToggleState, int32 Index)</h4>
+  <div class="markdown level1 summary"><p>Adds a toggle state to a specific index within the ToggleStates list. Increments the selection index if the toggle state is added before the current selection index. Returns true if the insertion was successful. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool InsertToggleState(UUxtToggleStateComponent *ToggleState, int32 Index)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UUxtToggleStateComponent *</td>
+        <td><span class="parametername">ToggleState</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>int32</td>
+        <td><span class="parametername">Index</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_OnToggled_UUxtToggleStateComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.OnToggled(UUxtToggleStateComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L146">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_OnToggled_" data-uid="_u_uxt_toggle_group_component.OnToggled*"></a>
+  <h4 id="_u_uxt_toggle_group_component_OnToggled_UUxtToggleStateComponent___" data-uid="_u_uxt_toggle_group_component.OnToggled(UUxtToggleStateComponent *)">OnToggled(UUxtToggleStateComponent *ToggleState)</h4>
+  <div class="markdown level1 summary"><p>Delegate for when any toggle state within ToggleStates is toggled. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnToggled(UUxtToggleStateComponent *ToggleState)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UUxtToggleStateComponent *</td>
+        <td><span class="parametername">ToggleState</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_RemoveToggleState_UUxtToggleStateComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.RemoveToggleState(UUxtToggleStateComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L43">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_RemoveToggleState_" data-uid="_u_uxt_toggle_group_component.RemoveToggleState*"></a>
+  <h4 id="_u_uxt_toggle_group_component_RemoveToggleState_UUxtToggleStateComponent___" data-uid="_u_uxt_toggle_group_component.RemoveToggleState(UUxtToggleStateComponent *)">RemoveToggleState(UUxtToggleStateComponent *ToggleState)</h4>
+  <div class="markdown level1 summary"><p>Removes a toggle state from the ToggleStates list. Returns true if the removal was successful. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool RemoveToggleState(UUxtToggleStateComponent *ToggleState)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UUxtToggleStateComponent *</td>
+        <td><span class="parametername">ToggleState</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component_SetSelectedIndex_int32_.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component.SetSelectedIndex(int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtToggleGroupComponent.cpp/#L13">View Source</a>
+  </span>
+  <a id="_u_uxt_toggle_group_component_SetSelectedIndex_" data-uid="_u_uxt_toggle_group_component.SetSelectedIndex*"></a>
+  <h4 id="_u_uxt_toggle_group_component_SetSelectedIndex_int32_" data-uid="_u_uxt_toggle_group_component.SetSelectedIndex(int32)">SetSelectedIndex(int32 Index)</h4>
+  <div class="markdown level1 summary"><p>Mutates the selected index, broadcasts events, and performs bounds checking. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetSelectedIndex(int32 Index)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int32</td>
+        <td><span class="parametername">Index</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_toggle_group_component.md&amp;value=---%0Auid%3A%20_u_uxt_toggle_group_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtToggleGroupComponent.h/#L26" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

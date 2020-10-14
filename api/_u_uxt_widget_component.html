@@ -1,0 +1,851 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class UUxtWidgetComponent
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class UUxtWidgetComponent
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_widget_component">
+  
+  
+  <h1 id="_u_uxt_widget_component" data-uid="_u_uxt_widget_component" class="text-break">Class UUxtWidgetComponent
+  </h1>
+  <div class="markdown level0 summary"><p>Widget Component that is interactable with near and far interaction. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">UActorComponent</span></div>
+    <div class="level2"><span class="xref">UUxtWidgetComponent</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_CanHandleFar_UPrimitiveComponent___">IUxtFarHandler::CanHandleFar(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_CanHandlePoke_UPrimitiveComponent___">IUxtPokeHandler::CanHandlePoke(UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_GetClosestPoint_const_UPrimitiveComponent___const_FVector___FVector___FVector___">IUxtPokeTarget::GetClosestPoint(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_GetPokeBehaviour__">IUxtPokeTarget::GetPokeBehaviour()</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_IsFarFocusable_const_UPrimitiveComponent___">IUxtFarTarget::IsFarFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_IsPokeFocusable_const_UPrimitiveComponent___">IUxtPokeTarget::IsPokeFocusable(const UPrimitiveComponent *Primitive)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnBeginPoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnBeginPoke(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnEndPoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnEndPoke(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnEnterFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnEnterFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnEnterPokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnEnterPokeFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnExitFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnExitFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnExitPokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnExitPokeFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarDragged_UUxtFarPointerComponent___">IUxtFarHandler::OnFarDragged(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarPressed_UUxtFarPointerComponent___">IUxtFarHandler::OnFarPressed(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarReleased_UUxtFarPointerComponent___">IUxtFarHandler::OnFarReleased(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnUpdatedFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnUpdatedFarFocus(UUxtFarPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnUpdatePoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnUpdatePoke(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+    <div>
+      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnUpdatePokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnUpdatePokeFocus(UUxtNearPointerComponent *Pointer)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_u_uxt_widget_component_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class UUxtWidgetComponent : public xtPokeTarget, public xtPokeHandler, public xtFarTarget, public xtFarHandler</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_VirtualUserIndex.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.VirtualUserIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtWidgetComponent.h/#L86">View Source</a>
+  </span>
+  <h4 id="_u_uxt_widget_component_VirtualUserIndex" data-uid="_u_uxt_widget_component.VirtualUserIndex">VirtualUserIndex</h4>
+  <div class="markdown level1 summary"><p>Represents the Virtual User Index. Each virtual user should be represented by a different index number, this will maintain separate capture and focus states for them. Each controller or finger-tip should get a unique PointerIndex. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: int32 VirtualUserIndex= 0</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int32</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L31">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_BeginPlay_" data-uid="_u_uxt_widget_component.BeginPlay*"></a>
+  <h4 id="_u_uxt_widget_component_BeginPlay__" data-uid="_u_uxt_widget_component.BeginPlay()">BeginPlay()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_CanHandleFar_Implementation_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.CanHandleFar_Implementation(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L135">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_CanHandleFar_Implementation_" data-uid="_u_uxt_widget_component.CanHandleFar_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_CanHandleFar_Implementation_UPrimitiveComponent___" data-uid="_u_uxt_widget_component.CanHandleFar_Implementation(UPrimitiveComponent *)">CanHandleFar_Implementation(UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool CanHandleFar_Implementation(UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_CanHandlePoke_Implementation_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.CanHandlePoke_Implementation(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L57">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_CanHandlePoke_Implementation_" data-uid="_u_uxt_widget_component.CanHandlePoke_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_CanHandlePoke_Implementation_UPrimitiveComponent___" data-uid="_u_uxt_widget_component.CanHandlePoke_Implementation(UPrimitiveComponent *)">CanHandlePoke_Implementation(UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool CanHandlePoke_Implementation(UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_GetClosestPoint_Implementation_const_UPrimitiveComponent___const_FVector___FVector___FVector___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.GetClosestPoint_Implementation(const%20UPrimitiveComponent%20*%2Cconst%20FVector%20%26%2CFVector%20%26%2CFVector%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L48">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_GetClosestPoint_Implementation_" data-uid="_u_uxt_widget_component.GetClosestPoint_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_GetClosestPoint_Implementation_const_UPrimitiveComponent___const_FVector___FVector___FVector___" data-uid="_u_uxt_widget_component.GetClosestPoint_Implementation(const UPrimitiveComponent *,const FVector &amp;,FVector &amp;,FVector &amp;)">GetClosestPoint_Implementation(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>const FVector &amp;</td>
+        <td><span class="parametername">Point</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FVector &amp;</td>
+        <td><span class="parametername">OutClosestPoint</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>FVector &amp;</td>
+        <td><span class="parametername">OutNormal</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_GetPokeBehaviour_Implementation__.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.GetPokeBehaviour_Implementation()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L43">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_GetPokeBehaviour_Implementation_" data-uid="_u_uxt_widget_component.GetPokeBehaviour_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_GetPokeBehaviour_Implementation__" data-uid="_u_uxt_widget_component.GetPokeBehaviour_Implementation()">GetPokeBehaviour_Implementation()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EUxtPokeBehaviour</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.IsFarFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L130">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_IsFarFocusable_Implementation_" data-uid="_u_uxt_widget_component.IsFarFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_widget_component.IsFarFocusable_Implementation(const UPrimitiveComponent *)">IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_IsPokeFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.IsPokeFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L38">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_IsPokeFocusable_Implementation_" data-uid="_u_uxt_widget_component.IsPokeFocusable_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_IsPokeFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_widget_component.IsPokeFocusable_Implementation(const UPrimitiveComponent *)">IsPokeFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent *Primitive) const override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const UPrimitiveComponent *</td>
+        <td><span class="parametername">Primitive</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnBeginPoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnBeginPoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L106">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnBeginPoke_Implementation_" data-uid="_u_uxt_widget_component.OnBeginPoke_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnBeginPoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_widget_component.OnBeginPoke_Implementation(UUxtNearPointerComponent *)">OnBeginPoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnEndPoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnEndPoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L118">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnEndPoke_Implementation_" data-uid="_u_uxt_widget_component.OnEndPoke_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnEndPoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_widget_component.OnEndPoke_Implementation(UUxtNearPointerComponent *)">OnEndPoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEndPoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L140">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnEnterFarFocus_Implementation_" data-uid="_u_uxt_widget_component.OnEnterFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_widget_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent *)">OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnEnterPokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnEnterPokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L62">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnEnterPokeFocus_Implementation_" data-uid="_u_uxt_widget_component.OnEnterPokeFocus_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnEnterPokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_widget_component.OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *)">OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L167">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnExitFarFocus_Implementation_" data-uid="_u_uxt_widget_component.OnExitFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_widget_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent *)">OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnExitPokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnExitPokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L89">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnExitPokeFocus_Implementation_" data-uid="_u_uxt_widget_component.OnExitPokeFocus_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnExitPokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_widget_component.OnExitPokeFocus_Implementation(UUxtNearPointerComponent *)">OnExitPokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnFarPressed_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnFarPressed_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L184">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnFarPressed_Implementation_" data-uid="_u_uxt_widget_component.OnFarPressed_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnFarPressed_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_widget_component.OnFarPressed_Implementation(UUxtFarPointerComponent *)">OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnFarReleased_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnFarReleased_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L196">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnFarReleased_Implementation_" data-uid="_u_uxt_widget_component.OnFarReleased_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnFarReleased_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_widget_component.OnFarReleased_Implementation(UUxtFarPointerComponent *)">OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L155">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnUpdatedFarFocus_Implementation_" data-uid="_u_uxt_widget_component.OnUpdatedFarFocus_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_widget_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *)">OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component_OnUpdatePokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component.OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtWidgetComponent.cpp/#L77">View Source</a>
+  </span>
+  <a id="_u_uxt_widget_component_OnUpdatePokeFocus_Implementation_" data-uid="_u_uxt_widget_component.OnUpdatePokeFocus_Implementation*"></a>
+  <h4 id="_u_uxt_widget_component_OnUpdatePokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_widget_component.OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *)">OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/apiSpec/new?filename=_u_uxt_widget_component.md&amp;value=---%0Auid%3A%20_u_uxt_widget_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/3de25f9d8b20ba2edbdd64c0d4dd241898f0bf2d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtWidgetComponent.h/#L28" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
