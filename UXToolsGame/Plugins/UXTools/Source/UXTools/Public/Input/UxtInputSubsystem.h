@@ -25,83 +25,83 @@ class UXTOOLS_API UUxtInputSubsystem : public UGameInstanceSubsystem
 
 public:
 	/** Register the given handler as interested in events for a given handler interface. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static bool RegisterHandler(UObject* Handler, TSubclassOf<UInterface> Interface);
 
 	/** Unregister the given handler as interested in events for a given handler interface. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static bool UnregisterHandler(UObject* Handler, TSubclassOf<UInterface> Interface);
 
 	/** Raised when a far pointer starts focusing a primitive. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseEnterFarFocus(UPrimitiveComponent* Target, UUxtFarPointerComponent* Pointer);
 
 	/** Raised when a focusing far pointer is updated. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseUpdatedFarFocus(UPrimitiveComponent* Target, UUxtFarPointerComponent* Pointer);
 
 	/** Raised when a far pointer stops focusing a primitive. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseExitFarFocus(UPrimitiveComponent* Target, UUxtFarPointerComponent* Pointer);
 
 	/** Raised when a focusing far pointer is pressed. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseFarPressed(UPrimitiveComponent* Target, UUxtFarPointerComponent* Pointer);
 
 	/** Raised when a focusing far pointer is dragged. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseFarDragged(UPrimitiveComponent* Target, UUxtFarPointerComponent* Pointer);
 
 	/** Raised when a focusing far pointer is released. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseFarReleased(UPrimitiveComponent* Target, UUxtFarPointerComponent* Pointer);
 
 	/** Raised when a pointer focuses the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseEnterGrabFocus(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer has been updated while focused. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseUpdateGrabFocus(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer stops focusing the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseExitGrabFocus(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer starts grabbing while overlapping the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseBeginGrab(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer has been updated while grabbing. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseUpdateGrab(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer stops grabbing or stops overlapping the actor while grabbing. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseEndGrab(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer focuses the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseEnterPokeFocus(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer has been updated while focused. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseUpdatePokeFocus(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer stops focusing the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseExitPokeFocus(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer poke volume starts overlapping the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseBeginPoke(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised while a pointer poke volume is overlapping the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseUpdatePoke(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 	/** Raised when a pointer poke volume stops overlapping the actor. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Input Subsystem")
 	static void RaiseEndPoke(UPrimitiveComponent* Target, UUxtNearPointerComponent* Pointer);
 
 private:

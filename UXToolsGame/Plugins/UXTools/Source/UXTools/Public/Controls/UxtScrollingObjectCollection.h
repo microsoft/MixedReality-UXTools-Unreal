@@ -58,15 +58,15 @@ USTRUCT(BlueprintType, NoExport)
 struct FScrollingCollectionProperties
 {
 	/** The Center of the viewable area, relative to the Scrolling Collection Component. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scrolling Object Collection Properties")
 	FVector Center;
 
 	/** The width of the viewable area */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scrolling Object Collection Properties")
 	float Width;
 
 	/** The height of the viewable area */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scrolling Object Collection Properties")
 	float Height;
 };
 
@@ -176,7 +176,7 @@ public:
 	FUxtScrollingObjectCollectionUpdated OnCollectionUpdated;
 
 	/** Set the backplate for this component. */
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "UxTools|Scrolling Properties")
 	void SetBackPlate(UUxtBackPlateComponent* Plate) { BackPlate = Plate; }
 
 protected:

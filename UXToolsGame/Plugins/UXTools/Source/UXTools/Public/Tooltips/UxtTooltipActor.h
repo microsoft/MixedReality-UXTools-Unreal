@@ -116,7 +116,7 @@ private:
 	FVector GetClosestAnchorToTarget(FVector EndPosition) const;
 
 	/** Actor root component */
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Tooltip")
 	USceneComponent* SceneRoot;
 
 	/** The actual widget component that gets created.*/
