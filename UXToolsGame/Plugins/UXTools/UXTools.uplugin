@@ -17,8 +17,7 @@
 	"SupportedTargetPlatforms": [
 		"Win64",
 		"HoloLens",
-		"Android",
-		"IOS"
+		"Android"
 	],
 	"Modules": [
 		{
@@ -28,8 +27,7 @@
 			"WhitelistPlatforms": [
 				"Win64",
 				"HoloLens",
-				"Android",
-				"IOS"
+				"Android"
 			]
 		},
 		{
