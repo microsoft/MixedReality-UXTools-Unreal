@@ -13,7 +13,7 @@ class UUxtNearPointerComponent;
 class UPrimitiveComponent;
 
 UINTERFACE(BlueprintType)
-class UUxtGrabHandler : public UInterface
+class UXTOOLS_API UUxtGrabHandler : public UInterface
 {
 	GENERATED_BODY()
 };

@@ -13,7 +13,7 @@ class UPrimitiveComponent;
 class UUxtFarPointerComponent;
 
 UINTERFACE(BlueprintType)
-class UUxtFarHandler : public UInterface
+class UXTOOLS_API UUxtFarHandler : public UInterface
 {
 	GENERATED_BODY()
 };

@@ -22,7 +22,7 @@ enum class EUxtPokeBehaviour : uint8
 };
 
 UINTERFACE(BlueprintType)
-class UUxtPokeTarget : public UInterface
+class UXTOOLS_API UUxtPokeTarget : public UInterface
 {
 	GENERATED_BODY()
 };

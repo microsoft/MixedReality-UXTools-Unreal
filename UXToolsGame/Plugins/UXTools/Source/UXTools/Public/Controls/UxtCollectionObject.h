@@ -13,7 +13,7 @@ class UUxtPokeTarget;
 class IUxtFarTarget;
 
 UINTERFACE(BlueprintType)
-class UUxtCollectionObject : public UInterface
+class UXTOOLS_API UUxtCollectionObject : public UInterface
 {
 	GENERATED_BODY()
 };

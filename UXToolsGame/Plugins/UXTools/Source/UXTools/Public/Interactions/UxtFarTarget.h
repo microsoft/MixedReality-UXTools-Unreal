@@ -10,7 +10,7 @@
 #include "UxtFarTarget.generated.h"
 
 UINTERFACE(BlueprintType)
-class UUxtFarTarget : public UInterface
+class UXTOOLS_API UUxtFarTarget : public UInterface
 {
 	GENERATED_BODY()
 };
