@@ -230,20 +230,36 @@ void AUxtPressableButtonActor::ConstructIcon()
 	break;
 	case EUxtIconBrushContentType::UnicodeCharacter:
 	{
-		IconComponent->SetVisibility(true);
+		if (IconBrush.Icon.IsEmpty())
+		{
+			IconComponent->SetVisibility(false);
+			IconComponent->SetText(FText::GetEmpty());
+		}
+		else
+		{
+			IconComponent->SetVisibility(true);
 
-		FString Output;
-		const bool Result = UUxtInternalFunctionLibrary::HexCodePointToFString(IconBrush.Icon, Output);
-		UE_CLOG(
-			!Result, UXTools, Warning, TEXT("Failed to resolve hex code point '%s' on AUxtPressableButtonActor '%s'."), *IconBrush.Icon,
-			*GetName());
-		IconComponent->SetText(FText::AsCultureInvariant(Output));
+			FString Output;
+			const bool Result = UUxtInternalFunctionLibrary::HexCodePointToFString(IconBrush.Icon, Output);
+			UE_CLOG(
+				!Result, UXTools, Warning, TEXT("Failed to resolve hex code point '%s' on AUxtPressableButtonActor '%s'."), *IconBrush.Icon,
+				*GetName());
+			IconComponent->SetText(FText::AsCultureInvariant(Output));
+		}
 	}
 	break;
 	case EUxtIconBrushContentType::String:
 	{
-		IconComponent->SetVisibility(true);
-		IconComponent->SetText(FText::AsCultureInvariant(IconBrush.Icon));
+		if (IconBrush.Icon.IsEmpty())
+		{
+			IconComponent->SetVisibility(false);
+			IconComponent->SetText(FText::GetEmpty());
+		}
+		else
+		{
+			IconComponent->SetVisibility(true);
+			IconComponent->SetText(FText::AsCultureInvariant(IconBrush.Icon));
+		}
 	}
 	break;
 	}
