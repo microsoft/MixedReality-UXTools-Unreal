@@ -105,6 +105,11 @@ steps:
     arguments: -UnrealEngine $(UnrealEngine) -Platform HoloLens -Configuration Development -Clean $True -UnityBuild $False -ArchivePath $(Build.ArtifactStagingDirectory)/packages
   displayName: 'Build HoloLens ARM64 Development'
 
+# robocopy returning 0 or 1 indicates success so set the return code to 0, otherwise preserve robocopy's return code.
+- script: |
+    (robocopy "$(UXTSourceDir)\UXToolsGame\Binaries\HoloLens" "$(Build.ArtifactStagingDirectory)\packages\HoloLens" "*.pdb" /s) ^& IF %ERRORLEVEL% LEQ 1 exit 0
+  displayName: 'Copy HoloLens symbols to artifact'
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish prebuilt UXTGame (HoloLens)'
   inputs:

@@ -36,7 +36,7 @@ stages:
         # Switch MobileMultiView setting to False due to a rendering issue (https://udn.unrealengine.com/questions/578554/view.html)
         $IniPath = "$(UXTSourceDir)\UXToolsGame\Config\DefaultEngine.ini"
         $NewContent = (Get-Content -Raw -Encoding Ascii -Path $IniPath) -ireplace "(vr.MobileMultiView\s*=\s*)True",'$1False'
-        $NewContent | Out-File -FilePath $IniPath -Encoding Ascii -Force 
+        $NewContent | Out-File -FilePath $IniPath -Encoding Ascii -Force
         $(UXTSourceDir)\Tools\scripts\BuildProject.ps1 `
           -UnrealEngine $(UnrealEngine) `
           -Platform Android `
@@ -48,6 +48,11 @@ stages:
         & git checkout -- "$IniPath"
         exit $returncode
       displayName: 'Build Android Development'
+
+    # robocopy returning 0 or 1 indicates success so set the return code to 0, otherwise preserve robocopy's return code.
+    - script: |
+        (robocopy "$(UXTSourceDir)\UXToolsGame\Binaries\Android" "$(Build.ArtifactStagingDirectory)\packages\Android_Multi" "*.so" /s) ^& IF %ERRORLEVEL% LEQ 1 exit 0
+      displayName: 'Copy Android symbols to artifact'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish prebuilt UXTGame (Android)'
@@ -69,7 +74,7 @@ stages:
   variables:
     UnrealEngine: '$(Build.SourcesDirectory)/Unreal'
     UAT: $(UAT_mac)
-    UE4Editor: $(UE4Editor_mac) 
+    UE4Editor: $(UE4Editor_mac)
   jobs:
   - job:
     workspace:
