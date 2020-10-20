@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
+
 #include "Engine.h"
 #include "EngineUtils.h"
 #include "FrameQueue.h"

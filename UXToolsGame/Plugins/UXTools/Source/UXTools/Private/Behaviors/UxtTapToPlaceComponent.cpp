@@ -1,3 +1,6 @@
+// Copyright (c) 2020 Microsoft Corporation.
+// Licensed under the MIT License.
+
 #include "Behaviors/UxtTapToPlaceComponent.h"
 
 #include "Components/PrimitiveComponent.h"

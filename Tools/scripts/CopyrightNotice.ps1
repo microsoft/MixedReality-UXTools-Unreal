@@ -2,34 +2,38 @@
 # Licensed under the MIT License.
 
 $includeList = @("*.h", "*.cpp", "*.cs")
-$placeholder = "// Fill out your copyright notice in the Description page of Project Settings."
 # https://docs.opensource.microsoft.com/content/releasing/copyright-headers.html?q=header
-$copyright = @'
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-'@
+$CurrentYear = (Get-Date).Year
+$copyright = (@(
+    "// Copyright (c) $($CurrentYear) Microsoft Corporation.",
+    "// Licensed under the MIT License."
+) -Join "`r`n")
 
 function CheckCopyright($path) {
-    $first2lines = (Get-Content -Path $path -TotalCount 2) -Join "`r`n"
-    $existing = $first2lines.ToLower().IndexOf('copyright')
-    if ( $existing -ge 0) {
-        # There is /some/ copyright
-        if ($first2lines.StartsWith($copyright)) {
-            # MS MIT is good
-            Write-Host "ok $path"
+    $OriginalContent = (Get-Content -Path $path)
+    # remove comments at the top of the file
+    $EndOfComments = $False
+    $ContentWithoutHeader = (($OriginalContent | Where-Object {
+        if ($EndOfComments)
+        {
+            return $True
         }
-        elseif ($first2lines.StartsWith($placeholder) ) {
-            (Get-Content -raw -Path $path).Replace($placeholder,$copyright) | Set-Content "$path"
-            Write-Host "REPLACE $path $first2lines"
+        if (-not [string]::IsNullOrEmpty($_) -and $_ -notmatch "^\s*//")
+        {
+            $EndOfComments = $True
+            return $True
         }
-        else {
-            # Anything else needs eyes
-            Write-Host "Other $path $first2lines"
-        }
-    } else {
-        # Add copyright if none exists.
-        ($copyright + "`r`n" + (Get-Content -raw -Path $path)) | Set-Content "$path"
-        Write-Host "ADD $path"
+        return $False
+    }) -Join "`r`n")
+    $NewContent = $copyright + "`r`n`r`n" + $ContentWithoutHeader
+    if (($OriginalContent -Join "`r`n") -ne $NewContent)
+    {
+        Write-Host "Updating: $path"
+        $NewContent | Set-Content "$path"
+    }
+    else
+    {
+        Write-Host "ok: $path"
     }
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -61,9 +61,9 @@ public:
 	UFUNCTION(BlueprintSetter)
 	void SetRayLength(float NewRayLength);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Hand Interaction")
 	FVector GetHandVelocity() const { return Velocity; }
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Hand Interaction")
 	FVector GetHandAngularVelocity() const { return AngularVelocity; }
 
 	// Size of the hand activation cone in degrees
@@ -156,7 +156,7 @@ private:
 	UUxtFarPointerComponent* FarPointer;
 
 	/** Runtime mesh component used for detecting proximity of near interaction targets. */
-	UPROPERTY(VisibleAnywhere, Transient)
+	UPROPERTY(VisibleAnywhere, Transient, Category = "Hand Interaction")
 	UProceduralMeshComponent* ProximityTrigger;
 
 	/** Set to true for visualizing the proximity mesh. */
