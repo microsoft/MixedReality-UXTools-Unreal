@@ -4,4 +4,4 @@
 #include "Modules/ModuleInterface.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_MODULE(FDefaultModuleImpl, UXToolsInputSimulation);
+IMPLEMENT_MODULE(FDefaultModuleImpl, XRInputSimulation);

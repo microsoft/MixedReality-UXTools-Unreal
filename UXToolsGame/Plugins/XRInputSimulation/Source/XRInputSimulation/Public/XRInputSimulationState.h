@@ -6,9 +6,9 @@
 #include "CoreMinimal.h"
 #include "InputCoreTypes.h"
 
-#include "UxtInputSimulationState.generated.h"
+#include "XRInputSimulationState.generated.h"
 
-struct FUxtInputAnimationUtils
+struct FXRInputAnimationUtils
 {
 	static const float InputYawScale;
 	static const float InputPitchScale;
@@ -27,7 +27,7 @@ struct FUxtInputAnimationUtils
 /**
  * Simulation state for a single hand.
  */
-struct FUxtInputSimulationHandState
+struct FXRInputSimulationHandState
 {
 	/** True if the hand is currently visible, i.e. simulated as tracked. */
 	bool bIsVisible = true;
@@ -43,7 +43,7 @@ struct FUxtInputSimulationHandState
 };
 
 UENUM(BlueprintType)
-enum class EUxtInputSimulationHandMode : uint8
+enum class EXRInputSimulationHandMode : uint8
 {
 	/** Move hands when adding input */
 	Movement,
@@ -55,12 +55,12 @@ enum class EUxtInputSimulationHandMode : uint8
  * Simulation state for head movement and hand gestures.
  */
 UCLASS(BlueprintType)
-class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationState : public UObject
+class XRINPUTSIMULATION_API UXRInputSimulationState : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UUxtInputSimulationState();
+	UXRInputSimulationState();
 
 	/** Reset to default. */
 	UFUNCTION(BlueprintCallable, Category = InputSimulation)
@@ -148,7 +148,7 @@ public:
 public:
 	/** If true, input will be interpreted as hand rotation instead of movement. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSimulation)
-	EUxtInputSimulationHandMode HandInputMode = EUxtInputSimulationHandMode::Movement;
+	EXRInputSimulationHandMode HandInputMode = EXRInputSimulationHandMode::Movement;
 
 	/** Head position relative to the character controller. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSimulation)
@@ -160,5 +160,5 @@ public:
 
 private:
 	/** Current target pose for each hand. */
-	TMap<EControllerHand, FUxtInputSimulationHandState> HandStates;
+	TMap<EControllerHand, FXRInputSimulationHandState> HandStates;
 };

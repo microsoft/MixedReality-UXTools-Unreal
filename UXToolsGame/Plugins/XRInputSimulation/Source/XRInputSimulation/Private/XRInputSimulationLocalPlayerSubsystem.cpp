@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "UxtInputSimulationLocalPlayerSubsystem.h"
+#include "XRInputSimulationLocalPlayerSubsystem.h"
 
 #include "IHeadMountedDisplay.h"
-#include "UxtInputSimulationActor.h"
-#include "UxtInputSimulationState.h"
+#include "XRInputSimulationActor.h"
+#include "XRInputSimulationState.h"
 #include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
 #include "Camera/CameraComponent.h"
@@ -16,50 +16,50 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameFramework/PlayerController.h"
 
-#define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
+#define LOCTEXT_NAMESPACE "XRInputSimulation"
 
-UUxtInputSimulationState* UUxtInputSimulationLocalPlayerSubsystem::GetSimulationState() const
+UXRInputSimulationState* UXRInputSimulationLocalPlayerSubsystem::GetSimulationState() const
 {
 	return SimulationState;
 }
 
-bool UUxtInputSimulationLocalPlayerSubsystem::ShouldCreateSubsystem(UObject* Outer) const
+bool UXRInputSimulationLocalPlayerSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
 	return UWindowsMixedRealityInputSimulationEngineSubsystem::IsInputSimulationEnabled();
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+void UXRInputSimulationLocalPlayerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	SimulationState = NewObject<UUxtInputSimulationState>();
+	SimulationState = NewObject<UXRInputSimulationState>();
 
 	// Subscribe to the PostLogin event to set the view target after the local player controller is created.
-	FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UUxtInputSimulationLocalPlayerSubsystem::OnGameModePostLogin);
+	FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UXRInputSimulationLocalPlayerSubsystem::OnGameModePostLogin);
 	// Destroy actors after logout
-	FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UUxtInputSimulationLocalPlayerSubsystem::OnGameModeLogout);
+	FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UXRInputSimulationLocalPlayerSubsystem::OnGameModeLogout);
 
 	// Subscribe to PostLoadMap event to recreate the actors after a map has been destroyed.
-	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UUxtInputSimulationLocalPlayerSubsystem::OnPostLoadMapWithWorld);
+	FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UXRInputSimulationLocalPlayerSubsystem::OnPostLoadMapWithWorld);
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::Deinitialize()
+void UXRInputSimulationLocalPlayerSubsystem::Deinitialize()
 {
 	SimulationState = nullptr;
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::CreateInputSimActor(UWorld* World)
+void UXRInputSimulationLocalPlayerSubsystem::CreateInputSimActor(UWorld* World)
 {
 	if (!InputSimActorWeak.IsValid())
 	{
 		FActorSpawnParameters p;
 		p.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-		AActor* InputSimActor = World->SpawnActor<AUxtInputSimulationActor>(p);
+		AActor* InputSimActor = World->SpawnActor<AXRInputSimulationActor>(p);
 
 		InputSimActorWeak = InputSimActor;
 	}
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::CreateHmdCameraActor(UWorld* World)
+void UXRInputSimulationLocalPlayerSubsystem::CreateHmdCameraActor(UWorld* World)
 {
 	if (!HmdCameraActorWeak.IsValid())
 	{
@@ -99,7 +99,7 @@ void UUxtInputSimulationLocalPlayerSubsystem::CreateHmdCameraActor(UWorld* World
 	}
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::DestroyInputSimActor()
+void UXRInputSimulationLocalPlayerSubsystem::DestroyInputSimActor()
 {
 	if (AActor* InputSimActor = InputSimActorWeak.Get())
 	{
@@ -108,7 +108,7 @@ void UUxtInputSimulationLocalPlayerSubsystem::DestroyInputSimActor()
 	InputSimActorWeak.Reset();
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::DestroyHmdCameraActor()
+void UXRInputSimulationLocalPlayerSubsystem::DestroyHmdCameraActor()
 {
 	if (AActor* HmdCameraActor = HmdCameraActorWeak.Get())
 	{
@@ -117,7 +117,7 @@ void UUxtInputSimulationLocalPlayerSubsystem::DestroyHmdCameraActor()
 	HmdCameraActorWeak.Reset();
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)
+void UXRInputSimulationLocalPlayerSubsystem::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)
 {
 	if (NewPlayer->Player == GetLocalPlayer())
 	{
@@ -126,7 +126,7 @@ void UUxtInputSimulationLocalPlayerSubsystem::OnGameModePostLogin(AGameModeBase*
 	}
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting)
+void UXRInputSimulationLocalPlayerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting)
 {
 	if (APlayerController* PlayerController = Cast<APlayerController>(Exiting))
 	{
@@ -138,7 +138,7 @@ void UUxtInputSimulationLocalPlayerSubsystem::OnGameModeLogout(AGameModeBase* Ga
 	}
 }
 
-void UUxtInputSimulationLocalPlayerSubsystem::OnPostLoadMapWithWorld(UWorld* LoadedWorld)
+void UXRInputSimulationLocalPlayerSubsystem::OnPostLoadMapWithWorld(UWorld* LoadedWorld)
 {
 	CreateInputSimActor(LoadedWorld);
 	CreateHmdCameraActor(LoadedWorld);

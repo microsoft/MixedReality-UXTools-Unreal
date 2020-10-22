@@ -37,14 +37,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "WindowsMixedReality",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"HoloLens"
-			]
-		},
-		{
 			"Name": "EditorTests",
 			"Enabled": true
 		},

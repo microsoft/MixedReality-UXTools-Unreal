@@ -9,24 +9,24 @@
 
 #include "Subsystems/LocalPlayerSubsystem.h"
 
-#include "UxtInputSimulationLocalPlayerSubsystem.generated.h"
+#include "XRInputSimulationLocalPlayerSubsystem.generated.h"
 
 class AGameModeBase;
 class AController;
 class APlayerController;
 class UCameraComponent;
-class UUxtInputSimulationState;
+class UXRInputSimulationState;
 
 /** Subsystem that creates an actor for simulation when a game is started. */
-UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationLocalPlayerSubsystem : public ULocalPlayerSubsystem
+UCLASS(ClassGroup = XRInputSimulation)
+class XRINPUTSIMULATION_API UXRInputSimulationLocalPlayerSubsystem : public ULocalPlayerSubsystem
 {
 	GENERATED_BODY()
 
 public:
 	/** Get the persistent simulation state */
 	UFUNCTION(BlueprintGetter)
-	UUxtInputSimulationState* GetSimulationState() const;
+	UXRInputSimulationState* GetSimulationState() const;
 
 	//
 	// USubsystem implementation
@@ -58,5 +58,5 @@ private:
 	TWeakObjectPtr<AActor> HmdCameraActorWeak;
 
 	UPROPERTY(BlueprintGetter = GetSimulationState, Category = InputSimulation)
-	UUxtInputSimulationState* SimulationState;
+	UXRInputSimulationState* SimulationState;
 };

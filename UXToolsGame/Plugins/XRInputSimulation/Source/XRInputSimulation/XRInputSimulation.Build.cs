@@ -3,9 +3,9 @@
 
 using UnrealBuildTool;
 
-public class UXToolsInputSimulation : ModuleRules
+public class XRInputSimulation : ModuleRules
 {
-	public UXToolsInputSimulation(ReadOnlyTargetRules Target) : base(Target)
+	public XRInputSimulation(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		
@@ -16,8 +16,8 @@ public class UXToolsInputSimulation : ModuleRules
 				"Engine",
 				"HeadMountedDisplay",
 				"InputCore",
-				"UXToolsRuntimeSettings",
 				"WindowsMixedRealityHandTracking",
+				"WindowsMixedRealityHMD",
 				"WindowsMixedRealityInputSimulation"
 			}
 		);

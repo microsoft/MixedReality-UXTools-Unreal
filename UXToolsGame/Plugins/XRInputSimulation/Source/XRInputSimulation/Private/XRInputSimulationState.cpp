@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "UxtInputSimulationState.h"
+#include "XRInputSimulationState.h"
 
-#include "UxtRuntimeSettings.h"
+#include "XRInputSimulationRuntimeSettings.h"
 
-#define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
+#define LOCTEXT_NAMESPACE "XRInputSimulation"
 
-const float FUxtInputAnimationUtils::InputYawScale = 2.5f;
-const float FUxtInputAnimationUtils::InputPitchScale = 1.75f;
-const float FUxtInputAnimationUtils::InputRollScale = 5.0f;
+const float FXRInputAnimationUtils::InputYawScale = 2.5f;
+const float FXRInputAnimationUtils::InputPitchScale = 1.75f;
+const float FXRInputAnimationUtils::InputRollScale = 5.0f;
 
 /** Select rotation axis for head or hand rotation modes. */
-EAxis::Type FUxtInputAnimationUtils::GetInputRotationAxis(EAxis::Type MoveAxis)
+EAxis::Type FXRInputAnimationUtils::GetInputRotationAxis(EAxis::Type MoveAxis)
 {
 	switch (MoveAxis)
 	{
@@ -30,7 +30,7 @@ EAxis::Type FUxtInputAnimationUtils::GetInputRotationAxis(EAxis::Type MoveAxis)
 }
 
 /** Scale hand rotation input value. */
-float FUxtInputAnimationUtils::GetHandRotationInputValue(EAxis::Type RotationAxis, float MoveValue)
+float FXRInputAnimationUtils::GetHandRotationInputValue(EAxis::Type RotationAxis, float MoveValue)
 {
 	switch (RotationAxis)
 	{
@@ -45,7 +45,7 @@ float FUxtInputAnimationUtils::GetHandRotationInputValue(EAxis::Type RotationAxi
 }
 
 /** Scale head rotation input value. */
-float FUxtInputAnimationUtils::GetHeadRotationInputValue(EAxis::Type RotationAxis, float MoveValue)
+float FXRInputAnimationUtils::GetHeadRotationInputValue(EAxis::Type RotationAxis, float MoveValue)
 {
 	switch (RotationAxis)
 	{
@@ -59,12 +59,12 @@ float FUxtInputAnimationUtils::GetHeadRotationInputValue(EAxis::Type RotationAxi
 	return 0.0f;
 }
 
-UUxtInputSimulationState::UUxtInputSimulationState()
+UXRInputSimulationState::UXRInputSimulationState()
 {
 	Reset();
 }
 
-void UUxtInputSimulationState::Reset()
+void UXRInputSimulationState::Reset()
 {
 	RelativeHeadPosition = FVector::ZeroVector;
 	RelativeHeadOrientation = FQuat::Identity;
@@ -73,12 +73,12 @@ void UUxtInputSimulationState::Reset()
 	ResetHandState(EControllerHand::Right);
 }
 
-bool UUxtInputSimulationState::IsHandVisible(EControllerHand Hand) const
+bool UXRInputSimulationState::IsHandVisible(EControllerHand Hand) const
 {
 	return HandStates.FindRef(Hand).bIsVisible;
 }
 
-void UUxtInputSimulationState::SetHandVisibility(EControllerHand Hand, bool bIsVisible)
+void UXRInputSimulationState::SetHandVisibility(EControllerHand Hand, bool bIsVisible)
 {
 	if (bIsVisible)
 	{
@@ -97,12 +97,12 @@ void UUxtInputSimulationState::SetHandVisibility(EControllerHand Hand, bool bIsV
 	HandStates.FindOrAdd(Hand).bIsVisible = bIsVisible;
 }
 
-bool UUxtInputSimulationState::IsHandControlled(EControllerHand Hand) const
+bool UXRInputSimulationState::IsHandControlled(EControllerHand Hand) const
 {
 	return HandStates.FindRef(Hand).bIsControlled;
 }
 
-bool UUxtInputSimulationState::IsAnyHandControlled() const
+bool UXRInputSimulationState::IsAnyHandControlled() const
 {
 	for (const auto& KeyValuePair : HandStates)
 	{
@@ -114,14 +114,14 @@ bool UUxtInputSimulationState::IsAnyHandControlled() const
 	return false;
 }
 
-TArray<EControllerHand> UUxtInputSimulationState::GetControlledHands() const
+TArray<EControllerHand> UXRInputSimulationState::GetControlledHands() const
 {
 	TArray<EControllerHand> Keys;
 	HandStates.GetKeys(Keys);
 	return Keys.FilterByPredicate([this](EControllerHand Hand) -> bool { return HandStates[Hand].bIsControlled; });
 }
 
-bool UUxtInputSimulationState::SetHandControlEnabled(EControllerHand Hand, bool bEnabled)
+bool UXRInputSimulationState::SetHandControlEnabled(EControllerHand Hand, bool bEnabled)
 {
 	if (bEnabled)
 	{
@@ -136,9 +136,9 @@ bool UUxtInputSimulationState::SetHandControlEnabled(EControllerHand Hand, bool 
 	return true;
 }
 
-void UUxtInputSimulationState::GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const
+void UXRInputSimulationState::GetTargetHandTransform(EControllerHand Hand, FTransform& TargetTransform, bool& bAnimate) const
 {
-	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+	const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 	check(Settings);
 
 	// Mirror the left hand.
@@ -169,30 +169,30 @@ void UUxtInputSimulationState::GetTargetHandTransform(EControllerHand Hand, FTra
 	}
 }
 
-void UUxtInputSimulationState::AddHandInput(EAxis::Type Axis, float Value)
+void UXRInputSimulationState::AddHandInput(EAxis::Type Axis, float Value)
 {
-	EAxis::Type RotationAxis = FUxtInputAnimationUtils::GetInputRotationAxis(Axis);
-	float RotationValue = FUxtInputAnimationUtils::GetHandRotationInputValue(RotationAxis, Value);
+	EAxis::Type RotationAxis = FXRInputAnimationUtils::GetInputRotationAxis(Axis);
+	float RotationValue = FXRInputAnimationUtils::GetHandRotationInputValue(RotationAxis, Value);
 
 	switch (HandInputMode)
 	{
-	case EUxtInputSimulationHandMode::Movement:
+	case EXRInputSimulationHandMode::Movement:
 		AddHandMovementInput(Axis, Value);
 		break;
-	case EUxtInputSimulationHandMode::Rotation:
+	case EXRInputSimulationHandMode::Rotation:
 		AddHandRotationInput(RotationAxis, RotationValue);
 		break;
 	}
 }
 
-void UUxtInputSimulationState::AddHandMovementInput(EAxis::Type TranslationAxis, float Value)
+void UXRInputSimulationState::AddHandMovementInput(EAxis::Type TranslationAxis, float Value)
 {
 	if (Value != 0.f)
 	{
 		FVector Dir = FRotationMatrix::Identity.GetUnitAxis(TranslationAxis);
 		for (auto& KeyValuePair : HandStates)
 		{
-			FUxtInputSimulationHandState& HandState = KeyValuePair.Value;
+			FXRInputSimulationHandState& HandState = KeyValuePair.Value;
 			if (HandState.bIsControlled)
 			{
 				HandState.RelativeTransform.AddToTranslation(Dir * Value);
@@ -201,14 +201,14 @@ void UUxtInputSimulationState::AddHandMovementInput(EAxis::Type TranslationAxis,
 	}
 }
 
-void UUxtInputSimulationState::AddHandRotationInput(EAxis::Type RotationAxis, float Value)
+void UXRInputSimulationState::AddHandRotationInput(EAxis::Type RotationAxis, float Value)
 {
 	if (Value != 0.f)
 	{
 		for (auto& KeyValuePair : HandStates)
 		{
 			EControllerHand Hand = KeyValuePair.Key;
-			FUxtInputSimulationHandState& HandState = KeyValuePair.Value;
+			FXRInputSimulationHandState& HandState = KeyValuePair.Value;
 			if (HandState.bIsControlled)
 			{
 				FRotator DeltaRot = FRotator::ZeroRotator;
@@ -227,9 +227,9 @@ void UUxtInputSimulationState::AddHandRotationInput(EAxis::Type RotationAxis, fl
 	}
 }
 
-void UUxtInputSimulationState::ResetHandState(EControllerHand Hand)
+void UXRInputSimulationState::ResetHandState(EControllerHand Hand)
 {
-	const UUxtRuntimeSettings* Settings = UUxtRuntimeSettings::Get();
+	const UXRInputSimulationRuntimeSettings* Settings = UXRInputSimulationRuntimeSettings::Get();
 	check(Settings);
 
 	SetDefaultHandLocation(Hand);
@@ -240,12 +240,12 @@ void UUxtInputSimulationState::ResetHandState(EControllerHand Hand)
 	HandStates.FindOrAdd(Hand).bIsVisible = Settings->bStartWithHandsEnabled;
 }
 
-void UUxtInputSimulationState::SetDefaultHandLocation(EControllerHand Hand)
+void UXRInputSimulationState::SetDefaultHandLocation(EControllerHand Hand)
 {
-	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+	const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 	check(Settings);
 
-	FUxtInputSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
+	FXRInputSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
 
 	FVector DefaultPos = Settings->DefaultHandPosition;
 	if (Hand == EControllerHand::Left)
@@ -255,12 +255,12 @@ void UUxtInputSimulationState::SetDefaultHandLocation(EControllerHand Hand)
 	HandState.RelativeTransform.SetLocation(DefaultPos);
 }
 
-void UUxtInputSimulationState::SetDefaultHandRotation(EControllerHand Hand)
+void UXRInputSimulationState::SetDefaultHandRotation(EControllerHand Hand)
 {
-	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+	const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 	check(Settings);
 
-	FUxtInputSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
+	FXRInputSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
 
 	FRotator DefaultRot = Settings->HandRestOrientation;
 	if (Hand == EControllerHand::Left)
@@ -271,26 +271,26 @@ void UUxtInputSimulationState::SetDefaultHandRotation(EControllerHand Hand)
 	HandState.RelativeTransform.SetRotation(DefaultRot.Quaternion());
 }
 
-FName UUxtInputSimulationState::GetTargetPose(EControllerHand Hand) const
+FName UXRInputSimulationState::GetTargetPose(EControllerHand Hand) const
 {
-	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+	const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 	check(Settings);
 
-	const FUxtInputSimulationHandState& HandState = HandStates.FindRef(Hand);
+	const FXRInputSimulationHandState& HandState = HandStates.FindRef(Hand);
 	return HandState.TargetPose.IsNone() ? Settings->DefaultHandPose : HandState.TargetPose;
 }
 
-void UUxtInputSimulationState::SetTargetPose(EControllerHand Hand, FName PoseName)
+void UXRInputSimulationState::SetTargetPose(EControllerHand Hand, FName PoseName)
 {
 	HandStates.FindOrAdd(Hand).TargetPose = PoseName;
 }
 
-void UUxtInputSimulationState::ResetTargetPose(EControllerHand Hand)
+void UXRInputSimulationState::ResetTargetPose(EControllerHand Hand)
 {
 	HandStates.FindOrAdd(Hand).TargetPose = NAME_None;
 }
 
-void UUxtInputSimulationState::TogglePoseForControlledHands(FName PoseName)
+void UXRInputSimulationState::TogglePoseForControlledHands(FName PoseName)
 {
 	TArray<EControllerHand> ControlledHands = GetControlledHands();
 

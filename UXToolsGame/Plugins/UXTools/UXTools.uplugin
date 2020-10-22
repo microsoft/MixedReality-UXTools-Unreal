@@ -32,15 +32,6 @@
 			]
 		},
 		{
-			"Name": "UXToolsWMR",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"WhitelistPlatforms": [
-				"Win64",
-				"HoloLens"
-			]
-		},
-		{
 			"Name": "UXToolsRuntimeSettings",
 			"Type": "Runtime",
 			"LoadingPhase": "PostConfigInit",
@@ -58,14 +49,6 @@
 			]
 		},
 		{
-			"Name": "UXToolsInputSimulation",
-			"Type": "Runtime",
-			"LoadingPhase": "PostConfigInit",
-			"WhitelistPlatforms": [
-				"Win64"
-			]
-		},
-		{
 			"Name": "UXToolsShaders",
 			"Type": "Runtime",
 			"LoadingPhase": "PostConfigInit",
@@ -76,14 +59,6 @@
 		}
 	],
 	"Plugins": [
-		{
-			"Name": "WindowsMixedReality",
-			"Enabled": true,
-			"WhitelistPlatforms": [
-				"Win64",
-				"HoloLens"
-			]
-		},
 		{
 			"Name": "ProceduralMeshComponent",
 			"Enabled": true

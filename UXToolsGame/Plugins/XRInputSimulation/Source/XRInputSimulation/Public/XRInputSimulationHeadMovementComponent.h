@@ -7,13 +7,13 @@
 
 #include "GameFramework/MovementComponent.h"
 
-#include "UxtInputSimulationHeadMovementComponent.generated.h"
+#include "XRInputSimulationHeadMovementComponent.generated.h"
 
 /** Movement component that applies user input.
  *  Works similar to UFloatingPawnMovement, but does not require a APawn actor.
  */
-UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationHeadMovementComponent : public UMovementComponent
+UCLASS(ClassGroup = XRInputSimulation)
+class XRINPUTSIMULATION_API UXRInputSimulationHeadMovementComponent : public UMovementComponent
 {
 	GENERATED_BODY()
 

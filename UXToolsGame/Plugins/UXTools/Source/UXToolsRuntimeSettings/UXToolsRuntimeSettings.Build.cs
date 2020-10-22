@@ -17,14 +17,12 @@ public class UXToolsRuntimeSettings : ModuleRules
 		PublicIncludePathModuleNames.AddRange(
 			new string[]
 			{
-				"WindowsMixedRealityHandTracking"
 			}
 		);
 
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"WindowsMixedRealityHMD"
 			}
 		);
 

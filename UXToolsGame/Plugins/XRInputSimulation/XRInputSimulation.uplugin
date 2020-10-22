@@ -1,0 +1,39 @@
+{
+	"FileVersion": 1,
+	"Version": 1,
+	"VersionName": "0.10.0",
+	"FriendlyName": "XR Input Simulation",
+	"Description": "Simulate XR HMD and input devices using mouse and keyboard in the editor",
+	"Category": "Other",
+	"CreatedBy": "Microsoft",
+	"CreatedByURL": "http://www.microsoft.com",
+	"DocsURL": "https://microsoft.github.io/MixedReality-UXTools-Unreal/Docs/InputSimulation.html",
+	"MarketplaceURL": "",
+	"SupportURL": "https://github.com/microsoft/MixedReality-UXTools-Unreal",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"SupportedTargetPlatforms": [
+		"Win64"
+	],
+	"Modules": [
+		{
+			"Name": "XRInputSimulation",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"WhitelistPlatforms": [
+				"Win64"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "WindowsMixedReality",
+			"Enabled": true,
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		}
+	]
+}

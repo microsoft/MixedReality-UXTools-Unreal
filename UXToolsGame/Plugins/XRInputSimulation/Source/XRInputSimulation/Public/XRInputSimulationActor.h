@@ -4,18 +4,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UxtInputSimulationState.h"
+#include "XRInputSimulationState.h"
 
 #include "GameFramework/Actor.h"
 
-#include "UxtInputSimulationActor.generated.h"
+#include "XRInputSimulationActor.generated.h"
 
 struct FWindowsMixedRealityInputSimulationHandState;
-class UUxtInputSimulationHeadMovementComponent;
+class UXRInputSimulationHeadMovementComponent;
 
 /** Actor that produces head pose and hand animations for the input simulation subsystem. */
-UCLASS(ClassGroup = UXTools)
-class UXTOOLSINPUTSIMULATION_API AUxtInputSimulationActor : public AActor
+UCLASS(ClassGroup = XRInputSimulation)
+class XRINPUTSIMULATION_API AXRInputSimulationActor : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
@@ -25,7 +25,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintGetter)
-	UUxtInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
+	UXRInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
 
 	UFUNCTION(BlueprintGetter)
 	USkeletalMeshComponent* GetLeftHand() const { return LeftHand; }
@@ -90,7 +90,7 @@ public:
 private:
 	/** Movement component for interpreting user input as head movement. */
 	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetHeadMovement, Category = InputSimulation)
-	UUxtInputSimulationHeadMovementComponent* HeadMovement;
+	UXRInputSimulationHeadMovementComponent* HeadMovement;
 
 	/** Skeletal mesh component for the left hand. */
 	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetLeftHand, Category = InputSimulation)
@@ -101,5 +101,5 @@ private:
 	USkeletalMeshComponent* RightHand;
 
 	/** Persistent simulation state, cached for quick runtime access. */
-	TWeakObjectPtr<UUxtInputSimulationState> SimulationStateWeak;
+	TWeakObjectPtr<UXRInputSimulationState> SimulationStateWeak;
 };

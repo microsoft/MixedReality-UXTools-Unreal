@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "UxtInputSimulationActor.h"
+#include "XRInputSimulationActor.h"
 
-#include "UxtInputSimulationHeadMovementComponent.h"
-#include "UxtInputSimulationLocalPlayerSubsystem.h"
-#include "UxtRuntimeSettings.h"
+#include "XRInputSimulationHeadMovementComponent.h"
+#include "XRInputSimulationLocalPlayerSubsystem.h"
+#include "XRInputSimulationRuntimeSettings.h"
 #include "WindowsMixedRealityInputSimulationEngineSubsystem.h"
 
 #include "Components/InputComponent.h"
@@ -16,9 +16,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "Misc/RuntimeErrors.h"
 
-#define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
+#define LOCTEXT_NAMESPACE "XRInputSimulation"
 
-AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+AXRInputSimulationActor::AXRInputSimulationActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	// Tick after updates to copy data to the input simulation subsystem
 	PrimaryActorTick.bCanEverTick = true;
@@ -37,17 +37,17 @@ AUxtInputSimulationActor::AUxtInputSimulationActor(const FObjectInitializer& Obj
 	SetupHandComponents();
 }
 
-void AUxtInputSimulationActor::SetupHeadComponents()
+void AXRInputSimulationActor::SetupHeadComponents()
 {
-	HeadMovement = CreateDefaultSubobject<UUxtInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
+	HeadMovement = CreateDefaultSubobject<UXRInputSimulationHeadMovementComponent>(TEXT("HeadMovement"));
 	AddOwnedComponent(HeadMovement);
 	// Add tick dependency so the head movement happens before the actor copies the result
 	AddTickPrerequisiteComponent(HeadMovement);
 }
 
-void AUxtInputSimulationActor::SetupHandComponents()
+void AXRInputSimulationActor::SetupHandComponents()
 {
-	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+	const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 
 	LeftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LeftHand"));
 	AddOwnedComponent(LeftHand);
@@ -109,7 +109,7 @@ namespace
 	const FName Axis_LookUpRate = TEXT("InputSimulation_LookUpRate");
 } // namespace
 
-void AUxtInputSimulationActor::OnConstruction(const FTransform& Transform)
+void AXRInputSimulationActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 
@@ -122,7 +122,7 @@ void AUxtInputSimulationActor::OnConstruction(const FTransform& Transform)
 		SimulationStateWeak.Reset();
 		if (const ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(PC->Player))
 		{
-			if (UUxtInputSimulationLocalPlayerSubsystem* InputSim = LocalPlayer->GetSubsystem<UUxtInputSimulationLocalPlayerSubsystem>())
+			if (UXRInputSimulationLocalPlayerSubsystem* InputSim = LocalPlayer->GetSubsystem<UXRInputSimulationLocalPlayerSubsystem>())
 			{
 				SimulationStateWeak = InputSim->GetSimulationState();
 			}
@@ -137,11 +137,11 @@ void AUxtInputSimulationActor::OnConstruction(const FTransform& Transform)
 	}
 
 	// Initialize non-persistent data from simulation state
-	if (const UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (const UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+		const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 
-		// Head movement flag only gets initialized from UxtRuntimeSettings, not simulated yet
+		// Head movement flag only gets initialized from XRInputSimulationRuntimeSettings, not simulated yet
 		HeadMovement->SetHeadMovementEnabled(Settings->bStartWithPositionalHeadTracking);
 
 		// Controller is used as the stage and the HMD moves relative to it
@@ -153,7 +153,7 @@ void AUxtInputSimulationActor::OnConstruction(const FTransform& Transform)
 	UpdateSimulatedDeviceData();
 }
 
-void AUxtInputSimulationActor::BeginPlay()
+void AXRInputSimulationActor::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -176,13 +176,13 @@ void AUxtInputSimulationActor::BeginPlay()
 	}
 }
 
-void AUxtInputSimulationActor::Tick(float DeltaSeconds)
+void AXRInputSimulationActor::Tick(float DeltaSeconds)
 {
 	UpdateHandMeshComponent(EControllerHand::Left);
 	UpdateHandMeshComponent(EControllerHand::Right);
 
 	// Copy head pose to the simulation state for persistence
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		State->RelativeHeadPosition = HeadMovement->UpdatedComponent->GetRelativeLocation();
 		State->RelativeHeadOrientation = HeadMovement->UpdatedComponent->GetRelativeRotation().Quaternion();
@@ -191,7 +191,7 @@ void AUxtInputSimulationActor::Tick(float DeltaSeconds)
 	UpdateSimulatedDeviceData();
 }
 
-USkeletalMeshComponent* AUxtInputSimulationActor::GetHandMesh(EControllerHand Hand) const
+USkeletalMeshComponent* AXRInputSimulationActor::GetHandMesh(EControllerHand Hand) const
 {
 	if (Hand == EControllerHand::Left)
 	{
@@ -204,12 +204,12 @@ USkeletalMeshComponent* AUxtInputSimulationActor::GetHandMesh(EControllerHand Ha
 	return nullptr;
 }
 
-void AUxtInputSimulationActor::UpdateHandMeshComponent(EControllerHand Hand)
+void AXRInputSimulationActor::UpdateHandMeshComponent(EControllerHand Hand)
 {
 	if (USkeletalMeshComponent* HandMesh = GetHandMesh(Hand))
 	{
 		bool bVisible;
-		if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+		if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 		{
 			bVisible = State->IsHandVisible(Hand);
 		}
@@ -225,17 +225,17 @@ void AUxtInputSimulationActor::UpdateHandMeshComponent(EControllerHand Hand)
 	}
 }
 
-void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const
+void AXRInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FWindowsMixedRealityInputSimulationHandState& HandState) const
 {
 	typedef FWindowsMixedRealityInputSimulationHandState::ButtonStateArray ButtonStateArray;
 
-	UUxtInputSimulationState* State = SimulationStateWeak.Get();
+	UXRInputSimulationState* State = SimulationStateWeak.Get();
 	if (!State)
 	{
 		return;
 	}
 
-	const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+	const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 	check(Settings);
 	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
 
@@ -337,7 +337,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 	HandState.IsButtonPressed = 0;
 
 	FName TargetPose = State->GetTargetPose(Hand);
-	const FUxtRuntimeSettingsButtonSet* pTargetActions = Settings->HandPoseButtonMappings.Find(TargetPose);
+	const FXRInputSimulationButtonSet* pTargetActions = Settings->HandPoseButtonMappings.Find(TargetPose);
 	if (pTargetActions)
 	{
 		for (uint32 iButton = 0; iButton < (uint32)EHMDInputControllerButtons::Count; ++iButton)
@@ -356,7 +356,7 @@ void AUxtInputSimulationActor::UpdateSimulatedHandState(EControllerHand Hand, FW
 	}
 }
 
-void AUxtInputSimulationActor::UpdateSimulatedDeviceData() const
+void AXRInputSimulationActor::UpdateSimulatedDeviceData() const
 {
 	UWindowsMixedRealityInputSimulationEngineSubsystem* InputSim =
 		UWindowsMixedRealityInputSimulationEngineSubsystem::GetInputSimulationIfEnabled();
@@ -430,146 +430,146 @@ static void InitializeDefaultInputSimulationMappings()
 	}
 }
 
-void AUxtInputSimulationActor::BindInputEvents()
+void AXRInputSimulationActor::BindInputEvents()
 {
 	InitializeDefaultInputSimulationMappings();
 
-	InputComponent->BindAction(Action_ToggleLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleLeftHandPressed);
-	InputComponent->BindAction(Action_ToggleRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnToggleRightHandPressed);
+	InputComponent->BindAction(Action_ToggleLeftHand, IE_Pressed, this, &AXRInputSimulationActor::OnToggleLeftHandPressed);
+	InputComponent->BindAction(Action_ToggleRightHand, IE_Pressed, this, &AXRInputSimulationActor::OnToggleRightHandPressed);
 
-	InputComponent->BindAction(Action_ControlLeftHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlLeftHandPressed);
-	InputComponent->BindAction(Action_ControlLeftHand, IE_Released, this, &AUxtInputSimulationActor::OnControlLeftHandReleased);
-	InputComponent->BindAction(Action_ControlRightHand, IE_Pressed, this, &AUxtInputSimulationActor::OnControlRightHandPressed);
-	InputComponent->BindAction(Action_ControlRightHand, IE_Released, this, &AUxtInputSimulationActor::OnControlRightHandReleased);
+	InputComponent->BindAction(Action_ControlLeftHand, IE_Pressed, this, &AXRInputSimulationActor::OnControlLeftHandPressed);
+	InputComponent->BindAction(Action_ControlLeftHand, IE_Released, this, &AXRInputSimulationActor::OnControlLeftHandReleased);
+	InputComponent->BindAction(Action_ControlRightHand, IE_Pressed, this, &AXRInputSimulationActor::OnControlRightHandPressed);
+	InputComponent->BindAction(Action_ControlRightHand, IE_Released, this, &AXRInputSimulationActor::OnControlRightHandReleased);
 
-	InputComponent->BindAction(Action_HandRotate, IE_Pressed, this, &AUxtInputSimulationActor::OnHandRotatePressed);
-	InputComponent->BindAction(Action_HandRotate, IE_Released, this, &AUxtInputSimulationActor::OnHandRotateReleased);
+	InputComponent->BindAction(Action_HandRotate, IE_Pressed, this, &AXRInputSimulationActor::OnHandRotatePressed);
+	InputComponent->BindAction(Action_HandRotate, IE_Released, this, &AXRInputSimulationActor::OnHandRotateReleased);
 
-	InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnPrimaryHandPosePressed);
-	InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnSecondaryHandPosePressed);
-	InputComponent->BindAction(Action_MenuHandPose, IE_Pressed, this, &AUxtInputSimulationActor::OnMenuHandPosePressed);
+	InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AXRInputSimulationActor::OnPrimaryHandPosePressed);
+	InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AXRInputSimulationActor::OnSecondaryHandPosePressed);
+	InputComponent->BindAction(Action_MenuHandPose, IE_Pressed, this, &AXRInputSimulationActor::OnMenuHandPosePressed);
 
-	InputComponent->BindAxis(Axis_MoveForward, this, &AUxtInputSimulationActor::AddInputMoveForward);
-	InputComponent->BindAxis(Axis_MoveRight, this, &AUxtInputSimulationActor::AddInputMoveRight);
-	InputComponent->BindAxis(Axis_MoveUp, this, &AUxtInputSimulationActor::AddInputMoveUp);
+	InputComponent->BindAxis(Axis_MoveForward, this, &AXRInputSimulationActor::AddInputMoveForward);
+	InputComponent->BindAxis(Axis_MoveRight, this, &AXRInputSimulationActor::AddInputMoveRight);
+	InputComponent->BindAxis(Axis_MoveUp, this, &AXRInputSimulationActor::AddInputMoveUp);
 
-	InputComponent->BindAxis(Axis_LookUp, this, &AUxtInputSimulationActor::AddInputLookUp);
-	InputComponent->BindAxis(Axis_Turn, this, &AUxtInputSimulationActor::AddInputTurn);
-	InputComponent->BindAxis(Axis_Scroll, this, &AUxtInputSimulationActor::AddInputScroll);
+	InputComponent->BindAxis(Axis_LookUp, this, &AXRInputSimulationActor::AddInputLookUp);
+	InputComponent->BindAxis(Axis_Turn, this, &AXRInputSimulationActor::AddInputTurn);
+	InputComponent->BindAxis(Axis_Scroll, this, &AXRInputSimulationActor::AddInputScroll);
 }
 
-void AUxtInputSimulationActor::OnToggleLeftHandPressed()
+void AXRInputSimulationActor::OnToggleLeftHandPressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		State->SetHandVisibility(EControllerHand::Left, !State->IsHandVisible(EControllerHand::Left));
 	}
 }
 
-void AUxtInputSimulationActor::OnToggleRightHandPressed()
+void AXRInputSimulationActor::OnToggleRightHandPressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		State->SetHandVisibility(EControllerHand::Right, !State->IsHandVisible(EControllerHand::Right));
 	}
 }
 
-void AUxtInputSimulationActor::OnControlLeftHandPressed()
+void AXRInputSimulationActor::OnControlLeftHandPressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		State->SetHandControlEnabled(EControllerHand::Left, true);
 	}
 }
 
-void AUxtInputSimulationActor::OnControlLeftHandReleased()
+void AXRInputSimulationActor::OnControlLeftHandReleased()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		State->SetHandControlEnabled(EControllerHand::Left, false);
 	}
 }
 
-void AUxtInputSimulationActor::OnControlRightHandPressed()
+void AXRInputSimulationActor::OnControlRightHandPressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		State->SetHandControlEnabled(EControllerHand::Right, true);
 	}
 }
 
-void AUxtInputSimulationActor::OnControlRightHandReleased()
+void AXRInputSimulationActor::OnControlRightHandReleased()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		State->SetHandControlEnabled(EControllerHand::Right, false);
 	}
 }
 
-void AUxtInputSimulationActor::OnHandRotatePressed()
+void AXRInputSimulationActor::OnHandRotatePressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		State->HandInputMode = EUxtInputSimulationHandMode::Rotation;
+		State->HandInputMode = EXRInputSimulationHandMode::Rotation;
 	}
 }
 
-void AUxtInputSimulationActor::OnHandRotateReleased()
+void AXRInputSimulationActor::OnHandRotateReleased()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		State->HandInputMode = EUxtInputSimulationHandMode::Movement;
+		State->HandInputMode = EXRInputSimulationHandMode::Movement;
 	}
 }
 
-void AUxtInputSimulationActor::OnPrimaryHandPosePressed()
+void AXRInputSimulationActor::OnPrimaryHandPosePressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+		const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 		check(Settings);
 		State->TogglePoseForControlledHands(Settings->PrimaryHandPose);
 	}
 }
 
-void AUxtInputSimulationActor::OnSecondaryHandPosePressed()
+void AXRInputSimulationActor::OnSecondaryHandPosePressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+		const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 		check(Settings);
 		State->TogglePoseForControlledHands(Settings->SecondaryHandPose);
 	}
 }
 
-void AUxtInputSimulationActor::OnMenuHandPosePressed()
+void AXRInputSimulationActor::OnMenuHandPosePressed()
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
-		const UUxtRuntimeSettings* const Settings = UUxtRuntimeSettings::Get();
+		const UXRInputSimulationRuntimeSettings* const Settings = UXRInputSimulationRuntimeSettings::Get();
 		check(Settings);
 		State->TogglePoseForControlledHands(Settings->MenuHandPose);
 	}
 }
 
-void AUxtInputSimulationActor::AddInputMoveForward(float Value)
+void AXRInputSimulationActor::AddInputMoveForward(float Value)
 {
 	AddHeadMovementInputImpl(EAxis::X, Value);
 }
 
-void AUxtInputSimulationActor::AddInputMoveRight(float Value)
+void AXRInputSimulationActor::AddInputMoveRight(float Value)
 {
 	AddHeadMovementInputImpl(EAxis::Y, Value);
 }
 
-void AUxtInputSimulationActor::AddInputMoveUp(float Value)
+void AXRInputSimulationActor::AddInputMoveUp(float Value)
 {
 	AddHeadMovementInputImpl(EAxis::Z, Value);
 }
 
-void AUxtInputSimulationActor::AddInputLookUp(float Value)
+void AXRInputSimulationActor::AddInputLookUp(float Value)
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		if (State->IsAnyHandControlled())
 		{
@@ -582,9 +582,9 @@ void AUxtInputSimulationActor::AddInputLookUp(float Value)
 	}
 }
 
-void AUxtInputSimulationActor::AddInputTurn(float Value)
+void AXRInputSimulationActor::AddInputTurn(float Value)
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		if (State->IsAnyHandControlled())
 		{
@@ -597,9 +597,9 @@ void AUxtInputSimulationActor::AddInputTurn(float Value)
 	}
 }
 
-void AUxtInputSimulationActor::AddInputScroll(float Value)
+void AXRInputSimulationActor::AddInputScroll(float Value)
 {
-	if (UUxtInputSimulationState* State = SimulationStateWeak.Get())
+	if (UXRInputSimulationState* State = SimulationStateWeak.Get())
 	{
 		if (State->IsAnyHandControlled())
 		{
@@ -612,16 +612,16 @@ void AUxtInputSimulationActor::AddInputScroll(float Value)
 	}
 }
 
-void AUxtInputSimulationActor::AddHeadMovementInputImpl(EAxis::Type Axis, float Value)
+void AXRInputSimulationActor::AddHeadMovementInputImpl(EAxis::Type Axis, float Value)
 {
 	FVector Dir = FRotationMatrix(GetActorRotation()).GetScaledAxis(Axis);
 	HeadMovement->AddMovementInput(Dir * Value);
 }
 
-void AUxtInputSimulationActor::AddHeadRotationInputImpl(EAxis::Type Axis, float Value)
+void AXRInputSimulationActor::AddHeadRotationInputImpl(EAxis::Type Axis, float Value)
 {
-	EAxis::Type RotationAxis = FUxtInputAnimationUtils::GetInputRotationAxis(Axis);
-	float RotationValue = FUxtInputAnimationUtils::GetHeadRotationInputValue(RotationAxis, Value);
+	EAxis::Type RotationAxis = FXRInputAnimationUtils::GetInputRotationAxis(Axis);
+	float RotationValue = FXRInputAnimationUtils::GetHeadRotationInputValue(RotationAxis, Value);
 	FRotator RotationInput = FRotator::ZeroRotator;
 	RotationInput.SetComponentForAxis(RotationAxis, RotationValue);
 	HeadMovement->AddRotationInput(RotationInput);

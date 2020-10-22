@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "UxtInputSimulationHeadMovementComponent.h"
+#include "XRInputSimulationHeadMovementComponent.h"
 
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
@@ -10,20 +10,20 @@
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 
-#define LOCTEXT_NAMESPACE "UXToolsInputSimulation"
+#define LOCTEXT_NAMESPACE "XRInputSimulation"
 
-void UUxtInputSimulationHeadMovementComponent::AddRotationInput(const FRotator& Rotation)
+void UXRInputSimulationHeadMovementComponent::AddRotationInput(const FRotator& Rotation)
 {
 	RotationInput += Rotation;
 }
 
-void UUxtInputSimulationHeadMovementComponent::AddMovementInput(const FVector& Movement)
+void UXRInputSimulationHeadMovementComponent::AddMovementInput(const FVector& Movement)
 {
 	MovementInput += Movement;
 }
 
 // Copied from APlayerCameraManager::ProcessViewRotation
-void UUxtInputSimulationHeadMovementComponent::ApplyRotationInput(float DeltaTime)
+void UXRInputSimulationHeadMovementComponent::ApplyRotationInput(float DeltaTime)
 {
 	// Calculate Delta to be applied on rotation
 	FRotator DeltaRot(RotationInput);
@@ -50,7 +50,7 @@ void UUxtInputSimulationHeadMovementComponent::ApplyRotationInput(float DeltaTim
 }
 
 // Copied from UFloatingPawnMovement
-void UUxtInputSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
+void UXRInputSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
 {
 	const float MaxSpeed = 1200.f;
 	const float Acceleration = 4000.f;
@@ -96,7 +96,7 @@ void UUxtInputSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTim
 	Velocity = Velocity.GetClampedToMaxSize(NewMaxSpeed);
 }
 
-void UUxtInputSimulationHeadMovementComponent::BeginPlay()
+void UXRInputSimulationHeadMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -106,7 +106,7 @@ void UUxtInputSimulationHeadMovementComponent::BeginPlay()
 	MovementInput = FVector::ZeroVector;
 }
 
-void UUxtInputSimulationHeadMovementComponent::TickComponent(
+void UXRInputSimulationHeadMovementComponent::TickComponent(
 	float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -166,12 +166,12 @@ void UUxtInputSimulationHeadMovementComponent::TickComponent(
 	UpdateComponentVelocity();
 }
 
-bool UUxtInputSimulationHeadMovementComponent::IsHeadMovementEnabled() const
+bool UXRInputSimulationHeadMovementComponent::IsHeadMovementEnabled() const
 {
 	return bEnableHeadMovement;
 }
 
-void UUxtInputSimulationHeadMovementComponent::SetHeadMovementEnabled(bool bEnable)
+void UXRInputSimulationHeadMovementComponent::SetHeadMovementEnabled(bool bEnable)
 {
 	bEnableHeadMovement = bEnable;
 }
