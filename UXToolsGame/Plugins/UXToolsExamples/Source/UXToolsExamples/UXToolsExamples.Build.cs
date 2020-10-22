@@ -26,8 +26,7 @@ public class UXToolsExamples : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
-				"UXTools"
+				"Core"
 			}
 			);
 			
@@ -39,7 +38,7 @@ public class UXToolsExamples : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				// ... add private dependencies that you statically link with here ...	
+				"UXTools"
 			}
 			);
 		
