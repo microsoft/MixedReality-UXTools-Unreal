@@ -7,7 +7,6 @@
 #include "UnrealEdGlobals.h"
 #include "UxtIconBrushCustomization.h"
 #include "UxtPressableButtonComponentVisualizer.h"
-#include "UxtRuntimeSettings.h"
 #include "UxtTooltipSpawnerComponentVisualizer.h"
 
 #include "Controls/UxtIconBrush.h"
@@ -45,17 +44,6 @@ void FUXToolsEditorModule::StartupModule()
 	PropertyModule.RegisterCustomPropertyTypeLayout(
 		FUxtIconBrush::StaticStruct()->GetFName(),
 		FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FUxtIconBrushCustomization::MakeInstance));
-
-	// Register settings
-	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
-	if (SettingsModule != nullptr)
-	{
-		{
-			SettingsModule->RegisterSettings(
-				"Project", "Plugins", "UXTools", LOCTEXT("RuntimeSettingsName", "UX Tools"),
-				LOCTEXT("RuntimeSettingsDescription", "Project settings for UX Tools"), GetMutableDefault<UUxtRuntimeSettings>());
-		}
-	}
 }
 
 void FUXToolsEditorModule::ShutdownModule()
@@ -70,14 +58,6 @@ void FUXToolsEditorModule::ShutdownModule()
 	// Unregister customizations
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.UnregisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName());
-
-	// Unregister settings
-	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
-
-	if (SettingsModule != nullptr)
-	{
-		SettingsModule->UnregisterSettings("Project", "Plugins", "UXTools");
-	}
 }
 
 #undef LOCTEXT_NAMESPACE

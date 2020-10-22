@@ -32,15 +32,6 @@
 			]
 		},
 		{
-			"Name": "UXToolsRuntimeSettings",
-			"Type": "Runtime",
-			"LoadingPhase": "PostConfigInit",
-			"WhitelistPlatforms": [
-				"Win64",
-				"HoloLens"
-			]
-		},
-		{
 			"Name": "UXToolsEditor",
 			"Type": "Editor",
 			"LoadingPhase": "PostEngineInit",
