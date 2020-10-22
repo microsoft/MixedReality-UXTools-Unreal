@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{A964E4D0-4277-B378-111A-AFA2CE38B4C7}",
+	"EngineAssociation": "{3BA7F555-4EC2-D486-6DF7-EB8AC4402B73}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -34,11 +34,7 @@
 		},
 		{
 			"Name": "HoloLensAR",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"HoloLens",
-				"Win64"
-			]
+			"Enabled": true
 		},
 		{
 			"Name": "WindowsMixedReality",
@@ -68,6 +64,45 @@
 			"Name": "GoogleARCore",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
+				"Android"
+			]
+		},
+		{
+			"Name": "OpenXR",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64",
+				"Android",
+				"HoloLens"
+			]
+		},
+		{
+			"Name": "OpenXREyeTracker",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64",
+				"HoloLens",
+				"Android"
+			]
+		},
+		{
+			"Name": "OpenXRHandTracking",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win32",
+				"Win64",
+				"HoloLens",
+				"Android"
+			]
+		},
+		{
+			"Name": "MRPlatExt",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"HoloLens",
 				"Android"
 			]
 		}

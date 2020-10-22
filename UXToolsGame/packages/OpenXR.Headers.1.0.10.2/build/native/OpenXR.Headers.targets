@@ -1,0 +1,13 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(OpenXRHeadersPackageRoot)include</AdditionalIncludeDirectories>
+        </ClCompile>
+    </ItemDefinitionGroup>
+
+    <Target Name="EnsurePropsImported" BeforeTargets="PrepareForBuild">
+        <Error Condition="'$(OpenXRHeadersPackageRoot)'==''" Text="OpenXRHeadersPackageRoot property missing. Project is malformed. Try removing and re-adding the NuGet reference." />
+    </Target>
+
+</Project>
