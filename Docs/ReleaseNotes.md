@@ -23,3 +23,5 @@ Unreal 4.25 required.
 
 UX Tools common content and example scenes were moved to a separate plugin to make it easier to incorporate them
 as a starting point for new projects.
+
+## Breaking changes
