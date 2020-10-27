@@ -4,13 +4,16 @@
 #pragma once
 
 #include "HandTracking/IUxtHandTracker.h"
+#include "Subsystems/LocalPlayerSubsystem.h"
 
 /** Default hand tracker implementation. */
-class FUxtDefaultHandTracker : public IUxtHandTracker
+class UUxtDefaultHandTracker
+	: public IUxtHandTracker
+	, public ULocalPlayerSubsystem
 {
 public:
-	static void RegisterActions();
-	static void UnregisterActions();
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void Deinitialize() override;
 
 	//
 	// IUxtHandTracker interface
@@ -22,6 +25,18 @@ public:
 	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const;
 
 private:
+	void OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer);
+	void OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting);
+
+	void OnLeftSelect(float AxisValue);
+	void OnLeftGrab(float AxisValue);
+	void OnRightSelect(float AxisValue);
+	void OnRightGrab(float AxisValue);
+
+private:
+	FDelegateHandle PostLoginHandle;
+	FDelegateHandle LogoutHandle;
+
 	bool bIsGrabbing_Left = false;
 	bool bIsSelectPressed_Left = false;
 	bool bIsGrabbing_Right = false;
