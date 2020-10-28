@@ -3,6 +3,8 @@
 
 #include "Controls/UxtPinchSliderComponent.h"
 
+#include "UXTools.h"
+
 #include "Components/BoxComponent.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
@@ -102,8 +104,28 @@ void UUxtPinchSliderComponent::SetValueUpperBound(float NewUpperBound)
 	Value = FMath::Min(Value, ValueUpperBound);
 }
 
+void UUxtPinchSliderComponent::SetUseSteppedMovement(bool bNewUseSteppedMovement)
+{
+	bUseSteppedMovement = bNewUseSteppedMovement;
+}
+
+void UUxtPinchSliderComponent::SetNumSteps(int NewNumSteps)
+{
+	if (!bUseSteppedMovement)
+	{
+		UE_LOG(UXTools, Warning, TEXT("The number of steps was set but the slider is using smooth movement."));
+	}
+
+	NumSteps = FMath::Max(2, NewNumSteps);
+}
+
 void UUxtPinchSliderComponent::SetSmoothing(float NewSmoothing)
 {
+	if (bUseSteppedMovement)
+	{
+		UE_LOG(UXTools, Warning, TEXT("The smoothing value was set but the slider is using stepped movement."));
+	}
+
 	Smoothing = FMath::Max(0.0f, NewSmoothing);
 }
 
@@ -301,9 +323,25 @@ void UUxtPinchSliderComponent::UpdateGrab(FVector DeltaPosition)
 		const float HalfTrackLength = TrackLength / 2.0f;
 		const float NewValue = 1 - ((SliderStartPosition + LocalDeltaPosition.Y + HalfTrackLength) / TrackLength);
 
-		SetValue(SmoothValue(Value, NewValue, Smoothing, GetWorld()->GetDeltaSeconds()));
-		UpdateVisuals();
+		if (bUseSteppedMovement)
+		{
+			const float NumZones = NumSteps - 1;
+			const float Zone = NewValue * NumZones;
+			const float ZoneCeil = FMath::CeilToFloat(Zone) / NumZones;
+			const float ZoneFloor = FMath::FloorToFloat(Zone) / NumZones;
 
+			const float DistanceToCeil = ZoneCeil - NewValue;
+			const float DistanceToFloor = NewValue - ZoneFloor;
+			const float SteppedValue = DistanceToCeil < DistanceToFloor ? ZoneCeil : ZoneFloor;
+
+			SetValue(SteppedValue);
+		}
+		else
+		{
+			SetValue(SmoothValue(Value, NewValue, Smoothing, GetWorld()->GetDeltaSeconds()));
+		}
+
+		UpdateVisuals();
 		OnUpdateValue.Broadcast(this, Value);
 	}
 }

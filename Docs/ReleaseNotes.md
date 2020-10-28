@@ -24,4 +24,24 @@ Unreal 4.25 required.
 UX Tools common content and example scenes were moved to a separate plugin to make it easier to incorporate them
 as a starting point for new projects.
 
+### UxtPinchSliderActor
+
+The pinch slider actor has gained a number of quality of life improvements. These include:
+
+- Customizable minimum / maximum values.
+- GetValue, SetValue and OnSliderUpdateValue exposed directly on the actor to allow easy access to the slider's value relative to the custom min / max value. (note: if using the underlying `UxtPinchSliderComponent`, it's value will still be in the range 0-1)
+- Stepped movement along the slider's tick marks.
+
+### UxtPinchSliderComponent
+
+The pinch slider component now has the option to use stepped movement. This can be configured in the advanced settings for the component.
+
 ## Breaking changes
+
+### UxtPinchSliderActor
+
+As part of adding a customizable minimum / maximum slider value, the _InitialValue_ property has been replaced with a _Value_ property. Previous settings can be easily carried forward by:
+
+1. Add `+PropertyRedirects=(OldName="UxtPinchSliderActor.InitialValue", NewName="UxtPinchSliderActor.Value")` to _DefaultUXTools.ini_. (found in the plugin's configuration folder)
+2. Re-save any levels with sliders to update their properties.
+3. Remove the property redirect from _DefaultUXTools.ini_.

@@ -110,6 +110,35 @@ void PinchSliderSpec::Define()
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
+		LatentIt("should move in steps", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] {
+				Target->SetUseSteppedMovement(true);
+				Hand.SetGrabbing(true);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+
+				Hand.Translate(FVector::RightVector * 2.0f);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider has moved to the first step", Target->GetValue(), 0.75f);
+
+				Hand.Translate(FVector::RightVector * 1.0f);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is still at the first step", Target->GetValue(), 0.75f);
+
+				Hand.Translate(FVector::RightVector * 1.0f);
+			});
+
+			FrameQueue.Enqueue([this] { TestEqual("Slider has moved to the second step", Target->GetValue(), 1.0f); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
 		LatentIt("should limit value within the set bounds", [this](const FDoneDelegate& Done) {
 			FrameQueue.Enqueue([this] {
 				Target->SetValueLowerBound(0.2f);

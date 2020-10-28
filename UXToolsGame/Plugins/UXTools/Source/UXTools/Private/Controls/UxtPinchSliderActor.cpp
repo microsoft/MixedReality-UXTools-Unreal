@@ -3,6 +3,8 @@
 
 #include "Controls/UxtPinchSliderActor.h"
 
+#include "UXTools.h"
+
 #include "Components/AudioComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Components/TextRenderComponent.h"
@@ -125,20 +127,36 @@ AUxtPinchSliderActor::AUxtPinchSliderActor()
 	ScaleTimelineCallback.BindDynamic(this, &AUxtPinchSliderActor::OnUpdateTimeline);
 }
 
-void AUxtPinchSliderActor::SetInitialValue(float NewInitialValue)
+void AUxtPinchSliderActor::SetValue(float NewValue)
 {
-	InitialValue = FMath::Clamp(NewInitialValue, 0.0f, 1.0f);
-	PinchSlider->SetValue(InitialValue);
+	Value = FMath::Clamp(NewValue, MinValue, MaxValue);
+	PinchSlider->SetValue(ToNormalizedValue(Value));
 
-	UpdateVisuals();
-	UpdateText(InitialValue);
+	UpdateText();
+}
+
+void AUxtPinchSliderActor::SetMinValue(float NewMinValue)
+{
+	MinValue = NewMinValue;
+}
+
+void AUxtPinchSliderActor::SetMaxValue(float NewMaxValue)
+{
+	MaxValue = NewMaxValue;
 }
 
 void AUxtPinchSliderActor::SetTrackLength(float NewTrackLength)
 {
 	TrackLength = FMath::Max(0.0f, NewTrackLength);
 	PinchSlider->SetTrackLength(TrackLength);
-	UpdateVisuals();
+	UpdateTrack();
+}
+
+void AUxtPinchSliderActor::SetStepWithTickMarks(bool bNewStepWithTickMarks)
+{
+	bStepWithTickMarks = bNewStepWithTickMarks;
+	PinchSlider->SetUseSteppedMovement(bStepWithTickMarks);
+	UpdateTickMarks();
 }
 
 void AUxtPinchSliderActor::SetTitle(FText NewTitle)
@@ -150,31 +168,31 @@ void AUxtPinchSliderActor::SetTitle(FText NewTitle)
 void AUxtPinchSliderActor::SetValueTextDecimalPlaces(int NewValueTextDecimalPlaces)
 {
 	ValueTextDecimalPlaces = FMath::Max(0, NewValueTextDecimalPlaces);
-	UpdateText(PinchSlider->GetValue());
+	UpdateText();
 }
 
 void AUxtPinchSliderActor::SetAlignTextWithZ(bool bNewAlignTextWithZ)
 {
 	bAlignTextWithZ = bNewAlignTextWithZ;
-	UpdateText(PinchSlider->GetValue());
+	UpdateText();
 }
 
 void AUxtPinchSliderActor::SetMoveTextWithThumb(bool bNewMoveWithThumb)
 {
 	bMoveTextWithThumb = bNewMoveWithThumb;
-	UpdateText(PinchSlider->GetValue());
+	UpdateText();
 }
 
 void AUxtPinchSliderActor::SetNumTickMarks(int NewNumTickMarks)
 {
 	NumTickMarks = FMath::Max(0, NewNumTickMarks);
-	UpdateVisuals();
+	UpdateTickMarks();
 }
 
 void AUxtPinchSliderActor::SetTickMarkScale(FVector NewTickMarkScale)
 {
 	TickMarkScale = NewTickMarkScale;
-	UpdateVisuals();
+	UpdateTickMarks();
 }
 
 void AUxtPinchSliderActor::SetDefaultThumbColor(FLinearColor NewDefaultThumbColor)
@@ -234,12 +252,17 @@ void AUxtPinchSliderActor::SetThumbScaleCurve(UCurveFloat* NewThumbScaleCurve)
 	ScaleTimeline->AddInterpFloat(ThumbScaleCurve, ScaleTimelineCallback, "Scale");
 }
 
+void AUxtPinchSliderActor::OnSliderUpdateValue_Implementation(float NewValue)
+{
+}
+
 void AUxtPinchSliderActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 
-	PinchSlider->SetValue(InitialValue);
+	PinchSlider->SetValue(ToNormalizedValue(Value));
 	PinchSlider->SetTrackLength(TrackLength);
+	PinchSlider->SetUseSteppedMovement(bStepWithTickMarks);
 
 	Thumb->SetRelativeScale3D(FVector(DefaultThumbScale));
 	Thumb->SetVectorParameterValueOnMaterials("Base Color", FVector(DefaultThumbColor.R, DefaultThumbColor.G, DefaultThumbColor.B));
@@ -248,8 +271,9 @@ void AUxtPinchSliderActor::OnConstruction(const FTransform& Transform)
 
 	ScaleTimeline->AddInterpFloat(ThumbScaleCurve, ScaleTimelineCallback, "Scale");
 
-	UpdateVisuals();
-	UpdateText(InitialValue);
+	UpdateTrack();
+	UpdateTickMarks();
+	UpdateText();
 }
 
 void AUxtPinchSliderActor::OnUpdateState(UUxtPinchSliderComponent* Slider, EUxtSliderState NewState)
@@ -290,11 +314,10 @@ void AUxtPinchSliderActor::OnBeginGrab(UUxtPinchSliderComponent* Slider, UUxtPoi
 
 void AUxtPinchSliderActor::OnUpdateValue(UUxtPinchSliderComponent* Slider, float NewValue)
 {
-	UpdateText(NewValue);
-
-	// Tick audio.
-	if (!FMath::IsNearlyEqual(NewValue, PreviousValue))
+	if (!FMath::IsNearlyEqual(Value, FromNormalizedValue(NewValue)))
 	{
+		// Tick audio.
+		const float PreviousValue = ToNormalizedValue(Value);
 		const float NumZones = NumTickMarks - 1;
 		const float PreviousZone = PreviousValue * NumZones;
 		const float PreviousZoneCeil = FMath::CeilToFloat(PreviousZone) / NumZones;
@@ -307,7 +330,10 @@ void AUxtPinchSliderActor::OnUpdateValue(UUxtPinchSliderComponent* Slider, float
 			Audio->Play();
 		}
 
-		PreviousValue = NewValue;
+		// Update value.
+		Value = FromNormalizedValue(NewValue);
+		UpdateText();
+		OnSliderUpdateValue(Value);
 	}
 }
 
@@ -323,16 +349,41 @@ void AUxtPinchSliderActor::OnUpdateTimeline(float Scale)
 	Thumb->SetRelativeScale3D(FVector(((FocusedThumbScale - DefaultThumbScale) * Scale) + DefaultThumbScale));
 }
 
-void AUxtPinchSliderActor::UpdateVisuals()
+float AUxtPinchSliderActor::ToNormalizedValue(float RawValue) const
 {
-	// Track.
+	return (RawValue - MinValue) / (MaxValue - MinValue);
+}
+
+float AUxtPinchSliderActor::FromNormalizedValue(float NormalizedValue) const
+{
+	return (NormalizedValue * (MaxValue - MinValue)) + MinValue;
+}
+
+void AUxtPinchSliderActor::UpdateTrack()
+{
 	FVector TrackMin, TrackMax;
 	Track->GetLocalBounds(TrackMin, TrackMax);
 
 	const FVector TrackScale = Track->GetRelativeScale3D();
 	Track->SetRelativeScale3D(FVector(TrackScale.X, TrackLength / (TrackMax.Y - TrackMin.Y), TrackScale.Z));
+}
 
-	// Tick marks.
+void AUxtPinchSliderActor::UpdateTickMarks()
+{
+	// Set the number of steps to the number of tick marks if using stepped movement.
+	if (bStepWithTickMarks)
+	{
+		// If using stepped movement, there must be at least two tick marks.
+		if (NumTickMarks < 2)
+		{
+			UE_LOG(UXTools, Warning, TEXT("Attempted to use stepped slider movement with less than two tick marks."));
+			NumTickMarks = 2;
+		}
+
+		PinchSlider->SetNumSteps(NumTickMarks);
+	}
+
+	// Update meshes.
 	TickMarks->ClearInstances();
 	if (NumTickMarks == 1)
 	{
@@ -352,7 +403,7 @@ void AUxtPinchSliderActor::UpdateVisuals()
 	}
 }
 
-void AUxtPinchSliderActor::UpdateText(float Value)
+void AUxtPinchSliderActor::UpdateText()
 {
 	// Update value text.
 	FNumberFormattingOptions NumberFormat;
