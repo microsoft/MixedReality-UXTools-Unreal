@@ -8,7 +8,7 @@
 #include "GameFramework/InputSettings.h"
 
 bool UUxtHandTrackingFunctionLibrary::GetHandJointState(
-	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius)
+	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius)
 {
 	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
 	{

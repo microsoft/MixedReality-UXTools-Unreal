@@ -124,8 +124,8 @@ void PalmUpConstraintComponentSpec::Define()
 			PalmUpConstraint->MaxFlatHandAngle = 45.0f;
 
 			// Setup finger tips to form a triangle aligned with the palm, used as the measure of flatness
-			UxtTestUtils::GetTestHandTracker().SetJointPosition(IndexTipPositionFlat, EControllerHand::AnyHand, EUxtHandJoint::IndexTip);
-			UxtTestUtils::GetTestHandTracker().SetJointPosition(RingTipPositionFlat, EControllerHand::AnyHand, EUxtHandJoint::RingTip);
+			UxtTestUtils::GetTestHandTracker().SetJointPosition(IndexTipPositionFlat, EControllerHand::AnyHand, EHandKeypoint::IndexTip);
+			UxtTestUtils::GetTestHandTracker().SetJointPosition(RingTipPositionFlat, EControllerHand::AnyHand, EHandKeypoint::RingTip);
 
 			FrameQueue.Enqueue([this]() {
 				TestTrue("Hand bounds are valid", (bool)PalmUpConstraint->GetHandBounds().IsValid);
@@ -169,8 +169,8 @@ void PalmUpConstraintComponentSpec::Define()
 			PalmUpConstraint->MaxFlatHandAngle = 45.0f;
 
 			// Setup finger tips to form a triangle angled against the palm, failing the flatness test
-			UxtTestUtils::GetTestHandTracker().SetJointPosition(IndexTipPositionUnflat, EControllerHand::AnyHand, EUxtHandJoint::IndexTip);
-			UxtTestUtils::GetTestHandTracker().SetJointPosition(RingTipPositionUnflat, EControllerHand::AnyHand, EUxtHandJoint::RingTip);
+			UxtTestUtils::GetTestHandTracker().SetJointPosition(IndexTipPositionUnflat, EControllerHand::AnyHand, EHandKeypoint::IndexTip);
+			UxtTestUtils::GetTestHandTracker().SetJointPosition(RingTipPositionUnflat, EControllerHand::AnyHand, EHandKeypoint::RingTip);
 
 			FrameQueue.Enqueue([this]() {
 				// Hand bounds are only computed when the hand is accepted

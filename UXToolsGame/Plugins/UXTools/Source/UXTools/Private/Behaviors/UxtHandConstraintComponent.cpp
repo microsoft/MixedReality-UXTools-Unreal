@@ -268,7 +268,7 @@ bool UUxtHandConstraintComponent::UpdateTrackedHand(FVector& OutPalmLocation, FQ
 		{
 			float PalmRadius;
 			return UUxtHandTrackingFunctionLibrary::GetHandJointState(
-				TrackedHand, EUxtHandJoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
+				TrackedHand, EHandKeypoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
 		}
 		return false;
 	};
@@ -304,9 +304,9 @@ bool UUxtHandConstraintComponent::UpdateHandBounds(const FVector& PalmLocation, 
 	FTransform PalmFromWorld = WorldFromPalm.Inverse();
 	HandBounds = FBox(EForceInit::ForceInitToZero);
 
-	for (int i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+	for (int i = 0; i < StaticEnum<EHandKeypoint>()->NumEnums(); ++i)
 	{
-		EUxtHandJoint Joint = (EUxtHandJoint)i;
+		EHandKeypoint Joint = (EHandKeypoint)i;
 
 		FQuat JointRotation;
 		FVector JointLocation;

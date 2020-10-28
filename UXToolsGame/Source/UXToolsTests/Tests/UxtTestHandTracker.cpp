@@ -5,7 +5,12 @@
 
 FUxtTestHandData::FUxtTestHandData()
 {
-	for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+	const int32 NumKeypoints = StaticEnum<EHandKeypoint>()->NumEnums();
+	JointOrientation.SetNum(NumKeypoints);
+	JointPosition.SetNum(NumKeypoints);
+	JointRadius.SetNum(NumKeypoints);
+
+	for (uint8 i = 0; i < NumKeypoints; ++i)
 	{
 		JointOrientation[i] = FQuat::Identity;
 		JointPosition[i] = FVector::ZeroVector;
@@ -14,7 +19,7 @@ FUxtTestHandData::FUxtTestHandData()
 }
 
 bool FUxtTestHandTracker::GetJointState(
-	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
+	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
 	const FUxtTestHandData& HandState = GetHandState(Hand);
 	if (HandState.bIsTracked)
@@ -33,8 +38,8 @@ bool FUxtTestHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrienta
 	const FUxtTestHandData& HandState = GetHandState(Hand);
 	if (HandState.bIsTracked)
 	{
-		OutOrientation = HandState.JointOrientation[(uint8)EUxtHandJoint::IndexProximal];
-		OutPosition = HandState.JointPosition[(uint8)EUxtHandJoint::IndexProximal];
+		OutOrientation = HandState.JointOrientation[(uint8)EHandKeypoint::IndexProximal];
+		OutPosition = HandState.JointPosition[(uint8)EHandKeypoint::IndexProximal];
 		return true;
 	}
 
@@ -128,7 +133,7 @@ void FUxtTestHandTracker::SetSelectPressed(bool bIsSelectPressed, EControllerHan
 	}
 }
 
-void FUxtTestHandTracker::SetJointPosition(const FVector& Position, EControllerHand Hand, EUxtHandJoint Joint)
+void FUxtTestHandTracker::SetJointPosition(const FVector& Position, EControllerHand Hand, EHandKeypoint Joint)
 {
 	switch (Hand)
 	{
@@ -147,22 +152,23 @@ void FUxtTestHandTracker::SetJointPosition(const FVector& Position, EControllerH
 
 void FUxtTestHandTracker::SetAllJointPositions(const FVector& Position, EControllerHand Hand)
 {
+	const int32 NumKeypoints = StaticEnum<EHandKeypoint>()->NumEnums();
 	switch (Hand)
 	{
 	case EControllerHand::Left:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			LeftHandData.JointPosition[i] = Position;
 		}
 		break;
 	case EControllerHand::Right:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			RightHandData.JointPosition[i] = Position;
 		}
 		break;
 	case EControllerHand::AnyHand:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			LeftHandData.JointPosition[i] = Position;
 			RightHandData.JointPosition[i] = Position;
@@ -171,7 +177,7 @@ void FUxtTestHandTracker::SetAllJointPositions(const FVector& Position, EControl
 	}
 }
 
-void FUxtTestHandTracker::SetJointOrientation(const FQuat& Orientation, EControllerHand Hand, EUxtHandJoint Joint)
+void FUxtTestHandTracker::SetJointOrientation(const FQuat& Orientation, EControllerHand Hand, EHandKeypoint Joint)
 {
 	switch (Hand)
 	{
@@ -190,22 +196,23 @@ void FUxtTestHandTracker::SetJointOrientation(const FQuat& Orientation, EControl
 
 void FUxtTestHandTracker::SetAllJointOrientations(const FQuat& Orientation, EControllerHand Hand)
 {
+	const int32 NumKeypoints = StaticEnum<EHandKeypoint>()->NumEnums();
 	switch (Hand)
 	{
 	case EControllerHand::Left:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			LeftHandData.JointOrientation[i] = Orientation;
 		}
 		break;
 	case EControllerHand::Right:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			RightHandData.JointOrientation[i] = Orientation;
 		}
 		break;
 	case EControllerHand::AnyHand:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			LeftHandData.JointOrientation[i] = Orientation;
 			RightHandData.JointOrientation[i] = Orientation;
@@ -214,7 +221,7 @@ void FUxtTestHandTracker::SetAllJointOrientations(const FQuat& Orientation, ECon
 	}
 }
 
-void FUxtTestHandTracker::SetJointRadius(float Radius, EControllerHand Hand, EUxtHandJoint Joint)
+void FUxtTestHandTracker::SetJointRadius(float Radius, EControllerHand Hand, EHandKeypoint Joint)
 {
 	switch (Hand)
 	{
@@ -233,22 +240,23 @@ void FUxtTestHandTracker::SetJointRadius(float Radius, EControllerHand Hand, EUx
 
 void FUxtTestHandTracker::SetAllJointRadii(float Radius, EControllerHand Hand)
 {
+	const int32 NumKeypoints = StaticEnum<EHandKeypoint>()->NumEnums();
 	switch (Hand)
 	{
 	case EControllerHand::Left:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			LeftHandData.JointRadius[i] = Radius;
 		}
 		break;
 	case EControllerHand::Right:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			RightHandData.JointRadius[i] = Radius;
 		}
 		break;
 	case EControllerHand::AnyHand:
-		for (uint8 i = 0; i < (uint8)EUxtHandJoint::Count; ++i)
+		for (uint8 i = 0; i < NumKeypoints; ++i)
 		{
 			LeftHandData.JointRadius[i] = Radius;
 			RightHandData.JointRadius[i] = Radius;

@@ -60,7 +60,7 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 		FQuat WristOrientation;
 		FVector WristLocation;
 		float WristRadius;
-		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristLocation, WristRadius))
+		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::Wrist, WristOrientation, WristLocation, WristRadius))
 		{
 			ControllerOrientation = WristOrientation;
 		}

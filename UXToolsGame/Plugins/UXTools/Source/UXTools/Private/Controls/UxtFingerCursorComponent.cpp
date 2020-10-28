@@ -39,14 +39,14 @@ namespace
 		float IndexTipRadius;
 
 		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+			Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
 
 		FQuat IndexKnuckleOrientation;
 		FVector IndexKnucklePosition;
 		float IndexKnuckleRadius;
 
 		foundValues &= UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexProximal, IndexKnuckleOrientation, IndexKnucklePosition, IndexKnuckleRadius);
+			Hand, EHandKeypoint::IndexProximal, IndexKnuckleOrientation, IndexKnucklePosition, IndexKnuckleRadius);
 
 		if (!foundValues)
 		{

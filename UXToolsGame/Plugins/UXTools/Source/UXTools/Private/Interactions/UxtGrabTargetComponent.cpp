@@ -17,7 +17,7 @@ namespace
 		FQuat GripOrientation;
 		FVector GripPosition;
 		float GripRadius;
-		UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Palm, GripOrientation, GripPosition, GripRadius);
+		UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::Palm, GripOrientation, GripPosition, GripRadius);
 		return FTransform{GripOrientation, GripPosition};
 	}
 } // namespace

@@ -3,6 +3,9 @@
 
 #include "HandTracking/UxtDefaultHandTracker.h"
 
+#include "ARSupportInterface.h"
+#include "IXRTrackingSystem.h"
+
 #include "Components/InputComponent.h"
 #include "Engine/LocalPlayer.h"
 #include "Engine/World.h"
@@ -70,32 +73,28 @@ namespace
 }
 
 bool FUxtDefaultHandTracker::GetJointState(
-	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
+	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
-	// EWMRHandKeypoint Keypoint = (EWMRHandKeypoint)Joint;
-	// FTransform Transform;
-
-	// if (UWindowsMixedRealityHandTrackingFunctionLibrary::GetHandJointTransform(Hand, Keypoint, Transform, OutRadius))
-	//{
-	//	OutOrientation = Transform.GetRotation();
-	//	OutPosition = Transform.GetTranslation();
-	//	return true;
-	//}
-
+	const FXRMotionControllerData& HandData = (Hand == EControllerHand::Left ? ControllerData_Left : ControllerData_Right);
+	if (HandData.bValid)
+	{
+		OutOrientation = HandData.HandKeyRotations[(int32)Joint];
+		OutPosition = HandData.HandKeyPositions[(int32)Joint];
+		OutRadius = HandData.HandKeyRadii[(int32)Joint];
+		return true;
+	}
 	return false;
 }
 
 bool FUxtDefaultHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
 {
-	// FPointerPoseInfo Info = UWindowsMixedRealityFunctionLibrary::GetPointerPoseInfo(Hand);
-
-	// if (Info.TrackingStatus != EHMDTrackingStatus::NotTracked)
-	//{
-	//	OutOrientation = Info.Orientation;
-	//	OutPosition = Info.Origin;
-	//	return true;
-	//}
-
+	const FXRMotionControllerData& HandData = (Hand == EControllerHand::Left ? ControllerData_Left : ControllerData_Right);
+	if (HandData.bValid)
+	{
+		OutOrientation = HandData.AimRotation;
+		OutPosition = HandData.AimPosition;
+		return true;
+	}
 	return false;
 }
 
@@ -153,6 +152,9 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMod
 			NewPlayer->InputComponent->BindAxis(Axis_Right_Grab, this, &UUxtDefaultHandTrackerSubsystem::OnRightGrab);
 		}
 
+		TickDelegateHandle =
+			FTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateUObject(this, &UUxtDefaultHandTrackerSubsystem::Tick));
+
 		IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &DefaultHandTracker);
 	}
 }
@@ -165,6 +167,8 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, 
 		{
 			IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &DefaultHandTracker);
 
+			FTicker::GetCoreTicker().RemoveTicker(TickDelegateHandle);
+
 			if (PlayerController->InputComponent)
 			{
 				PlayerController->InputComponent->AxisBindings.RemoveAll(
@@ -174,54 +178,91 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, 
 	}
 }
 
+bool UUxtDefaultHandTrackerSubsystem::Tick(float DeltaSeconds)
+{
+	if (IXRTrackingSystem* XRSystem = GEngine->XRSystem.Get())
+	{
+		if (UWorld* World = GetLocalPlayer()->GetWorld())
+		{
+			XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
+			XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
+		}
+	}
+	return true;
+}
+
 void UUxtDefaultHandTrackerSubsystem::OnLeftSelect(float AxisValue)
 {
 	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftSelect: %f"), AxisValue);
-	if (!DefaultHandTracker.bIsSelectPressed_Left && AxisValue > AxisActivateThreshold)
+	if (!DefaultHandTracker.bIsSelectPressed_Left)
 	{
-		DefaultHandTracker.bIsSelectPressed_Left = true;
+		if (AxisValue > AxisActivateThreshold)
+		{
+			DefaultHandTracker.bIsSelectPressed_Left = true;
+		}
 	}
-	if (DefaultHandTracker.bIsSelectPressed_Left && AxisValue < AxisReleaseThreshold)
+	else
 	{
-		DefaultHandTracker.bIsSelectPressed_Left = false;
+		if (AxisValue < AxisReleaseThreshold)
+		{
+			DefaultHandTracker.bIsSelectPressed_Left = false;
+		}
 	}
 }
 
 void UUxtDefaultHandTrackerSubsystem::OnLeftGrab(float AxisValue)
 {
 	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftGrab: %f"), AxisValue);
-	if (!DefaultHandTracker.bIsGrabbing_Left && AxisValue > AxisActivateThreshold)
+	if (!DefaultHandTracker.bIsGrabbing_Left)
 	{
-		DefaultHandTracker.bIsGrabbing_Left = true;
+		if (AxisValue > AxisActivateThreshold)
+		{
+			DefaultHandTracker.bIsGrabbing_Left = true;
+		}
 	}
-	if (DefaultHandTracker.bIsGrabbing_Left && AxisValue < AxisReleaseThreshold)
+	else
 	{
-		DefaultHandTracker.bIsGrabbing_Left = false;
+		if (AxisValue < AxisReleaseThreshold)
+		{
+			DefaultHandTracker.bIsGrabbing_Left = false;
+		}
 	}
 }
 
 void UUxtDefaultHandTrackerSubsystem::OnRightSelect(float AxisValue)
 {
 	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightSelect: %f"), AxisValue);
-	if (!DefaultHandTracker.bIsSelectPressed_Right && AxisValue > AxisActivateThreshold)
+	if (!DefaultHandTracker.bIsSelectPressed_Right)
 	{
-		DefaultHandTracker.bIsSelectPressed_Right = true;
+		if (AxisValue > AxisActivateThreshold)
+		{
+			DefaultHandTracker.bIsSelectPressed_Right = true;
+		}
 	}
-	if (DefaultHandTracker.bIsSelectPressed_Right && AxisValue < AxisReleaseThreshold)
+	else
 	{
-		DefaultHandTracker.bIsSelectPressed_Right = false;
+		if (AxisValue < AxisReleaseThreshold)
+		{
+			DefaultHandTracker.bIsSelectPressed_Right = false;
+		}
 	}
 }
 
 void UUxtDefaultHandTrackerSubsystem::OnRightGrab(float AxisValue)
 {
 	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightGrab: %f"), AxisValue);
-	if (!DefaultHandTracker.bIsGrabbing_Right && AxisValue > AxisActivateThreshold)
+	if (!DefaultHandTracker.bIsGrabbing_Right)
 	{
-		DefaultHandTracker.bIsGrabbing_Right = true;
+		if (AxisValue > AxisActivateThreshold)
+		{
+			DefaultHandTracker.bIsGrabbing_Right = true;
+		}
 	}
-	if (DefaultHandTracker.bIsGrabbing_Right && AxisValue < AxisReleaseThreshold)
+	else
 	{
-		DefaultHandTracker.bIsGrabbing_Right = false;
+		if (AxisValue < AxisReleaseThreshold)
+		{
+			DefaultHandTracker.bIsGrabbing_Right = false;
+		}
 	}
 }

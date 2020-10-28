@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "HeadMountedDisplayTypes.h"
+
 #include "HandTracking/IUxtHandTracker.h"
 #include "Subsystems/LocalPlayerSubsystem.h"
 
@@ -16,12 +18,14 @@ public:
 	// IUxtHandTracker interface
 
 	virtual bool GetJointState(
-		EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const;
+		EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const;
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const;
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const;
 	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const;
 
 public:
+	FXRMotionControllerData ControllerData_Left;
+	FXRMotionControllerData ControllerData_Right;
 	bool bIsGrabbing_Left = false;
 	bool bIsSelectPressed_Left = false;
 	bool bIsGrabbing_Right = false;
@@ -42,6 +46,8 @@ private:
 	void OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer);
 	void OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting);
 
+	bool Tick(float DeltaSeconds);
+
 	void OnLeftSelect(float AxisValue);
 	void OnLeftGrab(float AxisValue);
 	void OnRightSelect(float AxisValue);
@@ -49,6 +55,8 @@ private:
 
 private:
 	FUxtDefaultHandTracker DefaultHandTracker;
+
+	FDelegateHandle TickDelegateHandle;
 
 	FDelegateHandle PostLoginHandle;
 	FDelegateHandle LogoutHandle;

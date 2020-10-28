@@ -22,7 +22,7 @@ public:
 	/** Obtain the state of the given joint. Returns false if the hand is not currently tracked, in which case the values of the output
 	 * parameters are unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
-	static bool GetHandJointState(EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius);
+	static bool GetHandJointState(EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius);
 
 	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is
 	 * unchanged. */

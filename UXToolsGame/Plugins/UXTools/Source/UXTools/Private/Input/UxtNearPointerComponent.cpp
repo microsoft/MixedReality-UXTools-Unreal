@@ -193,9 +193,9 @@ static FTransform CalcGrabPointerTransform(EControllerHand Hand)
 	FVector IndexTipPosition, ThumbTipPosition;
 	float IndexTipRadius, ThumbTipRadius;
 	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius) &&
+			Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius) &&
 		UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
+			Hand, EHandKeypoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
 	{
 		// Use the midway point between the thumb and index finger tips for grab
 		const float LerpFactor = 0.5f;
@@ -211,7 +211,7 @@ static FTransform CalcPokePointerTransform(EControllerHand Hand)
 	FVector IndexTipPosition;
 	float IndexTipRadius;
 	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+			Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return FTransform(IndexTipOrientation, IndexTipPosition);
 	}
@@ -531,7 +531,7 @@ float UUxtNearPointerComponent::GetPokePointerRadius() const
 	FVector IndexTipPosition;
 	float IndexTipRadius;
 	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+			Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return IndexTipRadius;
 	}

@@ -36,12 +36,12 @@ void UUxtTouchBasedHandTrackerComponent::EndPlay(const EEndPlayReason::Type EndP
 }
 
 bool UUxtTouchBasedHandTrackerComponent::GetJointState(
-	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
+	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
 	OutRadius = 0;
 	bool bTracked = GetPointerPose(Hand, OutOrientation, OutPosition);
 
-	if (bTracked && Joint == EUxtHandJoint::Palm)
+	if (bTracked && Joint == EHandKeypoint::Palm)
 	{
 		// Use head orientation as the palm's one as it is used to check if the hand is in pointing pose in
 		// AUxtHandInteractionActor::IsInPointingPose

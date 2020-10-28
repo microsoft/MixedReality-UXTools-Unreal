@@ -14,7 +14,7 @@ bool UUxtPalmUpConstraintComponent::IsHandUsableForConstraint(EControllerHand Ne
 	FQuat PalmRotation;
 	FVector PalmLocation;
 	float PalmRadius;
-	if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::Palm, PalmRotation, PalmLocation, PalmRadius))
+	if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EHandKeypoint::Palm, PalmRotation, PalmLocation, PalmRadius))
 	{
 		return false;
 	}
@@ -44,8 +44,8 @@ bool UUxtPalmUpConstraintComponent::IsHandUsableForConstraint(EControllerHand Ne
 		FVector IndexLocation, RingLocation;
 		float IndexRadius, RingRadius;
 		if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(
-				NewHand, EUxtHandJoint::IndexTip, IndexRotation, IndexLocation, IndexRadius) ||
-			!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::RingTip, RingRotation, RingLocation, RingRadius))
+				NewHand, EHandKeypoint::IndexTip, IndexRotation, IndexLocation, IndexRadius) ||
+			!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EHandKeypoint::RingTip, RingRotation, RingLocation, RingRadius))
 		{
 			return false;
 		}

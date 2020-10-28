@@ -4,43 +4,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HeadMountedDisplayTypes.h"
 #include "IMotionController.h"
-
-/**
- * Enum for hand joints.
- */
-UENUM(BlueprintType)
-enum class EUxtHandJoint : uint8
-{
-	Palm,
-	Wrist,
-	ThumbMetacarpal,
-	ThumbProximal,
-	ThumbDistal,
-	ThumbTip,
-	IndexMetacarpal,
-	IndexProximal,
-	IndexIntermediate,
-	IndexDistal,
-	IndexTip,
-	MiddleMetacarpal,
-	MiddleProximal,
-	MiddleIntermediate,
-	MiddleDistal,
-	MiddleTip,
-	RingMetacarpal,
-	RingProximal,
-	RingIntermediate,
-	RingDistal,
-	RingTip,
-	LittleMetacarpal,
-	LittleProximal,
-	LittleIntermediate,
-	LittleDistal,
-	LittleTip,
-
-	Count UMETA(Hidden, DisplayName = "<INVALID>")
-};
 
 /**
  * Hand tracker device interface.
@@ -61,7 +26,7 @@ public:
 	/** Obtain the state of the given joint. Returns false if the hand is not tracked this frame, in which case the values of the output
 	 * parameters are unchanged. */
 	virtual bool GetJointState(
-		EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const = 0;
+		EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const = 0;
 
 	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is
 	 * unchanged. */

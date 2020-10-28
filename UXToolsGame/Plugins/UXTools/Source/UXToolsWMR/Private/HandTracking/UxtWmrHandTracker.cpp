@@ -9,7 +9,7 @@
 #include "Utils/UxtFunctionLibrary.h"
 
 bool FUxtWmrHandTracker::GetJointState(
-	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
+	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
 	EWMRHandKeypoint Keypoint = (EWMRHandKeypoint)Joint;
 	FTransform Transform;
