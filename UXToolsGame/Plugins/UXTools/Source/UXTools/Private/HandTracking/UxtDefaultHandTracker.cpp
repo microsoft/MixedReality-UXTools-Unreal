@@ -60,82 +60,16 @@ namespace
 		InputSettings->RemoveAxisMapping(AxisMapping_Right_Grab);
 	}
 
+	/** Threshold for activating and releasing actions.
+	* Not very relevant for Select/Squeeze axes currently
+	* because they only take on 0.0 and 1.0 values.
+	*/
+	const float AxisActivateThreshold = 0.8f;
+	const float AxisReleaseThreshold = 0.5f;
+
 }
 
-void UUxtDefaultHandTracker::Initialize(FSubsystemCollectionBase& Collection)
-{
-	RegisterActions();
-
-	PostLoginHandle = FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UUxtDefaultHandTracker::OnGameModePostLogin);
-	LogoutHandle = FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UUxtDefaultHandTracker::OnGameModeLogout);
-}
-
-void UUxtDefaultHandTracker::Deinitialize()
-{
-	FGameModeEvents::GameModePostLoginEvent.Remove(PostLoginHandle);
-	FGameModeEvents::GameModeLogoutEvent.Remove(LogoutHandle);
-	PostLoginHandle.Reset();
-	LogoutHandle.Reset();
-
-	UnregisterActions();
-}
-
-void UUxtDefaultHandTracker::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)
-{
-	if (NewPlayer->Player == GetLocalPlayer())
-	{
-		if (NewPlayer->InputComponent)
-		{
-			NewPlayer->InputComponent->BindAxis(Axis_Left_Select, this, &UUxtDefaultHandTracker::OnLeftSelect);
-			NewPlayer->InputComponent->BindAxis(Axis_Left_Grab, this, &UUxtDefaultHandTracker::OnLeftGrab);
-			NewPlayer->InputComponent->BindAxis(Axis_Right_Select, this, &UUxtDefaultHandTracker::OnRightSelect);
-			NewPlayer->InputComponent->BindAxis(Axis_Right_Grab, this, &UUxtDefaultHandTracker::OnRightGrab);
-		}
-
-		IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), this);
-	}
-}
-
-void UUxtDefaultHandTracker::OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting)
-{
-	if (APlayerController* PlayerController = Cast<APlayerController>(Exiting))
-	{
-		if (PlayerController->Player == GetLocalPlayer())
-		{
-			IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), this);
-
-			if (PlayerController->InputComponent)
-			{
-				PlayerController->InputComponent->AxisBindings.RemoveAll([this](const FInputAxisBinding& Binding) -> bool
-					{
-						return Binding.AxisDelegate.IsBoundToObject(this);
-					});
-			}
-		}
-	}
-}
-
-void UUxtDefaultHandTracker::OnLeftSelect(float AxisValue)
-{
-	UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftSelect: %f"), AxisValue);
-}
-
-void UUxtDefaultHandTracker::OnLeftGrab(float AxisValue)
-{
-	UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftGrab: %f"), AxisValue);
-}
-
-void UUxtDefaultHandTracker::OnRightSelect(float AxisValue)
-{
-	UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightSelect: %f"), AxisValue);
-}
-
-void UUxtDefaultHandTracker::OnRightGrab(float AxisValue)
-{
-	UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightGrab: %f"), AxisValue);
-}
-
-bool UUxtDefaultHandTracker::GetJointState(
+bool FUxtDefaultHandTracker::GetJointState(
 	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
 	// EWMRHandKeypoint Keypoint = (EWMRHandKeypoint)Joint;
@@ -151,7 +85,7 @@ bool UUxtDefaultHandTracker::GetJointState(
 	return false;
 }
 
-bool UUxtDefaultHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
+bool FUxtDefaultHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
 {
 	// FPointerPoseInfo Info = UWindowsMixedRealityFunctionLibrary::GetPointerPoseInfo(Hand);
 
@@ -165,7 +99,7 @@ bool UUxtDefaultHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrie
 	return false;
 }
 
-bool UUxtDefaultHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const
+bool FUxtDefaultHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const
 {
 	switch (Hand)
 	{
@@ -177,7 +111,7 @@ bool UUxtDefaultHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrab
 	return false;
 }
 
-bool UUxtDefaultHandTracker::GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const
+bool FUxtDefaultHandTracker::GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const
 {
 	switch (Hand)
 	{
@@ -187,4 +121,107 @@ bool UUxtDefaultHandTracker::GetIsSelectPressed(EControllerHand Hand, bool& OutI
 		return bIsSelectPressed_Right;
 	}
 	return false;
+}
+
+void UUxtDefaultHandTrackerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+	RegisterActions();
+
+	PostLoginHandle = FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin);
+	LogoutHandle = FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModeLogout);
+}
+
+void UUxtDefaultHandTrackerSubsystem::Deinitialize()
+{
+	FGameModeEvents::GameModePostLoginEvent.Remove(PostLoginHandle);
+	FGameModeEvents::GameModeLogoutEvent.Remove(LogoutHandle);
+	PostLoginHandle.Reset();
+	LogoutHandle.Reset();
+
+	UnregisterActions();
+}
+
+void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)
+{
+	if (NewPlayer->Player == GetLocalPlayer())
+	{
+		if (NewPlayer->InputComponent)
+		{
+			NewPlayer->InputComponent->BindAxis(Axis_Left_Select, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelect);
+			NewPlayer->InputComponent->BindAxis(Axis_Left_Grab, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGrab);
+			NewPlayer->InputComponent->BindAxis(Axis_Right_Select, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelect);
+			NewPlayer->InputComponent->BindAxis(Axis_Right_Grab, this, &UUxtDefaultHandTrackerSubsystem::OnRightGrab);
+		}
+
+		IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &DefaultHandTracker);
+	}
+}
+
+void UUxtDefaultHandTrackerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting)
+{
+	if (APlayerController* PlayerController = Cast<APlayerController>(Exiting))
+	{
+		if (PlayerController->Player == GetLocalPlayer())
+		{
+			IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &DefaultHandTracker);
+
+			if (PlayerController->InputComponent)
+			{
+				PlayerController->InputComponent->AxisBindings.RemoveAll(
+					[this](const FInputAxisBinding& Binding) -> bool { return Binding.AxisDelegate.IsBoundToObject(this); });
+			}
+		}
+	}
+}
+
+void UUxtDefaultHandTrackerSubsystem::OnLeftSelect(float AxisValue)
+{
+	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftSelect: %f"), AxisValue);
+	if (!DefaultHandTracker.bIsSelectPressed_Left && AxisValue > AxisActivateThreshold)
+	{
+		DefaultHandTracker.bIsSelectPressed_Left = true;
+	}
+	if (DefaultHandTracker.bIsSelectPressed_Left && AxisValue < AxisReleaseThreshold)
+	{
+		DefaultHandTracker.bIsSelectPressed_Left = false;
+	}
+}
+
+void UUxtDefaultHandTrackerSubsystem::OnLeftGrab(float AxisValue)
+{
+	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftGrab: %f"), AxisValue);
+	if (!DefaultHandTracker.bIsGrabbing_Left && AxisValue > AxisActivateThreshold)
+	{
+		DefaultHandTracker.bIsGrabbing_Left = true;
+	}
+	if (DefaultHandTracker.bIsGrabbing_Left && AxisValue < AxisReleaseThreshold)
+	{
+		DefaultHandTracker.bIsGrabbing_Left = false;
+	}
+}
+
+void UUxtDefaultHandTrackerSubsystem::OnRightSelect(float AxisValue)
+{
+	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightSelect: %f"), AxisValue);
+	if (!DefaultHandTracker.bIsSelectPressed_Right && AxisValue > AxisActivateThreshold)
+	{
+		DefaultHandTracker.bIsSelectPressed_Right = true;
+	}
+	if (DefaultHandTracker.bIsSelectPressed_Right && AxisValue < AxisReleaseThreshold)
+	{
+		DefaultHandTracker.bIsSelectPressed_Right = false;
+	}
+}
+
+void UUxtDefaultHandTrackerSubsystem::OnRightGrab(float AxisValue)
+{
+	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightGrab: %f"), AxisValue);
+	if (!DefaultHandTracker.bIsGrabbing_Right && AxisValue > AxisActivateThreshold)
+	{
+		DefaultHandTracker.bIsGrabbing_Right = true;
+	}
+	if (DefaultHandTracker.bIsGrabbing_Right && AxisValue < AxisReleaseThreshold)
+	{
+		DefaultHandTracker.bIsGrabbing_Right = false;
+	}
 }
