@@ -45,6 +45,17 @@ public:
 	{
 		check(IsInRenderingThread());
 
+		FString RHIString = FApp::GetGraphicsRHI();
+		if (RHIString.IsEmpty())
+		{
+			return;
+		}
+
+		if (RHIString != TEXT("DirectX 11"))
+		{
+			return;
+		}
+
 		FSamplerStateInitializerRHI SamplerStateInitializer(SF_Bilinear, AM_Clamp, AM_Clamp, AM_Clamp);
 		SamplerStateRHI = RHICreateSamplerState(SamplerStateInitializer);
 

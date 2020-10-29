@@ -3,7 +3,7 @@
 #include "OpenXRCore.h"
 #include "IXRTrackingSystem.h"
 #include "IOpenXRARModule.h"
-#include "OpenXRARPlugin.h"
+#include "IOpenXRARTrackedGeometryHolder.h"
 #include "ARSessionConfig.h"
 #include "HeadMountedDisplayTypes.h"
 
@@ -110,7 +110,7 @@ namespace MRPlatExt
 		return InNext;
 	}
 
-	void FHandMeshPlugin::PostSyncActions(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
+	void FHandMeshPlugin::UpdateDeviceLocations(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
 	{
 		check(IsInGameThread());
 

@@ -45,7 +45,7 @@ namespace MRPlatExt
 		bool GetRequiredExtensions(TArray<const ANSICHAR*>& OutExtensions) override;
 		const void* OnCreateSession(XrInstance InInstance, XrSystemId InSystem, const void* InNext) override;
 		const void* OnBeginSession(XrSession InSession, const void* InNext) override;
-		void PostSyncActions(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace) override;
+		void UpdateDeviceLocations(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace) override;
 
 		bool Turn(EHandMeshStatus Mode);
 	private:

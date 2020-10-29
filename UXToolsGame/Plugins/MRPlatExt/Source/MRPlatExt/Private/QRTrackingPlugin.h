@@ -20,7 +20,7 @@
 #include "Windows/HideWindowsPlatformAtomics.h"
 #include "Windows/HideWindowsPlatformTypes.h"
 
-class IOpenXRARQRCodeHolder;
+class IOpenXRARTrackedGeometryHolder;
 struct FOpenXRQRCodeData;
 
 
@@ -35,7 +35,7 @@ namespace MRPlatExt
 		virtual bool GetRequiredExtensions(TArray<const ANSICHAR*>& OutExtensions) override;
 
 		virtual const void* OnCreateSession(XrInstance InInstance, XrSystemId InSystem, const void* InNext) override;
-		virtual void PostSyncActions(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace) override;
+		virtual void UpdateDeviceLocations(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace) override;
 
 		virtual IOpenXRCustomCaptureSupport* GetCustomCaptureSupport(const EARCaptureType CaptureType) override;
 
@@ -75,7 +75,7 @@ namespace MRPlatExt
 
 		typedef TSharedPtr<QRCodeContext, ESPMode::ThreadSafe> QRCodeContextPtr;
 
-		IOpenXRARQRCodeHolder* QRCodeHolder;
+		IOpenXRARTrackedGeometryHolder* QRCodeHolder;
 
 		class IXRTrackingSystem* XRTrackingSystem = nullptr;
 

@@ -1,5 +1,6 @@
 #if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 #include "SpatialMappingPlugin.h"
+#include "ARBlueprintLibrary.h"
 
 using namespace winrt::Windows::Perception::Spatial;
 using namespace winrt::Windows::Perception::Spatial::Surfaces;
@@ -64,9 +65,11 @@ namespace MRPlatExt
 		return InNext;
 	}
 
-	bool FSpatialMappingPlugin::FindMeshTransform(XrSpace AnchorSpace, XrTime DisplayTime, XrSpace TrackingSpace, FTransform MeshToCachedAnchorTransform, FTransform& Transform)
+	bool FSpatialMappingPlugin::FindMeshTransform(XrSpace AnchorSpace, XrTime DisplayTime, XrSpace TrackingSpace, FTransform MeshToCachedAnchorTransform, FTransform& Transform, bool& IsTracking)
 	{
 		auto Scale = XRTrackingSystem->GetWorldToMetersScale();
+
+		IsTracking = false;
 
 		XrSpaceLocation SpaceLocation{ XR_TYPE_SPACE_LOCATION };
 		XrResult result = xrLocateSpace(AnchorSpace, TrackingSpace, DisplayTime, &SpaceLocation);
@@ -75,9 +78,12 @@ namespace MRPlatExt
 			return false;
 		}
 
-		constexpr XrSpaceLocationFlags ValidFlags = 
-			XR_SPACE_LOCATION_ORIENTATION_VALID_BIT | XR_SPACE_LOCATION_POSITION_VALID_BIT |
+		constexpr XrSpaceLocationFlags TrackingFlags = 
 			XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT | XR_SPACE_LOCATION_POSITION_TRACKED_BIT;
+		IsTracking = ((SpaceLocation.locationFlags & TrackingFlags) == TrackingFlags);
+
+		constexpr XrSpaceLocationFlags ValidFlags = 
+			XR_SPACE_LOCATION_ORIENTATION_VALID_BIT | XR_SPACE_LOCATION_POSITION_VALID_BIT;
 		if ((SpaceLocation.locationFlags & ValidFlags) == ValidFlags)
 		{
 			FTransform LocalToTrackingTransform = ToFTransform(SpaceLocation.pose, Scale);
@@ -105,37 +111,48 @@ namespace MRPlatExt
 
 	bool FSpatialMappingPlugin::LocateSpatialMeshInTrackingSpace(const FGuid& MeshID, SpatialCoordinateSystem MeshCoordinateSystem, XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace, FTransform& Transform)
 	{
+		bool IsTracking = false;
+
 		// If a known anchor exists for this mesh, use it to locate the mesh transform.
-		const auto& cachedAnchorDataForThisMesh = AnchorLocalizationData.find(MeshID);
+		auto cachedAnchorDataForThisMesh = AnchorLocalizationData.find(MeshID);
 		if (cachedAnchorDataForThisMesh != AnchorLocalizationData.end())
 		{
 			// This mesh could be localizing against another mesh's coordinate system, apply the offset when getting the mesh transform.
 			FTransform MeshToCachedAnchorTransform;
-			if (!GetTransformBetweenCoordinateSystems(MeshCoordinateSystem, cachedAnchorDataForThisMesh->second->CoordinateSystem, MeshToCachedAnchorTransform))
+			if (GetTransformBetweenCoordinateSystems(MeshCoordinateSystem, cachedAnchorDataForThisMesh->second->CoordinateSystem, MeshToCachedAnchorTransform)
+				&& FindMeshTransform(cachedAnchorDataForThisMesh->second->AnchorSpace, DisplayTime, TrackingSpace, MeshToCachedAnchorTransform, Transform, IsTracking))
 			{
-				// Return even if the mesh is not found with this tracking info.  The mesh will be found when the user regains tracking.
-				// This can happen if the user walks away from the tracking space with a device that is not tracking.
+				return true;
+			}
+
+			// If we failed to locate the mesh and are not tracking, return now.  The meshes will continue to be localized after tracking is regained.
+			// However, if we do have tracking, we may have a new coordinate system for the mesh and should recreate it's localization data.
+			if (!IsTracking)
+			{
 				return false;
 			}
-			
-			return FindMeshTransform(cachedAnchorDataForThisMesh->second->AnchorSpace, DisplayTime, TrackingSpace, MeshToCachedAnchorTransform, Transform);
 		}
 		
-		// Otherwise, attempt to locate the SpatialSurfaceMesh from all cached coordinate systems.
-		for (const auto& data : AnchorLocalizationData)
+		// If we get here with cached anchor data, The device is tracking, but we have failed to localize against the known cached data.
+		// This likely happens when the mesh gets a new coordinate system.  Skip looking at existing localization data, and create new data instead.
+		if (cachedAnchorDataForThisMesh == AnchorLocalizationData.end())
 		{
-			// This mesh will be localizing against another mesh's coordinate system, apply the offset when getting the mesh transform.
-			FTransform MeshToCachedAnchorTransform;
-			if (!GetTransformBetweenCoordinateSystems(MeshCoordinateSystem, data.second->CoordinateSystem, MeshToCachedAnchorTransform))
+			// Otherwise, attempt to locate the SpatialSurfaceMesh from all cached coordinate systems.
+			for (const auto& data : AnchorLocalizationData)
 			{
-				continue;
-			}
-			
-			if (FindMeshTransform(data.second->AnchorSpace, DisplayTime, TrackingSpace, MeshToCachedAnchorTransform, Transform))
-			{
-				// Add to the anchor localization data, so the next time this mesh is updated it will have a direct entry in the map.
-				AnchorLocalizationData.insert({ MeshID, data.second });
-				return true;
+				// This mesh will be localizing against another mesh's coordinate system, apply the offset when getting the mesh transform.
+				FTransform MeshToCachedAnchorTransform;
+				if (!GetTransformBetweenCoordinateSystems(MeshCoordinateSystem, data.second->CoordinateSystem, MeshToCachedAnchorTransform))
+				{
+					continue;
+				}
+
+				if (FindMeshTransform(data.second->AnchorSpace, DisplayTime, TrackingSpace, MeshToCachedAnchorTransform, Transform, IsTracking))
+				{
+					// Add to the anchor localization data, so the next time this mesh is updated it will have a direct entry in the map.
+					AnchorLocalizationData.insert({ MeshID, data.second });
+					return true;
+				}
 			}
 		}
 
@@ -170,14 +187,23 @@ namespace MRPlatExt
 			return false;
 		}
 
-		if (!FindMeshTransform(AnchorSpace, DisplayTime, TrackingSpace, FTransform::Identity, Transform))
+		if (!FindMeshTransform(AnchorSpace, DisplayTime, TrackingSpace, FTransform::Identity, Transform, IsTracking))
 		{
 			// The mesh has not been located in tracking space, but this anchor space may still be locatable in the future.
 			MeshLocated = false;
 		}
 
-		// Cache localization data to compare against future meshes.
-		AnchorLocalizationData.insert({ MeshID, MakeShared<WMRAnchorLocalizationData>(AnchorSpace, MeshCoordinateSystem) });
+		if (cachedAnchorDataForThisMesh == AnchorLocalizationData.end())
+		{
+			// Cache localization data to compare against future meshes.
+			AnchorLocalizationData.insert({ MeshID, MakeShared<WMRAnchorLocalizationData>(AnchorSpace, MeshCoordinateSystem) });
+		}
+		else
+		{
+			// Overwrite existing anchor localization data.
+			cachedAnchorDataForThisMesh->second = MakeShared<WMRAnchorLocalizationData>(AnchorSpace, MeshCoordinateSystem);
+		}
+		
 		if (AnchorLocalizationData.size() > WarnAfterThisManyMeshes)
 		{
 			UE_LOG(LogHMD, Warning,
@@ -190,12 +216,12 @@ namespace MRPlatExt
 		return MeshLocated;
 	}
 
-	void FSpatialMappingPlugin::PostSyncActions(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
+	void FSpatialMappingPlugin::UpdateDeviceLocations(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
 	{
 		std::map<FGuid, MeshLocalizationData>::iterator Mesh;
 
 		{
-			// Since PostSyncActions is performed on the game thread, update a single spatial mesh per frame. 
+			// Since UpdateDeviceLocations is performed on the game thread, update a single spatial mesh per frame. 
 			// This prevents stalls when the number of spatial meshes is large.
 			std::lock_guard<std::mutex> lock(MeshRefsLock);
 			if (UniqueMeshes.empty())
@@ -218,7 +244,7 @@ namespace MRPlatExt
 			}
 		}
 
-		auto MeshUpdate = new FOpenXBasicUpdate;
+		auto MeshUpdate = new FOpenXRMeshUpdate;
 		MeshUpdate->TrackingState = EARTrackingState::Tracking;
 
 		FTransform Transform;
@@ -267,6 +293,37 @@ namespace MRPlatExt
 		}
 
 		return true;
+	}
+
+	// Perform a raycast against the spatial meshes.
+	TArray<FARTraceResult> FSpatialMappingPlugin::OnLineTraceTrackedObjects(const TSharedPtr<FARSupportInterface, ESPMode::ThreadSafe> ARCompositionComponent, const FVector Start, const FVector End, const EARLineTraceChannels TraceChannels)
+	{
+		TArray<FARTraceResult> Results;
+		// Iterate over the tracked MeshGeometries rather than UniqueMeshes since the output TraceResult needs the MeshGeometry.
+		TArray<UARMeshGeometry*> Meshes = UARBlueprintLibrary::GetAllGeometriesByClass<UARMeshGeometry>();
+
+		std::lock_guard<std::mutex> lock(MeshRefsLock);
+		for (UARMeshGeometry* Mesh : Meshes)
+		{
+			// Get the saved mesh data from the tracked mesh Guid.
+			const auto& it = UniqueMeshes.find(Mesh->UniqueId);
+			if (it != UniqueMeshes.end())
+			{
+				FVector HitPoint, HitNormal;
+				float HitDistance;
+				if (it->second.CollisionInfo.Collides(Start, End, Mesh->GetLocalToWorldTransform(), HitPoint, HitNormal, HitDistance))
+				{
+					// Append a hit.  The calling function will then sort by HitDistance.
+					Results.Add(FARTraceResult(ARCompositionComponent,
+						HitDistance, 
+						TraceChannels, 
+						FTransform(HitNormal.ToOrientationQuat(), HitPoint),
+						Mesh));
+				}
+			}
+		}
+
+		return Results;
 	}
 
 	void FSpatialMappingPlugin::OnStartARSession(class UARSessionConfig* SessionConfig)
@@ -414,12 +471,16 @@ namespace MRPlatExt
 	void FSpatialMappingPlugin::OnSurfacesChanged(SpatialSurfaceObserver Observer, winrt::Windows::Foundation::IInspectable)
 	{
 		auto SurfaceCollection = Observer.GetObservedSurfaces();
+		std::vector<FGuid> ObservedSurfacesThisUpdate;
 
+		ObservedSurfacesThisUpdate.clear();
 		for (auto Iter = SurfaceCollection.First(); Iter.HasCurrent(); Iter.MoveNext())
 		{
 			auto KVPair = Iter.Current();
 
 			winrt::guid Id = KVPair.Key();
+			FGuid MeshId = WMRUtility::GUIDToFGuid(Id);
+			ObservedSurfacesThisUpdate.push_back(MeshId);
 			SpatialSurfaceInfo SurfaceInfo = KVPair.Value();
 
 			winrt::Windows::Foundation::IAsyncOperation<SpatialSurfaceMesh> ComputeMeshAsyncOperation =
@@ -429,14 +490,13 @@ namespace MRPlatExt
 				continue;
 			}
 
-			ComputeMeshAsyncOperation.Completed([this, Id](winrt::Windows::Foundation::IAsyncOperation<SpatialSurfaceMesh> asyncOperation, winrt::Windows::Foundation::AsyncStatus status)
+			ComputeMeshAsyncOperation.Completed([this, MeshId](winrt::Windows::Foundation::IAsyncOperation<SpatialSurfaceMesh> asyncOperation, winrt::Windows::Foundation::AsyncStatus status)
 			{
 				if (asyncOperation.Status() == winrt::Windows::Foundation::AsyncStatus::Completed)
 				{
 					auto SurfaceMesh = asyncOperation.GetResults();
 					if (SurfaceMesh != nullptr)
 					{
-						FGuid MeshId = WMRUtility::GUIDToFGuid(Id);
 						TrackedMeshHolder->StartMeshUpdates();
 						
 						FOpenXRMeshUpdate* MeshUpdate = TrackedMeshHolder->AllocateMeshUpdate(MeshId);
@@ -449,6 +509,11 @@ namespace MRPlatExt
 							// If a mesh entry already existed for this spatial mesh, use the last known transform for the first update to keep it close to where it was previously.
 							MeshUpdate->LocalToTrackingTransform = it->second.LastKnownTransform;
 							MeshUpdate->TrackingState = it->second.LastKnownTrackingState;
+
+							// Update the cached mesh data
+							std::lock_guard<std::mutex> lock(MeshRefsLock);
+							it->second.CoordinateSystem = SurfaceMesh.CoordinateSystem();
+							it->second.CollisionInfo.UpdateVertices(MeshUpdate->Vertices, MeshUpdate->Indices);
 						}
 						else
 						{
@@ -458,10 +523,16 @@ namespace MRPlatExt
 							FTransform TempTransform = FTransform::Identity;
 							TempTransform.SetScale3D(FVector::ZeroVector);
 							
-							// Don't set the tracking state until the LocalToTrackingTransform is identified in PostSyncActions.
+							// Don't set the tracking state until the LocalToTrackingTransform is identified in UpdateDeviceLocations.
 							MeshUpdate->TrackingState = EARTrackingState::NotTracking;
 
-							UniqueMeshes.insert({ MeshId, MeshLocalizationData { TempTransform, EARTrackingState::NotTracking, SurfaceMesh.CoordinateSystem() } });
+							UniqueMeshes.insert({ MeshId, MeshLocalizationData { 
+								TempTransform, 
+								EARTrackingState::NotTracking, 
+								SurfaceMesh.CoordinateSystem(), 
+								TrackedGeometryCollision(MeshUpdate->Vertices, MeshUpdate->Indices) 
+								} });
+
 							MeshUpdate->LocalToTrackingTransform = TempTransform;
 						}
 
@@ -469,6 +540,30 @@ namespace MRPlatExt
 					}
 				}
 			});
+		}
+
+		// Check for removed meshes
+		if (UniqueMeshes.size() != ObservedSurfacesThisUpdate.size())
+		{
+			std::lock_guard<std::mutex> lock(MeshRefsLock);
+
+			std::vector<FGuid> MeshesToRemove = std::vector<FGuid>();
+			for (const auto& Mesh : UniqueMeshes)
+			{
+				if (std::find(ObservedSurfacesThisUpdate.begin(), 
+					ObservedSurfacesThisUpdate.end(), Mesh.first) == ObservedSurfacesThisUpdate.end())
+				{
+					// Cached mesh was not found, it has been disposed.
+					MeshesToRemove.push_back(Mesh.first);
+
+					TrackedMeshHolder->RemoveMesh(Mesh.first);
+				}
+			}
+
+			for (const auto& MeshId : MeshesToRemove)
+			{
+				UniqueMeshes.erase(MeshId);
+			}
 		}
 	}
 }

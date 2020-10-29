@@ -35,7 +35,7 @@ namespace MRPlatExt
 		bool GetCustomLoader(PFN_xrGetInstanceProcAddr* OutGetProcAddr) override;
 		bool GetRequiredExtensions(TArray<const ANSICHAR*>& OutExtensions) override;
 		void OnEvent(XrSession InSession, const XrEventDataBaseHeader* InHeader) override;
-		void PostGetSystem(XrInstance InInstance, XrSystemId InSystem, const XrSystemGetInfo InSystemInfo) override;
+		void PostGetSystem(XrInstance InInstance, XrSystemId InSystem) override;
 		const void* OnCreateSession(XrInstance InInstance, XrSystemId InSystem, const void* InNext) override;
 
 	private:

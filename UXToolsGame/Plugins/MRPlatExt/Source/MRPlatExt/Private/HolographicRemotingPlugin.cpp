@@ -78,7 +78,7 @@ namespace MRPlatExt
 	// Attempt to create a connection between getting the system and the OpenXRHMD constructor.
 	// The OpenXRHMD ctor calls some OpenXR API's which will return default values for HoloLens if a connection has not been made.
 	// When connecting to a VR HMD, using default values will be fatal.
-	void FHolographicRemotingPlugin::PostGetSystem(XrInstance InInstance, XrSystemId InSystem, const XrSystemGetInfo InSystemInfo)
+	void FHolographicRemotingPlugin::PostGetSystem(XrInstance InInstance, XrSystemId InSystem)
 	{
 		Instance = InInstance;
 		System = InSystem;

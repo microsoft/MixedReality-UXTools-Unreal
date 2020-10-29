@@ -1,7 +1,7 @@
 #include "QRTrackingPlugin.h"
 #if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 #include "OpenXRCore.h"
-#include "OpenXRARPlugin.h"
+#include "IOpenXRARTrackedGeometryHolder.h"
 #include "IXRTrackingSystem.h"
 
 #include "WindowsMixedRealityInteropUtility.h"
@@ -52,7 +52,7 @@ namespace MRPlatExt
 	{
 		XR_ENSURE(xrGetInstanceProcAddr(InInstance, "xrCreateSpatialGraphNodeSpaceMSFT", (PFN_xrVoidFunction*)&xrCreateSpatialGraphNodeSpaceMSFT));
 
-		QRCodeHolder = IModularFeatures::Get().GetModularFeatureImplementations<IOpenXRARQRCodeHolder>(IOpenXRARQRCodeHolder::GetModularFeatureName())[0];
+		QRCodeHolder = IModularFeatures::Get().GetModularFeatureImplementations<IOpenXRARTrackedGeometryHolder>(IOpenXRARTrackedGeometryHolder::GetModularFeatureName())[0];
 
 		ensure(QRCodeHolder != nullptr);
 
@@ -184,12 +184,12 @@ namespace MRPlatExt
 			QRCodeContexts.FindOrAdd(QRCode->Id) = Context;
 		}
 
-		QRCodeHolder->QRCodeAdded(QRCode);
+		QRCodeHolder->ARTrackedGeometryAdded(QRCode);
 	}
 
 	void FQRTrackingPlugin::OnUpdated(QRCodeWatcher sender, QRCodeUpdatedEventArgs args)
 	{
-		//OnUpdated works not good, so it's replaced by loop in PostSyncActions
+		//OnUpdated works not good, so it's replaced by loop in UpdateDeviceLocations
 	}
 
 	void FQRTrackingPlugin::OnRemoved(QRCodeWatcher sender, QRCodeRemovedEventArgs args)
@@ -206,7 +206,7 @@ namespace MRPlatExt
 		}
 		
 
-		QRCodeHolder->QRCodeRemoved(QRCode);
+		QRCodeHolder->ARTrackedGeometryRemoved(QRCode);
 	}
 
 	void FQRTrackingPlugin::OnEnumerationCompleted(QRCodeWatcher sender, winrt::Windows::Foundation::IInspectable args)
@@ -214,7 +214,7 @@ namespace MRPlatExt
 
 	}
 
-	void FQRTrackingPlugin::PostSyncActions(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
+	void FQRTrackingPlugin::UpdateDeviceLocations(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
 	{
 		std::lock_guard<std::recursive_mutex> lock(QRCodeRefsLock);
 		if (QRTrackerInstance == nullptr) { return; }
@@ -268,7 +268,7 @@ namespace MRPlatExt
 				OutCode->TrackingState = EARTrackingState::NotTracking;
 			}
 
-			QRCodeHolder->QRCodeUpdated(OutCode);
+			QRCodeHolder->ARTrackedGeometryUpdated(OutCode);
 		}
 	}
 

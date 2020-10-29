@@ -4,7 +4,7 @@
 #include "InputCoreTypes.h"
 #include "OpenXRCore.h"
 #include "IOpenXRARModule.h"
-#include "OpenXRARPlugin.h"
+#include "IOpenXRARTrackedGeometryHolder.h"
 #include "IXRTrackingSystem.h"
 #include "OpenXRCameraImageTexture.h"
 #include "ARSessionConfig.h"
@@ -79,7 +79,7 @@ namespace MRPlatExt
 		return InNext;
 	}
 
-	void FLocatableCamPlugin::PostSyncActions(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
+	void FLocatableCamPlugin::UpdateDeviceLocations(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace)
 	{
 		std::lock_guard<std::recursive_mutex> lock(RefsLock);
 		check(IsInGameThread());

@@ -51,7 +51,7 @@
 			"Name": "HoloLensAR",
 			"Enabled": true,
 			"WhitelistPlatforms": [
-				"HoloLens"
+				"Win64"
 			]
 		}
 	]

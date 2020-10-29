@@ -4,7 +4,7 @@
 #include "OpenXRCommon.h"
 #include "OpenXRCore.h"
 #include "IOpenXRARModule.h"
-#include "OpenXRARPlugin.h"
+#include "IOpenXRARTrackedGeometryHolder.h"
 
 #include "HeadMountedDisplayTypes.h"
 #include "ARTypes.h"
@@ -12,6 +12,7 @@
 #include "WindowsMixedRealityInteropUtility.h"
 
 #include "IXRTrackingSystem.h"
+#include "TrackedGeometryCollision.h"
 
 #include "Windows/AllowWindowsPlatformTypes.h"
 #include "Windows/AllowWindowsPlatformAtomics.h"
@@ -59,6 +60,7 @@ namespace MRPlatExt
 		FTransform LastKnownTransform = FTransform::Identity;
 		EARTrackingState LastKnownTrackingState = EARTrackingState::NotTracking;
 		winrt::Windows::Perception::Spatial::SpatialCoordinateSystem CoordinateSystem;
+		TrackedGeometryCollision CollisionInfo;
 	};
 
 	class FSpatialMappingPlugin : public IOpenXRExtensionPlugin, public IOpenXRCustomCaptureSupport
@@ -71,9 +73,10 @@ namespace MRPlatExt
 
 		const void* OnCreateSession(XrInstance InInstance, XrSystemId InSystem, const void* InNext) override;
 		const void* OnBeginSession(XrSession InSession, const void* InNext) override;
-		void PostSyncActions(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace) override;
+		void UpdateDeviceLocations(XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace) override;
 
 		bool OnToggleARCapture(const bool On) override;
+		TArray<FARTraceResult> OnLineTraceTrackedObjects(const TSharedPtr<FARSupportInterface, ESPMode::ThreadSafe> ARCompositionComponent, const FVector Start, const FVector End, const EARLineTraceChannels TraceChannels) override;
 		IOpenXRCustomCaptureSupport* GetCustomCaptureSupport(const EARCaptureType CaptureType) override;
 
 	private:
@@ -108,7 +111,7 @@ namespace MRPlatExt
 		bool StartMeshObserver();
 		void StopMeshObserver();
 
-		bool FindMeshTransform(XrSpace AnchorSpace, XrTime DisplayTime, XrSpace TrackingSpace, FTransform MeshToCachedAnchorTransform, FTransform& Transform);
+		bool FindMeshTransform(XrSpace AnchorSpace, XrTime DisplayTime, XrSpace TrackingSpace, FTransform MeshToCachedAnchorTransform, FTransform& Transform, bool& IsTracking);
 		bool GetTransformBetweenCoordinateSystems(winrt::Windows::Perception::Spatial::SpatialCoordinateSystem From, winrt::Windows::Perception::Spatial::SpatialCoordinateSystem To, FTransform& Transform);
 		bool LocateSpatialMeshInTrackingSpace(const FGuid& MeshID, winrt::Windows::Perception::Spatial::SpatialCoordinateSystem MeshCoordinateSystem, XrSession InSession, XrTime DisplayTime, XrSpace TrackingSpace, FTransform& Transform);
 
