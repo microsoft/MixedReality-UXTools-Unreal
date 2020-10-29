@@ -46,7 +46,7 @@ private:
 	void OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer);
 	void OnGameModeLogout(AGameModeBase* GameMode, AController* Exiting);
 
-	bool Tick(float DeltaSeconds);
+	void OnWorldTickStart(UWorld* World, ELevelTick TickType, float DeltaTime);
 
 	void OnLeftSelect(float AxisValue);
 	void OnLeftGrab(float AxisValue);

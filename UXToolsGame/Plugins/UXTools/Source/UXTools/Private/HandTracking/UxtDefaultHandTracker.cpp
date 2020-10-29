@@ -156,8 +156,7 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMod
 			NewPlayer->InputComponent->BindAxis(Axis_Right_Grab, this, &UUxtDefaultHandTrackerSubsystem::OnRightGrab);
 		}
 
-		TickDelegateHandle =
-			FTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateUObject(this, &UUxtDefaultHandTrackerSubsystem::Tick));
+		TickDelegateHandle = FWorldDelegates::OnWorldTickStart.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnWorldTickStart);
 
 		IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &DefaultHandTracker);
 	}
@@ -171,7 +170,7 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, 
 		{
 			IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &DefaultHandTracker);
 
-			FTicker::GetCoreTicker().RemoveTicker(TickDelegateHandle);
+			FWorldDelegates::OnWorldTickStart.Remove(TickDelegateHandle);
 
 			if (PlayerController->InputComponent)
 			{
@@ -182,17 +181,13 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, 
 	}
 }
 
-bool UUxtDefaultHandTrackerSubsystem::Tick(float DeltaSeconds)
+void UUxtDefaultHandTrackerSubsystem::OnWorldTickStart(UWorld* World, ELevelTick TickType, float DeltaTime)
 {
 	if (IXRTrackingSystem* XRSystem = GEngine->XRSystem.Get())
 	{
-		if (UWorld* World = GetLocalPlayer()->GetWorld())
-		{
-			XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
-			XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
-		}
+		XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
+		XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
 	}
-	return true;
 }
 
 void UUxtDefaultHandTrackerSubsystem::OnLeftSelect(float AxisValue)
