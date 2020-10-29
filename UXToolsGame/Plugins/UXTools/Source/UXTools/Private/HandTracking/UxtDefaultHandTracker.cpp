@@ -103,9 +103,11 @@ bool FUxtDefaultHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrab
 	switch (Hand)
 	{
 	case EControllerHand::Left:
-		return bIsGrabbing_Left;
+		OutIsGrabbing = bIsGrabbing_Left;
+		return true;
 	case EControllerHand::Right:
-		return bIsGrabbing_Right;
+		OutIsGrabbing = bIsGrabbing_Right;
+		return true;
 	}
 	return false;
 }
@@ -115,9 +117,11 @@ bool FUxtDefaultHandTracker::GetIsSelectPressed(EControllerHand Hand, bool& OutI
 	switch (Hand)
 	{
 	case EControllerHand::Left:
-		return bIsSelectPressed_Left;
+		OutIsSelectPressed = bIsSelectPressed_Left;
+		return true;
 	case EControllerHand::Right:
-		return bIsSelectPressed_Right;
+		OutIsSelectPressed = bIsSelectPressed_Right;
+		return true;
 	}
 	return false;
 }
