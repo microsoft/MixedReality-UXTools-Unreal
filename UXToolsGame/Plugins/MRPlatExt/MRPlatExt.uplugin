@@ -16,6 +16,7 @@
 	"Installed": false,
 	"SupportedTargetPlatforms": [
 		"Win64",
+		"Android",
 		"HoloLens"
 	],
 	"Modules": [

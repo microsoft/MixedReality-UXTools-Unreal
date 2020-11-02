@@ -1,8 +1,11 @@
 #pragma once
 
+
 #include "ARTextures.h"
+#if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 #include <memory>
 #include <winrt/base.h>
+#endif
 
 
 #include "OpenXRCameraImageTexture.generated.h"
@@ -23,8 +26,10 @@ public:
 	virtual EMaterialValueType GetMaterialType() const override { return MCT_Texture2D; }
 	// End UTexture interface
 
+#if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 	/** Forces the reconstruction of the texture data and conversion from Nv12 to RGB */
 	virtual void Init(std::shared_ptr<winrt::handle> handle);
+#endif
 
 	friend class FOpenXRCameraImageResource;
 

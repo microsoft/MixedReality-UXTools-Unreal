@@ -85,6 +85,7 @@
 			"Enabled": true,
 			"WhitelistPlatforms": [
 				"Win64",
+				"Android",
 				"HoloLens"
 			]
 		}

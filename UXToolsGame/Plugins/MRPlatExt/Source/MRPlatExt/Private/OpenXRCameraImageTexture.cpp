@@ -1,5 +1,6 @@
 #include "OpenXRCameraImageTexture.h"
 
+
 #include "GlobalShader.h"
 #include "RenderUtils.h"
 #include "RHIStaticStates.h"
@@ -9,6 +10,7 @@
 #include "MediaShaders.h"
 #include "HeadMountedDisplayTypes.h"
 
+#if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 #include "Windows/AllowWindowsPlatformTypes.h"
 
 THIRD_PARTY_INCLUDES_START
@@ -20,8 +22,10 @@ THIRD_PARTY_INCLUDES_END
 
 #include "Windows/COMPointer.h"
 #include "Windows/HideWindowsPlatformTypes.h"
+#endif
 
 
+#if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 
 /** Resource class to do all of the setup work on the render thread */
 class FOpenXRCameraImageResource :
@@ -253,7 +257,7 @@ private:
 
 	const UOpenXRCameraImageTexture* Owner;
 };
-
+#endif
 
 
 UOpenXRCameraImageTexture::UOpenXRCameraImageTexture(const FObjectInitializer& ObjectInitializer)
@@ -269,9 +273,14 @@ void UOpenXRCameraImageTexture::BeginDestroy()
 
 FTextureResource* UOpenXRCameraImageTexture::CreateResource()
 {
+#if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 	return new FOpenXRCameraImageResource(this);
+#else
+	return nullptr;
+#endif
 }
 
+#if PLATFORM_WINDOWS || PLATFORM_HOLOLENS
 /** Forces the reconstruction of the texture data and conversion from Nv12 to RGB */
 void UOpenXRCameraImageTexture::Init(std::shared_ptr<winrt::handle> handle)
 {
@@ -296,3 +305,4 @@ void UOpenXRCameraImageTexture::Init(std::shared_ptr<winrt::handle> handle)
 		}
 	}
 }
+#endif
