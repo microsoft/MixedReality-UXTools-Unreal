@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #include "Engine.h"
@@ -34,6 +34,7 @@ namespace
 
 		Actor->SetRootComponent(PinchSlider);
 		Actor->SetActorLocation(TargetLocation);
+		Actor->SetActorRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 
 		return PinchSlider;
 	}
@@ -105,6 +106,35 @@ void PinchSliderSpec::Define()
 			});
 
 			FrameQueue.Enqueue([this] { TestEqual("Value has updated", Target->GetValue(), 0.75f); });
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should move in steps", [this](const FDoneDelegate& Done) {
+			FrameQueue.Enqueue([this] {
+				Target->SetUseSteppedMovement(true);
+				Hand.SetGrabbing(true);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is grabbed", Target->GetState(), EUxtSliderState::Grabbed);
+
+				Hand.Translate(FVector::RightVector * 2.0f);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider has moved to the first step", Target->GetValue(), 0.75f);
+
+				Hand.Translate(FVector::RightVector * 1.0f);
+			});
+
+			FrameQueue.Enqueue([this] {
+				TestEqual("Slider is still at the first step", Target->GetValue(), 0.75f);
+
+				Hand.Translate(FVector::RightVector * 1.0f);
+			});
+
+			FrameQueue.Enqueue([this] { TestEqual("Slider has moved to the second step", Target->GetValue(), 1.0f); });
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});

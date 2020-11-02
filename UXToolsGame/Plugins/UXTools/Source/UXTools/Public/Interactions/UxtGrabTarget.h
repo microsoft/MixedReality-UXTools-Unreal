@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -12,7 +12,7 @@
 class UUxtNearPointerComponent;
 
 UINTERFACE(BlueprintType)
-class UUxtGrabTarget : public UInterface
+class UXTOOLS_API UUxtGrabTarget : public UInterface
 {
 	GENERATED_BODY()
 };

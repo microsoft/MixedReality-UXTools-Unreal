@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -77,10 +77,10 @@ protected:
 	bool bToggleOnRelease = false;
 
 	/** Component which keeps track of the toggled state. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ToggleButton")
 	UUxtToggleStateComponent* ToggleStateComponent = nullptr;
 
 	/** Visual component to indicate the toggled state. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ToggleButton")
 	UUxtBackPlateComponent* TogglePlateComponent = nullptr;
 };

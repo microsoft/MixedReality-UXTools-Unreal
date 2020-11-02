@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -113,6 +113,18 @@ public:
 	float GetValueUpperBound() const { return ValueUpperBound; }
 	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
 	void SetValueUpperBound(float NewUpperBound);
+
+	// Use stepped movement.
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	bool GetUseSteppedMovement() const { return bUseSteppedMovement; }
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetUseSteppedMovement(bool bNewUseSteppedMovement);
+
+	// Step value.
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	int GetNumSteps() const { return NumSteps; }
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetNumSteps(int NewNumSteps);
 
 	// Smoothing.
 	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
@@ -251,10 +263,22 @@ private:
 		Category = "Pinch Slider", meta = (ClampMin = 0.0f, ClampMax = 1.0f))
 	float ValueUpperBound = 1.0f;
 
+	/** Should the slider use stepped or smooth movement. */
+	UPROPERTY(
+		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetUseSteppedMovement, BlueprintSetter = SetUseSteppedMovement,
+		Category = "Pinch Slider")
+	bool bUseSteppedMovement = false;
+
+	/** The number of steps for stepped slider movement. */
+	UPROPERTY(
+		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetNumSteps, BlueprintSetter = SetNumSteps, Category = "Pinch Slider",
+		meta = (ClampMin = 2, EditCondition = "bUseSteppedMovement"))
+	int NumSteps = 5;
+
 	/** The motion smoothing to apply to the slider. */
 	UPROPERTY(
 		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = "Pinch Slider",
-		meta = (ClampMin = 0.0f))
+		meta = (ClampMin = 0.0f, EditCondition = "!bUseSteppedMovement"))
 	float Smoothing = 10.0f;
 
 	/** The collision profile used by the slider thumb. */

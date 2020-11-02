@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -232,6 +232,6 @@ protected:
 	float FocusTimer = 0;
 
 	/** Allows derived classes to control if the icon brush can be edited. */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Button")
 	bool bCanEditIconBrush = true;
 };

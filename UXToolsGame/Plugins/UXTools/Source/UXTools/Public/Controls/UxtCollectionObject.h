@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -13,7 +13,7 @@ class UUxtPokeTarget;
 class IUxtFarTarget;
 
 UINTERFACE(BlueprintType)
-class UUxtCollectionObject : public UInterface
+class UXTOOLS_API UUxtCollectionObject : public UInterface
 {
 	GENERATED_BODY()
 };

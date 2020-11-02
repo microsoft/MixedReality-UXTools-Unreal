@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
+
 #pragma once
 
 #include "CoreMinimal.h"
@@ -116,7 +117,7 @@ private:
 	FVector GetClosestAnchorToTarget(FVector EndPosition) const;
 
 	/** Actor root component */
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Tooltip")
 	USceneComponent* SceneRoot;
 
 	/** The actual widget component that gets created.*/

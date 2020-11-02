@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -28,17 +28,35 @@ public:
 	//
 	// Getters and setters.
 
-	// Initial value.
+	// Value.
 	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
-	float GetInitialValue() const { return InitialValue; }
+	float GetValue() const { return Value; }
 	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
-	void SetInitialValue(float NewInitialValue);
+	void SetValue(float NewValue);
+
+	// Minimum value.
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	float GetMinValue() const { return MinValue; }
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetMinValue(float NewMinValue);
+
+	// Maximum value.
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	float GetMaxValue() const { return MaxValue; }
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetMaxValue(float NewMaxValue);
 
 	// Track length.
 	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
 	float GetTrackLength() const { return TrackLength; }
 	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
 	void SetTrackLength(float NewTrackLength);
+
+	// Step with tick marks.
+	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	bool GetStepWithTickMarks() const { return bStepWithTickMarks; }
+	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	void SetStepWithTickMarks(bool bNewStepWithTickMarks);
 
 	// Title.
 	UFUNCTION(BlueprintGetter, Category = "Slider Text")
@@ -136,6 +154,13 @@ public:
 	UFUNCTION(BlueprintSetter, Category = "Slider Thumb Scaling")
 	void SetThumbScaleCurve(UCurveFloat* NewThumbScaleCurve);
 
+	//
+	// Events
+
+	/** Event raised when the slider's value changes. */
+	UFUNCTION(BlueprintNativeEvent)
+	void OnSliderUpdateValue(float NewValue);
+
 protected:
 	//
 	// AActor interface.
@@ -204,19 +229,32 @@ protected:
 
 private:
 	//
+	// Private interface.
+
+	float ToNormalizedValue(float RawValue) const;
+	float FromNormalizedValue(float NormalizedValue) const;
+
+	//
 	// Internal state updates.
 
-	void UpdateVisuals();
-	void UpdateText(float Value);
+	void UpdateTrack();
+	void UpdateTickMarks();
+	void UpdateText();
 
 	//
 	// Configurable properties.
 
-	/** The slider's initial value, between 0-1. */
-	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetInitialValue, BlueprintSetter = SetInitialValue, Category = "Pinch Slider",
-		meta = (ClampMin = 0.0f, ClampMax = 1.0f))
-	float InitialValue = 0.0f;
+	/** The slider's initial value. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = GetValue, BlueprintSetter = SetValue, Category = "Pinch Slider")
+	float Value = 0.0f;
+
+	/** The slider's minimum value. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = GetMinValue, BlueprintSetter = SetMinValue, Category = "Pinch Slider")
+	float MinValue = 0.0f;
+
+	/** The slider's maximum value. */
+	UPROPERTY(EditAnywhere, BlueprintGetter = GetMaxValue, BlueprintSetter = SetMaxValue, Category = "Pinch Slider")
+	float MaxValue = 1.0f;
 
 	/** The length of the slider's track. */
 	UPROPERTY(
@@ -224,10 +262,17 @@ private:
 		meta = (ClampMin = 0.0f))
 	float TrackLength = 50.0f;
 
+	/** Use stepped movement and step with the tick marks. Requires at least two tick marks. */
+	UPROPERTY(
+		EditAnywhere, BlueprintGetter = GetStepWithTickMarks, BlueprintSetter = SetStepWithTickMarks, Category = "Pinch Slider",
+		meta = (EditCondition = "NumTickMarks >= 2"))
+	bool bStepWithTickMarks = false;
+
 	/** The title text. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = GetTitle, BlueprintSetter = SetTitle, Category = "Slider Text")
 	FText Title = NSLOCTEXT("UxtPinchSliderActor", "TitleDefault", "Title");
 
+	/** The number of decimal places to show in the value text. */
 	UPROPERTY(
 		EditAnywhere, BlueprintGetter = GetValueTextDecimalPlaces, BlueprintSetter = SetValueTextDecimalPlaces, Category = "Slider Text",
 		meta = (ClampMin = 0))
@@ -241,7 +286,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintGetter = GetMoveTextWithThumb, BlueprintSetter = SetMoveTextWithThumb, Category = "Slider Text")
 	bool bMoveTextWithThumb = true;
 
-	/** The number of tick marks along the track. */
+	/** The number of tick marks along the track. Must be at least two if using Step With Tick Marks. */
 	UPROPERTY(
 		EditAnywhere, BlueprintGetter = GetNumTickMarks, BlueprintSetter = SetNumTickMarks, Category = "Slider Tick Marks",
 		meta = (ClampMin = 0))
@@ -295,9 +340,6 @@ private:
 
 	//
 	// Private properties.
-
-	/** The slider's previous value */
-	float PreviousValue;
 
 	/** The scale timeline callback. */
 	FOnTimelineFloat ScaleTimelineCallback;

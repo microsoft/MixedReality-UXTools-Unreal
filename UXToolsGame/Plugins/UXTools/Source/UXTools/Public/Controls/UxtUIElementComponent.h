@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -42,20 +42,20 @@ public:
 	UUxtUIElementComponent() = default;
 
 	/** Get the element's visibility. This does not reflect if the element is visible in the scene. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Get UI Visibility Self")
+	UFUNCTION(BlueprintCallable, DisplayName = "Get UI Visibility Self", Category = "UI Element")
 	EUxtUIElementVisibility GetUIVisibilitySelf() const;
 
 	/** Get the element's visibility in the scene. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Get UI Visibility in Hierarchy")
+	UFUNCTION(BlueprintCallable, DisplayName = "Get UI Visibility in Hierarchy", Category = "UI Element")
 	EUxtUIElementVisibility GetUIVisibilityInHierarchy() const;
 
 	/** Set the element's visibility. The element will not be visible in the scene if it's parent is hidden. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Set UI Visibility")
+	UFUNCTION(BlueprintCallable, DisplayName = "Set UI Visibility", Category = "UI Element")
 	void SetUIVisibility(EUxtUIElementVisibility NewVisibility);
 
 	/** Refresh the element's visibility. This is only necessary after changing the element's parent actor when this is not the root
 	 * component of the actor. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Refresh UI Element")
+	UFUNCTION(BlueprintCallable, DisplayName = "Refresh UI Element", Category = "UI Element")
 	void RefreshUIElement();
 
 	/** Event raised when the element is shown. */

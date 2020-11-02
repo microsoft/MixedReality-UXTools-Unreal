@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
 #pragma once
@@ -22,7 +22,7 @@ enum class EUxtPokeBehaviour : uint8
 };
 
 UINTERFACE(BlueprintType)
-class UUxtPokeTarget : public UInterface
+class UXTOOLS_API UUxtPokeTarget : public UInterface
 {
 	GENERATED_BODY()
 };
