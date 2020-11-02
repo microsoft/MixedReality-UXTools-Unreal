@@ -66,9 +66,9 @@ FVector FUxtAffordanceConfig::GetBoundsLocation() const
 		return FVector(0, 0, 0);
 
 	case EUxtAffordancePlacement::FaceFront:
-		return FVector(1, 0, 0);
-	case EUxtAffordancePlacement::FaceBack:
 		return FVector(-1, 0, 0);
+	case EUxtAffordancePlacement::FaceBack:
+		return FVector(1, 0, 0);
 	case EUxtAffordancePlacement::FaceRight:
 		return FVector(0, 1, 0);
 	case EUxtAffordancePlacement::FaceLeft:
@@ -79,21 +79,21 @@ FVector FUxtAffordanceConfig::GetBoundsLocation() const
 		return FVector(0, 0, -1);
 
 	case EUxtAffordancePlacement::EdgeFrontRight:
-		return FVector(1, 1, 0);
-	case EUxtAffordancePlacement::EdgeFrontLeft:
-		return FVector(1, -1, 0);
-	case EUxtAffordancePlacement::EdgeFrontTop:
-		return FVector(1, 0, 1);
-	case EUxtAffordancePlacement::EdgeFrontBottom:
-		return FVector(1, 0, -1);
-	case EUxtAffordancePlacement::EdgeBackRight:
 		return FVector(-1, 1, 0);
-	case EUxtAffordancePlacement::EdgeBackLeft:
+	case EUxtAffordancePlacement::EdgeFrontLeft:
 		return FVector(-1, -1, 0);
-	case EUxtAffordancePlacement::EdgeBackTop:
+	case EUxtAffordancePlacement::EdgeFrontTop:
 		return FVector(-1, 0, 1);
-	case EUxtAffordancePlacement::EdgeBackBottom:
+	case EUxtAffordancePlacement::EdgeFrontBottom:
 		return FVector(-1, 0, -1);
+	case EUxtAffordancePlacement::EdgeBackRight:
+		return FVector(1, 1, 0);
+	case EUxtAffordancePlacement::EdgeBackLeft:
+		return FVector(1, -1, 0);
+	case EUxtAffordancePlacement::EdgeBackTop:
+		return FVector(1, 0, 1);
+	case EUxtAffordancePlacement::EdgeBackBottom:
+		return FVector(1, 0, -1);
 	case EUxtAffordancePlacement::EdgeRightTop:
 		return FVector(0, 1, 1);
 	case EUxtAffordancePlacement::EdgeRightBottom:
@@ -104,21 +104,21 @@ FVector FUxtAffordanceConfig::GetBoundsLocation() const
 		return FVector(0, -1, -1);
 
 	case EUxtAffordancePlacement::CornerFrontRightTop:
-		return FVector(1, 1, 1);
-	case EUxtAffordancePlacement::CornerFrontRightBottom:
-		return FVector(1, 1, -1);
-	case EUxtAffordancePlacement::CornerFrontLeftTop:
-		return FVector(1, -1, 1);
-	case EUxtAffordancePlacement::CornerFrontLeftBottom:
-		return FVector(1, -1, -1);
-	case EUxtAffordancePlacement::CornerBackRightTop:
 		return FVector(-1, 1, 1);
-	case EUxtAffordancePlacement::CornerBackRightBottom:
+	case EUxtAffordancePlacement::CornerFrontRightBottom:
 		return FVector(-1, 1, -1);
-	case EUxtAffordancePlacement::CornerBackLeftTop:
+	case EUxtAffordancePlacement::CornerFrontLeftTop:
 		return FVector(-1, -1, 1);
-	case EUxtAffordancePlacement::CornerBackLeftBottom:
+	case EUxtAffordancePlacement::CornerFrontLeftBottom:
 		return FVector(-1, -1, -1);
+	case EUxtAffordancePlacement::CornerBackRightTop:
+		return FVector(1, 1, 1);
+	case EUxtAffordancePlacement::CornerBackRightBottom:
+		return FVector(1, 1, -1);
+	case EUxtAffordancePlacement::CornerBackLeftTop:
+		return FVector(1, -1, 1);
+	case EUxtAffordancePlacement::CornerBackLeftBottom:
+		return FVector(1, -1, -1);
 	}
 
 	return FVector::ZeroVector;
@@ -126,68 +126,7 @@ FVector FUxtAffordanceConfig::GetBoundsLocation() const
 
 FRotator FUxtAffordanceConfig::GetBoundsRotation() const
 {
-	switch (Placement)
-	{
-	case EUxtAffordancePlacement::Center:
-		return FRotator(0, 0, 0);
-
-	case EUxtAffordancePlacement::FaceFront:
-		return FRotator(0, 0, 0);
-	case EUxtAffordancePlacement::FaceBack:
-		return FRotator(0, 180, 0);
-	case EUxtAffordancePlacement::FaceRight:
-		return FRotator(0, 90, 0);
-	case EUxtAffordancePlacement::FaceLeft:
-		return FRotator(0, 270, 0);
-	case EUxtAffordancePlacement::FaceTop:
-		return FRotator(90, 0, 0);
-	case EUxtAffordancePlacement::FaceBottom:
-		return FRotator(270, 0, 0);
-
-	case EUxtAffordancePlacement::EdgeFrontRight:
-		return FRotator(0, 0, 0);
-	case EUxtAffordancePlacement::EdgeFrontLeft:
-		return FRotator(0, 270, 0);
-	case EUxtAffordancePlacement::EdgeFrontTop:
-		return FRotator(90, 0, 90);
-	case EUxtAffordancePlacement::EdgeFrontBottom:
-		return FRotator(0, 0, 90);
-	case EUxtAffordancePlacement::EdgeBackRight:
-		return FRotator(0, 90, 0);
-	case EUxtAffordancePlacement::EdgeBackLeft:
-		return FRotator(0, 180, 0);
-	case EUxtAffordancePlacement::EdgeBackTop:
-		return FRotator(180, 0, 90);
-	case EUxtAffordancePlacement::EdgeBackBottom:
-		return FRotator(270, 0, 90);
-	case EUxtAffordancePlacement::EdgeRightTop:
-		return FRotator(90, 0, 0);
-	case EUxtAffordancePlacement::EdgeRightBottom:
-		return FRotator(270, 0, 0);
-	case EUxtAffordancePlacement::EdgeLeftTop:
-		return FRotator(90, 90, 270);
-	case EUxtAffordancePlacement::EdgeLeftBottom:
-		return FRotator(270, 0, 180);
-
-	case EUxtAffordancePlacement::CornerFrontRightTop:
-		return FRotator(0, 0, 0);
-	case EUxtAffordancePlacement::CornerFrontRightBottom:
-		return FRotator(0, 0, 90);
-	case EUxtAffordancePlacement::CornerFrontLeftTop:
-		return FRotator(0, 270, 0);
-	case EUxtAffordancePlacement::CornerFrontLeftBottom:
-		return FRotator(0, 270, 90);
-	case EUxtAffordancePlacement::CornerBackRightTop:
-		return FRotator(0, 90, 0);
-	case EUxtAffordancePlacement::CornerBackRightBottom:
-		return FRotator(0, 90, 90);
-	case EUxtAffordancePlacement::CornerBackLeftTop:
-		return FRotator(0, 180, 0);
-	case EUxtAffordancePlacement::CornerBackLeftBottom:
-		return FRotator(0, 180, 90);
-	}
-
-	return FRotator::ZeroRotator;
+	return FRotator::MakeFromEuler(Rotation);
 }
 
 EUxtAffordanceKind FUxtAffordanceConfig::GetAffordanceKind() const
