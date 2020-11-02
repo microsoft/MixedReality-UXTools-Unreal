@@ -97,8 +97,7 @@
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
 				"Win64",
-				"HoloLens",
-				"Android"
+				"HoloLens"
 			]
 		},
 		{
