@@ -51,13 +51,15 @@ If you're already familiar with Mixed Reality development in Unreal, you can fin
 
 # Example maps
 
-If you want to explore the different UXT features or want a reference for how to use them, we recommend having a look at the example maps contained in the _UX Tools Game_ (/UXToolsGame) in this repository. For that you should:
+If you want to explore the different UXT features or want a reference for how to use them, we recommend having a look at the example maps contained in the _UX Tools Examples_ plugin (/UXToolsGame/Plugins/UXToolsExamples). You can copy the examples plugin (along with the UXTools plugin) into 'Plugins' subfolder of your own project or you can simply try out the _UX Tools Game_ project (/UXToolsGame) in this repository. For that you should:
 
 1. [Clone](https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop) this repository.
 1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) the latest 'public/_version_.x' branch.
     * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. _release/0.10.0_) marked as such in GitHub.
 
-You can now open the _UX Tools Game_ (/UXToolsGame) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub.
+You can now open the _UX Tools Game_ (/UXToolsGame) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub. You can also copy the examples (/UXToolsGame/Plugins/UXToolsExamples) into the 'Plugins' folder in your own project and use the pre-made elements as a base for your own Mixed Reality experience.
+
+Please note that the example content might change significantly between releases. Please make sure to always run the examples with a matching version of the UX Tools Plugin as there might be breaking changes in the example code.
 
 # Packaged UX Tools Game
 

@@ -22,7 +22,7 @@ Near Menu blueprints are designed to demonstrate how to use UX Tool's various co
 
 ## Example level
 
-There are some examples of various near menus within the `\Content\UXToolsGame\Examples\NearMenu\NearMenuExample.umap` level.
+There are some examples of various near menus within the `\UXToolsGame\Plugins\UXToolsExamples\Content\NearMenu\NearMenuExample.umap` level.
 
 ## Creating a near menu
 When creating a near menu for your application it is recommended to copy the near menu you need from the above Blueprints into your project to derive from.

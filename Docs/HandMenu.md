@@ -2,7 +2,7 @@
 
 Hand menus allow users to quickly bring up hand-attached UI for frequently used functions. To prevent false activation while interacting with other objects, hand menu provides options such as 'Require Flat Hand'. It is recommended to use these options to prevent unwanted activation.
 
-There are some examples of various hand menus in `\Content\UXToolsGame\Examples\HandMenu\Blueprints`.
+There are some examples of various hand menus in `\UXToolsGame\Plugins\UXToolsExamples\Content\HandMenu\Blueprints`.
 
 ## Creating a hand menu
 
