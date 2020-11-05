@@ -1,6 +1,0 @@
-{
-  "file_format_version": "1.0.0",
-  "runtime": {
-    "library_path": "./Microsoft.Holographic.AppRemoting.OpenXr.dll"
-  }
-}
