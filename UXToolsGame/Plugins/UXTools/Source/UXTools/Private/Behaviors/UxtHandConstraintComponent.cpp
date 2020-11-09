@@ -127,7 +127,7 @@ const FQuat& UUxtHandConstraintComponent::GetGoalRotation() const
 	return GoalRotation;
 }
 
-bool UUxtHandConstraintComponent::IsHandUsableForConstraint(EControllerHand NewHand) const
+bool UUxtHandConstraintComponent::IsHandUsableForConstraint(EControllerHand NewHand)
 {
 	// Accept by default
 	return true;

@@ -11,7 +11,7 @@ In this example we are going to create a basic three button hand menu, similar t
 1. The `UxtUIElementComponent` and the `UxtPalmUpConstraintComponent` handle the majority of the work for a simple hand menu.
     * Create a new blueprint actor, in this example we will call it `BP_ExampleHandMenu`.
     * Add a `UxtUIElementComponent` and set it as the root component for the actor.
-    * Add a `UxtPalmUpConstraintComponent` and set _Require Flat Hand_ to true to prevent false activations.
+    * Add a `UxtPalmUpConstraintComponent` and set _Require Flat Hand_ and _Require Gaze_ to true to prevent false activations.
 
     ![CreateActor](Images/HandMenu/Example_CreateActor.png)
 
@@ -38,7 +38,7 @@ In this example we are going to create a basic three button hand menu, similar t
 
     ![EventGraph](Images/HandMenu/Example_EventGraph.png)
 
-5. To test out the menu in editor, press the _Home_ key while moving a hand to put it in the flat palm pose.
+5. To test out the menu in editor, press the _Home_ key while moving a hand to put it in the flat palm pose and move the hand towards the center of the screen to trigger the gaze requirement.
 
     ![TestInEditor](Images/HandMenu/Example_TestInEditor.png)
 

@@ -24,6 +24,10 @@ Unreal 4.25 required.
 UX Tools common content and example scenes were moved to a separate plugin to make it easier to incorporate them
 as a starting point for new projects.
 
+## UxtPalmUpConstraintComponent
+
+The palm-up constraint has gained the _Require Gaze_ option to ensure the user is deliberately trying to use the constraint and help prevent false activations. This is particularly useful for world-locking hand menus as it prevents the menu from unintentionally re-attaching to the hand.
+
 ### UxtPinchSliderActor
 
 The pinch slider actor has gained a number of quality of life improvements. These include:
@@ -37,6 +41,10 @@ The pinch slider actor has gained a number of quality of life improvements. Thes
 The pinch slider component now has the option to use stepped movement. This can be configured in the advanced settings for the component.
 
 ## Breaking changes
+
+## UxtHandConstraintComponent
+
+`UUxtHandConstraintComponent::IsHandUsableForConstraint()` is now a non-const member function.
 
 ### UxtPinchSliderActor
 

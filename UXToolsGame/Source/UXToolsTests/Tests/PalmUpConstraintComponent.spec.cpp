@@ -200,6 +200,61 @@ void PalmUpConstraintComponentSpec::Define()
 				Done.Execute();
 			});
 		});
+
+		LatentIt("should require gaze to activate", [this](const FDoneDelegate& Done) {
+			UxtTestUtils::GetTestHandTracker().SetTracked(true);
+			UxtTestUtils::GetTestHandTracker().SetAllJointRadii(1.5f);
+			UxtTestUtils::GetTestHandTracker().SetAllJointOrientations(FVector::DownVector.ToOrientationQuat());
+
+			PalmUpConstraint->Zone = EUxtHandConstraintZone::AboveFingerTips; // To avoid conflicts with the joints used for the hand plane.
+			PalmUpConstraint->Hand = EControllerHand::Left;
+			PalmUpConstraint->OffsetMode = EUxtHandConstraintOffsetMode::HandRotation;
+			PalmUpConstraint->MaxPalmAngle = 80.0f;
+			PalmUpConstraint->bRequireGaze = true;
+			PalmUpConstraint->HeadGazeProximityThreshold = 1.0f;
+
+			const FVector GazeLocation(100.0f, 0.0f, 0.0f);
+			const FVector NoGazeLocation(100.0f, 10.0f, 0.0f);
+
+			// Start with no gaze
+			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NoGazeLocation);
+			UxtTestUtils::GetTestHandTracker().SetJointPosition(
+				NoGazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EUxtHandJoint::IndexMetacarpal);
+			UxtTestUtils::GetTestHandTracker().SetJointPosition(
+				NoGazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EUxtHandJoint::LittleMetacarpal);
+
+			FrameQueue.Enqueue([this, GazeLocation]() {
+				// Not active with no gaze
+				TestFalse("Hand bounds are valid", (bool)PalmUpConstraint->GetHandBounds().IsValid);
+				TestFalse("Constraint is active", PalmUpConstraint->IsConstraintActive());
+
+				// Move into head gaze
+				UxtTestUtils::GetTestHandTracker().SetAllJointPositions(GazeLocation);
+				UxtTestUtils::GetTestHandTracker().SetJointPosition(
+					GazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EUxtHandJoint::IndexMetacarpal);
+				UxtTestUtils::GetTestHandTracker().SetJointPosition(
+					GazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EUxtHandJoint::LittleMetacarpal);
+			});
+			FrameQueue.Enqueue([this, NoGazeLocation]() {
+				// Active with gaze
+				TestTrue("Hand bounds are valid", (bool)PalmUpConstraint->GetHandBounds().IsValid);
+				TestTrue("Constraint is active", PalmUpConstraint->IsConstraintActive());
+
+				// Move out of head gaze
+				UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NoGazeLocation);
+				UxtTestUtils::GetTestHandTracker().SetJointPosition(
+					NoGazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EUxtHandJoint::IndexMetacarpal);
+				UxtTestUtils::GetTestHandTracker().SetJointPosition(
+					NoGazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EUxtHandJoint::LittleMetacarpal);
+			});
+			FrameQueue.Enqueue([this, Done]() {
+				// Remains active after moving out of gaze
+				TestTrue("Hand bounds are valid", (bool)PalmUpConstraint->GetHandBounds().IsValid);
+				TestTrue("Constraint is active", PalmUpConstraint->IsConstraintActive());
+
+				Done.Execute();
+			});
+		});
 	});
 }
 
