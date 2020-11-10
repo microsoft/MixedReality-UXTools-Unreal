@@ -5,6 +5,7 @@
 
 #include "UxtExamplesVersion.h"
 
+#include "Engine/World.h"
 #include "Internationalization/Text.h"
 
 FText UUxtExamplesInfo::CommitSHA(const UObject* WorldContext)
