@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- init section is always evaluated once per architecture -->
+	<init>
+		<log text="UXToolsAdditions init"/>
+	</init>
+
+	<!-- optional updates applied to AndroidManifest.xml -->
+	<androidManifestUpdates>
+		<!-- update the GameActivity activity -->
+		<loopElements tag="activity">
+			<setStringFromAttribute result="activityName" tag="$" name="android:name"/>
+			<setBoolIsEqual result="bGameActivity" arg1="$S(activityName)" arg2="com.epicgames.ue4.GameActivity"/>
+			<if condition="bGameActivity">
+				<true>
+					<!-- add my category to intent-filter -->
+					<setElement result="intentInfo" value="category"/>
+					<addAttribute tag="$intentInfo" name="android:name" value="com.oculus.intent.category.VR"/>
+					<addElement tag="intent-filter" name="intentInfo"/>
+				</true>
+			</if>
+		</loopElements>
+	</androidManifestUpdates>
+</root>

@@ -97,8 +97,8 @@
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
 				"Win64",
-				"Android",
-				"HoloLens"
+				"HoloLens",
+				"Android"
 			]
 		},
 		{
@@ -118,6 +118,10 @@
 				"Win64",
 				"Android"
 			]
+		},
+		{
+			"Name": "XRVisualization",
+			"Enabled": true
 		}
 	]
 }
