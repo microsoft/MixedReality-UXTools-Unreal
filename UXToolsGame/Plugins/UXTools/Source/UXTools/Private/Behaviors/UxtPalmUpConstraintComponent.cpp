@@ -14,29 +14,29 @@ namespace
 {
 	bool GetActivationPoint(EControllerHand Hand, EUxtHandConstraintZone Zone, FVector& OutActivationPoint)
 	{
-		EUxtHandJoint ReferenceJoint1 = EUxtHandJoint::Palm;
-		EUxtHandJoint ReferenceJoint2 = EUxtHandJoint::Palm;
+		EHandKeypoint ReferenceJoint1 = EHandKeypoint::Palm;
+		EHandKeypoint ReferenceJoint2 = EHandKeypoint::Palm;
 
 		switch (Zone)
 		{
 		case EUxtHandConstraintZone::UlnarSide:
-			ReferenceJoint1 = EUxtHandJoint::LittleMetacarpal;
-			ReferenceJoint2 = EUxtHandJoint::LittleMetacarpal;
+			ReferenceJoint1 = EHandKeypoint::LittleMetacarpal;
+			ReferenceJoint2 = EHandKeypoint::LittleMetacarpal;
 			break;
 
 		case EUxtHandConstraintZone::RadialSide:
-			ReferenceJoint1 = EUxtHandJoint::IndexMetacarpal;
-			ReferenceJoint2 = EUxtHandJoint::ThumbProximal;
+			ReferenceJoint1 = EHandKeypoint::IndexMetacarpal;
+			ReferenceJoint2 = EHandKeypoint::ThumbProximal;
 			break;
 
 		case EUxtHandConstraintZone::AboveFingerTips:
-			ReferenceJoint1 = EUxtHandJoint::MiddleTip;
-			ReferenceJoint2 = EUxtHandJoint::RingTip;
+			ReferenceJoint1 = EHandKeypoint::MiddleTip;
+			ReferenceJoint2 = EHandKeypoint::RingTip;
 			break;
 
 		case EUxtHandConstraintZone::BelowWrist:
-			ReferenceJoint1 = EUxtHandJoint::Wrist;
-			ReferenceJoint2 = EUxtHandJoint::Wrist;
+			ReferenceJoint1 = EHandKeypoint::Wrist;
+			ReferenceJoint2 = EHandKeypoint::Wrist;
 			break;
 
 		default:
@@ -65,9 +65,9 @@ namespace
 		FQuat Orientation;
 		float Radius;
 
-		if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Wrist, Orientation, WristPosition, Radius) ||
-			!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexMetacarpal, Orientation, IndexPosition, Radius) ||
-			!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::LittleMetacarpal, Orientation, LittlePosition, Radius))
+		if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::Wrist, Orientation, WristPosition, Radius) ||
+			!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::IndexMetacarpal, Orientation, IndexPosition, Radius) ||
+			!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::LittleMetacarpal, Orientation, LittlePosition, Radius))
 		{
 			return false;
 		}

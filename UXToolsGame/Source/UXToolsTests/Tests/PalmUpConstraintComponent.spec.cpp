@@ -219,9 +219,9 @@ void PalmUpConstraintComponentSpec::Define()
 			// Start with no gaze
 			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NoGazeLocation);
 			UxtTestUtils::GetTestHandTracker().SetJointPosition(
-				NoGazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EUxtHandJoint::IndexMetacarpal);
+				NoGazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EHandKeypoint::IndexMetacarpal);
 			UxtTestUtils::GetTestHandTracker().SetJointPosition(
-				NoGazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EUxtHandJoint::LittleMetacarpal);
+				NoGazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EHandKeypoint::LittleMetacarpal);
 
 			FrameQueue.Enqueue([this, GazeLocation]() {
 				// Not active with no gaze
@@ -231,9 +231,9 @@ void PalmUpConstraintComponentSpec::Define()
 				// Move into head gaze
 				UxtTestUtils::GetTestHandTracker().SetAllJointPositions(GazeLocation);
 				UxtTestUtils::GetTestHandTracker().SetJointPosition(
-					GazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EUxtHandJoint::IndexMetacarpal);
+					GazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EHandKeypoint::IndexMetacarpal);
 				UxtTestUtils::GetTestHandTracker().SetJointPosition(
-					GazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EUxtHandJoint::LittleMetacarpal);
+					GazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EHandKeypoint::LittleMetacarpal);
 			});
 			FrameQueue.Enqueue([this, NoGazeLocation]() {
 				// Active with gaze
@@ -243,9 +243,9 @@ void PalmUpConstraintComponentSpec::Define()
 				// Move out of head gaze
 				UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NoGazeLocation);
 				UxtTestUtils::GetTestHandTracker().SetJointPosition(
-					NoGazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EUxtHandJoint::IndexMetacarpal);
+					NoGazeLocation + FVector(0, -1, 1), EControllerHand::AnyHand, EHandKeypoint::IndexMetacarpal);
 				UxtTestUtils::GetTestHandTracker().SetJointPosition(
-					NoGazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EUxtHandJoint::LittleMetacarpal);
+					NoGazeLocation + FVector(0, 1, 1), EControllerHand::AnyHand, EHandKeypoint::LittleMetacarpal);
 			});
 			FrameQueue.Enqueue([this, Done]() {
 				// Remains active after moving out of gaze
