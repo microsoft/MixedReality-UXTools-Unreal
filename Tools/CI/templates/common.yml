@@ -27,6 +27,23 @@ steps:
     filePath: $(ToolsDir)\scripts\install_package.ps1
     arguments: -feedName ue4-internal -versionFile $(UXTSourceDir)\EditorVersion.json -destination $(Agent.ToolsDirectory)\ue4 -artifactTool $(Agent.WorkFolder)\ArtifactTool_win10-x64_0.2.128\artifacttool.exe -pipelineVariableName UnrealEngine -PAT $(UE4FeedPAT) -RemovePackagesOlderThanDays 14 -IgnoreCleanUpErrors $false
 
+- powershell: |
+    Set-Location "$(UXTSourceDir)"
+    $commit = & git rev-parse HEAD
+    $path = "$(UXTSourceDir)/UXToolsGame/Plugins/UXToolsExamples/Source/UXToolsExamples/Private/UxtExamplesVersion.h"
+    $content = @((Get-Content -Path $path) | ForEach-Object {
+        if ($_ -match "#define\s+UXTOOLSEXAMPLES_COMMIT_SHA")
+        {
+            "#define UXTOOLSEXAMPLES_COMMIT_SHA `"$commit`""
+        }
+        else
+        {
+            $_
+        }
+    }) -join "`n"
+    $content | Set-Content -Path $path
+  displayName: 'Set UXTools Examples internal version information'
+
 - task: PowerShell@2
   inputs:
     filePath: $(UXTSourceDir)\Tools\scripts\BuildPlugin.ps1

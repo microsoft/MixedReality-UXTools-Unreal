@@ -90,7 +90,7 @@ public:
 	 * If the hand is rejected the constraint will be deactivated.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Hand Constraint")
-	virtual bool IsHandUsableForConstraint(EControllerHand NewHand) const;
+	virtual bool IsHandUsableForConstraint(EControllerHand NewHand);
 
 public:
 	/**

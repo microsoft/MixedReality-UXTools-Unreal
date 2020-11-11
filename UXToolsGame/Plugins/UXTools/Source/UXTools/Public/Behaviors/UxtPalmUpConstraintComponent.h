@@ -19,7 +19,7 @@ class UXTOOLS_API UUxtPalmUpConstraintComponent : public UUxtHandConstraintCompo
 	GENERATED_BODY()
 
 public:
-	virtual bool IsHandUsableForConstraint(EControllerHand NewHand) const override;
+	virtual bool IsHandUsableForConstraint(EControllerHand NewHand) override;
 
 public:
 	/**
@@ -27,7 +27,7 @@ public:
 	 * If the angle exceeds the limit the hand is not used.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PalmUp Constraint", meta = (ClampMin = "0.0", ClampMax = "90.0"))
-	float MaxPalmAngle = 80.0f;
+	float MaxPalmAngle = 75.0f;
 
 	/**
 	 * If true then the hand needs to be flat to be accepted.
@@ -41,4 +41,32 @@ public:
 		EditAnywhere, BlueprintReadWrite, Category = "PalmUp Constraint",
 		meta = (EditCondition = "bRequireFlatHand", ClampMin = "0.0", ClampMax = "90.0"))
 	float MaxFlatHandAngle = 45.0f;
+
+	/**
+	 * If true then the user must be looking at their hand to be accepted.
+	 * Head gaze will be used if an eye tracker is not available.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PalmUp Constraint")
+	bool bRequireGaze = false;
+
+	/**
+	 * The maximum distance between the eye gaze location on the hand plane and the reference point to accept the gaze.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PalmUp Constraint", meta = (EditCondition = "bRequireGaze", ClampMin = "0.0"))
+	float EyeGazeProximityThreshold = 7.5f;
+
+	/**
+	 * The maximum distance between the head gaze location on the hand plane and the reference point to accept the gaze.
+	 * Only used if eye gaze isn't available.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PalmUp Constraint", meta = (EditCondition = "bRequireGaze", ClampMin = "0.0"))
+	float HeadGazeProximityThreshold = 15.0f;
+
+private:
+	bool IsPalmUp(const FTransform& HeadPose, const FVector& PalmLocation, const FVector& PalmUpVector) const;
+	bool IsHandFlat(EControllerHand NewHand, const FVector& PalmLocation, const FVector& PalmUpVector) const;
+	bool HasEyeGaze(EControllerHand NewHand, const FTransform& HeadPose, const FVector& PalmLocation) const;
+
+	/** Cache the gaze trigger so it only needs to be met to activate the constraint. */
+	bool bGazeTriggered = false;
 };

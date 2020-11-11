@@ -12,7 +12,7 @@ public class UXTools : ModuleRules
 		// Required to avoid errors about undefined preprocessor macros (C4668) when building DirectXMath.h
 		bEnableUndefinedIdentifierWarnings = false;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "AugmentedReality", "LiveLinkInterface", "RenderCore", "ProceduralMeshComponent" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "AugmentedReality", "LiveLinkInterface", "RenderCore", "ProceduralMeshComponent", "EyeTracker" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "UMG", "RHI" });
 

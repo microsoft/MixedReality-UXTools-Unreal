@@ -2,7 +2,7 @@
 
 Hand menus allow users to quickly bring up hand-attached UI for frequently used functions. To prevent false activation while interacting with other objects, hand menu provides options such as 'Require Flat Hand'. It is recommended to use these options to prevent unwanted activation.
 
-There are some examples of various hand menus in `\Content\UXToolsGame\Examples\HandMenu\Blueprints`.
+There are some examples of various hand menus in `\UXToolsGame\Plugins\UXToolsExamples\Content\HandMenu\Blueprints`.
 
 ## Creating a hand menu
 
@@ -11,7 +11,7 @@ In this example we are going to create a basic three button hand menu, similar t
 1. The `UxtUIElementComponent` and the `UxtPalmUpConstraintComponent` handle the majority of the work for a simple hand menu.
     * Create a new blueprint actor, in this example we will call it `BP_ExampleHandMenu`.
     * Add a `UxtUIElementComponent` and set it as the root component for the actor.
-    * Add a `UxtPalmUpConstraintComponent` and set _Require Flat Hand_ to true to prevent false activations.
+    * Add a `UxtPalmUpConstraintComponent` and set _Require Flat Hand_ and _Require Gaze_ to true to prevent false activations.
 
     ![CreateActor](Images/HandMenu/Example_CreateActor.png)
 
@@ -38,7 +38,7 @@ In this example we are going to create a basic three button hand menu, similar t
 
     ![EventGraph](Images/HandMenu/Example_EventGraph.png)
 
-5. To test out the menu in editor, press the _Home_ key while moving a hand to put it in the flat palm pose.
+5. To test out the menu in editor, press the _Home_ key while moving a hand to put it in the flat palm pose and move the hand towards the center of the screen to trigger the gaze requirement.
 
     ![TestInEditor](Images/HandMenu/Example_TestInEditor.png)
 

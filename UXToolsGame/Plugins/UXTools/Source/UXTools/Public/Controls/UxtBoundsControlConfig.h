@@ -101,6 +101,10 @@ struct UXTOOLS_API FUxtAffordanceConfig
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
 	EUxtAffordancePlacement Placement = EUxtAffordancePlacement::Center;
 
+	/** The Euler orientation of the affordance. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	FVector Rotation = FVector::ZeroVector;
+
 	/** Action to perform when the affordance is grabbed. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
 	EUxtAffordanceAction Action = EUxtAffordanceAction::Resize;

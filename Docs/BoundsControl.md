@@ -49,4 +49,4 @@ _Locked Axes_ flags restrict actions in the local space of the bounds control. F
 
 At runtime a separate actor is created for displaying affordances. Each affordance is a StaticMesh component on the BoundsControlActor. The mesh used for each kind of affordance (Corner, Edge, Face, Center) can be changed on the bounds control component (`Corner Affordance Mesh` etc.).
 
-When creating custom affordance meshes they should by default be oriented in the _forward_, _right_, _up_ direction. Each instance is then automatically rotated to match its placement on the bounding box. It is recommended to use simple box collision primitives to make affordances grabbable.
+When creating custom affordance meshes you can fine tune the orientation of each affordance by duplicating one of the preset layouts and modifying the _Rotation_ properties. It is recommended to use simple box collision primitives to make affordances grabbable.
