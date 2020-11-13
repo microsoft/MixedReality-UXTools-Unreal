@@ -78,9 +78,15 @@ bool FUxtDefaultHandTracker::GetJointState(
 	const FXRMotionControllerData& HandData = (Hand == EControllerHand::Left ? ControllerData_Left : ControllerData_Right);
 	if (HandData.bValid)
 	{
-		OutOrientation = HandData.HandKeyRotations[(int32)Joint];
-		OutPosition = HandData.HandKeyPositions[(int32)Joint];
-		OutRadius = HandData.HandKeyRadii[(int32)Joint];
+		const int32 iJoint = (int32)Joint;
+		if (!HandData.HandKeyRotations.IsValidIndex(iJoint) || !HandData.HandKeyPositions.IsValidIndex(iJoint) ||
+			!HandData.HandKeyRadii.IsValidIndex(iJoint))
+		{
+			return false;
+		}
+		OutOrientation = HandData.HandKeyRotations[iJoint];
+		OutPosition = HandData.HandKeyPositions[iJoint];
+		OutRadius = HandData.HandKeyRadii[iJoint];
 		return true;
 	}
 	return false;
