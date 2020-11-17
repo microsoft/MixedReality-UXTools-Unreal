@@ -42,6 +42,15 @@ The pinch slider component now has the option to use stepped movement. This can 
 
 ## Breaking changes
 
+### UxtGenericManipulatorComponent
+
+The _Target Component_ now uses a component picker to select its target. Due to this, the generic manipulator can no longer target components on other actors when being configured from the editor.
+
+### UxtGrabTargetComponent
+
+The `UxtGrabTargetComponent` has been converted from a `SceneComponent` to an `ActorComponent`. This affects the classes derived from `UxtGrabTargetComponent` such as the `UxtManipulatorComponentBase` and the `UxtGenericManipulatorComponent`.
+Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.
+
 ## UxtHandConstraintComponent
 
 `UUxtHandConstraintComponent::IsHandUsableForConstraint()` is now a non-const member function.
@@ -53,3 +62,8 @@ As part of adding a customizable minimum / maximum slider value, the _InitialVal
 1. Add `+PropertyRedirects=(OldName="UxtPinchSliderActor.InitialValue", NewName="UxtPinchSliderActor.Value")` to _DefaultUXTools.ini_. (found in the plugin's configuration folder)
 2. Re-save any levels with sliders to update their properties.
 3. Remove the property redirect from _DefaultUXTools.ini_.
+
+### UxtTransformConstraint
+
+The `UxtTransformConstraint` has been converted from a `SceneComponent` to an `ActorComponent`. This affects the classes derived from `UxtTransformConstraint` such as the `UxtFaceUserConstraint`, the `UxtFixedDistanceConstraint`, the `UxtFixedRotationToUserConstraint`, the `UxtFixedRotationToWorldConstraint`, the `UxtMaintainApparentSizeConstraint`, the `UxtMoveAxisConstraint` and the `UxtRotationAxisConstraint`.
+Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.

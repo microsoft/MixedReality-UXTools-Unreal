@@ -4,7 +4,7 @@
 #pragma once
 #include "CoreMinimal.h"
 
-#include "Components/SceneComponent.h"
+#include "Components/ActorComponent.h"
 #include "Interactions/UxtInteractionMode.h"
 #include "Interactions/UxtManipulationFlags.h"
 
@@ -18,7 +18,7 @@
  * Custom constraints will automatically be picked up by a UxtConstraintManager on the same actor
  */
 UCLASS(Abstract, Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtTransformConstraint : public USceneComponent
+class UXTOOLS_API UUxtTransformConstraint : public UActorComponent
 {
 	GENERATED_BODY()
 public:

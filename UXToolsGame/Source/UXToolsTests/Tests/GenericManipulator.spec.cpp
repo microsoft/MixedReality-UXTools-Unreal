@@ -8,6 +8,7 @@
 #include "UxtTestHandTracker.h"
 #include "UxtTestUtils.h"
 
+#include "Components/ArrowComponent.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtGenericManipulatorComponent.h"
@@ -29,6 +30,10 @@ namespace
 		UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor);
 		Actor->SetRootComponent(Mesh);
 		Mesh->RegisterComponent();
+
+		// Scene component for testing re-targeting
+		UArrowComponent* Scene = NewObject<UArrowComponent>(Actor);
+		Scene->RegisterComponent();
 
 		// Generic manipulator component
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
@@ -89,10 +94,10 @@ void GenericManipulatorSpec::Define()
 
 		It("should target user defined component (same actor)", [this] {
 			FComponentReference TargetComponentReference;
-			TargetComponentReference.ComponentProperty = "UxtGenericManipulatorComponent_0";
+			TargetComponentReference.ComponentProperty = "ArrowComponent_0";
 
 			UUxtGenericManipulatorComponent* ManipulatorComponent = CreateTestComponent(TargetComponentReference);
-			USceneComponent* ExpectedTarget = ManipulatorComponent->GetOwner()->FindComponentByClass<UUxtGenericManipulatorComponent>();
+			USceneComponent* ExpectedTarget = ManipulatorComponent->GetOwner()->FindComponentByClass<UArrowComponent>();
 			TestEqual("Correct component targeted", ManipulatorComponent->TransformTarget, ExpectedTarget);
 
 			ManipulatorComponent->GetOwner()->Destroy();
@@ -101,10 +106,10 @@ void GenericManipulatorSpec::Define()
 		It("should target user defined component (different actor)", [this] {
 			FComponentReference TargetComponentReference;
 			TargetComponentReference.OtherActor = Target->GetOwner();
-			TargetComponentReference.ComponentProperty = "UxtGenericManipulatorComponent_0";
+			TargetComponentReference.ComponentProperty = "ArrowComponent_0";
 
 			UUxtGenericManipulatorComponent* ManipulatorComponent = CreateTestComponent(TargetComponentReference);
-			USceneComponent* ExpectedTarget = Target->GetOwner()->FindComponentByClass<UUxtGenericManipulatorComponent>();
+			USceneComponent* ExpectedTarget = Target->GetOwner()->FindComponentByClass<UArrowComponent>();
 			TestEqual("Correct component targeted", ManipulatorComponent->TransformTarget, ExpectedTarget);
 
 			ManipulatorComponent->GetOwner()->Destroy();

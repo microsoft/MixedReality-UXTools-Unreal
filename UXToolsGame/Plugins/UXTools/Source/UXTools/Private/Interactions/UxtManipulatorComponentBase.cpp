@@ -211,7 +211,7 @@ void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
 	SetInitialTransform();
 
 	MoveLogic->Setup(
-		GetPointerCentroid(), GetGrabPointCentroid(GetComponentTransform()).GetLocation(), TransformTarget->GetComponentTransform(),
+		GetPointerCentroid(), GetGrabPointCentroid(GetOwner()->GetActorTransform()).GetLocation(), TransformTarget->GetComponentTransform(),
 		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
 
 	if (NumGrabPointers > 1)

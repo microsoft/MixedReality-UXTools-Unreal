@@ -63,7 +63,7 @@ public:
 	int32 ReleaseBehavior;
 
 	/** The component to transform, will default to the root scene component if not specified */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = GenericManipulator)
+	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = GenericManipulator, meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference TargetComponent;
 
 private:
