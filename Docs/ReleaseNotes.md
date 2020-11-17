@@ -15,7 +15,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us but is not the current focus.
 
-Unreal 4.25 required.
+Unreal 4.26 required.
 
 ## What's new
 

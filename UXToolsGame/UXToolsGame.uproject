@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.25",
+	"EngineAssociation": "4.26",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -36,7 +36,6 @@
 			"Name": "HoloLensAR",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
-				"HoloLens",
 				"Win64"
 			]
 		},

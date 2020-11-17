@@ -18,11 +18,9 @@ stages:
   dependsOn: []
   pool:
     name: $(AgentPool)
-  # uncomment after switching to UE4.25
-  variables:
-    - template: settings/ue425undefs.yml
   jobs:
   - job:
+    timeoutInMinutes: 90
     workspace:
       clean: all
     steps:
