@@ -19,10 +19,10 @@ DEFINE_LOG_CATEGORY_STATIC(LogUxtDefaultHandTracker, Log, All);
 
 namespace
 {
-	const FKey Key_Left_Select("MicrosoftHandInteraction_Left_Select_Axis");
-	const FKey Key_Left_Squeeze("MicrosoftHandInteraction_Left_Squeeze_Axis");
-	const FKey Key_Right_Select("MicrosoftHandInteraction_Right_Select_Axis");
-	const FKey Key_Right_Squeeze("MicrosoftHandInteraction_Right_Squeeze_Axis");
+	const FKey Key_Left_Select("OpenXRMsftHandInteraction_Left_Select_Axis");
+	const FKey Key_Left_Squeeze("OpenXRMsftHandInteraction_Left_Squeeze_Axis");
+	const FKey Key_Right_Select("OpenXRMsftHandInteraction_Right_Select_Axis");
+	const FKey Key_Right_Squeeze("OpenXRMsftHandInteraction_Right_Squeeze_Axis");
 
 	const FName Axis_Left_Select = TEXT("UxtDefaultHandTrackerAxis_LeftSelect");
 	const FName Axis_Left_Grab = TEXT("UxtDefaultHandTrackerAxis_LeftGrab");
