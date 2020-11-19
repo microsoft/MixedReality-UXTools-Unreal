@@ -141,7 +141,6 @@ void UUxtBoundsControlComponent::CreateAffordances()
 	BoundsControlActor->SetRootComponent(RootComponent);
 
 	BoundsControlGrabbable = NewObject<UUxtGrabTargetComponent>(BoundsControlActor);
-	BoundsControlGrabbable->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	BoundsControlGrabbable->RegisterComponent();
 	BoundsControlActor->AddInstanceComponent(BoundsControlGrabbable);
 

@@ -5,7 +5,7 @@
 
 #include "CoreMinimal.h"
 
-#include "Components/SceneComponent.h"
+#include "Components/ActorComponent.h"
 #include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Interactions/UxtGrabHandler.h"
@@ -164,7 +164,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTarget
  */
 UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtGrabTargetComponent
-	: public USceneComponent
+	: public UActorComponent
 	, public IUxtGrabTarget
 	, public IUxtGrabHandler
 	, public IUxtFarTarget
@@ -205,7 +205,7 @@ public:
 
 	/** Compute the centroid of the grab points in world space. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")
-	FTransform GetGrabPointCentroid(const FTransform& Transform) const;
+	FTransform GetGrabPointCentroid(const FTransform& ToWorldTransform) const;
 
 	/** Compute the centroid of the pointer targets in world space. */
 	UFUNCTION(BlueprintPure, Category = "Grabbable")

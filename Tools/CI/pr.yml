@@ -20,8 +20,6 @@ jobs:
 - job:
   pool:
     name: $(AgentPool)
-  variables:
-    - template: settings/ue425undefs.yml
   workspace:
     clean: all
   steps:
