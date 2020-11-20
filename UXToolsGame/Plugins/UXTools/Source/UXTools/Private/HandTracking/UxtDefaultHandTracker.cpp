@@ -20,19 +20,19 @@ DEFINE_LOG_CATEGORY_STATIC(LogUxtDefaultHandTracker, Log, All);
 namespace
 {
 	const FKey Key_Left_Select("OpenXRMsftHandInteraction_Left_Select_Axis");
-	const FKey Key_Left_Squeeze("OpenXRMsftHandInteraction_Left_Squeeze_Axis");
+	const FKey Key_Left_Grip("OpenXRMsftHandInteraction_Left_Grip_Axis");
 	const FKey Key_Right_Select("OpenXRMsftHandInteraction_Right_Select_Axis");
-	const FKey Key_Right_Squeeze("OpenXRMsftHandInteraction_Right_Squeeze_Axis");
+	const FKey Key_Right_Grip("OpenXRMsftHandInteraction_Right_Grip_Axis");
 
 	const FName Axis_Left_Select = TEXT("UxtDefaultHandTrackerAxis_LeftSelect");
-	const FName Axis_Left_Grab = TEXT("UxtDefaultHandTrackerAxis_LeftGrab");
+	const FName Axis_Left_Grip = TEXT("UxtDefaultHandTrackerAxis_LeftGrip");
 	const FName Axis_Right_Select = TEXT("UxtDefaultHandTrackerAxis_RightSelect");
-	const FName Axis_Right_Grab = TEXT("UxtDefaultHandTrackerAxis_RightGrab");
+	const FName Axis_Right_Grip = TEXT("UxtDefaultHandTrackerAxis_RightGrip");
 
 	const FInputAxisKeyMapping AxisMapping_Left_Select(Axis_Left_Select, Key_Left_Select);
-	const FInputAxisKeyMapping AxisMapping_Left_Grab(Axis_Left_Grab, Key_Left_Squeeze);
+	const FInputAxisKeyMapping AxisMapping_Left_Grip(Axis_Left_Grip, Key_Left_Grip);
 	const FInputAxisKeyMapping AxisMapping_Right_Select(Axis_Right_Select, Key_Right_Select);
-	const FInputAxisKeyMapping AxisMapping_Right_Grab(Axis_Right_Grab, Key_Right_Squeeze);
+	const FInputAxisKeyMapping AxisMapping_Right_Grip(Axis_Right_Grip, Key_Right_Grip);
 
 	void RegisterActions()
 	{
@@ -44,9 +44,9 @@ namespace
 		}
 
 		InputSettings->AddAxisMapping(AxisMapping_Left_Select);
-		InputSettings->AddAxisMapping(AxisMapping_Left_Grab);
+		InputSettings->AddAxisMapping(AxisMapping_Left_Grip);
 		InputSettings->AddAxisMapping(AxisMapping_Right_Select);
-		InputSettings->AddAxisMapping(AxisMapping_Right_Grab);
+		InputSettings->AddAxisMapping(AxisMapping_Right_Grip);
 	}
 
 	void UnregisterActions()
@@ -58,9 +58,9 @@ namespace
 		}
 
 		InputSettings->RemoveAxisMapping(AxisMapping_Left_Select);
-		InputSettings->RemoveAxisMapping(AxisMapping_Left_Grab);
+		InputSettings->RemoveAxisMapping(AxisMapping_Left_Grip);
 		InputSettings->RemoveAxisMapping(AxisMapping_Right_Select);
-		InputSettings->RemoveAxisMapping(AxisMapping_Right_Grab);
+		InputSettings->RemoveAxisMapping(AxisMapping_Right_Grip);
 	}
 
 	/** Threshold for activating and releasing actions.
@@ -157,9 +157,9 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMod
 		if (NewPlayer->InputComponent)
 		{
 			NewPlayer->InputComponent->BindAxis(Axis_Left_Select, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelect);
-			NewPlayer->InputComponent->BindAxis(Axis_Left_Grab, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGrab);
+			NewPlayer->InputComponent->BindAxis(Axis_Left_Grip, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGrip);
 			NewPlayer->InputComponent->BindAxis(Axis_Right_Select, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelect);
-			NewPlayer->InputComponent->BindAxis(Axis_Right_Grab, this, &UUxtDefaultHandTrackerSubsystem::OnRightGrab);
+			NewPlayer->InputComponent->BindAxis(Axis_Right_Grip, this, &UUxtDefaultHandTrackerSubsystem::OnRightGrip);
 		}
 
 		TickDelegateHandle = FWorldDelegates::OnWorldTickStart.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnWorldTickStart);
@@ -198,7 +198,6 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldTickStart(UWorld* World, ELevelTick
 
 void UUxtDefaultHandTrackerSubsystem::OnLeftSelect(float AxisValue)
 {
-	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftSelect: %f"), AxisValue);
 	if (!DefaultHandTracker.bIsSelectPressed_Left)
 	{
 		if (AxisValue > AxisActivateThreshold)
@@ -215,9 +214,8 @@ void UUxtDefaultHandTrackerSubsystem::OnLeftSelect(float AxisValue)
 	}
 }
 
-void UUxtDefaultHandTrackerSubsystem::OnLeftGrab(float AxisValue)
+void UUxtDefaultHandTrackerSubsystem::OnLeftGrip(float AxisValue)
 {
-	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("LeftGrab: %f"), AxisValue);
 	if (!DefaultHandTracker.bIsGrabbing_Left)
 	{
 		if (AxisValue > AxisActivateThreshold)
@@ -236,7 +234,6 @@ void UUxtDefaultHandTrackerSubsystem::OnLeftGrab(float AxisValue)
 
 void UUxtDefaultHandTrackerSubsystem::OnRightSelect(float AxisValue)
 {
-	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightSelect: %f"), AxisValue);
 	if (!DefaultHandTracker.bIsSelectPressed_Right)
 	{
 		if (AxisValue > AxisActivateThreshold)
@@ -253,9 +250,8 @@ void UUxtDefaultHandTrackerSubsystem::OnRightSelect(float AxisValue)
 	}
 }
 
-void UUxtDefaultHandTrackerSubsystem::OnRightGrab(float AxisValue)
+void UUxtDefaultHandTrackerSubsystem::OnRightGrip(float AxisValue)
 {
-	//UE_LOG(LogUxtDefaultHandTracker, Display, TEXT("RightGrab: %f"), AxisValue);
 	if (!DefaultHandTracker.bIsGrabbing_Right)
 	{
 		if (AxisValue > AxisActivateThreshold)
