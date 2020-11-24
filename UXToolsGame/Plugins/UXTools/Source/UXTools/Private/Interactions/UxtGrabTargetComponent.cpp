@@ -103,6 +103,7 @@ UUxtGrabTargetComponent::UUxtGrabTargetComponent()
 {
 	bTickOnlyWhileGrabbed = true;
 	InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
+	GrabModes = static_cast<int32>(EUxtGrabMode::OneHanded | EUxtGrabMode::TwoHanded);
 }
 
 const TArray<FUxtGrabPointerData>& UUxtGrabTargetComponent::GetGrabPointers() const
@@ -327,7 +328,7 @@ void UUxtGrabTargetComponent::OnExitGrabFocus_Implementation(UUxtNearPointerComp
 
 void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Near)))
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Near)) || !ShouldAcceptGrab())
 	{
 		return;
 	}
@@ -344,9 +345,12 @@ void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponen
 	// Lock the grabbing pointer so we remain the focused target as it moves.
 	Pointer->SetFocusLocked(true);
 
-	OnBeginGrab.Broadcast(this, GrabData);
-
-	UpdateComponentTickEnabled();
+	// Only trigger events when the grab mode requirement has been met.
+	if (IsGrabModeRequirementMet())
+	{
+		OnBeginGrab.Broadcast(this, GrabData);
+		UpdateComponentTickEnabled();
+	}
 }
 
 void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerComponent* Pointer)
@@ -370,9 +374,16 @@ void UUxtGrabTargetComponent::OnUpdateGrab_Implementation(UUxtNearPointerCompone
 
 void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent* Pointer)
 {
-	FUxtGrabPointerData PointerData;
+	if (!IsGrabbingPointer(Pointer))
+	{
+		return;
+	}
 
-	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
+	// Only trigger release events if the grab mode is active.
+	const bool bIsEndingGrab = IsGrabModeRequirementMet();
+
+	FUxtGrabPointerData PointerData;
+	GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
 		if (GrabData.NearPointer == Pointer)
 		{
 			// Unlock the pointer focus so that another target can be selected.
@@ -383,20 +394,20 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 		}
 		return false;
 	});
-	check(NumRemoved <= 1); // we might have already removed the pointer while switching interaction mode
 
-	if (NumRemoved != 0)
+	if (bIsEndingGrab)
 	{
 		OnEndGrab.Broadcast(this, PointerData);
-	}
-	// make sure to update initial ptr transforms once a pointer gets removed to ensure
-	// calculations are performed on the correct starting values
-	for (FUxtGrabPointerData& GrabData : GrabPointers)
-	{
-		InitGrabTransform(GrabData);
-	}
 
-	UpdateComponentTickEnabled();
+		// make sure to update initial ptr transforms once a pointer gets removed to ensure
+		// calculations are performed on the correct starting values
+		for (FUxtGrabPointerData& GrabData : GrabPointers)
+		{
+			InitGrabTransform(GrabData);
+		}
+
+		UpdateComponentTickEnabled();
+	}
 }
 
 bool UUxtGrabTargetComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
@@ -435,10 +446,11 @@ void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) c
 
 void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Far)))
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Far)) || !ShouldAcceptGrab())
 	{
 		return;
 	}
+
 	FUxtGrabPointerData PointerData;
 	PointerData.FarPointer = Pointer;
 	PointerData.StartTime = GetWorld()->GetTimeSeconds();
@@ -448,15 +460,27 @@ void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponen
 
 	// Lock the grabbing pointer so we remain the hovered target as it moves.
 	Pointer->SetFocusLocked(true);
-	OnBeginGrab.Broadcast(this, PointerData);
-	UpdateComponentTickEnabled();
+
+	// Only trigger events when the grab mode requirement has been met.
+	if (IsGrabModeRequirementMet())
+	{
+		OnBeginGrab.Broadcast(this, PointerData);
+		UpdateComponentTickEnabled();
+	}
 }
 
 void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)
 {
-	FUxtGrabPointerData PointerData;
+	if (!IsGrabbingPointer(Pointer))
+	{
+		return;
+	}
 
-	const int NumRemoved = GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
+	// Only trigger release events if the grab mode is active.
+	const bool bIsEndingGrab = IsGrabModeRequirementMet();
+
+	FUxtGrabPointerData PointerData;
+	GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
 		if (GrabData.FarPointer == Pointer)
 		{
 			Pointer->SetFocusLocked(false);
@@ -465,20 +489,20 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 		}
 		return false;
 	});
-	check(NumRemoved <= 1); // we might have already removed the pointer while switching interaction mode
 
-	if (NumRemoved != 0)
+	if (bIsEndingGrab)
 	{
 		OnEndGrab.Broadcast(this, PointerData);
-	}
-	// make sure to update initial ptr transforms once a pointer gets removed to ensure
-	// calculations are performed on the correct starting values
-	for (FUxtGrabPointerData& GrabData : GrabPointers)
-	{
-		InitGrabTransform(GrabData);
-	}
 
-	UpdateComponentTickEnabled();
+		// make sure to update initial ptr transforms once a pointer gets removed to ensure
+		// calculations are performed on the correct starting values
+		for (FUxtGrabPointerData& GrabData : GrabPointers)
+		{
+			InitGrabTransform(GrabData);
+		}
+
+		UpdateComponentTickEnabled();
+	}
 }
 
 void UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponent* Pointer)
@@ -507,4 +531,48 @@ void UUxtGrabTargetComponent::ResetLocalGrabPoint(FUxtGrabPointerData& PointerDa
 	const AActor* Owner = GetOwner();
 	const FTransform TransformNoScale = FTransform(Owner->GetActorRotation(), Owner->GetActorLocation());
 	PointerData.LocalGrabPoint = PointerData.GrabPointTransform * TransformNoScale.Inverse();
+}
+
+bool UUxtGrabTargetComponent::ShouldAcceptGrab() const
+{
+	if (GrabModes & static_cast<uint32_t>(EUxtGrabMode::OneHanded) && GrabModes & static_cast<uint32_t>(EUxtGrabMode::TwoHanded) &&
+		GrabPointers.Num() < 2)
+	{
+		return true;
+	}
+	else if (GrabModes & static_cast<uint32_t>(EUxtGrabMode::OneHanded) && GrabPointers.Num() < 1)
+	{
+		return true;
+	}
+	else if (GrabModes & static_cast<uint32_t>(EUxtGrabMode::TwoHanded) && GrabPointers.Num() < 2)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool UUxtGrabTargetComponent::IsGrabModeRequirementMet() const
+{
+	if (GrabModes & static_cast<uint32_t>(EUxtGrabMode::OneHanded) && GrabModes & static_cast<uint32_t>(EUxtGrabMode::TwoHanded) &&
+		GrabPointers.Num() < 2)
+	{
+		return true;
+	}
+	else if (GrabModes & static_cast<uint32_t>(EUxtGrabMode::OneHanded) && GrabPointers.Num() == 1)
+	{
+		return true;
+	}
+	else if (GrabModes & static_cast<uint32_t>(EUxtGrabMode::TwoHanded) && GrabPointers.Num() == 2)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool UUxtGrabTargetComponent::IsGrabbingPointer(const UUxtPointerComponent* Pointer)
+{
+	return GrabPointers.ContainsByPredicate(
+		[&Pointer](const FUxtGrabPointerData& GrabData) { return GrabData.NearPointer == Pointer || GrabData.FarPointer == Pointer; });
 }

@@ -725,7 +725,7 @@ void ManipulatorConstraintSpec::EnqueueMoveAxisConstraintTests()
 				// Add another constraint that applies only to one handed movement
 				UUxtMoveAxisConstraint* MoveAxisConstraint = NewObject<UUxtMoveAxisConstraint>(Target->GetOwner());
 				MoveAxisConstraint->ConstraintOnMovement = static_cast<int32>(EUxtAxisFlags::Y);
-				MoveAxisConstraint->HandType = static_cast<int32>(EUxtGenericManipulationMode::OneHanded);
+				MoveAxisConstraint->HandType = static_cast<int32>(EUxtGrabMode::OneHanded);
 				MoveAxisConstraint->RegisterComponent();
 			});
 

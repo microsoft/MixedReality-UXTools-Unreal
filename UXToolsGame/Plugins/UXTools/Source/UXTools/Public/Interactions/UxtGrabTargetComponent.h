@@ -264,6 +264,15 @@ private:
 	/** Compute the grab transform relative to the current actor world transform. */
 	void ResetLocalGrabPoint(FUxtGrabPointerData& PointerData);
 
+	/** Can the object handle another grab pointer. */
+	bool ShouldAcceptGrab() const;
+
+	/** Has the grab mode requirement been fulfilled. */
+	bool IsGrabModeRequirementMet() const;
+
+	/** Is the pointer currently grabbing the object. */
+	bool IsGrabbingPointer(const class UUxtPointerComponent* Pointer);
+
 	void UpdateComponentTickEnabled();
 
 	void InitGrabTransform(FUxtGrabPointerData& GrabData) const;
@@ -308,6 +317,10 @@ public:
 	/** Property that indicates if the object is grabbable with far or near interaction or both. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction, meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
 	int32 InteractionMode;
+
+	/** Enabled grab modes. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction, meta = (Bitmask, BitmaskEnum = EUxtGrabMode))
+	int32 GrabModes;
 
 private:
 	/** List of currently grabbing pointers. */

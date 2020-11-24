@@ -37,8 +37,8 @@ public:
 	FComponentReference TargetComponent;
 
 	/** Whether this constraint applies to one hand manipulation, two hand manipulation or both. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtGenericManipulationMode))
-	int32 HandType = static_cast<int32>(EUxtGenericManipulationMode::OneHanded | EUxtGenericManipulationMode::TwoHanded);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtGrabMode))
+	int32 HandType = static_cast<int32>(EUxtGrabMode::OneHanded | EUxtGrabMode::TwoHanded);
 
 	/** Whether this constraint applies to near manipulation, far manipulation or both. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))

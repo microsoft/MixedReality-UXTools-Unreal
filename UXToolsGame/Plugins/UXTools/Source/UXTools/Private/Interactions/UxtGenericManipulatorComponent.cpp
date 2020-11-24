@@ -22,7 +22,6 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	bAutoActivate = true;
 
 	// Default values
-	ManipulationModes = static_cast<int32>(EUxtGenericManipulationMode::OneHanded | EUxtGenericManipulationMode::TwoHanded);
 	OneHandRotationMode = EUxtOneHandRotationMode::MaintainOriginalRotation;
 	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
 	ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::KeepVelocity | EUxtReleaseBehavior::KeepAngularVelocity);
@@ -173,7 +172,7 @@ bool UUxtGenericManipulatorComponent::IsNearManipulation() const
 
 void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 {
-	if (!(ManipulationModes & static_cast<int32>(EUxtGenericManipulationMode::OneHanded)))
+	if (!(GrabModes & static_cast<int32>(EUxtGrabMode::OneHanded)))
 	{
 		return;
 	}
@@ -194,7 +193,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 
 void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 {
-	if (!(ManipulationModes & static_cast<int32>(EUxtGenericManipulationMode::TwoHanded)))
+	if (!(GrabModes & static_cast<int32>(EUxtGrabMode::TwoHanded)))
 	{
 		return;
 	}

@@ -7,18 +7,6 @@
 
 #include "UxtManipulationFlags.generated.h"
 
-/** Manipulation modes supported by the generic manipulator. */
-UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
-enum class EUxtGenericManipulationMode : uint8
-{
-	None = 0 UMETA(Hidden),
-	/** Move and rotate objects with one hand. */
-	OneHanded = 1 << 0,
-	/** Move, rotate, scale objects with two hands. */
-	TwoHanded = 1 << 1,
-};
-ENUM_CLASS_FLAGS(EUxtGenericManipulationMode)
-
 /** Specifies how the object will rotate when it is being grabbed with one hand. */
 UENUM(BlueprintType)
 enum class EUxtOneHandRotationMode : uint8

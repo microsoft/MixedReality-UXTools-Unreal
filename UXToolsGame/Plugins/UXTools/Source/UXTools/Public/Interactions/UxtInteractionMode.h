@@ -18,3 +18,15 @@ enum class EUxtInteractionMode : uint8
 	Far = 1 << 1,
 };
 ENUM_CLASS_FLAGS(EUxtInteractionMode)
+
+/** Grab modes supported */
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
+enum class EUxtGrabMode : uint8
+{
+	None = 0 UMETA(Hidden),
+	/** Grab objects with one hand */
+	OneHanded = 1 << 0,
+	/** Grab objects with two hands */
+	TwoHanded = 1 << 1,
+};
+ENUM_CLASS_FLAGS(EUxtGrabMode)

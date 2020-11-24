@@ -46,10 +46,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	/** Enabled manipulation modes. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtGenericManipulationMode))
-	int32 ManipulationModes;
-
 	/** Mode of rotation to use while using one hand only. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator)
 	EUxtOneHandRotationMode OneHandRotationMode;

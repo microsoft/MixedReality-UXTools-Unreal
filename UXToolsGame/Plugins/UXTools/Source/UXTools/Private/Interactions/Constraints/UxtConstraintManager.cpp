@@ -37,7 +37,7 @@ void UxtConstraintManager::Initialize(FTransform& WorldPose)
 void UxtConstraintManager::ApplyConstraintsForType(
 	FTransform& Transform, bool IsOneHanded, bool IsNear, EUxtTransformMode TransformType) const
 {
-	int32 HandMode = static_cast<int32>(IsOneHanded ? EUxtGenericManipulationMode::OneHanded : EUxtGenericManipulationMode::TwoHanded);
+	int32 HandMode = static_cast<int32>(IsOneHanded ? EUxtGrabMode::OneHanded : EUxtGrabMode::TwoHanded);
 	int32 InteractionMode = static_cast<int32>(IsNear ? EUxtInteractionMode::Near : EUxtInteractionMode::Far);
 
 	for (UUxtTransformConstraint* Constraint : Constraints)
