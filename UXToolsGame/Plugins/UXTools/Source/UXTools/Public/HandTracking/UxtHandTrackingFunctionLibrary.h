@@ -19,6 +19,16 @@ class UXTOOLS_API UUxtHandTrackingFunctionLibrary : public UBlueprintFunctionLib
 	GENERATED_BODY()
 
 public:
+	/** Get tracking status of the hand or motion controller.
+	 *  Note that data can be valid even when controllers are not tracked.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
+	static ETrackingStatus GetTrackingStatus(EControllerHand Hand);
+
+	/** True if hand tracking data is available. */
+	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
+	static bool HasHandData(EControllerHand Hand);
+
 	/** Obtain the state of the given joint. Returns false if the hand is not currently tracked, in which case the values of the output
 	 * parameters are unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
@@ -28,6 +38,10 @@ public:
 	 * unchanged. */
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static bool GetHandPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition);
+
+	/** Grip pose following the controller. */
+	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
+	static bool GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition);
 
 	/** Obtain current grabbed state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is
 	 * unchanged. */

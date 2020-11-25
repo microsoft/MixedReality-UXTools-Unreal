@@ -40,6 +40,9 @@ public:
 	 * unchanged. */
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const = 0;
 
+	/** Grip pose following the controller. */
+	virtual bool GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const = 0;
+
 	/** Obtain current grabbing state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter
 	 * is unchanged. */
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const = 0;

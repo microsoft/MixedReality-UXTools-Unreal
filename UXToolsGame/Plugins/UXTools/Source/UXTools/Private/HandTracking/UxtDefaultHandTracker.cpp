@@ -128,6 +128,18 @@ bool FUxtDefaultHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrie
 	return false;
 }
 
+bool FUxtDefaultHandTracker::GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
+{
+	const FXRMotionControllerData& MotionControllerData = GetControllerData(Hand);
+	if (MotionControllerData.bValid)
+	{
+		OutOrientation = MotionControllerData.GripRotation;
+		OutPosition = MotionControllerData.GripPosition;
+		return true;
+	}
+	return false;
+}
+
 bool FUxtDefaultHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const
 {
 	switch (Hand)

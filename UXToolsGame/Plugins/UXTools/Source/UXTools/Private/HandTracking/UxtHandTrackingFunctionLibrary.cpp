@@ -7,6 +7,26 @@
 
 #include "GameFramework/InputSettings.h"
 
+ETrackingStatus UUxtHandTrackingFunctionLibrary::GetTrackingStatus(EControllerHand Hand)
+{
+	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	{
+		return HandTracker->GetTrackingStatus(Hand);
+	}
+
+	return ETrackingStatus::NotTracked;
+}
+
+bool UUxtHandTrackingFunctionLibrary::HasHandData(EControllerHand Hand)
+{
+	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	{
+		return HandTracker->HasHandData(Hand);
+	}
+
+	return false;
+}
+
 bool UUxtHandTrackingFunctionLibrary::GetHandJointState(
 	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius)
 {
@@ -23,6 +43,16 @@ bool UUxtHandTrackingFunctionLibrary::GetHandPointerPose(EControllerHand Hand, F
 	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
 	{
 		return HandTracker->GetPointerPose(Hand, OutOrientation, OutPosition);
+	}
+
+	return false;
+}
+
+bool UUxtHandTrackingFunctionLibrary::GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition)
+{
+	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	{
+		return HandTracker->GetGripPose(Hand, OutOrientation, OutPosition);
 	}
 
 	return false;

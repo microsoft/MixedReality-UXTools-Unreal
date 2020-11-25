@@ -58,6 +58,19 @@ bool FUxtTestHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrienta
 	return false;
 }
 
+bool FUxtTestHandTracker::GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
+{
+	const FUxtTestHandData& HandState = GetHandState(Hand);
+	if (HandState.bIsTracked)
+	{
+		OutOrientation = HandState.JointOrientation[(uint8)EHandKeypoint::IndexProximal];
+		OutPosition = HandState.JointPosition[(uint8)EHandKeypoint::IndexProximal];
+		return true;
+	}
+
+	return false;
+}
+
 bool FUxtTestHandTracker::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const
 {
 	const FUxtTestHandData& HandState = GetHandState(Hand);

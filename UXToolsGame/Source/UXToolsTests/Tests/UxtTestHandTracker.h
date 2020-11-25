@@ -42,6 +42,7 @@ public:
 	virtual bool GetJointState(
 		EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override;
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override;
+	virtual bool GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override;
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const override;
 	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const override;
 

@@ -98,6 +98,27 @@ bool UUxtTouchBasedHandTrackerComponent::GetPointerPose(EControllerHand Hand, FQ
 	return false;
 }
 
+bool UUxtTouchBasedHandTrackerComponent::GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
+{
+	float ScreenX;
+	float ScreenY;
+
+	if (GetFingerState(Hand, ScreenX, ScreenY))
+	{
+		FVector WorldLocation;
+		FVector WorldDirection;
+
+		if (PlayerController->DeprojectScreenPositionToWorld(ScreenX, ScreenY, WorldLocation, WorldDirection))
+		{
+			OutOrientation = FQuat(FRotationMatrix::MakeFromX(WorldDirection));
+			OutPosition = WorldLocation;
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool UUxtTouchBasedHandTrackerComponent::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const
 {
 	float ScreenX;
