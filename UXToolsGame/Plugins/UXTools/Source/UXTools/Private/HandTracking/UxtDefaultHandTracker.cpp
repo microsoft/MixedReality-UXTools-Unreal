@@ -70,23 +70,47 @@ namespace
 	const float AxisActivateThreshold = 0.8f;
 	const float AxisReleaseThreshold = 0.5f;
 
+	bool IsValidHandData(const FXRMotionControllerData& MotionControllerData)
+	{
+		return MotionControllerData.bValid && MotionControllerData.HandKeyPositions.Num() == EHandKeypointCount &&
+			   MotionControllerData.HandKeyRotations.Num() == EHandKeypointCount &&
+			   MotionControllerData.HandKeyRadii.Num() == EHandKeypointCount;
+	}
+
+}
+
+FXRMotionControllerData& FUxtDefaultHandTracker::GetControllerData(EControllerHand Hand)
+{
+	return Hand == EControllerHand::Left ? ControllerData_Left : ControllerData_Right;
+}
+
+const FXRMotionControllerData& FUxtDefaultHandTracker::GetControllerData(EControllerHand Hand) const
+{
+	return Hand == EControllerHand::Left ? ControllerData_Left : ControllerData_Right;
+}
+
+ETrackingStatus FUxtDefaultHandTracker::GetTrackingStatus(EControllerHand Hand) const
+{
+	const FXRMotionControllerData& MotionControllerData = GetControllerData(Hand);
+	return MotionControllerData.bValid ? MotionControllerData.TrackingStatus : ETrackingStatus::NotTracked;
+}
+
+bool FUxtDefaultHandTracker::HasHandData(EControllerHand Hand) const
+{
+	const FXRMotionControllerData& MotionControllerData = GetControllerData(Hand);
+	return IsValidHandData(MotionControllerData);
 }
 
 bool FUxtDefaultHandTracker::GetJointState(
 	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
-	const FXRMotionControllerData& HandData = (Hand == EControllerHand::Left ? ControllerData_Left : ControllerData_Right);
-	if (HandData.bValid)
+	const FXRMotionControllerData& MotionControllerData = GetControllerData(Hand);
+	if (IsValidHandData(MotionControllerData))
 	{
 		const int32 iJoint = (int32)Joint;
-		if (!HandData.HandKeyRotations.IsValidIndex(iJoint) || !HandData.HandKeyPositions.IsValidIndex(iJoint) ||
-			!HandData.HandKeyRadii.IsValidIndex(iJoint))
-		{
-			return false;
-		}
-		OutOrientation = HandData.HandKeyRotations[iJoint];
-		OutPosition = HandData.HandKeyPositions[iJoint];
-		OutRadius = HandData.HandKeyRadii[iJoint];
+		OutOrientation = MotionControllerData.HandKeyRotations[iJoint];
+		OutPosition = MotionControllerData.HandKeyPositions[iJoint];
+		OutRadius = MotionControllerData.HandKeyRadii[iJoint];
 		return true;
 	}
 	return false;
@@ -94,11 +118,11 @@ bool FUxtDefaultHandTracker::GetJointState(
 
 bool FUxtDefaultHandTracker::GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
 {
-	const FXRMotionControllerData& HandData = (Hand == EControllerHand::Left ? ControllerData_Left : ControllerData_Right);
-	if (HandData.bValid)
+	const FXRMotionControllerData& MotionControllerData = GetControllerData(Hand);
+	if (MotionControllerData.bValid)
 	{
-		OutOrientation = HandData.AimRotation;
-		OutPosition = HandData.AimPosition;
+		OutOrientation = MotionControllerData.AimRotation;
+		OutPosition = MotionControllerData.AimPosition;
 		return true;
 	}
 	return false;

@@ -35,6 +35,24 @@ void UUxtTouchBasedHandTrackerComponent::EndPlay(const EEndPlayReason::Type EndP
 	Super::EndPlay(EndPlayReason);
 }
 
+ETrackingStatus UUxtTouchBasedHandTrackerComponent::GetTrackingStatus(EControllerHand Hand) const
+{
+	ETouchIndex::Type FingerIndex = Hand == EControllerHand::Left ? ETouchIndex::Touch1 : ETouchIndex::Touch2;
+	float ScreenX, ScreenY;
+	bool bIsCurrentlyPressed;
+	PlayerController->GetInputTouchState(FingerIndex, ScreenX, ScreenY, bIsCurrentlyPressed);
+	return bIsCurrentlyPressed ? ETrackingStatus::Tracked : ETrackingStatus::NotTracked;
+}
+
+bool UUxtTouchBasedHandTrackerComponent::HasHandData(EControllerHand Hand) const
+{
+	ETouchIndex::Type FingerIndex = Hand == EControllerHand::Left ? ETouchIndex::Touch1 : ETouchIndex::Touch2;
+	float ScreenX, ScreenY;
+	bool bIsCurrentlyPressed;
+	PlayerController->GetInputTouchState(FingerIndex, ScreenX, ScreenY, bIsCurrentlyPressed);
+	return bIsCurrentlyPressed;
+}
+
 bool UUxtTouchBasedHandTrackerComponent::GetJointState(
 	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {

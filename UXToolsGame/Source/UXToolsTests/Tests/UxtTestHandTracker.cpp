@@ -18,6 +18,18 @@ FUxtTestHandData::FUxtTestHandData()
 	}
 }
 
+ETrackingStatus FUxtTestHandTracker::GetTrackingStatus(EControllerHand Hand) const
+{
+	const FUxtTestHandData& HandState = GetHandState(Hand);
+	return HandState.bIsTracked ? ETrackingStatus::Tracked : ETrackingStatus::NotTracked;
+}
+
+bool FUxtTestHandTracker::HasHandData(EControllerHand Hand) const
+{
+	const FUxtTestHandData& HandState = GetHandState(Hand);
+	return HandState.bIsTracked;
+}
+
 bool FUxtTestHandTracker::GetJointState(
 	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {

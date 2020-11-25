@@ -30,6 +30,8 @@ public:
 	//
 	// IUxtHandTracker interface
 
+	virtual ETrackingStatus GetTrackingStatus(EControllerHand Hand) const override;
+	virtual bool HasHandData(EControllerHand Hand) const override;
 	virtual bool GetJointState(
 		EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const;
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const;

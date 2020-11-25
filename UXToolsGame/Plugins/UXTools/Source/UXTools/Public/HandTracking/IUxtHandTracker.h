@@ -23,6 +23,14 @@ public:
 
 	virtual ~IUxtHandTracker() {}
 
+	/** Get tracking status of the hand or motion controller.
+	 *  Note that data can be valid even when controllers are not tracked.
+	 */
+	virtual ETrackingStatus GetTrackingStatus(EControllerHand Hand) const = 0;
+
+	/** True if hand tracking data is available. */
+	virtual bool HasHandData(EControllerHand Hand) const = 0;
+
 	/** Obtain the state of the given joint. Returns false if the hand is not tracked this frame, in which case the values of the output
 	 * parameters are unchanged. */
 	virtual bool GetJointState(
