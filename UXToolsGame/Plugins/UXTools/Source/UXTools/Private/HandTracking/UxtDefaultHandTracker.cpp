@@ -193,6 +193,11 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldTickStart(UWorld* World, ELevelTick
 	{
 		XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
 		XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
+
+		// XXX HACK: WMR always reporting invalid hand data, remove once fixed!
+		DefaultHandTracker.ControllerData_Left.bValid = true;
+		DefaultHandTracker.ControllerData_Right.bValid = true;
+		// XXX
 	}
 }
 
