@@ -43,26 +43,21 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// Obtain new pointer origin and orientation
-	FQuat NewOrientation;
-	FVector NewOrigin;
-	const bool bIsTracked = UUxtHandTrackingFunctionLibrary::GetHandPointerPose(Hand, NewOrientation, NewOrigin);
-
+	const bool bIsTracked = UUxtHandTrackingFunctionLibrary::GetTrackingStatus(Hand) != ETrackingStatus::NotTracked;
 	if (bIsTracked)
 	{
-		OnPointerPoseUpdated(NewOrientation, NewOrigin);
-		UpdateParameterCollection(GetHitPoint());
+		FQuat NewOrientation;
+		FVector NewOrigin;
+		if (UUxtHandTrackingFunctionLibrary::GetHandPointerPose(Hand, NewOrientation, NewOrigin))
+		{
+			OnPointerPoseUpdated(NewOrientation, NewOrigin);
+			UpdateParameterCollection(GetHitPoint());
+		}
+
 		bool bNewPressed;
 		if (UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(Hand, bNewPressed))
 		{
 			SetPressed(bNewPressed);
-		}
-
-		FQuat WristOrientation;
-		FVector WristLocation;
-		float WristRadius;
-		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::Wrist, WristOrientation, WristLocation, WristRadius))
-		{
-			ControllerOrientation = WristOrientation;
 		}
 	}
 
@@ -271,11 +266,6 @@ FVector UUxtFarPointerComponent::GetPointerOrigin() const
 FQuat UUxtFarPointerComponent::GetPointerOrientation() const
 {
 	return PointerOrientation;
-}
-
-FQuat UUxtFarPointerComponent::GetControllerOrientation() const
-{
-	return ControllerOrientation;
 }
 
 FVector UUxtFarPointerComponent::GetRayStart() const

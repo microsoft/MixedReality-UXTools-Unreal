@@ -16,9 +16,11 @@ namespace
 	{
 		FQuat GripOrientation;
 		FVector GripPosition;
-		float GripRadius;
-		UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::Palm, GripOrientation, GripPosition, GripRadius);
-		return FTransform{GripOrientation, GripPosition};
+		if (UUxtHandTrackingFunctionLibrary::GetGripPose(Hand, GripOrientation, GripPosition))
+		{
+			return FTransform{GripOrientation, GripPosition};
+		}
+		return FTransform::Identity;
 	}
 } // namespace
 
@@ -89,7 +91,9 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetGripTransform(const FUxtGrabPo
 {
 	if (GrabData.FarPointer != nullptr)
 	{
-		return FTransform(GrabData.FarPointer->GetControllerOrientation(), GrabData.FarPointer->GetHitPoint());
+		FTransform GripTransform = GetHandGripTransform(GrabData.NearPointer->Hand);
+		GripTransform.SetLocation(GrabData.FarPointer->GetHitPoint());
+		return GripTransform;
 	}
 	else if (ensure(GrabData.NearPointer != nullptr))
 	{
@@ -427,7 +431,8 @@ void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) c
 		GrabData.LocalGrabPoint = GripTransform * TransformNoScale.Inverse();
 
 		// store ray hit point in pointer space
-		FTransform PointerTransform(GrabData.FarPointer->GetControllerOrientation(), GrabData.FarPointer->GetPointerOrigin());
+		FTransform PointerTransform = GetHandGripTransform(GrabData.NearPointer->Hand);
+		PointerTransform.SetLocation(GrabData.FarPointer->GetPointerOrigin());
 		GrabData.FarRayHitPointInPointer = GripTransform * PointerTransform.Inverse();
 	}
 	GrabData.GripToObject = TransformNoScale * GripTransform.Inverse();
@@ -494,7 +499,8 @@ void UUxtGrabTargetComponent::OnFarDragged_Implementation(UUxtFarPointerComponen
 	{
 		if (GrabData.FarPointer == Pointer)
 		{
-			FTransform PointerTransform(GrabData.FarPointer->GetControllerOrientation(), GrabData.FarPointer->GetPointerOrigin());
+			FTransform PointerTransform = GetHandGripTransform(GrabData.FarPointer->Hand);
+			PointerTransform.SetLocation(GrabData.FarPointer->GetPointerOrigin());
 			GrabData.GrabPointTransform = GrabData.FarRayHitPointInPointer * PointerTransform;
 
 			OnUpdateGrab.Broadcast(this, GrabData);
