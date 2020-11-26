@@ -91,7 +91,7 @@ FTransform UUxtGrabPointerDataFunctionLibrary::GetGripTransform(const FUxtGrabPo
 {
 	if (GrabData.FarPointer != nullptr)
 	{
-		FTransform GripTransform = GetHandGripTransform(GrabData.NearPointer->Hand);
+		FTransform GripTransform = GetHandGripTransform(GrabData.FarPointer->Hand);
 		GripTransform.SetLocation(GrabData.FarPointer->GetHitPoint());
 		return GripTransform;
 	}
@@ -431,7 +431,7 @@ void UUxtGrabTargetComponent::InitGrabTransform(FUxtGrabPointerData& GrabData) c
 		GrabData.LocalGrabPoint = GripTransform * TransformNoScale.Inverse();
 
 		// store ray hit point in pointer space
-		FTransform PointerTransform = GetHandGripTransform(GrabData.NearPointer->Hand);
+		FTransform PointerTransform = GetHandGripTransform(GrabData.FarPointer->Hand);
 		PointerTransform.SetLocation(GrabData.FarPointer->GetPointerOrigin());
 		GrabData.FarRayHitPointInPointer = GripTransform * PointerTransform.Inverse();
 	}
