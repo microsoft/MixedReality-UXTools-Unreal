@@ -65,6 +65,15 @@
 		{
 			"Name": "XRVisualization",
 			"Enabled": true
+		},
+		{
+			"Name": "MRPlatExt",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"HoloLens",
+				"Android"
+			]
 		}
 	]
 }
