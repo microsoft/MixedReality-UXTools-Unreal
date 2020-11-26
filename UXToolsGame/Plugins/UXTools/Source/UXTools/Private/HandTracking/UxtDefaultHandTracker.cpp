@@ -72,9 +72,15 @@ namespace
 
 	bool IsValidHandData(const FXRMotionControllerData& MotionControllerData)
 	{
-		return MotionControllerData.bValid && MotionControllerData.HandKeyPositions.Num() == EHandKeypointCount &&
-			   MotionControllerData.HandKeyRotations.Num() == EHandKeypointCount &&
-			   MotionControllerData.HandKeyRadii.Num() == EHandKeypointCount;
+		if (MotionControllerData.DeviceVisualType == EXRVisualType::Hand && MotionControllerData.bValid)
+		{
+			check(
+				MotionControllerData.HandKeyPositions.Num() == EHandKeypointCount &&
+				MotionControllerData.HandKeyRotations.Num() == EHandKeypointCount &&
+				MotionControllerData.HandKeyRadii.Num() == EHandKeypointCount);
+			return true;
+		}
+		return false;
 	}
 
 }
