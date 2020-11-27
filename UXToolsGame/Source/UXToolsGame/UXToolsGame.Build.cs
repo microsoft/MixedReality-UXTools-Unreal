@@ -20,11 +20,11 @@ public class UXToolsGame : ModuleRules
 			PrivateDependencyModuleNames.Add("UnrealEd");
 		}
 
-		if (Target.Platform == UnrealTargetPlatform.Android)
-		{
-			string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
-			AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "UXToolsAdditions_APL.xml"));
-		}
+		//if (Target.Platform == UnrealTargetPlatform.Android)
+		//{
+		//	string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
+		//	AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "UXToolsAdditions_APL.xml"));
+		//}
 	}
 }
 
