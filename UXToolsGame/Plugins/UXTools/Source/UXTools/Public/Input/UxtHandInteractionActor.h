@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "EngineDefines.h"
+#include "MotionControllerComponent.h"
 
 #include "GameFramework/Actor.h"
 #include "Interactions/UxtInteractionMode.h"
@@ -154,6 +155,9 @@ private:
 
 	UPROPERTY(Transient)
 	UUxtFarPointerComponent* FarPointer;
+
+	UPROPERTY(Transient)
+	UMotionControllerComponent* MotionController;
 
 	/** Runtime mesh component used for detecting proximity of near interaction targets. */
 	UPROPERTY(VisibleAnywhere, Transient, Category = "Hand Interaction")

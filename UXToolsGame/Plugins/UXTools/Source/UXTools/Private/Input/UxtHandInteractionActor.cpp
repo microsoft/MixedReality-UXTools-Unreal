@@ -37,6 +37,10 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	FarPointer->PrimaryComponentTick.bStartWithTickEnabled = false;
 	FarPointer->AddTickPrerequisiteActor(this);
 
+	MotionController = CreateDefaultSubobject<UMotionControllerComponent>("MotionController");
+	MotionController->SetupAttachment(GetRootComponent());
+	MotionController->SetShowDeviceModel(true);
+
 	ProximityTrigger = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("ProximityTrigger"));
 	ProximityTrigger->bUseComplexAsSimpleCollision = false;
 	ProximityTrigger->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
@@ -65,6 +69,10 @@ void AUxtHandInteractionActor::BeginPlay()
 	FarPointer->TraceChannel = TraceChannel;
 	FarPointer->RayStartOffset = RayStartOffset;
 	FarPointer->RayLength = RayLength;
+
+	//const FString HandName = UEnum::GetValueAsString(static_cast<EControllerHand>(Hand)).RightChop(17);
+	//MotionController->MotionSource = FName(*HandName);
+	MotionController->SetTrackingSource(Hand);
 
 	if (bUseDefaultNearCursor)
 	{
