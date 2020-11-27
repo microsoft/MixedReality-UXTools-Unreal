@@ -163,15 +163,25 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 {
 	OutHasNearTarget = false;
 
-	FQuat IndexTipOrientation, PalmOrientation;
-	FVector IndexTipPosition, PalmPosition;
-	float IndexTipRadius, PalmRadius;
-	const bool bIsIndexTipValid = UUxtHandTrackingFunctionLibrary::GetHandJointState(
-		Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
-	const bool bIsPalmValid =
-		UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::Palm, PalmOrientation, PalmPosition, PalmRadius);
-	if (bIsIndexTipValid && bIsPalmValid)
+	if (UUxtHandTrackingFunctionLibrary::GetTrackingStatus(Hand) == ETrackingStatus::NotTracked)
 	{
+		return false;
+	}
+
+	// If hand data is available we use the proximity detection volume,
+	// otherwise near interaction is disabled and only far interaction used.
+	if (UUxtHandTrackingFunctionLibrary::HasHandData(Hand))
+	{
+		FQuat IndexTipOrientation, PalmOrientation;
+		FVector IndexTipPosition, PalmPosition;
+		float IndexTipRadius, PalmRadius;
+		const bool bIsIndexTipValid = UUxtHandTrackingFunctionLibrary::GetHandJointState(
+			Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+		const bool bIsPalmValid =
+			UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EHandKeypoint::Palm, PalmOrientation, PalmPosition, PalmRadius);
+		// We've checked for valid hand data above
+		check(bIsIndexTipValid && bIsPalmValid);
+
 		const FVector PalmForward = PalmOrientation.GetForwardVector();
 		const FVector PalmToIndex = IndexTipPosition - PalmPosition;
 		const FVector ConeDirection = FMath::Lerp(PalmForward, PalmToIndex, ProximityConeAngleLerp).GetSafeNormal();
@@ -205,11 +215,9 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 		{
 			ProximityTrigger->SetWorldTransform(FTransform(ConeOrientation, ConeTip));
 		}
-
-		return true;
 	}
 
-	return false;
+	return true;
 }
 
 // Called every frame
