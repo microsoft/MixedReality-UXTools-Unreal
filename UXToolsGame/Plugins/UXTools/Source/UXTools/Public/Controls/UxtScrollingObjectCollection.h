@@ -29,16 +29,16 @@ class UUxtFarPointerComponent;
 UENUM(BlueprintType)
 enum class EUxtScrollDirection : uint8
 {
-	UpAndDown			UMETA(ScriptName = "Up And Down", Tooltip = "The menu will scroll vertically. In this case Tiers will specify the number of rows, and Viewable area will specify the number of columns that are viewable. The collection will populate by filling columns in order."),
-	LeftAndRight		UMETA(ScriptName = "Left And Right", Tooltip = "The menu will scroll horizontally. In this case Tiers will specify the number of columns, and Viewable area will specify the number of rows that are viewable. The collection will populate by filling rows in order."),
+	UpAndDown			UMETA(DisplayName = "Up And Down", Tooltip = "The menu will scroll vertically. In this case Tiers will specify the number of rows, and Viewable area will specify the number of columns that are viewable. The collection will populate by filling columns in order."),
+	LeftAndRight		UMETA(DisplayName = "Left And Right", Tooltip = "The menu will scroll horizontally. In this case Tiers will specify the number of columns, and Viewable area will specify the number of rows that are viewable. The collection will populate by filling rows in order."),
 };
 
 UENUM(BlueprintType)
 enum class EUxtPaginateResult : uint8
 {
-	Success							UMETA(ScriptName = "Success", Tooltip = "The operation completed successfuly."),
-	Failed_ConcurrentOperation		UMETA(ScriptName = "Failed, Concurrent Operation", Tooltip = "The operation was aborted due to another move request that has not yet finished."),
-	Failed_ConcurrentInteraction	UMETA(ScriptName = "Failed, Concurrent User Interaction", Tooltip = "The operation was aborted because there is another interaction with the object." ),
+	Success							UMETA(DisplayName = "Success", Tooltip = "The operation completed successfuly."),
+	Failed_ConcurrentOperation		UMETA(DisplayName = "Failed, Concurrent Operation", Tooltip = "The operation was aborted due to another move request that has not yet finished."),
+	Failed_ConcurrentInteraction	UMETA(DisplayName = "Failed, Concurrent User Interaction", Tooltip = "The operation was aborted because there is another interaction with the object." ),
 };
 
 // clang-format on
