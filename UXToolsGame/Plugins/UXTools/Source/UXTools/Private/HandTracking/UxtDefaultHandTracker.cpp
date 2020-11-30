@@ -237,18 +237,14 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldTickStart(UWorld* World, ELevelTick
 		XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
 
 		// XXX HACK: WMR always reporting invalid hand data, remove once fixed!
-		DefaultHandTracker.ControllerData_Left.bValid =
-			DefaultHandTracker.ControllerData_Left.DeviceVisualType == EXRVisualType::Hand
-				? DefaultHandTracker.ControllerData_Left.HandKeyPositions.Num() == EHandKeypointCount &&
-					  DefaultHandTracker.ControllerData_Left.HandKeyRotations.Num() == EHandKeypointCount &&
-					  DefaultHandTracker.ControllerData_Left.HandKeyRadii.Num() == EHandKeypointCount
-				: true;
-		DefaultHandTracker.ControllerData_Right.bValid =
-			DefaultHandTracker.ControllerData_Right.DeviceVisualType == EXRVisualType::Hand
-				? DefaultHandTracker.ControllerData_Right.HandKeyPositions.Num() == EHandKeypointCount &&
-					  DefaultHandTracker.ControllerData_Right.HandKeyRotations.Num() == EHandKeypointCount &&
-					  DefaultHandTracker.ControllerData_Right.HandKeyRadii.Num() == EHandKeypointCount
-				: true;
+		DefaultHandTracker.ControllerData_Left.bValid = true;
+		DefaultHandTracker.ControllerData_Right.bValid = true;
+		DefaultHandTracker.ControllerData_Left.DeviceVisualType =
+			DefaultHandTracker.ControllerData_Left.HandKeyPositions.Num() == EHandKeypointCount ? EXRVisualType::Hand
+																								: EXRVisualType::Controller;
+		DefaultHandTracker.ControllerData_Right.DeviceVisualType =
+			DefaultHandTracker.ControllerData_Right.HandKeyPositions.Num() == EHandKeypointCount ? EXRVisualType::Hand
+																								 : EXRVisualType::Controller;
 		// XXX
 	}
 }
