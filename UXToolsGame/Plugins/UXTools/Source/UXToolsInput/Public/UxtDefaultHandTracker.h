@@ -6,7 +6,7 @@
 #include "HeadMountedDisplayTypes.h"
 
 #include "HandTracking/IUxtHandTracker.h"
-#include "Subsystems/LocalPlayerSubsystem.h"
+#include "Subsystems/EngineSubsystem.h"
 
 #include "UxtDefaultHandTracker.generated.h"
 
@@ -14,6 +14,9 @@
 class FUxtDefaultHandTracker : public IUxtHandTracker
 {
 public:
+	static void RegisterInputMappings();
+	static void UnregisterInputMappings();
+
 	FXRMotionControllerData& GetControllerData(EControllerHand Hand);
 	const FXRMotionControllerData& GetControllerData(EControllerHand Hand) const;
 
@@ -40,7 +43,7 @@ public:
 
 /** Subsystem for registering the default hand tracker. */
 UCLASS()
-class UUxtDefaultHandTrackerSubsystem : public ULocalPlayerSubsystem
+class UUxtDefaultHandTrackerSubsystem : public UEngineSubsystem
 {
 	GENERATED_BODY()
 

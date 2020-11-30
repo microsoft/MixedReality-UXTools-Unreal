@@ -39,6 +39,16 @@
 			]
 		},
 		{
+			"Name": "UXToolsInput",
+			"Type": "Runtime",
+			"LoadingPhase": "PostEngineInit",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens",
+				"Android"
+			]
+		},
+		{
 			"Name": "UXToolsShaders",
 			"Type": "Runtime",
 			"LoadingPhase": "PostConfigInit",

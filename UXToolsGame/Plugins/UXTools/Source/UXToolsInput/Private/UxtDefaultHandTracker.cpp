@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "HandTracking/UxtDefaultHandTracker.h"
+#include "UxtDefaultHandTracker.h"
 
 #include "ARSupportInterface.h"
 #include "IXRTrackingSystem.h"
@@ -34,35 +34,6 @@ namespace
 	const FInputAxisKeyMapping AxisMapping_Right_Select(Axis_Right_Select, Key_Right_Select);
 	const FInputAxisKeyMapping AxisMapping_Right_Grip(Axis_Right_Grip, Key_Right_Grip);
 
-	void RegisterActions()
-	{
-		UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
-		if (!InputSettings)
-		{
-			UE_LOG(LogUxtDefaultHandTracker, Warning, TEXT("Could not find mutable input settings"));
-			return;
-		}
-
-		InputSettings->AddAxisMapping(AxisMapping_Left_Select);
-		InputSettings->AddAxisMapping(AxisMapping_Left_Grip);
-		InputSettings->AddAxisMapping(AxisMapping_Right_Select);
-		InputSettings->AddAxisMapping(AxisMapping_Right_Grip);
-	}
-
-	void UnregisterActions()
-	{
-		UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
-		if (!InputSettings)
-		{
-			return;
-		}
-
-		InputSettings->RemoveAxisMapping(AxisMapping_Left_Select);
-		InputSettings->RemoveAxisMapping(AxisMapping_Left_Grip);
-		InputSettings->RemoveAxisMapping(AxisMapping_Right_Select);
-		InputSettings->RemoveAxisMapping(AxisMapping_Right_Grip);
-	}
-
 	/** Threshold for activating and releasing actions.
 	* Not very relevant for Select/Squeeze axes currently
 	* because they only take on 0.0 and 1.0 values.
@@ -83,6 +54,35 @@ namespace
 		return false;
 	}
 
+} // namespace
+
+void FUxtDefaultHandTracker::RegisterInputMappings()
+{
+	UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
+	if (!InputSettings)
+	{
+		UE_LOG(LogUxtDefaultHandTracker, Warning, TEXT("Could not find mutable input settings"));
+		return;
+	}
+
+	InputSettings->AddAxisMapping(AxisMapping_Left_Select);
+	InputSettings->AddAxisMapping(AxisMapping_Left_Grip);
+	InputSettings->AddAxisMapping(AxisMapping_Right_Select);
+	InputSettings->AddAxisMapping(AxisMapping_Right_Grip);
+}
+
+void FUxtDefaultHandTracker::UnregisterInputMappings()
+{
+	UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
+	if (!InputSettings)
+	{
+		return;
+	}
+
+	InputSettings->RemoveAxisMapping(AxisMapping_Left_Select);
+	InputSettings->RemoveAxisMapping(AxisMapping_Left_Grip);
+	InputSettings->RemoveAxisMapping(AxisMapping_Right_Select);
+	InputSettings->RemoveAxisMapping(AxisMapping_Right_Grip);
 }
 
 FXRMotionControllerData& FUxtDefaultHandTracker::GetControllerData(EControllerHand Hand)
@@ -176,7 +176,7 @@ bool FUxtDefaultHandTracker::GetIsSelectPressed(EControllerHand Hand, bool& OutI
 
 void UUxtDefaultHandTrackerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	RegisterActions();
+	FUxtDefaultHandTracker::RegisterInputMappings();
 
 	PostLoginHandle = FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin);
 	LogoutHandle = FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModeLogout);
@@ -189,12 +189,12 @@ void UUxtDefaultHandTrackerSubsystem::Deinitialize()
 	PostLoginHandle.Reset();
 	LogoutHandle.Reset();
 
-	UnregisterActions();
+	FUxtDefaultHandTracker::UnregisterInputMappings();
 }
 
 void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)
 {
-	if (NewPlayer->Player == GetLocalPlayer())
+	if (NewPlayer->IsLocalController())
 	{
 		if (NewPlayer->InputComponent)
 		{
@@ -214,7 +214,7 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModeLogout(AGameModeBase* GameMode, 
 {
 	if (APlayerController* PlayerController = Cast<APlayerController>(Exiting))
 	{
-		if (PlayerController->Player == GetLocalPlayer())
+		if (PlayerController->IsLocalController())
 		{
 			IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &DefaultHandTracker);
 
@@ -233,8 +233,8 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldTickStart(UWorld* World, ELevelTick
 {
 	if (IXRTrackingSystem* XRSystem = GEngine->XRSystem.Get())
 	{
-		XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
-		XRSystem->GetMotionControllerData(GetLocalPlayer(), EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
+		XRSystem->GetMotionControllerData(World, EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
+		XRSystem->GetMotionControllerData(World, EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
 
 		// XXX HACK: WMR always reporting invalid hand data, remove once fixed!
 		DefaultHandTracker.ControllerData_Left.bValid = true;
