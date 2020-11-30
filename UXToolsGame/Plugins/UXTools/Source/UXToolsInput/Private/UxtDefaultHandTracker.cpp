@@ -19,21 +19,23 @@ DEFINE_LOG_CATEGORY_STATIC(LogUxtDefaultHandTracker, Log, All);
 
 namespace
 {
-	const FKey Key_Left_Select("OpenXRMsftHandInteraction_Left_Select_Axis");
-	const FKey Key_Left_Grip("OpenXRMsftHandInteraction_Left_Grip_Axis");
-	const FKey Key_Right_Select("OpenXRMsftHandInteraction_Right_Select_Axis");
-	const FKey Key_Right_Grip("OpenXRMsftHandInteraction_Right_Grip_Axis");
-
 	const FName Action_Left_Select = TEXT("UxtDefaultHandTracker_LeftSelect");
 	const FName Action_Left_Grip = TEXT("UxtDefaultHandTracker_LeftGrip");
 	const FName Action_Right_Select = TEXT("UxtDefaultHandTracker_RightSelect");
 	const FName Action_Right_Grip = TEXT("UxtDefaultHandTracker_RightGrip");
 
 	const TArray<FInputActionKeyMapping> ActionMappings({
-		FInputActionKeyMapping(Action_Left_Select, Key_Left_Select),
-		FInputActionKeyMapping(Action_Left_Grip, Key_Left_Grip),
-		FInputActionKeyMapping(Action_Right_Select, Key_Right_Select),
-		FInputActionKeyMapping(Action_Right_Grip, Key_Right_Grip),
+		// OpenXR MsftHandInteraction mapping
+		FInputActionKeyMapping(Action_Left_Select, FKey("OpenXRMsftHandInteraction_Left_Select_Axis")),
+		FInputActionKeyMapping(Action_Left_Grip, FKey("OpenXRMsftHandInteraction_Left_Grip_Axis")),
+		FInputActionKeyMapping(Action_Right_Select, FKey("OpenXRMsftHandInteraction_Right_Select_Axis")),
+		FInputActionKeyMapping(Action_Right_Grip, FKey("OpenXRMsftHandInteraction_Right_Grip_Axis")),
+
+		// MixedReality mapping
+		FInputActionKeyMapping(Action_Left_Select, FKey("MixedReality_Left_Trigger_Click")),
+		FInputActionKeyMapping(Action_Left_Grip, FKey("MixedReality_Left_Grip_Click")),
+		FInputActionKeyMapping(Action_Right_Select, FKey("MixedReality_Right_Trigger_Click")),
+		FInputActionKeyMapping(Action_Right_Grip, FKey("MixedReality_Right_Grip_Click")),
 	});
 
 	bool IsValidHandData(const FXRMotionControllerData& MotionControllerData)
