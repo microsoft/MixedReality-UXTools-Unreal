@@ -57,10 +57,14 @@ private:
 
 	void OnWorldTickStart(UWorld* World, ELevelTick TickType, float DeltaTime);
 
-	void OnLeftSelect(float AxisValue);
-	void OnLeftGrip(float AxisValue);
-	void OnRightSelect(float AxisValue);
-	void OnRightGrip(float AxisValue);
+	void OnLeftSelectPressed();
+	void OnLeftSelectReleased();
+	void OnLeftGripPressed();
+	void OnLeftGripReleased();
+	void OnRightSelectPressed();
+	void OnRightSelectReleased();
+	void OnRightGripPressed();
+	void OnRightGripReleased();
 
 private:
 	FUxtDefaultHandTracker DefaultHandTracker;
