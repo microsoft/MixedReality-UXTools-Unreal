@@ -3,8 +3,7 @@
 
 #include "Controls/UxtBoundsControlComponent.h"
 
-#include "DrawDebugHelpers.h"
-
+#include "Components/BoxComponent.h"
 #include "Components/MeshComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Engine/StaticMesh.h"
@@ -308,11 +307,17 @@ void UUxtBoundsControlComponent::BeginPlay()
 
 	CreateAffordances();
 	UpdateAffordanceTransforms();
+
+	CreateCollisionBox();
 }
 
 void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	DestroyAffordances();
+
+	// Needs to be destroyed explicitly because it's attached to the owning actor
+	CollisionBox->UnregisterComponent();
+	CollisionBox->DestroyComponent();
 
 	Super::EndPlay(EndPlayReason);
 }
@@ -530,4 +535,17 @@ bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox& Box, const 
 	FVector Scale = bIsValid ? ExtentA / ExtentB : FVector::OneVector;
 	OutTransform = FTransform(FRotator::ZeroRotator, Box.GetCenter() - RelativeTo.GetCenter() * Scale, Scale);
 	return bIsValid;
+}
+
+void UUxtBoundsControlComponent::CreateCollisionBox()
+{
+	CollisionBox = NewObject<UBoxComponent>(GetOwner());
+	CollisionBox->SetupAttachment(GetOwner()->GetRootComponent());
+	CollisionBox->RegisterComponent();
+
+	CollisionBox->SetBoxExtent(Bounds.GetExtent());
+	CollisionBox->SetWorldTransform(FTransform(Bounds.GetCenter()) * GetOwner()->GetActorTransform());
+
+	CollisionBox->SetCollisionProfileName(CollisionProfile);
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }

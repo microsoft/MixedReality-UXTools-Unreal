@@ -18,6 +18,7 @@ class UUxtBoundsControlComponent;
 class UMaterialInstanceDynamic;
 class UPrimitiveComponent;
 class UStaticMesh;
+class UBoxComponent;
 
 /** Instance of an affordance on the bounds control actor. */
 USTRUCT()
@@ -106,6 +107,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
 	UStaticMesh* CornerAffordanceMesh;
 
+	/** Collision box that prevents pointer rays from passing through bounds control's box. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UBoxComponent* CollisionBox;
+
+	/** The collision profile used by @ref CollisionBox. */
+	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = BoundsControl)
+	FName CollisionProfile = TEXT("UI");
+
 	/** Minimum valid scale for bounds. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
 	float MinimumBoundsScale = 0.1f;
@@ -193,6 +202,9 @@ protected:
 	static bool GetRelativeBoxTransform(const FBox& Box, const FBox& RelativeTo, FTransform& OutTransform);
 
 private:
+	/** Setup the @ref CollisionBox component. */
+	void CreateCollisionBox();
+
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetInitBoundsFromActor", Category = BoundsControl)
 	bool bInitBoundsFromActor = true;
