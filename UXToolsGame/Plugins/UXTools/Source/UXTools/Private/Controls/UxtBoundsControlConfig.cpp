@@ -3,61 +3,6 @@
 
 #include "Controls/UxtBoundsControlConfig.h"
 
-namespace
-{
-	FMatrix MakeDiagonalMatrix(float X, float Y, float Z)
-	{
-		const float Norm2 = X * X + Y * Y + Z * Z;
-		const float InvNorm = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
-		return FMatrix(FVector(X * X, 0, 0), FVector(0, Y * Y, 0), FVector(0, 0, Z * Z), FVector4(0, 0, 0, 1)) * InvNorm;
-	}
-
-	FMatrix MakeUniformMatrix(float X, float Y, float Z)
-	{
-		const float Norm2 = X * X + Y * Y + Z * Z;
-		const float InvNorm = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
-		return FMatrix(FVector(X * X, X * Y, X * Z), FVector(Y * X, Y * Y, Y * Z), FVector(Z * X, Z * Y, Z * Z), FVector4(0, 0, 0, 1)) *
-			   InvNorm;
-	}
-
-	FMatrix MakeAxialConstraintMatrix(const FVector& Axis)
-	{
-		const float Norm2 = Axis.SizeSquared();
-		const float InvNorm2 = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
-		// Projection on the axis by outer product: M = outer(a, a)
-		const float X = Axis.X;
-		const float Y = Axis.Y;
-		const float Z = Axis.Z;
-		return FMatrix(FVector(X * X, X * Y, X * Z), FVector(Y * X, Y * Y, Y * Z), FVector(Z * X, Z * Y, Z * Z), FVector4(0, 0, 0, 1)) *
-			   InvNorm2;
-	}
-
-	FMatrix MakePlanarConstraintMatrix(const FVector& Normal)
-	{
-		const float Norm2 = Normal.SizeSquared();
-		const float InvNorm2 = Norm2 > 0.0f ? 1.0f / Norm2 : 0.0f;
-		// Projection on the plane by outer product: M = I - outer(n, n)
-		const float X = Normal.X;
-		const float Y = Normal.Y;
-		const float Z = Normal.Z;
-		return FMatrix(
-				   FVector(1.0f - X * X, X * Y, X * Z), FVector(Y * X, 1.0f - Y * Y, Y * Z), FVector(Z * X, Z * Y, 1.0f - Z * Z),
-				   FVector4(0, 0, 0, 1)) *
-			   InvNorm2;
-	}
-
-	/** True if the action supports uniform constraints */
-	bool IsUniformConstraintSupported(EUxtAffordanceAction Action)
-	{
-		switch (Action)
-		{
-		case EUxtAffordanceAction::Rotate:
-			return false;
-		}
-		return true;
-	}
-} // namespace
-
 FVector FUxtAffordanceConfig::GetBoundsLocation() const
 {
 	switch (Placement)
@@ -195,21 +140,41 @@ EUxtAffordanceKind FUxtAffordanceConfig::GetAffordanceKind() const
 	return EUxtAffordanceKind::Center;
 }
 
-FMatrix FUxtAffordanceConfig::GetConstraintMatrix(int32 LockedAxes) const
+EUxtAffordanceAction FUxtAffordanceConfig::GetAction() const
 {
-	// Bounds location is used to determine DoF and mirroring.
-	// Zero value will disable movement on that axis.
-	const FVector P = GetBoundsLocation();
-	const float X = LockedAxes & static_cast<int32>(EUxtAxisFlags::X) ? 0.0f : P.X;
-	const float Y = LockedAxes & static_cast<int32>(EUxtAxisFlags::Y) ? 0.0f : P.Y;
-	const float Z = LockedAxes & static_cast<int32>(EUxtAxisFlags::Z) ? 0.0f : P.Z;
-	if (bUniformAction && IsUniformConstraintSupported(Action))
+	switch (Placement)
 	{
-		return MakeUniformMatrix(X, Y, Z);
-	}
-	else
-	{
-		return MakeDiagonalMatrix(X, Y, Z);
+	default:
+	case EUxtAffordancePlacement::Center:
+	case EUxtAffordancePlacement::FaceFront:
+	case EUxtAffordancePlacement::FaceBack:
+	case EUxtAffordancePlacement::FaceRight:
+	case EUxtAffordancePlacement::FaceLeft:
+	case EUxtAffordancePlacement::FaceTop:
+	case EUxtAffordancePlacement::FaceBottom:
+		return EUxtAffordanceAction::Translate;
+	case EUxtAffordancePlacement::EdgeFrontRight:
+	case EUxtAffordancePlacement::EdgeFrontLeft:
+	case EUxtAffordancePlacement::EdgeFrontTop:
+	case EUxtAffordancePlacement::EdgeFrontBottom:
+	case EUxtAffordancePlacement::EdgeBackRight:
+	case EUxtAffordancePlacement::EdgeBackLeft:
+	case EUxtAffordancePlacement::EdgeBackTop:
+	case EUxtAffordancePlacement::EdgeBackBottom:
+	case EUxtAffordancePlacement::EdgeRightTop:
+	case EUxtAffordancePlacement::EdgeRightBottom:
+	case EUxtAffordancePlacement::EdgeLeftTop:
+	case EUxtAffordancePlacement::EdgeLeftBottom:
+		return EUxtAffordanceAction::Rotate;
+	case EUxtAffordancePlacement::CornerFrontRightTop:
+	case EUxtAffordancePlacement::CornerFrontRightBottom:
+	case EUxtAffordancePlacement::CornerFrontLeftTop:
+	case EUxtAffordancePlacement::CornerFrontLeftBottom:
+	case EUxtAffordancePlacement::CornerBackRightTop:
+	case EUxtAffordancePlacement::CornerBackRightBottom:
+	case EUxtAffordancePlacement::CornerBackLeftTop:
+	case EUxtAffordancePlacement::CornerBackLeftBottom:
+		return EUxtAffordanceAction::Scale;
 	}
 }
 

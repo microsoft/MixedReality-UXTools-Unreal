@@ -57,8 +57,6 @@ enum class EUxtAffordanceKind : uint8
 UENUM()
 enum class EUxtAffordanceAction : uint8
 {
-	/** Move only one side of the bounding box. */
-	Resize,
 	/** Move both sides of the bounding box. */
 	Translate,
 	/** Scale the bounding box, moving both sides in opposite directions. */
@@ -84,12 +82,8 @@ struct UXTOOLS_API FUxtAffordanceConfig
 	 */
 	EUxtAffordanceKind GetAffordanceKind() const;
 
-	/** Constraint matrix defining possible movement directions or rotation axes.
-	 * Drag vectors during interaction are multiplied with this matrix.
-	 * If UniformAction is true the action will apply on all axes equally.
-	 * LockedAxes flags place additional constraints on local axes.
-	 */
-	FMatrix GetConstraintMatrix(int32 LockedAxes) const;
+	/** Action that this affordance will perform when grabbed */
+	EUxtAffordanceAction GetAction() const;
 
 	/**
 	 * Location and rotation of the affordance in world space, based on the root transform.
@@ -104,16 +98,6 @@ struct UXTOOLS_API FUxtAffordanceConfig
 	/** The Euler orientation of the affordance. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
 	FVector Rotation = FVector::ZeroVector;
-
-	/** Action to perform when the affordance is grabbed. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
-	EUxtAffordanceAction Action = EUxtAffordanceAction::Resize;
-
-	/** Apply action in all directions uniformly.
-	 * If true transform is changed equally along every unconstrained axis.
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
-	bool bUniformAction = true;
 };
 
 /** Data asset that stores the configuration of a bounds control. */
@@ -126,7 +110,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = BoundsControl)
 	TArray<FUxtAffordanceConfig> Affordances;
 
-	/** Locked axes when changing bounds. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl, meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
-	int32 LockedAxes = 0;
+	/** Whether this configuration is intended to be used for slate elements */
+	UPROPERTY(EditAnywhere, Category = BoundsControl)
+	bool bIsSlate = false;
+
+	/** Whether this configuration transforms the target uniformly or not */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	bool bUniformScaling = true;
 };

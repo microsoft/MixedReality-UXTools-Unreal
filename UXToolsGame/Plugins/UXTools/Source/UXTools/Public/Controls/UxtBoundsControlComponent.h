@@ -19,6 +19,8 @@ class UMaterialInstanceDynamic;
 class UPrimitiveComponent;
 class UStaticMesh;
 class UBoxComponent;
+class UxtConstraintManager;
+struct UxtAffordanceInteractionCache;
 
 /** Instance of an affordance on the bounds control actor. */
 USTRUCT()
@@ -65,6 +67,11 @@ class UXTOOLS_API UUxtBoundsControlComponent : public UActorComponent
 
 public:
 	UUxtBoundsControlComponent();
+
+	// Those two are necessary to be able to forward declare types used in the TUniquePtr template. See comment in
+	// UniquePtr.h:TDefaultDelete::operator() for further details.
+	UUxtBoundsControlComponent(FVTableHelper& Helper);
+	~UUxtBoundsControlComponent();
 
 	UFUNCTION(BlueprintGetter)
 	AActor* GetBoundsControlActor() const;
@@ -114,14 +121,6 @@ public:
 	/** The collision profile used by @ref CollisionBox. */
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = BoundsControl)
 	FName CollisionProfile = TEXT("UI");
-
-	/** Minimum valid scale for bounds. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
-	float MinimumBoundsScale = 0.1f;
-
-	/** Maximum valid scale for bounds. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
-	float MaximumBoundsScale = 5.0f;
 
 	/** Hand distance at which affordances become visible. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
@@ -176,9 +175,8 @@ protected:
 	 */
 	const FUxtGrabPointerData* FindGrabPointer(const FUxtAffordanceInstance* AffordanceInstance);
 
-	/** Compute new bounding box and rotation based on the currently active grab pointers. */
-	void ComputeModifiedBounds(
-		const FUxtAffordanceConfig& Affordance, const FUxtGrabPointerData& GrabPointer, FBox& OutBounds, FQuat& OutDeltaRotation) const;
+	/** Modify the target based on the current affordance interaction */
+	void TransformTarget(const FUxtAffordanceConfig& Affordance, const FUxtGrabPointerData& GrabPointer) const;
 
 	/** Create the BoundsControlActor and all affordances described in the config. */
 	void CreateAffordances();
@@ -204,6 +202,22 @@ protected:
 private:
 	/** Setup the @ref CollisionBox component. */
 	void CreateCollisionBox();
+
+	/**
+	 * Resets the Transform that the @ref ConstraintsManager uses as reference.
+	 *
+	 * Should be called after @ref UpdateInteractionCache, so it uses the latest data.
+	 */
+	void ResetConstraintsReferenceTransform();
+
+	/**
+	 * Resets the data cache to be used during the interaction.
+	 *
+	 * This is meant to be called at the start of each new interaction.
+	 */
+	void UpdateInteractionCache(const FUxtAffordanceInstance* const AffordanceInstance, const FUxtGrabPointerData& GrabPointerData);
+
+	TUniquePtr<UxtConstraintManager> ConstraintManager;
 
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, BlueprintGetter = "GetInitBoundsFromActor", Category = BoundsControl)
@@ -240,11 +254,6 @@ private:
 	 */
 	TArray<FUxtAffordanceInstance*> GrabbedAffordances;
 
-	/** Initial bounding box at the start of interaction. */
-	UPROPERTY(Transient)
-	FBox InitialBounds;
-
-	/** Initial transform at the start of interaction. */
-	UPROPERTY(Transient)
-	FTransform InitialTransform;
+	/** Cache that holds certain data that is relevant during the whole interaction with an affordance. */
+	TUniquePtr<UxtAffordanceInteractionCache> InteractionCache;
 };
