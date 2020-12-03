@@ -26,6 +26,10 @@
 		{
 			"Name": "UXTools",
 			"Enabled": true
+		},
+		{
+			"Name": "XRVisualization",
+			"Enabled": true
 		}
 	]
 }
