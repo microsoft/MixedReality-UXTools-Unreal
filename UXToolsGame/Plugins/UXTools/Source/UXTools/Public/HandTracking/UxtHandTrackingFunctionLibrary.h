@@ -59,8 +59,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
 	static void DebugActions();
-
-	/** Temporary hack to expose valid WMR motion controller data to blueprints for use with XRVisualization. */
-	UFUNCTION(BlueprintCallable, Category = "HandTracking|UXTools")
-	static bool GetMotionControllerData(UObject* World, EControllerHand Hand, FXRMotionControllerData& OutMotionControllerData);
 };

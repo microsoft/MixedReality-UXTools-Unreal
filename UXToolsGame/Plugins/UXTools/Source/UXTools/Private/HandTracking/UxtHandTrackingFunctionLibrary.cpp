@@ -3,8 +3,6 @@
 
 #include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 
-#include "IXRTrackingSystem.h"
-
 #include "Features/IModularFeatures.h"
 
 #include "GameFramework/InputSettings.h"
@@ -99,25 +97,4 @@ void UUxtHandTrackingFunctionLibrary::DebugActions()
 			UE_LOG(LogTemp, Display, TEXT("OOOOOOOO: %s"), *ActionName.ToString());
 		}
 	}
-}
-
-/** Temporary hack to expose valid WMR motion controller data to blueprints for use with XRVisualization. */
-bool UUxtHandTrackingFunctionLibrary::GetMotionControllerData(UObject* World, EControllerHand Hand, FXRMotionControllerData& OutMotionControllerData)
-{
-	if (IXRTrackingSystem* XRSystem = GEngine->XRSystem.Get())
-	{
-		XRSystem->GetMotionControllerData(World, Hand, OutMotionControllerData);
-
-		// XXX HACK: WMR always reporting invalid hand data, remove once fixed!
-		OutMotionControllerData.bValid = true;
-		OutMotionControllerData.DeviceVisualType =
-			OutMotionControllerData.HandKeyPositions.Num() == EHandKeypointCount ? EXRVisualType::Hand
-			: EXRVisualType::Controller;
-		OutMotionControllerData.GripPosition = OutMotionControllerData.AimPosition;
-		// XXX
-
-		return true;
-	}
-
-	return false;
 }
