@@ -36,6 +36,12 @@ namespace
 		FInputActionKeyMapping(Action_Left_Grip, FKey("MixedReality_Left_Grip_Click")),
 		FInputActionKeyMapping(Action_Right_Select, FKey("MixedReality_Right_Trigger_Click")),
 		FInputActionKeyMapping(Action_Right_Grip, FKey("MixedReality_Right_Grip_Click")),
+
+		// Oculus Touch mappings
+		FInputActionKeyMapping(Action_Left_Select, FKey("OculusTouch_Left_Trigger_Click")),
+		FInputActionKeyMapping(Action_Left_Grip, FKey("OculusTouch_Left_Grip_Click")),
+		FInputActionKeyMapping(Action_Right_Select, FKey("OculusTouch_Right_Trigger_Click")),
+		FInputActionKeyMapping(Action_Right_Grip, FKey("OculusTouch_Right_Grip_Click"))
 	});
 
 	bool IsValidHandData(const FXRMotionControllerData& MotionControllerData)
@@ -204,8 +210,7 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMod
 				Action_Left_Select, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectPressed);
 			NewPlayer->InputComponent->BindAction(
 				Action_Left_Select, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectReleased);
-			NewPlayer->InputComponent->BindAction(
-				Action_Left_Grip, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripPressed);
+			NewPlayer->InputComponent->BindAction(Action_Left_Grip, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripPressed);
 			NewPlayer->InputComponent->BindAction(
 				Action_Left_Grip, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripReleased);
 			NewPlayer->InputComponent->BindAction(
