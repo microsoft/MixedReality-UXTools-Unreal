@@ -37,10 +37,6 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 	FarPointer->PrimaryComponentTick.bStartWithTickEnabled = false;
 	FarPointer->AddTickPrerequisiteActor(this);
 
-	MotionController = CreateDefaultSubobject<UMotionControllerComponent>("MotionController");
-	MotionController->SetupAttachment(GetRootComponent());
-	MotionController->SetShowDeviceModel(true);
-
 	ProximityTrigger = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("ProximityTrigger"));
 	ProximityTrigger->bUseComplexAsSimpleCollision = false;
 	ProximityTrigger->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
@@ -70,7 +66,11 @@ void AUxtHandInteractionActor::BeginPlay()
 	FarPointer->RayStartOffset = RayStartOffset;
 	FarPointer->RayLength = RayLength;
 
-	//const FString HandName = UEnum::GetValueAsString(static_cast<EControllerHand>(Hand)).RightChop(17);
+	MotionController = NewObject<UMotionControllerComponent>(this);
+	MotionController->SetupAttachment(GetRootComponent());
+	MotionController->RegisterComponent();
+	MotionController->SetShowDeviceModel(true);
+	// const FString HandName = UEnum::GetValueAsString(static_cast<EControllerHand>(Hand)).RightChop(17);
 	//MotionController->MotionSource = FName(*HandName);
 	MotionController->SetTrackingSource(Hand);
 
@@ -101,6 +101,13 @@ void AUxtHandInteractionActor::BeginPlay()
 	}
 
 	UpdateProximityMesh();
+}
+
+void AUxtHandInteractionActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	MotionController = nullptr;
+
+	Super::EndPlay(EndPlayReason);
 }
 
 // Returns true if the given primitive is part of a near target
