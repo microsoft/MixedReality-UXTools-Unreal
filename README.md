@@ -1,5 +1,21 @@
 ![Mixed Reality Toolkit](Docs/Images/Logos/MRTK_Unreal_UXT_Banner_Rounded.png)
 
+# About this branch
+
+This branch is a snapshot of our work in progress to support Windows Mixed Reality VR headsets and Oculus Quest. We're making this early version available so MegaJam participants can experiment with UX Tools in VR. We have validated that the main functionality works but haven't gone through our full QA process and the code will be subject to changes before it is officially released. If you are targeting HoloLens 2 use our [latest stable release](https://github.com/microsoft/MixedReality-UXTools-Unreal/releases/tag/v0.10.0) instead.
+
+To use the UX Tools plugin in this branch, clone this repository, checkout the _feature/megajam_ branch and copy _/UXToolsGame/Plugins/UXTools_ to your game's _Plugins_ folder.
+
+For feedback and questions please feel free to reach out to us in the _#game-jams_ channel in the _Unreal Slackers_ group in Discord directing your questions to _@luval_.
+
+# Known issues and limitations
+
+- Hand menus don't work with motion controllers.
+- Input simulation is not available.
+- Only Oculus Touch controllers are supported at the moment in Quest, no hand tracking support yet.
+
+---
+
 # What are the UX Tools?
 
 UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for Mixed Reality applications.
