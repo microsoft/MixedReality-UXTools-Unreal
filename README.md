@@ -6,7 +6,7 @@ This branch is a snapshot of our work in progress to support Windows Mixed Reali
 
 To use the UX Tools plugin in this branch, clone this repository, checkout the _feature/megajam_ branch and copy _/UXToolsGame/Plugins/UXTools_ to your game's _Plugins_ folder.
 
-For feedback and questions please feel free to reach out to us in the _#game-jams_ channel in the _Unreal Slackers_ group in Discord directing your questions to _@luval_.
+For feedback and questions please feel free to reach out to us in the _#game-jams_ channel in the _Unreal Slackers_ group in Discord directing your questions to _@uxtools_.
 
 # Known issues and limitations
 
