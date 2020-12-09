@@ -3,8 +3,7 @@
 
 #include "Controls/UxtBoundsControlComponent.h"
 
-#include "DrawDebugHelpers.h"
-
+#include "Components/BoxComponent.h"
 #include "Components/MeshComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Engine/StaticMesh.h"
@@ -12,6 +11,7 @@
 #include "GameFramework/Actor.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
+#include "Interactions/Constraints/UxtConstraintManager.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
 #include "UObject/ConstructorHelpers.h"
@@ -22,6 +22,35 @@
 #endif
 
 DEFINE_LOG_CATEGORY(LogUxtBoundsControl);
+
+/** Internal cache that will be used during the interaction with an affordance. */
+struct UxtAffordanceInteractionCache
+{
+	/**
+	 * Whether this cache is valid for use.
+	 *
+	 * It can be false when the opposite affordance can't be found due to misconfiguration, for example.
+	 */
+	bool IsValid = false;
+
+	/** Initial bounding box at the start of interaction. */
+	FBox InitialBounds;
+
+	/** Initial transform of the actor at the start of interaction. */
+	FTransform InitialTransform;
+
+	/** Initial diagonal direction (opposite to grabbed affordance). */
+	FVector InitialDiagonalDirection;
+
+	/** Initial location of the opposite affordance. */
+	FVector InitialOppositeAffordanceLoc;
+
+	/** Initial transform of the grab point (world space) */
+	FTransform InitialGrabPointTransform;
+
+	/** Opposite affordance's primitive. Caching here prevents iterating over the map each frame. */
+	UPrimitiveComponent* OppositeAffordancePrimitive;
+};
 
 namespace
 {
@@ -47,6 +76,85 @@ namespace
 		return PointerData.NearPointer ? GetFocusedPrimitive(PointerData.NearPointer)
 									   : (PointerData.FarPointer ? GetFocusedPrimitive(PointerData.FarPointer) : nullptr);
 	}
+
+	FString GetAffordanceBoundsAsString(FUxtAffordanceConfig AffordanceConfig)
+	{
+		const FVector BoundsLoc = AffordanceConfig.GetBoundsLocation();
+		return FString::FromInt(BoundsLoc.X) + "," + FString::FromInt(BoundsLoc.Y) + "," + FString::FromInt(BoundsLoc.Z);
+	}
+
+	/**
+	 * Finds the affordance primitive that is opposite to the one specified by @ref Config.
+	 *
+	 * That will be the affordance on the other side of the diagonal that passes through:
+	 *  - If !IsFlat, the center of the bounding box.
+	 *  - If IsFlat, the center of the front face (X axis).
+	 */
+	UPrimitiveComponent* GetOppositeAffordance(
+		const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& PrimitiveAffordanceMap, const FUxtAffordanceConfig& Config,
+		const bool IsFlat = false)
+	{
+		FVector OppositeBounds = -Config.GetBoundsLocation();
+		if (IsFlat)
+		{
+			// If flat (2D slate), search for the opposite corner inside the same face (use the original X)
+			OppositeBounds.X *= -1;
+		}
+		for (const auto& AffordancePair : PrimitiveAffordanceMap)
+		{
+			if (AffordancePair.Value.Config.GetBoundsLocation().Equals(OppositeBounds))
+			{
+				return AffordancePair.Key;
+			}
+		}
+		return nullptr;
+	}
+
+	/**
+	 * Finds the normal of the plane that a given affordance should rotate around.
+	 *
+	 * @param NormalizedAffordanceBounds Affordance bounds normalized to the [-1, 1] range.
+	 */
+	FVector GetRotationPlaneNormal(const FVector& NormalizedAffordanceLoc)
+	{
+		FVector RotationPlane = FVector::ZeroVector;
+
+		// Discard corners (at least one component is 0 in all non-corner affordances)
+		if (NormalizedAffordanceLoc.X * NormalizedAffordanceLoc.Y * NormalizedAffordanceLoc.Z)
+		{
+			return RotationPlane;
+		}
+
+		// Since rotation affordances are on the edges, the rotation plane slices the object through the center
+		if (NormalizedAffordanceLoc.Z == 0)
+		{
+			RotationPlane = FVector(0, 0, 1); // Horizontally
+		}
+		else if (NormalizedAffordanceLoc.Y == 0)
+		{
+			RotationPlane = FVector(0, 1, 0); // Vertically through the front/back
+		}
+		else
+		{
+			RotationPlane = FVector(1, 0, 0); // Vertically through the sides
+		}
+		return RotationPlane;
+	}
+
+	/**
+	 * Rotates the transform around the pivot, unless constraints apply.
+	 */
+	FTransform CalculateConstrainedRotation(
+		const UxtConstraintManager* const ConstraintManager, const FTransform& OriginalTransform, const FQuat& DeltaRotation,
+		const FVector& Pivot, const bool IsNear)
+	{
+		// Taking the full rotation (not only DeltaRotation) because rotation axis constraint calculates the delta inside
+		FTransform ConstrainedRotTransform = FTransform(OriginalTransform.GetRotation() * DeltaRotation);
+		ConstraintManager->ApplyRotationConstraints(ConstrainedRotTransform, true, IsNear);
+		// Get the constrained delta only and use it to rotate about the pivot point
+		ConstrainedRotTransform = ConstrainedRotTransform * OriginalTransform.GetRotation().Inverse();
+		return UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(OriginalTransform, ConstrainedRotTransform.Rotator(), Pivot);
+	}
 } // namespace
 
 UUxtBoundsControlComponent::UUxtBoundsControlComponent()
@@ -71,7 +179,15 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 
 	static ConstructorHelpers::FObjectFinder<UMaterialParameterCollection> Finder(TEXT("/UXTools/Materials/MPC_UXSettings"));
 	ParameterCollection = Finder.Object;
+
+	InteractionCache = MakeUnique<UxtAffordanceInteractionCache>();
 }
+
+UUxtBoundsControlComponent::UUxtBoundsControlComponent(FVTableHelper& Helper)
+{
+}
+
+UUxtBoundsControlComponent::~UUxtBoundsControlComponent() = default;
 
 AActor* UUxtBoundsControlComponent::GetBoundsControlActor() const
 {
@@ -156,7 +272,8 @@ void UUxtBoundsControlComponent::CreateAffordances()
 	for (const FUxtAffordanceConfig& AffordanceConfig : Config->Affordances)
 	{
 		// Create the mesh component for visuals and collision
-		UStaticMeshComponent* MeshComponent = NewObject<UStaticMeshComponent>(BoundsControlActor);
+		const FName AffordanceName = FName("Affordance_" + GetAffordanceBoundsAsString(AffordanceConfig));
+		UStaticMeshComponent* MeshComponent = NewObject<UStaticMeshComponent>(BoundsControlActor, AffordanceName);
 		MeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		MeshComponent->RegisterComponent();
 		BoundsControlActor->AddInstanceComponent(MeshComponent);
@@ -176,6 +293,12 @@ void UUxtBoundsControlComponent::CreateAffordances()
 
 void UUxtBoundsControlComponent::DestroyAffordances()
 {
+	// If config file wasn't valid, it's nullptr
+	if (!BoundsControlActor)
+	{
+		return;
+	}
+
 	// If any grab pointers are still active, end the interaction.
 	if (BoundsControlGrabbable->GetGrabPointers().Num() > 0)
 	{
@@ -308,11 +431,19 @@ void UUxtBoundsControlComponent::BeginPlay()
 
 	CreateAffordances();
 	UpdateAffordanceTransforms();
+
+	CreateCollisionBox();
+
+	ConstraintManager = MakeUnique<UxtConstraintManager>(*GetOwner());
 }
 
 void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	DestroyAffordances();
+
+	// Needs to be destroyed explicitly because it's attached to the owning actor
+	CollisionBox->UnregisterComponent();
+	CollisionBox->DestroyComponent();
 
 	Super::EndPlay(EndPlayReason);
 }
@@ -329,113 +460,98 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 		const FUxtAffordanceInstance& AffordanceInstance = *GrabbedAffordances[0];
 		const FUxtGrabPointerData& GrabPointer = BoundsControlGrabbable->GetGrabPointers()[0];
 
-		FBox NewBounds;
-		FQuat DeltaRotation;
-		ComputeModifiedBounds(AffordanceInstance.Config, GrabPointer, NewBounds, DeltaRotation);
-
-		// Change the actor transform to match the new bounding box.
-		// Bounds are not actually changed, they inherit the transform from the actor.
-		FTransform BoxTransform;
-		if (GetRelativeBoxTransform(NewBounds, InitialBounds, BoxTransform))
+		if (InteractionCache->IsValid)
 		{
-			FTransform NewTransform = BoxTransform * InitialTransform;
-
-			FVector Pivot = InitialTransform.TransformPosition(InitialBounds.GetCenter());
-			NewTransform = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(NewTransform, DeltaRotation.Rotator(), Pivot);
-
-			FVector MinBox = FVector(MinimumBoundsScale, MinimumBoundsScale, MinimumBoundsScale);
-			FVector MaxBox = FVector(MaximumBoundsScale, MaximumBoundsScale, MaximumBoundsScale);
-
-			NewTransform.SetScale3D(NewTransform.GetScale3D().BoundToBox(MinBox, MaxBox));
-
-			GetOwner()->SetActorTransform(NewTransform);
+			TransformTarget(AffordanceInstance.Config, GrabPointer);
 		}
-	}
-	else if (!GetOwner()->GetActorTransform().Equals(InitialTransform))
-	{
-		InitialTransform = GetOwner()->GetActorTransform();
 	}
 
 	UpdateAffordanceAnimation(DeltaTime);
+	ConstraintManager->Update(GetOwner()->GetActorTransform());
 }
 
-void UUxtBoundsControlComponent::ComputeModifiedBounds(
-	const FUxtAffordanceConfig& Affordance, const FUxtGrabPointerData& GrabPointer, FBox& OutBounds, FQuat& OutDeltaRotation) const
+void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& AffordanceConfig, const FUxtGrabPointerData& GrabPointer) const
 {
-	//
-	// Look up settings for the affordance
+	const FTransform GrabTransform = GrabPointer.GrabPointTransform;
 
-	const FVector AffordanceLoc = Affordance.GetBoundsLocation();
-	const FMatrix AffordanceConstraint = Affordance.GetConstraintMatrix(Config ? Config->LockedAxes : 0);
+	const bool IsNear = GrabPointer.NearPointer != nullptr;
+	check(IsNear != (GrabPointer.FarPointer != nullptr)); // Only one must be nullptr
 
-	//
-	// Compute grab pointer movement
+	FVector ScaleFactor = FVector::OneVector;
+	FTransform NewTransform = InteractionCache->InitialTransform;
 
-	const FVector LocalGrabPoint = GrabPointer.LocalGrabPoint.GetTranslation();
-
-	const FVector Target = UUxtGrabPointerDataFunctionLibrary::GetTargetLocation(GrabPointer);
-	// Note: BoundsControlActor only copies loc & rot of the owning actor.
-	// InitialTransform contains the owning actor scale, which has to be ignored.
-	const FVector LocalTarget = InitialTransform.InverseTransformPositionNoScale(Target);
-
-	//
-	// Compute modified bounding box
-
-	OutBounds = InitialBounds;
-	OutDeltaRotation = FQuat::Identity;
-
-	switch (Affordance.Action)
+	switch (AffordanceConfig.GetAction())
 	{
-	case EUxtAffordanceAction::Resize:
-	{
-		FVector LocalDelta = LocalTarget - LocalGrabPoint;
-		FVector ConstrainedDelta = AffordanceConstraint.TransformVector(LocalDelta);
-
-		// Influence factors based on location: only move the side the affordance is on
-		FVector MaxFactor =
-			FVector(AffordanceLoc.X > 0.0f ? 1.0f : 0.0f, AffordanceLoc.Y > 0.0f ? 1.0f : 0.0f, AffordanceLoc.Z > 0.0f ? 1.0f : 0.0f);
-		FVector MinFactor = FVector::OneVector - MaxFactor;
-		OutBounds.Min += ConstrainedDelta * MinFactor;
-		OutBounds.Max += ConstrainedDelta * MaxFactor;
-		break;
-	}
-
 	case EUxtAffordanceAction::Translate:
 	{
-		FVector LocalDelta = LocalTarget - LocalGrabPoint;
-		FVector ConstrainedDelta = AffordanceConstraint.TransformVector(LocalDelta);
-
-		// All sides moving together
-		OutBounds.Min += ConstrainedDelta;
-		OutBounds.Max += ConstrainedDelta;
+		// Project the distance between initial and current grab point onto the diagonal
+		const FVector CurrentWorldGrabPointLoc = GrabTransform.GetLocation();
+		const FVector InitialWorldGrabPointLoc = InteractionCache->InitialGrabPointTransform.GetLocation();
+		const float ProjectionFactor =
+			FVector::DotProduct(CurrentWorldGrabPointLoc - InitialWorldGrabPointLoc, InteractionCache->InitialDiagonalDirection);
+		const FVector Translation = InteractionCache->InitialDiagonalDirection * ProjectionFactor;
+		NewTransform.AddToTranslation(Translation);
+		ConstraintManager->ApplyTranslationConstraints(NewTransform, true, IsNear);
 		break;
 	}
-
 	case EUxtAffordanceAction::Scale:
 	{
-		FVector LocalDelta = LocalTarget - LocalGrabPoint;
-		FVector ConstrainedDelta = AffordanceConstraint.TransformVector(LocalDelta);
+		// Calculate initial and current distances to the opposite affordance
+		const FVector InitialOppositeToGrabPoint =
+			InteractionCache->InitialGrabPointTransform.GetLocation() - InteractionCache->InitialOppositeAffordanceLoc;
+		const FVector CurrentOppositeToGrabPoint = GrabTransform.GetLocation() - InteractionCache->InitialOppositeAffordanceLoc;
 
-		// Influence factors based on location: move opposing sides in opposite directions
-		FVector MaxFactor =
-			FVector(AffordanceLoc.X > 0.0f ? 1.0f : -1.0f, AffordanceLoc.Y > 0.0f ? 1.0f : -1.0f, AffordanceLoc.Z > 0.0f ? 1.0f : -1.0f);
-		FVector MinFactor = -MaxFactor;
-		OutBounds.Min += ConstrainedDelta * MinFactor;
-		OutBounds.Max += ConstrainedDelta * MaxFactor;
+		// Calculate the scale factor as the difference between initial and current distances
+		if (Config->bUniformScaling)
+		{
+			const float InitialDist = FVector::DotProduct(InitialOppositeToGrabPoint, InteractionCache->InitialDiagonalDirection);
+			const float CurrentDist = FVector::DotProduct(CurrentOppositeToGrabPoint, InteractionCache->InitialDiagonalDirection);
+
+			const float ScaleFactorUniform = (CurrentDist - InitialDist) / InitialDist;
+			ScaleFactor += FVector(ScaleFactorUniform);
+		}
+		else
+		{
+			const FVector GrabDiff = CurrentOppositeToGrabPoint - InitialOppositeToGrabPoint;
+			ScaleFactor += (GrabDiff / InitialOppositeToGrabPoint);
+		}
+		if (Config->bIsSlate)
+		{
+			ScaleFactor.X = 1;
+		}
+		NewTransform.SetScale3D(InteractionCache->InitialTransform.GetScale3D() * ScaleFactor);
+		ConstraintManager->ApplyScaleConstraints(NewTransform, true, IsNear);
 		break;
 	}
-
 	case EUxtAffordanceAction::Rotate:
 	{
-		FVector LocalCenter = InitialBounds.GetCenter();
-		// Apply constraints to the grab and target vectors.
-		FVector ConstrainedGrab = AffordanceConstraint.TransformVector(LocalGrabPoint - LocalCenter);
-		FVector ConstrainedTarget = AffordanceConstraint.TransformVector(LocalTarget - LocalCenter);
-		FQuat BaseRotation = FQuat::FindBetweenVectors(ConstrainedGrab, ConstrainedTarget);
-		FQuat InitRot = InitialTransform.GetRotation();
-		OutDeltaRotation = InitRot * BaseRotation * InitRot.Inverse();
+		const FVector LocalPivot = InteractionCache->InitialBounds.GetCenter();
+		const FVector Pivot = InteractionCache->InitialTransform.TransformPosition(LocalPivot);
+
+		const FVector RotPlaneNormal =
+			InteractionCache->InitialTransform.TransformVector(GetRotationPlaneNormal(AffordanceConfig.GetBoundsLocation())).GetSafeNormal();
+
+		const FVector InitialLocalGrabLoc = InteractionCache->InitialGrabPointTransform.GetLocation() - Pivot;
+		const FVector CurrentLocalGrabLoc = GrabTransform.GetLocation() - Pivot;
+
+		const FVector InitDir = FVector::VectorPlaneProject(InitialLocalGrabLoc, RotPlaneNormal).GetSafeNormal();
+		const FVector CurrDir = FVector::VectorPlaneProject(CurrentLocalGrabLoc, RotPlaneNormal).GetSafeNormal();
+
+		NewTransform =
+			CalculateConstrainedRotation(ConstraintManager.Get(), NewTransform, FQuat::FindBetween(InitDir, CurrDir), Pivot, IsNear);
+
 		break;
 	}
+	}
+
+	GetOwner()->SetActorTransform(NewTransform);
+
+	if (AffordanceConfig.GetAction() == EUxtAffordanceAction::Scale)
+	{
+		// When scaling, leave the opposite corner pinned to its initial location
+		const FVector CurrentOppositeAffordanceLoc = InteractionCache->OppositeAffordancePrimitive->GetComponentLocation();
+		const FVector Offset = CurrentOppositeAffordanceLoc - InteractionCache->InitialOppositeAffordanceLoc;
+		GetOwner()->SetActorLocation(InteractionCache->InitialTransform.GetLocation() - Offset);
 	}
 }
 
@@ -485,8 +601,8 @@ void UUxtBoundsControlComponent::OnAffordanceBeginGrab(UUxtGrabTargetComponent* 
 	if (GrabbedAffordances.Num() == 0)
 	{
 		GrabbedAffordances.Emplace(AffordanceInstance);
-		InitialBounds = Bounds;
-		InitialTransform = GetOwner()->GetActorTransform();
+		UpdateInteractionCache(AffordanceInstance, GrabPointer);
+		ResetConstraintsReferenceTransform();
 
 		OnManipulationStarted.Broadcast(this, AffordanceInstance->Config, Grabbable);
 	}
@@ -530,4 +646,53 @@ bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox& Box, const 
 	FVector Scale = bIsValid ? ExtentA / ExtentB : FVector::OneVector;
 	OutTransform = FTransform(FRotator::ZeroRotator, Box.GetCenter() - RelativeTo.GetCenter() * Scale, Scale);
 	return bIsValid;
+}
+
+void UUxtBoundsControlComponent::CreateCollisionBox()
+{
+	CollisionBox = NewObject<UBoxComponent>(GetOwner());
+	CollisionBox->SetupAttachment(GetOwner()->GetRootComponent());
+	CollisionBox->RegisterComponent();
+
+	CollisionBox->SetBoxExtent(Bounds.GetExtent());
+	CollisionBox->SetWorldTransform(FTransform(Bounds.GetCenter()) * GetOwner()->GetActorTransform());
+
+	CollisionBox->SetCollisionProfileName(CollisionProfile);
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void UUxtBoundsControlComponent::ResetConstraintsReferenceTransform()
+{
+	ConstraintManager->Initialize(InteractionCache->InitialTransform);
+}
+
+void UUxtBoundsControlComponent::UpdateInteractionCache(
+	const FUxtAffordanceInstance* const AffordanceInstance, const FUxtGrabPointerData& GrabPointerData)
+{
+	InteractionCache->IsValid = false;
+
+	InteractionCache->InitialBounds = Bounds;
+	InteractionCache->InitialTransform = GetOwner()->GetActorTransform();
+
+	InteractionCache->OppositeAffordancePrimitive =
+		GetOppositeAffordance(PrimitiveAffordanceMap, AffordanceInstance->Config, Config->bIsSlate);
+
+	if (!InteractionCache->OppositeAffordancePrimitive)
+	{
+		UE_LOG(
+			LogUxtBoundsControl, Error,
+			TEXT("Couldn't find opposite affordance. If '%s' is a 2D slate, please make sure that its face is aligned to the X axis "
+				 "and that the 'Is Slate' property is checked in the Bounds Control Config data asset"),
+			*GetOwner()->GetName());
+		return;
+	}
+
+	InteractionCache->InitialOppositeAffordanceLoc = InteractionCache->OppositeAffordancePrimitive->GetComponentTransform().GetLocation();
+
+	InteractionCache->InitialDiagonalDirection =
+		InteractionCache->InitialTransform.GetLocation() - InteractionCache->InitialOppositeAffordanceLoc;
+
+	InteractionCache->InitialGrabPointTransform = GrabPointerData.GrabPointTransform;
+
+	InteractionCache->IsValid = true;
 }

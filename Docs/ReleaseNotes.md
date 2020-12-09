@@ -12,6 +12,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 - [What's new](#whats-new)
 - [Breaking changes](#breaking-changes)
+- [Known issues](#known-issues)
 
 This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us but is not the current focus.
 
@@ -40,6 +41,13 @@ The pinch slider actor has gained a number of quality of life improvements. Thes
 
 The pinch slider component now has the option to use stepped movement. This can be configured in the advanced settings for the component.
 
+### UxtBoundsControlComponent
+
+In order to simplify the `UUxtBoundsControlComponent`, besides reducing the number of edge cases and better aligning with its MRTK-Unity's counterpart:
+
+- `UUxtBoundsControlComponent` now allows constraints' configuration via the same mechanism as the _Manipulators_. This means that the same `UUxtTransformConstraint`-derived constraints can be used with bounds-controlled objects.
+- `UUxtBoundsControlConfig` data assets are simplified, so they don't need to specify what each affordance does separately. Now corners scale, edges rotate and faces/center translate.
+
 ## Breaking changes
 
 ### UxtGenericManipulatorComponent
@@ -60,7 +68,9 @@ Most blueprints will continue to work with no issues but any blueprints that acc
 
 ### UxtPinchSliderActor
 
-As part of adding a customizable minimum / maximum slider value, the _InitialValue_ property has been replaced with a _Value_ property. Previous settings can be easily carried forward by:
+As part of adding a customizable minimum / maximum slider value, the _InitialValue_ property has been replaced with a _Value_ property. As part of this change, the `GetInitialValue()` and `SetInitialValue(...)` functions on the `UxtPinchSliderActor` are now called `GetValue()` and `SetValue(...)`.
+
+Previous settings can be easily carried forward:
 
 1. Add `+PropertyRedirects=(OldName="UxtPinchSliderActor.InitialValue", NewName="UxtPinchSliderActor.Value")` to _DefaultUXTools.ini_. (found in the plugin's configuration folder)
 2. Re-save any levels with sliders to update their properties.
@@ -70,3 +80,17 @@ As part of adding a customizable minimum / maximum slider value, the _InitialVal
 
 The `UxtTransformConstraint` has been converted from a `SceneComponent` to an `ActorComponent`. This affects the classes derived from `UxtTransformConstraint` such as the `UxtFaceUserConstraint`, the `UxtFixedDistanceConstraint`, the `UxtFixedRotationToUserConstraint`, the `UxtFixedRotationToWorldConstraint`, the `UxtMaintainApparentSizeConstraint`, the `UxtMoveAxisConstraint` and the `UxtRotationAxisConstraint`.
 Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.
+
+### UxtBoundsControlComponent
+
+Configuring each affordance's action separately is no longer allowed so, if any feature relied on that, an extension to the `UUxtBoundsControlComponent` should be implemented instead. Besides that, the `EUxtAffordanceAction::Resize` has been removed, so only `EUxtAffordanceAction::Scale` (action of corner affordances) can scale the object in the direction that the grabbed affordance is on, leaving the opposite affordance pinned to its location at the start of the interaction.
+
+_Locked Axes_ property in `UUxtBoundsControlConfig` data assets no longer exists. Therefore, if you were using the _Locked Axes_ flags to constrain movement or rotation of an object, you should now add the appropriate `UUxtMoveAxisConstraint` or `UUxtRotationAxisConstraint` (respectively) instead.
+
+The _MinimumBoundsScale_ and _MaximumBoundsScale_ properties have been removed in favor of using the `UxtMinMaxScaleConstraint` for controlling this behavior.
+
+## Known issues
+
+### UxtGenericManipulatorComponent
+
+When the target component's rotation does not match its parent actor's rotation, the parent actors rotation will be applied to the target component when manipulation is started.

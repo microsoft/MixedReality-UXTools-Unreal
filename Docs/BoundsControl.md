@@ -10,40 +10,30 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 # BoundsControl
 
-Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using _affordances_. Affordances are grabbable areas on corners, edges, and faces of the actor's bounding box.
+Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using _affordances_. Affordances are grabbable areas on corners (scale), edges (rotate), and faces (translate) of the actor's bounding box.
 
-To enable bounds control on an actor, add a UxtBoundsControl component. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.
+To enable bounds control on an actor, add an `UUxtBoundsControlComponent` to it. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.
 
-![FollowComponent](Images/BoundsControl.png)
+![BoundsControlComponent](Images/BoundsControl.png)
 
 ## Bounds Control Config
 
-Bounds control uses `UxtBoundsControlConfig` data assets that describe the layout of affordances.
+`UxtBoundsControlConfig` data assets are used to configure:
 
-A number of presets exist for standard behavior in _Bounds Control/Presets_:
-* _BoundsControlDefault_: Uniform resizing with corners and rotation with edges.
-* _BoundsControlSlate2D_: Only front corners and edges are shown, all resize.
-* _BoundsControlAllResize_: Full set of affordances, all resizing.
-* _BoundsControlAllTranslate_: Full set of affordances, all translating.
-* _BoundsControlAllScale_: Full set of affordances, all scaling.
-* _BoundsControlAllRotate_: Full set of affordances, all rotating.
-Users can create custom bounds control setups by copying or adding new `UxtBoundsControlConfig` data assets.
+* `Affordances` array. Each has:
+  * `Placement`. Enumerator with the position of the affordance around the actor. For example, `CornerFrontTopLeft`, `EdgeBottomRight` or `FaceBack`. See `EUxtAffordancePlacement` for a complete list.
+  * `Rotation` of the instanced mesh.
+* `IsSlate`. Whether it should be considered a 2D element or not. If so, it won't scale along the _X_ axis.
+* `UniformScaling`. Whether uniform or non-uniform scaling is desired.
 
-The config asset contains a list of affordances. Each affordance is described by its _Placement_ on the bounding box, a combination of the affordance kind and directions, for example:
-* `CornerFrontTopLeft`
-* `EdgeBottomRight`
-* `FaceBack`
-* `Center`
+There are some presets in _BoundsControl/Presets_:
 
-The affordance _Action_ describes the effect on the bounding box when moving the affordance:
-* _Resize_: Move only one side of the bounding box.
-* _Translate_: Move both sides of the bounding box in parallel.
-* _Scale_: Scale the bounding box, moving both sides in opposite directions.
-* _Rotate_: Rotate the bounding box about its center point.
+* `BoundsControlDefault`: All corner and edge affordances with uniform scaling.
+* `BoundsControlSlate2D`: Only front corners and edges, with non-uniform scaling.
 
-The _Uniform Action_ flag can be turned off to allow non-uniform scaling and translation.
+## Integration with manipulator constraints
 
-_Locked Axes_ flags restrict actions in the local space of the bounds control. For example, if the `X` axis is locked then moving an affordance forward will not have an effect. Two axes can be locked to allow movement only along the remaining axis.
+The `UUxtBoundsControlComponent` works out of the box with the same constraint components that [Manipulators](./Manipulator.md) use. For example, simply adding and configuring a `UUxtRotationAxisConstraint` component will prevent rotation around the appropriate axes when interacting via affordances.
 
 ## Affordance meshes
 
