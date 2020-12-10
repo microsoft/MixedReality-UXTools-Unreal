@@ -16,37 +16,37 @@ class UUxtNearPointerComponent;
 /**
  * Target for UxtGrabTargetComponent tests that counts events.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UGrabTargetTestComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnEnterFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer) { EnterFarFocusCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnUpdateFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer) { UpdateFarFocusCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnExitFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer) { ExitFarFocusCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnEnterGrabFocus(UUxtGrabTargetComponent* Grabbable, UUxtNearPointerComponent* Pointer) { EnterGrabFocusCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnUpdateGrabFocus(UUxtGrabTargetComponent* Grabbable, UUxtNearPointerComponent* Pointer) { UpdateGrabFocusCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnExitGrabFocus(UUxtGrabTargetComponent* Grabbable, UUxtNearPointerComponent* Pointer) { ExitGrabFocusCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnBeginGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer) { BeginGrabCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnUpdateGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer) { UpdateGrabCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer) { EndGrabCount++; }
 
 	int EnterFarFocusCount = 0;

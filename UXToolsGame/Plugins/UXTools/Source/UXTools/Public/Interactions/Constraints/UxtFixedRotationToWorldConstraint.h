@@ -15,7 +15,7 @@
  * Usage:
  * Attach to actor that the constraint should be applied to.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFixedRotationToWorldConstraint : public UUxtTransformConstraint
 {
 	GENERATED_BODY()

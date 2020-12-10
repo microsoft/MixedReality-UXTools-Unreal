@@ -17,7 +17,7 @@ class USoundCue;
  * A simple HoloLens 2 style slider that can be moved by grabbing / pinching a slider thumb.
  * The class is extensible to support additional functionality.
  */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLS_API AUxtPinchSliderActor : public AActor
 {
 	GENERATED_BODY()
@@ -29,136 +29,136 @@ public:
 	// Getters and setters.
 
 	// Value.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetValue() const { return Value; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetValue(float NewValue);
 
 	// Minimum value.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetMinValue() const { return MinValue; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetMinValue(float NewMinValue);
 
 	// Maximum value.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetMaxValue() const { return MaxValue; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetMaxValue(float NewMaxValue);
 
 	// Track length.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetTrackLength() const { return TrackLength; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetTrackLength(float NewTrackLength);
 
 	// Step with tick marks.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	bool GetStepWithTickMarks() const { return bStepWithTickMarks; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetStepWithTickMarks(bool bNewStepWithTickMarks);
 
 	// Title.
-	UFUNCTION(BlueprintGetter, Category = "Slider Text")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Text")
 	FText GetTitle() const { return Title; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Text")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Text")
 	void SetTitle(FText NewTitle);
 
 	// Number of decimal places in the value text.
-	UFUNCTION(BlueprintGetter, Category = "Slider Text")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Text")
 	int GetValueTextDecimalPlaces() const { return ValueTextDecimalPlaces; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Text")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Text")
 	void SetValueTextDecimalPlaces(int NewValueTextDecimalPlaces);
 
 	// Align the text with the Z axis.
-	UFUNCTION(BlueprintGetter, Category = "Slider Text")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Text")
 	bool GetAlignTextWithZ() const { return bAlignTextWithZ; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Text")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Text")
 	void SetAlignTextWithZ(bool bNewAlignTextWithZ);
 
 	// Move the text with the thumb.
-	UFUNCTION(BlueprintGetter, Category = "Slider Text")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Text")
 	bool GetMoveTextWithThumb() const { return bMoveTextWithThumb; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Text")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Text")
 	void SetMoveTextWithThumb(bool bNewMoveWithThumb);
 
 	// Number of tick marks.
-	UFUNCTION(BlueprintGetter, Category = "Slider Tick Marks")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | TickMarks")
 	int GetNumTickMarks() const { return NumTickMarks; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Tick Marks")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | TickMarks")
 	void SetNumTickMarks(int NewNumTickMarks);
 
 	// Tick mark scale.
-	UFUNCTION(BlueprintGetter, Category = "Slider Tick Marks")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | TickMarks")
 	FVector GetTickMarkScale() const { return TickMarkScale; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Tick Marks")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | TickMarks")
 	void SetTickMarkScale(FVector NewTickMarkScale);
 
 	// Default color.
-	UFUNCTION(BlueprintGetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Visuals")
 	FLinearColor GetDefaultThumbColor() const { return DefaultThumbColor; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Visuals")
 	void SetDefaultThumbColor(FLinearColor NewDefaultThumbColor);
 
 	// Focused color.
-	UFUNCTION(BlueprintGetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Visuals")
 	FLinearColor GetFocusedThumbColor() const { return FocusedThumbColor; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Visuals")
 	void SetFocusedThumbColor(FLinearColor NewFocusedThumbColor);
 
 	// Grabbed color.
-	UFUNCTION(BlueprintGetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Visuals")
 	FLinearColor GetGrabbedThumbColor() const { return GrabbedThumbColor; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Visuals")
 	void SetGrabbedThumbColor(FLinearColor NewGrabbedThumbColor);
 
 	// Disabled color.
-	UFUNCTION(BlueprintGetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Visuals")
 	FLinearColor GetDisabledThumbColor() const { return DisabledThumbColor; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Colors")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Visuals")
 	void SetDisabledThumbColor(FLinearColor NewDisabledThumbColor);
 
 	// Grab sound.
-	UFUNCTION(BlueprintGetter, Category = "Slider Sounds")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Audio")
 	USoundCue* GetGrabSound() const { return GrabSound; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Sounds")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Audio")
 	void SetGrabSound(USoundCue* NewGrabSound);
 
 	// Release sound.
-	UFUNCTION(BlueprintGetter, Category = "Slider Sounds")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Audio")
 	USoundCue* GetReleaseSound() const { return ReleaseSound; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Sounds")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Audio")
 	void SetReleaseSound(USoundCue* NewReleaseSound);
 
 	// Tick sound.
-	UFUNCTION(BlueprintGetter, Category = "Slider Sounds")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Audio")
 	USoundCue* GetTickSound() const { return TickSound; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Sounds")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Audio")
 	void SetTickSound(USoundCue* NewTickSound);
 
 	// Default thumb scale.
-	UFUNCTION(BlueprintGetter, Category = "Slider Thumb Scaling")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Thumb")
 	float GetDefaultThumbScale() const { return DefaultThumbScale; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Thumb Scaling")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Thumb")
 	void SetDefaultThumbScale(float NewDefaultThumbScale);
 
 	// Focused thumb scale.
-	UFUNCTION(BlueprintGetter, Category = "Slider Thumb Scaling")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Thumb")
 	float GetFocusedThumbScale() const { return FocusedThumbScale; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Thumb Scaling")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Thumb")
 	void SetFocusedThumbScale(float NewFocusedThumbScale);
 
 	// Thumb scale curve.
-	UFUNCTION(BlueprintGetter, Category = "Slider Thumb Scaling")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider | Thumb")
 	UCurveFloat* GetThumbScaleCurve() const { return ThumbScaleCurve; }
-	UFUNCTION(BlueprintSetter, Category = "Slider Thumb Scaling")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider | Thumb")
 	void SetThumbScaleCurve(UCurveFloat* NewThumbScaleCurve);
 
 	//
 	// Events
 
 	/** Event raised when the slider's value changes. */
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Pinch Slider")
 	void OnSliderUpdateValue(float NewValue);
 
 protected:
@@ -170,61 +170,61 @@ protected:
 	//
 	// PinchSlider event callbacks.
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Pinch Slider")
 	virtual void OnUpdateState(UUxtPinchSliderComponent* Slider, EUxtSliderState NewState);
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Pinch Slider")
 	virtual void OnBeginGrab(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer);
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Pinch Slider")
 	virtual void OnUpdateValue(UUxtPinchSliderComponent* Slider, float NewValue);
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Pinch Slider")
 	virtual void OnEndGrab(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer);
 
 	//
 	// ScaleTimeline event callbacks.
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Pinch Slider")
 	void OnUpdateTimeline(float Scale);
 
 	//
 	// Components.
 
 	/** The slider functionality. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Visuals")
 	UUxtPinchSliderComponent* PinchSlider;
 
 	/** The thumb visuals. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Visuals")
 	UStaticMeshComponent* Thumb;
 
 	/** The track visuals. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Visuals")
 	UStaticMeshComponent* Track;
 
 	/** The tick mark visuals. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Visuals")
 	class UInstancedStaticMeshComponent* TickMarks;
 
 	/** Root text component to allow text to move as a block. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Text")
 	USceneComponent* TextRoot;
 
 	/** The title text, configure using the 'Title' property. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Text")
 	class UTextRenderComponent* TitleText;
 
 	/** The value text. TODO configure */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Text")
 	class UTextRenderComponent* ValueText;
 
 	/** The audio cues, configure using the 'Slider Sounds' properties. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider | Audio")
 	class UAudioComponent* Audio;
 
 	/** The timeline for scaling the thumb, configuring using the 'Slider Thumb Scaling' properties. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Slider Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider")
 	UTimelineComponent* ScaleTimeline;
 
 private:
@@ -245,97 +245,108 @@ private:
 	// Configurable properties.
 
 	/** The slider's initial value. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetValue, BlueprintSetter = SetValue, Category = "Pinch Slider")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider", BlueprintGetter = GetValue, BlueprintSetter = SetValue)
 	float Value = 0.0f;
 
 	/** The slider's minimum value. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetMinValue, BlueprintSetter = SetMinValue, Category = "Pinch Slider")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider", BlueprintGetter = GetMinValue, BlueprintSetter = SetMinValue)
 	float MinValue = 0.0f;
 
 	/** The slider's maximum value. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetMaxValue, BlueprintSetter = SetMaxValue, Category = "Pinch Slider")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider", BlueprintGetter = GetMaxValue, BlueprintSetter = SetMaxValue)
 	float MaxValue = 1.0f;
 
 	/** The length of the slider's track. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetTrackLength, BlueprintSetter = SetTrackLength, Category = "Pinch Slider",
+		EditAnywhere, Category = "Uxt Pinch Slider", BlueprintGetter = GetTrackLength, BlueprintSetter = SetTrackLength,
 		meta = (ClampMin = 0.0f))
 	float TrackLength = 50.0f;
 
 	/** Use stepped movement and step with the tick marks. Requires at least two tick marks. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetStepWithTickMarks, BlueprintSetter = SetStepWithTickMarks, Category = "Pinch Slider",
+		EditAnywhere, Category = "Uxt Pinch Slider", BlueprintGetter = GetStepWithTickMarks, BlueprintSetter = SetStepWithTickMarks,
 		meta = (EditCondition = "NumTickMarks >= 2"))
 	bool bStepWithTickMarks = false;
 
 	/** The title text. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetTitle, BlueprintSetter = SetTitle, Category = "Slider Text")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider | Text", BlueprintGetter = GetTitle, BlueprintSetter = SetTitle)
 	FText Title = NSLOCTEXT("UxtPinchSliderActor", "TitleDefault", "Title");
 
 	/** The number of decimal places to show in the value text. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetValueTextDecimalPlaces, BlueprintSetter = SetValueTextDecimalPlaces, Category = "Slider Text",
-		meta = (ClampMin = 0))
+		EditAnywhere, Category = "Uxt Pinch Slider | Text", BlueprintGetter = GetValueTextDecimalPlaces,
+		BlueprintSetter = SetValueTextDecimalPlaces, meta = (ClampMin = 0))
 	int ValueTextDecimalPlaces = 2;
 
 	/** Align the text with the Z axis. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetAlignTextWithZ, BlueprintSetter = SetAlignTextWithZ, Category = "Slider Text")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider | Text", BlueprintGetter = GetAlignTextWithZ, BlueprintSetter = SetAlignTextWithZ)
 	bool bAlignTextWithZ = true;
 
 	/** Move the text with the thumb. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetMoveTextWithThumb, BlueprintSetter = SetMoveTextWithThumb, Category = "Slider Text")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider | Text", BlueprintGetter = GetMoveTextWithThumb, BlueprintSetter = SetMoveTextWithThumb)
 	bool bMoveTextWithThumb = true;
 
 	/** The number of tick marks along the track. Must be at least two if using Step With Tick Marks. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetNumTickMarks, BlueprintSetter = SetNumTickMarks, Category = "Slider Tick Marks",
+		EditAnywhere, Category = "Uxt Pinch Slider | TickMarks", BlueprintGetter = GetNumTickMarks, BlueprintSetter = SetNumTickMarks,
 		meta = (ClampMin = 0))
 	int NumTickMarks = 5;
 
 	/** The scale of the tick marks. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetTickMarkScale, BlueprintSetter = SetTickMarkScale, Category = "Slider Tick Marks")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider | TickMarks", BlueprintGetter = GetTickMarkScale, BlueprintSetter = SetTickMarkScale)
 	FVector TickMarkScale = FVector(0.0075f);
 
 	/** The default color for the thumb. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetDefaultThumbColor, BlueprintSetter = SetDefaultThumbColor, Category = "Slider Colors")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider | Visuals", BlueprintGetter = GetDefaultThumbColor,
+		BlueprintSetter = SetDefaultThumbColor)
 	FLinearColor DefaultThumbColor = FLinearColor::FromSRGBColor(FColor::FromHex("E1E1E1FF"));
 
 	/** The focused color for the thumb. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetFocusedThumbColor, BlueprintSetter = SetFocusedThumbColor, Category = "Slider Colors")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider | Visuals", BlueprintGetter = GetFocusedThumbColor,
+		BlueprintSetter = SetFocusedThumbColor)
 	FLinearColor FocusedThumbColor = FLinearColor::FromSRGBColor(FColor::FromHex("0082D8FF"));
 
 	/** The grabbed color for the thumb. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetGrabbedThumbColor, BlueprintSetter = SetGrabbedThumbColor, Category = "Slider Colors")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider | Visuals", BlueprintGetter = GetGrabbedThumbColor,
+		BlueprintSetter = SetGrabbedThumbColor)
 	FLinearColor GrabbedThumbColor = FLinearColor::FromSRGBColor(FColor::FromHex("15DFDAFF"));
 
 	/** The disabled color for the thumb. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetDisabledThumbColor, BlueprintSetter = SetDisabledThumbColor, Category = "Slider Colors")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider | Visuals", BlueprintGetter = GetDisabledThumbColor,
+		BlueprintSetter = SetDisabledThumbColor)
 	FLinearColor DisabledThumbColor = FLinearColor::FromSRGBColor(FColor::FromHex("898989FF"));
 
 	/** The sound played when the slider is grabbed. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetGrabSound, BlueprintSetter = SetGrabSound, Category = "Slider Sounds")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider | Audio", BlueprintGetter = GetGrabSound, BlueprintSetter = SetGrabSound)
 	USoundCue* GrabSound;
 
 	/** The sound played when the slider is released. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetReleaseSound, BlueprintSetter = SetReleaseSound, Category = "Slider Sounds")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider | Audio", BlueprintGetter = GetReleaseSound, BlueprintSetter = SetReleaseSound)
 	USoundCue* ReleaseSound;
 
 	/** The sound played when the slider passes a tick mark. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetTickSound, BlueprintSetter = SetTickSound, Category = "Slider Sounds")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider | Audio", BlueprintGetter = GetTickSound, BlueprintSetter = SetTickSound)
 	USoundCue* TickSound;
 
 	/** The default scale for the thumb. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetDefaultThumbScale, BlueprintSetter = SetDefaultThumbScale, Category = "Slider Thumb Scaling")
+		EditAnywhere, Category = "Uxt Pinch Slider | Thumb", BlueprintGetter = GetDefaultThumbScale, BlueprintSetter = SetDefaultThumbScale)
 	float DefaultThumbScale = 0.75f;
 
 	/** The focused scale of the thumb. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetFocusedThumbScale, BlueprintSetter = SetFocusedThumbScale, Category = "Slider Thumb Scaling")
+		EditAnywhere, Category = "Uxt Pinch Slider | Thumb", BlueprintGetter = GetFocusedThumbScale, BlueprintSetter = SetFocusedThumbScale)
 	float FocusedThumbScale = 1.0f;
 
 	/** The focused scale of the thumb. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = GetThumbScaleCurve, BlueprintSetter = SetThumbScaleCurve, Category = "Slider Thumb Scaling")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider | Thumb", BlueprintGetter = GetThumbScaleCurve, BlueprintSetter = SetThumbScaleCurve)
 	UCurveFloat* ThumbScaleCurve;
 
 	//

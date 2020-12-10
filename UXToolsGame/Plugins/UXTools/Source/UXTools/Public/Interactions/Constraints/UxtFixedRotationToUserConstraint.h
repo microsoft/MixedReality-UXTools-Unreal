@@ -14,7 +14,7 @@
  * Usage:
  * Attach to actor that the constraint should be applied to.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFixedRotationToUserConstraint : public UUxtTransformConstraint
 {
 	GENERATED_BODY()
@@ -25,7 +25,7 @@ public:
 
 public:
 	/** Should roll be excluded from locking to the users orientation */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Fixed Rotation To User")
 	bool bExcludeRoll = true;
 
 private:

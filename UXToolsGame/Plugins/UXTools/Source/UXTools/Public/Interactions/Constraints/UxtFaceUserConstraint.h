@@ -15,7 +15,7 @@
  * Usage:
  * Attach to actor that the constraint should be applied to.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFaceUserConstraint : public UUxtTransformConstraint
 {
 	GENERATED_BODY()
@@ -25,6 +25,6 @@ public:
 
 public:
 	/** Option to use this constraint to face away from the user. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Face User")
 	bool bFaceAway = false;
 };

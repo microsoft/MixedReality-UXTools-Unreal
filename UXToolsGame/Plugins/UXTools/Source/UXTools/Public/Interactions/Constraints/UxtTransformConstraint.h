@@ -17,7 +17,7 @@
  * Derive from this component and implement ApplyConstraint and GetConstraintType.
  * Custom constraints will automatically be picked up by a UxtConstraintManager on the same actor
  */
-UCLASS(Abstract, Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(Abstract, Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtTransformConstraint : public UActorComponent
 {
 	GENERATED_BODY()
@@ -33,15 +33,15 @@ public:
 
 public:
 	/** The component to transform, will default to the root scene component if not specified */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = Constraints)
+	UPROPERTY(EditAnywhere, Category = "Uxt Constraint", AdvancedDisplay)
 	FComponentReference TargetComponent;
 
 	/** Whether this constraint applies to one hand manipulation, two hand manipulation or both. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtGrabMode))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint", meta = (Bitmask, BitmaskEnum = EUxtGrabMode))
 	int32 HandType = static_cast<int32>(EUxtGrabMode::OneHanded | EUxtGrabMode::TwoHanded);
 
 	/** Whether this constraint applies to near manipulation, far manipulation or both. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
 	int32 InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 protected:

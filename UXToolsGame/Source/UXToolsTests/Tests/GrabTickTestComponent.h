@@ -9,7 +9,7 @@
 
 #include "GrabTickTestComponent.generated.h"
 
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UXTOOLSTESTS_API UGrabTickTestComponent : public UUxtGrabTargetComponent
 {
 	GENERATED_BODY()

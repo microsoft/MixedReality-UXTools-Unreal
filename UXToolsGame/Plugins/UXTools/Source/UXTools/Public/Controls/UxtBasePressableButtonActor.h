@@ -15,7 +15,7 @@ class UUxtPressableButtonComponent;
 /**
  * Abstract base class for all pressable button actors. Ensures a UUxtPressableButtonComponent as the root component.
  */
-UCLASS(Abstract, ClassGroup = UXTools)
+UCLASS(Abstract, ClassGroup = "UXTools")
 class UXTOOLS_API AUxtBasePressableButtonActor
 	: public AActor
 	, public IUxtCollectionObject
@@ -29,12 +29,12 @@ public:
 	// IUxtCollectionObject interface
 
 	/** Returns UUxtPressableButtonComponent as the poke target. **/
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Pressable Button")
 	TScriptInterface<IUxtPokeTarget> GetPokeTarget();
 	virtual TScriptInterface<IUxtPokeTarget> GetPokeTarget_Implementation() override;
 
 	/** Returns UUxtPressableButtonComponent as the far target. **/
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Pressable Button")
 	TScriptInterface<IUxtFarTarget> GetFarTarget();
 	virtual TScriptInterface<IUxtFarTarget> GetFarTarget_Implementation() override;
 
@@ -46,6 +46,6 @@ public:
 
 protected:
 	/** Handle to the root button component. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Button", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pressable Button", meta = (AllowPrivateAccess = "true"))
 	UUxtPressableButtonComponent* ButtonComponent = nullptr;
 };

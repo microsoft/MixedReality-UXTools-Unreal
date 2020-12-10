@@ -14,7 +14,7 @@ class UUxtTextRenderComponent;
 /**
  * A text render actor which automatically wraps the UUxtTextRenderComponent.
  */
-UCLASS(ClassGroup = UXTools, ComponentWrapperClass, hideCategories = (Collision, Attachment, Actor))
+UCLASS(ClassGroup = "UXTools", ComponentWrapperClass, hideCategories = (Collision, Attachment, Actor))
 class UXTOOLS_API AUxtTextRenderActor : public AActor
 {
 	GENERATED_UCLASS_BODY()
@@ -22,9 +22,9 @@ class UXTOOLS_API AUxtTextRenderActor : public AActor
 private:
 	/** Component to render a text in 3d with a font */
 	UPROPERTY(
-		Category = TextRenderActor, VisibleAnywhere, BlueprintReadOnly,
+		VisibleAnywhere, BlueprintReadOnly, Category = "Uxt Text Render",
 		meta = (ExposeFunctionCategories = "Rendering|Components|TextRender", AllowPrivateAccess = "true"))
-	class UUxtTextRenderComponent* TextRender;
+	UUxtTextRenderComponent* TextRender;
 
 public:
 	/** Returns TextRender subobject **/

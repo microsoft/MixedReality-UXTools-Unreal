@@ -78,11 +78,11 @@ public:
 
 public:
 	/** Delegate to drive OnShow events. */
-	UPROPERTY(BlueprintAssignable, Category = "Tooltip")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Tooltip Spawner - Experimental")
 	FOnShowTooltip OnShowTooltip;
 
 	/** Delegate to drive OnHide events. */
-	UPROPERTY(BlueprintAssignable, Category = "Tooltip")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Tooltip Spawner - Experimental")
 	FOnHideTooltip OnHideTooltip;
 
 protected:
@@ -132,51 +132,51 @@ private:
 	void ScheduleDeathAfterLifetime();
 
 	/** Parameter to script what will spawn the tooltip. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental")
 	EUxtTooltipAppearType AppearType = EUxtTooltipAppearType::AppearOnFocusEnter;
 
 	/** Parameter to script what will make the tooltip vanish. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental")
 	EUxtTooltipVanishType VanishType = EUxtTooltipVanishType::VanishOnFocusExit;
 
 	/** Parameter to script whether the tooltip remains indefinitely or if it uses the Lifetime parameter to timeout. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental")
 	EUxtTooltipRemainType RemainType = EUxtTooltipRemainType::Timeout;
 
 	/** Parameter to script a delay before spawning the tooltip. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "5.0"), Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental", meta = (UIMin = "0.0", UIMax = "5.0"))
 	float AppearDelay = 0.0f;
 
 	/** Parameter to script a delay before the tooltip vanishes. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "5.0"), Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental", meta = (UIMin = "0.0", UIMax = "5.0"))
 	float VanishDelay = 2.0f;
 
 	/** Parameter to script how long the tooltip will be spawned for. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.5", UIMax = "10.0"), Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental", meta = (UIMin = "0.5", UIMax = "10.0"))
 	float Lifetime = 1.0f;
 
 	/** Parameter to script what widget class to use on this tooltip. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental")
 	TSubclassOf<UUserWidget> WidgetClass = nullptr; // Pointer to the widget class it will instantiate.
 
 	/** Parameter to script what text to use when no widget class has been set. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental")
 	FText TooltipText;
 
 	/** An offset to specify where the tooltip will be spawned. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference Pivot;
 
 	/** Overrides the auto anchor on the spawned tooltip. */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental", AdvancedDisplay)
 	bool bIsAutoAnchoring = true;
 
 	/** Scales the widget. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "2.0"), Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental", meta = (UIMin = "0.0", UIMax = "2.0"))
 	FVector WidgetScale = FVector(1.0f, 1.0f, 1.0f);
 
 	/** Margin adds a small margin around the text. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "2.0"), Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip Spawner - Experimental", meta = (UIMin = "0.0", UIMax = "2.0"))
 	float Margin = 20.0f;
 
 	/** Runtime variables */

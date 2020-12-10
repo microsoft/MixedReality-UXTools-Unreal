@@ -22,7 +22,7 @@ class UUxtFarPointerComponent;
  * - Far: interactions performed by pointing at far targets from a distance via a hand ray.
  * The actor transitions between modes depending on whether there is a grab or poke target within the near activation distance.
  */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLS_API AUxtHandInteractionActor : public AActor
 {
 	GENERATED_BODY()
@@ -36,71 +36,73 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Interaction")
 	EControllerHand GetHand() const { return Hand; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Hand Interaction")
 	void SetHand(EControllerHand NewHand);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Interaction")
 	ECollisionChannel GetTraceChannel() const { return TraceChannel; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Hand Interaction")
 	void SetTraceChannel(ECollisionChannel NewTraceChannel);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Interaction")
 	float GetPokeRadius() const { return PokeRadius; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Hand Interaction")
 	void SetPokeRadius(float NewPokeRadius);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Interaction")
 	float GetRayStartOffset() const { return RayStartOffset; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Hand Interaction")
 	void SetRayStartOffset(float NewRayStartOffset);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Interaction")
 	float GetRayLength() const { return RayLength; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Hand Interaction")
 	void SetRayLength(float NewRayLength);
 
-	UFUNCTION(BlueprintCallable, Category = "Hand Interaction")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Hand Interaction")
 	FVector GetHandVelocity() const { return Velocity; }
-	UFUNCTION(BlueprintCallable, Category = "Hand Interaction")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Hand Interaction")
 	FVector GetHandAngularVelocity() const { return AngularVelocity; }
 
 	// Size of the hand activation cone in degrees
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0", ClampMax = "90.0"))
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0", ClampMax = "90.0"))
 	float ProximityConeAngle = 33.0f;
 
 	// Offset of the tip of the hand activation cone behind the palm
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0"))
 	float ProximityConeOffset = 8.0f;
 
 	// The length of the side of the cone (note: not the height of the cone)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0"))
 	float ProximityConeSideLength = 35.0f;
 
 	// A lerp factor between the palm direction and the index finger direction used to build the cone direction
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay, meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float ProximityConeAngleLerp = 0.9f;
 
 	/** Create default visuals for the near cursor. Changes to this value after BeginPlay have no effect. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay)
 	bool bUseDefaultNearCursor = true;
 
 	/** Create default visuals for the far cursor. Changes to this value after BeginPlay have no effect. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay)
 	bool bUseDefaultFarCursor = true;
 
 	/** Create default visuals for the far beam. Changes to this value after BeginPlay have no effect. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay)
 	bool bUseDefaultFarBeam = true;
 
 	/** Show the near cursor on grab targets. Changes to this value after BeginPlay have no effect. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = "Hand Interaction", meta = (ExposeOnSpawn = true))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", AdvancedDisplay, meta = (ExposeOnSpawn = true))
 	bool bShowNearCursorOnGrabTargets = false;
 
 	/** Active interaction modes */
 	UPROPERTY(
-		Transient, EditAnywhere, BlueprintReadWrite, Category = "Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
+		Transient, EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Interaction", meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
 	int32 InteractionMode = static_cast<int32>(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
 
 private:
@@ -129,24 +131,24 @@ private:
 private:
 	/** Articulated hand used to drive interactions. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = "GetHand", BlueprintSetter = "SetHand", Category = "Hand Interaction",
+		EditAnywhere, Category = "Uxt Hand Interaction", BlueprintGetter = "GetHand", BlueprintSetter = "SetHand",
 		meta = (ExposeOnSpawn = true))
 	EControllerHand Hand;
 
 	/** Offset from the hand ray origin at which the far ray used for far target selection starts. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetRayStartOffset", BlueprintSetter = "SetRayStartOffset", Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, Category = "Uxt Hand Interaction", BlueprintGetter = "GetRayStartOffset", BlueprintSetter = "SetRayStartOffset")
 	float RayStartOffset = 5.0f;
 
 	/** Length of the far ray */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetRayLength", BlueprintSetter = "SetRayLength", Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, Category = "Uxt Hand Interaction", BlueprintGetter = "GetRayLength", BlueprintSetter = "SetRayLength")
 	float RayLength = 500.0f;
 
 	/** Maximum distance around the finger tip at which we look for poke targets. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetPokeRadius", BlueprintSetter = "SetPokeRadius", Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, Category = "Uxt Hand Interaction", BlueprintGetter = "GetPokeRadius", BlueprintSetter = "SetPokeRadius")
 	float PokeRadius = 20.0f;
 
 	/** Trace channel used for targeting queries. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetTraceChannel", BlueprintSetter = "SetTraceChannel", Category = "Hand Interaction")
+	UPROPERTY(EditAnywhere, Category = "Uxt Hand Interaction", BlueprintGetter = "GetTraceChannel", BlueprintSetter = "SetTraceChannel")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
 	UPROPERTY(Transient)
@@ -156,7 +158,7 @@ private:
 	UUxtFarPointerComponent* FarPointer;
 
 	/** Runtime mesh component used for detecting proximity of near interaction targets. */
-	UPROPERTY(VisibleAnywhere, Transient, Category = "Hand Interaction")
+	UPROPERTY(Transient, VisibleAnywhere, Category = "Uxt Hand Interaction")
 	UProceduralMeshComponent* ProximityTrigger;
 
 	/** Set to true for visualizing the proximity mesh. */

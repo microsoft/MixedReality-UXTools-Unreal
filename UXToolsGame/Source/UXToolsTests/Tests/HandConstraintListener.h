@@ -10,22 +10,22 @@
 #include "HandConstraintListener.generated.h"
 
 /** Listens to and counts events raised by a UxtHandConstraintComponent. */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UXTOOLSTESTS_API UHandConstraintListener : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnConstraintActivated() { NumConstraintActivated++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnConstraintDeactivated() { NumConstraintDeactivated++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnBeginTracking(EControllerHand TrackedHand) { NumBeginTracking++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnEndTracking(EControllerHand TrackedHand) { NumEndTracking++; }
 
 public:

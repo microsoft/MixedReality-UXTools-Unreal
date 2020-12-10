@@ -13,7 +13,7 @@
  * A derived actor of AUxtPressableToggleButtonActor which represents the toggle state with a circle icon. Radio buttons
  * are normally used in groups alongside the UUxtToggleGroupComponent.
  */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLS_API AUxtPressableRadioButtonActor : public AUxtPressableToggleButtonActor
 {
 	GENERATED_BODY()
@@ -35,6 +35,6 @@ public:
 
 protected:
 	/** Displays the radio button's center icon which gets toggled on and off. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Button")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pressable Button")
 	UTextRenderComponent* CenterIconComponent = nullptr;
 };

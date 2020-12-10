@@ -92,11 +92,11 @@ struct UXTOOLS_API FUxtAffordanceConfig
 	void GetWorldLocationAndRotation(const FBox& Bounds, const FTransform& RootTransform, FVector& OutLocation, FQuat& OutRotation) const;
 
 	/** Preset type of the affordance. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Affordance Config")
 	EUxtAffordancePlacement Placement = EUxtAffordancePlacement::Center;
 
 	/** The Euler orientation of the affordance. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Affordance Config")
 	FVector Rotation = FVector::ZeroVector;
 };
 
@@ -107,14 +107,14 @@ class UXTOOLS_API UUxtBoundsControlConfig : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control Config")
 	TArray<FUxtAffordanceConfig> Affordances;
 
 	/** Whether this configuration is intended to be used for slate elements */
-	UPROPERTY(EditAnywhere, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control Config")
 	bool bIsSlate = false;
 
 	/** Whether this configuration transforms the target uniformly or not */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control Config")
 	bool bUniformScaling = true;
 };

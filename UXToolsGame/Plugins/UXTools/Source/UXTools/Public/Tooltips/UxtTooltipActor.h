@@ -57,19 +57,19 @@ public:
 	 * This will result in pointing to the root component.
 	 * The tooltip will automatically parent itself to the target actor.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Tooltip")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Tooltip - Experimental")
 	void SetTarget(AActor* TargetActor, UActorComponent* TargetComponent);
 
 	/** Function used to set the text without creating a new widget class.*/
-	UFUNCTION(BlueprintCallable, Category = "Tooltip")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Tooltip - Experimental")
 	void SetText(const FText& Text);
 
 	/** The widget rendered by this tooltip. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tooltip - Experimental")
 	TSubclassOf<UUserWidget> WidgetClass = nullptr; // pointer to the widget class it will instantiate.
 
 	/** An offset on the target position. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Tooltip")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Uxt Tooltip - Experimental")
 	USceneComponent* Anchor = nullptr;
 
 protected:
@@ -117,34 +117,34 @@ private:
 	FVector GetClosestAnchorToTarget(FVector EndPosition) const;
 
 	/** Actor root component */
-	UPROPERTY(VisibleAnywhere, Category = "Tooltip")
+	UPROPERTY(VisibleAnywhere, Category = "Uxt Tooltip - Experimental")
 	USceneComponent* SceneRoot;
 
 	/** The actual widget component that gets created.*/
-	UPROPERTY(VisibleDefaultsOnly, AdvancedDisplay, Category = "Tooltip")
+	UPROPERTY(VisibleDefaultsOnly, Category = "Uxt Tooltip - Experimental", AdvancedDisplay)
 	UWidgetComponent* TooltipWidgetComponent = nullptr;
 
 	/** The back plate which frames the widget component.*/
-	UPROPERTY(VisibleDefaultsOnly, AdvancedDisplay, Category = "Tooltip")
+	UPROPERTY(VisibleDefaultsOnly, Category = "Uxt Tooltip - Experimental", AdvancedDisplay)
 	UUxtBackPlateComponent* BackPlate = nullptr;
 
 	/** Whether the tooltip is always facing the camera. */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip - Experimental", AdvancedDisplay)
 	bool bIsBillboarding = true;
 
 	/** Whether the tooltip uses edges/corners anchors instead of the center of the tooltip. */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip - Experimental", AdvancedDisplay)
 	bool bIsAutoAnchoring = true;
 
-	UPROPERTY(VisibleDefaultsOnly, AdvancedDisplay, Category = "Tooltip")
+	UPROPERTY(VisibleDefaultsOnly, Category = "Uxt Tooltip - Experimental", AdvancedDisplay)
 	class USplineMeshComponent* SplineMeshComponent;
 
 	/** The target actor/component pointed at by this tooltip. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip - Experimental")
 	FComponentReference TooltipTarget;
 
 	/** Margin adds a small margin around the text. */
-	UPROPERTY(EditAnywhere, Category = "Tooltip")
+	UPROPERTY(EditAnywhere, Category = "Uxt Tooltip - Experimental")
 	float Margin = 20.0f;
 
 	/** Tightly coupled with those classes to keep the interface clean. */

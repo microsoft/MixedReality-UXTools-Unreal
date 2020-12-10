@@ -33,7 +33,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUIElementHideDelegate, UUxtUIEl
  *
  * Note: Manually changing actor visibility will not affect child UI elements and may lead to unwanted behavior.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtUIElementComponent : public USceneComponent
 {
 	GENERATED_BODY()
@@ -42,28 +42,28 @@ public:
 	UUxtUIElementComponent() = default;
 
 	/** Get the element's visibility. This does not reflect if the element is visible in the scene. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Get UI Visibility Self", Category = "UI Element")
+	UFUNCTION(BlueprintCallable, Category = "Uxt UI Element", DisplayName = "Get UI Visibility Self")
 	EUxtUIElementVisibility GetUIVisibilitySelf() const;
 
 	/** Get the element's visibility in the scene. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Get UI Visibility in Hierarchy", Category = "UI Element")
+	UFUNCTION(BlueprintCallable, Category = "Uxt UI Element", DisplayName = "Get UI Visibility in Hierarchy")
 	EUxtUIElementVisibility GetUIVisibilityInHierarchy() const;
 
 	/** Set the element's visibility. The element will not be visible in the scene if it's parent is hidden. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Set UI Visibility", Category = "UI Element")
+	UFUNCTION(BlueprintCallable, Category = "Uxt UI Element", DisplayName = "Set UI Visibility")
 	void SetUIVisibility(EUxtUIElementVisibility NewVisibility);
 
 	/** Refresh the element's visibility. This is only necessary after changing the element's parent actor when this is not the root
 	 * component of the actor. */
-	UFUNCTION(BlueprintCallable, DisplayName = "Refresh UI Element", Category = "UI Element")
+	UFUNCTION(BlueprintCallable, Category = "Uxt UI Element", DisplayName = "Refresh UI Element")
 	void RefreshUIElement();
 
 	/** Event raised when the element is shown. */
-	UPROPERTY(BlueprintAssignable, Category = "UI Element")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt UI Element")
 	FUxtUIElementShowDelegate OnShowElement;
 
 	/** Event raised when the element is hidden. */
-	UPROPERTY(BlueprintAssignable, Category = "UI Element")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt UI Element")
 	FUxtUIElementHideDelegate OnHideElement;
 
 protected:
@@ -79,6 +79,6 @@ private:
 	void UpdateVisibility(EUxtUIElementVisibility ParentVisibility = EUxtUIElementVisibility::Show);
 
 	/** The element's visibility. */
-	UPROPERTY(EditAnywhere, DisplayName = "UI Visibility", Category = "UI Element")
+	UPROPERTY(EditAnywhere, Category = "Uxt UI Element", DisplayName = "UI Visibility")
 	EUxtUIElementVisibility Visibility = EUxtUIElementVisibility::Show;
 };

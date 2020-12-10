@@ -18,7 +18,7 @@ DECLARE_DYNAMIC_DELEGATE_RetVal_TwoParams(bool, FUxtSortScrollingObjectCollectio
  * Base scene component class for object collections
  */
 UCLASS(ClassGroup = ("UXTools - Experimental"))
-class UUxtBaseObjectCollection : public USceneComponent
+class UXTOOLS_API UUxtBaseObjectCollection : public USceneComponent
 {
 	GENERATED_BODY()
 
@@ -26,8 +26,9 @@ public:
 	/** Set the the callback function to be used by the sort to compare actor pairs.
 	 *	In order to see results of sorting with the editor it is necessary to enable run in editor in the functions details panel.
 	 */
-	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Callback"), Category = "Object Collection")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Base Object Collection - Experimental", meta = (AutoCreateRefTerm = "Callback"))
 	void SetSortCallback(const FUxtSortScrollingObjectCollectionDelegate& Callback) { SortCollection = Callback; }
+
 	//
 	//  Events
 	/*  Event raised to allow the blueprint to override the default sorting method. */
@@ -35,11 +36,11 @@ public:
 	FUxtSortScrollingObjectCollectionDelegate SortCollection;
 
 	/** Helper function to allow Blueprint class to easily compare a pair of text objects within sort. */
-	UFUNCTION(BlueprintPure, Category = "UxTools|Helpers")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Base Object Collection - Experimental")
 	static bool CompareText(const FText& LHS, const FText& RHS) { return LHS.ToString() > RHS.ToString(); }
 
 	/** Helper function to allow Blueprint class to easily compare a pair of string objects within sort. */
-	UFUNCTION(BlueprintPure, Category = "UxTools|Helpers")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Base Object Collection - Experimental")
 	static bool CompareString(const FString& LHS, const FString& RHS) { return LHS > RHS; }
 
 protected:

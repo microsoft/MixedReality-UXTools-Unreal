@@ -18,14 +18,14 @@ class UCameraComponent;
 class UUxtInputSimulationState;
 
 /** Subsystem that creates an actor for simulation when a game is started. */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationLocalPlayerSubsystem : public ULocalPlayerSubsystem
 {
 	GENERATED_BODY()
 
 public:
 	/** Get the persistent simulation state */
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation | Local Player")
 	UUxtInputSimulationState* GetSimulationState() const;
 
 	//
@@ -57,6 +57,6 @@ private:
 	 */
 	TWeakObjectPtr<AActor> HmdCameraActorWeak;
 
-	UPROPERTY(BlueprintGetter = GetSimulationState, Category = InputSimulation)
+	UPROPERTY(Category = "Uxt Input Simulation | Local Player", BlueprintGetter = GetSimulationState)
 	UUxtInputSimulationState* SimulationState;
 };

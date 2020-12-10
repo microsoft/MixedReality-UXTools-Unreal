@@ -15,16 +15,16 @@ class UUxtUIElementComponent;
 /**
  * Component to track show / hide events for UxtUIElementComponent tests.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UUIElementTestComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnShowElement(UUxtUIElementComponent* UIElement) { ShowCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnHideElement(UUxtUIElementComponent* UIElement, bool bShouldAffectLayout) { HideCount++; }
 
 public:

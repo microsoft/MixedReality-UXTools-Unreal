@@ -13,7 +13,7 @@
 #include "FarTargetTestComponent.generated.h"
 
 /** Component used to count the far interaction events raised on an actor. */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UXTOOLSTESTS_API UFarTargetTestComponent
 	: public UActorComponent
 	, public IUxtFarTarget

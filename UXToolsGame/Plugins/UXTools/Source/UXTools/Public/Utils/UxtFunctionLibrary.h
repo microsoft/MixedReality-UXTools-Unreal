@@ -14,7 +14,7 @@ class AActor;
 /**
  * Library of utility functions for UX Tools.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLS_API UUxtFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()

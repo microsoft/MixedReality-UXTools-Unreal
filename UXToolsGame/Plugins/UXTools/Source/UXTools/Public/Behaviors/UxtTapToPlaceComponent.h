@@ -48,7 +48,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtTapToPlaceEndPlacingDelegate, UU
  * against surfaces and other objects. Any subsequent far release will end placement, even if the pointer is not
  * pointing at the object being placed.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtTapToPlaceComponent
 	: public UActorComponent
 	, public IUxtFarTarget
@@ -60,19 +60,19 @@ public:
 	UUxtTapToPlaceComponent();
 
 	/** Get the component to transform. */
-	UFUNCTION(BlueprintCallable, Category = TapToPlace)
+	UFUNCTION(BlueprintCallable, Category = "Uxt Tap To Place")
 	UPrimitiveComponent* GetTargetComponent() const;
 
 	/** Set the component to transform. */
-	UFUNCTION(BlueprintCallable, Category = TapToPlace)
+	UFUNCTION(BlueprintCallable, Category = "Uxt Tap To Place")
 	void SetTargetComponent(UPrimitiveComponent* Target);
 
 	/** Start placement of the target component. */
-	UFUNCTION(BlueprintCallable, Category = TapToPlace)
+	UFUNCTION(BlueprintCallable, Category = "Uxt Tap To Place")
 	void StartPlacement();
 
 	/** End placement of the target component. */
-	UFUNCTION(BlueprintCallable, Category = TapToPlace)
+	UFUNCTION(BlueprintCallable, Category = "Uxt Tap To Place")
 	void EndPlacement();
 
 protected:
@@ -98,61 +98,61 @@ protected:
 public:
 	/** Event raised when a pointer starts focusing the placeable object. bWasAlreadyFocused indicates if the object was already focused by
 	 * another pointer. */
-	UPROPERTY(BlueprintAssignable, Category = TapToPlace)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Tap To Place")
 	FUxtTapToPlaceBeginFocusDelegate OnBeginFocus;
 
 	/** Event raised when a focusing pointer updates. */
-	UPROPERTY(BlueprintAssignable, Category = TapToPlace)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Tap To Place")
 	FUxtTapToPlaceUpdateFocusDelegate OnUpdateFocus;
 
 	/** Event raised when a pointer ends focusing the placeable object. bIsStillFocused indicates if the object is still focused by another
 	 * pointer. */
-	UPROPERTY(BlueprintAssignable, Category = TapToPlace)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Tap To Place")
 	FUxtTapToPlaceEndFocusDelegate OnEndFocus;
 
 	/** Event raised when a placeable object is selected. */
-	UPROPERTY(BlueprintAssignable, Category = TapToPlace)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Tap To Place")
 	FUxtTapToPlaceBeginPlacingDelegate OnBeginPlacing;
 
 	/** Event raised when a placeable object is deselected and placed. */
-	UPROPERTY(BlueprintAssignable, Category = TapToPlace)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Tap To Place")
 	FUxtTapToPlaceEndPlacingDelegate OnEndPlacing;
 
 	/** How the object is oriented against hit surfaces. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlace)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	TEnumAsByte<EUxtTapToPlaceOrientBehavior> OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
 
 	/** How the target should be placed, using head or far pointer. */
-	UPROPERTY(EditAnywhere, Category = TapToPlace)
+	UPROPERTY(EditAnywhere, Category = "Uxt Tap To Place")
 	TEnumAsByte<EUxtTapToPlaceMode> PlacementType = EUxtTapToPlaceMode::Head;
 
 	/** Whether the orientation of the object should pitch or roll. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlace)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	bool KeepOrientationVertical = false;
 
 	/** Distance to place the object at if no obstructing surface. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlace)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	float DefaultPlacementDistance = 150;
 
 	/** Max distance to cast to when checking for obstructing surfaces. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlace)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	float MaxRaycastDistance = 2000;
 
 	/** Trace channel for raycast. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlace)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
 	/** Option to ignore interpolation between follow poses */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlaceSmoothing)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	bool bInterpolatePose = true;
 
 	/** Rate at which its owner will move toward default distance when angular leashing */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TapToPlaceSmoothing)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	float LerpTime = 0.1f;
 
 private:
 	/** The component to transform, defaults to the first primitive component if not specified */
-	UPROPERTY(EditAnywhere, meta = (UseComponentPicker, AllowedClasses = "PrimitiveComponent"), Category = TapToPlace)
+	UPROPERTY(EditAnywhere, Category = "Uxt Tap To Place", meta = (UseComponentPicker, AllowedClasses = "PrimitiveComponent"))
 	FComponentReference TargetComponent;
 
 	bool bIsBeingPlaced = false;

@@ -13,16 +13,16 @@
 /**
  * Class to receive the events from the unittest.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UTooltipEventListener : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnShow() { ShowCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnHide() { HideCount++; }
 
 	int ShowCount = 0;

@@ -54,7 +54,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtPinchSliderDisableDelegate, UUxt
  *
  * The thumb visuals must be set using the 'Visuals' property.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtPinchSliderComponent
 	: public UUxtUIElementComponent
 	, public IUxtGrabTarget
@@ -69,19 +69,19 @@ public:
 	// Public interface.
 
 	/** Get the current state of the slider. */
-	UFUNCTION(BlueprintCallable, Category = "Pinch Slider")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pinch Slider")
 	EUxtSliderState GetState() const { return State; }
 
 	/** Set if the slider is enabled. */
-	UFUNCTION(BlueprintCallable, Category = "Pinch Slider")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pinch Slider")
 	void SetEnabled(bool bEnabled);
 
 	/** Get the static mesh representing the thumb visuals. */
-	UFUNCTION(BlueprintCallable, Category = "Pinch Slider")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pinch Slider")
 	UStaticMeshComponent* GetVisuals() const { return Cast<UStaticMeshComponent>(Visuals.GetComponent(GetOwner())); }
 
 	/** Set the static mesh representing the thumb visuals. */
-	UFUNCTION(BlueprintCallable, Category = "Pinch Slider")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pinch Slider")
 	void SetVisuals(UStaticMeshComponent* NewVisuals);
 
 	/** Set the thumb visuals using a component reference, this is necessary if the visuals will be serialized. */
@@ -91,90 +91,90 @@ public:
 	// Getters and setters.
 
 	// Value.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetValue() const { return Value; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetValue(float NewValue);
 
 	// Track length.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetTrackLength() const { return TrackLength; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetTrackLength(float NewTrackLength);
 
 	// Value lower bound.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetValueLowerBound() const { return ValueLowerBound; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetValueLowerBound(float NewLowerBound);
 
 	// Value upper bound.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetValueUpperBound() const { return ValueUpperBound; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetValueUpperBound(float NewUpperBound);
 
 	// Use stepped movement.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	bool GetUseSteppedMovement() const { return bUseSteppedMovement; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetUseSteppedMovement(bool bNewUseSteppedMovement);
 
 	// Step value.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	int GetNumSteps() const { return NumSteps; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetNumSteps(int NewNumSteps);
 
 	// Smoothing.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	float GetSmoothing() const { return Smoothing; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetSmoothing(float NewSmoothing);
 
 	// Collision profile.
-	UFUNCTION(BlueprintGetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
 	FName GetCollisionProfile() const { return CollisionProfile; }
-	UFUNCTION(BlueprintSetter, Category = "Pinch Slider")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetCollisionProfile(FName NewCollisionProfile);
 
 	//
 	// Events
 
 	/** Event raised when slider changes state. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderUpdateStateDelegate OnUpdateState;
 
 	/** Event raised when a pointer starts focusing the slider. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderBeginFocusDelegate OnBeginFocus;
 
 	/** Event raised when a focusing pointer updates. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderUpdateFocusDelegate OnUpdateFocus;
 
 	/** Event raised when a pointer stops focusing the slider. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderEndFocusDelegate OnEndFocus;
 
 	/** Event raised when slider is grabbed. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderBeginGrabDelegate OnBeginGrab;
 
 	/** Event raised when slider's value changes. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderUpdateValueDelegate OnUpdateValue;
 
 	/** Event raised when slider is released. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderEndGrabDelegate OnEndGrab;
 
 	/** Event raised when slider is enabled. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderEnableDelegate OnEnable;
 
 	/** Event raised when slider is disabled. */
-	UPROPERTY(BlueprintAssignable, Category = "Pinch Slider")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
 	FUxtPinchSliderDisableDelegate OnDisable;
 
 protected:
@@ -236,55 +236,55 @@ private:
 	// Configurable properties.
 
 	/** The thumb visuals. */
-	UPROPERTY(EditAnywhere, Category = "Pinch Slider", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"))
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider", meta = (UseComponentPicker, AllowedClasses = "StaticMeshComponent"))
 	FComponentReference Visuals;
 
 	/** The slider's position on the track, between 0-1. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetValue, BlueprintSetter = SetValue, Category = "Pinch Slider",
+		EditAnywhere, Category = "Uxt Pinch Slider", BlueprintGetter = GetValue, BlueprintSetter = SetValue,
 		meta = (ClampMin = 0.0f, ClampMax = 1.0f))
 	float Value = 0.0f;
 
 	/** The length of the slider's track. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetTrackLength, BlueprintSetter = SetTrackLength, Category = "Pinch Slider",
+		EditAnywhere, Category = "Uxt Pinch Slider", BlueprintGetter = GetTrackLength, BlueprintSetter = SetTrackLength,
 		meta = (ClampMin = 0.0f))
 	float TrackLength = 50.0f;
 
 	/** The lower bound for the slider, between 0-1. */
 	UPROPERTY(
-		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetValueLowerBound, BlueprintSetter = SetValueLowerBound,
-		Category = "Pinch Slider", meta = (ClampMin = 0.0f, ClampMax = 1.0f))
+		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetValueLowerBound,
+		BlueprintSetter = SetValueLowerBound, meta = (ClampMin = 0.0f, ClampMax = 1.0f))
 	float ValueLowerBound = 0.0f;
 
 	/** The upper bound for the slider, between 0-1. */
 	UPROPERTY(
-		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetValueUpperBound, BlueprintSetter = SetValueUpperBound,
-		Category = "Pinch Slider", meta = (ClampMin = 0.0f, ClampMax = 1.0f))
+		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetValueUpperBound,
+		BlueprintSetter = SetValueUpperBound, meta = (ClampMin = 0.0f, ClampMax = 1.0f))
 	float ValueUpperBound = 1.0f;
 
 	/** Should the slider use stepped or smooth movement. */
 	UPROPERTY(
-		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetUseSteppedMovement, BlueprintSetter = SetUseSteppedMovement,
-		Category = "Pinch Slider")
+		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetUseSteppedMovement,
+		BlueprintSetter = SetUseSteppedMovement)
 	bool bUseSteppedMovement = false;
 
 	/** The number of steps for stepped slider movement. */
 	UPROPERTY(
-		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetNumSteps, BlueprintSetter = SetNumSteps, Category = "Pinch Slider",
+		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetNumSteps, BlueprintSetter = SetNumSteps,
 		meta = (ClampMin = 2, EditCondition = "bUseSteppedMovement"))
 	int NumSteps = 5;
 
 	/** The motion smoothing to apply to the slider. */
 	UPROPERTY(
-		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = "Pinch Slider",
+		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing,
 		meta = (ClampMin = 0.0f, EditCondition = "!bUseSteppedMovement"))
 	float Smoothing = 10.0f;
 
 	/** The collision profile used by the slider thumb. */
 	UPROPERTY(
-		EditAnywhere, AdvancedDisplay, BlueprintGetter = GetCollisionProfile, BlueprintSetter = SetCollisionProfile,
-		Category = "Pinch Slider")
+		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetCollisionProfile,
+		BlueprintSetter = SetCollisionProfile)
 	FName CollisionProfile = TEXT("UI");
 
 	//

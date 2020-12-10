@@ -12,7 +12,7 @@
 /**
  * A text render component which automatically configures assets and properties best suited for text rendering in UX Tools.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtTextRenderComponent : public UTextRenderComponent
 {
 	GENERATED_BODY()

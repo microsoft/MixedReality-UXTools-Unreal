@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "UxtBaseObjectCollection.h"
+#include "Controls/UxtBaseObjectCollection.h"
 
 #include "GameFramework/Actor.h"
 

@@ -15,7 +15,7 @@
  * Usage:
  * Attach to actor that the constraint should be applied to.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtMoveAxisConstraint : public UUxtTransformConstraint
 {
 	GENERATED_BODY()
@@ -25,10 +25,10 @@ public:
 
 public:
 	/** Defines the axis the movement constraint should be applied to. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Move Axis", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
 	int32 ConstraintOnMovement = 0;
 
 	/** Use local or global space for constraint calculations*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Move Axis")
 	bool bUseLocalSpaceForConstraint = false;
 };

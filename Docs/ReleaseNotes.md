@@ -50,6 +50,12 @@ In order to simplify the `UUxtBoundsControlComponent`, besides reducing the numb
 - `UUxtBoundsControlComponent` now allows constraints' configuration via the same mechanism as the _Manipulators_. This means that the same `UUxtTransformConstraint`-derived constraints can be used with bounds-controlled objects.
 - `UUxtBoundsControlConfig` data assets are simplified, so they don't need to specify what each affordance does separately. Now corners scale, edges rotate and faces/center translate.
 
+### Improved editor categories
+
+We have reworked the editor categories used by UX Tools to produce a more clear, simple and consistent interface.
+
+![Categories' refactor comparison](Images/ReleaseNotes/categories_refactor_comparison.jpg)
+
 ## Breaking changes
 
 ### UxtGenericManipulatorComponent
