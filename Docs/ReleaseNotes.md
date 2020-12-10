@@ -25,7 +25,7 @@ Unreal 4.26 required.
 UX Tools common content and example scenes were moved to a separate plugin to make it easier to incorporate them
 as a starting point for new projects.
 
-## UxtPalmUpConstraintComponent
+### UxtPalmUpConstraintComponent
 
 The palm-up constraint has gained the _Require Gaze_ option to ensure the user is deliberately trying to use the constraint and help prevent false activations. This is particularly useful for world-locking hand menus as it prevents the menu from unintentionally re-attaching to the hand.
 
@@ -36,6 +36,8 @@ The pinch slider actor has gained a number of quality of life improvements. Thes
 - Customizable minimum / maximum values.
 - GetValue, SetValue and OnSliderUpdateValue exposed directly on the actor to allow easy access to the slider's value relative to the custom min / max value. (note: if using the underlying `UxtPinchSliderComponent`, it's value will still be in the range 0-1)
 - Stepped movement along the slider's tick marks.
+
+![SteppedSlider](Images/Slider/SteppedSlider.gif)
 
 ### UxtPinchSliderComponent
 
@@ -62,7 +64,7 @@ This change means that the `UxtGrabTargetComponent` will now respond to its _Gra
 The `UxtGrabTargetComponent` has been converted from a `SceneComponent` to an `ActorComponent`. This affects the classes derived from `UxtGrabTargetComponent` such as the `UxtManipulatorComponentBase` and the `UxtGenericManipulatorComponent`.
 Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.
 
-## UxtHandConstraintComponent
+### UxtHandConstraintComponent
 
 `UUxtHandConstraintComponent::IsHandUsableForConstraint()` is now a non-const member function.
 
