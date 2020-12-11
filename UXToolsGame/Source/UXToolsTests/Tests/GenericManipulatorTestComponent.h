@@ -15,13 +15,13 @@ class UUxtGenericManipulatorComponent;
 /**
  * Target for generic manipulator tests that counts events.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UGenericManipulatorTestComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void UpdateTransform(USceneComponent* TargetComponent, FTransform Transform) { TransformUpdateCount++; }
 
 public:

@@ -16,16 +16,16 @@ class UUxtPressableButtonComponent;
 /**
  * Target for button tests that counts button events.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UPressableButtonTestComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void IncrementPressed(UUxtPressableButtonComponent* ButtonComponent, UUxtPointerComponent* Pointer) { PressedCount++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void IncrementReleased(UUxtPressableButtonComponent* ButtonComponent, UUxtPointerComponent* Pointer) { ReleasedCount++; }
 
 	int PressedCount = 0;

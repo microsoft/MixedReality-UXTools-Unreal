@@ -34,14 +34,14 @@ class UXTOOLS_API IUxtPokeTarget
 
 public:
 	/** Returns true if the given primitive should be considerered a valid focus target. */
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Poke Target")
 	bool IsPokeFocusable(const UPrimitiveComponent* Primitive) const;
 
 	/** Returns which poke behaviour this target supports. */
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Poke Target")
 	EUxtPokeBehaviour GetPokeBehaviour() const;
 
 	/** Returns the closest point to Point on the given Primitive. Also provides the surface normal. */
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Poke Target")
 	bool GetClosestPoint(const UPrimitiveComponent* Primitive, const FVector& Point, FVector& OutClosestPoint, FVector& OutNormal) const;
 };

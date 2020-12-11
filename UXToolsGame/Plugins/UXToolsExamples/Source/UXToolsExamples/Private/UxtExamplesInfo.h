@@ -14,13 +14,13 @@ class FText;
 /**
  * Internal: provide build metadata in packaged game at runtime.
  */
-UCLASS(BlueprintType, Category = "UX Tools Examples")
+UCLASS(BlueprintType, Category = "UXToolsExamples")
 class UUxtExamplesInfo : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
 	// Git Commit information is only set in internal test builds.
 	// In all other scenarios this function returns an empty string.
-	UFUNCTION(BlueprintCallable, Category = "UXT Examples")
+	UFUNCTION(BlueprintCallable, Category = "UXTools|Examples Info")
 	static FText CommitSHA(const UObject* WorldContext);
 };

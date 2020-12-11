@@ -24,7 +24,7 @@ struct FPointerEvent;
 /**
  * Widget Component that is interactable with near and far interaction.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtWidgetComponent
 	: public UActorComponent
 	, public IUxtPokeTarget
@@ -82,7 +82,7 @@ public:
 	 * index number, this will maintain separate capture and focus states for them.  Each
 	 * controller or finger-tip should get a unique PointerIndex.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction", meta = (ClampMin = "0", ExposeOnSpawn = true))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Widget", meta = (ClampMin = "0", ExposeOnSpawn = true))
 	int32 VirtualUserIndex = 0;
 
 private:

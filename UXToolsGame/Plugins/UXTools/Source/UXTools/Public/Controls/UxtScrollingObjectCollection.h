@@ -58,15 +58,15 @@ USTRUCT(BlueprintType, NoExport)
 struct FScrollingCollectionProperties
 {
 	/** The Center of the viewable area, relative to the Scrolling Collection Component. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scrolling Object Collection Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UxtScrollingCollectionProperties - Experimental")
 	FVector Center;
 
 	/** The width of the viewable area */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scrolling Object Collection Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UxtScrollingCollectionProperties - Experimental")
 	float Width;
 
 	/** The height of the viewable area */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Scrolling Object Collection Properties")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UxtScrollingCollectionProperties - Experimental")
 	float Height;
 };
 
@@ -90,73 +90,74 @@ class UXTOOLS_API UUxtScrollingObjectCollection
 
 public:
 	/** Sets the number of columns or rows in respect to ViewableArea and ScrollDirection.*/
-	UFUNCTION(BlueprintCallable, Category = "Scrolling Object Collection")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection - Experimental")
 	void SetTiers(int32 IncomingTiers);
 
 	/** Move the collection up or down (or left or right) in multiples of #ViewableArea. */
-	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Callback"), Category = "Scrolling Object Collection")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection - Experimental", meta = (AutoCreateRefTerm = "Callback"))
 	void PageBy(const int32 NumPages, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& Callback);
 
 	/** Move the collection up or down (or left or right) in multiples of #ViewableArea. */
-	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Callback"), Category = "Scrolling Object Collection")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection - Experimental", meta = (AutoCreateRefTerm = "Callback"))
 	void MoveByItems(const int32 NumItems, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& Callback);
 
 	/** Adds an actor to the collection at runtime.  */
-	UFUNCTION(BlueprintCallable, Category = "Scrolling Object Collection")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection - Experimental")
 	void AddActorToCollection(AActor* ActorToAdd);
 
 	/** Return current scroll direction */
-	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Callback"), Category = "Scrolling Object Collection")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection - Experimental", meta = (AutoCreateRefTerm = "Callback"))
 	EUxtScrollDirection GetScrollDirection();
 
 	/**  Sets default values for this component's properties */
 	UUxtScrollingObjectCollection();
 
 	/** Enables/disables interaction for specific interaction types. */
-	UPROPERTY(EditAnywhere, meta = (Bitmask, BitmaskEnum = "EInteractionTypeBits"), Category = "UxTools|General Properties")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (Bitmask, BitmaskEnum = "EInteractionTypeBits"))
 	int32 CanScroll;
 
 	/** The direction in which the collection will scroll. */
-	UPROPERTY(EditAnywhere, Category = "UXTools|General Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental")
 	EUxtScrollDirection ScrollDirection;
 
 	/** Width of cell per object. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0"), Category = "UXTools|Collection Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "0.0"))
 	float CellWidth;
 
 	/** Height of cell per object. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0"), Category = "UXTools|Collection Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "0.0"))
 	float CellHeight;
 
 	/** Number of lines visible in scroller. Orthogonal to #Tiers */
-	UPROPERTY(EditAnywhere, Category = "UXTools|Collection Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental")
 	int32 ViewableArea;
 
 	/** Collision profile used by the box collider */
-	UPROPERTY(EditAnywhere, Category = "UxTools")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental")
 	FName CollisionProfile;
 
 	/** Determines whether a near scroll gesture is released when the engaged fingertip is dragged outside of the viewable area. */
-	UPROPERTY(EditAnywhere, Category = "UxTools|Scrolling Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental")
 	bool bReleaseAtScrollBoundary;
 
 	/** Smoothing applied to direct interaction when scrolling.
 	 * Note: This is currently frame rate dependent, WIP to adjust for frame rate. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "1.0"), Category = "UxTools|Scrolling Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "0.0", UIMax = "1.0"))
 	float ScrollSmoothing;
 
 	/** Velocity damping factor.
 	 * For no velocity to be retained set this value to 1.0.
 	 * Note: This is currently applied per frame and is frame rate dependent, WIP to adjust for frame rate. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "1.0"), Category = "UxTools|Scrolling Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "0.0", UIMax = "1.0"))
 	float VelocityDamping;
 
 	/** Scale the bounce return velocity. The larger this value is the quicker the collection will return. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0"), Category = "UxTools|Scrolling Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "0.0"))
 	float BounceSpringFactor;
 
 	/** Animation curve for pagination. */
-	UPROPERTY(EditAnywhere, Category = "UxTools|Scrolling Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental")
 	FRuntimeFloatCurve PaginationCurve;
 
 	/** Strength of the snap to effect.
@@ -164,19 +165,19 @@ public:
 	 *	A value of 0.0 will disable the snap effect.
 	 *	Note also that VelocityDamping will affect the feel of the snap. When damping is low or zero
 	 *	the snap will be more prominent and the boundary between adjacent cells will feel sharper. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0", UIMax = "1.0"), Category = "UxTools|Scrolling Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "0.0", UIMax = "1.0"))
 	float SnapToStrength;
 
 	/** If the interaction ends before moving this far it will be considered a click. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "0.0"), Category = "UxTools|Scrolling Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "0.0"))
 	float ClickMovementThreshold;
 
 	/** Event raised whenever the collection is updated. */
-	UPROPERTY(BlueprintAssignable, Category = "UXTools|Collection Properties")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Scrolling Object Collection - Experimental")
 	FUxtScrollingObjectCollectionUpdated OnCollectionUpdated;
 
 	/** Set the backplate for this component. */
-	UFUNCTION(BlueprintCallable, Category = "UxTools|Scrolling Properties")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection - Experimental")
 	void SetBackPlate(UUxtBackPlateComponent* Plate) { BackPlate = Plate; }
 
 protected:
@@ -260,12 +261,12 @@ private:
 	int ConvertWorldSpacePositionToButtonIndex(FVector WorldSpaceLocation);
 
 	/** Callback to determine if we have passed movement threshold for a scroll or if we should treat the action as a click */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Scrolling Object Collection - Experimental")
 	void CheckScrollOrClick();
 
 	/** Callback to determine if we have passed movement threshold for a scroll or if we should treat the action as a click - but for far
 	 * pointer */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Scrolling Object Collection - Experimental")
 	void CheckScrollOrClickFarPointer();
 	/** Current Poke Target we are passing messages to */
 
@@ -283,11 +284,11 @@ private:
 #endif // WITH_EDITORONLY_DATA
 
 	/** Number of columns or rows in respect to ViewableArea and ScrollDirection. */
-	UPROPERTY(EditAnywhere, meta = (UIMin = "1"), Category = "UXTools|Collection Properties")
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental", meta = (UIMin = "1"))
 	int32 Tiers;
 
 	/** Blue BackPlate  */
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, Category = "Uxt Scrolling Object Collection - Experimental")
 	UUxtBackPlateComponent* BackPlate;
 
 	/** Collision volume used for determining poke events. Created in BeginPlay */

@@ -15,7 +15,7 @@ class UUxtToggleStateComponent;
  * A derived actor of AUxtPressableButtonActor with a UUxtToggleStateComponent component to track state and visuals for a
  * button can which can be toggled on or off (checked or unchecked).
  */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLS_API AUxtPressableToggleButtonActor : public AUxtPressableButtonActor
 {
 	GENERATED_BODY()
@@ -42,19 +42,19 @@ public:
 	// AUxtPressableToggleButtonActor interface
 
 	/** Alters the toggle visuals when the toggle state changes. */
-	UFUNCTION(BlueprintCallable, Category = "Button")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pressable Button")
 	virtual void UpdateToggleVisuals();
 
 	/** Gets if the button was toggled on at BeginPlay. */
-	UFUNCTION(BlueprintGetter, Category = "Button")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pressable Button")
 	bool IsInitiallyChecked() const { return bIsInitiallyChecked; }
 
 	/** Sets if the button was toggled on at BeginPlay. This method has no function after BeginPlay. */
-	UFUNCTION(BlueprintSetter, Category = "Button")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pressable Button")
 	void SetIsInitiallyChecked(bool InitiallyChecked);
 
 	/** Option to remove the toggle plate if it is not needed for this button (for example in derived classes). */
-	UFUNCTION(Category = "Button")
+	UFUNCTION(Category = "Uxt Pressable Button")
 	void RemoveTogglePlate();
 
 protected:
@@ -65,22 +65,23 @@ protected:
 	virtual void OnButtonReleased(UUxtPressableButtonComponent* Button, UUxtPointerComponent* Pointer) override;
 
 	/** Updates the toggle visuals when the toggles state changes. */
-	UFUNCTION(Category = "Button")
+	UFUNCTION(Category = "Uxt Pressable Button")
 	virtual void OnButtonToggled(UUxtToggleStateComponent* ToggleState);
 
 	/** Should the button be toggled on or off at BeginPlay? */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "IsInitiallyChecked", BlueprintSetter = "SetIsInitiallyChecked", Category = "ToggleButton")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pressable Button", BlueprintGetter = "IsInitiallyChecked", BlueprintSetter = "SetIsInitiallyChecked")
 	bool bIsInitiallyChecked = false;
 
 	/** Should the button toggle on press or release? */
-	UPROPERTY(EditAnywhere, Category = "ToggleButton")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button")
 	bool bToggleOnRelease = false;
 
 	/** Component which keeps track of the toggled state. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ToggleButton")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pressable Button")
 	UUxtToggleStateComponent* ToggleStateComponent = nullptr;
 
 	/** Visual component to indicate the toggled state. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ToggleButton")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pressable Button")
 	UUxtBackPlateComponent* TogglePlateComponent = nullptr;
 };

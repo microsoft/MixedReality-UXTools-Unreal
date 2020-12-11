@@ -12,7 +12,7 @@
 /**
  * Constraint that limits the min/max scale.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtMinMaxScaleConstraint : public UUxtTransformConstraint
 {
 	GENERATED_BODY()
@@ -24,15 +24,15 @@ public:
 	virtual void Initialize(const FTransform& WorldPose);
 
 	/** Minimum scale allowed */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
 	float MinScaleFactor = 0.0f;
 
 	/** Maximum scale allowed */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints, meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
 	float MaxScaleFactor = 0.0f;
 
 	/** Whether the min/max values should be relative to the initial transform or not. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constraints)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale")
 	bool bRelativeToInitialTransform = false;
 
 private:

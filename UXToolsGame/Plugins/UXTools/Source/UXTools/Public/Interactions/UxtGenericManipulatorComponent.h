@@ -17,7 +17,7 @@
  * Two-handed interaction moves the object based on the center between hands.
  * The actor can be rotated based on the line between both hands and scaled based on the distance.
  */
-UCLASS(ClassGroup = UXTools, HideCategories = (Grabbable, ManipulatorComponent), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", HideCategories = (Grabbable, ManipulatorComponent), meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtGenericManipulatorComponent : public UUxtManipulatorComponentBase
 {
 	GENERATED_BODY()
@@ -27,9 +27,9 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Generic Manipulator")
 	float GetSmoothing() const;
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Generic Manipulator")
 	void SetSmoothing(float NewSmoothing);
 
 protected:
@@ -47,28 +47,29 @@ protected:
 
 public:
 	/** Mode of rotation to use while using one hand only. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Generic Manipulator")
 	EUxtOneHandRotationMode OneHandRotationMode;
 
 	/** Enabled transformations in two-handed manipulation. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtTransformMode))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Generic Manipulator", meta = (Bitmask, BitmaskEnum = EUxtTransformMode))
 	int32 TwoHandTransformModes;
 
 	/** Controls the object's behavior when physics its being simulated. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = GenericManipulator, meta = (Bitmask, BitmaskEnum = EUxtReleaseBehavior))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Generic Manipulator", meta = (Bitmask, BitmaskEnum = EUxtReleaseBehavior))
 	int32 ReleaseBehavior;
 
 	/** The component to transform, will default to the root scene component if not specified */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = GenericManipulator, meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Generic Manipulator", AdvancedDisplay, meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference TargetComponent;
 
 private:
 	bool IsNearManipulation() const;
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Generic Manipulator")
 	void OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Generic Manipulator")
 	void OnRelease(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
 	/** Motion smoothing factor to apply while manipulating the object.
@@ -80,7 +81,7 @@ private:
 	 * T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )
 	 */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing, Category = GenericManipulator,
+		EditAnywhere, Category = "Uxt Generic Manipulator", BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing,
 		meta = (ClampMin = "0.0"))
 	float Smoothing;
 

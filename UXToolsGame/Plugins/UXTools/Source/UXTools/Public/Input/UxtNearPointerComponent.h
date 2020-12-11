@@ -22,7 +22,7 @@ class UMaterialParameterCollection;
  * It keeps track of all overlapping poke targets and raises focus events on the closest one.
  * Targets use the transform of pointers focusing them to drive their interactions.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtNearPointerComponent : public UUxtPointerComponent
 {
 	GENERATED_BODY()
@@ -49,60 +49,60 @@ public:
 	void UpdatePokeInteraction();
 
 	/** Returns currently focused grab target or null if there is none. */
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	UObject* GetFocusedGrabTarget(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/** Returns currently focused poke target or null if there is none. */
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	UObject* GetFocusedPokeTarget(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/** Returns currently focused grab primitive or null if there is none. */
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	UPrimitiveComponent* GetFocusedGrabPrimitive(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/** Returns currently focused poke primitive or null if there is none. */
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	UPrimitiveComponent* GetFocusedPokePrimitive(FVector& OutClosestPointOnTarget, FVector& Normal) const;
 
 	/**
 	 * Set a focused grab target explicitly which will receive grasp events.
 	 * If bEnableFocusLock is true, then the new focus target will be locked until released by calling SetFocusLocked.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Near Pointer")
 	bool SetFocusedGrabTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock);
 
 	/**
 	 * Set a focused poke target explicitly which will receive grasp events.
 	 * If bEnableFocusLock is true, then the new focus target will be locked until released by calling SetFocusLocked.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Hand Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Near Pointer")
 	bool SetFocusedPokeTarget(UActorComponent* NewFocusedTarget, bool bEnableFocusLock);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Near Pointer")
 	bool IsGrabbing() const;
 
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	bool GetIsPoking() const;
 
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	FTransform GetGrabPointerTransform() const;
 
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	FTransform GetPokePointerTransform() const;
 
-	UFUNCTION(BlueprintPure, Category = "Hand Pointer")
+	UFUNCTION(BlueprintPure, Category = "Uxt Near Pointer")
 	float GetPokePointerRadius() const;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Near Pointer")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Near Pointer")
 	float ProximityRadius = 20.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Near Pointer")
 	float PokeRadius = 0.75f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Near Pointer")
 	float GrabRadius = 3.5f;
 
 	/**
@@ -110,7 +110,7 @@ public:
 	 * While poking a front face pokable, if the near pointer moves beyond this depth, the pokable
 	 * will receive a poke end event.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Near Pointer")
 	float PokeDepth = 30.0f;
 
 	/**
@@ -118,7 +118,7 @@ public:
 	 * used in order to distinguish the queries for poke begin and poke end so you cannot easily
 	 * cause end touch to fire one frame and begin touch to fire on the next frame.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Near Pointer")
 	float DebounceDepth = 0.5f;
 
 protected:

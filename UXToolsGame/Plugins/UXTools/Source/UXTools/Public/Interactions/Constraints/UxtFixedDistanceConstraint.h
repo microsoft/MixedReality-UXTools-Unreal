@@ -16,7 +16,7 @@
  * Attach to actor that the constraint should be applied to.
  * If necessary, configure the object to constrain to. This will default to the head if not set.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFixedDistanceConstraint : public UUxtTransformConstraint
 {
 	GENERATED_BODY()
@@ -27,7 +27,7 @@ public:
 
 public:
 	/** Component to fix distance to. Defaults to the head. */
-	UPROPERTY(EditAnywhere, Category = "Fixed Distance Constraint")
+	UPROPERTY(EditAnywhere, Category = "Uxt Constraint | Fixed Distance")
 	FComponentReference ConstraintComponent;
 
 private:

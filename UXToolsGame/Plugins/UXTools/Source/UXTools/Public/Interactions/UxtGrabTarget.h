@@ -11,7 +11,7 @@
 
 class UUxtNearPointerComponent;
 
-UINTERFACE(BlueprintType)
+UINTERFACE(BlueprintType, Category = "UXTools")
 class UXTOOLS_API UUxtGrabTarget : public UInterface
 {
 	GENERATED_BODY()
@@ -24,6 +24,6 @@ class UXTOOLS_API IUxtGrabTarget
 
 public:
 	/** Returns true if the given primitive should be considerered a valid focus target. */
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Grab Target")
 	bool IsGrabFocusable(const UPrimitiveComponent* Primitive) const;
 };

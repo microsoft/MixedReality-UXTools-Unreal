@@ -39,7 +39,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtVolumeDisabledDelegate, UUxtTouc
 /**
  * Component that turns the actor it is attached to into a touchable volume.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtTouchableVolumeComponent
 	: public UUxtUIElementComponent
 	, public IUxtPokeTarget
@@ -51,13 +51,13 @@ class UXTOOLS_API UUxtTouchableVolumeComponent
 
 public:
 	/** Set if the touchable volume is enabled */
-	UFUNCTION(BlueprintCallable, Category = "Touchable Volume")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Touchable Volume")
 	void SetEnabled(bool Enabled);
 
 	/** List of primitives used as touchable targets.
 	 * If the list is empty then all primitives of the actor are used.
 	 */
-	UPROPERTY(BlueprintReadWrite, Category = "Touchable Volume")
+	UPROPERTY(BlueprintReadWrite, Category = "Uxt Touchable Volume")
 	TSet<UPrimitiveComponent*> TouchablePrimitives;
 
 	//
@@ -65,36 +65,36 @@ public:
 
 	/** Event raised when a pointer starts focusing the touchable volume. WasFocused indicates if the volume was already focused by another
 	 * pointer. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeBeginFocusDelegate OnBeginFocus;
 
 	/** Event raised when a focusing pointer updates. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeUpdateFocusDelegate OnUpdateFocus;
 
 	/** Event raised when a pointer ends focusing the touchable volume. IsFocused indicates if the volume is still focused by another
 	 * pointer. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeEndFocusDelegate OnEndFocus;
 
 	/** Event raised when a pointer starts poking the touchable volume. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeBeginPokeDelegate OnBeginPoke;
 
 	/** Event raised while a pointer is poking the touchable volume. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeUpdatePokeDelegate OnUpdatePoke;
 
 	/** Event raised when a pointer ends poking the touchable volume. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeEndPokeDelegate OnEndPoke;
 
 	/** Event raised when the volume is enabled. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeEnabledDelegate OnVolumeEnabled;
 
 	/** Event raised when the volume is disabled. */
-	UPROPERTY(BlueprintAssignable, Category = "Touchable Volume")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Touchable Volume")
 	FUxtVolumeDisabledDelegate OnVolumeDisabled;
 
 protected:
@@ -134,11 +134,11 @@ protected:
 
 	//
 	// Touch input handlers
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Touchable Volume")
 	void OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Touchable Volume")
 	void OnInputTouchEndHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Touchable Volume")
 	void OnInputTouchLeaveHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 
 private:

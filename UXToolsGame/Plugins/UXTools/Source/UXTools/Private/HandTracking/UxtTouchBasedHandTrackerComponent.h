@@ -19,7 +19,7 @@ class APlayerController;
  * The hand tracker interface is used just to provide the pointer pose and grab/select states, GetJointState() returns
  * that pointer pose for all joints.
  */
-UCLASS(ClassGroup = "UXTools Internal")
+UCLASS(ClassGroup = "UXTools|Internal")
 class UXTOOLS_API UUxtTouchBasedHandTrackerComponent
 	: public UActorComponent
 	, public IUxtHandTracker

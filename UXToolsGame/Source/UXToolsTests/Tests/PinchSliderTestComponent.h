@@ -16,7 +16,7 @@ class UUxtPinchSliderComponent;
 /**
  * Target for button tests that counts button events.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UPinchSliderTestComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -41,34 +41,34 @@ public:
 	//
 	// UxtPinchSlider event callbacks.
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnUpdateState(UUxtPinchSliderComponent* Slider, EUxtSliderState NewState) { OnUpdateStateReceived = true; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnBeginFocus(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer, bool bWasAlreadyFocused)
 	{
 		OnBeginFocusReceived = true;
 	}
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnUpdateFocus(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer) { OnUpdateFocusReceived = true; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnEndFocus(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer, bool bIsStillFocused) { OnEndFocusReceived = true; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnBeginGrab(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer) { OnBeginGrabReceived = true; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnUpdateValue(UUxtPinchSliderComponent* Slider, float NewValue) { OnUpdateValueReceived = true; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnEndGrab(UUxtPinchSliderComponent* Slider, UUxtPointerComponent* Pointer) { OnEndGrabReceived = true; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnEnable(UUxtPinchSliderComponent* Slider) { OnEnableReceived = true; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnDisable(UUxtPinchSliderComponent* Slider) { OnDisableReceived = true; }
 
 public:

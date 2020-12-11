@@ -60,7 +60,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
 /**
  * Manages a set of affordances that can be manipulated for changing the actor transform.
  */
-UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtBoundsControlComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -73,69 +73,69 @@ public:
 	UUxtBoundsControlComponent(FVTableHelper& Helper);
 	~UUxtBoundsControlComponent();
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control | Affordances")
 	AActor* GetBoundsControlActor() const;
 
 	/** Get the map between the affordance actors and their information. */
 	const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& GetPrimitiveAffordanceMap();
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control | Affordances")
 	bool GetInitBoundsFromActor() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control")
 	const FBox& GetBounds() const;
 
 	/** Mesh for the given kind of affordance. */
-	UFUNCTION(BlueprintPure, Category = BoundsControl)
+	UFUNCTION(BlueprintPure, Category = "Uxt Bounds Control | Affordances")
 	UStaticMesh* GetAffordanceKindMesh(EUxtAffordanceKind Kind) const;
 
 	/** Compute the bounding box based on the components of the bounding box actor. */
-	UFUNCTION(BlueprintCallable, Category = BoundsControl)
+	UFUNCTION(BlueprintCallable, Category = "Uxt Bounds Control")
 	void ComputeBoundsFromComponents();
 
 public:
 	/** Configuration of the bounds control affordances. */
-	UPROPERTY(EditAnywhere, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control")
 	UUxtBoundsControlConfig* Config;
 
 	/** Mesh used for a center affordance. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
 	UStaticMesh* CenterAffordanceMesh;
 
 	/** Mesh used for a face affordances. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
 	UStaticMesh* FaceAffordanceMesh;
 
 	/** Mesh used for a edge affordances. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
 	UStaticMesh* EdgeAffordanceMesh;
 
 	/** Mesh used for a corner affordances. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
 	UStaticMesh* CornerAffordanceMesh;
 
 	/** Collision box that prevents pointer rays from passing through bounds control's box. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control")
 	UBoxComponent* CollisionBox;
 
 	/** The collision profile used by @ref CollisionBox. */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control", AdvancedDisplay)
 	FName CollisionProfile = TEXT("UI");
 
 	/** Hand distance at which affordances become visible. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control")
 	float AffordanceVisibilityDistance = 10.f;
 
 	/** Duration of animated affordance transitions. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = BoundsControl)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control")
 	float AffordanceTransitionDuration = 0.25f;
 
 	/** Event raised when a manipulation is started. */
-	UPROPERTY(BlueprintAssignable, Category = BoundsControl)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Bounds Control")
 	FUxtBoundsControlManipulationStartedDelegate OnManipulationStarted;
 
 	/** Event raised when a manipulation is ended. */
-	UPROPERTY(BlueprintAssignable, Category = BoundsControl)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Bounds Control")
 	FUxtBoundsControlManipulationEndedDelegate OnManipulationEnded;
 
 protected:
@@ -144,26 +144,26 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	/** Callback when an affordance is entering focus. */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
 	void OnAffordanceEnterFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer);
 	/** Callback when an affordance is entering focus. */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
 	void OnAffordanceEnterGrabFocus(UUxtGrabTargetComponent* Grabbable, UUxtNearPointerComponent* Pointer);
 	/** Callback when an affordance is exiting focus. */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
 	void OnAffordanceExitFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer);
 	/** Callback when an affordance is exiting focus. */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
 	void OnAffordanceExitGrabFocus(UUxtGrabTargetComponent* Grabbable, UUxtNearPointerComponent* Pointer);
 
 	/** Callback when an affordance is being grabbed. */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
 	void OnAffordanceBeginGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 	/** Callback when an affordance is being grabbed. */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
 	void OnAffordanceUpdateGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 	/** Callback when an affordance is being released. */
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
 	void OnAffordanceEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
 	/** Callback when the parent actor is moved. */
@@ -220,11 +220,11 @@ private:
 	TUniquePtr<UxtConstraintManager> ConstraintManager;
 
 	/** Initialize bounds from actor content. */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetInitBoundsFromActor", Category = BoundsControl)
+	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", BlueprintGetter = "GetInitBoundsFromActor")
 	bool bInitBoundsFromActor = true;
 
 	/** Current bounding box in the local space of the actor. */
-	UPROPERTY(Transient, BlueprintGetter = "GetBounds", Category = BoundsControl)
+	UPROPERTY(Transient, Category = "Uxt Bounds Control", BlueprintGetter = "GetBounds")
 	FBox Bounds;
 
 	/** Parameter collection used to store the finger tip position */
@@ -232,7 +232,7 @@ private:
 	UMaterialParameterCollection* ParameterCollection;
 
 	/** Actor that contains affordances at runtime. */
-	UPROPERTY(Transient, DuplicateTransient, BlueprintGetter = "GetBoundsControlActor", Category = BoundsControl)
+	UPROPERTY(Transient, DuplicateTransient, Category = "Uxt Bounds Control", BlueprintGetter = "GetBoundsControlActor")
 	AActor* BoundsControlActor;
 
 	UPROPERTY(Transient, DuplicateTransient)

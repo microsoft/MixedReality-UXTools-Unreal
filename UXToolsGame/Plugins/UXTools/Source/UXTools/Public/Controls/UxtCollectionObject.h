@@ -24,9 +24,9 @@ class UXTOOLS_API IUxtCollectionObject
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Collection Object")
 	TScriptInterface<IUxtPokeTarget> GetPokeTarget();
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Collection Object")
 	TScriptInterface<IUxtFarTarget> GetFarTarget();
 };

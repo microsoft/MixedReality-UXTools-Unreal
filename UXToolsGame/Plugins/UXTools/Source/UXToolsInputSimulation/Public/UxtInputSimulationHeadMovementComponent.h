@@ -12,7 +12,7 @@
 /** Movement component that applies user input.
  *  Works similar to UFloatingPawnMovement, but does not require a APawn actor.
  */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationHeadMovementComponent : public UMovementComponent
 {
 	GENERATED_BODY()
@@ -26,9 +26,9 @@ public:
 	/** Add cumulative movement input in world space. */
 	void AddMovementInput(const FVector& Movement);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation | Head Movement")
 	bool IsHeadMovementEnabled() const;
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Input Simulation | Head Movement")
 	void SetHeadMovementEnabled(bool bEnable);
 
 private:
@@ -50,6 +50,7 @@ private:
 
 	/** Enable linear movement of the head position. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = "IsHeadMovementEnabled", BlueprintSetter = "SetHeadMovementEnabled", Category = InputSimulation)
+		EditAnywhere, Category = "Uxt Input Simulation | Head Movement", BlueprintGetter = "IsHeadMovementEnabled",
+		BlueprintSetter = "SetHeadMovementEnabled")
 	bool bEnableHeadMovement = true;
 };

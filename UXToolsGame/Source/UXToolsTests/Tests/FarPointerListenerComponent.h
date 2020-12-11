@@ -11,16 +11,16 @@
 #include "FarPointerListenerComponent.generated.h"
 
 /** Listens to and counts enable/disable events raised by a UxtFarPointerComponent. */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UXTOOLSTESTS_API UFarPointerListenerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnFarPointerEnabled(UUxtFarPointerComponent* FarPointer) { NumEnabled++; }
 
-	UFUNCTION()
+	UFUNCTION(Category = "UXToolsTests")
 	void OnFarPointerDisabled(UUxtFarPointerComponent* FarPointer) { NumDisabled++; }
 
 public:

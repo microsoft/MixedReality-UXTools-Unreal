@@ -23,7 +23,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtFarPointerDisabledDelegate, UUxt
  * Component that casts a ray for the given hand-tracked hand and raises far interaction events on the far targets hit.
  * A far target is an actor or component implementing the UUxtFarTarget interface.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFarPointerComponent : public UUxtPointerComponent
 {
 	GENERATED_BODY()
@@ -33,11 +33,11 @@ public:
 
 	/** Origin of the pointer ray as reported by the hand tracker. See GetRayStart() for actual start of the ray used for querying the
 	 * scene. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	FVector GetPointerOrigin() const;
 
 	/** Orientation of the pointer ray. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	FQuat GetPointerOrientation() const;
 
 	/** The underlying controller's orientation. */
@@ -45,27 +45,27 @@ public:
 
 	/** Start of the ray used for querying the scene. This is the pointer origin shifted by the ray start offset in the pointer forward
 	 * direction. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	FVector GetRayStart() const;
 
 	/** Primitive the pointer is currently hitting or null if none. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	UPrimitiveComponent* GetHitPrimitive() const;
 
 	/** Current hit point location or ray end if there's no hit. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	FVector GetHitPoint() const;
 
 	/** Current hit point normal or negative ray direction if there's no hit. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	FVector GetHitNormal() const;
 
 	/** Whether the pointer is currently pressed. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	bool IsPressed() const;
 
 	/** Whether the pointer is currently enabled. Hit information is only valid while the pointer is enabled. */
-	UFUNCTION(BlueprintCallable, Category = "Far Pointer")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	bool IsEnabled() const;
 
 	//
@@ -100,21 +100,21 @@ private:
 
 public:
 	/** Trace channel to be used in the pointer's line trace query. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Far Pointer")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECollisionChannel::ECC_Visibility;
 
 	/** Start of the pointer ray expressed as an offset from the hand ray origin in the ray direction. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Far Pointer")
 	float RayStartOffset = 5;
 
 	/** Pointer ray length from ray start. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Pointer")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Far Pointer")
 	float RayLength = 500;
 
-	UPROPERTY(BlueprintAssignable, Category = "Far Pointer")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Far Pointer")
 	FUxtFarPointerEnabledDelegate OnFarPointerEnabled;
 
-	UPROPERTY(BlueprintAssignable, Category = "Far Pointer")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Far Pointer")
 	FUxtFarPointerDisabledDelegate OnFarPointerDisabled;
 
 private:

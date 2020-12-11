@@ -178,33 +178,37 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 
 	for (const FOverlapResult& Overlap : Overlaps)
 	{
+		AActor* Actor = Overlap.GetActor();
 		UPrimitiveComponent* Primitive = Overlap.GetComponent();
 
-		for (UActorComponent* Component : Overlap.GetActor()->GetComponents())
+		if (Actor && Primitive)
 		{
-			if (ImplementsTargetInterface(Component))
+			for (UActorComponent* Component : Actor->GetComponents())
 			{
-				FVector PointOnTarget;
-				FVector Normal;
-
-				if (GetClosestPointOnTarget(Component, Primitive, Point, PointOnTarget, Normal))
+				if (ImplementsTargetInterface(Component))
 				{
-					float DistanceSqr = (Point - PointOnTarget).SizeSquared();
-					if (DistanceSqr < MinDistanceSqr)
+					FVector PointOnTarget;
+					FVector Normal;
+
+					if (GetClosestPointOnTarget(Component, Primitive, Point, PointOnTarget, Normal))
 					{
-						MinDistanceSqr = DistanceSqr;
-						ClosestTarget = Component;
-						ClosestPrimitive = Primitive;
-						ClosestPointOnTarget = PointOnTarget;
-						ClosestNormal = Normal;
-					}
+						float DistanceSqr = (Point - PointOnTarget).SizeSquared();
+						if (DistanceSqr < MinDistanceSqr)
+						{
+							MinDistanceSqr = DistanceSqr;
+							ClosestTarget = Component;
+							ClosestPrimitive = Primitive;
+							ClosestPointOnTarget = PointOnTarget;
+							ClosestNormal = Normal;
+						}
 
 #if ENABLE_VISUAL_LOG
-					VLogFocus(Overlap.GetComponent(), PointOnTarget, Normal, false);
+						VLogFocus(Overlap.GetComponent(), PointOnTarget, Normal, false);
 #endif // ENABLE_VISUAL_LOG
 
-					// We keep the first target component that takes ownership of the primitive.
-					break;
+						// We keep the first target component that takes ownership of the primitive.
+						break;
+					}
 				}
 			}
 		}

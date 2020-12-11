@@ -14,7 +14,7 @@ class UMaterialInstanceDynamic;
 /**
  * Displays a flat ring facing -X. The ring radius can be set directly or via the component scale.
  */
-UCLASS(ClassGroup = UXTools, HideCategories = (StaticMesh, Materials), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", HideCategories = (StaticMesh, Materials), meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtRingCursorComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
@@ -22,19 +22,19 @@ class UXTOOLS_API UUxtRingCursorComponent : public UStaticMeshComponent
 public:
 	UUxtRingCursorComponent();
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Ring Cursor")
 	float GetRadius() const { return Radius; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Ring Cursor")
 	void SetRadius(float Radius);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Ring Cursor")
 	FColor GetRingColor() const { return RingColor; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Ring Cursor")
 	void SetRingColor(FColor NewRingColor);
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Ring Cursor")
 	FColor GetBorderColor() const { return BorderColor; }
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Ring Cursor")
 	void SetBorderColor(FColor NewBorderColor);
 
 protected:
@@ -43,10 +43,10 @@ protected:
 	/** Used to update the radius in response to scale changes. */
 	virtual void OnUpdateTransform(EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport = ETeleportType::None) override;
 
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetRingColor", BlueprintSetter = "SetRingColor", Category = "Ring Cursor")
+	UPROPERTY(EditAnywhere, Category = "Uxt Ring Cursor", BlueprintGetter = "GetRingColor", BlueprintSetter = "SetRingColor")
 	FColor RingColor = FColor::White;
 
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetBorderColor", BlueprintSetter = "SetBorderColor", Category = "Ring Cursor")
+	UPROPERTY(EditAnywhere, Category = "Uxt Ring Cursor", BlueprintGetter = "GetBorderColor", BlueprintSetter = "SetBorderColor")
 	FColor BorderColor = FColor::Black;
 
 	/** Cursor meshes. Swapping dynamically on the fly depends on its state. **/
@@ -65,7 +65,7 @@ private:
 	UPROPERTY(Transient)
 	UMaterialInstanceDynamic* MaterialInstanceBorder;
 
-	UPROPERTY(Transient, BlueprintGetter = "GetRadius", BlueprintSetter = "SetRadius", Category = "Ring Cursor")
+	UPROPERTY(Transient, Category = "Uxt Ring Cursor", BlueprintGetter = "GetRadius", BlueprintSetter = "SetRadius")
 	float Radius;
 
 	/** Used to ignore transform changes triggered from SetRadius(). */

@@ -21,7 +21,7 @@ class FUxtTestHandTracker;
 /**
  * Target for grab tests that counts grab events.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UXTOOLSTESTS_API UTestGrabTarget
 	: public UActorComponent
 	, public IUxtGrabTarget
@@ -58,7 +58,7 @@ public:
 /**
  * Target for poke tests that counts poke events.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXToolsTests")
 class UXTOOLSTESTS_API UTestPokeTarget
 	: public UActorComponent
 	, public IUxtPokeTarget

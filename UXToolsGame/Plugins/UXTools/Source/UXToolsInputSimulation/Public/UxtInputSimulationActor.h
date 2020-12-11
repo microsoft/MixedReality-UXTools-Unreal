@@ -14,7 +14,7 @@ struct FWindowsMixedRealityInputSimulationHandState;
 class UUxtInputSimulationHeadMovementComponent;
 
 /** Actor that produces head pose and hand animations for the input simulation subsystem. */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLSINPUTSIMULATION_API AUxtInputSimulationActor : public AActor
 {
 	GENERATED_UCLASS_BODY()
@@ -24,13 +24,13 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation")
 	UUxtInputSimulationHeadMovementComponent* GetHeadMovement() const { return HeadMovement; }
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation")
 	USkeletalMeshComponent* GetLeftHand() const { return LeftHand; }
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation")
 	USkeletalMeshComponent* GetRightHand() const { return RightHand; }
 
 private:
@@ -84,20 +84,20 @@ private:
 
 public:
 	/** If true, adds default input bindings for input simulation. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = InputSimulation)
+	UPROPERTY(EditAnywhere, Category = "Uxt Input Simulation", BlueprintReadOnly)
 	uint32 bAddDefaultInputBindings : 1;
 
 private:
 	/** Movement component for interpreting user input as head movement. */
-	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetHeadMovement, Category = InputSimulation)
+	UPROPERTY(VisibleAnywhere, Category = "Uxt Input Simulation", BlueprintGetter = GetHeadMovement)
 	UUxtInputSimulationHeadMovementComponent* HeadMovement;
 
 	/** Skeletal mesh component for the left hand. */
-	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetLeftHand, Category = InputSimulation)
+	UPROPERTY(VisibleAnywhere, Category = "Uxt Input Simulation", BlueprintGetter = GetLeftHand)
 	USkeletalMeshComponent* LeftHand;
 
 	/** Skeletal mesh component for the right hand. */
-	UPROPERTY(VisibleAnywhere, BlueprintGetter = GetRightHand, Category = InputSimulation)
+	UPROPERTY(VisibleAnywhere, Category = "Uxt Input Simulation", BlueprintGetter = GetRightHand)
 	USkeletalMeshComponent* RightHand;
 
 	/** Persistent simulation state, cached for quick runtime access. */

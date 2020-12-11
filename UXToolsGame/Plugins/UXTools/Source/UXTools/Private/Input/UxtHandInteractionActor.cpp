@@ -98,11 +98,14 @@ void AUxtHandInteractionActor::BeginPlay()
 // Returns true if the given primitive is part of a near target
 static bool IsNearTarget(const UPrimitiveComponent* Primitive)
 {
-	for (const UActorComponent* Component : Primitive->GetOwner()->GetComponents())
+	if (Primitive)
 	{
-		if (Component->Implements<UUxtGrabTarget>() || Component->Implements<UUxtPokeTarget>())
+		for (const UActorComponent* Component : Primitive->GetOwner()->GetComponents())
 		{
-			return true;
+			if (Component->Implements<UUxtGrabTarget>() || Component->Implements<UUxtPokeTarget>())
+			{
+				return true;
+			}
 		}
 	}
 

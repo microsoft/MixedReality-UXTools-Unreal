@@ -62,7 +62,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtHandConstraintEndTrackingDelegat
  *
  * The constraint can be oriented on either the hand rotation alone or facing the player.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtHandConstraintComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -70,26 +70,26 @@ class UXTOOLS_API UUxtHandConstraintComponent : public UActorComponent
 public:
 	UUxtHandConstraintComponent();
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Constraint")
 	EControllerHand GetTrackedHand() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Constraint")
 	const FBox& GetHandBounds() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Constraint")
 	bool IsConstraintActive() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Constraint")
 	const FVector& GetGoalLocation() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Hand Constraint")
 	const FQuat& GetGoalRotation() const;
 
 	/**
 	 * Returns true if the given hand is eligible for the constraint.
 	 * If the hand is rejected the constraint will be deactivated.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Hand Constraint")
+	UFUNCTION(BlueprintPure, Category = "Uxt Hand Constraint")
 	virtual bool IsHandUsableForConstraint(EControllerHand NewHand);
 
 public:
@@ -97,60 +97,60 @@ public:
 	 * Hand to use for the constraint.
 	 * If set to 'Any Hand' the first tracked hand will be used, until tracking is lost.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint", meta = (ExposeOnSpawn = true))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint", meta = (ExposeOnSpawn = true))
 	EControllerHand Hand = EControllerHand::AnyHand;
 
 	/** Safe zone that determines the target location of the constraint relative to the hand. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint")
 	EUxtHandConstraintZone Zone = EUxtHandConstraintZone::UlnarSide;
 
 	/** Determines how the offset vector is computed. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint")
 	EUxtHandConstraintOffsetMode OffsetMode = EUxtHandConstraintOffsetMode::LookAtCamera;
 
 	/** Determines how the goal rotation is computed. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint")
 	EUxtHandConstraintRotationMode RotationMode = EUxtHandConstraintRotationMode::LookAtCamera;
 
 	/** Margin between the hand bounding box and the goal location. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint")
 	float GoalMargin = 0.0f;
 
 	/**
 	 * Actor transform is moved towards the goal if true.
 	 * Disable this to only compute the goal without changing the actor transform.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint")
 	bool bMoveOwningActor = true;
 
 	/**
 	 * Interpolation time for smoothed translation.
 	 * Set to zero to disable smoothing.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint", meta = (ClampMin = "0.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint", meta = (ClampMin = "0.0"))
 	float LocationLerpTime = 0.05f;
 
 	/**
 	 * Interpolation time for smoothed rotation.
 	 * Set to zero to disable smoothing.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hand Constraint", meta = (ClampMin = "0.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Hand Constraint", meta = (ClampMin = "0.0"))
 	float RotationLerpTime = 0.05f;
 
 	/** Event raised when the constraint becomes active, as indicated by the bIsConstraintActive property. */
-	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Hand Constraint")
 	FUxtHandConstraintActivatedDelegate OnConstraintActivated;
 
 	/** Event raised when the constraint becomes inactive, as indicated by the bIsConstraintActive property. */
-	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Hand Constraint")
 	FUxtHandConstraintDeactivatedDelegate OnConstraintDeactivated;
 
 	/** Event raised when the constraint begins tracking a hand. */
-	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Hand Constraint")
 	FUxtHandConstraintBeginTrackingDelegate OnBeginTracking;
 
 	/** Event raised when the constraint ends tracking a hand. */
-	UPROPERTY(BlueprintAssignable, Category = "Hand Constraint")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Hand Constraint")
 	FUxtHandConstraintEndTrackingDelegate OnEndTracking;
 
 protected:
@@ -187,11 +187,11 @@ private:
 
 private:
 	/** Actual hand that is currently tracked for the constraint. */
-	UPROPERTY(BlueprintGetter = GetTrackedHand, Transient, Category = "Hand Constraint")
+	UPROPERTY(Transient, Category = "Uxt Hand Constraint", BlueprintGetter = GetTrackedHand)
 	EControllerHand TrackedHand;
 
 	/** Bounding box of hand joints with radii, aligned with the palm bone. */
-	UPROPERTY(BlueprintGetter = GetHandBounds, Transient, Category = "Hand Constraint")
+	UPROPERTY(Transient, Category = "Uxt Hand Constraint", BlueprintGetter = GetHandBounds)
 	FBox HandBounds;
 
 	/**
@@ -199,14 +199,14 @@ private:
 	 * OnConstraintActivated and OnConstraintDeactivated will be called when the active state changes.
 	 * While the constraint is active and the bMoveOwningActor flag is set it will move the actor towards the goal.
 	 */
-	UPROPERTY(BlueprintGetter = IsConstraintActive, Transient, Category = "Hand Constraint")
+	UPROPERTY(Transient, Category = "Uxt Hand Constraint", BlueprintGetter = IsConstraintActive)
 	bool bIsConstraintActive;
 
 	/** Goal location for the constraint. */
-	UPROPERTY(BlueprintGetter = GetGoalLocation, Transient, Category = "Hand Constraint")
+	UPROPERTY(Transient, Category = "Uxt Hand Constraint", BlueprintGetter = GetGoalLocation)
 	FVector GoalLocation;
 
 	/** Goal rotation for the constraint. */
-	UPROPERTY(BlueprintGetter = GetGoalRotation, Transient, Category = "Hand Constraint")
+	UPROPERTY(Transient, Category = "Uxt Hand Constraint", BlueprintGetter = GetGoalRotation)
 	FQuat GoalRotation;
 };

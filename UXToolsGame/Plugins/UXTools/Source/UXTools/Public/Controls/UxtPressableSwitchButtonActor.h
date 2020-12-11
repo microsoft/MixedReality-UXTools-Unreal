@@ -13,7 +13,7 @@
  * A derived actor of AUxtPressableRadioButtonActor which represents the toggle state with a switch that animates
  * left and right.
  */
-UCLASS(ClassGroup = UXTools)
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLS_API AUxtPressableSwitchButtonActor : public AUxtPressableRadioButtonActor
 {
 	GENERATED_BODY()
@@ -31,29 +31,31 @@ public:
 	// AUxtPressableSwitchButtonActor interface
 
 	/** Accessor to the button's switched off icon brush. */
-	UFUNCTION(BlueprintGetter, Category = "Button")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pressable Button")
 	const FUxtIconBrush& GetSwitchedOffIconBrush() const { return SwitchedOffIconBrush; }
 
 	/** Applies a new switched off icon brush. */
-	UFUNCTION(BlueprintSetter, Category = "Button")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pressable Button")
 	void SetSwitchedOffIconBrush(const FUxtIconBrush& Brush);
 
 	/** Accessor to the button's switched on icon brush. */
-	UFUNCTION(BlueprintGetter, Category = "Button")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pressable Button")
 	const FUxtIconBrush& GetSwitchedOnIconBrush() const { return SwitchedOnIconBrush; }
 
 	/** Applies a new switched on icon brush. */
-	UFUNCTION(BlueprintSetter, Category = "Button")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pressable Button")
 	void SetSwitchedOnIconBrush(const FUxtIconBrush& Brush);
 
 protected:
 	/** Structure which contains properties for the button's icon when switched off. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = "GetSwitchedOffIconBrush", BlueprintSetter = "SetSwitchedOffIconBrush", Category = "SwitchButton")
+		EditAnywhere, Category = "Uxt Pressable Button", BlueprintGetter = "GetSwitchedOffIconBrush",
+		BlueprintSetter = "SetSwitchedOffIconBrush")
 	FUxtIconBrush SwitchedOffIconBrush;
 
 	/** Structure which contains properties for the button's icon when switched on. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = "GetSwitchedOnIconBrush", BlueprintSetter = "SetSwitchedOnIconBrush", Category = "SwitchButton")
+		EditAnywhere, Category = "Uxt Pressable Button", BlueprintGetter = "GetSwitchedOnIconBrush",
+		BlueprintSetter = "SetSwitchedOnIconBrush")
 	FUxtIconBrush SwitchedOnIconBrush;
 };

@@ -23,26 +23,26 @@ struct UXTOOLS_API FUxtGrabPointerData
 	GENERATED_BODY()
 
 	/** The near pointer that is interacting with the component. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	UUxtNearPointerComponent* NearPointer = nullptr;
 
 	/** The far pointer that is interacting with the component */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	UUxtFarPointerComponent* FarPointer = nullptr;
 
 	/** Last updated grab point transform. (Pointer transform in near pointer case, ray hit transform in far pointer case) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	FTransform GrabPointTransform;
 
 	/** The time at which interaction started, in seconds since application start. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	float StartTime;
 
 	/**
 	 * Transform of the pointer when it started interacting, in the local space of the target component.
 	 * This allows computing pointer offset in relation to the current actor transform.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	FTransform LocalGrabPoint;
 
 	/**
@@ -53,68 +53,68 @@ struct UXTOOLS_API FUxtGrabPointerData
 	 *
 	 * Far pointer doesn't need this because its grip transform is already at grab point.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	FTransform GripToGrabPoint;
 
 	/**
 	 * Transform of the object in pointer's grip local space at the start of the interaction.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	FTransform GripToObject;
 
 	/** Far pointer only property -> describes the relative transform of the grab point to the pointer transform (pointer origin /
 	 * orientation) This is needed to calculate the new grab point on the object on pointer translations / rotations */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Pointer Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Grab Pointer Data")
 	FTransform FarRayHitPointInPointer = FTransform::Identity;
 };
 
 /**
  * Utility functions for FGrabPointerData.
  */
-UCLASS()
+UCLASS(ClassGroup = "UXTools")
 class UXTOOLS_API UUxtGrabPointerDataFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
 public:
 	/** Compute the grab point in world space. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FVector GetGrabLocation(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the grab rotation in world space. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FRotator GetGrabRotation(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the grab transform in world space. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FTransform GetGrabTransform(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the pointer target in world space. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FVector GetTargetLocation(const FUxtGrabPointerData& GrabData);
 
 	/** Compute the target rotation in world space. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FRotator GetTargetRotation(const FUxtGrabPointerData& GrabData);
 
 	/** Compute the grab point transform in world space. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FTransform GetGrabPointTransform(const FUxtGrabPointerData& GrabData);
 
 	/** Compute the world space offset between pointer grab point and target. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FVector GetLocationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Compute the world space rotation between pointer grab point and target. */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FRotator GetRotationOffset(const FTransform& Transform, const FUxtGrabPointerData& GrabData);
 
 	/** Returns the world space pointer transform (at pointer origin). */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FTransform GetPointerTransform(const FUxtGrabPointerData& GrabData);
 
 	/** Returns the world space pointer location */
-	UFUNCTION(BluePrintPure, Category = "GrabPointer")
+	UFUNCTION(BluePrintPure, Category = "UXTools|Grab Pointer Data")
 	static FVector GetPointerLocation(const FUxtGrabPointerData& GrabData);
 
 	/**
@@ -123,7 +123,7 @@ public:
 	 * This represents a reference point in the pointer, which corresponds to the actual grip joint's transform
 	 * for the near pointer and the hit point's transform for the far pointer.
 	 */
-	UFUNCTION(BlueprintPure, Category = "GrabPointer")
+	UFUNCTION(BlueprintPure, Category = "UXTools|Grab Pointer Data")
 	static FTransform GetGripTransform(const FUxtGrabPointerData& GrabData);
 };
 
@@ -162,7 +162,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTarget
  *
  * The GrabComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation.
  */
-UCLASS(Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtGrabTargetComponent
 	: public UActorComponent
 	, public IUxtGrabTarget
@@ -179,7 +179,7 @@ public:
 	 * PointerData will contain the associated grab data for the pointer.
 	 * Index is the order in which pointers started grabbing.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	UFUNCTION(BlueprintPure, Category = "Uxt Grab Target")
 	void FindGrabPointer(
 		UUxtNearPointerComponent* NearPointer, UUxtFarPointerComponent* FarPointer, bool& Success, FUxtGrabPointerData& PointerData,
 		int& Index) const;
@@ -187,38 +187,38 @@ public:
 	/** Returns the first active grab pointer.
 	 * If no pointer is grabbing the Valid output will be false.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	UFUNCTION(BlueprintPure, Category = "Uxt Grab Target")
 	void GetPrimaryGrabPointer(bool& Valid, FUxtGrabPointerData& PointerData) const;
 
 	/** Returns the second active grab pointer.
 	 * If less than two pointers are grabbing the Valid output will be false.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	UFUNCTION(BlueprintPure, Category = "Uxt Grab Target")
 	void GetSecondaryGrabPointer(bool& Valid, FUxtGrabPointerData& PointerData) const;
 
 	/**
 	 * Release all currently grabbing pointers.
 	 * Returns true if any pointers were grabbing and have been released, false if no pointers were grabbing.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Grabbable")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Grab Target")
 	bool ForceEndGrab();
 
 	/** Compute the centroid of the grab points in world space. */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	UFUNCTION(BlueprintPure, Category = "Uxt Grab Target")
 	FTransform GetGrabPointCentroid(const FTransform& ToWorldTransform) const;
 
 	/** Compute the centroid of the pointer targets in world space. */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	UFUNCTION(BlueprintPure, Category = "Uxt Grab Target")
 	FVector GetTargetCentroid() const;
 
-	UFUNCTION(BlueprintGetter)
+	UFUNCTION(BlueprintGetter, Category = "Uxt Grab Target")
 	bool GetTickOnlyWhileGrabbed() const;
 
-	UFUNCTION(BlueprintSetter)
+	UFUNCTION(BlueprintSetter, Category = "Uxt Grab Target")
 	void SetTickOnlyWhileGrabbed(bool bEnable);
 
 	/** Returns a list of all currently grabbing pointers. */
-	UFUNCTION(BlueprintPure, Category = "Grabbable")
+	UFUNCTION(BlueprintPure, Category = "Uxt Grab Target")
 	const TArray<FUxtGrabPointerData>& GetGrabPointers() const;
 
 protected:
@@ -279,57 +279,57 @@ private:
 
 public:
 	/** Event raised when entering grab focus. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtEnterFarFocusDelegate OnEnterFarFocus;
 
 	/** Event raised when grab focus updates. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtUpdateFarFocusDelegate OnUpdateFarFocus;
 
 	/** Event raised when exiting grab. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtExitFarFocusDelegate OnExitFarFocus;
 
 	/** Event raised when entering grab focus. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtEnterGrabFocusDelegate OnEnterGrabFocus;
 
 	/** Event raised when grab focus updates. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtUpdateGrabFocusDelegate OnUpdateGrabFocus;
 
 	/** Event raised when exiting grab. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtExitGrabFocusDelegate OnExitGrabFocus;
 
 	/** Event raised when grab starts. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtBeginGrabDelegate OnBeginGrab;
 
 	/** Event raised when grab updates. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtUpdateGrabDelegate OnUpdateGrab;
 
 	/** Event raised when grab ends. */
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Grab Target")
 	FUxtEndGrabDelegate OnEndGrab;
 
 	/** Property that indicates if the object is grabbable with far or near interaction or both. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction, meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
+	UPROPERTY(EditAnywhere, Category = "Uxt Grab Target", BlueprintReadWrite, meta = (Bitmask, BitmaskEnum = EUxtInteractionMode))
 	int32 InteractionMode;
 
 	/** Enabled grab modes. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interaction, meta = (Bitmask, BitmaskEnum = EUxtGrabMode))
+	UPROPERTY(EditAnywhere, Category = "Uxt Grab Target", BlueprintReadWrite, meta = (Bitmask, BitmaskEnum = EUxtGrabMode))
 	int32 GrabModes;
 
 private:
 	/** List of currently grabbing pointers. */
-	UPROPERTY(BlueprintGetter = "GetGrabPointers", Category = "Grabbable")
+	UPROPERTY(Category = "Uxt Grab Target", BlueprintGetter = "GetGrabPointers")
 	TArray<FUxtGrabPointerData> GrabPointers;
 
 	/** If true the component tick is only enabled while the actor is being grabbed. */
 	UPROPERTY(
-		EditAnywhere, AdvancedDisplay, BlueprintGetter = "GetTickOnlyWhileGrabbed", BlueprintSetter = "SetTickOnlyWhileGrabbed",
-		Category = "Grabbable")
+		EditAnywhere, Category = "Uxt Grab Target", AdvancedDisplay, BlueprintGetter = "GetTickOnlyWhileGrabbed",
+		BlueprintSetter = "SetTickOnlyWhileGrabbed")
 	uint8 bTickOnlyWhileGrabbed : 1;
 };

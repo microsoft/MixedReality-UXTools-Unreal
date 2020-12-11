@@ -24,7 +24,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtUpdateTransformDelegate, UScene
  * to compute a target transform from grabbing pointers and call the ApplyTargetTransform method
  * to actually modify the actor.
  */
-UCLASS(Abstract, Blueprintable, ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(Abstract, Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtManipulatorComponentBase : public UUxtGrabTargetComponent
 {
 	GENERATED_BODY()
@@ -37,21 +37,21 @@ public:
 	 * Translate the source transform such that grab points match targets.
 	 * If more than one pointer is used then the centroid of the grab points and targets is used.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
+	UFUNCTION(BlueprintPure, Category = "Uxt Manipulator Component Base")
 	void MoveToTargets(const FTransform& SourceTransform, FTransform& TargetTransform, bool UsePointerRotation) const;
 
 	/**
 	 * Rotates the source transform around the pivot point such that the pointers line up with current targets.
 	 * If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
+	UFUNCTION(BlueprintPure, Category = "Uxt Manipulator Component Base")
 	void RotateAroundPivot(const FTransform& SourceTransform, const FVector& Pivot, FTransform& TargetTransform) const;
 
 	/**
 	 * Rotates the source transform around the pivot point on the given axis such that the pointers line up with current targets.
 	 * If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
+	UFUNCTION(BlueprintPure, Category = "Uxt Manipulator Component Base")
 	void RotateAboutAxis(const FTransform& SourceTransform, const FVector& Pivot, const FVector& Axis, FTransform& TargetTransform) const;
 
 	/**
@@ -59,7 +59,7 @@ public:
 	 * Target transform is a exponentially weighted average of the current component transform and the source transform based on the time
 	 * step.
 	 */
-	UFUNCTION(BlueprintPure, Category = "Manipulator Component")
+	UFUNCTION(BlueprintPure, Category = "Uxt Manipulator Component Base")
 	void SmoothTransform(
 		const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds,
 		FTransform& TargetTransform) const;
@@ -69,18 +69,18 @@ public:
 	 * Manipulation should be based on these initial transform for stable results.
 	 * If bAutoSetInitialTransform is true then the initial transform is updated when grabbed.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator Component Base")
 	void SetInitialTransform();
 
 	/**
 	 * Apply the transform to the actor root scene component.
 	 * Relative transform between the manipulator component and the root scene component is preserved.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator Component Base")
 	void ApplyTargetTransform(const FTransform& TargetTransform);
 
 	/** Get the component the manipulator is targeting. */
-	UFUNCTION(BlueprintCallable, Category = "Manipulator Component")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator Component Base")
 	USceneComponent* GetTargetComponent();
 
 protected:
@@ -104,17 +104,17 @@ private:
 	void UpdateManipulationLogic(int NumGrabPointers);
 
 public:
-	UPROPERTY(BlueprintAssignable, Category = "Manipulator Component")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Manipulator Component Base")
 	FUxtUpdateTransformDelegate OnUpdateTransform;
 
-	UPROPERTY(BlueprintReadonly, Category = "Manipulator Component")
+	UPROPERTY(BlueprintReadonly, Category = "Uxt Manipulator Component Base")
 	FTransform InitialTransform;
 
-	UPROPERTY(BlueprintReadonly, Category = "Manipulator Component")
+	UPROPERTY(BlueprintReadonly, Category = "Uxt Manipulator Component Base")
 	FTransform InitialCameraSpaceTransform;
 
 	/** If true the initial transform will be set automatically when the component is grabbed. */
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Manipulator Component")
+	UPROPERTY(EditAnywhere, Category = "Uxt Manipulator Component Base", AdvancedDisplay)
 	bool bAutoSetInitialTransform = true;
 
 	/** The component to transform, will default to the root scene component if not specified */

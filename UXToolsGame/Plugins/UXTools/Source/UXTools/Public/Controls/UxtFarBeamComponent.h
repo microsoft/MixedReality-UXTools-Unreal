@@ -14,7 +14,7 @@ class UUxtFarPointerComponent;
 /**
  * When added to an actor with a far pointer, this component displays a beam from the pointer ray start to the current hit point.
  */
-UCLASS(ClassGroup = UXTools, HideCategories = SplineMeshComponent, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", HideCategories = SplineMeshComponent, meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtFarBeamComponent : public USplineMeshComponent
 {
 	GENERATED_BODY()
@@ -32,18 +32,18 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	// Using this function you can change the beam material at runtime
-	UFUNCTION(BlueprintCallable, Category = "Far Beam")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Far Beam")
 	void SetBeamMaterial(UMaterial* NewMaterial);
 
 	/** Distance over the hit surface to place beam end at. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Far Beam")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Far Beam")
 	float HoverDistance = 0.5f;
 
 private:
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Far Beam")
 	void OnFarPointerEnabled(UUxtFarPointerComponent* FarPointer);
 
-	UFUNCTION()
+	UFUNCTION(Category = "Uxt Far Beam")
 	void OnFarPointerDisabled(UUxtFarPointerComponent* FarPointer);
 
 	/** Dynamic Material to pass internal state to shader */

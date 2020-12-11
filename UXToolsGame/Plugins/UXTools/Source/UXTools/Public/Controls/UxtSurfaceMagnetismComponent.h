@@ -32,29 +32,29 @@ public:
 	UUxtSurfaceMagnetismComponent();
 
 	/** Get the current grabbed state of the component */
-	UFUNCTION(BlueprintCallable, Category = "Surface Magnetism")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Surface Magnetism - Experimental")
 	bool IsGrabbed() const { return IsActive(); }
 
 	//
 	// Events
 
 	/** Event raised when Magnetism is activated */
-	UPROPERTY(BlueprintAssignable, Category = "Surface Magnetism")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Surface Magnetism - Experimental")
 	FUxtOnMagnetismStarted OnMagnetismStarted;
 
 	/** Event raised when Magnetism is deactivated */
-	UPROPERTY(BlueprintAssignable, Category = "Surface Magnetism")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Surface Magnetism - Experimental")
 	FUxtOnMagnetismEnded OnMagnetismEnded;
 
 	//
 	// Getters and setters
 
 	/** Get the component to transform. */
-	UFUNCTION(BlueprintCallable, Category = "Surface Magnetism")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Surface Magnetism - Experimental")
 	UPrimitiveComponent* GetTargetComponent() const;
 
 	/** Set the component to transform. */
-	UFUNCTION(BlueprintCallable, Category = "Surface Magnetism")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Surface Magnetism - Experimental")
 	void SetTargetComponent(UPrimitiveComponent* Target);
 
 protected:
@@ -79,44 +79,46 @@ private:
 
 public:
 	/** How far to trace the world for a surface to stick to */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	float TraceDistance = 2000.0f;
 
 	/** Set or interpolate position */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	bool bSmoothPosition = true;
 
 	/** How fast to interpolate position */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	float PositionInterpValue = 8.0f;
 
 	/** Set or interpolate rotation */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	bool bSmoothRotation = true;
 
 	/** How fast to interpolate rotation */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	float RotationInterpValue = 8.0f;
 
 	/** Offset target based on impact normal */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	float ImpactNormalOffset = 0.0f;
 
 	/** Offset target back along traced ray */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	float TraceRayOffset = 0.0f;
 
 	/** Set collision channel to trace for placement */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	TEnumAsByte<ECollisionChannel> TraceChannel = ECC_Visibility;
 
 	/** Whether the orientation of the object should pitch or roll */
-	UPROPERTY(EditAnywhere, Category = "Surface Magnetism")
+	UPROPERTY(EditAnywhere, Category = "Uxt Surface Magnetism - Experimental")
 	bool bKeepOrientationVertical = false;
 
 private:
 	/** The component to transform, defaults to the first primitive component if not specified */
-	UPROPERTY(EditAnywhere, meta = (UseComponentPicker, AllowedClasses = "UPrimitiveComponent"), Category = "Surface Magnetism")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Surface Magnetism - Experimental",
+		meta = (UseComponentPicker, AllowedClasses = "UPrimitiveComponent"))
 	FComponentReference TargetComponent;
 
 	/** Far pointer in use */

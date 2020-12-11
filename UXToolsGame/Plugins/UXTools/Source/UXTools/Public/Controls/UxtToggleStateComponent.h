@@ -19,29 +19,29 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtToggledDelegate, UUxtToggleState
 /**
  * Component which holds the state, methods, and delegates responsible for controls with binary states.
  */
-UCLASS(ClassGroup = UXTools, HideCategories = (Materials), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", HideCategories = (Materials), meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtToggleStateComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 	/** Mutates the checked flag and broadcasts events if the state changes.  */
-	UFUNCTION(BlueprintSetter, Category = "Toggle State")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Toggle State")
 	void SetIsChecked(bool IsChecked);
 
 	/** Accessor to the checked flag. */
-	UFUNCTION(BlueprintGetter, Category = "Toggle State")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Toggle State")
 	bool IsChecked() const { return bIsChecked; }
 
 	//
 	// Events
 
 	/** Event which broadcasts when the checked state changes. */
-	UPROPERTY(BlueprintAssignable, Category = "Toggle State")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Toggle State")
 	FUxtToggledDelegate OnToggled;
 
 protected:
 	/** The current toggled state, true if checked, false is not checked. */
-	UPROPERTY(EditAnywhere, BlueprintSetter = "SetIsChecked", BlueprintGetter = "IsChecked", Category = "Toggle State")
+	UPROPERTY(EditAnywhere, Category = "Uxt Toggle State", BlueprintSetter = "SetIsChecked", BlueprintGetter = "IsChecked")
 	bool bIsChecked = false;
 };

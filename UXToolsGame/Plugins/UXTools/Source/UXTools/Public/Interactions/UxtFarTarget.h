@@ -9,7 +9,7 @@
 
 #include "UxtFarTarget.generated.h"
 
-UINTERFACE(BlueprintType)
+UINTERFACE(BlueprintType, Category = "UXTools")
 class UXTOOLS_API UUxtFarTarget : public UInterface
 {
 	GENERATED_BODY()
@@ -22,6 +22,6 @@ class UXTOOLS_API IUxtFarTarget
 
 public:
 	/** Returns true if the given primitive should be considerered a valid focus target. */
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Far Target")
 	bool IsFarFocusable(const UPrimitiveComponent* Primitive) const;
 };

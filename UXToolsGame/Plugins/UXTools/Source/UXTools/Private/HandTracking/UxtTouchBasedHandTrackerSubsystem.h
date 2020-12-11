@@ -16,7 +16,7 @@ class AGameModeBase;
 /**
  * Local player subsystem that adds a UUxtTouchBasedHandTrackerComponent to player controllers as they are created.
  */
-UCLASS(ClassGroup = "UXTools Internal")
+UCLASS(ClassGroup = "UXTools|Internal")
 class UXTOOLS_API UUxtTouchBasedHandTrackerSubsystem : public ULocalPlayerSubsystem
 {
 	GENERATED_BODY()

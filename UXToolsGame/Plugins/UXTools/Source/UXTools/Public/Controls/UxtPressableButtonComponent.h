@@ -80,7 +80,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUxtButtonDisabledDelegate, UUxtPres
 /**
  * Component that turns the actor it is attached to into a pressable rectangular button.
  */
-UCLASS(ClassGroup = UXTools, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtPressableButtonComponent
 	: public UUxtUIElementComponent
 	, public IUxtPokeTarget
@@ -95,19 +95,19 @@ public:
 	UUxtPressableButtonComponent();
 
 	/** Get the distance from the visuals front face to the collider front face. */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pressable Button")
 	float GetFrontFaceCollisionFraction() const;
 
 	/** Set the distance from the visuals front face to the collider front face. */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pressable Button")
 	void SetFrontFaceCollisionFraction(float Distance);
 
 	/** Get scene component used for the moving visuals */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pressable Button")
 	USceneComponent* GetVisuals() const;
 
 	/** Set scene component to be used for the moving visuals */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pressable Button")
 	void SetVisuals(USceneComponent* Visuals);
 
 	/** Set scene component reference to be used for the moving visuals. This method should be called if the visual reference should be
@@ -115,99 +115,99 @@ public:
 	void SetVisuals(const FComponentReference& ComponentReference);
 
 	/** Set collision profile used by the button collider */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pressable Button")
 	void SetCollisionProfile(FName Profile);
 
 	/** Switch between world and local space for button distances */
-	UFUNCTION(BlueprintSetter, Category = "Pressable Button")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pressable Button")
 	void SetUseAbsolutePushDistance(bool bAbsolute);
 
 	/** Set if the button is enabled */
-	UFUNCTION(BlueprintCallable, Category = "Pressable Button")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pressable Button")
 	void SetEnabled(bool Enabled);
 
 	/** Get the current state of the button */
-	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	UFUNCTION(BlueprintPure, Category = "Uxt Pressable Button")
 	EUxtButtonState GetState() const;
 
 	/** Gets the maximum distance the button can be pushed scaled by the transform's 'x' scale.*/
-	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	UFUNCTION(BlueprintPure, Category = "Uxt Pressable Button")
 	float GetScaleAdjustedMaxPushDistance() const;
 
 	/** Gets the button behavior when pushed */
-	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	UFUNCTION(BlueprintPure, Category = "Uxt Pressable Button")
 	EUxtPushBehavior GetPushBehavior() const;
 
 	/** Sets the button behavior when pushed */
-	UFUNCTION(BlueprintSetter, Category = "Pressable Button")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pressable Button")
 	void SetPushBehavior(EUxtPushBehavior Behavior);
 
 	/** Gets the maximum distance the button can be pushed */
-	UFUNCTION(BlueprintPure, Category = "Pressable Button")
+	UFUNCTION(BlueprintPure, Category = "Uxt Pressable Button")
 	float GetMaxPushDistance() const;
 
 	/** Sets the maximum distance the button can be pushed, does nothing when the push behavior is set to compress because the maximum
 	 * distance is auto calculated */
-	UFUNCTION(BlueprintSetter, Category = "Pressable Button")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pressable Button")
 	void SetMaxPushDistance(float Distance);
 
 	/** Filter function used by the button when calculating the hierarchy bounds of the visuals */
 	static bool VisualBoundsFilter(const USceneComponent* Component);
 
 	/** Fraction of the maximum travel distance at which the button will raise the pressed event. */
-	UPROPERTY(EditAnywhere, meta = (DisplayAfter = "bUseAbsolutePushDistance"), Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button", meta = (DisplayAfter = "bUseAbsolutePushDistance"))
 	float PressedFraction = 0.5f;
 
 	/** Fraction of the maximum travel distance at which a pressed button will raise the released event. */
-	UPROPERTY(EditAnywhere, meta = (DisplayAfter = "bUseAbsolutePushDistance"), Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button", meta = (DisplayAfter = "bUseAbsolutePushDistance"))
 	float ReleasedFraction = 0.2f;
 
 	/** Button movement speed while recovering */
-	UPROPERTY(EditAnywhere, meta = (DisplayAfter = "bUseAbsolutePushDistance"), Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button", meta = (DisplayAfter = "bUseAbsolutePushDistance"))
 	float RecoverySpeed = 50;
 
 	//
 	// Events
 
 	/** Event raised when a pointer starts focusing the button. WasFocused indicates if the button was already focused by another pointer. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonBeginFocusDelegate OnBeginFocus;
 
 	/** Event raised when a focusing pointer updates. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonUpdateFocusDelegate OnUpdateFocus;
 
 	/** Event raised when a pointer ends focusing the Pressable Button. IsFocused indicates if the Pressable Button is still focused by
 	 * another pointer. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonEndFocusDelegate OnEndFocus;
 
 	/** Event raised when a pointer starts poking the Pressable Button. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonBeginPokeDelegate OnBeginPoke;
 
 	/** Event raised while a pointer is poking the Pressable Button. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonUpdatePokeDelegate OnUpdatePoke;
 
 	/** Event raised when a pointer ends poking the Pressable Button. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonEndPokeDelegate OnEndPoke;
 
 	/** Event raised when the button reaches the pressed distance. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonPressedDelegate OnButtonPressed;
 
 	/** Event raised when the a pressed button reaches the released distance. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonReleasedDelegate OnButtonReleased;
 
 	/** Event raised when the button is enabled. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonEnabledDelegate OnButtonEnabled;
 
 	/** Event raised when the button is disabled. */
-	UPROPERTY(BlueprintAssignable, Category = "Pressable Button")
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pressable Button")
 	FUxtButtonDisabledDelegate OnButtonDisabled;
 
 protected:
@@ -295,33 +295,34 @@ private:
 	void UpdateMaxPushDistance();
 
 	/** Button behavior when pushed */
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetPushBehavior", BlueprintSetter = "SetPushBehavior", Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button", BlueprintGetter = "GetPushBehavior", BlueprintSetter = "SetPushBehavior")
 	EUxtPushBehavior PushBehavior = EUxtPushBehavior::Translate;
 
 	/** The maximum distance the button can be pushed in local space (auto-calculated when the push behavior is compress)*/
-	UPROPERTY(EditAnywhere, BlueprintGetter = "GetMaxPushDistance", BlueprintSetter = "SetMaxPushDistance", Category = "Pressable Button")
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pressable Button", BlueprintGetter = "GetMaxPushDistance", BlueprintSetter = "SetMaxPushDistance")
 	float MaxPushDistance = 10;
 
 	/** Distance from the visuals front face to the collider front face expressed as a fraction of the maximum push distance. */
 	UPROPERTY(
-		EditAnywhere, BlueprintGetter = "GetFrontFaceCollisionFraction", BlueprintSetter = "SetFrontFaceCollisionFraction",
-		meta = (UIMin = "0.0"), Category = "Pressable Button")
+		EditAnywhere, Category = "Uxt Pressable Button", BlueprintGetter = "GetFrontFaceCollisionFraction",
+		BlueprintSetter = "SetFrontFaceCollisionFraction", meta = (UIMin = "0.0"))
 	float FrontFaceCollisionFraction = 0.05f;
 
 	/** Visual representation of the button face. This component's transform will be updated as the button is pressed/released. */
 	UPROPERTY(
-		EditAnywhere, DisplayName = "Visuals", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"),
-		Category = "Pressable Button")
+		EditAnywhere, DisplayName = "Visuals", Category = "Uxt Pressable Button",
+		meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference VisualsReference;
 
 	/** Collision profile used by the button collider */
-	UPROPERTY(EditAnywhere, Category = "Pressable Button")
+	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button")
 	FName CollisionProfile = TEXT("UI");
 
 	/** Switch between world and local space for button distances */
 	UPROPERTY(
-		EditAnywhere, BlueprintSetter = "SetUseAbsolutePushDistance", meta = (DisplayAfter = "MaxPushDistance"),
-		Category = "Pressable Button")
+		EditAnywhere, Category = "Uxt Pressable Button", BlueprintSetter = "SetUseAbsolutePushDistance",
+		meta = (DisplayAfter = "MaxPushDistance"))
 	bool bUseAbsolutePushDistance = false;
 
 	/** Set the pressed state of the button and trigger corresponding events */
