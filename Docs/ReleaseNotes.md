@@ -45,10 +45,43 @@ The pinch slider component now has the option to use stepped movement. This can 
 
 ### UxtBoundsControlComponent
 
+#### Rewrite
+
 In order to simplify the `UUxtBoundsControlComponent`, besides reducing the number of edge cases and better aligning with its MRTK-Unity's counterpart:
 
 - `UUxtBoundsControlComponent` now allows constraints' configuration via the same mechanism as the _Manipulators_. This means that the same `UUxtTransformConstraint`-derived constraints can be used with bounds-controlled objects.
 - `UUxtBoundsControlConfig` data assets are simplified, so they don't need to specify what each affordance does separately. Now corners scale, edges rotate and faces/center translate.
+
+Here is an example of what happened before when locking the Z axis:
+
+![Rotation axis constraint before fix](Images/ReleaseNotes/rotation_axis_constraint_before.gif)
+
+Now, however, adding a `UxtRotationAxisConstraint` configured to constrain the Z axis (using local actor's space) is more intuitive:
+
+![Rotation axis constraint after fix](Images/ReleaseNotes/rotation_axis_constraint_after.gif)
+
+#### Uniform scaling bug
+
+Even if ticking the box to use uniform scaling, actor's proportions were modified. This has been fixed and now works properly:
+
+Before:
+
+![Scaling bounds control actor before fix](Images/ReleaseNotes/bounds_control_scale_uniform_before.gif)
+
+Now:
+
+![Scaling bounds control actor after fix](Images/ReleaseNotes/bounds_control_scale_uniform_after.gif)
+
+
+### UxtMinMaxScaleConstraint
+
+A new constraint to limit the minimum and maximum scale of an actor has been implemented.
+
+![Demo of the min/max scale constraint](Images/ReleaseNotes/min_max_scale_constraint.gif)
+
+### UxtRotationAxisConstraint
+
+We have improved this constraint's implementation by avoiding conversion to euler angles to appropriately integrate with `UxtBoundsControlComponent`, since we discovered certain weird rotations with the previous algorithm.
 
 ### Improved editor categories
 
