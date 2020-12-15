@@ -25,15 +25,15 @@ public:
 
 	/** Minimum scale allowed */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
-	float MinScaleFactor = 0.0f;
+	float MinScale = 0.2f;
 
 	/** Maximum scale allowed */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
-	float MaxScaleFactor = 0.0f;
+	float MaxScale = 2.0f;
 
-	/** Whether the min/max values should be relative to the initial transform or not. */
+	/** Whether the min/max values should be relative to the scale at interaction start. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale")
-	bool bRelativeToInitialTransform = false;
+	bool bRelativeToInitialScale = false;
 
 private:
 	/** By using those vectors, the scales to apply aren't recalculated on each apply call. */

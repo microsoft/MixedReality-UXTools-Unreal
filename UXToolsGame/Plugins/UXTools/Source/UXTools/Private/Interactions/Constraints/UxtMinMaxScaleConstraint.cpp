@@ -19,9 +19,9 @@ void UUxtMinMaxScaleConstraint::ApplyConstraint(FTransform& Transform) const
 
 void UUxtMinMaxScaleConstraint::Initialize(const FTransform& WorldPose)
 {
-	FVector LocalMinScaleVec(MinScaleFactor);
-	FVector LocalMaxScaleVec(MaxScaleFactor);
-	if (bRelativeToInitialTransform)
+	FVector LocalMinScaleVec(MinScale);
+	FVector LocalMaxScaleVec(MaxScale);
+	if (bRelativeToInitialScale)
 	{
 		LocalMinScaleVec *= WorldPose.GetScale3D();
 		LocalMaxScaleVec *= WorldPose.GetScale3D();
