@@ -73,20 +73,20 @@ public:
 	UUxtBoundsControlComponent(FVTableHelper& Helper);
 	~UUxtBoundsControlComponent();
 
-	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control|Affordances")
 	AActor* GetBoundsControlActor() const;
 
 	/** Get the map between the affordance actors and their information. */
 	const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& GetPrimitiveAffordanceMap();
 
-	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control|Affordances")
 	bool GetInitBoundsFromActor() const;
 
 	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control")
 	const FBox& GetBounds() const;
 
 	/** Mesh for the given kind of affordance. */
-	UFUNCTION(BlueprintPure, Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(BlueprintPure, Category = "Uxt Bounds Control|Affordances")
 	UStaticMesh* GetAffordanceKindMesh(EUxtAffordanceKind Kind) const;
 
 	/** Compute the bounding box based on the components of the bounding box actor. */
@@ -99,19 +99,19 @@ public:
 	UUxtBoundsControlConfig* Config;
 
 	/** Mesh used for a center affordance. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Affordances")
 	UStaticMesh* CenterAffordanceMesh;
 
 	/** Mesh used for a face affordances. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Affordances")
 	UStaticMesh* FaceAffordanceMesh;
 
 	/** Mesh used for a edge affordances. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Affordances")
 	UStaticMesh* EdgeAffordanceMesh;
 
 	/** Mesh used for a corner affordances. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control | Affordances")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Affordances")
 	UStaticMesh* CornerAffordanceMesh;
 
 	/** Collision box that prevents pointer rays from passing through bounds control's box. */
@@ -144,26 +144,26 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	/** Callback when an affordance is entering focus. */
-	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceEnterFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer);
 	/** Callback when an affordance is entering focus. */
-	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceEnterGrabFocus(UUxtGrabTargetComponent* Grabbable, UUxtNearPointerComponent* Pointer);
 	/** Callback when an affordance is exiting focus. */
-	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceExitFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer);
 	/** Callback when an affordance is exiting focus. */
-	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceExitGrabFocus(UUxtGrabTargetComponent* Grabbable, UUxtNearPointerComponent* Pointer);
 
 	/** Callback when an affordance is being grabbed. */
-	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceBeginGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 	/** Callback when an affordance is being grabbed. */
-	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceUpdateGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 	/** Callback when an affordance is being released. */
-	UFUNCTION(Category = "Uxt Bounds Control | Affordances")
+	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
 	/** Callback when the parent actor is moved. */

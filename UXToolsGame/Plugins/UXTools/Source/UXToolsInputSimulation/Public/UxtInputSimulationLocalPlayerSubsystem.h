@@ -25,7 +25,7 @@ class UXTOOLSINPUTSIMULATION_API UUxtInputSimulationLocalPlayerSubsystem : publi
 
 public:
 	/** Get the persistent simulation state */
-	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation | Local Player")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation|Local Player")
 	UUxtInputSimulationState* GetSimulationState() const;
 
 	//
@@ -57,6 +57,6 @@ private:
 	 */
 	TWeakObjectPtr<AActor> HmdCameraActorWeak;
 
-	UPROPERTY(Category = "Uxt Input Simulation | Local Player", BlueprintGetter = GetSimulationState)
+	UPROPERTY(Category = "Uxt Input Simulation|Local Player", BlueprintGetter = GetSimulationState)
 	UUxtInputSimulationState* SimulationState;
 };
