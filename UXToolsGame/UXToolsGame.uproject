@@ -33,6 +33,10 @@
 			]
 		},
 		{
+			"Name": "UXToolsExamples",
+			"Enabled": true
+		},
+		{
 			"Name": "SteamVR",
 			"Enabled": false,
 			"SupportedTargetPlatforms": [
