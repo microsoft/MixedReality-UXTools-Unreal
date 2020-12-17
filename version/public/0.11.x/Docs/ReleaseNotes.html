@@ -1,0 +1,380 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Release Notes | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Release Notes | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="ux-tools-0110-release-notes">UX Tools 0.11.0 release notes</h1>
+
+<ul>
+<li><a href="#whats-new">What's new</a></li>
+<li><a href="#breaking-changes">Breaking changes</a></li>
+<li><a href="#known-issues">Known issues</a></li>
+<li><a href="#full-change-list">Full change list</a></li>
+</ul>
+<p>This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us and we are hoping to be able to deliver it in the near future.</p>
+<p>Unreal 4.26 required.</p>
+<h2 id="whats-new">What's new</h2>
+<p>These are some of this release's highlights. For a more comprehensive list of changes see the <a href="#full-change-list">full change list</a>.</p>
+<h3 id="examples-plugin">Examples plugin</h3>
+<p>UX Tools example scenes have been moved to a separate plugin to make it easier to incorporate them
+as a starting point for new projects.</p>
+<p><img src="Images/ReleaseNotes/ExamplesPlugin.png" alt="Examples plugin"></p>
+<h3 id="improved-hand-menu-activation-using-user-gaze">Improved hand menu activation using user gaze</h3>
+<p>The palm-up constraint has gained the <em>Require Gaze</em> option to ensure the user is deliberately trying to use the constraint and help prevent false activations. This is particularly useful for world-locking hand menus as it prevents the menu from unintentionally re-attaching to the hand.</p>
+<p><img src="Images/ReleaseNotes/PalmUpConstraintRequireGaze.png" alt="User gaze settings"></p>
+<h3 id="pinch-slider-improvements">Pinch slider improvements</h3>
+<p>The pinch slider actor has gained a number of quality of life improvements. These include:</p>
+<ul>
+<li>Customizable minimum / maximum values.</li>
+<li>GetValue, SetValue and OnSliderUpdateValue exposed directly on the actor to allow easy access to the slider's value relative to the custom min / max value. (note: if using the underlying <code>UxtPinchSliderComponent</code>, it's value will still be in the range 0-1)</li>
+<li>Stepped movement along the slider's tick marks.</li>
+</ul>
+<p><img src="Images/Slider/SteppedSlider.gif" alt="SteppedSlider"></p>
+<h3 id="bounds-control-improvements">Bounds control improvements</h3>
+<h4 id="constraint-support">Constraint support</h4>
+<p>Manipulation constraints (i.e. derived from <code>UUxtTransformConstraint</code>) now also apply to manipulations performed via <a href="BoundsControl.html">bounds control</a>, making it easier to produce a consistent behavior when manipulating transforms.</p>
+<h4 id="uniform-scaling">Uniform scaling</h4>
+<p><em>Uniform scaling</em> now works as expected.</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="Images/ReleaseNotes/bounds_control_scale_uniform_before.gif" alt="Scaling bounds control actor before fix"></td>
+<td><img src="Images/ReleaseNotes/bounds_control_scale_uniform_after.gif" alt="Scaling bounds control actor after fix"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="improved-affordance-selection-via-hand-ray">Improved affordance selection via hand ray</h4>
+<p>Previously, bounding box affordances were only revealed when hovering directly over them or over the bounding box contents. This could make them difficult to select if the bounding box was not a tight fit. We now also reveal affordances when the ray hovers the box itself.</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="Images/ReleaseNotes/AffordanceSelectionBefore.gif" alt="Affordance selection before"></td>
+<td><img src="Images/ReleaseNotes/AffordanceSelectionAfter.gif" alt="Affordance selection after"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="new-scale-constraint">New scale constraint</h3>
+<p>A new constraint (<code>UxtMinMaxScaleConstraint</code>) to limit how much an actor can be scaled down or up via bounds control and manipulation components.</p>
+<p><img src="Images/ReleaseNotes/min_max_scale_constraint.gif" alt="Demo of the min/max scale constraint"></p>
+<h3 id="improved-editor-categories">Improved editor categories</h3>
+<p>We have reworked the editor categories used by UX Tools to produce a more clear, simple and consistent interface.</p>
+<p><img src="Images/ReleaseNotes/categories_refactor_comparison.jpg" alt="Categories' refactor comparison"></p>
+<h2 id="breaking-changes">Breaking changes</h2>
+<h3 id="uxtgenericmanipulatorcomponent">UxtGenericManipulatorComponent</h3>
+<p>The <em>Target Component</em> now uses a component picker to select its target. Due to this, the generic manipulator can no longer target components on other actors when being configured from the editor.</p>
+<p>The <em>ManipulationModes</em> setting on the generic manipulator has been moved up the hierarchy to the <code>UxtGrabTargetComponent</code> and renamed to <em>GrabModes</em>. Its associated enum has been renamed to <code>EUxtGrabMode</code>.
+This change means that the <code>UxtGrabTargetComponent</code> will now respond to its <em>GrabModes</em> and will only trigger grab/release events when its grab mode has been satisfied. (e.g. when using only two handed grabs, a grab event is only triggered when both hands are grabbing the object)</p>
+<h3 id="uxtgrabtargetcomponent">UxtGrabTargetComponent</h3>
+<p>The <code>UxtGrabTargetComponent</code> has been converted from a <code>SceneComponent</code> to an <code>ActorComponent</code>. This affects the classes derived from <code>UxtGrabTargetComponent</code> such as the <code>UxtManipulatorComponentBase</code> and the <code>UxtGenericManipulatorComponent</code>.
+Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.</p>
+<h3 id="uxthandconstraintcomponent">UxtHandConstraintComponent</h3>
+<p><code>UUxtHandConstraintComponent::IsHandUsableForConstraint()</code> is now a non-const member function.</p>
+<h3 id="uxtpinchslideractor">UxtPinchSliderActor</h3>
+<p>As part of adding a customizable minimum / maximum slider value, the <em>InitialValue</em> property has been replaced with a <em>Value</em> property. As part of this change, the <code>GetInitialValue()</code> and <code>SetInitialValue(...)</code> functions on the <code>UxtPinchSliderActor</code> are now called <code>GetValue()</code> and <code>SetValue(...)</code>.</p>
+<p>Previous settings can be easily carried forward:</p>
+<ol>
+<li>Add <code>+PropertyRedirects=(OldName=&quot;UxtPinchSliderActor.InitialValue&quot;, NewName=&quot;UxtPinchSliderActor.Value&quot;)</code> to <em>DefaultUXTools.ini</em>. (found in the plugin's configuration folder)</li>
+<li>Re-save any levels with sliders to update their properties.</li>
+<li>Remove the property redirect from <em>DefaultUXTools.ini</em>.</li>
+</ol>
+<h3 id="uxttransformconstraint">UxtTransformConstraint</h3>
+<p>The <code>UxtTransformConstraint</code> has been converted from a <code>SceneComponent</code> to an <code>ActorComponent</code>. This affects the classes derived from <code>UxtTransformConstraint</code> such as the <code>UxtFaceUserConstraint</code>, the <code>UxtFixedDistanceConstraint</code>, the <code>UxtFixedRotationToUserConstraint</code>, the <code>UxtFixedRotationToWorldConstraint</code>, the <code>UxtMaintainApparentSizeConstraint</code>, the <code>UxtMoveAxisConstraint</code> and the <code>UxtRotationAxisConstraint</code>.
+Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.</p>
+<h3 id="uxtboundscontrolcomponent">UxtBoundsControlComponent</h3>
+<p>Configuring each affordance's action separately is no longer allowed so, if any feature relied on that, an extension to the <code>UUxtBoundsControlComponent</code> should be implemented instead. Besides that, the <code>EUxtAffordanceAction::Resize</code> has been removed, so only <code>EUxtAffordanceAction::Scale</code> (action of corner affordances) can scale the object in the direction that the grabbed affordance is on, leaving the opposite affordance pinned to its location at the start of the interaction.</p>
+<p><em>Locked Axes</em> property in <code>UUxtBoundsControlConfig</code> data assets no longer exists. Therefore, if you were using the <em>Locked Axes</em> flags to constrain movement or rotation of an object, you should now add the appropriate <code>UUxtMoveAxisConstraint</code> or <code>UUxtRotationAxisConstraint</code> (respectively) instead.</p>
+<p>The <em>MinimumBoundsScale</em> and <em>MaximumBoundsScale</em> properties have been removed in favor of using the <code>UxtMinMaxScaleConstraint</code> for controlling this behavior.</p>
+<h2 id="known-issues">Known issues</h2>
+<h3 id="uxtgenericmanipulatorcomponent-1">UxtGenericManipulatorComponent</h3>
+<p>When the target component's rotation does not match its parent actor's rotation, the parent actors rotation will be applied to the target component when manipulation is started.</p>
+<h2 id="full-change-list">Full change list</h2>
+<table>
+<thead>
+<tr>
+<th>Commit</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1648ad01">1648ad01</a></td>
+<td>Add examples as dependency</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/12e0c5a2">12e0c5a2</a></td>
+<td>Roll back rotation constraint's modifications</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/253d2b9f">253d2b9f</a></td>
+<td>Add enabled UXTools plugin to .uproject</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/a9cd53ce">a9cd53ce</a></td>
+<td>Fix spaces in some categories</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/bda99d59">bda99d59</a></td>
+<td>Improve descriptions and labels in example scenes</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/db6127f6">db6127f6</a></td>
+<td>Refactor to make scale constraint easier</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e44c7782">e44c7782</a></td>
+<td>Improve Bounds Control and constraints' docs</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/f0199b94">f0199b94</a></td>
+<td>Fix level change crash</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/3384b9d1">3384b9d1</a></td>
+<td>Remove AR Session workaround for MobilePreview</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0acbbad0">0acbbad0</a></td>
+<td>Refactor/normalize all categories</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1c77f51b">1c77f51b</a></td>
+<td>Stepped slider gif + heading fixups</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/9f29c2ab">9f29c2ab</a></td>
+<td>Disabling unfinished &quot;Mask Logic&quot; in Scrolling Object Collection</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e42416f7">e42416f7</a></td>
+<td>Moving Home Button to &quot;On Release&quot;</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1b7a5a09">1b7a5a09</a></td>
+<td>Clarify breaking changes after testing upgrade from 0.10</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/70adb554">70adb554</a></td>
+<td>Update CI editor version to 4.26.0 (release)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/ce9742c7">ce9742c7</a></td>
+<td>Adding plugin images.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/2a0a5fb5">2a0a5fb5</a></td>
+<td>Implement min/max scale constraint</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d32355c3">d32355c3</a></td>
+<td>Rewrite bounds control and fix rotation constraint</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/099b6115">099b6115</a></td>
+<td>Add collision box to BoundsControlComponent</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/7f58f198">7f58f198</a></td>
+<td>Update version to 0.11.0</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/2afc85b1">2afc85b1</a></td>
+<td>Fixing invalid enum value metadata tags from UxtScrollingObjectCollection</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/692c3365">692c3365</a></td>
+<td>Fix one handed only manipulation not responding if grabbed by both hands</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/f6588058">f6588058</a></td>
+<td>Update UXTools to UE4.26</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0c4ccdcf">0c4ccdcf</a></td>
+<td>Manipulator improvements</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/50a77125">50a77125</a></td>
+<td>Add include to fix CI build</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c8da2565">c8da2565</a></td>
+<td>Display current git commit in the Loader scene (packaged game only)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d2a184e0">d2a184e0</a></td>
+<td>Add gaze requirement to PalmUpConstraint and Hand Menu</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/fe8e77aa">fe8e77aa</a></td>
+<td>Update docs with information about Examples plugin</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e7c91b2f">e7c91b2f</a></td>
+<td>Use 2D corner handle on Slate2D example bounds control</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c0947793">c0947793</a></td>
+<td>Enable eye tracking in UXToolsGame package</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/01562b9c">01562b9c</a></td>
+<td>Slider improvements</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d5271e7c">d5271e7c</a></td>
+<td>Update editor version to 4.25.4</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c31e8318">c31e8318</a></td>
+<td>Move Examples into a separate plugin</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/3b6173fe">3b6173fe</a></td>
+<td>Cook Warning Fixes</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0b84cca9">0b84cca9</a></td>
+<td>Enable debug info in CI package and add symbols to artifact</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/eda87709">eda87709</a></td>
+<td>Export all public interfaces</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e62fbc89">e62fbc89</a></td>
+<td>Removing all built data and changing levels to not generate static lighting data.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/6ad0acf8">6ad0acf8</a></td>
+<td>Introduce roll for vertical normals</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/ReleaseNotes.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

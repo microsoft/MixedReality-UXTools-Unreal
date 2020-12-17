@@ -1,0 +1,1834 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class AUxtPressableButtonActor
+   | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class AUxtPressableButtonActor
+   | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_a_uxt_pressable_button_actor">
+  
+  
+  <h1 id="_a_uxt_pressable_button_actor" data-uid="_a_uxt_pressable_button_actor" class="text-break">Class AUxtPressableButtonActor
+  </h1>
+  <div class="markdown level0 summary"><p>The default pressable button actor which programmatically builds an actor hierarchy with a back plate, front plate, icon, and label. All button properties within this class are reactive at edit and runtime. This actor also contains behaviors to support icon focus animation and sound playback. This class is extensible to support derived button types. </p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System::Object</span></div>
+    <div class="level1"><span class="xref">AActor</span></div>
+    <div class="level2"><a class="xref" href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a></div>
+    <div class="level3"><span class="xref">AUxtPressableButtonActor</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_AUxtBasePressableButtonActor__">AUxtBasePressableButtonActor::AUxtBasePressableButtonActor()</a>
+    </div>
+    <div>
+      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_ButtonComponent">AUxtBasePressableButtonActor::ButtonComponent</a>
+    </div>
+    <div>
+      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetButtonComponent__">AUxtBasePressableButtonActor::GetButtonComponent()</a>
+    </div>
+    <div>
+      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetFarTarget__">AUxtBasePressableButtonActor::GetFarTarget()</a>
+    </div>
+    <div>
+      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetFarTarget_Implementation__">AUxtBasePressableButtonActor::GetFarTarget_Implementation()</a>
+    </div>
+    <div>
+      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetPokeTarget__">AUxtBasePressableButtonActor::GetPokeTarget()</a>
+    </div>
+    <div>
+      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetPokeTarget_Implementation__">AUxtBasePressableButtonActor::GetPokeTarget_Implementation()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: </h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="_a_uxt_pressable_button_actor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: class AUxtPressableButtonActor : public xtBasePressableButtonActor</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_AUxtPressableButtonActor__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.AUxtPressableButtonActor()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L35">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_AUxtPressableButtonActor_" data-uid="_a_uxt_pressable_button_actor.AUxtPressableButtonActor*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_AUxtPressableButtonActor__" data-uid="_a_uxt_pressable_button_actor.AUxtPressableButtonActor()">AUxtPressableButtonActor()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: AUxtPressableButtonActor()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.UPROPERTY(EditAnywhere%2CCategory%2CBlueprintGetter%2CBlueprintSetter%2Cmeta)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L165">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_UPROPERTY_" data-uid="_a_uxt_pressable_button_actor.UPROPERTY*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_" data-uid="_a_uxt_pressable_button_actor.UPROPERTY(EditAnywhere,Category,BlueprintGetter,BlueprintSetter,meta)">UPROPERTY(EditAnywhere, Category=&quot;Uxt Pressable Button&quot;, BlueprintGetter=&quot;GetIconBrush&quot;, BlueprintSetter=&quot;SetIconBrush&quot;, meta=(EditCondition=&quot;bCanEditIconBrush&quot;))</h4>
+  <div class="markdown level1 summary"><p>Structure which contains properties for the button's icon. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UPROPERTY(EditAnywhere, Category=&quot;Uxt Pressable Button&quot;, BlueprintGetter=&quot;GetIconBrush&quot;, BlueprintSetter=&quot;SetIconBrush&quot;, meta=(EditCondition=&quot;bCanEditIconBrush&quot;)) FUxtIconBrush IconBrush</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>EditAnywhere</td>
+        <td><span class="parametername">_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Category</td>
+        <td><span class="parametername">_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>BlueprintGetter</td>
+        <td><span class="parametername">_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>BlueprintSetter</td>
+        <td><span class="parametername">_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>meta</td>
+        <td><span class="parametername">_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_AudioComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.AudioComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L212">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_AudioComponent" data-uid="_a_uxt_pressable_button_actor.AudioComponent">AudioComponent</h4>
+  <div class="markdown level1 summary"><p>Audio playback component. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UAudioComponent * AudioComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UAudioComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_BackPlateMeshComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.BackPlateMeshComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L188">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_BackPlateMeshComponent" data-uid="_a_uxt_pressable_button_actor.BackPlateMeshComponent">BackPlateMeshComponent</h4>
+  <div class="markdown level1 summary"><p>Back plate mesh component. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UUxtBackPlateComponent * BackPlateMeshComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UUxtBackPlateComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_BackPlatePivotComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.BackPlatePivotComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L184">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_BackPlatePivotComponent" data-uid="_a_uxt_pressable_button_actor.BackPlatePivotComponent">BackPlatePivotComponent</h4>
+  <div class="markdown level1 summary"><p>Pivot component to support back plate compression visuals. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: USceneComponent * BackPlatePivotComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USceneComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_bCanEditIconBrush.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.bCanEditIconBrush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L236">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_bCanEditIconBrush" data-uid="_a_uxt_pressable_button_actor.bCanEditIconBrush">bCanEditIconBrush</h4>
+  <div class="markdown level1 summary"><p>Allows derived classes to control if the icon brush can be edited. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: bool bCanEditIconBrush= true</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_bIsPlated.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.bIsPlated%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L162">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_bIsPlated" data-uid="_a_uxt_pressable_button_actor.bIsPlated">bIsPlated</h4>
+  <div class="markdown level1 summary"><p>True if the button should display a back plate. Collections of buttons should share a common back plate. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: bool bIsPlated= true</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_ButtonBrush.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.ButtonBrush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L180">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_ButtonBrush" data-uid="_a_uxt_pressable_button_actor.ButtonBrush">ButtonBrush</h4>
+  <div class="markdown level1 summary"><p>Structure which contains properties for the button's appearance and behavior. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: FUxtButtonBrush ButtonBrush</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_f_uxt_button_brush.html">FUxtButtonBrush</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_FocusTimer.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.FocusTimer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L232">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_FocusTimer" data-uid="_a_uxt_pressable_button_actor.FocusTimer">FocusTimer</h4>
+  <div class="markdown level1 summary"><p>The current animation time of the focus animation. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: float FocusTimer= 0</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_FrontPlateCenterComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.FrontPlateCenterComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L196">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_FrontPlateCenterComponent" data-uid="_a_uxt_pressable_button_actor.FrontPlateCenterComponent">FrontPlateCenterComponent</h4>
+  <div class="markdown level1 summary"><p>The center of mass pivot of the front plate. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: USceneComponent * FrontPlateCenterComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USceneComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_FrontPlateMeshComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.FrontPlateMeshComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L200">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_FrontPlateMeshComponent" data-uid="_a_uxt_pressable_button_actor.FrontPlateMeshComponent">FrontPlateMeshComponent</h4>
+  <div class="markdown level1 summary"><p>Front plate mesh component. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UStaticMeshComponent * FrontPlateMeshComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UStaticMeshComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_FrontPlatePivotComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.FrontPlatePivotComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L192">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_FrontPlatePivotComponent" data-uid="_a_uxt_pressable_button_actor.FrontPlatePivotComponent">FrontPlatePivotComponent</h4>
+  <div class="markdown level1 summary"><p>Pivot component to support front plate compression visuals. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: USceneComponent * FrontPlatePivotComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USceneComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_IconComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.IconComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L204">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_IconComponent" data-uid="_a_uxt_pressable_button_actor.IconComponent">IconComponent</h4>
+  <div class="markdown level1 summary"><p>Icon text component. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UTextRenderComponent * IconComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UTextRenderComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_Label.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.Label%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L172">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_Label" data-uid="_a_uxt_pressable_button_actor.Label">Label</h4>
+  <div class="markdown level1 summary"><p>Localizable text for the label. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: FText Label= NSLOCTEXT(&quot;PressableButtonActor&quot;, &quot;LabelDefault&quot;, &quot;16x32x32mm&quot;)</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FText</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_LabelComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.LabelComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L208">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_LabelComponent" data-uid="_a_uxt_pressable_button_actor.LabelComponent">LabelComponent</h4>
+  <div class="markdown level1 summary"><p>Label text component. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UTextRenderComponent * LabelComponent= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UTextRenderComponent *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_LabelTextBrush.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.LabelTextBrush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L176">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_LabelTextBrush" data-uid="_a_uxt_pressable_button_actor.LabelTextBrush">LabelTextBrush</h4>
+  <div class="markdown level1 summary"><p>Text settings for the label. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: FUxtTextBrush LabelTextBrush</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_f_uxt_text_brush.html">FUxtTextBrush</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_MaterialIndex.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.MaterialIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L229">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_MaterialIndex" data-uid="_a_uxt_pressable_button_actor.MaterialIndex">MaterialIndex</h4>
+  <div class="markdown level1 summary"><p>The active material based on which pointer triggered the pulse. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: uint32 MaterialIndex= 0</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>uint32</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_MillimeterSize.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.MillimeterSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L158">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_MillimeterSize" data-uid="_a_uxt_pressable_button_actor.MillimeterSize">MillimeterSize</h4>
+  <div class="markdown level1 summary"><p>The millimeter size of the button which dynamically resizes components within the button. This will preserve the actor scale. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: FVector MillimeterSize= FVector(16, 32, 32)</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_PrePulseMaterial.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.PrePulseMaterial%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L222">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_PrePulseMaterial" data-uid="_a_uxt_pressable_button_actor.PrePulseMaterial">PrePulseMaterial</h4>
+  <div class="markdown level1 summary"><p>Handle to the original (unaltered) material before pulsing. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UMaterialInterface * PrePulseMaterial= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UMaterialInterface *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_PulseFadeTimer.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.PulseFadeTimer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L218">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_PulseFadeTimer" data-uid="_a_uxt_pressable_button_actor.PulseFadeTimer">PulseFadeTimer</h4>
+  <div class="markdown level1 summary"><p>The current animation time of the pulse fade out animation. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: float PulseFadeTimer= -1</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_PulseMaterialInstance.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.PulseMaterialInstance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L226">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_PulseMaterialInstance" data-uid="_a_uxt_pressable_button_actor.PulseMaterialInstance">PulseMaterialInstance</h4>
+  <div class="markdown level1 summary"><p>Handle to any dynamic material the pulse instantiates due to material parameter changes. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: UMaterialInstanceDynamic * PulseMaterialInstance= nullptr</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UMaterialInstanceDynamic *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_PulseTimer.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.PulseTimer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L215">View Source</a>
+  </span>
+  <h4 id="_a_uxt_pressable_button_actor_PulseTimer" data-uid="_a_uxt_pressable_button_actor.PulseTimer">PulseTimer</h4>
+  <div class="markdown level1 summary"><p>The current animation time of the pulse animation. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: float PulseTimer= -1</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_AnimateFocus_float_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.AnimateFocus(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L430">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_AnimateFocus_" data-uid="_a_uxt_pressable_button_actor.AnimateFocus*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_AnimateFocus_float_" data-uid="_a_uxt_pressable_button_actor.AnimateFocus(float)">AnimateFocus(float DeltaTime)</h4>
+  <div class="markdown level1 summary"><p>Method to update the focus animation and behavior. Returns true when the animation is complete. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool AnimateFocus(float DeltaTime)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">DeltaTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_AnimatePulse_float_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.AnimatePulse(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L389">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_AnimatePulse_" data-uid="_a_uxt_pressable_button_actor.AnimatePulse*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_AnimatePulse_float_" data-uid="_a_uxt_pressable_button_actor.AnimatePulse(float)">AnimatePulse(float DeltaTime)</h4>
+  <div class="markdown level1 summary"><p>Method to update the pulse animation and behavior. Returns true when the animation is complete. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual bool AnimatePulse(float DeltaTime)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">DeltaTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_BeginPulse_const_UUxtPointerComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.BeginPulse(const%20UUxtPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L275">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_BeginPulse_" data-uid="_a_uxt_pressable_button_actor.BeginPulse*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_BeginPulse_const_UUxtPointerComponent___" data-uid="_a_uxt_pressable_button_actor.BeginPulse(const UUxtPointerComponent *)">BeginPulse(const UUxtPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"><p>Starts the pulse animation for a given pointer. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool BeginPulse(const UUxtPointerComponent *Pointer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const <a class="xref" href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_ConstructIcon__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.ConstructIcon()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L218">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_ConstructIcon_" data-uid="_a_uxt_pressable_button_actor.ConstructIcon*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_ConstructIcon__" data-uid="_a_uxt_pressable_button_actor.ConstructIcon()">ConstructIcon()</h4>
+  <div class="markdown level1 summary"><p>Creates (and initializes) the button's icon hierarchy. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: virtual void ConstructIcon()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_ConstructLabel__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.ConstructLabel()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L268">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_ConstructLabel_" data-uid="_a_uxt_pressable_button_actor.ConstructLabel*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_ConstructLabel__" data-uid="_a_uxt_pressable_button_actor.ConstructLabel()">ConstructLabel()</h4>
+  <div class="markdown level1 summary"><p>Creates (and initializes) the button's label hierarchy. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: virtual void ConstructLabel()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_ConstructVisuals__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.ConstructVisuals()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L166">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_ConstructVisuals_" data-uid="_a_uxt_pressable_button_actor.ConstructVisuals*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_ConstructVisuals__" data-uid="_a_uxt_pressable_button_actor.ConstructVisuals()">ConstructVisuals()</h4>
+  <div class="markdown level1 summary"><p>Creates (and initializes) the button's visual hierarchy. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: virtual void ConstructVisuals()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_CreateAndAttachComponent_FName_USceneComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.CreateAndAttachComponent(FName%2CUSceneComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L149">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_CreateAndAttachComponent_" data-uid="_a_uxt_pressable_button_actor.CreateAndAttachComponent*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_CreateAndAttachComponent_FName_USceneComponent___" data-uid="_a_uxt_pressable_button_actor.CreateAndAttachComponent(FName,USceneComponent *)">CreateAndAttachComponent(FName Name, USceneComponent *Parent)</h4>
+  <div class="markdown level1 summary"><p>Utility method to allocate and add a scene component to the button. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: T * CreateAndAttachComponent(FName Name, USceneComponent *Parent)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FName</td>
+        <td><span class="parametername">Name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>USceneComponent *</td>
+        <td><span class="parametername">Parent</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>T *</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">_a_uxt_pressable_button_actor_CreateAndAttachComponent_FName_USceneComponent___</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_GetButtonBrush__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.GetButtonBrush()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L114">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_GetButtonBrush_" data-uid="_a_uxt_pressable_button_actor.GetButtonBrush*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_GetButtonBrush__" data-uid="_a_uxt_pressable_button_actor.GetButtonBrush()">GetButtonBrush()</h4>
+  <div class="markdown level1 summary"><p>Accessor to the button's button brush. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const FUxtButtonBrush &amp; GetButtonBrush() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const <a class="xref" href="_f_uxt_button_brush.html">FUxtButtonBrush</a> &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_GetIconBrush__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.GetIconBrush()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L90">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_GetIconBrush_" data-uid="_a_uxt_pressable_button_actor.GetIconBrush*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_GetIconBrush__" data-uid="_a_uxt_pressable_button_actor.GetIconBrush()">GetIconBrush()</h4>
+  <div class="markdown level1 summary"><p>Accessor to the button's icon brush. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const FUxtIconBrush &amp; GetIconBrush() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const <a class="xref" href="_f_uxt_icon_brush.html">FUxtIconBrush</a> &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_GetLabel__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.GetLabel()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L98">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_GetLabel_" data-uid="_a_uxt_pressable_button_actor.GetLabel*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_GetLabel__" data-uid="_a_uxt_pressable_button_actor.GetLabel()">GetLabel()</h4>
+  <div class="markdown level1 summary"><p>Accessor to the button's label. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const FText &amp; GetLabel() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FText &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_GetLabelTextBrush__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.GetLabelTextBrush()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L106">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_GetLabelTextBrush_" data-uid="_a_uxt_pressable_button_actor.GetLabelTextBrush*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_GetLabelTextBrush__" data-uid="_a_uxt_pressable_button_actor.GetLabelTextBrush()">GetLabelTextBrush()</h4>
+  <div class="markdown level1 summary"><p>Accessor to the button's label text brush. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: const FUxtTextBrush &amp; GetLabelTextBrush() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const <a class="xref" href="_f_uxt_text_brush.html">FUxtTextBrush</a> &amp;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_GetMillimeterSize__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.GetMillimeterSize()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L66">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_GetMillimeterSize_" data-uid="_a_uxt_pressable_button_actor.GetMillimeterSize*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_GetMillimeterSize__" data-uid="_a_uxt_pressable_button_actor.GetMillimeterSize()">GetMillimeterSize()</h4>
+  <div class="markdown level1 summary"><p>Accessor to the button size in millimeters. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FVector GetMillimeterSize() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_GetSize__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.GetSize()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L74">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_GetSize_" data-uid="_a_uxt_pressable_button_actor.GetSize*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_GetSize__" data-uid="_a_uxt_pressable_button_actor.GetSize()">GetSize()</h4>
+  <div class="markdown level1 summary"><p>Accessor to the button size in default units. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: FVector GetSize() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_IsPlated__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.IsPlated()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L82">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_IsPlated_" data-uid="_a_uxt_pressable_button_actor.IsPlated*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_IsPlated__" data-uid="_a_uxt_pressable_button_actor.IsPlated()">IsPlated()</h4>
+  <div class="markdown level1 summary"><p>Accessor to if the button is plated. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool IsPlated() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_IsPulsing__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.IsPulsing()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L62">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_IsPulsing_" data-uid="_a_uxt_pressable_button_actor.IsPulsing*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_IsPulsing__" data-uid="_a_uxt_pressable_button_actor.IsPulsing()">IsPulsing()</h4>
+  <div class="markdown level1 summary"><p>Returns true if a pulse is currently animating. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: bool IsPulsing() const</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_OnBeginFocus_UUxtPressableButtonComponent___UUxtPointerComponent___bool_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.OnBeginFocus(UUxtPressableButtonComponent%20*%2CUUxtPointerComponent%20*%2Cbool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L370">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_OnBeginFocus_" data-uid="_a_uxt_pressable_button_actor.OnBeginFocus*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_OnBeginFocus_UUxtPressableButtonComponent___UUxtPointerComponent___bool_" data-uid="_a_uxt_pressable_button_actor.OnBeginFocus(UUxtPressableButtonComponent *,UUxtPointerComponent *,bool)">OnBeginFocus(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer, bool WasAlreadyFocused)</h4>
+  <div class="markdown level1 summary"><p>Method which is invoked when the button is focused on. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnBeginFocus(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer, bool WasAlreadyFocused)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+        <td><span class="parametername">Button</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>bool</td>
+        <td><span class="parametername">WasAlreadyFocused</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_OnButtonDisabled_UUxtPressableButtonComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.OnButtonDisabled(UUxtPressableButtonComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L382">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_OnButtonDisabled_" data-uid="_a_uxt_pressable_button_actor.OnButtonDisabled*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_OnButtonDisabled_UUxtPressableButtonComponent___" data-uid="_a_uxt_pressable_button_actor.OnButtonDisabled(UUxtPressableButtonComponent *)">OnButtonDisabled(UUxtPressableButtonComponent *Button)</h4>
+  <div class="markdown level1 summary"><p>Method which is invoked when the button is disabled. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnButtonDisabled(UUxtPressableButtonComponent *Button)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+        <td><span class="parametername">Button</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_OnButtonEnabled_UUxtPressableButtonComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.OnButtonEnabled(UUxtPressableButtonComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L375">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_OnButtonEnabled_" data-uid="_a_uxt_pressable_button_actor.OnButtonEnabled*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_OnButtonEnabled_UUxtPressableButtonComponent___" data-uid="_a_uxt_pressable_button_actor.OnButtonEnabled(UUxtPressableButtonComponent *)">OnButtonEnabled(UUxtPressableButtonComponent *Button)</h4>
+  <div class="markdown level1 summary"><p>Method which is invoked when the button is enabled. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnButtonEnabled(UUxtPressableButtonComponent *Button)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+        <td><span class="parametername">Button</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_OnButtonPressed_UUxtPressableButtonComponent___UUxtPointerComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.OnButtonPressed(UUxtPressableButtonComponent%20*%2CUUxtPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L356">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_OnButtonPressed_" data-uid="_a_uxt_pressable_button_actor.OnButtonPressed*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_OnButtonPressed_UUxtPressableButtonComponent___UUxtPointerComponent___" data-uid="_a_uxt_pressable_button_actor.OnButtonPressed(UUxtPressableButtonComponent *,UUxtPointerComponent *)">OnButtonPressed(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"><p>Method which is invoked when the button is pressed. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnButtonPressed(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+        <td><span class="parametername">Button</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_OnButtonReleased_UUxtPressableButtonComponent___UUxtPointerComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.OnButtonReleased(UUxtPressableButtonComponent%20*%2CUUxtPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L364">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_OnButtonReleased_" data-uid="_a_uxt_pressable_button_actor.OnButtonReleased*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_OnButtonReleased_UUxtPressableButtonComponent___UUxtPointerComponent___" data-uid="_a_uxt_pressable_button_actor.OnButtonReleased(UUxtPressableButtonComponent *,UUxtPointerComponent *)">OnButtonReleased(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</h4>
+  <div class="markdown level1 summary"><p>Method which is invoked when the button is released. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected: virtual void OnButtonReleased(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+        <td><span class="parametername">Button</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> *</td>
+        <td><span class="parametername">Pointer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_OnConstruction_const_FTransform___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.OnConstruction(const%20FTransform%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L144">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_OnConstruction_" data-uid="_a_uxt_pressable_button_actor.OnConstruction*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_OnConstruction_const_FTransform___" data-uid="_a_uxt_pressable_button_actor.OnConstruction(const FTransform &amp;)">OnConstruction(const FTransform &amp;Transform)</h4>
+  <div class="markdown level1 summary"><p>Creates (and initializes) the button hierarchy when properties are changed. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: virtual void OnConstruction(const FTransform &amp;Transform) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FTransform &amp;</td>
+        <td><span class="parametername">Transform</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_SetButtonBrush_const_FUxtButtonBrush___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.SetButtonBrush(const%20FUxtButtonBrush%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L350">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_SetButtonBrush_" data-uid="_a_uxt_pressable_button_actor.SetButtonBrush*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_SetButtonBrush_const_FUxtButtonBrush___" data-uid="_a_uxt_pressable_button_actor.SetButtonBrush(const FUxtButtonBrush &amp;)">SetButtonBrush(const FUxtButtonBrush &amp;Brush)</h4>
+  <div class="markdown level1 summary"><p>Applies a new button brush. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetButtonBrush(const FUxtButtonBrush &amp;Brush)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const <a class="xref" href="_f_uxt_button_brush.html">FUxtButtonBrush</a> &amp;</td>
+        <td><span class="parametername">Brush</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_SetIconBrush_const_FUxtIconBrush___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.SetIconBrush(const%20FUxtIconBrush%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L332">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_SetIconBrush_" data-uid="_a_uxt_pressable_button_actor.SetIconBrush*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_SetIconBrush_const_FUxtIconBrush___" data-uid="_a_uxt_pressable_button_actor.SetIconBrush(const FUxtIconBrush &amp;)">SetIconBrush(const FUxtIconBrush &amp;Brush)</h4>
+  <div class="markdown level1 summary"><p>Applies a new icon brush. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetIconBrush(const FUxtIconBrush &amp;Brush)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const <a class="xref" href="_f_uxt_icon_brush.html">FUxtIconBrush</a> &amp;</td>
+        <td><span class="parametername">Brush</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_SetIsPlated_bool_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.SetIsPlated(bool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L323">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_SetIsPlated_" data-uid="_a_uxt_pressable_button_actor.SetIsPlated*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_SetIsPlated_bool_" data-uid="_a_uxt_pressable_button_actor.SetIsPlated(bool)">SetIsPlated(bool IsPlated)</h4>
+  <div class="markdown level1 summary"><p>Enables or disabled the button back plate. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetIsPlated(bool IsPlated)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>bool</td>
+        <td><span class="parametername">IsPlated</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_SetLabel_const_FText___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.SetLabel(const%20FText%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L338">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_SetLabel_" data-uid="_a_uxt_pressable_button_actor.SetLabel*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_SetLabel_const_FText___" data-uid="_a_uxt_pressable_button_actor.SetLabel(const FText &amp;)">SetLabel(const FText &amp;NewLabel)</h4>
+  <div class="markdown level1 summary"><p>Applies a new label. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetLabel(const FText &amp;NewLabel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const FText &amp;</td>
+        <td><span class="parametername">NewLabel</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_SetLabelTextBrush_const_FUxtTextBrush___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.SetLabelTextBrush(const%20FUxtTextBrush%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L344">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_SetLabelTextBrush_" data-uid="_a_uxt_pressable_button_actor.SetLabelTextBrush*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_SetLabelTextBrush_const_FUxtTextBrush___" data-uid="_a_uxt_pressable_button_actor.SetLabelTextBrush(const FUxtTextBrush &amp;)">SetLabelTextBrush(const FUxtTextBrush &amp;Brush)</h4>
+  <div class="markdown level1 summary"><p>Applies a new label text brush. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetLabelTextBrush(const FUxtTextBrush &amp;Brush)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>const <a class="xref" href="_f_uxt_text_brush.html">FUxtTextBrush</a> &amp;</td>
+        <td><span class="parametername">Brush</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_SetMillimeterSize_FVector_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.SetMillimeterSize(FVector)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L303">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_SetMillimeterSize_" data-uid="_a_uxt_pressable_button_actor.SetMillimeterSize*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_SetMillimeterSize_FVector_" data-uid="_a_uxt_pressable_button_actor.SetMillimeterSize(FVector)">SetMillimeterSize(FVector Size)</h4>
+  <div class="markdown level1 summary"><p>Sets the button size in millimeters. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetMillimeterSize(FVector Size)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td><span class="parametername">Size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_SetSize_FVector_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.SetSize(FVector)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L312">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_SetSize_" data-uid="_a_uxt_pressable_button_actor.SetSize*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_SetSize_FVector_" data-uid="_a_uxt_pressable_button_actor.SetSize(FVector)">SetSize(FVector Size)</h4>
+  <div class="markdown level1 summary"><p>Sets the button size in default units. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: void SetSize(FVector Size)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FVector</td>
+        <td><span class="parametername">Size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor_Tick_float_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor.Tick(float)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableButtonActor.cpp/#L153">View Source</a>
+  </span>
+  <a id="_a_uxt_pressable_button_actor_Tick_" data-uid="_a_uxt_pressable_button_actor.Tick*"></a>
+  <h4 id="_a_uxt_pressable_button_actor_Tick_float_" data-uid="_a_uxt_pressable_button_actor.Tick(float)">Tick(float DeltaTime)</h4>
+  <div class="markdown level1 summary"><p>Conditional tick method which occurs when a button needs to animate. </p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public: virtual void Tick(float DeltaTime) override</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>float</td>
+        <td><span class="parametername">DeltaTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/6ef493ba37519471f78b29586d595de2f7e3bd22/apiSpec/new?filename=_a_uxt_pressable_button_actor.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_button_actor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/6ef493ba37519471f78b29586d595de2f7e3bd22/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableButtonActor.h/#L25" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

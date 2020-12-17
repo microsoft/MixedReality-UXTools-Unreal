@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Tooltip | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Tooltip | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="tooltip">Tooltip</h1>
+
+<p>Tooltips are used to convey a hint or extra information upon closer inspection of an object. They can be used to annotate objects in the physical environment.</p>
+<p><img src="Images/Tooltips/TooltipExample.jpg" alt="tooltip"></p>
+<h2 id="how-to-use-a-tooltip">How to use a tooltip</h2>
+<p>There is an AUxtTooltipActor can be dragged and dropped in the scene to instantiate a tooltip.
+<img src="Images/Tooltips/TooltipStep1.jpg" alt="tooltip">
+<img src="Images/Tooltips/TooltipStep2.jpg" alt="tooltip">
+Once instantiated, the tooltip can point to an actor/component by modifying the <strong>Tooltip Target</strong> property or calling the SetTarget function. It is also possible to change the tooltip content for any blueprint widget by setting the <strong>Widget Class</strong> property.
+<img src="Images/Tooltips/TooltipStep3.jpg" alt="tooltip">
+The spline tangents can be modified if you want to change the curve.</p>
+<h2 id="public-properties">Public Properties</h2>
+<h3 id="tooltip-target">Tooltip Target</h3>
+<p>Property to point at an actor/component. Clearing the component property to none should result in binding the tooltip to the center of the actor. The component name defaults to <code>DefaultSceneRoot</code>.</p>
+<h3 id="widget-class">Widget Class</h3>
+<p>This property allows the user to set any blueprint widget class so that the tooltip renders it. When cleared, the tooltip will default to some default text.</p>
+<h3 id="anchor">Anchor</h3>
+<p>The anchor is a scene node that is used to offset the end point of the spline going to the target. <strong>Start Point</strong> is at tooltip location and <strong>End Point</strong> is at the target's location.</p>
+<h3 id="margin">Margin</h3>
+<p>The Margin property that can be used to add space between the text and the border of the back plate.</p>
+<h1 id="dynamic-tooltips">Dynamic Tooltips</h1>
+<p>Having too many tooltips can get costly. This is a component for a tooltip that can be spawned dynamically based on preset events.</p>
+<h2 id="how-to-use-a-dynamic-tooltip">How to use a dynamic tooltip</h2>
+<p>The dynamic tooltip is used by creating a TooltipSpawnerComponent and adding it to the actor that you want the tooltip to point at. The following properties will modify the tooltips behavior.</p>
+<h2 id="public-properties-1">Public Properties</h2>
+<h3 id="appear-type">Appear Type</h3>
+<p>Parameter to script what will spawn the tooltip.</p>
+<h3 id="vanish-type">Vanish Type</h3>
+<p>Parameter to script what will make the tooltip vanish.</p>
+<h3 id="remain-type">Remain Type</h3>
+<p>Parameter to script whether the tooltip remains indefinitely or if it uses the Lifetime parameter to timeout.</p>
+<h3 id="appear-delay">Appear Delay</h3>
+<p>Parameter to script a delay before spawning the tooltip.</p>
+<h3 id="vanish-delay">Vanish Delay</h3>
+<p>Parameter to script a delay before the tooltip vanishes.</p>
+<h3 id="lifetime">Lifetime</h3>
+<p>Parameter to script how long the tooltip will be spawned for.</p>
+<h3 id="widget-class-1">Widget Class</h3>
+<p>Parameter to script what widget class to use on this tooltip.</p>
+<h3 id="pivot">Pivot</h3>
+<p>An offset to specify where the tooltip will be spawned.</p>
+<h3 id="widget-scale">Widget Scale</h3>
+<p>Scales the widget.</p>
+<h3 id="onshowtooltip">OnShowTooltip</h3>
+<p>Delegate to drive OnShow events.</p>
+<h3 id="onhidetooltip">OnHideTooltip</h3>
+<p>Delegate to drive OnHide events.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/Tooltip.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

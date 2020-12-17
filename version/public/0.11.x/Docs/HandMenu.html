@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Hand Menu | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Hand Menu | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="hand-menu">Hand Menu</h1>
+
+<p>Hand menus allow users to quickly bring up hand-attached UI for frequently used functions. To prevent false activation while interacting with other objects, hand menu provides options such as 'Require Flat Hand'. It is recommended to use these options to prevent unwanted activation.</p>
+<p>There are some examples of various hand menus in <code>\UXToolsGame\Plugins\UXToolsExamples\Content\HandMenu\Blueprints</code>.</p>
+<h2 id="creating-a-hand-menu">Creating a hand menu</h2>
+<p>In this example we are going to create a basic three button hand menu, similar to <code>BP_SmallHandMenu</code> in the hand menu example scene.</p>
+<ol>
+<li><p>The <code>UxtUIElementComponent</code> and the <code>UxtPalmUpConstraintComponent</code> handle the majority of the work for a simple hand menu.</p>
+<ul>
+<li>Create a new blueprint actor, in this example we will call it <code>BP_ExampleHandMenu</code>.</li>
+<li>Add a <code>UxtUIElementComponent</code> and set it as the root component for the actor.</li>
+<li>Add a <code>UxtPalmUpConstraintComponent</code> and set <em>Require Flat Hand</em> and <em>Require Gaze</em> to true to prevent false activations.</li>
+</ul>
+<p><img src="Images/HandMenu/Example_CreateActor.png" alt="CreateActor"></p>
+</li>
+<li><p>Now that we have our foundation, we will add some buttons to the menu.</p>
+<ul>
+<li>Add three <code>ChildActorComponent</code>s to the blueprint, and set their child actor class to <code>UxtPressableButtonActor</code>.</li>
+<li>Move one button above and another below the center button. This will be a Z value of 3.2 and -3.2.</li>
+<li>Configure the buttons using the <a href="PressableButton.html#visual-configuration">button options</a> in the child actor template.</li>
+</ul>
+<p><img src="Images/HandMenu/Example_ButtonSetup.png" alt="ButtonSetup"></p>
+</li>
+<li><p>Next we want to give the buttons a seamless backplate.</p>
+<ul>
+<li>Add a <code>UxtBackPlateComponent</code> and set its material to <code>MI_HoloLens2BackPlate</code>.</li>
+<li>Set the back plate's scale to 9.6 on the Z axis to make it three buttons tall.</li>
+<li>Un-check <em>Is Plated</em> on the button actors to remove their default backplate.</li>
+</ul>
+<p><img src="Images/HandMenu/Example_SeamlessBackplate.png" alt="SeamlessBackplate"></p>
+</li>
+<li><p>Finally we want to show and hide the menu using the palm up constraint.</p>
+<ul>
+<li>In the event graph, add the <em>On Constraint Activated</em> and <em>On Constraint Deactivated</em> events from the <code>UxtPalmUpConstraintComponent</code></li>
+<li>In <em>On Constraint Activated</em>, call <em>Set UI Visibility</em> on the <code>UxtUIElementComponent</code> with a value of <em>Show</em>.</li>
+<li>In <em>On Constraint Deactivated</em>, call <em>Set UI Visibility</em> on the <code>UxtUIElementComponent</code> with a value of <em>Hide</em>.</li>
+<li>You can configure how far the menu will sit from the hand with the <em>Goal Margin</em> property on the <code>UxtPalmUpConstraintComponent</code>, for this example it is set to 3.6.</li>
+<li>Set the <em>UI Visibility</em> property on the <code>UxtUIElementComponent</code> to <em>Hide</em> to hide the menu by default.</li>
+</ul>
+<p><img src="Images/HandMenu/Example_EventGraph.png" alt="EventGraph"></p>
+</li>
+<li><p>To test out the menu in editor, press the <em>Home</em> key while moving a hand to put it in the flat palm pose and move the hand towards the center of the screen to trigger the gaze requirement.</p>
+<p><img src="Images/HandMenu/Example_TestInEditor.png" alt="TestInEditor"></p>
+</li>
+</ol>
+<h2 id="more-information">More information</h2>
+<ul>
+<li><a href="UIElements.html">UxtUIElementComponent</a></li>
+<li><a href="PalmUpConstraintComponent.html">UxtPalmUpConstraintComponent</a></li>
+<li><a href="PressableButton.html">UxtPressableButtonComponent</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/HandMenu.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

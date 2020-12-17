@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Text | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Text | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="text">Text</h1>
+
+<p>UX Tools contains assets, actors, and components which are optimized to render text correctly and efficiently on Mixed Reality devices. Text rendering within Mixed Reality can be challenging as opposed to traditional 2D text because text in Mixed Reality can be viewed from any angle or distance. Make sure text is large, high contrast, and accessible. More information about designing text for Mixed Reality can be found on this <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/typography">page</a>.</p>
+<h2 id="text-actors--components">Text Actors &amp; Components</h2>
+<p>To provide automatic text configuration UX Tools contains an actor named <code>UxtTextRenderActor</code> and component named <code>UxtTextRenderComponent</code>. The <code>UxtTextRenderActor</code> and <code>UxtTextRenderComponent</code> automatically construct text with appropriate font, font material, and sizing defaults.</p>
+<p>The <code>UxtTextRenderComponent</code> derives from the <a href="https://docs.unrealengine.com/en-US/API/Runtime/Engine/Components/UTextRenderComponent/index.html">TextRenderComponent</a> and all properties can be accessed and altered via the top level <code>UxtTextRenderActor</code> component wrapper actor details panel:</p>
+<p><img src="Images/Text/TextActor.png" alt="TextActor"></p>
+<p>It is recommended when adding new text to your level, or blueprint, that you begin with the <code>UxtTextRenderActor</code> or <code>UxtTextRenderComponent</code> and make adjustments where required.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If the text needs to be resized it is best to change the <code>World Size</code> property to avoid non-uniform scaling of text.</p>
+</div>
+<h2 id="fonts">Fonts</h2>
+<p>A library of recommended fonts are included with UX Tools. The primary font used for text is <code>Font_SegoeUI_Semibold_42</code> and <code>Font_SegoeUI_Bold_42</code>. Icons are normally rendered with a font (rather than a texture) and use the <code>Font_SegoeHoloMDL_Regular_42</code> and <code>Font_SegoeMDL2_Regular_42</code> fonts. The <em>SegoeHoloMDL</em> and <em>SegoeMDL2</em> fonts provide symbol glyphs commonly used in Windows Mixed Reality applications. To easily browse the glyphs available in a font try utilizing the a <code>UxtIconBrush</code> struct and <a href="Utilities.html#icon-brush-editor">icon brush editor</a>.</p>
+<p>Most fonts within UX Tools are offline fonts, which are pre-computed font atlases. Offline fonts are less flexible than Unreal's <a href="https://docs.unrealengine.com/en-US/Engine/UMG/UserGuide/Fonts/Overview/index.html">runtime fonts</a> but provided better performance results on HoloLens.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>UX Tools contains the runtime font <code>Font_SegoeUI_Semibold_Dynamic</code> for use with <a href="https://docs.unrealengine.com/en-US/Engine/UMG/UserGuide/index.html">UMG</a> because offline fonts cannot be used with UMG.</p>
+</div>
+<p>Normally fonts include Unreal's default character set but some fonts, such as <em>SegoeHoloMDL</em> and <em>SegoeMDL2</em>, only import a subset of the default character set. To import additional characters you can perform the following actions:</p>
+<ol>
+<li>Open the desired font. In this example <code>Font_SegoeMDL2_Regular_42</code>.</li>
+<li>Navigate to the &quot;Import Options&quot; in the details panel.</li>
+<li>Add any new characters needed to the &quot;Chars&quot; array property.</li>
+</ol>
+<p><img src="Images/Text/FontChars.png" alt="FontChars"></p>
+<ol start="4">
+<li>Select the font in the the content browser.</li>
+<li>Right click on the font and select &quot;Reimport.&quot;</li>
+</ol>
+<h3 id="importing-a-new-font">Importing a New Font</h3>
+<p>If you would like to use a custom font it is recommended that the font be imported following the below steps:</p>
+<ol>
+<li>In a content browser right click and select <em>User Interface</em> &gt; <em>Font</em>.</li>
+<li>Name the font: <em>Font_FontName_FontStyle_FontSize</em></li>
+<li>Open the new font asset.</li>
+<li>Change the &quot;Font Cache Type&quot; to &quot;Offline&quot; and select your font with the modal window that will appear.</li>
+<li>Change the &quot;Texture Page Width&quot; and &quot;Texture Page Max Height&quot; to 1024 and 1024 (or a size that will fit your font within as little pages as reasonable possible).</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Having multiple font pages can dramatically increases your application's draw call counts and hence rendering performance.
+6) Check &quot;Use Distance Field Alpha&quot; to true.
+7) Select your new font in the the content browser.
+8) Right click on the font and select &quot;Reimport.&quot; Depending on how many characters are in your font the reimport may take a few minutes.</p>
+</div>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If the font import process takes an extremely long time you may want to constrain your font's character set using the &quot;Character Set,&quot; &quot;Chars,&quot; &quot;Unicode Range,&quot; or &quot;Chars File Path&quot; properties under the font's &quot;Import Options.&quot;</p>
+</div>
+<p>Once your font has reimported the font atlas should look similar to the below image. The characters should appear a little &quot;blurred&quot; because the font is stored as encoded signed distance field. You should now be able to use the font with the <code>M_DefaultFont</code> material.</p>
+<p><img src="Images/Text/FontAtlas.png" alt="FontAtlas"></p>
+<h2 id="materials">Materials</h2>
+<p>All text in UX Tools is rendered using the <code>M_DefaultFont</code> material. The <code>M_DefaultFont</code> material takes a font texture stored as a <a href="https://en.wikipedia.org/wiki/Signed_distance_function">signed distance field</a> and displays the font as a unlit masked surface. <a href="https://docs.unrealengine.com/en-US/Resources/ContentExamples/MaterialNodes/1_8/index.html">Masked surfaces</a> display either fully opaque or fully translucent pixels. Masked surfaces are great for text rendering because, unlike some other blend modes, it does not require sorting. But, masked surfaces can result in aliasing. If your application displays aliasing on text verify aliasing is occurring on your target stereo headset(s) (and not only within the play-in-editor viewport). If aliasing still occurs on your target headset(s) try increasing the size of your text.</p>
+<p>If increasing text size is not an option for reducing aliasing you can utilize full screen <a href="https://docs.unrealengine.com/en-US/Engine/Rendering/PostProcessEffects/AntiAliasing/index.html">antialiasing techniques</a> (such as MSAA or FXAA) on tethered Mixed Reality headsets. Full screen antialiasing is <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/understanding-performance-for-mixed-reality#remove-gpu-stages">not recommend on HoloLens</a> due to performance constraints. Local antialiasing can be an efficient way to reduce aliasing on text as well. To achieve local antialiasing duplicate the <code>M_DefaultFont</code> material and set the Material &quot;Blend Mode&quot; to &quot;Translucent&quot;. Translucent materials can display pixel translucency values between opaque and transparent to provide a translucent gradient. Note, <code>Translucent</code> materials can provide reduced aliasing but may incur additional render cost due to <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/understanding-performance-for-mixed-reality#understanding-bandwidth-vs-fill-rate">fill rate</a> concerns or renderer sorting requirements.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="Utilities.html">Utilities</a></li>
+<li><a href="Graphics.html">Graphics</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/Text.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
