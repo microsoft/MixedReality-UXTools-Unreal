@@ -25,10 +25,10 @@ public:
 
 public:
 	/** Defines the axis the rotation constraint should be applied to. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Rotation Axis", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Rotation Axis", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
 	int32 ConstraintOnRotation = 0;
 
 	/** Use local or global space for constraint calculations*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Rotation Axis")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Rotation Axis")
 	bool bUseLocalSpaceForConstraint = false;
 };

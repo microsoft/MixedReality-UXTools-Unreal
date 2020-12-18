@@ -149,11 +149,16 @@ namespace
 		const FVector& Pivot, const bool IsNear)
 	{
 		// Taking the full rotation (not only DeltaRotation) because rotation axis constraint calculates the delta inside
-		FTransform ConstrainedRotTransform = FTransform(OriginalTransform.GetRotation() * DeltaRotation);
+		const FTransform UnconstrainedRotTransform = FTransform(OriginalTransform.GetRotation() * DeltaRotation);
+		FTransform ConstrainedRotTransform = UnconstrainedRotTransform;
 		ConstraintManager->ApplyRotationConstraints(ConstrainedRotTransform, true, IsNear);
-		// Get the constrained delta only and use it to rotate about the pivot point
-		ConstrainedRotTransform = ConstrainedRotTransform * OriginalTransform.GetRotation().Inverse();
-		return UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(OriginalTransform, ConstrainedRotTransform.Rotator(), Pivot);
+		if (ConstrainedRotTransform.Equals(UnconstrainedRotTransform))
+		{
+			// Get the constrained delta only and use it to rotate about the pivot point
+			ConstrainedRotTransform = ConstrainedRotTransform * OriginalTransform.GetRotation().Inverse();
+			return UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(OriginalTransform, ConstrainedRotTransform.Rotator(), Pivot);
+		}
+		return OriginalTransform;
 	}
 } // namespace
 

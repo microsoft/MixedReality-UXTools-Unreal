@@ -13,23 +13,30 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 - [What's new](#whats-new)
 - [Breaking changes](#breaking-changes)
 - [Known issues](#known-issues)
+- [Full change list](#full-change-list)
 
-This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us but is not the current focus.
+This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us and we are hoping to be able to deliver it in the near future.
 
 Unreal 4.26 required.
 
 ## What's new
 
-### Examples Plugin
+These are some of this release's highlights. For a more comprehensive list of changes see the [full change list](#full-change-list).
 
-UX Tools common content and example scenes were moved to a separate plugin to make it easier to incorporate them
+### Examples plugin
+
+UX Tools example scenes have been moved to a separate plugin to make it easier to incorporate them
 as a starting point for new projects.
 
-### UxtPalmUpConstraintComponent
+![Examples plugin](Images/ReleaseNotes/ExamplesPlugin.png)
+
+### Improved hand menu activation using user gaze
 
 The palm-up constraint has gained the _Require Gaze_ option to ensure the user is deliberately trying to use the constraint and help prevent false activations. This is particularly useful for world-locking hand menus as it prevents the menu from unintentionally re-attaching to the hand.
 
-### UxtPinchSliderActor
+![User gaze settings](Images/ReleaseNotes/PalmUpConstraintRequireGaze.png)
+
+### Pinch slider improvements
 
 The pinch slider actor has gained a number of quality of life improvements. These include:
 
@@ -39,49 +46,33 @@ The pinch slider actor has gained a number of quality of life improvements. Thes
 
 ![SteppedSlider](Images/Slider/SteppedSlider.gif)
 
-### UxtPinchSliderComponent
+### Bounds control improvements
 
-The pinch slider component now has the option to use stepped movement. This can be configured in the advanced settings for the component.
+#### Constraint support
 
-### UxtBoundsControlComponent
+Manipulation constraints (i.e. derived from `UUxtTransformConstraint`) now also apply to manipulations performed via [bounds control](BoundsControl.md), making it easier to produce a consistent behavior when manipulating transforms.
 
-#### Rewrite
+#### Uniform scaling
 
-In order to simplify the `UUxtBoundsControlComponent`, besides reducing the number of edge cases and better aligning with its MRTK-Unity's counterpart:
+ _Uniform scaling_ now works as expected.
 
-- `UUxtBoundsControlComponent` now allows constraints' configuration via the same mechanism as the _Manipulators_. This means that the same `UUxtTransformConstraint`-derived constraints can be used with bounds-controlled objects.
-- `UUxtBoundsControlConfig` data assets are simplified, so they don't need to specify what each affordance does separately. Now corners scale, edges rotate and faces/center translate.
+| Before | After |
+| --- | --- |
+| ![Scaling bounds control actor before fix](Images/ReleaseNotes/bounds_control_scale_uniform_before.gif) | ![Scaling bounds control actor after fix](Images/ReleaseNotes/bounds_control_scale_uniform_after.gif) |
 
-Here is an example of what happened before when locking the Z axis:
+#### Improved affordance selection via hand ray
 
-![Rotation axis constraint before fix](Images/ReleaseNotes/rotation_axis_constraint_before.gif)
+Previously, bounding box affordances were only revealed when hovering directly over them or over the bounding box contents. This could make them difficult to select if the bounding box was not a tight fit. We now also reveal affordances when the ray hovers the box itself.
 
-Now, however, adding a `UxtRotationAxisConstraint` configured to constrain the Z axis (using local actor's space) is more intuitive:
+| Before | After |
+| --- | --- |
+| ![Affordance selection before](Images/ReleaseNotes/AffordanceSelectionBefore.gif) | ![Affordance selection after](Images/ReleaseNotes/AffordanceSelectionAfter.gif) |
 
-![Rotation axis constraint after fix](Images/ReleaseNotes/rotation_axis_constraint_after.gif)
+### New scale constraint
 
-#### Uniform scaling bug
-
-Even if ticking the box to use uniform scaling, actor's proportions were modified. This has been fixed and now works properly:
-
-Before:
-
-![Scaling bounds control actor before fix](Images/ReleaseNotes/bounds_control_scale_uniform_before.gif)
-
-Now:
-
-![Scaling bounds control actor after fix](Images/ReleaseNotes/bounds_control_scale_uniform_after.gif)
-
-
-### UxtMinMaxScaleConstraint
-
-A new constraint to limit the minimum and maximum scale of an actor has been implemented.
+A new constraint (`UxtMinMaxScaleConstraint`) to limit how much an actor can be scaled down or up via bounds control and manipulation components.
 
 ![Demo of the min/max scale constraint](Images/ReleaseNotes/min_max_scale_constraint.gif)
-
-### UxtRotationAxisConstraint
-
-We have improved this constraint's implementation by avoiding conversion to euler angles to appropriately integrate with `UxtBoundsControlComponent`, since we discovered certain weird rotations with the previous algorithm.
 
 ### Improved editor categories
 
@@ -135,3 +126,46 @@ The _MinimumBoundsScale_ and _MaximumBoundsScale_ properties have been removed i
 ### UxtGenericManipulatorComponent
 
 When the target component's rotation does not match its parent actor's rotation, the parent actors rotation will be applied to the target component when manipulation is started.
+
+## Full change list
+
+| Commit | Description |
+| --- | --- |
+| [1648ad01](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1648ad01) | Add examples as dependency |
+| [12e0c5a2](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/12e0c5a2) | Roll back rotation constraint's modifications |
+| [253d2b9f](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/253d2b9f) | Add enabled UXTools plugin to .uproject |
+| [a9cd53ce](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/a9cd53ce) | Fix spaces in some categories |
+| [bda99d59](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/bda99d59) | Improve descriptions and labels in example scenes |
+| [db6127f6](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/db6127f6) | Refactor to make scale constraint easier |
+| [e44c7782](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e44c7782) | Improve Bounds Control and constraints' docs |
+| [f0199b94](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/f0199b94) | Fix level change crash |
+| [3384b9d1](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/3384b9d1) | Remove AR Session workaround for MobilePreview |
+| [0acbbad0](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0acbbad0) | Refactor/normalize all categories |
+| [1c77f51b](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1c77f51b) | Stepped slider gif + heading fixups |
+| [9f29c2ab](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/9f29c2ab) | Disabling unfinished "Mask Logic" in Scrolling Object Collection |
+| [e42416f7](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e42416f7) | Moving Home Button to "On Release" |
+| [1b7a5a09](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1b7a5a09) | Clarify breaking changes after testing upgrade from 0.10 |
+| [70adb554](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/70adb554) | Update CI editor version to 4.26.0 (release) |
+| [ce9742c7](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/ce9742c7) | Adding plugin images. |
+| [2a0a5fb5](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/2a0a5fb5) | Implement min/max scale constraint |
+| [d32355c3](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d32355c3) | Rewrite bounds control and fix rotation constraint |
+| [099b6115](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/099b6115) | Add collision box to BoundsControlComponent |
+| [7f58f198](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/7f58f198) | Update version to 0.11.0 |
+| [2afc85b1](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/2afc85b1) | Fixing invalid enum value metadata tags from UxtScrollingObjectCollection |
+| [692c3365](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/692c3365) | Fix one handed only manipulation not responding if grabbed by both hands |
+| [f6588058](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/f6588058) | Update UXTools to UE4.26 |
+| [0c4ccdcf](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0c4ccdcf) | Manipulator improvements |
+| [50a77125](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/50a77125) | Add include to fix CI build |
+| [c8da2565](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c8da2565) | Display current git commit in the Loader scene (packaged game only) |
+| [d2a184e0](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d2a184e0) | Add gaze requirement to PalmUpConstraint and Hand Menu |
+| [fe8e77aa](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/fe8e77aa) | Update docs with information about Examples plugin |
+| [e7c91b2f](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e7c91b2f) | Use 2D corner handle on Slate2D example bounds control |
+| [c0947793](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c0947793) | Enable eye tracking in UXToolsGame package |
+| [01562b9c](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/01562b9c) | Slider improvements |
+| [d5271e7c](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d5271e7c) | Update editor version to 4.25.4 |
+| [c31e8318](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c31e8318) | Move Examples into a separate plugin |
+| [3b6173fe](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/3b6173fe) | Cook Warning Fixes |
+| [0b84cca9](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0b84cca9) | Enable debug info in CI package and add symbols to artifact |
+| [eda87709](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/eda87709) | Export all public interfaces |
+| [e62fbc89](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e62fbc89) | Removing all built data and changing levels to not generate static lighting data. |
+| [6ad0acf8](https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/6ad0acf8) | Introduce roll for vertical normals |

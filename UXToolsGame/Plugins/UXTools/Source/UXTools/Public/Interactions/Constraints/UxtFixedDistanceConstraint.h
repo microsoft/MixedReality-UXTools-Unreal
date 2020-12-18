@@ -27,7 +27,7 @@ public:
 
 public:
 	/** Component to fix distance to. Defaults to the head. */
-	UPROPERTY(EditAnywhere, Category = "Uxt Constraint | Fixed Distance")
+	UPROPERTY(EditAnywhere, Category = "Uxt Constraint|Fixed Distance")
 	FComponentReference ConstraintComponent;
 
 private:

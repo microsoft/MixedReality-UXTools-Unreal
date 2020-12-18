@@ -25,10 +25,10 @@ public:
 
 public:
 	/** Defines the axis the movement constraint should be applied to. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Move Axis", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Move Axis", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
 	int32 ConstraintOnMovement = 0;
 
 	/** Use local or global space for constraint calculations*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Move Axis")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Move Axis")
 	bool bUseLocalSpaceForConstraint = false;
 };

@@ -25,7 +25,7 @@ public:
 
 public:
 	/** Should roll be excluded from locking to the users orientation */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Fixed Rotation To User")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Fixed Rotation To User")
 	bool bExcludeRoll = true;
 
 private:

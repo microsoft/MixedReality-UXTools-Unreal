@@ -26,7 +26,7 @@ public:
 
 	/** Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is
 	 * unchanged. */
-	UFUNCTION(BlueprintCallable, Category = "UXTools| Hand Tracking")
+	UFUNCTION(BlueprintCallable, Category = "UXTools|Hand Tracking")
 	static bool GetHandPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition);
 
 	/** Obtain current grabbed state. Returns false if the hand is not currently tracked, in which case the value of the output parameter is

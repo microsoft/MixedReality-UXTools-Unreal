@@ -24,15 +24,15 @@ public:
 	virtual void Initialize(const FTransform& WorldPose);
 
 	/** Minimum scale allowed */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
 	float MinScale = 0.2f;
 
 	/** Maximum scale allowed */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Min Max Scale", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
 	float MaxScale = 2.0f;
 
 	/** Whether the min/max values should be relative to the scale at interaction start. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint | Min Max Scale")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Min Max Scale")
 	bool bRelativeToInitialScale = false;
 
 private:

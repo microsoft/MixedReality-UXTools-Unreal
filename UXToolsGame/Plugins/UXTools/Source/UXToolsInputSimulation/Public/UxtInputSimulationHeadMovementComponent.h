@@ -26,9 +26,9 @@ public:
 	/** Add cumulative movement input in world space. */
 	void AddMovementInput(const FVector& Movement);
 
-	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation | Head Movement")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Input Simulation|Head Movement")
 	bool IsHeadMovementEnabled() const;
-	UFUNCTION(BlueprintSetter, Category = "Uxt Input Simulation | Head Movement")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Input Simulation|Head Movement")
 	void SetHeadMovementEnabled(bool bEnable);
 
 private:
@@ -50,7 +50,7 @@ private:
 
 	/** Enable linear movement of the head position. */
 	UPROPERTY(
-		EditAnywhere, Category = "Uxt Input Simulation | Head Movement", BlueprintGetter = "IsHeadMovementEnabled",
+		EditAnywhere, Category = "Uxt Input Simulation|Head Movement", BlueprintGetter = "IsHeadMovementEnabled",
 		BlueprintSetter = "SetHeadMovementEnabled")
 	bool bEnableHeadMovement = true;
 };
