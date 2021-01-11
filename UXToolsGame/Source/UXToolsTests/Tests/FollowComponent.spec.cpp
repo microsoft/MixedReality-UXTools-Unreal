@@ -5,11 +5,16 @@
 #include "Engine.h"
 #include "EngineUtils.h"
 #include "FrameQueue.h"
+#include "PressableButtonTestComponent.h"
+#include "PressableButtonTestUtils.h"
+#include "UxtTestHandTracker.h"
 #include "UxtTestUtils.h"
 
 #include "Behaviors/UxtFollowComponent.h"
+#include "Controls/UxtPressableButtonComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
+#include "Input/UxtNearPointerComponent.h"
 #include "Tests/AutomationCommon.h"
 #include "Utils/UxtFunctionLibrary.h"
 
@@ -19,33 +24,39 @@ namespace
 {
 	UUxtFollowComponent* CreateTestComponent(UWorld* World, const FVector& Location)
 	{
-		AActor* actor = World->SpawnActor<AActor>();
+		UUxtFollowComponent* TestTarget = nullptr;
+		AActor* Actor = World->SpawnActor<AActor>();
 
-		USceneComponent* root = NewObject<USceneComponent>(actor);
-		actor->SetRootComponent(root);
-		root->SetWorldLocation(Location);
-		root->RegisterComponent();
+		if (Actor)
+		{
+			USceneComponent* Root = NewObject<USceneComponent>(Actor);
+			Actor->SetRootComponent(Root);
+			Root->SetWorldLocation(Location);
+			Root->RegisterComponent();
 
-		UUxtFollowComponent* testTarget = NewObject<UUxtFollowComponent>(actor);
-		testTarget->SetAutoActivate(true);
-		testTarget->RegisterComponent();
+			TestTarget = NewObject<UUxtFollowComponent>(Actor);
+			TestTarget->SetAutoActivate(true);
+			TestTarget->RegisterComponent();
 
-		UStaticMeshComponent* mesh = UxtTestUtils::CreateBoxStaticMesh(actor, FVector(0.3f));
-		mesh->SetupAttachment(actor->GetRootComponent());
-		mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-		mesh->SetCollisionProfileName(TEXT("OverlapAll"));
-		mesh->SetGenerateOverlapEvents(true);
-		mesh->RegisterComponent();
+			UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor, FVector(0.3f));
+			Mesh->SetupAttachment(Actor->GetRootComponent());
+			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+			Mesh->SetGenerateOverlapEvents(true);
+			Mesh->RegisterComponent();
 
-		AActor* actorToFollow = World->SpawnActor<AActor>();
-		USceneComponent* rootToFollow = NewObject<USceneComponent>(actorToFollow);
-		actorToFollow->SetRootComponent(rootToFollow);
-		rootToFollow->SetWorldLocation(Location + FVector::BackwardVector * testTarget->DefaultDistance);
-		rootToFollow->RegisterComponent();
+			AActor* ActorToFollow = World->SpawnActor<AActor>();
+			if (ActorToFollow)
+			{
+				USceneComponent* rootToFollow = NewObject<USceneComponent>(ActorToFollow);
+				ActorToFollow->SetRootComponent(rootToFollow);
+				rootToFollow->SetWorldLocation(Location + FVector::BackwardVector * TestTarget->DefaultDistance);
+				rootToFollow->RegisterComponent();
+				TestTarget->ActorToFollow = ActorToFollow;
+			}
+		}
 
-		testTarget->ActorToFollow = actorToFollow;
-
-		return testTarget;
+		return TestTarget;
 	}
 
 	float SimplifyAngle(float Angle)
@@ -76,7 +87,6 @@ namespace
 
 		return SimplifyAngle(Angle);
 	}
-
 } // namespace
 
 BEGIN_DEFINE_SPEC(
@@ -86,9 +96,14 @@ BEGIN_DEFINE_SPEC(
 void EnqueueDistanceTest();
 void EnqueueAngleTest();
 void EnqueueOrientationTest();
+void EnqueueButtonTest();
 
-UUxtFollowComponent* Follow;
+UUxtFollowComponent* Follow = nullptr;
 FFrameQueue FrameQueue;
+
+// The following components are used for the button test
+UPressableButtonTestComponent* ButtonEventCaptureObj = nullptr;
+UUxtNearPointerComponent* Pointer = nullptr;
 
 END_DEFINE_SPEC(FollowComponentSpec)
 
@@ -103,15 +118,28 @@ void FollowComponentSpec::Define()
 
 			FVector Center(50, 0, 0);
 			Follow = CreateTestComponent(World, Center);
-			Follow->LerpTime = 0;
-			Follow->bInterpolatePose = false;
+			TestNotNull("Test component created successfully", Follow);
+			if (Follow)
+			{
+				TestNotNull("Actor to follow created successfully", Follow->ActorToFollow);
+				Follow->LerpTime = 0;
+				Follow->bInterpolatePose = false;
+			}
 		});
 
 		AfterEach([this] {
 			FrameQueue.Reset();
 
-			Follow->GetOwner()->Destroy();
-			Follow = nullptr;
+			if (Follow)
+			{
+				if (Follow->ActorToFollow)
+				{
+					Follow->ActorToFollow->ConditionalBeginDestroy();
+					Follow->ActorToFollow = nullptr;
+				}
+				Follow->GetOwner()->Destroy();
+				Follow = nullptr;
+			}
 		});
 
 		LatentIt("stays within distance and angle limits", [this](const FDoneDelegate& Done) {
@@ -141,18 +169,54 @@ void FollowComponentSpec::Define()
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
-		LatentIt("orientation is world locked", [this](const FDoneDelegate& Done) {
+		LatentIt("maintains correct orientation when world locked", [this](const FDoneDelegate& Done) {
 			Follow->OrientationType = EUxtFollowOrientBehavior::WorldLock;
 
 			EnqueueOrientationTest();
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
-		LatentIt("orientation is facing camera", [this](const FDoneDelegate& Done) {
+		LatentIt("maintains correct orientation when facing camera", [this](const FDoneDelegate& Done) {
 			Follow->OrientationType = EUxtFollowOrientBehavior::FaceCamera;
 
 			EnqueueOrientationTest();
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		Describe("with a button", [this] {
+			BeforeEach([this] {
+				UWorld* World = UxtTestUtils::GetTestWorld();
+				AActor* Actor = Follow->GetOwner();
+				Actor->SetActorRotation(FRotator(0, 180, 0));
+				UUxtPressableButtonComponent* ButtonComponent = CreateTestButtonComponent(Actor, Actor->GetActorLocation());
+
+				ButtonEventCaptureObj = NewObject<UPressableButtonTestComponent>(Actor);
+				ButtonEventCaptureObj->RegisterComponent();
+				ButtonComponent->OnButtonPressed.AddDynamic(ButtonEventCaptureObj, &UPressableButtonTestComponent::IncrementPressed);
+				ButtonComponent->OnButtonReleased.AddDynamic(ButtonEventCaptureObj, &UPressableButtonTestComponent::IncrementReleased);
+
+				UxtTestUtils::EnableTestHandTracker();
+				Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", FVector::ZeroVector);
+				Pointer->PokeDepth = 5;
+			});
+
+			AfterEach([this] {
+				UxtTestUtils::DisableTestHandTracker();
+
+				if (Pointer)
+				{
+					Pointer->GetOwner()->Destroy();
+					Pointer = nullptr;
+				}
+			});
+
+			LatentIt("should work after location/orientation changed", [this](const FDoneDelegate& Done) {
+				EnqueueDistanceTest();
+				EnqueueAngleTest();
+				EnqueueButtonTest();
+
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
 		});
 	});
 }
@@ -334,6 +398,37 @@ void FollowComponentSpec::EnqueueOrientationTest()
 		TestTrue("Follow component orientation type matches behavior", FMath::IsNearlyZero(Cross.Size(), 0.001f));
 
 		TestTrue("Following actor's +X pointing towards ActorToFollow", Dot > 0.f);
+	});
+}
+
+void FollowComponentSpec::EnqueueButtonTest()
+{
+	const float MoveBy = 10;
+
+	FrameQueue.Enqueue([this, MoveBy] {
+		// Place the hand pointer in the initial position (away from the button)
+		FVector FollowerCenter = Follow->GetOwner()->GetActorLocation();
+		FVector FollowerToFollowedVector = Follow->ActorToFollow->GetActorLocation() - FollowerCenter;
+		FollowerToFollowedVector.Normalize();
+		UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FollowerCenter + (FollowerToFollowedVector * MoveBy));
+	});
+	FrameQueue.Enqueue([this] {
+		TestEqual("Button pressed event not generated before moving the hand", ButtonEventCaptureObj->PressedCount, 0);
+		// Move the hand towards the button to generate button pressed event
+		FVector FollowerCenter = Follow->GetOwner()->GetActorLocation();
+		UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FollowerCenter);
+	});
+	FrameQueue.Enqueue([this, MoveBy] {
+		// Verify the button was pressed and move the hand away from the button to generate button released event
+		TestEqual("Button press as expected", ButtonEventCaptureObj->PressedCount, 1);
+		FVector FollowerCenter = Follow->GetOwner()->GetActorLocation();
+		FVector FollowerToFollowedVector = Follow->ActorToFollow->GetActorLocation() - FollowerCenter;
+		FollowerToFollowedVector.Normalize();
+		UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FollowerCenter + (FollowerToFollowedVector * MoveBy));
+	});
+	FrameQueue.Enqueue([this] {
+		// Verify that the button was released
+		TestEqual("Button release as expected", ButtonEventCaptureObj->ReleasedCount, 1);
 	});
 }
 
