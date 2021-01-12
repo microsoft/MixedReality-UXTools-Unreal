@@ -18,7 +18,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/BoundsControl.html",
-          "hash": "CDfXb1JjYDJwHZ40fGPCkg=="
+          "hash": "oSVlSfjR9vqFO+WwOPzPGg=="
         }
       },
       "is_incremental": false,
@@ -30,7 +30,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/CONTRIBUTING.html",
-          "hash": "3u1pLtjBRnSrq+OvDTQn9w=="
+          "hash": "ZEq/dkm95No3QPlO/Ik12w=="
         }
       },
       "is_incremental": false,
@@ -42,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/FarBeam.html",
-          "hash": "b65KaqJbjq3V2vRgd1hb7A=="
+          "hash": "eYXMnz2vObW3BkX99IzG6w=="
         }
       },
       "is_incremental": false,
@@ -54,7 +54,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/FollowComponent.html",
-          "hash": "m7KJ5kBfoZf2YnfBD0FTvA=="
+          "hash": "6e1XFUIPzUcnhZAhHfZ2yA=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/Graphics.html",
-          "hash": "9GjNusLwwPJkgSiISBR6SA=="
+          "hash": "TK4oMScEwd8UPSPAM9t8Ag=="
         }
       },
       "is_incremental": false,
@@ -78,7 +78,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/HandConstraintComponent.html",
-          "hash": "USzmzPFhNMsDc1XtTDHqNQ=="
+          "hash": "+cVMdTj+/rxmLF5INqNFZA=="
         }
       },
       "is_incremental": false,
@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/HandInteraction.html",
-          "hash": "Oeh68yFSxjR/o6pk4Xifng=="
+          "hash": "85tDiynotA/+1+pqWXSJFg=="
         }
       },
       "is_incremental": false,
@@ -102,7 +102,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/HandMenu.html",
-          "hash": "1AzCyq2j7e5AFcXhHq0O9g=="
+          "hash": "QFVW/fSq7EFXjOXFQGKBLg=="
         }
       },
       "is_incremental": false,
@@ -400,6 +400,17 @@
       "output": {
         "resource": {
           "relative_path": "Docs/Images/Graphics/GraphicsSimpleLit.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Hand-Interaction.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Hand-Interaction.png"
         }
       },
       "is_incremental": false,
@@ -737,6 +748,28 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_BoundingBox_Main.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_BoundingBox_Main.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_Button_Main.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_Button_Main.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "../../Docs/Images/MRTK_Icon_APIReference.png",
       "output": {
         "resource": {
@@ -851,6 +884,17 @@
       "output": {
         "resource": {
           "relative_path": "Docs/Images/NearMenu/NearMenuParentClass.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Pinch-Slider.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Pinch-Slider.png"
         }
       },
       "is_incremental": false,
@@ -1045,10 +1089,120 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/AffordanceSelectionAfter.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/AffordanceSelectionAfter.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/AffordanceSelectionBefore.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/AffordanceSelectionBefore.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/ExamplesPlugin.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/ExamplesPlugin.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/PalmUpConstraintRequireGaze.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/PalmUpConstraintRequireGaze.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/bounds_control_scale_uniform_after.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/bounds_control_scale_uniform_after.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/bounds_control_scale_uniform_before.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/bounds_control_scale_uniform_before.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/categories_refactor_comparison.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/categories_refactor_comparison.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/min_max_scale_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/min_max_scale_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "../../Docs/Images/ReleaseNotes/near_far_manipulator.png",
       "output": {
         "resource": {
           "relative_path": "Docs/Images/ReleaseNotes/near_far_manipulator.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/rotation_axis_constraint_after.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/rotation_axis_constraint_after.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/rotation_axis_constraint_before.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/rotation_axis_constraint_before.gif"
         }
       },
       "is_incremental": false,
@@ -1137,6 +1291,17 @@
       "output": {
         "resource": {
           "relative_path": "Docs/Images/Slider/PinchSliderActor.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Slider/SteppedSlider.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Slider/SteppedSlider.gif"
         }
       },
       "is_incremental": false,
@@ -1434,7 +1599,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/InputSimulation.html",
-          "hash": "0Q78B3z3xMjaK0aBsLrL4Q=="
+          "hash": "Vb5fnYcVxSQ4bxmJTr3uzA=="
         }
       },
       "is_incremental": false,
@@ -1446,7 +1611,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/Installation.html",
-          "hash": "h8qbDQUuVrcby4BLaWYo6w=="
+          "hash": "QXoNIajefGyeV225Qrc8WQ=="
         }
       },
       "is_incremental": false,
@@ -1458,7 +1623,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/Manipulator.html",
-          "hash": "7/ZNHQohZjZ15Lszcs8eOA=="
+          "hash": "82dTTCREXyjE7UB5oZ9Erg=="
         }
       },
       "is_incremental": false,
@@ -1470,7 +1635,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/NearMenu.html",
-          "hash": "7Wpv3QRFtg29kYE1inlP5A=="
+          "hash": "F+u1IyFg5KJreXV9nNPyjg=="
         }
       },
       "is_incremental": false,
@@ -1482,7 +1647,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/PalmUpConstraintComponent.html",
-          "hash": "/XVW0OjO/0esKcAJHZY3SA=="
+          "hash": "t9MlR9tZgPtbSvIM9r9aYw=="
         }
       },
       "is_incremental": false,
@@ -1494,7 +1659,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/PinchSlider.html",
-          "hash": "hyNNMfunY7BSljwH9I3+7Q=="
+          "hash": "Dim135SdsPhm/M+nWGO/Fw=="
         }
       },
       "is_incremental": false,
@@ -1506,7 +1671,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/PressableButton.html",
-          "hash": "SW3110k0bVAqC89niWslBw=="
+          "hash": "9SrWWFHgb9OveoedybLmgQ=="
         }
       },
       "is_incremental": false,
@@ -1518,7 +1683,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/ReleaseNotes.html",
-          "hash": "kxaO5AiXQrhFwXF8h/Wnkg=="
+          "hash": "YDJ7E8xuFOLUIE0ecQgRwA=="
         }
       },
       "is_incremental": false,
@@ -1530,7 +1695,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/SurfaceMagnetism.html",
-          "hash": "5vpz1Zk5GtOtddKiUjoAAQ=="
+          "hash": "y0LjxXTKMvjAzZQt6hFSOg=="
         }
       },
       "is_incremental": false,
@@ -1542,7 +1707,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/TapToPlaceComponent.html",
-          "hash": "h6x0SZYorw31k1nq6oaWQg=="
+          "hash": "erY1qKRyMI6TxodsWqoQwg=="
         }
       },
       "is_incremental": false,
@@ -1554,7 +1719,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/Text.html",
-          "hash": "d900qmoxTfoemzAgEnVAAg=="
+          "hash": "Rn9XL7Jr59ugkVyRl4Lb7g=="
         }
       },
       "is_incremental": false,
@@ -1566,7 +1731,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/Tooltip.html",
-          "hash": "eAUaG+0xN6DYgN73VZjzrg=="
+          "hash": "6ZvR/FdtMg0ZbQcqv96slw=="
         }
       },
       "is_incremental": false,
@@ -1578,7 +1743,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/TouchableVolume.html",
-          "hash": "3i3OzpNw9r6S9B16t6FXig=="
+          "hash": "39xhCKAb1zsZfyc0LeHalw=="
         }
       },
       "is_incremental": false,
@@ -1590,7 +1755,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/UIElements.html",
-          "hash": "DWggRZtCpfNh+iNKdF+ggA=="
+          "hash": "duxm+n/LB+PeBf9GjQA+KA=="
         }
       },
       "is_incremental": false,
@@ -1602,7 +1767,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/Utilities.html",
-          "hash": "FaFpTo6qm/1wQWH59Zia9w=="
+          "hash": "tUKZ6LmtQ12xnWV/AdcCxA=="
         }
       },
       "is_incremental": false,
@@ -1614,7 +1779,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/WelcomeToUXTools.html",
-          "hash": "2ja5eBvPuQPRPYxe4sNFwQ=="
+          "hash": "UWUXRt84HBsH18ijzs2gjA=="
         }
       },
       "is_incremental": false,
@@ -1626,7 +1791,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/WidgetComponent.html",
-          "hash": "hx9eVCHKH/dp5KBHiF/SVA=="
+          "hash": "2C4WK7Knn5I5BIjC3UG+GA=="
         }
       },
       "is_incremental": false,
@@ -1650,7 +1815,7 @@
       "output": {
         ".html": {
           "relative_path": "README.html",
-          "hash": "QYn3c7Nvudlz2VQb777tTg=="
+          "hash": "VJCJT5IeQnTxmhW80u74Jw=="
         }
       },
       "is_incremental": false,
@@ -1662,7 +1827,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_base_pressable_button_actor.html",
-          "hash": "P4sb3VsKhOyMXL+/YEzK6A=="
+          "hash": "macL/g9GuwgM+C89SU2BQw=="
         }
       },
       "is_incremental": false,
@@ -1674,7 +1839,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_hand_interaction_actor.html",
-          "hash": "yYjEu18XXcy9TZR2F1danw=="
+          "hash": "vhrjizMM3tb0iLCVrwLAUQ=="
         }
       },
       "is_incremental": false,
@@ -1686,7 +1851,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_input_simulation_actor.html",
-          "hash": "BIB6rSfmoFEdfRvwfCQ1qg=="
+          "hash": "Ep8K8yu5uKpiC9ZtUYV8og=="
         }
       },
       "is_incremental": false,
@@ -1698,7 +1863,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pinch_slider_actor.html",
-          "hash": "IJBtH4aOgSQmRMWtsNtRiA=="
+          "hash": "ZpY5Tqy9R37IagePnQ6tKQ=="
         }
       },
       "is_incremental": false,
@@ -1710,7 +1875,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_button_actor.html",
-          "hash": "hVaLP8Iw5UT8we92j7xdCw=="
+          "hash": "i0SAdDEpRGtM1wUW6q572g=="
         }
       },
       "is_incremental": false,
@@ -1722,7 +1887,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_check_button_actor.html",
-          "hash": "TaUlQC9Md3r0lzJdYr+9Rw=="
+          "hash": "HK1dM3gjh7kf37TuNKW4+g=="
         }
       },
       "is_incremental": false,
@@ -1734,7 +1899,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_radio_button_actor.html",
-          "hash": "M/XUtZHi20rF8Fm8+C0shA=="
+          "hash": "08NFwPN034HmF/d2C12Qlg=="
         }
       },
       "is_incremental": false,
@@ -1746,7 +1911,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_switch_button_actor.html",
-          "hash": "oX21PgaO5/X7fSLm5NACDg=="
+          "hash": "Ro/RvjXJz7IsH4dxxrHUcw=="
         }
       },
       "is_incremental": false,
@@ -1758,7 +1923,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_toggle_button_actor.html",
-          "hash": "366OhfJhgNcejTCZicRyAQ=="
+          "hash": "eTK5YBKjfQy6EIGSj4u+ig=="
         }
       },
       "is_incremental": false,
@@ -1770,7 +1935,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_text_render_actor.html",
-          "hash": "9nOftBR/1k7p5X2s7YjI6A=="
+          "hash": "gYIijXAeAHaIkKbCz0at4Q=="
         }
       },
       "is_incremental": false,
@@ -1782,7 +1947,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_scrolling_collection_properties.html",
-          "hash": "xutYTi1w4YF3jDS57u6W+w=="
+          "hash": "M8PiUiWLQmJF28mSK3tWwg=="
         }
       },
       "is_incremental": false,
@@ -1794,7 +1959,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_editor_module.html",
-          "hash": "5ODzITwKt2FVKwG6Hv8EGQ=="
+          "hash": "J9U8ZkVmW5yKlORLsQY0Lg=="
         }
       },
       "is_incremental": false,
@@ -1806,7 +1971,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_module.html",
-          "hash": "nKsAhG3onP4gUk4iwICKlQ=="
+          "hash": "gFFn719kCboT4SmWI9LDFg=="
         }
       },
       "is_incremental": false,
@@ -1818,7 +1983,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_shaders_module.html",
-          "hash": "xJcHBll8ay0Dg32SurZoeA=="
+          "hash": "0gKfXk1a3i3aJNy1jpOnaQ=="
         }
       },
       "is_incremental": false,
@@ -1830,7 +1995,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_w_m_r_module.html",
-          "hash": "8oPC1ecJJxuT6mIamGFc+g=="
+          "hash": "wNHoGLBxqDw7qwJS6jjK3w=="
         }
       },
       "is_incremental": false,
@@ -1842,7 +2007,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_affordance_config.html",
-          "hash": "6PNfUC93WzS1sDHPunIQlA=="
+          "hash": "9b1/7KEw76CnIAse9YsU0A=="
         }
       },
       "is_incremental": false,
@@ -1854,7 +2019,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_affordance_instance.html",
-          "hash": "CYHOaKFxRfJVvRJfm3TgvA=="
+          "hash": "Azuca98qWBR7+Ui9Nx5fsg=="
         }
       },
       "is_incremental": false,
@@ -1866,7 +2031,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_button_audio_brush.html",
-          "hash": "axcOHoWdRDdaGHnD4XNgIA=="
+          "hash": "/Qs5ss84DZUoeUfCWR2hTg=="
         }
       },
       "is_incremental": false,
@@ -1878,7 +2043,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_button_brush.html",
-          "hash": "ECmTd6Ph2Lpd07EI3zfVMw=="
+          "hash": "Pp9qTHGFNYQLS8omlsKHqQ=="
         }
       },
       "is_incremental": false,
@@ -1890,7 +2055,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_button_visuals_brush.html",
-          "hash": "+qKJS/F1Q8H5bFcJ0wCvIg=="
+          "hash": "pTjr9cREqs8OnMmE+EfFxg=="
         }
       },
       "is_incremental": false,
@@ -1902,7 +2067,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_font_character.html",
-          "hash": "rFad+cnrWJLoMZcn7gRmGA=="
+          "hash": "KKG6dlHIWI4yzAq8cj9Fuw=="
         }
       },
       "is_incremental": false,
@@ -1914,7 +2079,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_grab_pointer_data.html",
-          "hash": "jNUERNSR90SBBMF29mhobA=="
+          "hash": "QQAEjxppAwmJ7XgB26goRA=="
         }
       },
       "is_incremental": false,
@@ -1926,7 +2091,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_grab_pointer_focus.html",
-          "hash": "j2PG8TTFS0yCDMLVEfvtpw=="
+          "hash": "66PDXHpjRUQ0pcJahrZ24g=="
         }
       },
       "is_incremental": false,
@@ -1938,7 +2103,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_hand_proximity_mesh_data.html",
-          "hash": "uKunSXsoasG8G7j0fIaeAg=="
+          "hash": "qgyCU2jpkxeCFllx75Kd1A=="
         }
       },
       "is_incremental": false,
@@ -1950,7 +2115,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_icon_brush.html",
-          "hash": "tdW14NOqEV0v1oA0y/GGDw=="
+          "hash": "I+5ZfCGczF7Nl8CEWOFlDg=="
         }
       },
       "is_incremental": false,
@@ -1962,7 +2127,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_icon_brush_customization.html",
-          "hash": "z3lhLKJOmvi7gZbNxQKpuw=="
+          "hash": "5pLrgLvYJb6ExmG8xndIZw=="
         }
       },
       "is_incremental": false,
@@ -1974,7 +2139,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_input_animation_utils.html",
-          "hash": "206olD6Wu+1EKw5K+bY0Sg=="
+          "hash": "WhpHo0TxJ4fpSN/USHRMSA=="
         }
       },
       "is_incremental": false,
@@ -1986,7 +2151,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_input_simulation_hand_state.html",
-          "hash": "yxbn//uvmstQqgFHjjewNg=="
+          "hash": "6LXDDW14JWYt3gB9jOvPIg=="
         }
       },
       "is_incremental": false,
@@ -1998,7 +2163,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_interaction_utils.html",
-          "hash": "VQ0erZfgZ3xO2CIern1TGA=="
+          "hash": "A9+wJOzyRt4MPmIRFGONvQ=="
         }
       },
       "is_incremental": false,
@@ -2010,7 +2175,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_pointer_focus.html",
-          "hash": "R9kKrT5yKMe7a4rSNnf2sA=="
+          "hash": "2xtNs05Abj2jRY/SdOyqYA=="
         }
       },
       "is_incremental": false,
@@ -2022,7 +2187,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_pointer_focus_search_result.html",
-          "hash": "qyM3ZqMgUC5PKsa7hHa0Rg=="
+          "hash": "d7tCQJswkeKHTwcZ4D5+zQ=="
         }
       },
       "is_incremental": false,
@@ -2034,7 +2199,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_poke_pointer_focus.html",
-          "hash": "cjVD6eUMSnBEVkj7mpOfrQ=="
+          "hash": "qYBCTUrevjUEp0aMntlx/g=="
         }
       },
       "is_incremental": false,
@@ -2046,7 +2211,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_pressable_button_component_visualizer.html",
-          "hash": "1tBMEPiYP8FCTdt6YZFRXQ=="
+          "hash": "MzqJUfPxY2t4J0lJhGxDiQ=="
         }
       },
       "is_incremental": false,
@@ -2058,7 +2223,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_runtime_settings_button_set.html",
-          "hash": "HyLZwRH9W60JnEXGA8apIg=="
+          "hash": "P2qhWyqXS6sOZ6F6Oth1XQ=="
         }
       },
       "is_incremental": false,
@@ -2070,7 +2235,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_text_brush.html",
-          "hash": "yOgvTqg2G8688piL9XQhzg=="
+          "hash": "TGH599jNxWBKZ6tmiugu8Q=="
         }
       },
       "is_incremental": false,
@@ -2082,7 +2247,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_tooltip_spawner_component_visualizer.html",
-          "hash": "syiLfpYsc2hj6n5uOiFHTg=="
+          "hash": "WvSi6piX8yxiKrc08az3NA=="
         }
       },
       "is_incremental": false,
@@ -2094,7 +2259,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_wmr_hand_tracker.html",
-          "hash": "Ap3uw2MQs4FESFFwr6nAyg=="
+          "hash": "7XYGgmAZso0GQuF0RIbC+w=="
         }
       },
       "is_incremental": false,
@@ -2106,7 +2271,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_collection_object.html",
-          "hash": "ZRcBEUD1ELmrPJ28xqHn+A=="
+          "hash": "oVPB7Gp5KfPnhG0Xyaks1g=="
         }
       },
       "is_incremental": false,
@@ -2118,7 +2283,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_far_handler.html",
-          "hash": "f/w+0S5YD15xqmAfWMRcdw=="
+          "hash": "VFuoga/TEChL14mu7jcCfw=="
         }
       },
       "is_incremental": false,
@@ -2130,7 +2295,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_far_target.html",
-          "hash": "Q2CDGKflq2xIFnM1BrQ68w=="
+          "hash": "b0XW5a6WhZrgEJ+Wm7Fa8g=="
         }
       },
       "is_incremental": false,
@@ -2142,7 +2307,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_grab_handler.html",
-          "hash": "bq7ITtcq5UZRD0S5i3yFMg=="
+          "hash": "MJTFJSkb7Ey/g0WmEJANqA=="
         }
       },
       "is_incremental": false,
@@ -2154,7 +2319,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_grab_target.html",
-          "hash": "jhzWjJMQoMlwgQ5M9XUXHw=="
+          "hash": "/V58ykmG65DA7blHN3t+cQ=="
         }
       },
       "is_incremental": false,
@@ -2166,7 +2331,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_hand_tracker.html",
-          "hash": "o6rnnmSLF5cHk58XejMreQ=="
+          "hash": "DclCvUwaV0MqtKUoEr3vHQ=="
         }
       },
       "is_incremental": false,
@@ -2178,7 +2343,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_poke_handler.html",
-          "hash": "2VYAqkBzqCi1Qb4vOBS0kA=="
+          "hash": "QhNwZ/egPxkDXiNOu3PuiQ=="
         }
       },
       "is_incremental": false,
@@ -2190,7 +2355,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_poke_target.html",
-          "hash": "RPZx5EpZHrlEh255xCAPRg=="
+          "hash": "mEkL7y1ppbwhDoUor+YMDg=="
         }
       },
       "is_incremental": false,
@@ -2202,7 +2367,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_base_object_collection.html",
-          "hash": "eQBa/18lPShUvMIsPtko1w=="
+          "hash": "NfjQHyVhyFTk/SmHfdfW7g=="
         }
       },
       "is_incremental": false,
@@ -2214,7 +2379,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_bounds_control_component.html",
-          "hash": "TTn4N6OsiwS1AFE4c6tBIQ=="
+          "hash": "+aT1diy0YR0W3Ri/DDyTHw=="
         }
       },
       "is_incremental": false,
@@ -2226,7 +2391,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_bounds_control_config.html",
-          "hash": "BOjT376FhkWaFUHMJVscIQ=="
+          "hash": "Err2ObgCVy0DbCVc0PjHbQ=="
         }
       },
       "is_incremental": false,
@@ -2238,7 +2403,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_collection_object.html",
-          "hash": "wcYtP14kcIMX96Xx7nHKTg=="
+          "hash": "OX67EgEC3xNb0i1yVjUa2A=="
         }
       },
       "is_incremental": false,
@@ -2250,7 +2415,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_face_user_constraint.html",
-          "hash": "XnkyowqbV0aNauX42HVdVA=="
+          "hash": "N/pmKj7KnKCh4ui32q+awA=="
         }
       },
       "is_incremental": false,
@@ -2262,7 +2427,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_beam_component.html",
-          "hash": "UTVN2M7ScH4yQc6QFvqS4w=="
+          "hash": "FVJhvO9W6zmfA/bjCHVeHA=="
         }
       },
       "is_incremental": false,
@@ -2274,7 +2439,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_cursor_component.html",
-          "hash": "/x4v2cS6D0zXNc0NGYHL6A=="
+          "hash": "wmUVSq03oMdG7DbYVfGwdw=="
         }
       },
       "is_incremental": false,
@@ -2286,7 +2451,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_handler.html",
-          "hash": "mFK2nw39cjttztNqCZQE6g=="
+          "hash": "S9GOEjj66dDZDYHsREqP6w=="
         }
       },
       "is_incremental": false,
@@ -2298,7 +2463,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_pointer_component.html",
-          "hash": "r5LhHwELxDKQRAKpYgoyTA=="
+          "hash": "rAiflB+cZmJHqXNk+h8N+g=="
         }
       },
       "is_incremental": false,
@@ -2310,7 +2475,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_target.html",
-          "hash": "8DMLKm/KFGBYoulTXuCdDw=="
+          "hash": "Z5OWI8u2GhBZqBfCLr2vBw=="
         }
       },
       "is_incremental": false,
@@ -2322,7 +2487,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_finger_cursor_component.html",
-          "hash": "piCprnFRoFcJnj1ZVBErPQ=="
+          "hash": "jiodm9UDj1A6iifbL3H+Yg=="
         }
       },
       "is_incremental": false,
@@ -2334,7 +2499,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_fixed_distance_constraint.html",
-          "hash": "FtKHLfg8iVA+PhSAy1gxjQ=="
+          "hash": "WK7rUNf1Ieiatar4mWOL6w=="
         }
       },
       "is_incremental": false,
@@ -2346,7 +2511,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_fixed_rotation_to_user_constraint.html",
-          "hash": "uPrtLg5YsM6oNuaEkgLSJw=="
+          "hash": "FnJcfBZ8kRmecAeRzWU0uw=="
         }
       },
       "is_incremental": false,
@@ -2358,7 +2523,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_fixed_rotation_to_world_constraint.html",
-          "hash": "pwgj3D/xZs9nCOSZ4q9l+g=="
+          "hash": "xkkECagkOsQATqLvNz+Kjg=="
         }
       },
       "is_incremental": false,
@@ -2370,7 +2535,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_follow_component.html",
-          "hash": "GyyO475hTgnaqfDYsUtFDg=="
+          "hash": "0MX67Gb9iLxLMtuEumNJeQ=="
         }
       },
       "is_incremental": false,
@@ -2382,7 +2547,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_function_library.html",
-          "hash": "5j/69YYxcKKRAtpJePU6GQ=="
+          "hash": "L5atCc1AU65h4T8KCRhJtw=="
         }
       },
       "is_incremental": false,
@@ -2394,7 +2559,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_handler.html",
-          "hash": "6WV2ItZNPc/DAVctzT/Igw=="
+          "hash": "2tfiw6ALThGpinqaIC0hpw=="
         }
       },
       "is_incremental": false,
@@ -2406,7 +2571,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_pointer_data_function_library.html",
-          "hash": "YvX3OnXMwYhLMWWuiq0V5A=="
+          "hash": "kRrOFQ+bcBxBnqtNjPL0Gg=="
         }
       },
       "is_incremental": false,
@@ -2418,7 +2583,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_target.html",
-          "hash": "Ql3D8FnWgtP5X+lbHS5EOA=="
+          "hash": "b3cpKhOixUBq/Od5ZC8+nw=="
         }
       },
       "is_incremental": false,
@@ -2430,7 +2595,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_target_component.html",
-          "hash": "pl9a5ARtXKoG8Q5jnbtIsA=="
+          "hash": "qvrX7bYyimmbnqoO+Y5DNA=="
         }
       },
       "is_incremental": false,
@@ -2442,7 +2607,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_hand_constraint_component.html",
-          "hash": "l1rvkdMN0rMoaNBuPu5hqQ=="
+          "hash": "PRL5b39lmyNjXPPNLdF+DQ=="
         }
       },
       "is_incremental": false,
@@ -2454,7 +2619,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_hand_tracking_function_library.html",
-          "hash": "TSwlf5EwPEZdNu7i8GzuZw=="
+          "hash": "MclUyvZW4iC4lqKUG0ndrg=="
         }
       },
       "is_incremental": false,
@@ -2466,7 +2631,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_icon_brush_editor_utility_widget.html",
-          "hash": "EslLujisNIWcu9aGIY04bQ=="
+          "hash": "jPXOMyA6qSAzsnqcnx3jlQ=="
         }
       },
       "is_incremental": false,
@@ -2478,7 +2643,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_simulation_head_movement_component.html",
-          "hash": "ZO95LpSkYoEgMft+chs9jQ=="
+          "hash": "4YZ9rDNvhEC0WZBWmb6FOQ=="
         }
       },
       "is_incremental": false,
@@ -2490,7 +2655,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_simulation_local_player_subsystem.html",
-          "hash": "huvEz/0I80y+HScU/l2X2g=="
+          "hash": "ehw1J7xdVLSDivLvH2mEAQ=="
         }
       },
       "is_incremental": false,
@@ -2502,7 +2667,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_simulation_state.html",
-          "hash": "hR6Yki/6fUAUA4cBEKnqmQ=="
+          "hash": "S2YUE93wDJ832o26V4/rqQ=="
         }
       },
       "is_incremental": false,
@@ -2514,7 +2679,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_subsystem.html",
-          "hash": "h5/wL+5GD0mHIpJeYz+4vQ=="
+          "hash": "4+oXomZnTpMxDUVCMTPLUQ=="
         }
       },
       "is_incremental": false,
@@ -2526,7 +2691,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_internal_function_library.html",
-          "hash": "8BrMWLMPEy0jV7EXKgtZIQ=="
+          "hash": "GbIlVTwXRUQ6LsmT5NphoQ=="
         }
       },
       "is_incremental": false,
@@ -2538,7 +2703,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_maintain_apparent_size_constraint.html",
-          "hash": "3aCRFzqkQ/yTUttYwMTdzQ=="
+          "hash": "REVtOHgQ9w69grbUxzAMSQ=="
         }
       },
       "is_incremental": false,
@@ -2550,7 +2715,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_manipulator_component_base.html",
-          "hash": "akgcBykr3Jhvk6pNLpMcvg=="
+          "hash": "LLLpBML1ISM5UakGE+x6DA=="
         }
       },
       "is_incremental": false,
@@ -2562,7 +2727,19 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_math_utils_function_library.html",
-          "hash": "bJfZZEpXGsrIrJ0E9ypKUw=="
+          "hash": "U/j/gRHSH8yTYJB4uWUR1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_u_uxt_min_max_scale_constraint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_min_max_scale_constraint.html",
+          "hash": "EzquEW6GiuVp5all+IKFLw=="
         }
       },
       "is_incremental": false,
@@ -2574,7 +2751,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_move_axis_constraint.html",
-          "hash": "xiWcl9NsGttAaMy8EumCbQ=="
+          "hash": "wwD26BZ7jfyE8hGjDJwKKA=="
         }
       },
       "is_incremental": false,
@@ -2586,7 +2763,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_near_pointer_component.html",
-          "hash": "uEnA5fWc+YAFrnFPHa6qxw=="
+          "hash": "s3yIb7uyDY1kBJcCzvzrDg=="
         }
       },
       "is_incremental": false,
@@ -2598,7 +2775,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_palm_up_constraint_component.html",
-          "hash": "0Kbk8c/8cYvnAQMYvTkohA=="
+          "hash": "m5V/JH1SC4noSicvm+1pcg=="
         }
       },
       "is_incremental": false,
@@ -2610,7 +2787,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_pinch_slider_component.html",
-          "hash": "Y/N6KkjGdjNjXc3Q37fYOg=="
+          "hash": "rhUBozVxLs42GKc/emetaw=="
         }
       },
       "is_incremental": false,
@@ -2622,7 +2799,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_pointer_component.html",
-          "hash": "dhcIYdQmpTnzRmJtcatBaw=="
+          "hash": "+5spedW7VhUDwySI7ISbWw=="
         }
       },
       "is_incremental": false,
@@ -2634,7 +2811,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_poke_handler.html",
-          "hash": "xozTQQvPS98Z4OR0ELWfQA=="
+          "hash": "TQxAObnyVJb7ZZ23VAWtww=="
         }
       },
       "is_incremental": false,
@@ -2646,7 +2823,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_poke_target.html",
-          "hash": "sBNG9sMbhkfrK1MTe16d1Q=="
+          "hash": "2siPPHhKmG61v+zQC8ZveQ=="
         }
       },
       "is_incremental": false,
@@ -2658,7 +2835,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_pressable_button_component.html",
-          "hash": "C8KfW04Ip8KBpqE8WsoraQ=="
+          "hash": "vVyPVKDKcOHczg8atCKVQA=="
         }
       },
       "is_incremental": false,
@@ -2670,7 +2847,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_rotation_axis_constraint.html",
-          "hash": "IcvIBzh9vP8Kv1xd8CAAfg=="
+          "hash": "xzLiFA9z+BoXsQHY+FY87A=="
         }
       },
       "is_incremental": false,
@@ -2682,7 +2859,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_runtime_settings.html",
-          "hash": "sjI9GiBfXK7DwZuJPdSoKA=="
+          "hash": "WcJf5WnpabLCx9+Edlnizw=="
         }
       },
       "is_incremental": false,
@@ -2694,7 +2871,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_tap_to_place_component.html",
-          "hash": "+L3Dr5Pw4Fvg2UwsGKUEww=="
+          "hash": "JJyvkXpRa2YwgR3uPDS91g=="
         }
       },
       "is_incremental": false,
@@ -2706,7 +2883,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_text_render_component.html",
-          "hash": "TN4s6MvDHMIuoCx13adSDg=="
+          "hash": "mc73pKDcsE1syfol7FRnDw=="
         }
       },
       "is_incremental": false,
@@ -2718,7 +2895,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_toggle_group_component.html",
-          "hash": "HFApQYyoUJVato+1VCy0Mg=="
+          "hash": "q1ooaFdASXpV5QmCMt+vnQ=="
         }
       },
       "is_incremental": false,
@@ -2730,7 +2907,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_touch_based_hand_tracker_component.html",
-          "hash": "4PBgeC+CJuYBPvtoMaUFWQ=="
+          "hash": "Wl3oSM3baR0Ja0plJmZlYA=="
         }
       },
       "is_incremental": false,
@@ -2742,7 +2919,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_touch_based_hand_tracker_subsystem.html",
-          "hash": "aKYsVVa+C1WP1F/mwFclzA=="
+          "hash": "RQoJBWRjZ3wUaszjL4eoiw=="
         }
       },
       "is_incremental": false,
@@ -2754,7 +2931,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_touchable_volume_component.html",
-          "hash": "PG1cpw45rVxQxfoRw3oZXA=="
+          "hash": "Df0sYEIsi1+ab8To67cpBQ=="
         }
       },
       "is_incremental": false,
@@ -2766,7 +2943,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_transform_constraint.html",
-          "hash": "LNuycahUPuSJUB0A1wyHjQ=="
+          "hash": "eZYSqh4h/vrvOFx/OaknWw=="
         }
       },
       "is_incremental": false,
@@ -2778,7 +2955,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_u_i_element_component.html",
-          "hash": "nNv8SfM28gVPaA7B1sshGA=="
+          "hash": "wbw9yqTCGcfuJWplmwbHZA=="
         }
       },
       "is_incremental": false,
@@ -2790,7 +2967,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_widget_component.html",
-          "hash": "R5a3ByO6ZL7a0mF+pXDi0g=="
+          "hash": "0DwLIq6P1+kALx4C5fxwDQ=="
         }
       },
       "is_incremental": false,
@@ -2802,7 +2979,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools.html",
-          "hash": "UIJcROLXaEsi7q7JgA7ThA=="
+          "hash": "IrgvWBoAXul6nQ7PfWDoSw=="
         }
       },
       "is_incremental": false,
@@ -2814,7 +2991,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_editor.html",
-          "hash": "76l8NwwuOPdq6/42LyvrPw=="
+          "hash": "zqiCgfmECQrZ3TJ75f8Oqw=="
         }
       },
       "is_incremental": false,
@@ -2826,7 +3003,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_input_simulation.html",
-          "hash": "P/5KyL2+yUbrgP9rX3N2xg=="
+          "hash": "i+ariFWyhCj51V7sDp8iSg=="
         }
       },
       "is_incremental": false,
@@ -2838,7 +3015,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_runtime_settings.html",
-          "hash": "SxhiR/QX+mtQetEskCiFyQ=="
+          "hash": "SNldU2FeWcSUNxxiyXswKA=="
         }
       },
       "is_incremental": false,
@@ -2850,7 +3027,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_shaders.html",
-          "hash": "hIvC2R+/K85K6hNesnFsBw=="
+          "hash": "zL/vX7WEeztAOvR1mXiruQ=="
         }
       },
       "is_incremental": false,
@@ -2862,7 +3039,19 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_w_m_r.html",
-          "hash": "zrnEjuduPEEtuCie98SWDA=="
+          "hash": "/5iShj+dyQG8yURQcmoP+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "../../tempcode2yaml/api/_uxt_affordance_interaction_cache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_affordance_interaction_cache.html",
+          "hash": "DhtT3+mCzA5YMPDHZi7gAw=="
         }
       },
       "is_incremental": false,
@@ -2874,7 +3063,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_constraint_manager.html",
-          "hash": "9i5Yr7eiqqraJnCo7SoTGA=="
+          "hash": "xcpg6ohmql7yR87v4SMZ5g=="
         }
       },
       "is_incremental": false,
@@ -2886,7 +3075,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_manipulation_move_logic.html",
-          "hash": "TmYMnAMujacGts2iY/x4iQ=="
+          "hash": "IGLka//iBmYZXSMvE5TuQg=="
         }
       },
       "is_incremental": false,
@@ -2898,7 +3087,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_two_hand_manipulation_rotate_logic.html",
-          "hash": "DOEfJthky5GMOXuCuwBpSA=="
+          "hash": "2gzFwp7JSFqQvNH4CttUzw=="
         }
       },
       "is_incremental": false,
@@ -2910,7 +3099,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_two_hand_manipulation_scale_logic.html",
-          "hash": "9D2h7oGUTibSfNaqsnJoSg=="
+          "hash": "IMW2ltswKOxQyDNp9S2rvA=="
         }
       },
       "is_incremental": false,
@@ -2922,7 +3111,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "8r5qOkKFkZyFWt0jZ2Xv3A=="
+          "hash": "Jp8te0SVoRTh57snlcBKjg=="
         }
       },
       "is_incremental": false,
@@ -3012,7 +3201,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 105,
+          "total_file_count": 107,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {

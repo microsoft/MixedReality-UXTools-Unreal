@@ -83,7 +83,7 @@
 <h1 id="hand-menu">Hand Menu</h1>
 
 <p>Hand menus allow users to quickly bring up hand-attached UI for frequently used functions. To prevent false activation while interacting with other objects, hand menu provides options such as 'Require Flat Hand'. It is recommended to use these options to prevent unwanted activation.</p>
-<p>There are some examples of various hand menus in <code>\Content\UXToolsGame\Examples\HandMenu\Blueprints</code>.</p>
+<p>There are some examples of various hand menus in <code>\UXToolsGame\Plugins\UXToolsExamples\Content\HandMenu\Blueprints</code>.</p>
 <h2 id="creating-a-hand-menu">Creating a hand menu</h2>
 <p>In this example we are going to create a basic three button hand menu, similar to <code>BP_SmallHandMenu</code> in the hand menu example scene.</p>
 <ol>
@@ -91,7 +91,7 @@
 <ul>
 <li>Create a new blueprint actor, in this example we will call it <code>BP_ExampleHandMenu</code>.</li>
 <li>Add a <code>UxtUIElementComponent</code> and set it as the root component for the actor.</li>
-<li>Add a <code>UxtPalmUpConstraintComponent</code> and set <em>Require Flat Hand</em> to true to prevent false activations.</li>
+<li>Add a <code>UxtPalmUpConstraintComponent</code> and set <em>Require Flat Hand</em> and <em>Require Gaze</em> to true to prevent false activations.</li>
 </ul>
 <p><img src="Images/HandMenu/Example_CreateActor.png" alt="CreateActor"></p>
 </li>
@@ -121,7 +121,7 @@
 </ul>
 <p><img src="Images/HandMenu/Example_EventGraph.png" alt="EventGraph"></p>
 </li>
-<li><p>To test out the menu in editor, press the <em>Home</em> key while moving a hand to put it in the flat palm pose.</p>
+<li><p>To test out the menu in editor, press the <em>Home</em> key while moving a hand to put it in the flat palm pose and move the hand towards the center of the screen to trigger the gaze requirement.</p>
 <p><img src="Images/HandMenu/Example_TestInEditor.png" alt="TestInEditor"></p>
 </li>
 </ol>
@@ -139,7 +139,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.10.x/Docs/HandMenu.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/HandMenu.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

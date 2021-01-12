@@ -201,16 +201,6 @@ references:
   isSpec: "True"
   fullName: ECollisionChannel AUxtHandInteractionActor::GetTraceChannel
   nameWithType: AUxtHandInteractionActor::GetTraceChannel
-- uid: _a_uxt_hand_interaction_actor.ProximityConeAngle
-  name: ProximityConeAngle
-  href: api/_a_uxt_hand_interaction_actor.html#_a_uxt_hand_interaction_actor_ProximityConeAngle
-  fullName: float AUxtHandInteractionActor::ProximityConeAngle
-  nameWithType: AUxtHandInteractionActor::ProximityConeAngle
-- uid: _a_uxt_hand_interaction_actor.ProximityConeAngleLerp
-  name: ProximityConeAngleLerp
-  href: api/_a_uxt_hand_interaction_actor.html#_a_uxt_hand_interaction_actor_ProximityConeAngleLerp
-  fullName: float AUxtHandInteractionActor::ProximityConeAngleLerp
-  nameWithType: AUxtHandInteractionActor::ProximityConeAngleLerp
 - uid: _a_uxt_hand_interaction_actor.ProximityConeOffset
   name: ProximityConeOffset
   href: api/_a_uxt_hand_interaction_actor.html#_a_uxt_hand_interaction_actor_ProximityConeOffset
@@ -287,11 +277,16 @@ references:
   isSpec: "True"
   fullName: void AUxtHandInteractionActor::Tick
   nameWithType: AUxtHandInteractionActor::Tick
+- uid: _a_uxt_hand_interaction_actor.UPROPERTY(EditAnywhere,BlueprintReadWrite,Category,AdvancedDisplay,meta)
+  name: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Uxt Hand Interaction", AdvancedDisplay, meta=(ClampMin="0.0", ClampMax="90.0"))
+  href: api/_a_uxt_hand_interaction_actor.html#_a_uxt_hand_interaction_actor_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_AdvancedDisplay_meta_
+  fullName: AUxtHandInteractionActor::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Uxt Hand Interaction", AdvancedDisplay, meta=(ClampMin="0.0", ClampMax="90.0"))
+  nameWithType: AUxtHandInteractionActor::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Uxt Hand Interaction", AdvancedDisplay, meta=(ClampMin="0.0", ClampMax="90.0"))
 - uid: _a_uxt_hand_interaction_actor.UPROPERTY(Transient,EditAnywhere,BlueprintReadWrite,Category,meta)
-  name: UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category="Hand Interaction", meta=(Bitmask, BitmaskEnum=EUxtInteractionMode))
+  name: UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category="Uxt Hand Interaction", meta=(Bitmask, BitmaskEnum=EUxtInteractionMode))
   href: api/_a_uxt_hand_interaction_actor.html#_a_uxt_hand_interaction_actor_UPROPERTY_Transient_EditAnywhere_BlueprintReadWrite_Category_meta_
-  fullName: AUxtHandInteractionActor::UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category="Hand Interaction", meta=(Bitmask, BitmaskEnum=EUxtInteractionMode))
-  nameWithType: AUxtHandInteractionActor::UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category="Hand Interaction", meta=(Bitmask, BitmaskEnum=EUxtInteractionMode))
+  fullName: AUxtHandInteractionActor::UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category="Uxt Hand Interaction", meta=(Bitmask, BitmaskEnum=EUxtInteractionMode))
+  nameWithType: AUxtHandInteractionActor::UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category="Uxt Hand Interaction", meta=(Bitmask, BitmaskEnum=EUxtInteractionMode))
 - uid: _a_uxt_hand_interaction_actor.UPROPERTY*
   name: UPROPERTY
   href: api/_a_uxt_hand_interaction_actor.html#_a_uxt_hand_interaction_actor_UPROPERTY_
@@ -483,17 +478,28 @@ references:
   isSpec: "True"
   fullName: USoundCue* AUxtPinchSliderActor::GetGrabSound
   nameWithType: AUxtPinchSliderActor::GetGrabSound
-- uid: _a_uxt_pinch_slider_actor.GetInitialValue()
-  name: GetInitialValue()
-  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetInitialValue__
-  fullName: float AUxtPinchSliderActor::GetInitialValue()
-  nameWithType: AUxtPinchSliderActor::GetInitialValue()
-- uid: _a_uxt_pinch_slider_actor.GetInitialValue*
-  name: GetInitialValue
-  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetInitialValue_
+- uid: _a_uxt_pinch_slider_actor.GetMaxValue()
+  name: GetMaxValue()
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetMaxValue__
+  fullName: float AUxtPinchSliderActor::GetMaxValue()
+  nameWithType: AUxtPinchSliderActor::GetMaxValue()
+- uid: _a_uxt_pinch_slider_actor.GetMaxValue*
+  name: GetMaxValue
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetMaxValue_
   isSpec: "True"
-  fullName: float AUxtPinchSliderActor::GetInitialValue
-  nameWithType: AUxtPinchSliderActor::GetInitialValue
+  fullName: float AUxtPinchSliderActor::GetMaxValue
+  nameWithType: AUxtPinchSliderActor::GetMaxValue
+- uid: _a_uxt_pinch_slider_actor.GetMinValue()
+  name: GetMinValue()
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetMinValue__
+  fullName: float AUxtPinchSliderActor::GetMinValue()
+  nameWithType: AUxtPinchSliderActor::GetMinValue()
+- uid: _a_uxt_pinch_slider_actor.GetMinValue*
+  name: GetMinValue
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetMinValue_
+  isSpec: "True"
+  fullName: float AUxtPinchSliderActor::GetMinValue
+  nameWithType: AUxtPinchSliderActor::GetMinValue
 - uid: _a_uxt_pinch_slider_actor.GetMoveTextWithThumb()
   name: GetMoveTextWithThumb()
   href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetMoveTextWithThumb__
@@ -527,6 +533,17 @@ references:
   isSpec: "True"
   fullName: USoundCue* AUxtPinchSliderActor::GetReleaseSound
   nameWithType: AUxtPinchSliderActor::GetReleaseSound
+- uid: _a_uxt_pinch_slider_actor.GetStepWithTickMarks()
+  name: GetStepWithTickMarks()
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetStepWithTickMarks__
+  fullName: bool AUxtPinchSliderActor::GetStepWithTickMarks()
+  nameWithType: AUxtPinchSliderActor::GetStepWithTickMarks()
+- uid: _a_uxt_pinch_slider_actor.GetStepWithTickMarks*
+  name: GetStepWithTickMarks
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetStepWithTickMarks_
+  isSpec: "True"
+  fullName: bool AUxtPinchSliderActor::GetStepWithTickMarks
+  nameWithType: AUxtPinchSliderActor::GetStepWithTickMarks
 - uid: _a_uxt_pinch_slider_actor.GetThumbScaleCurve()
   name: GetThumbScaleCurve()
   href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetThumbScaleCurve__
@@ -582,6 +599,17 @@ references:
   isSpec: "True"
   fullName: float AUxtPinchSliderActor::GetTrackLength
   nameWithType: AUxtPinchSliderActor::GetTrackLength
+- uid: _a_uxt_pinch_slider_actor.GetValue()
+  name: GetValue()
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetValue__
+  fullName: float AUxtPinchSliderActor::GetValue()
+  nameWithType: AUxtPinchSliderActor::GetValue()
+- uid: _a_uxt_pinch_slider_actor.GetValue*
+  name: GetValue
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetValue_
+  isSpec: "True"
+  fullName: float AUxtPinchSliderActor::GetValue
+  nameWithType: AUxtPinchSliderActor::GetValue
 - uid: _a_uxt_pinch_slider_actor.GetValueTextDecimalPlaces()
   name: GetValueTextDecimalPlaces()
   href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_GetValueTextDecimalPlaces__
@@ -626,6 +654,17 @@ references:
   isSpec: "True"
   fullName: void AUxtPinchSliderActor::OnEndGrab
   nameWithType: AUxtPinchSliderActor::OnEndGrab
+- uid: _a_uxt_pinch_slider_actor.OnSliderUpdateValue(float)
+  name: OnSliderUpdateValue(float NewValue)
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_OnSliderUpdateValue_float_
+  fullName: void AUxtPinchSliderActor::OnSliderUpdateValue(float NewValue)
+  nameWithType: AUxtPinchSliderActor::OnSliderUpdateValue(float NewValue)
+- uid: _a_uxt_pinch_slider_actor.OnSliderUpdateValue*
+  name: OnSliderUpdateValue
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_OnSliderUpdateValue_
+  isSpec: "True"
+  fullName: void AUxtPinchSliderActor::OnSliderUpdateValue
+  nameWithType: AUxtPinchSliderActor::OnSliderUpdateValue
 - uid: _a_uxt_pinch_slider_actor.OnUpdateState(UUxtPinchSliderComponent *,EUxtSliderState)
   name: OnUpdateState(UUxtPinchSliderComponent *Slider, EUxtSliderState NewState)
   href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_OnUpdateState_UUxtPinchSliderComponent___EUxtSliderState_
@@ -757,17 +796,28 @@ references:
   isSpec: "True"
   fullName: void AUxtPinchSliderActor::SetGrabSound
   nameWithType: AUxtPinchSliderActor::SetGrabSound
-- uid: _a_uxt_pinch_slider_actor.SetInitialValue(float)
-  name: SetInitialValue(float NewInitialValue)
-  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetInitialValue_float_
-  fullName: void AUxtPinchSliderActor::SetInitialValue(float NewInitialValue)
-  nameWithType: AUxtPinchSliderActor::SetInitialValue(float NewInitialValue)
-- uid: _a_uxt_pinch_slider_actor.SetInitialValue*
-  name: SetInitialValue
-  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetInitialValue_
+- uid: _a_uxt_pinch_slider_actor.SetMaxValue(float)
+  name: SetMaxValue(float NewMaxValue)
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetMaxValue_float_
+  fullName: void AUxtPinchSliderActor::SetMaxValue(float NewMaxValue)
+  nameWithType: AUxtPinchSliderActor::SetMaxValue(float NewMaxValue)
+- uid: _a_uxt_pinch_slider_actor.SetMaxValue*
+  name: SetMaxValue
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetMaxValue_
   isSpec: "True"
-  fullName: void AUxtPinchSliderActor::SetInitialValue
-  nameWithType: AUxtPinchSliderActor::SetInitialValue
+  fullName: void AUxtPinchSliderActor::SetMaxValue
+  nameWithType: AUxtPinchSliderActor::SetMaxValue
+- uid: _a_uxt_pinch_slider_actor.SetMinValue(float)
+  name: SetMinValue(float NewMinValue)
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetMinValue_float_
+  fullName: void AUxtPinchSliderActor::SetMinValue(float NewMinValue)
+  nameWithType: AUxtPinchSliderActor::SetMinValue(float NewMinValue)
+- uid: _a_uxt_pinch_slider_actor.SetMinValue*
+  name: SetMinValue
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetMinValue_
+  isSpec: "True"
+  fullName: void AUxtPinchSliderActor::SetMinValue
+  nameWithType: AUxtPinchSliderActor::SetMinValue
 - uid: _a_uxt_pinch_slider_actor.SetMoveTextWithThumb(bool)
   name: SetMoveTextWithThumb(bool bNewMoveWithThumb)
   href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetMoveTextWithThumb_bool_
@@ -801,6 +851,17 @@ references:
   isSpec: "True"
   fullName: void AUxtPinchSliderActor::SetReleaseSound
   nameWithType: AUxtPinchSliderActor::SetReleaseSound
+- uid: _a_uxt_pinch_slider_actor.SetStepWithTickMarks(bool)
+  name: SetStepWithTickMarks(bool bNewStepWithTickMarks)
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetStepWithTickMarks_bool_
+  fullName: void AUxtPinchSliderActor::SetStepWithTickMarks(bool bNewStepWithTickMarks)
+  nameWithType: AUxtPinchSliderActor::SetStepWithTickMarks(bool bNewStepWithTickMarks)
+- uid: _a_uxt_pinch_slider_actor.SetStepWithTickMarks*
+  name: SetStepWithTickMarks
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetStepWithTickMarks_
+  isSpec: "True"
+  fullName: void AUxtPinchSliderActor::SetStepWithTickMarks
+  nameWithType: AUxtPinchSliderActor::SetStepWithTickMarks
 - uid: _a_uxt_pinch_slider_actor.SetThumbScaleCurve(UCurveFloat *)
   name: SetThumbScaleCurve(UCurveFloat *NewThumbScaleCurve)
   href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetThumbScaleCurve_UCurveFloat___
@@ -856,6 +917,17 @@ references:
   isSpec: "True"
   fullName: void AUxtPinchSliderActor::SetTrackLength
   nameWithType: AUxtPinchSliderActor::SetTrackLength
+- uid: _a_uxt_pinch_slider_actor.SetValue(float)
+  name: SetValue(float NewValue)
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetValue_float_
+  fullName: void AUxtPinchSliderActor::SetValue(float NewValue)
+  nameWithType: AUxtPinchSliderActor::SetValue(float NewValue)
+- uid: _a_uxt_pinch_slider_actor.SetValue*
+  name: SetValue
+  href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetValue_
+  isSpec: "True"
+  fullName: void AUxtPinchSliderActor::SetValue
+  nameWithType: AUxtPinchSliderActor::SetValue
 - uid: _a_uxt_pinch_slider_actor.SetValueTextDecimalPlaces(int)
   name: SetValueTextDecimalPlaces(int NewValueTextDecimalPlaces)
   href: api/_a_uxt_pinch_slider_actor.html#_a_uxt_pinch_slider_actor_SetValueTextDecimalPlaces_int_
@@ -1332,11 +1404,11 @@ references:
   isSpec: "True"
   fullName: void AUxtPressableButtonActor::Tick
   nameWithType: AUxtPressableButtonActor::Tick
-- uid: _a_uxt_pressable_button_actor.UPROPERTY(EditAnywhere,BlueprintGetter,BlueprintSetter,Category,meta)
-  name: UPROPERTY(EditAnywhere, BlueprintGetter="GetIconBrush", BlueprintSetter="SetIconBrush", Category="Button", meta=(EditCondition="bCanEditIconBrush"))
-  href: api/_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_BlueprintGetter_BlueprintSetter_Category_meta_
-  fullName: AUxtPressableButtonActor::UPROPERTY(EditAnywhere, BlueprintGetter="GetIconBrush", BlueprintSetter="SetIconBrush", Category="Button", meta=(EditCondition="bCanEditIconBrush"))
-  nameWithType: AUxtPressableButtonActor::UPROPERTY(EditAnywhere, BlueprintGetter="GetIconBrush", BlueprintSetter="SetIconBrush", Category="Button", meta=(EditCondition="bCanEditIconBrush"))
+- uid: _a_uxt_pressable_button_actor.UPROPERTY(EditAnywhere,Category,BlueprintGetter,BlueprintSetter,meta)
+  name: UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetIconBrush", BlueprintSetter="SetIconBrush", meta=(EditCondition="bCanEditIconBrush"))
+  href: api/_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_
+  fullName: AUxtPressableButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetIconBrush", BlueprintSetter="SetIconBrush", meta=(EditCondition="bCanEditIconBrush"))
+  nameWithType: AUxtPressableButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetIconBrush", BlueprintSetter="SetIconBrush", meta=(EditCondition="bCanEditIconBrush"))
 - uid: _a_uxt_pressable_button_actor.UPROPERTY*
   name: UPROPERTY
   href: api/_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_UPROPERTY_
@@ -1359,11 +1431,6 @@ references:
   isSpec: "True"
   fullName: AUxtPressableCheckButtonActor::AUxtPressableCheckButtonActor
   nameWithType: AUxtPressableCheckButtonActor::AUxtPressableCheckButtonActor
-- uid: _a_uxt_pressable_check_button_actor.CheckedIconBrush
-  name: CheckedIconBrush
-  href: api/_a_uxt_pressable_check_button_actor.html#_a_uxt_pressable_check_button_actor_CheckedIconBrush
-  fullName: FUxtIconBrush AUxtPressableCheckButtonActor::CheckedIconBrush
-  nameWithType: AUxtPressableCheckButtonActor::CheckedIconBrush
 - uid: _a_uxt_pressable_check_button_actor.GetCheckedIconBrush()
   name: GetCheckedIconBrush()
   href: api/_a_uxt_pressable_check_button_actor.html#_a_uxt_pressable_check_button_actor_GetCheckedIconBrush__
@@ -1408,11 +1475,6 @@ references:
   isSpec: "True"
   fullName: void AUxtPressableCheckButtonActor::SetUncheckedIconBrush
   nameWithType: AUxtPressableCheckButtonActor::SetUncheckedIconBrush
-- uid: _a_uxt_pressable_check_button_actor.UncheckedIconBrush
-  name: UncheckedIconBrush
-  href: api/_a_uxt_pressable_check_button_actor.html#_a_uxt_pressable_check_button_actor_UncheckedIconBrush
-  fullName: FUxtIconBrush AUxtPressableCheckButtonActor::UncheckedIconBrush
-  nameWithType: AUxtPressableCheckButtonActor::UncheckedIconBrush
 - uid: _a_uxt_pressable_check_button_actor.UpdateToggleVisuals()
   name: UpdateToggleVisuals()
   href: api/_a_uxt_pressable_check_button_actor.html#_a_uxt_pressable_check_button_actor_UpdateToggleVisuals__
@@ -1424,6 +1486,17 @@ references:
   isSpec: "True"
   fullName: void AUxtPressableCheckButtonActor::UpdateToggleVisuals
   nameWithType: AUxtPressableCheckButtonActor::UpdateToggleVisuals
+- uid: _a_uxt_pressable_check_button_actor.UPROPERTY(EditAnywhere,Category,BlueprintGetter,BlueprintSetter)
+  name: UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetUncheckedIconBrush", BlueprintSetter="SetUncheckedIconBrush")
+  href: api/_a_uxt_pressable_check_button_actor.html#_a_uxt_pressable_check_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_
+  fullName: AUxtPressableCheckButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetUncheckedIconBrush", BlueprintSetter="SetUncheckedIconBrush")
+  nameWithType: AUxtPressableCheckButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetUncheckedIconBrush", BlueprintSetter="SetUncheckedIconBrush")
+- uid: _a_uxt_pressable_check_button_actor.UPROPERTY*
+  name: UPROPERTY
+  href: api/_a_uxt_pressable_check_button_actor.html#_a_uxt_pressable_check_button_actor_UPROPERTY_
+  isSpec: "True"
+  fullName: AUxtPressableCheckButtonActor::UPROPERTY
+  nameWithType: AUxtPressableCheckButtonActor::UPROPERTY
 - uid: _a_uxt_pressable_radio_button_actor
   name: AUxtPressableRadioButtonActor
   href: api/_a_uxt_pressable_radio_button_actor.html
@@ -1538,11 +1611,11 @@ references:
   isSpec: "True"
   fullName: void AUxtPressableSwitchButtonActor::UpdateToggleVisuals
   nameWithType: AUxtPressableSwitchButtonActor::UpdateToggleVisuals
-- uid: _a_uxt_pressable_switch_button_actor.UPROPERTY(EditAnywhere,BlueprintGetter,BlueprintSetter,Category)
-  name: UPROPERTY(EditAnywhere, BlueprintGetter="GetSwitchedOffIconBrush", BlueprintSetter="SetSwitchedOffIconBrush", Category="SwitchButton")
-  href: api/_a_uxt_pressable_switch_button_actor.html#_a_uxt_pressable_switch_button_actor_UPROPERTY_EditAnywhere_BlueprintGetter_BlueprintSetter_Category_
-  fullName: AUxtPressableSwitchButtonActor::UPROPERTY(EditAnywhere, BlueprintGetter="GetSwitchedOffIconBrush", BlueprintSetter="SetSwitchedOffIconBrush", Category="SwitchButton")
-  nameWithType: AUxtPressableSwitchButtonActor::UPROPERTY(EditAnywhere, BlueprintGetter="GetSwitchedOffIconBrush", BlueprintSetter="SetSwitchedOffIconBrush", Category="SwitchButton")
+- uid: _a_uxt_pressable_switch_button_actor.UPROPERTY(EditAnywhere,Category,BlueprintGetter,BlueprintSetter)
+  name: UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetSwitchedOffIconBrush", BlueprintSetter="SetSwitchedOffIconBrush")
+  href: api/_a_uxt_pressable_switch_button_actor.html#_a_uxt_pressable_switch_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_
+  fullName: AUxtPressableSwitchButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetSwitchedOffIconBrush", BlueprintSetter="SetSwitchedOffIconBrush")
+  nameWithType: AUxtPressableSwitchButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="GetSwitchedOffIconBrush", BlueprintSetter="SetSwitchedOffIconBrush")
 - uid: _a_uxt_pressable_switch_button_actor.UPROPERTY*
   name: UPROPERTY
   href: api/_a_uxt_pressable_switch_button_actor.html#_a_uxt_pressable_switch_button_actor_UPROPERTY_
@@ -1576,11 +1649,6 @@ references:
   isSpec: "True"
   fullName: void AUxtPressableToggleButtonActor::BeginPlay
   nameWithType: AUxtPressableToggleButtonActor::BeginPlay
-- uid: _a_uxt_pressable_toggle_button_actor.bIsInitiallyChecked
-  name: bIsInitiallyChecked
-  href: api/_a_uxt_pressable_toggle_button_actor.html#_a_uxt_pressable_toggle_button_actor_bIsInitiallyChecked
-  fullName: bool AUxtPressableToggleButtonActor::bIsInitiallyChecked
-  nameWithType: AUxtPressableToggleButtonActor::bIsInitiallyChecked
 - uid: _a_uxt_pressable_toggle_button_actor.bToggleOnRelease
   name: bToggleOnRelease
   href: api/_a_uxt_pressable_toggle_button_actor.html#_a_uxt_pressable_toggle_button_actor_bToggleOnRelease
@@ -1695,6 +1763,17 @@ references:
   isSpec: "True"
   fullName: void AUxtPressableToggleButtonActor::UpdateToggleVisuals
   nameWithType: AUxtPressableToggleButtonActor::UpdateToggleVisuals
+- uid: _a_uxt_pressable_toggle_button_actor.UPROPERTY(EditAnywhere,Category,BlueprintGetter,BlueprintSetter)
+  name: UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="IsInitiallyChecked", BlueprintSetter="SetIsInitiallyChecked")
+  href: api/_a_uxt_pressable_toggle_button_actor.html#_a_uxt_pressable_toggle_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_
+  fullName: AUxtPressableToggleButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="IsInitiallyChecked", BlueprintSetter="SetIsInitiallyChecked")
+  nameWithType: AUxtPressableToggleButtonActor::UPROPERTY(EditAnywhere, Category="Uxt Pressable Button", BlueprintGetter="IsInitiallyChecked", BlueprintSetter="SetIsInitiallyChecked")
+- uid: _a_uxt_pressable_toggle_button_actor.UPROPERTY*
+  name: UPROPERTY
+  href: api/_a_uxt_pressable_toggle_button_actor.html#_a_uxt_pressable_toggle_button_actor_UPROPERTY_
+  isSpec: "True"
+  fullName: AUxtPressableToggleButtonActor::UPROPERTY
+  nameWithType: AUxtPressableToggleButtonActor::UPROPERTY
 - uid: _a_uxt_text_render_actor
   name: AUxtTextRenderActor
   href: api/_a_uxt_text_render_actor.html
@@ -1844,16 +1923,17 @@ references:
   href: api/_f_uxt_affordance_config.html
   fullName: FUxtAffordanceConfig
   nameWithType: FUxtAffordanceConfig
-- uid: _f_uxt_affordance_config.Action
-  name: Action
-  href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_Action
-  fullName: EUxtAffordanceAction FUxtAffordanceConfig::Action
-  nameWithType: FUxtAffordanceConfig::Action
-- uid: _f_uxt_affordance_config.bUniformAction
-  name: bUniformAction
-  href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_bUniformAction
-  fullName: bool FUxtAffordanceConfig::bUniformAction
-  nameWithType: FUxtAffordanceConfig::bUniformAction
+- uid: _f_uxt_affordance_config.GetAction()
+  name: GetAction()
+  href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_GetAction__
+  fullName: EUxtAffordanceAction FUxtAffordanceConfig::GetAction()
+  nameWithType: FUxtAffordanceConfig::GetAction()
+- uid: _f_uxt_affordance_config.GetAction*
+  name: GetAction
+  href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_GetAction_
+  isSpec: "True"
+  fullName: EUxtAffordanceAction FUxtAffordanceConfig::GetAction
+  nameWithType: FUxtAffordanceConfig::GetAction
 - uid: _f_uxt_affordance_config.GetAffordanceKind()
   name: GetAffordanceKind()
   href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_GetAffordanceKind__
@@ -1887,17 +1967,6 @@ references:
   isSpec: "True"
   fullName: FRotator FUxtAffordanceConfig::GetBoundsRotation
   nameWithType: FUxtAffordanceConfig::GetBoundsRotation
-- uid: _f_uxt_affordance_config.GetConstraintMatrix(int32)
-  name: GetConstraintMatrix(int32 LockedAxes)
-  href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_GetConstraintMatrix_int32_
-  fullName: FMatrix FUxtAffordanceConfig::GetConstraintMatrix(int32 LockedAxes)
-  nameWithType: FUxtAffordanceConfig::GetConstraintMatrix(int32 LockedAxes)
-- uid: _f_uxt_affordance_config.GetConstraintMatrix*
-  name: GetConstraintMatrix
-  href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_GetConstraintMatrix_
-  isSpec: "True"
-  fullName: FMatrix FUxtAffordanceConfig::GetConstraintMatrix
-  nameWithType: FUxtAffordanceConfig::GetConstraintMatrix
 - uid: _f_uxt_affordance_config.GetWorldLocationAndRotation(const FBox &,const FTransform &,FVector &,FQuat &)
   name: GetWorldLocationAndRotation(const FBox &Bounds, const FTransform &RootTransform, FVector &OutLocation, FQuat &OutRotation)
   href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_GetWorldLocationAndRotation_const_FBox___const_FTransform___FVector___FQuat___
@@ -1914,6 +1983,11 @@ references:
   href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_Placement
   fullName: EUxtAffordancePlacement FUxtAffordanceConfig::Placement
   nameWithType: FUxtAffordanceConfig::Placement
+- uid: _f_uxt_affordance_config.Rotation
+  name: Rotation
+  href: api/_f_uxt_affordance_config.html#_f_uxt_affordance_config_Rotation
+  fullName: FVector FUxtAffordanceConfig::Rotation
+  nameWithType: FUxtAffordanceConfig::Rotation
 - uid: _f_uxt_affordance_instance
   name: FUxtAffordanceInstance
   href: api/_f_uxt_affordance_instance.html
@@ -2806,10 +2880,10 @@ references:
   fullName: FUxtRuntimeSettingsButtonSet
   nameWithType: FUxtRuntimeSettingsButtonSet
 - uid: _f_uxt_runtime_settings_button_set.UPROPERTY(EditAnywhere,Category,Meta)
-  name: UPROPERTY(EditAnywhere, Category="Input Simulation", Meta=(DisplayName="Buttons", Tooltip="Buttons that are triggered by a simulated hand gesture."))
+  name: UPROPERTY(EditAnywhere, Category="Uxt Runtime Settings", Meta=(DisplayName="Buttons", Tooltip="Buttons that are triggered by a simulated hand gesture."))
   href: api/_f_uxt_runtime_settings_button_set.html#_f_uxt_runtime_settings_button_set_UPROPERTY_EditAnywhere_Category_Meta_
-  fullName: FUxtRuntimeSettingsButtonSet::UPROPERTY(EditAnywhere, Category="Input Simulation", Meta=(DisplayName="Buttons", Tooltip="Buttons that are triggered by a simulated hand gesture."))
-  nameWithType: FUxtRuntimeSettingsButtonSet::UPROPERTY(EditAnywhere, Category="Input Simulation", Meta=(DisplayName="Buttons", Tooltip="Buttons that are triggered by a simulated hand gesture."))
+  fullName: FUxtRuntimeSettingsButtonSet::UPROPERTY(EditAnywhere, Category="Uxt Runtime Settings", Meta=(DisplayName="Buttons", Tooltip="Buttons that are triggered by a simulated hand gesture."))
+  nameWithType: FUxtRuntimeSettingsButtonSet::UPROPERTY(EditAnywhere, Category="Uxt Runtime Settings", Meta=(DisplayName="Buttons", Tooltip="Buttons that are triggered by a simulated hand gesture."))
 - uid: _f_uxt_runtime_settings_button_set.UPROPERTY*
   name: UPROPERTY
   href: api/_f_uxt_runtime_settings_button_set.html#_f_uxt_runtime_settings_button_set_UPROPERTY_
@@ -3405,6 +3479,17 @@ references:
   href: api/_u_uxt_bounds_control_component.html
   fullName: UUxtBoundsControlComponent
   nameWithType: UUxtBoundsControlComponent
+- uid: _u_uxt_bounds_control_component.~UUxtBoundsControlComponent()
+  name: ~UUxtBoundsControlComponent()
+  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component__UUxtBoundsControlComponent__
+  fullName: UUxtBoundsControlComponent::~UUxtBoundsControlComponent()
+  nameWithType: UUxtBoundsControlComponent::~UUxtBoundsControlComponent()
+- uid: _u_uxt_bounds_control_component.~UUxtBoundsControlComponent*
+  name: ~UUxtBoundsControlComponent
+  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component__UUxtBoundsControlComponent_
+  isSpec: "True"
+  fullName: UUxtBoundsControlComponent::~UUxtBoundsControlComponent
+  nameWithType: UUxtBoundsControlComponent::~UUxtBoundsControlComponent
 - uid: _u_uxt_bounds_control_component.AffordanceTransitionDuration
   name: AffordanceTransitionDuration
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_AffordanceTransitionDuration
@@ -3431,6 +3516,16 @@ references:
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_CenterAffordanceMesh
   fullName: UStaticMesh* UUxtBoundsControlComponent::CenterAffordanceMesh
   nameWithType: UUxtBoundsControlComponent::CenterAffordanceMesh
+- uid: _u_uxt_bounds_control_component.CollisionBox
+  name: CollisionBox
+  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_CollisionBox
+  fullName: UBoxComponent* UUxtBoundsControlComponent::CollisionBox
+  nameWithType: UUxtBoundsControlComponent::CollisionBox
+- uid: _u_uxt_bounds_control_component.CollisionProfile
+  name: CollisionProfile
+  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_CollisionProfile
+  fullName: FName UUxtBoundsControlComponent::CollisionProfile
+  nameWithType: UUxtBoundsControlComponent::CollisionProfile
 - uid: _u_uxt_bounds_control_component.ComputeBoundsFromComponents()
   name: ComputeBoundsFromComponents()
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_ComputeBoundsFromComponents__
@@ -3442,17 +3537,6 @@ references:
   isSpec: "True"
   fullName: void UUxtBoundsControlComponent::ComputeBoundsFromComponents
   nameWithType: UUxtBoundsControlComponent::ComputeBoundsFromComponents
-- uid: _u_uxt_bounds_control_component.ComputeModifiedBounds(const FUxtAffordanceConfig &,const FUxtGrabPointerData &,FBox &,FQuat &)
-  name: ComputeModifiedBounds(const FUxtAffordanceConfig &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation)
-  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_ComputeModifiedBounds_const_FUxtAffordanceConfig___const_FUxtGrabPointerData___FBox___FQuat___
-  fullName: void UUxtBoundsControlComponent::ComputeModifiedBounds(const FUxtAffordanceConfig &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation)
-  nameWithType: UUxtBoundsControlComponent::ComputeModifiedBounds(const FUxtAffordanceConfig &Affordance, const FUxtGrabPointerData &GrabPointer, FBox &OutBounds, FQuat &OutDeltaRotation)
-- uid: _u_uxt_bounds_control_component.ComputeModifiedBounds*
-  name: ComputeModifiedBounds
-  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_ComputeModifiedBounds_
-  isSpec: "True"
-  fullName: void UUxtBoundsControlComponent::ComputeModifiedBounds
-  nameWithType: UUxtBoundsControlComponent::ComputeModifiedBounds
 - uid: _u_uxt_bounds_control_component.Config
   name: Config
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_Config
@@ -3594,16 +3678,6 @@ references:
   isSpec: "True"
   fullName: bool UUxtBoundsControlComponent::IsAffordanceGrabbed
   nameWithType: UUxtBoundsControlComponent::IsAffordanceGrabbed
-- uid: _u_uxt_bounds_control_component.MaximumBoundsScale
-  name: MaximumBoundsScale
-  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_MaximumBoundsScale
-  fullName: float UUxtBoundsControlComponent::MaximumBoundsScale
-  nameWithType: UUxtBoundsControlComponent::MaximumBoundsScale
-- uid: _u_uxt_bounds_control_component.MinimumBoundsScale
-  name: MinimumBoundsScale
-  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_MinimumBoundsScale
-  fullName: float UUxtBoundsControlComponent::MinimumBoundsScale
-  nameWithType: UUxtBoundsControlComponent::MinimumBoundsScale
 - uid: _u_uxt_bounds_control_component.OnActorTransformUpdate(USceneComponent *,EUpdateTransformFlags,ETeleportType)
   name: OnActorTransformUpdate(USceneComponent *UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport)
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_OnActorTransformUpdate_USceneComponent___EUpdateTransformFlags_ETeleportType_
@@ -3713,6 +3787,17 @@ references:
   isSpec: "True"
   fullName: void UUxtBoundsControlComponent::TickComponent
   nameWithType: UUxtBoundsControlComponent::TickComponent
+- uid: _u_uxt_bounds_control_component.TransformTarget(const FUxtAffordanceConfig &,const FUxtGrabPointerData &)
+  name: TransformTarget(const FUxtAffordanceConfig &Affordance, const FUxtGrabPointerData &GrabPointer)
+  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_TransformTarget_const_FUxtAffordanceConfig___const_FUxtGrabPointerData___
+  fullName: void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig &Affordance, const FUxtGrabPointerData &GrabPointer)
+  nameWithType: UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig &Affordance, const FUxtGrabPointerData &GrabPointer)
+- uid: _u_uxt_bounds_control_component.TransformTarget*
+  name: TransformTarget
+  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_TransformTarget_
+  isSpec: "True"
+  fullName: void UUxtBoundsControlComponent::TransformTarget
+  nameWithType: UUxtBoundsControlComponent::TransformTarget
 - uid: _u_uxt_bounds_control_component.UpdateAffordanceAnimation(float)
   name: UpdateAffordanceAnimation(float DeltaTime)
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_UpdateAffordanceAnimation_float_
@@ -3740,6 +3825,11 @@ references:
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_UUxtBoundsControlComponent__
   fullName: UUxtBoundsControlComponent::UUxtBoundsControlComponent()
   nameWithType: UUxtBoundsControlComponent::UUxtBoundsControlComponent()
+- uid: _u_uxt_bounds_control_component.UUxtBoundsControlComponent(FVTableHelper &)
+  name: UUxtBoundsControlComponent(FVTableHelper &Helper)
+  href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_UUxtBoundsControlComponent_FVTableHelper___
+  fullName: UUxtBoundsControlComponent::UUxtBoundsControlComponent(FVTableHelper &Helper)
+  nameWithType: UUxtBoundsControlComponent::UUxtBoundsControlComponent(FVTableHelper &Helper)
 - uid: _u_uxt_bounds_control_component.UUxtBoundsControlComponent*
   name: UUxtBoundsControlComponent
   href: api/_u_uxt_bounds_control_component.html#_u_uxt_bounds_control_component_UUxtBoundsControlComponent_
@@ -3756,11 +3846,16 @@ references:
   href: api/_u_uxt_bounds_control_config.html#_u_uxt_bounds_control_config_Affordances
   fullName: TArray<FUxtAffordanceConfig> UUxtBoundsControlConfig::Affordances
   nameWithType: UUxtBoundsControlConfig::Affordances
-- uid: _u_uxt_bounds_control_config.LockedAxes
-  name: LockedAxes
-  href: api/_u_uxt_bounds_control_config.html#_u_uxt_bounds_control_config_LockedAxes
-  fullName: int32 UUxtBoundsControlConfig::LockedAxes
-  nameWithType: UUxtBoundsControlConfig::LockedAxes
+- uid: _u_uxt_bounds_control_config.bIsSlate
+  name: bIsSlate
+  href: api/_u_uxt_bounds_control_config.html#_u_uxt_bounds_control_config_bIsSlate
+  fullName: bool UUxtBoundsControlConfig::bIsSlate
+  nameWithType: UUxtBoundsControlConfig::bIsSlate
+- uid: _u_uxt_bounds_control_config.bUniformScaling
+  name: bUniformScaling
+  href: api/_u_uxt_bounds_control_config.html#_u_uxt_bounds_control_config_bUniformScaling
+  fullName: bool UUxtBoundsControlConfig::bUniformScaling
+  nameWithType: UUxtBoundsControlConfig::bUniformScaling
 - uid: _u_uxt_collection_object
   name: UUxtCollectionObject
   href: api/_u_uxt_collection_object.html
@@ -4324,6 +4419,11 @@ references:
   href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_bIgnoreAngleClamp
   fullName: bool UUxtFollowComponent::bIgnoreAngleClamp
   nameWithType: UUxtFollowComponent::bIgnoreAngleClamp
+- uid: _u_uxt_follow_component.bIgnoreCameraPitchAndRoll
+  name: bIgnoreCameraPitchAndRoll
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_bIgnoreCameraPitchAndRoll
+  fullName: bool UUxtFollowComponent::bIgnoreCameraPitchAndRoll
+  nameWithType: UUxtFollowComponent::bIgnoreCameraPitchAndRoll
 - uid: _u_uxt_follow_component.bIgnoreDistanceClamp
   name: bIgnoreDistanceClamp
   href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_bIgnoreDistanceClamp
@@ -4339,11 +4439,36 @@ references:
   href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_bUseFixedVerticalOffset
   fullName: bool UUxtFollowComponent::bUseFixedVerticalOffset
   nameWithType: UUxtFollowComponent::bUseFixedVerticalOffset
+- uid: _u_uxt_follow_component.DefaultDistance
+  name: DefaultDistance
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_DefaultDistance
+  fullName: float UUxtFollowComponent::DefaultDistance
+  nameWithType: UUxtFollowComponent::DefaultDistance
 - uid: _u_uxt_follow_component.LerpTime
   name: LerpTime
   href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_LerpTime
   fullName: float UUxtFollowComponent::LerpTime
   nameWithType: UUxtFollowComponent::LerpTime
+- uid: _u_uxt_follow_component.MaximumDistance
+  name: MaximumDistance
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_MaximumDistance
+  fullName: float UUxtFollowComponent::MaximumDistance
+  nameWithType: UUxtFollowComponent::MaximumDistance
+- uid: _u_uxt_follow_component.MaxViewHorizontalDegrees
+  name: MaxViewHorizontalDegrees
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_MaxViewHorizontalDegrees
+  fullName: float UUxtFollowComponent::MaxViewHorizontalDegrees
+  nameWithType: UUxtFollowComponent::MaxViewHorizontalDegrees
+- uid: _u_uxt_follow_component.MaxViewVerticalDegrees
+  name: MaxViewVerticalDegrees
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_MaxViewVerticalDegrees
+  fullName: float UUxtFollowComponent::MaxViewVerticalDegrees
+  nameWithType: UUxtFollowComponent::MaxViewVerticalDegrees
+- uid: _u_uxt_follow_component.MinimumDistance
+  name: MinimumDistance
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_MinimumDistance
+  fullName: float UUxtFollowComponent::MinimumDistance
+  nameWithType: UUxtFollowComponent::MinimumDistance
 - uid: _u_uxt_follow_component.OrientationType
   name: OrientationType
   href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_OrientationType
@@ -4376,11 +4501,11 @@ references:
   isSpec: "True"
   fullName: void UUxtFollowComponent::TickComponent
   nameWithType: UUxtFollowComponent::TickComponent
-- uid: _u_uxt_follow_component.UPROPERTY(EditAnywhere,BlueprintReadWrite,meta,Category)
-  name: UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(EditCondition="!bIgnoreDistanceClamp", EditConditionHides), Category=FollowDistance)
-  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_meta_Category_
-  fullName: UUxtFollowComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(EditCondition="!bIgnoreDistanceClamp", EditConditionHides), Category=FollowDistance)
-  nameWithType: UUxtFollowComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(EditCondition="!bIgnoreDistanceClamp", EditConditionHides), Category=FollowDistance)
+- uid: _u_uxt_follow_component.UPROPERTY(EditAnywhere,BlueprintReadWrite,Category,meta)
+  name: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UxtFollow", meta=(EditCondition="bUseFixedVerticalOffset", EditConditionHides))
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_
+  fullName: UUxtFollowComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UxtFollow", meta=(EditCondition="bUseFixedVerticalOffset", EditConditionHides))
+  nameWithType: UUxtFollowComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UxtFollow", meta=(EditCondition="bUseFixedVerticalOffset", EditConditionHides))
 - uid: _u_uxt_follow_component.UPROPERTY*
   name: UPROPERTY
   href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_UPROPERTY_
@@ -4398,6 +4523,11 @@ references:
   isSpec: "True"
   fullName: UUxtFollowComponent::UUxtFollowComponent
   nameWithType: UUxtFollowComponent::UUxtFollowComponent
+- uid: _u_uxt_follow_component.VerticalMaxDistance
+  name: VerticalMaxDistance
+  href: api/_u_uxt_follow_component.html#_u_uxt_follow_component_VerticalMaxDistance
+  fullName: float UUxtFollowComponent::VerticalMaxDistance
+  nameWithType: UUxtFollowComponent::VerticalMaxDistance
 - uid: _u_uxt_function_library
   name: UUxtFunctionLibrary
   href: api/_u_uxt_function_library.html
@@ -4643,10 +4773,10 @@ references:
   fullName: bool UUxtGrabTargetComponent::ForceEndGrab
   nameWithType: UUxtGrabTargetComponent::ForceEndGrab
 - uid: _u_uxt_grab_target_component.GetGrabPointCentroid(const FTransform &)
-  name: GetGrabPointCentroid(const FTransform &Transform)
+  name: GetGrabPointCentroid(const FTransform &ToWorldTransform)
   href: api/_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetGrabPointCentroid_const_FTransform___
-  fullName: FTransform UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform &Transform)
-  nameWithType: UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform &Transform)
+  fullName: FTransform UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform &ToWorldTransform)
+  nameWithType: UUxtGrabTargetComponent::GetGrabPointCentroid(const FTransform &ToWorldTransform)
 - uid: _u_uxt_grab_target_component.GetGrabPointCentroid*
   name: GetGrabPointCentroid
   href: api/_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GetGrabPointCentroid_
@@ -4719,6 +4849,11 @@ references:
   isSpec: "True"
   fullName: bool UUxtGrabTargetComponent::GetTickOnlyWhileGrabbed
   nameWithType: UUxtGrabTargetComponent::GetTickOnlyWhileGrabbed
+- uid: _u_uxt_grab_target_component.GrabModes
+  name: GrabModes
+  href: api/_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_GrabModes
+  fullName: int32 UUxtGrabTargetComponent::GrabModes
+  nameWithType: UUxtGrabTargetComponent::GrabModes
 - uid: _u_uxt_grab_target_component.InteractionMode
   name: InteractionMode
   href: api/_u_uxt_grab_target_component.html#_u_uxt_grab_target_component_InteractionMode
@@ -5901,17 +6036,6 @@ references:
   isSpec: "True"
   fullName: bool UUxtInternalFunctionLibrary::IsFontOffline
   nameWithType: UUxtInternalFunctionLibrary::IsFontOffline
-- uid: _u_uxt_internal_function_library.IsPlayInMobilePreview(const UObject *)
-  name: IsPlayInMobilePreview(const UObject *WorldContextObject)
-  href: api/_u_uxt_internal_function_library.html#_u_uxt_internal_function_library_IsPlayInMobilePreview_const_UObject___
-  fullName: bool UUxtInternalFunctionLibrary::IsPlayInMobilePreview(const UObject *WorldContextObject)
-  nameWithType: UUxtInternalFunctionLibrary::IsPlayInMobilePreview(const UObject *WorldContextObject)
-- uid: _u_uxt_internal_function_library.IsPlayInMobilePreview*
-  name: IsPlayInMobilePreview
-  href: api/_u_uxt_internal_function_library.html#_u_uxt_internal_function_library_IsPlayInMobilePreview_
-  isSpec: "True"
-  fullName: bool UUxtInternalFunctionLibrary::IsPlayInMobilePreview
-  nameWithType: UUxtInternalFunctionLibrary::IsPlayInMobilePreview
 - uid: _u_uxt_internal_function_library.Slerp(const FVector &,const FVector &,const float)
   name: Slerp(const FVector &Vector1, const FVector &Vector2, const float Slerp)
   href: api/_u_uxt_internal_function_library.html#_u_uxt_internal_function_library_Slerp_const_FVector___const_FVector___const_float_
@@ -6219,6 +6343,59 @@ references:
   isSpec: "True"
   fullName: void UUxtMathUtilsFunctionLibrary::SwingTwistDecompose
   nameWithType: UUxtMathUtilsFunctionLibrary::SwingTwistDecompose
+- uid: _u_uxt_min_max_scale_constraint
+  name: UUxtMinMaxScaleConstraint
+  href: api/_u_uxt_min_max_scale_constraint.html
+  fullName: UUxtMinMaxScaleConstraint
+  nameWithType: UUxtMinMaxScaleConstraint
+- uid: _u_uxt_min_max_scale_constraint.ApplyConstraint(FTransform &)
+  name: ApplyConstraint(FTransform &Transform)
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_ApplyConstraint_FTransform___
+  fullName: void UUxtMinMaxScaleConstraint::ApplyConstraint(FTransform &Transform)
+  nameWithType: UUxtMinMaxScaleConstraint::ApplyConstraint(FTransform &Transform)
+- uid: _u_uxt_min_max_scale_constraint.ApplyConstraint*
+  name: ApplyConstraint
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_ApplyConstraint_
+  isSpec: "True"
+  fullName: void UUxtMinMaxScaleConstraint::ApplyConstraint
+  nameWithType: UUxtMinMaxScaleConstraint::ApplyConstraint
+- uid: _u_uxt_min_max_scale_constraint.bRelativeToInitialScale
+  name: bRelativeToInitialScale
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_bRelativeToInitialScale
+  fullName: bool UUxtMinMaxScaleConstraint::bRelativeToInitialScale
+  nameWithType: UUxtMinMaxScaleConstraint::bRelativeToInitialScale
+- uid: _u_uxt_min_max_scale_constraint.GetConstraintType()
+  name: GetConstraintType()
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_GetConstraintType__
+  fullName: EUxtTransformMode UUxtMinMaxScaleConstraint::GetConstraintType()
+  nameWithType: UUxtMinMaxScaleConstraint::GetConstraintType()
+- uid: _u_uxt_min_max_scale_constraint.GetConstraintType*
+  name: GetConstraintType
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_GetConstraintType_
+  isSpec: "True"
+  fullName: EUxtTransformMode UUxtMinMaxScaleConstraint::GetConstraintType
+  nameWithType: UUxtMinMaxScaleConstraint::GetConstraintType
+- uid: _u_uxt_min_max_scale_constraint.Initialize(const FTransform &)
+  name: Initialize(const FTransform &WorldPose)
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_Initialize_const_FTransform___
+  fullName: void UUxtMinMaxScaleConstraint::Initialize(const FTransform &WorldPose)
+  nameWithType: UUxtMinMaxScaleConstraint::Initialize(const FTransform &WorldPose)
+- uid: _u_uxt_min_max_scale_constraint.Initialize*
+  name: Initialize
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_Initialize_
+  isSpec: "True"
+  fullName: void UUxtMinMaxScaleConstraint::Initialize
+  nameWithType: UUxtMinMaxScaleConstraint::Initialize
+- uid: _u_uxt_min_max_scale_constraint.MaxScale
+  name: MaxScale
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_MaxScale
+  fullName: float UUxtMinMaxScaleConstraint::MaxScale
+  nameWithType: UUxtMinMaxScaleConstraint::MaxScale
+- uid: _u_uxt_min_max_scale_constraint.MinScale
+  name: MinScale
+  href: api/_u_uxt_min_max_scale_constraint.html#_u_uxt_min_max_scale_constraint_MinScale
+  fullName: float UUxtMinMaxScaleConstraint::MinScale
+  nameWithType: UUxtMinMaxScaleConstraint::MinScale
 - uid: _u_uxt_move_axis_constraint
   name: UUxtMoveAxisConstraint
   href: api/_u_uxt_move_axis_constraint.html
@@ -6531,6 +6708,11 @@ references:
   href: api/_u_uxt_palm_up_constraint_component.html#_u_uxt_palm_up_constraint_component_bRequireFlatHand
   fullName: bool UUxtPalmUpConstraintComponent::bRequireFlatHand
   nameWithType: UUxtPalmUpConstraintComponent::bRequireFlatHand
+- uid: _u_uxt_palm_up_constraint_component.bRequireGaze
+  name: bRequireGaze
+  href: api/_u_uxt_palm_up_constraint_component.html#_u_uxt_palm_up_constraint_component_bRequireGaze
+  fullName: bool UUxtPalmUpConstraintComponent::bRequireGaze
+  nameWithType: UUxtPalmUpConstraintComponent::bRequireGaze
 - uid: _u_uxt_palm_up_constraint_component.IsHandUsableForConstraint(EControllerHand)
   name: IsHandUsableForConstraint(EControllerHand NewHand)
   href: api/_u_uxt_palm_up_constraint_component.html#_u_uxt_palm_up_constraint_component_IsHandUsableForConstraint_EControllerHand_
@@ -6548,10 +6730,10 @@ references:
   fullName: float UUxtPalmUpConstraintComponent::MaxPalmAngle
   nameWithType: UUxtPalmUpConstraintComponent::MaxPalmAngle
 - uid: _u_uxt_palm_up_constraint_component.UPROPERTY(EditAnywhere,BlueprintReadWrite,Category,meta)
-  name: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PalmUp Constraint", meta=(EditCondition="bRequireFlatHand", ClampMin="0.0", ClampMax="90.0"))
+  name: UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Uxt Palm Up Constraint", meta=(EditCondition="bRequireFlatHand", ClampMin="0.0", ClampMax="90.0"))
   href: api/_u_uxt_palm_up_constraint_component.html#_u_uxt_palm_up_constraint_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_
-  fullName: UUxtPalmUpConstraintComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PalmUp Constraint", meta=(EditCondition="bRequireFlatHand", ClampMin="0.0", ClampMax="90.0"))
-  nameWithType: UUxtPalmUpConstraintComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="PalmUp Constraint", meta=(EditCondition="bRequireFlatHand", ClampMin="0.0", ClampMax="90.0"))
+  fullName: UUxtPalmUpConstraintComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Uxt Palm Up Constraint", meta=(EditCondition="bRequireFlatHand", ClampMin="0.0", ClampMax="90.0"))
+  nameWithType: UUxtPalmUpConstraintComponent::UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Uxt Palm Up Constraint", meta=(EditCondition="bRequireFlatHand", ClampMin="0.0", ClampMax="90.0"))
 - uid: _u_uxt_palm_up_constraint_component.UPROPERTY*
   name: UPROPERTY
   href: api/_u_uxt_palm_up_constraint_component.html#_u_uxt_palm_up_constraint_component_UPROPERTY_
@@ -6607,6 +6789,17 @@ references:
   isSpec: "True"
   fullName: FName UUxtPinchSliderComponent::GetCollisionProfile
   nameWithType: UUxtPinchSliderComponent::GetCollisionProfile
+- uid: _u_uxt_pinch_slider_component.GetNumSteps()
+  name: GetNumSteps()
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_GetNumSteps__
+  fullName: int UUxtPinchSliderComponent::GetNumSteps()
+  nameWithType: UUxtPinchSliderComponent::GetNumSteps()
+- uid: _u_uxt_pinch_slider_component.GetNumSteps*
+  name: GetNumSteps
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_GetNumSteps_
+  isSpec: "True"
+  fullName: int UUxtPinchSliderComponent::GetNumSteps
+  nameWithType: UUxtPinchSliderComponent::GetNumSteps
 - uid: _u_uxt_pinch_slider_component.GetSmoothing()
   name: GetSmoothing()
   href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_GetSmoothing__
@@ -6640,6 +6833,17 @@ references:
   isSpec: "True"
   fullName: float UUxtPinchSliderComponent::GetTrackLength
   nameWithType: UUxtPinchSliderComponent::GetTrackLength
+- uid: _u_uxt_pinch_slider_component.GetUseSteppedMovement()
+  name: GetUseSteppedMovement()
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_GetUseSteppedMovement__
+  fullName: bool UUxtPinchSliderComponent::GetUseSteppedMovement()
+  nameWithType: UUxtPinchSliderComponent::GetUseSteppedMovement()
+- uid: _u_uxt_pinch_slider_component.GetUseSteppedMovement*
+  name: GetUseSteppedMovement
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_GetUseSteppedMovement_
+  isSpec: "True"
+  fullName: bool UUxtPinchSliderComponent::GetUseSteppedMovement
+  nameWithType: UUxtPinchSliderComponent::GetUseSteppedMovement
 - uid: _u_uxt_pinch_slider_component.GetValue()
   name: GetValue()
   href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_GetValue__
@@ -6905,6 +7109,17 @@ references:
   isSpec: "True"
   fullName: void UUxtPinchSliderComponent::SetEnabled
   nameWithType: UUxtPinchSliderComponent::SetEnabled
+- uid: _u_uxt_pinch_slider_component.SetNumSteps(int)
+  name: SetNumSteps(int NewNumSteps)
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_SetNumSteps_int_
+  fullName: void UUxtPinchSliderComponent::SetNumSteps(int NewNumSteps)
+  nameWithType: UUxtPinchSliderComponent::SetNumSteps(int NewNumSteps)
+- uid: _u_uxt_pinch_slider_component.SetNumSteps*
+  name: SetNumSteps
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_SetNumSteps_
+  isSpec: "True"
+  fullName: void UUxtPinchSliderComponent::SetNumSteps
+  nameWithType: UUxtPinchSliderComponent::SetNumSteps
 - uid: _u_uxt_pinch_slider_component.SetSmoothing(float)
   name: SetSmoothing(float NewSmoothing)
   href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_SetSmoothing_float_
@@ -6927,6 +7142,17 @@ references:
   isSpec: "True"
   fullName: void UUxtPinchSliderComponent::SetTrackLength
   nameWithType: UUxtPinchSliderComponent::SetTrackLength
+- uid: _u_uxt_pinch_slider_component.SetUseSteppedMovement(bool)
+  name: SetUseSteppedMovement(bool bNewUseSteppedMovement)
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_SetUseSteppedMovement_bool_
+  fullName: void UUxtPinchSliderComponent::SetUseSteppedMovement(bool bNewUseSteppedMovement)
+  nameWithType: UUxtPinchSliderComponent::SetUseSteppedMovement(bool bNewUseSteppedMovement)
+- uid: _u_uxt_pinch_slider_component.SetUseSteppedMovement*
+  name: SetUseSteppedMovement
+  href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_SetUseSteppedMovement_
+  isSpec: "True"
+  fullName: void UUxtPinchSliderComponent::SetUseSteppedMovement
+  nameWithType: UUxtPinchSliderComponent::SetUseSteppedMovement
 - uid: _u_uxt_pinch_slider_component.SetValue(float)
   name: SetValue(float NewValue)
   href: api/_u_uxt_pinch_slider_component.html#_u_uxt_pinch_slider_component_SetValue_float_
@@ -7552,10 +7778,10 @@ references:
   fullName: FUxtRuntimeSettingsButtonSet UUxtRuntimeSettings::HandPoseButtonMappings
   nameWithType: UUxtRuntimeSettings::HandPoseButtonMappings
 - uid: _u_uxt_runtime_settings.UPROPERTY(GlobalConfig,EditAnywhere,Category,Meta)
-  name: UPROPERTY(GlobalConfig, EditAnywhere, Category="Input Simulation", Meta=(DisplayName="Start With Positional Head Tracking", Tooltip="Enable positional head tracking on game start."))
+  name: UPROPERTY(GlobalConfig, EditAnywhere, Category="Uxt Runtime Settings", Meta=(DisplayName="Start With Positional Head Tracking", Tooltip="Enable positional head tracking on game start."))
   href: api/_u_uxt_runtime_settings.html#_u_uxt_runtime_settings_UPROPERTY_GlobalConfig_EditAnywhere_Category_Meta_
-  fullName: UUxtRuntimeSettings::UPROPERTY(GlobalConfig, EditAnywhere, Category="Input Simulation", Meta=(DisplayName="Start With Positional Head Tracking", Tooltip="Enable positional head tracking on game start."))
-  nameWithType: UUxtRuntimeSettings::UPROPERTY(GlobalConfig, EditAnywhere, Category="Input Simulation", Meta=(DisplayName="Start With Positional Head Tracking", Tooltip="Enable positional head tracking on game start."))
+  fullName: UUxtRuntimeSettings::UPROPERTY(GlobalConfig, EditAnywhere, Category="Uxt Runtime Settings", Meta=(DisplayName="Start With Positional Head Tracking", Tooltip="Enable positional head tracking on game start."))
+  nameWithType: UUxtRuntimeSettings::UPROPERTY(GlobalConfig, EditAnywhere, Category="Uxt Runtime Settings", Meta=(DisplayName="Start With Positional Head Tracking", Tooltip="Enable positional head tracking on game start."))
 - uid: _u_uxt_runtime_settings.UPROPERTY*
   name: UPROPERTY
   href: api/_u_uxt_runtime_settings.html#_u_uxt_runtime_settings_UPROPERTY_
@@ -8793,6 +9019,46 @@ references:
   isSpec: "True"
   fullName: UXToolsWMR.UXToolsWMR
   nameWithType: UXToolsWMR::UXToolsWMR
+- uid: _uxt_affordance_interaction_cache
+  name: UxtAffordanceInteractionCache
+  href: api/_uxt_affordance_interaction_cache.html
+  fullName: UxtAffordanceInteractionCache
+  nameWithType: UxtAffordanceInteractionCache
+- uid: _uxt_affordance_interaction_cache.InitialBounds
+  name: InitialBounds
+  href: api/_uxt_affordance_interaction_cache.html#_uxt_affordance_interaction_cache_InitialBounds
+  fullName: FBox UxtAffordanceInteractionCache::InitialBounds
+  nameWithType: UxtAffordanceInteractionCache::InitialBounds
+- uid: _uxt_affordance_interaction_cache.InitialDiagonalDirection
+  name: InitialDiagonalDirection
+  href: api/_uxt_affordance_interaction_cache.html#_uxt_affordance_interaction_cache_InitialDiagonalDirection
+  fullName: FVector UxtAffordanceInteractionCache::InitialDiagonalDirection
+  nameWithType: UxtAffordanceInteractionCache::InitialDiagonalDirection
+- uid: _uxt_affordance_interaction_cache.InitialGrabPointTransform
+  name: InitialGrabPointTransform
+  href: api/_uxt_affordance_interaction_cache.html#_uxt_affordance_interaction_cache_InitialGrabPointTransform
+  fullName: FTransform UxtAffordanceInteractionCache::InitialGrabPointTransform
+  nameWithType: UxtAffordanceInteractionCache::InitialGrabPointTransform
+- uid: _uxt_affordance_interaction_cache.InitialOppositeAffordanceLoc
+  name: InitialOppositeAffordanceLoc
+  href: api/_uxt_affordance_interaction_cache.html#_uxt_affordance_interaction_cache_InitialOppositeAffordanceLoc
+  fullName: FVector UxtAffordanceInteractionCache::InitialOppositeAffordanceLoc
+  nameWithType: UxtAffordanceInteractionCache::InitialOppositeAffordanceLoc
+- uid: _uxt_affordance_interaction_cache.InitialTransform
+  name: InitialTransform
+  href: api/_uxt_affordance_interaction_cache.html#_uxt_affordance_interaction_cache_InitialTransform
+  fullName: FTransform UxtAffordanceInteractionCache::InitialTransform
+  nameWithType: UxtAffordanceInteractionCache::InitialTransform
+- uid: _uxt_affordance_interaction_cache.IsValid
+  name: IsValid
+  href: api/_uxt_affordance_interaction_cache.html#_uxt_affordance_interaction_cache_IsValid
+  fullName: bool UxtAffordanceInteractionCache::IsValid
+  nameWithType: UxtAffordanceInteractionCache::IsValid
+- uid: _uxt_affordance_interaction_cache.OppositeAffordancePrimitive
+  name: OppositeAffordancePrimitive
+  href: api/_uxt_affordance_interaction_cache.html#_uxt_affordance_interaction_cache_OppositeAffordancePrimitive
+  fullName: UPrimitiveComponent* UxtAffordanceInteractionCache::OppositeAffordancePrimitive
+  nameWithType: UxtAffordanceInteractionCache::OppositeAffordancePrimitive
 - uid: _uxt_constraint_manager
   name: UxtConstraintManager
   href: api/_uxt_constraint_manager.html

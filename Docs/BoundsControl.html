@@ -82,40 +82,31 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="boundscontrol">BoundsControl</h1>
 
-<p>Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using <em>affordances</em>. Affordances are grabbable areas on corners, edges, and faces of the actor's bounding box.</p>
-<p>To enable bounds control on an actor, add a UxtBoundsControl component. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.</p>
-<p><img src="Images/BoundsControl.png" alt="FollowComponent"></p>
+<p>Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using <em>affordances</em>. Affordances are grabbable areas on corners (scale), edges (rotate), and faces (translate) of the actor's bounding box.</p>
+<p>To enable bounds control on an actor, add an <code>UUxtBoundsControlComponent</code> to it. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.</p>
+<p><img src="Images/BoundsControl.png" alt="BoundsControlComponent"></p>
 <h2 id="bounds-control-config">Bounds Control Config</h2>
-<p>Bounds control uses <code>UxtBoundsControlConfig</code> data assets that describe the layout of affordances.</p>
-<p>A number of presets exist for standard behavior in <em>Bounds Control/Presets</em>:</p>
+<p><code>UxtBoundsControlConfig</code> data assets are used to configure:</p>
 <ul>
-<li><em>BoundsControlDefault</em>: Uniform resizing with corners and rotation with edges.</li>
-<li><em>BoundsControlSlate2D</em>: Only front corners and edges are shown, all resize.</li>
-<li><em>BoundsControlAllResize</em>: Full set of affordances, all resizing.</li>
-<li><em>BoundsControlAllTranslate</em>: Full set of affordances, all translating.</li>
-<li><em>BoundsControlAllScale</em>: Full set of affordances, all scaling.</li>
-<li><em>BoundsControlAllRotate</em>: Full set of affordances, all rotating.
-Users can create custom bounds control setups by copying or adding new <code>UxtBoundsControlConfig</code> data assets.</li>
-</ul>
-<p>The config asset contains a list of affordances. Each affordance is described by its <em>Placement</em> on the bounding box, a combination of the affordance kind and directions, for example:</p>
+<li><code>Affordances</code> array. Each has:
 <ul>
-<li><code>CornerFrontTopLeft</code></li>
-<li><code>EdgeBottomRight</code></li>
-<li><code>FaceBack</code></li>
-<li><code>Center</code></li>
+<li><code>Placement</code>. Enumerator with the position of the affordance around the actor. For example, <code>CornerFrontTopLeft</code>, <code>EdgeBottomRight</code> or <code>FaceBack</code>. See <code>EUxtAffordancePlacement</code> for a complete list.</li>
+<li><code>Rotation</code> of the instanced mesh.</li>
 </ul>
-<p>The affordance <em>Action</em> describes the effect on the bounding box when moving the affordance:</p>
+</li>
+<li><code>IsSlate</code>. Whether it should be considered a 2D element or not. If so, it won't scale along the <em>X</em> axis.</li>
+<li><code>UniformScaling</code>. Whether uniform or non-uniform scaling is desired.</li>
+</ul>
+<p>There are some presets in <em>BoundsControl/Presets</em>:</p>
 <ul>
-<li><em>Resize</em>: Move only one side of the bounding box.</li>
-<li><em>Translate</em>: Move both sides of the bounding box in parallel.</li>
-<li><em>Scale</em>: Scale the bounding box, moving both sides in opposite directions.</li>
-<li><em>Rotate</em>: Rotate the bounding box about its center point.</li>
+<li><code>BoundsControlDefault</code>: All corner and edge affordances with uniform scaling.</li>
+<li><code>BoundsControlSlate2D</code>: Only front corners and edges, with non-uniform scaling.</li>
 </ul>
-<p>The <em>Uniform Action</em> flag can be turned off to allow non-uniform scaling and translation.</p>
-<p><em>Locked Axes</em> flags restrict actions in the local space of the bounds control. For example, if the <code>X</code> axis is locked then moving an affordance forward will not have an effect. Two axes can be locked to allow movement only along the remaining axis.</p>
+<h2 id="integration-with-manipulator-constraints">Integration with manipulator constraints</h2>
+<p>The <code>UUxtBoundsControlComponent</code> works out of the box with the same constraint components that <a href="Manipulator.html">Manipulators</a> use. For example, simply adding and configuring a <code>UUxtRotationAxisConstraint</code> component will prevent rotation around the appropriate axes when interacting via affordances.</p>
 <h2 id="affordance-meshes">Affordance meshes</h2>
 <p>At runtime a separate actor is created for displaying affordances. Each affordance is a StaticMesh component on the BoundsControlActor. The mesh used for each kind of affordance (Corner, Edge, Face, Center) can be changed on the bounds control component (<code>Corner Affordance Mesh</code> etc.).</p>
-<p>When creating custom affordance meshes they should by default be oriented in the <em>forward</em>, <em>right</em>, <em>up</em> direction. Each instance is then automatically rotated to match its placement on the bounding box. It is recommended to use simple box collision primitives to make affordances grabbable.</p>
+<p>When creating custom affordance meshes you can fine tune the orientation of each affordance by duplicating one of the preset layouts and modifying the <em>Rotation</em> properties. It is recommended to use simple box collision primitives to make affordances grabbable.</p>
 </article>
           </div>
           
@@ -124,7 +115,7 @@ Users can create custom bounds control setups by copying or adding new <code>Uxt
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.10.x/Docs/BoundsControl.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/BoundsControl.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

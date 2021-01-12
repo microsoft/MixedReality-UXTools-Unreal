@@ -80,154 +80,265 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="ux-tools-0100-release-notes">UX Tools 0.10.0 release notes</h1>
+<h1 id="ux-tools-0110-release-notes">UX Tools 0.11.0 release notes</h1>
 
 <ul>
 <li><a href="#whats-new">What's new</a></li>
 <li><a href="#breaking-changes">Breaking changes</a></li>
+<li><a href="#known-issues">Known issues</a></li>
+<li><a href="#full-change-list">Full change list</a></li>
 </ul>
-<p>This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us but is not the current focus.</p>
-<p>Unreal 4.25 required.</p>
+<p>This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us and we are hoping to be able to deliver it in the near future.</p>
+<p>Unreal 4.26 required.</p>
 <h2 id="whats-new">What's new</h2>
-<h3 id="ui-elements">UI elements</h3>
-<p>The new <a href="UIElements.html"><code>UxtUIElementComponent</code></a> allows an actor's visibility to be controlled by its parent actor, allowing for easy construction of hierarchical UIs. The hierarchies can be constructed using actor attachment or child actor components.</p>
-<p><code>UxtPressableButtonComponent</code>, <code>UxtPinchSliderComponent</code> and <code>UxtTouchableVolumeComponent</code> now inherit from <code>UxtUIElementComponent</code>.</p>
-<p><img src="Images/UIElement/UIElement.gif" alt="HandMenuExample"></p>
-<h3 id="hand-menus">Hand menus</h3>
-<p><a href="HandMenu.html">Hand menus</a> are a convenient hand-attached UI that are great for frequently used functions. An example level has been added to demonstrate various types of hand menus and to act as a guide for building custom menus.</p>
-<p><img src="Images/HandMenu/HandMenu.gif" alt="HandMenuExample"></p>
-<h3 id="tap-to-place">Tap to Place</h3>
-<p><a href="TapToPlaceComponent.html">Tap to place</a> is a new far interaction component that can be used to easily place primitive components against surfaces. It works with collidable surfaces in the scene, as well as with the spatial mesh.</p>
-<p><img src="Images/TapToPlace.gif" alt="TapToPlace"></p>
-<h3 id="surface-magnetism-experimental">Surface Magnetism (experimental)</h3>
-<p>This new component (far interaction only) allows an actor to stick to a surface.</p>
-<p>It works both with other actors in the scene</p>
-<p><img src="Images/ReleaseNotes/surface_magnetism.gif" alt="SurfaceMagnetism"></p>
-<p>as well as a spatial mesh</p>
-<p><img src="Images/ReleaseNotes/surface_magnetism_spatial_mesh.gif" alt="SurfaceMagnetismSpatialMesh"></p>
-<h3 id="follow-component">Follow component</h3>
-<p>The <a href="FollowComponent.html">follow component</a> now has the ability to maintain a fixed vertical distance from the camera. This can be used to prevent the actor from obstructing the user's vision.</p>
-<p><img src="Images/Follow/FixedVerticalDistance.gif" alt="FollowFixedVerticalDistance"></p>
-<h3 id="umg-widgets">UMG widgets</h3>
-<p>The new <a href="WidgetComponent.html">Widget component</a> allows interaction with Unreal Engine's UMG widgets.</p>
-<p><img src="Images/Widget/Overview.gif" alt="WidgetsOverview"></p>
-<h3 id="visual-logging">Visual Logging</h3>
-<p>UXTools hand interaction supports visual logging now. This is useful for debugging interactions intuitively in the editor. To enable visual logging simply follow the standard Unreal Editor instructions <a href="https://docs.unrealengine.com/en-US/Gameplay/Tools/VisualLogger/index.html">here</a>.</p>
-<p>Currently supported features include:</p>
+<p>These are some of this release's highlights. For a more comprehensive list of changes see the <a href="#full-change-list">full change list</a>.</p>
+<h3 id="examples-plugin">Examples plugin</h3>
+<p>UX Tools example scenes have been moved to a separate plugin to make it easier to incorporate them
+as a starting point for new projects.</p>
+<p><img src="Images/ReleaseNotes/ExamplesPlugin.png" alt="Examples plugin"></p>
+<h3 id="improved-hand-menu-activation-using-user-gaze">Improved hand menu activation using user gaze</h3>
+<p>The palm-up constraint has gained the <em>Require Gaze</em> option to ensure the user is deliberately trying to use the constraint and help prevent false activations. This is particularly useful for world-locking hand menus as it prevents the menu from unintentionally re-attaching to the hand.</p>
+<p><img src="Images/ReleaseNotes/PalmUpConstraintRequireGaze.png" alt="User gaze settings"></p>
+<h3 id="pinch-slider-improvements">Pinch slider improvements</h3>
+<p>The pinch slider actor has gained a number of quality of life improvements. These include:</p>
 <ul>
-<li>Basic hand tracking (joint positions and pointer pose)</li>
-<li>Near pointers (grab and poke)</li>
-<li>Far pointer</li>
-<li>Proximity detection (switching near vs. far)</li>
+<li>Customizable minimum / maximum values.</li>
+<li>GetValue, SetValue and OnSliderUpdateValue exposed directly on the actor to allow easy access to the slider's value relative to the custom min / max value. (note: if using the underlying <code>UxtPinchSliderComponent</code>, it's value will still be in the range 0-1)</li>
+<li>Stepped movement along the slider's tick marks.</li>
 </ul>
-<p><img src="Images/VisualLogging/GrabPointer.png" alt="GrabPointerVisualLogging"></p>
+<p><img src="Images/Slider/SteppedSlider.gif" alt="SteppedSlider"></p>
+<h3 id="bounds-control-improvements">Bounds control improvements</h3>
+<h4 id="constraint-support">Constraint support</h4>
+<p>Manipulation constraints (i.e. derived from <code>UUxtTransformConstraint</code>) now also apply to manipulations performed via <a href="BoundsControl.html">bounds control</a>, making it easier to produce a consistent behavior when manipulating transforms.</p>
+<h4 id="uniform-scaling">Uniform scaling</h4>
+<p><em>Uniform scaling</em> now works as expected.</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="Images/ReleaseNotes/bounds_control_scale_uniform_before.gif" alt="Scaling bounds control actor before fix"></td>
+<td><img src="Images/ReleaseNotes/bounds_control_scale_uniform_after.gif" alt="Scaling bounds control actor after fix"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="improved-affordance-selection-via-hand-ray">Improved affordance selection via hand ray</h4>
+<p>Previously, bounding box affordances were only revealed when hovering directly over them or over the bounding box contents. This could make them difficult to select if the bounding box was not a tight fit. We now also reveal affordances when the ray hovers the box itself.</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="Images/ReleaseNotes/AffordanceSelectionBefore.gif" alt="Affordance selection before"></td>
+<td><img src="Images/ReleaseNotes/AffordanceSelectionAfter.gif" alt="Affordance selection after"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="new-scale-constraint">New scale constraint</h3>
+<p>A new constraint (<code>UxtMinMaxScaleConstraint</code>) to limit how much an actor can be scaled down or up via bounds control and manipulation components.</p>
+<p><img src="Images/ReleaseNotes/min_max_scale_constraint.gif" alt="Demo of the min/max scale constraint"></p>
+<h3 id="improved-editor-categories">Improved editor categories</h3>
+<p>We have reworked the editor categories used by UX Tools to produce a more clear, simple and consistent interface.</p>
+<p><img src="Images/ReleaseNotes/categories_refactor_comparison.jpg" alt="Categories' refactor comparison"></p>
 <h2 id="breaking-changes">Breaking changes</h2>
-<h3 id="bp_basebutton-and-derived-buttons">BP_BaseButton and derived buttons</h3>
-<p><code>BP_BaseButton</code> and the buttons derived from it have been moved to native code.</p>
-<ul>
-<li><code>BP_BaseButton</code> has been replaced by <code>AUxtBasePressableButtonActor</code>.</li>
-<li><code>BP_ButtonHoloLens2</code> has been replaced by <code>AUxtPressableButtonActor</code>.</li>
-<li><code>BP_ButtonHoloLens2Toggle</code> has been replaced by <code>AUxtPressableToggleButtonActor</code>.</li>
-<li><code>BP_ButtonHoloLens2ToggleCheck</code> has been replaced by <code>AUxtPressableCheckButtonActor</code>.</li>
-<li><code>BP_ButtonHoloLens2ToggleSwitch</code> has been replaced by <code>AUxtPressableSwitchButtonActor</code>.</li>
-</ul>
-<p>Toggle button state and event dispatchers are now accessible through the <code>UUxtToggleStateComponent</code> instead of directly on the actor.</p>
-<h3 id="bp_simpleslider">BP_SimpleSlider</h3>
-<p><code>BP_SimpleSlider</code> has been replaced by <code>AUxtPinchSliderActor</code>. It has the same feature set as <code>BP_SimpleSlider</code> and can be extended from either Blueprints or C++.</p>
-<ul>
-<li><code>AUxtPinchSliderActor</code> now faces positive X.</li>
-</ul>
-<h3 id="bp_textactor">BP_TextActor</h3>
-<p><code>BP_TextActor</code> has been replaced by <code>AUxtTextRenderActor</code>. It has the same feature set as <code>BP_TextActor</code> and can be extended from either Blueprints or C++.</p>
-<h3 id="euxtinteractionmode">EUxtInteractionMode</h3>
-<p><code>EUxtInteractionMode</code> has moved from <code>Interactions/UxtManipulationFlags.h</code> to <code>Interactions/UxtInteractionMode.h</code>.</p>
-<h3 id="uxtbackplatecomponent">UxtBackPlateComponent</h3>
-<p><code>UxtBackPlateComponents</code> now scale correctly when parent components are scaled. Any existing <code>UxtBackPlateComponents</code> may need to have their 'x' and 'z' scales swapped.</p>
-<p>Unreal doesn't account for parent child rotations when applying parent child scales, so it was possible to run into situations where scaling the parent would not scale the child back plate appropriately. Before this change back plates where scaled as &quot;<em>height</em> x <em>width</em> x <em>depth</em>&quot; and are now scaled via the Unreal's traditional &quot;<em>depth</em> x <em>width</em> x <em>height</em>&quot; convention. For more information please see the <a href="Graphics.html#rounded-edge-thick">graphics documentation</a>.</p>
-<h3 id="uxtboundscontrolcomponent">UxtBoundsControlComponent</h3>
-<p>The <code>Preset</code> property of the bounds control component has been replaced with a data asset, which can be more easily copied and customized by users. All six presets exist as data assets in <code>UXTools Content/Bounds Control/Presets</code>. The <code>Config</code> property on existing bounds control components may need to be updated.</p>
-<ul>
-<li>Default: corners resize bounds, edges rotate them.</li>
-<li>Slate2D: only has front side affordances, all of them resize bounds.</li>
-<li>AllResize, AllScale, AllTranslate, AllRotate: have all possible affordances with the same action, mostly for testing.</li>
-</ul>
-<p>The preset assets contain a list of affordance configs, each of which consist of</p>
-<ul>
-<li>A placement enum, e.g. &quot;Corner Front Top Left&quot;, &quot;Edge Right Bottom&quot;.</li>
-<li>The action performed by the affordance (resize, scale, translate, rotate).</li>
-<li>Flag to toggle uniform actions, i.e. allow non-uniform scaling of the bounds.</li>
-</ul>
-<p><code>FUxtBoundsControlAffordanceInfo</code> has been replaced with <code>FUxtAffordanceInstance</code>.</p>
-<ul>
-<li>Data that was available in <code>FUxtBoundsControlAffordanceInfo</code> can be accessed through it's <code>Config</code> property.</li>
-</ul>
-<p>Bounds control component now uses simple mesh assets for affordances instead of full blueprint classes. The existing static meshes from affordance BPs can continue to be used.</p>
-<ul>
-<li>If the affordances classes (e.g. <code>CornerAffordanceClass</code>) on a BoundsControlComponent have been customized then the new equivalent mesh property (e.g. <code>CornerAffordanceMesh</code>) needs to be set.</li>
-</ul>
-<h3 id="uxtfarpointercomponent">UxtFarPointerComponent</h3>
-<p>The <code>UxtFarPointerComponent</code> now uses simple collision primitives instead of complex collision primitives for its interactions. Any objects that require the complex collision mesh be used with the far pointer should set the mesh's <em>Collision Complexity</em> to <em>Use Complex Collision As Simple</em> under its collision settings.</p>
-<h3 id="uxtfartarget">UxtFarTarget</h3>
-<p>The interface for handling far interactions has been moved from <code>IUxtFarTarget</code> into <code>IUxtFarHandler</code>. There are three changes necessary to update classes inheriting from <code>IUxtFarTarget</code>:</p>
-<ul>
-<li>Inherit from <code>IUxtFarHandler</code> alongside <code>IUxtFarTarget</code></li>
-<li>Add an implementation for <code>IUxtFarHandler::CanHandleFar</code> to the class.</li>
-<li>Update <code>IsFarFocusable</code> to be a <code>const</code> member function.</li>
-</ul>
-<h3 id="uxtfollowcomponent">UxtFollowComponent</h3>
-<p><code>MoveToDefaultDistanceLerpTime</code> has been renamed to <code>LerpTime</code>.</p>
-<h3 id="uxtgrabtarget">UxtGrabTarget</h3>
-<p>The interface for handling far interactions has been moved from <code>IUxtGrabTarget</code> into <code>IUxtGrabHandler</code>. There are three changes necessary to update classes inheriting from <code>IUxtGrabTarget</code>:</p>
-<ul>
-<li>Inherit from <code>IUxtGrabHandler</code> alongside <code>IUxtGrabTarget</code></li>
-<li>Add an implementation for <code>IUxtGrabHandler::CanHandleGrab</code> to the class.</li>
-<li>Update <code>IsGrabFocusable</code> to be a <code>const</code> member function.</li>
-</ul>
+<h3 id="uxtgenericmanipulatorcomponent">UxtGenericManipulatorComponent</h3>
+<p>The <em>Target Component</em> now uses a component picker to select its target. Due to this, the generic manipulator can no longer target components on other actors when being configured from the editor.</p>
+<p>The <em>ManipulationModes</em> setting on the generic manipulator has been moved up the hierarchy to the <code>UxtGrabTargetComponent</code> and renamed to <em>GrabModes</em>. Its associated enum has been renamed to <code>EUxtGrabMode</code>.
+This change means that the <code>UxtGrabTargetComponent</code> will now respond to its <em>GrabModes</em> and will only trigger grab/release events when its grab mode has been satisfied. (e.g. when using only two handed grabs, a grab event is only triggered when both hands are grabbing the object)</p>
 <h3 id="uxtgrabtargetcomponent">UxtGrabTargetComponent</h3>
-<ul>
-<li><code>GetGrabPointCentroid</code> has been updated to return an <code>FTransform</code> instead of just a location vector.</li>
-<li><code>GetGrabPointCentroidTransform</code> has been removed. Instead <code>GetGrabPointCentroid</code> can be used by passing the target component's world transform.</li>
-</ul>
-<h3 id="uxthandinteractionactor">UxtHandInteractionActor</h3>
-<p><code>NearActivationDistance</code> has been removed. The proximity detection is defined by the <code>ProximityCone</code> parameters now.</p>
-<h3 id="uxtnearpointercomponent">UxtNearPointerComponent</h3>
-<p><code>GetFocusedGrabTarget</code> and <code>GetFocusedPokeTarget</code> now also return the surface normal as an output parameter.</p>
-<h3 id="uxtpinchslidercomponent">UxtPinchSliderComponent</h3>
-<p>The <code>UxtPinchSliderComponent</code> has been simplified and streamlined. It now operates on the same principles as the <code>UxtPressableButtonComponent</code>.</p>
-<p>Interface changes:</p>
-<ul>
-<li><code>GetCurrentState</code> has been renamed to <code>GetState</code>.</li>
-<li><code>GetThumbVisuals</code>/<code>SetThumbVisuals</code> has been renamed to <code>GetVisuals</code>/<code>SetVisuals</code>.</li>
-<li><code>GetSliderValue</code>/<code>SetSliderValue</code> have been renamed to <code>GetValue</code>/<code>SetValue</code>.</li>
-<li><code>GetSliderLowerBound</code>/<code>SetSliderLowerBound</code> have been renamed to <code>GetValueLowerBound</code>/<code>SetValueLowerBound</code>.</li>
-<li><code>GetSliderUpperBound</code>/<code>SetSliderUpperBound</code> have been renamed to <code>GetValueUpperBound</code>/<code>SetValueUpperBound</code>.</li>
-<li><code>IsGrabbed</code>, <code>IsFocused</code> and <code>IsEnabled</code> have been removed in favor of using <code>GetState</code>.</li>
-<li>Any references to the track and tick mark visuals have been removed as they are now managed by <code>AUxtPinchSliderActor</code>.</li>
-<li><code>SliderStartDistance</code> and <code>SliderEndDistance</code> have been replaced by a single <code>TrackLength</code> property that dictates the length of the track.</li>
-</ul>
-<p>Event changes:</p>
-<ul>
-<li><code>OnBeginInteraction</code> has been renamed to <code>OnBeginGrab</code>.</li>
-<li><code>OnEndInteraction</code> has been renamed to <code>OnEndGrab</code>.</li>
-<li><code>OnSliderEnabled</code> has been renamed to <code>OnEnable</code>.</li>
-<li><code>OnSliderDisabled</code> has been renamed to <code>OnDisable</code>.</li>
-</ul>
-<p><code>EUxtSliderState</code> changes:</p>
-<ul>
-<li><code>Focus</code> has been renamed to <code>Focused</code>.</li>
-<li><code>Grab</code> has been renamed to <code>Grabbed</code>.</li>
-</ul>
-<p>Other changes:</p>
-<ul>
-<li>The min / max positions on the slider have been swapped to make sliders face positive X.</li>
-</ul>
-<h3 id="uxtpoketarget">UxtPokeTarget</h3>
-<p>The interface for handling far interactions has been moved from <code>IUxtPokeTarget</code> into <code>IUxtPokeHandler</code>. There are three changes necessary to update classes inheriting from <code>IUxtPokeTarget</code>:</p>
-<ul>
-<li>Inherit from <code>IUxtPokeHandler</code> alongside <code>IUxtPokeTarget</code></li>
-<li>Add an implementation for <code>IUxtPokeHandler::CanHandlePoke</code> to the class.</li>
-<li>Update <code>IsPokeFocusable</code> to be a <code>const</code> member function.</li>
-</ul>
+<p>The <code>UxtGrabTargetComponent</code> has been converted from a <code>SceneComponent</code> to an <code>ActorComponent</code>. This affects the classes derived from <code>UxtGrabTargetComponent</code> such as the <code>UxtManipulatorComponentBase</code> and the <code>UxtGenericManipulatorComponent</code>.
+Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.</p>
+<h3 id="uxthandconstraintcomponent">UxtHandConstraintComponent</h3>
+<p><code>UUxtHandConstraintComponent::IsHandUsableForConstraint()</code> is now a non-const member function.</p>
+<h3 id="uxtpinchslideractor">UxtPinchSliderActor</h3>
+<p>As part of adding a customizable minimum / maximum slider value, the <em>InitialValue</em> property has been replaced with a <em>Value</em> property. As part of this change, the <code>GetInitialValue()</code> and <code>SetInitialValue(...)</code> functions on the <code>UxtPinchSliderActor</code> are now called <code>GetValue()</code> and <code>SetValue(...)</code>.</p>
+<p>Previous settings can be easily carried forward:</p>
+<ol>
+<li>Add <code>+PropertyRedirects=(OldName=&quot;UxtPinchSliderActor.InitialValue&quot;, NewName=&quot;UxtPinchSliderActor.Value&quot;)</code> to <em>DefaultUXTools.ini</em>. (found in the plugin's configuration folder)</li>
+<li>Re-save any levels with sliders to update their properties.</li>
+<li>Remove the property redirect from <em>DefaultUXTools.ini</em>.</li>
+</ol>
+<h3 id="uxttransformconstraint">UxtTransformConstraint</h3>
+<p>The <code>UxtTransformConstraint</code> has been converted from a <code>SceneComponent</code> to an <code>ActorComponent</code>. This affects the classes derived from <code>UxtTransformConstraint</code> such as the <code>UxtFaceUserConstraint</code>, the <code>UxtFixedDistanceConstraint</code>, the <code>UxtFixedRotationToUserConstraint</code>, the <code>UxtFixedRotationToWorldConstraint</code>, the <code>UxtMaintainApparentSizeConstraint</code>, the <code>UxtMoveAxisConstraint</code> and the <code>UxtRotationAxisConstraint</code>.
+Most blueprints will continue to work with no issues but any blueprints that access one of these components as a variable will need to have the component removed and re-added for them to compile.</p>
+<h3 id="uxtboundscontrolcomponent">UxtBoundsControlComponent</h3>
+<p>Configuring each affordance's action separately is no longer allowed so, if any feature relied on that, an extension to the <code>UUxtBoundsControlComponent</code> should be implemented instead. Besides that, the <code>EUxtAffordanceAction::Resize</code> has been removed, so only <code>EUxtAffordanceAction::Scale</code> (action of corner affordances) can scale the object in the direction that the grabbed affordance is on, leaving the opposite affordance pinned to its location at the start of the interaction.</p>
+<p><em>Locked Axes</em> property in <code>UUxtBoundsControlConfig</code> data assets no longer exists. Therefore, if you were using the <em>Locked Axes</em> flags to constrain movement or rotation of an object, you should now add the appropriate <code>UUxtMoveAxisConstraint</code> or <code>UUxtRotationAxisConstraint</code> (respectively) instead.</p>
+<p>The <em>MinimumBoundsScale</em> and <em>MaximumBoundsScale</em> properties have been removed in favor of using the <code>UxtMinMaxScaleConstraint</code> for controlling this behavior.</p>
+<h2 id="known-issues">Known issues</h2>
+<h3 id="uxtgenericmanipulatorcomponent-1">UxtGenericManipulatorComponent</h3>
+<p>When the target component's rotation does not match its parent actor's rotation, the parent actors rotation will be applied to the target component when manipulation is started.</p>
+<h2 id="full-change-list">Full change list</h2>
+<table>
+<thead>
+<tr>
+<th>Commit</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1648ad01">1648ad01</a></td>
+<td>Add examples as dependency</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/12e0c5a2">12e0c5a2</a></td>
+<td>Roll back rotation constraint's modifications</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/253d2b9f">253d2b9f</a></td>
+<td>Add enabled UXTools plugin to .uproject</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/a9cd53ce">a9cd53ce</a></td>
+<td>Fix spaces in some categories</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/bda99d59">bda99d59</a></td>
+<td>Improve descriptions and labels in example scenes</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/db6127f6">db6127f6</a></td>
+<td>Refactor to make scale constraint easier</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e44c7782">e44c7782</a></td>
+<td>Improve Bounds Control and constraints' docs</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/f0199b94">f0199b94</a></td>
+<td>Fix level change crash</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/3384b9d1">3384b9d1</a></td>
+<td>Remove AR Session workaround for MobilePreview</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0acbbad0">0acbbad0</a></td>
+<td>Refactor/normalize all categories</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1c77f51b">1c77f51b</a></td>
+<td>Stepped slider gif + heading fixups</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/9f29c2ab">9f29c2ab</a></td>
+<td>Disabling unfinished &quot;Mask Logic&quot; in Scrolling Object Collection</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e42416f7">e42416f7</a></td>
+<td>Moving Home Button to &quot;On Release&quot;</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/1b7a5a09">1b7a5a09</a></td>
+<td>Clarify breaking changes after testing upgrade from 0.10</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/70adb554">70adb554</a></td>
+<td>Update CI editor version to 4.26.0 (release)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/ce9742c7">ce9742c7</a></td>
+<td>Adding plugin images.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/2a0a5fb5">2a0a5fb5</a></td>
+<td>Implement min/max scale constraint</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d32355c3">d32355c3</a></td>
+<td>Rewrite bounds control and fix rotation constraint</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/099b6115">099b6115</a></td>
+<td>Add collision box to BoundsControlComponent</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/7f58f198">7f58f198</a></td>
+<td>Update version to 0.11.0</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/2afc85b1">2afc85b1</a></td>
+<td>Fixing invalid enum value metadata tags from UxtScrollingObjectCollection</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/692c3365">692c3365</a></td>
+<td>Fix one handed only manipulation not responding if grabbed by both hands</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/f6588058">f6588058</a></td>
+<td>Update UXTools to UE4.26</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0c4ccdcf">0c4ccdcf</a></td>
+<td>Manipulator improvements</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/50a77125">50a77125</a></td>
+<td>Add include to fix CI build</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c8da2565">c8da2565</a></td>
+<td>Display current git commit in the Loader scene (packaged game only)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d2a184e0">d2a184e0</a></td>
+<td>Add gaze requirement to PalmUpConstraint and Hand Menu</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/fe8e77aa">fe8e77aa</a></td>
+<td>Update docs with information about Examples plugin</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e7c91b2f">e7c91b2f</a></td>
+<td>Use 2D corner handle on Slate2D example bounds control</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c0947793">c0947793</a></td>
+<td>Enable eye tracking in UXToolsGame package</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/01562b9c">01562b9c</a></td>
+<td>Slider improvements</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/d5271e7c">d5271e7c</a></td>
+<td>Update editor version to 4.25.4</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/c31e8318">c31e8318</a></td>
+<td>Move Examples into a separate plugin</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/3b6173fe">3b6173fe</a></td>
+<td>Cook Warning Fixes</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/0b84cca9">0b84cca9</a></td>
+<td>Enable debug info in CI package and add symbols to artifact</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/eda87709">eda87709</a></td>
+<td>Export all public interfaces</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/e62fbc89">e62fbc89</a></td>
+<td>Removing all built data and changing levels to not generate static lighting data.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/commit/6ad0acf8">6ad0acf8</a></td>
+<td>Introduce roll for vertical normals</td>
+</tr>
+</tbody>
+</table>
 </article>
           </div>
           
@@ -236,7 +347,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.10.x/Docs/ReleaseNotes.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/ReleaseNotes.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
