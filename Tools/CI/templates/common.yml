@@ -1,4 +1,5 @@
 parameters:
+    Configuration: 'Development'
     TestOutputDir: $(Build.ArtifactStagingDirectory)\TestResults  # path to JSON file that will be produced by UE4 tests
     StrictMode: false
 
@@ -76,8 +77,8 @@ steps:
 - task: PowerShell@2
   inputs:
     filePath: $(UXTSourceDir)\Tools\scripts\BuildProject.ps1
-    arguments: -UnrealEngine $(UnrealEngine) -Platform Win64 -Configuration Development -Clean $True -UnityBuild $False
-  displayName: 'Build UXToolsGame (Win64|Development)'
+    arguments: -UnrealEngine $(UnrealEngine) -Platform Win64 -Configuration ${{ parameters.Configuration }} -Clean $True -UnityBuild $False
+  displayName: 'Build UXToolsGame (Win64|${{ parameters.Configuration }})'
 
 - script: '$(UE4Editor) $(UXTSourceDir)\UXToolsGame\UXToolsGame.uproject -NoSound -ExecCmds="Automation RunTests UXTools" -TestExit="Automation Test Queue Empty" -Log -ReportOutputPath="${{ parameters.TestOutputDir }}\EditorTests"'
   displayName: 'Test UXTools in Editor'
@@ -119,8 +120,8 @@ steps:
 - task: PowerShell@2
   inputs:
     filePath: $(UXTSourceDir)\Tools\scripts\BuildProject.ps1
-    arguments: -UnrealEngine $(UnrealEngine) -Platform HoloLens -Configuration Development -Clean $True -UnityBuild $False -ArchivePath $(Build.ArtifactStagingDirectory)/packages
-  displayName: 'Build HoloLens ARM64 Development'
+    arguments: -UnrealEngine $(UnrealEngine) -Platform HoloLens -Configuration ${{ parameters.Configuration }} -Clean $True -UnityBuild $False -ArchivePath $(Build.ArtifactStagingDirectory)/packages
+  displayName: 'Build UXToolsGame (HoloLens|${{ parameters.Configuration }})'
 
 # robocopy returning 0 or 1 indicates success so set the return code to 0, otherwise preserve robocopy's return code.
 - script: |

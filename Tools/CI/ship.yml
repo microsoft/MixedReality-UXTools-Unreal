@@ -1,0 +1,37 @@
+# Manually triggered pipeline to generate shipping builds of the CI artifacts
+trigger: none
+
+variables:
+- template: settings/common.yml
+
+resources:
+  repositories:
+  - repository: build-tools
+    type: git
+    endpoint: Analog
+    name: Analog/mixedrealitytoolkit.build
+    ref: mru-ue
+
+stages:
+- stage: Windows
+  dependsOn: []
+  pool:
+    name: $(AgentPool)
+  jobs:
+  - job:
+    timeoutInMinutes: 90
+    workspace:
+      clean: all
+    steps:
+    - checkout: self
+      clean: true
+      submodules: true
+    - checkout: build-tools
+
+    - template: templates/common.yml
+      parameters:
+        Configuration: 'Shipping'
+
+    - template: templates/build-android.yml
+      parameters:
+        Configuration: 'Shipping'
