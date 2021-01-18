@@ -33,7 +33,7 @@ public:
 
 	/** Whether the min/max values should be relative to the scale at interaction start. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Min Max Scale")
-	bool bRelativeToInitialScale = false;
+	bool bRelativeToInitialScale = true;
 
 private:
 	/** By using those vectors, the scales to apply aren't recalculated on each apply call. */
