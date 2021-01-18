@@ -80,6 +80,8 @@ const FVector SurfaceBounds{0.1f, 1, 1};
 
 FVector TestPosition;
 
+FVector InitialOrientation; // orientation of the TapToPlace target before the orientation test
+
 END_DEFINE_SPEC(TapToPlaceComponentSpec)
 
 void TapToPlaceComponentSpec::Define()
@@ -108,6 +110,8 @@ void TapToPlaceComponentSpec::Define()
 			TapToPlace->OnEndFocus.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnFocusExit);
 			TapToPlace->OnBeginPlacing.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnPlacementStarted);
 			TapToPlace->OnEndPlacing.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnPlacementEnded);
+
+			InitialOrientation = TapToPlace->GetTargetComponent()->GetComponentRotation().Vector();
 		});
 
 		AfterEach([this] {
@@ -133,38 +137,37 @@ void TapToPlaceComponentSpec::Define()
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});
 
-		LatentIt("should be placed against surface", [this](const FDoneDelegate& Done) {
-			Surface = CreatePlacementSurface(UxtTestUtils::GetTestWorld(), Centre + Delta, SurfaceBounds);
-
-			EnqueuePlacementTest(true);
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should oriented to always face the camera", [this](const FDoneDelegate& Done) {
-			TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToCamera;
-
-			Surface = CreatePlacementSurface(UxtTestUtils::GetTestWorld(), Centre + Delta, SurfaceBounds);
-
-			EnqueueOrientationTest();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should be oriented based on surface normals", [this](const FDoneDelegate& Done) {
-			TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
-
-			Surface = CreatePlacementSurface(UxtTestUtils::GetTestWorld(), Centre + Delta, SurfaceBounds);
-
-			EnqueueOrientationTest();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
 		LatentIt("should begin and end placement on far tap", [this](const FDoneDelegate& Done) {
 			EnqueueFarInteractionTest();
 
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		Describe("should have correct orientation", [this] {
+			BeforeEach([this] { Surface = CreatePlacementSurface(UxtTestUtils::GetTestWorld(), Centre + Delta, SurfaceBounds); });
+
+			LatentIt("when placed against a surface", [this](const FDoneDelegate& Done) {
+				EnqueuePlacementTest(true);
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
+
+			LatentIt("when set to always face the camera", [this](const FDoneDelegate& Done) {
+				TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToCamera;
+				EnqueueOrientationTest();
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
+
+			LatentIt("when set to be aligned to surface normals", [this](const FDoneDelegate& Done) {
+				TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
+				EnqueueOrientationTest();
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
+
+			LatentIt("when set to maintain original orientation", [this](const FDoneDelegate& Done) {
+				TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::MaintainOrientation;
+				EnqueueOrientationTest();
+				FrameQueue.Enqueue([Done] { Done.Execute(); });
+			});
 		});
 	});
 }
@@ -244,6 +247,9 @@ void TapToPlaceComponentSpec::EnqueueOrientationTest()
 
 		case EUxtTapToPlaceOrientBehavior::AlignToSurface:
 			return FMath::IsNearlyEqual(Current.AngularDistance(Surface->GetComponentQuat()), PI);
+
+		case EUxtTapToPlaceOrientBehavior::MaintainOrientation:
+			return InitialOrientation.Equals(TapToPlace->GetTargetComponent()->GetComponentRotation().Vector());
 		}
 
 		return false;

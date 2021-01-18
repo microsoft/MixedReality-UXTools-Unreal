@@ -144,6 +144,11 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 				}
 			}
 
+			if (OrientationType == EUxtTapToPlaceOrientBehavior::MaintainOrientation)
+			{
+				Facing = GetTargetComponent()->GetComponentRotation().Vector();
+			}
+
 			if (KeepOrientationVertical)
 			{
 				Facing.Z = 0;

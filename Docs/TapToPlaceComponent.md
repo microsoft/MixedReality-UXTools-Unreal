@@ -28,6 +28,7 @@ Add a primitive component to your actor/actor blueprint. Also add a UxtTapToPlac
 **Orientation Type**: This property provides options for how the target component will be placed against hit surfaces.
 - If _Align to Camera_ is selected, the target component will always face the camera.
 - If _Align To Surface_ is selected, the target component will align with the normal of the surface the component is being placed against.
+- If _Maintain Orientation_ is selected, the original orientation of the target component will be preserved while the object is being placed.
 
 **Placement Type**: This property provides options for what the target component will track during placement.
 - If _Head_ is selected, the component will be placed at the centre of the users vision and will move as the user moves their hand.

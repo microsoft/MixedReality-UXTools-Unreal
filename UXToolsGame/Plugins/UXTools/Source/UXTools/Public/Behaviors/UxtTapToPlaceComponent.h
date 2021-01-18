@@ -19,6 +19,8 @@ enum EUxtTapToPlaceOrientBehavior
 	AlignToCamera UMETA(DisplayName = "FaceCamera"),
 	/** Align to hit surface. If no hit surface, will face camera */
 	AlignToSurface UMETA(DisplayName = "AlignToSurface"),
+	/** Maintain original orientation and do not align with the environment */
+	MaintainOrientation UMETA(DisplayName = "MaintainOrientation"),
 };
 
 UENUM(BlueprintType)
