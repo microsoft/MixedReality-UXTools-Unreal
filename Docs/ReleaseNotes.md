@@ -29,6 +29,10 @@ Added `MaintainOrientation` mode to `UxtTapToPlaceComponent`. It allows to prese
 
 ## Breaking changes
 
+### `UxtHandTrackingFunctionLibrary` removed
+
+This function library was just a thin wrapper around the `IUxtHandTracker` interface. It has been removed to make code less redundant. The `IUxtHandTracker` singleton getter returns a reference instead of a pointer for simpler access. If the function library was used in blueprints, the equivalent functions of the XR tracking system should be used, such as [Get Motion Controller Data](https://docs.unrealengine.com/en-US/BlueprintAPI/Input/XRTracking/GetMotionControllerData/index.html).
+
 ## Known issues
 
 ## Full change list
