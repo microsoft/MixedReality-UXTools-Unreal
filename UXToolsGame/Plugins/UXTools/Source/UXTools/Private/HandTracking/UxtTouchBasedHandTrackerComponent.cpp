@@ -15,7 +15,7 @@ void UUxtTouchBasedHandTrackerComponent::BeginPlay()
 	check(PlayerController);
 
 	// Replace the existing hand tracker. The WMR hand tracker is registered on UXT plugin load When running in mobile preview.
-	OldHandTracker = IUxtHandTracker::GetHandTracker();
+	OldHandTracker = &IUxtHandTracker::Get();
 	if (OldHandTracker)
 	{
 		IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), OldHandTracker);

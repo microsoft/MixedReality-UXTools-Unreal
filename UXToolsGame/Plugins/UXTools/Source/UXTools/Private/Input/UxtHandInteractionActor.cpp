@@ -127,88 +127,82 @@ void AUxtHandInteractionActor::UpdateProximityMesh()
 
 void AUxtHandInteractionActor::UpdateVelocity(float DeltaTime)
 {
-	if (const IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	FVector Position;
+	FQuat Orientation;
+	float Radius;
+
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Palm, Orientation, Position, Radius))
 	{
-		FVector Position;
-		FQuat Orientation;
-		float Radius;
+		const FVector Normal = -Orientation.GetUpVector();
 
-		if (HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, Orientation, Position, Radius))
-		{
-			const FVector Normal = -Orientation.GetUpVector();
+		const int FrameIndex = CurrentFrame % VelocityUpdateInterval;
 
-			const int FrameIndex = CurrentFrame % VelocityUpdateInterval;
+		const FVector NewPositionsSum = VelocityPositionsSum - VelocityPositionsCache[FrameIndex] + Position;
+		const FVector NewNormalsSum = VelocityNormalsSum - VelocityNormalsCache[FrameIndex] + Normal;
 
-			const FVector NewPositionsSum = VelocityPositionsSum - VelocityPositionsCache[FrameIndex] + Position;
-			const FVector NewNormalsSum = VelocityNormalsSum - VelocityNormalsCache[FrameIndex] + Normal;
+		const int CurrentInterval = CurrentFrame < VelocityUpdateInterval ? CurrentFrame : VelocityUpdateInterval;
+		Velocity = (NewPositionsSum - VelocityPositionsSum) / DeltaTime / CurrentInterval;
 
-			const int CurrentInterval = CurrentFrame < VelocityUpdateInterval ? CurrentFrame : VelocityUpdateInterval;
-			Velocity = (NewPositionsSum - VelocityPositionsSum) / DeltaTime / CurrentInterval;
+		const FQuat Rotation = ((NewNormalsSum / CurrentInterval) - (VelocityNormalsSum / CurrentInterval)).ToOrientationQuat();
+		const FVector RotationRate = FMath::DegreesToRadians(Rotation.Euler());
+		AngularVelocity = RotationRate / DeltaTime;
 
-			const FQuat Rotation = ((NewNormalsSum / CurrentInterval) - (VelocityNormalsSum / CurrentInterval)).ToOrientationQuat();
-			const FVector RotationRate = FMath::DegreesToRadians(Rotation.Euler());
-			AngularVelocity = RotationRate / DeltaTime;
-
-			VelocityPositionsCache[FrameIndex] = Position;
-			VelocityPositionsSum = NewPositionsSum;
-			VelocityNormalsCache[FrameIndex] = Normal;
-			VelocityNormalsSum = NewNormalsSum;
-		}
-
-		++CurrentFrame;
+		VelocityPositionsCache[FrameIndex] = Position;
+		VelocityPositionsSum = NewPositionsSum;
+		VelocityNormalsCache[FrameIndex] = Normal;
+		VelocityNormalsSum = NewNormalsSum;
 	}
+
+	++CurrentFrame;
 }
 
 bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 {
 	OutHasNearTarget = false;
 
-	if (IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	FQuat IndexTipOrientation, PalmOrientation;
+	FVector IndexTipPosition, PalmPosition;
+	float IndexTipRadius, PalmRadius;
+	const bool bIsIndexTipValid =
+		IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+	const bool bIsPalmValid = IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius);
+	if (bIsIndexTipValid && bIsPalmValid)
 	{
-		FQuat IndexTipOrientation, PalmOrientation;
-		FVector IndexTipPosition, PalmPosition;
-		float IndexTipRadius, PalmRadius;
-		const bool bIsIndexTipValid =
-			HandTracker->GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
-		const bool bIsPalmValid = HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius);
-		if (bIsIndexTipValid && bIsPalmValid)
+		const FVector PalmForward = PalmOrientation.GetForwardVector();
+		const FVector PalmToIndex = IndexTipPosition - PalmPosition;
+		const FVector ConeDirection = FMath::Lerp(PalmForward, PalmToIndex, ProximityConeAngleLerp).GetSafeNormal();
+		const FQuat ConeOrientation = FRotationMatrix::MakeFromXZ(ConeDirection, PalmOrientation.GetUpVector()).ToQuat();
+		const FVector ConeTip = PalmPosition - ConeDirection * ProximityConeOffset;
+
+		// Near-far activation query
+		TArray<FOverlapResult> Overlaps;
+		FComponentQueryParams QueryParams(NAME_None);
+		// Disable complex collision to enable overlap from inside primitives
+		QueryParams.bTraceComplex = false;
+
+		GetWorld()->ComponentOverlapMulti(Overlaps, ProximityTrigger, ConeTip, ConeOrientation, QueryParams);
+
+		// Look for a near target in the overlaps
+		for (const FOverlapResult& Overlap : Overlaps)
 		{
-			const FVector PalmForward = PalmOrientation.GetForwardVector();
-			const FVector PalmToIndex = IndexTipPosition - PalmPosition;
-			const FVector ConeDirection = FMath::Lerp(PalmForward, PalmToIndex, ProximityConeAngleLerp).GetSafeNormal();
-			const FQuat ConeOrientation = FRotationMatrix::MakeFromXZ(ConeDirection, PalmOrientation.GetUpVector()).ToQuat();
-			const FVector ConeTip = PalmPosition - ConeDirection * ProximityConeOffset;
-
-			// Near-far activation query
-			TArray<FOverlapResult> Overlaps;
-			FComponentQueryParams QueryParams(NAME_None);
-			// Disable complex collision to enable overlap from inside primitives
-			QueryParams.bTraceComplex = false;
-
-			GetWorld()->ComponentOverlapMulti(Overlaps, ProximityTrigger, ConeTip, ConeOrientation, QueryParams);
-
-			// Look for a near target in the overlaps
-			for (const FOverlapResult& Overlap : Overlaps)
+			if (IsNearTarget(Overlap.GetComponent()))
 			{
-				if (IsNearTarget(Overlap.GetComponent()))
-				{
-					OutHasNearTarget = true;
-					break;
-				}
+				OutHasNearTarget = true;
+				break;
 			}
+		}
 
 #if ENABLE_VISUAL_LOG // VLog the proximity mesh
-			VLogProximityQuery(ConeTip, ConeOrientation, Overlaps, OutHasNearTarget);
+		VLogProximityQuery(ConeTip, ConeOrientation, Overlaps, OutHasNearTarget);
 #endif // ENABLE_VISUAL_LOG
 
-			// Only need to change transform for visualization purposes, scene query uses an explicit transform.
-			if (bRenderProximityMesh)
-			{
-				ProximityTrigger->SetWorldTransform(FTransform(ConeOrientation, ConeTip));
-			}
-
-			return true;
+		// Only need to change transform for visualization purposes, scene query uses an explicit transform.
+		if (bRenderProximityMesh)
+		{
+			ProximityTrigger->SetWorldTransform(FTransform(ConeOrientation, ConeTip));
 		}
+
+		return true;
 	}
 
 	return false;
@@ -316,17 +310,11 @@ bool AUxtHandInteractionActor::IsInPointingPose() const
 	constexpr float PointerBeamBackwardTolerance = 0.5f;
 	constexpr float PointerBeamUpwardTolerance = 0.8f;
 
-	IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker();
-	if (!HandTracker)
-	{
-		return false;
-	}
-
 	FQuat PalmOrientation;
 	FVector PalmPosition;
 	float PalmRadius;
 
-	if (HandTracker->GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius))
 	{
 		FVector PalmNormal = PalmOrientation * FVector::DownVector;
 		PalmNormal.Normalize();
@@ -367,76 +355,75 @@ void AUxtHandInteractionActor::VLogHandJoints() const
 		return;
 	}
 
-	if (const IUxtHandTracker* HandTracker = IUxtHandTracker::GetHandTracker())
+	IUxtHandTracker& HandTracker = IUxtHandTracker::Get();
+
+	// Hand label at the wrist position
 	{
-		// Hand label at the wrist position
+		FVector WristPosition;
+		FQuat WristOrientation;
+		float WristRadius;
+		if (HandTracker.GetJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristPosition, WristRadius))
 		{
-			FVector WristPosition;
-			FQuat WristOrientation;
-			float WristRadius;
-			if (HandTracker->GetJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristPosition, WristRadius))
-			{
-				FString VLogHand = (Hand == EControllerHand::Left) ? TEXT("Left") : TEXT("Right");
-				UE_VLOG_LOCATION(this, LogUxtHandTracking, Log, WristPosition, 0.0f, VLogColorHandJoints, TEXT("%s Hand"), *VLogHand);
-			}
+			FString VLogHand = (Hand == EControllerHand::Left) ? TEXT("Left") : TEXT("Right");
+			UE_VLOG_LOCATION(this, LogUxtHandTracking, Log, WristPosition, 0.0f, VLogColorHandJoints, TEXT("%s Hand"), *VLogHand);
 		}
-
-		// Coordinate axes of the pointer pose
-		{
-			FVector PointerOrigin;
-			FQuat PointerOrientation;
-			if (HandTracker->GetPointerPose(Hand, PointerOrientation, PointerOrigin))
-			{
-				UE_VLOG_SEGMENT(
-					this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisX() * 15.0f, FColor::Red,
-					TEXT(""));
-				UE_VLOG_SEGMENT(
-					this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisY() * 5.0f, FColor::Green,
-					TEXT(""));
-				UE_VLOG_SEGMENT(
-					this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisZ() * 5.0f, FColor::Blue,
-					TEXT(""));
-			}
-		};
-
-		// Utility function for drawing a bone segment
-		auto VlogJointSegment = [this, HandTracker](EUxtHandJoint JointA, EUxtHandJoint JointB) {
-			FVector PositionA, PositionB;
-			FQuat OrientationA, OrientationB;
-			float RadiusA, RadiusB;
-			if (HandTracker->GetJointState(Hand, JointA, OrientationA, PositionA, RadiusA) &&
-				HandTracker->GetJointState(Hand, JointB, OrientationB, PositionB, RadiusB))
-			{
-				UE_VLOG_SEGMENT_THICK(this, LogUxtHandTracking, Log, PositionA, PositionB, VLogColorHandJoints, 5.0f, TEXT(""));
-			}
-		};
-
-		// Draw segments for finger bones
-
-		VlogJointSegment(EUxtHandJoint::ThumbMetacarpal, EUxtHandJoint::ThumbProximal);
-		VlogJointSegment(EUxtHandJoint::ThumbProximal, EUxtHandJoint::ThumbDistal);
-		VlogJointSegment(EUxtHandJoint::ThumbDistal, EUxtHandJoint::ThumbTip);
-
-		VlogJointSegment(EUxtHandJoint::IndexMetacarpal, EUxtHandJoint::IndexProximal);
-		VlogJointSegment(EUxtHandJoint::IndexProximal, EUxtHandJoint::IndexIntermediate);
-		VlogJointSegment(EUxtHandJoint::IndexIntermediate, EUxtHandJoint::IndexDistal);
-		VlogJointSegment(EUxtHandJoint::IndexDistal, EUxtHandJoint::IndexTip);
-
-		VlogJointSegment(EUxtHandJoint::MiddleMetacarpal, EUxtHandJoint::MiddleProximal);
-		VlogJointSegment(EUxtHandJoint::MiddleProximal, EUxtHandJoint::MiddleIntermediate);
-		VlogJointSegment(EUxtHandJoint::MiddleIntermediate, EUxtHandJoint::MiddleDistal);
-		VlogJointSegment(EUxtHandJoint::MiddleDistal, EUxtHandJoint::MiddleTip);
-
-		VlogJointSegment(EUxtHandJoint::RingMetacarpal, EUxtHandJoint::RingProximal);
-		VlogJointSegment(EUxtHandJoint::RingProximal, EUxtHandJoint::RingIntermediate);
-		VlogJointSegment(EUxtHandJoint::RingIntermediate, EUxtHandJoint::RingDistal);
-		VlogJointSegment(EUxtHandJoint::RingDistal, EUxtHandJoint::RingTip);
-
-		VlogJointSegment(EUxtHandJoint::LittleMetacarpal, EUxtHandJoint::LittleProximal);
-		VlogJointSegment(EUxtHandJoint::LittleProximal, EUxtHandJoint::LittleIntermediate);
-		VlogJointSegment(EUxtHandJoint::LittleIntermediate, EUxtHandJoint::LittleDistal);
-		VlogJointSegment(EUxtHandJoint::LittleDistal, EUxtHandJoint::LittleTip);
 	}
+
+	// Coordinate axes of the pointer pose
+	{
+		FVector PointerOrigin;
+		FQuat PointerOrientation;
+		if (HandTracker.GetPointerPose(Hand, PointerOrientation, PointerOrigin))
+		{
+			UE_VLOG_SEGMENT(
+				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisX() * 15.0f, FColor::Red,
+				TEXT(""));
+			UE_VLOG_SEGMENT(
+				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisY() * 5.0f, FColor::Green,
+				TEXT(""));
+			UE_VLOG_SEGMENT(
+				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisZ() * 5.0f, FColor::Blue,
+				TEXT(""));
+		}
+	};
+
+	// Utility function for drawing a bone segment
+	auto VlogJointSegment = [this, &HandTracker](EUxtHandJoint JointA, EUxtHandJoint JointB) {
+		FVector PositionA, PositionB;
+		FQuat OrientationA, OrientationB;
+		float RadiusA, RadiusB;
+		if (HandTracker.GetJointState(Hand, JointA, OrientationA, PositionA, RadiusA) &&
+			HandTracker.GetJointState(Hand, JointB, OrientationB, PositionB, RadiusB))
+		{
+			UE_VLOG_SEGMENT_THICK(this, LogUxtHandTracking, Log, PositionA, PositionB, VLogColorHandJoints, 5.0f, TEXT(""));
+		}
+	};
+
+	// Draw segments for finger bones
+
+	VlogJointSegment(EUxtHandJoint::ThumbMetacarpal, EUxtHandJoint::ThumbProximal);
+	VlogJointSegment(EUxtHandJoint::ThumbProximal, EUxtHandJoint::ThumbDistal);
+	VlogJointSegment(EUxtHandJoint::ThumbDistal, EUxtHandJoint::ThumbTip);
+
+	VlogJointSegment(EUxtHandJoint::IndexMetacarpal, EUxtHandJoint::IndexProximal);
+	VlogJointSegment(EUxtHandJoint::IndexProximal, EUxtHandJoint::IndexIntermediate);
+	VlogJointSegment(EUxtHandJoint::IndexIntermediate, EUxtHandJoint::IndexDistal);
+	VlogJointSegment(EUxtHandJoint::IndexDistal, EUxtHandJoint::IndexTip);
+
+	VlogJointSegment(EUxtHandJoint::MiddleMetacarpal, EUxtHandJoint::MiddleProximal);
+	VlogJointSegment(EUxtHandJoint::MiddleProximal, EUxtHandJoint::MiddleIntermediate);
+	VlogJointSegment(EUxtHandJoint::MiddleIntermediate, EUxtHandJoint::MiddleDistal);
+	VlogJointSegment(EUxtHandJoint::MiddleDistal, EUxtHandJoint::MiddleTip);
+
+	VlogJointSegment(EUxtHandJoint::RingMetacarpal, EUxtHandJoint::RingProximal);
+	VlogJointSegment(EUxtHandJoint::RingProximal, EUxtHandJoint::RingIntermediate);
+	VlogJointSegment(EUxtHandJoint::RingIntermediate, EUxtHandJoint::RingDistal);
+	VlogJointSegment(EUxtHandJoint::RingDistal, EUxtHandJoint::RingTip);
+
+	VlogJointSegment(EUxtHandJoint::LittleMetacarpal, EUxtHandJoint::LittleProximal);
+	VlogJointSegment(EUxtHandJoint::LittleProximal, EUxtHandJoint::LittleIntermediate);
+	VlogJointSegment(EUxtHandJoint::LittleIntermediate, EUxtHandJoint::LittleDistal);
+	VlogJointSegment(EUxtHandJoint::LittleDistal, EUxtHandJoint::LittleTip);
 }
 
 void AUxtHandInteractionActor::VLogProximityQuery(
