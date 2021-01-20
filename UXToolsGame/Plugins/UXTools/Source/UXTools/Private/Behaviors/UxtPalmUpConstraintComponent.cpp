@@ -7,7 +7,7 @@
 #include "EyeTrackerFunctionLibrary.h"
 
 #include "Engine/World.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "HandTracking/IUxtHandTracker.h"
 #include "Utils/UxtFunctionLibrary.h"
 
 namespace
@@ -47,8 +47,8 @@ namespace
 		FVector ReferenceJointLocation2;
 		FQuat Orientation;
 		float Radius;
-		if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, ReferenceJoint1, Orientation, ReferenceJointLocation1, Radius) ||
-			!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, ReferenceJoint2, Orientation, ReferenceJointLocation2, Radius))
+		if (!IUxtHandTracker::Get().GetJointState(Hand, ReferenceJoint1, Orientation, ReferenceJointLocation1, Radius) ||
+			!IUxtHandTracker::Get().GetJointState(Hand, ReferenceJoint2, Orientation, ReferenceJointLocation2, Radius))
 		{
 			return false;
 		}
@@ -65,9 +65,9 @@ namespace
 		FQuat Orientation;
 		float Radius;
 
-		if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Wrist, Orientation, WristPosition, Radius) ||
-			!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::IndexMetacarpal, Orientation, IndexPosition, Radius) ||
-			!UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::LittleMetacarpal, Orientation, LittlePosition, Radius))
+		if (!IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Wrist, Orientation, WristPosition, Radius) ||
+			!IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexMetacarpal, Orientation, IndexPosition, Radius) ||
+			!IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::LittleMetacarpal, Orientation, LittlePosition, Radius))
 		{
 			return false;
 		}
@@ -91,7 +91,7 @@ bool UUxtPalmUpConstraintComponent::IsHandUsableForConstraint(EControllerHand Ne
 	FQuat PalmRotation;
 	FVector PalmLocation;
 	float PalmRadius;
-	if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::Palm, PalmRotation, PalmLocation, PalmRadius))
+	if (!IUxtHandTracker::Get().GetJointState(NewHand, EUxtHandJoint::Palm, PalmRotation, PalmLocation, PalmRadius))
 	{
 		return false;
 	}
@@ -141,8 +141,8 @@ bool UUxtPalmUpConstraintComponent::IsHandFlat(EControllerHand NewHand, const FV
 	FQuat IndexRotation, RingRotation;
 	FVector IndexLocation, RingLocation;
 	float IndexRadius, RingRadius;
-	if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::IndexTip, IndexRotation, IndexLocation, IndexRadius) ||
-		!UUxtHandTrackingFunctionLibrary::GetHandJointState(NewHand, EUxtHandJoint::RingTip, RingRotation, RingLocation, RingRadius))
+	if (!IUxtHandTracker::Get().GetJointState(NewHand, EUxtHandJoint::IndexTip, IndexRotation, IndexLocation, IndexRadius) ||
+		!IUxtHandTracker::Get().GetJointState(NewHand, EUxtHandJoint::RingTip, RingRotation, RingLocation, RingRadius))
 	{
 		return false;
 	}

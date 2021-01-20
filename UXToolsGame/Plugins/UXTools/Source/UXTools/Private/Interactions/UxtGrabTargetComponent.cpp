@@ -4,7 +4,7 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 
 #include "Engine/World.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "HandTracking/IUxtHandTracker.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtInteractionMode.h"
@@ -17,7 +17,7 @@ namespace
 		FQuat GripOrientation;
 		FVector GripPosition;
 		float GripRadius;
-		UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Palm, GripOrientation, GripPosition, GripRadius);
+		IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Palm, GripOrientation, GripPosition, GripRadius);
 		return FTransform{GripOrientation, GripPosition};
 	}
 } // namespace

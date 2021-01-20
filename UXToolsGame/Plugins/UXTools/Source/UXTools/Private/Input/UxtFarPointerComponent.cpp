@@ -8,7 +8,7 @@
 
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "HandTracking/IUxtHandTracker.h"
 #include "Input/UxtInputSubsystem.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Interactions/UxtInteractionUtils.h"
@@ -45,14 +45,14 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	// Obtain new pointer origin and orientation
 	FQuat NewOrientation;
 	FVector NewOrigin;
-	const bool bIsTracked = UUxtHandTrackingFunctionLibrary::GetHandPointerPose(Hand, NewOrientation, NewOrigin);
+	const bool bIsTracked = IUxtHandTracker::Get().GetPointerPose(Hand, NewOrientation, NewOrigin);
 
 	if (bIsTracked)
 	{
 		OnPointerPoseUpdated(NewOrientation, NewOrigin);
 		UpdateParameterCollection(GetHitPoint());
 		bool bNewPressed;
-		if (UUxtHandTrackingFunctionLibrary::GetIsHandSelectPressed(Hand, bNewPressed))
+		if (IUxtHandTracker::Get().GetIsSelectPressed(Hand, bNewPressed))
 		{
 			SetPressed(bNewPressed);
 		}
@@ -60,7 +60,7 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 		FQuat WristOrientation;
 		FVector WristLocation;
 		float WristRadius;
-		if (UUxtHandTrackingFunctionLibrary::GetHandJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristLocation, WristRadius))
+		if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristLocation, WristRadius))
 		{
 			ControllerOrientation = WristOrientation;
 		}
