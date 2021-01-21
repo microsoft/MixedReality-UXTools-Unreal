@@ -192,10 +192,8 @@ static FTransform CalcGrabPointerTransform(EControllerHand Hand)
 	FQuat IndexTipOrientation, ThumbTipOrientation;
 	FVector IndexTipPosition, ThumbTipPosition;
 	float IndexTipRadius, ThumbTipRadius;
-	if (IUxtHandTracker::Get().GetJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius) &&
-		IUxtHandTracker::Get().GetJointState(
-			Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius) &&
+		IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
 	{
 		// Use the midway point between the thumb and index finger tips for grab
 		const float LerpFactor = 0.5f;
@@ -210,8 +208,7 @@ static FTransform CalcPokePointerTransform(EControllerHand Hand)
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;
 	float IndexTipRadius;
-	if (IUxtHandTracker::Get().GetJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return FTransform(IndexTipOrientation, IndexTipPosition);
 	}
@@ -530,8 +527,7 @@ float UUxtNearPointerComponent::GetPokePointerRadius() const
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;
 	float IndexTipRadius;
-	if (IUxtHandTracker::Get().GetJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return IndexTipRadius;
 	}

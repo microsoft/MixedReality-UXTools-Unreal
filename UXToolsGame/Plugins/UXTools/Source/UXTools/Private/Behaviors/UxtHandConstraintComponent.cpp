@@ -267,8 +267,7 @@ bool UUxtHandConstraintComponent::UpdateTrackedHand(FVector& OutPalmLocation, FQ
 		if (IsHandUsableForConstraint(TrackedHand))
 		{
 			float PalmRadius;
-			return IUxtHandTracker::Get().GetJointState(
-				TrackedHand, EUxtHandJoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
+			return IUxtHandTracker::Get().GetJointState(TrackedHand, EUxtHandJoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
 		}
 		return false;
 	};

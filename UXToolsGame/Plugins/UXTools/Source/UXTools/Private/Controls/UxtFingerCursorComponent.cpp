@@ -8,6 +8,7 @@
 #include "Engine/StaticMesh.h"
 #include "GameFramework/Actor.h"
 #include "HandTracking/IUxtHandTracker.h"
+#include "HandTracking/IUxtHandTracker.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"

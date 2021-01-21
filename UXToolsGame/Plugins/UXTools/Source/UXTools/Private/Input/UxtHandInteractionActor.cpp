@@ -376,14 +376,12 @@ void AUxtHandInteractionActor::VLogHandJoints() const
 		if (HandTracker.GetPointerPose(Hand, PointerOrientation, PointerOrigin))
 		{
 			UE_VLOG_SEGMENT(
-				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisX() * 15.0f, FColor::Red,
-				TEXT(""));
+				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisX() * 15.0f, FColor::Red, TEXT(""));
 			UE_VLOG_SEGMENT(
 				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisY() * 5.0f, FColor::Green,
 				TEXT(""));
 			UE_VLOG_SEGMENT(
-				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisZ() * 5.0f, FColor::Blue,
-				TEXT(""));
+				this, LogUxtHandTracking, Log, PointerOrigin, PointerOrigin + PointerOrientation.GetAxisZ() * 5.0f, FColor::Blue, TEXT(""));
 		}
 	};
 
