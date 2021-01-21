@@ -5,6 +5,9 @@
 
 #include "Features/IModularFeatures.h"
 
+/* Fallback implementation of the hand tracker interface.
+ * In case the modular feature has not been implemented this will ensure a valid singleton reference is returned.
+ */
 class FDummyHandTracker : public IUxtHandTracker
 {
 public:
