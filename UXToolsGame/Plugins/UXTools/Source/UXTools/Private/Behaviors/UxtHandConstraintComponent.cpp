@@ -4,7 +4,7 @@
 #include "Behaviors/UxtHandConstraintComponent.h"
 
 #include "Engine/World.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "HandTracking/IUxtHandTracker.h"
 #include "Utils/UxtFunctionLibrary.h"
 
 namespace
@@ -267,8 +267,7 @@ bool UUxtHandConstraintComponent::UpdateTrackedHand(FVector& OutPalmLocation, FQ
 		if (IsHandUsableForConstraint(TrackedHand))
 		{
 			float PalmRadius;
-			return UUxtHandTrackingFunctionLibrary::GetHandJointState(
-				TrackedHand, EUxtHandJoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
+			return IUxtHandTracker::Get().GetJointState(TrackedHand, EUxtHandJoint::Palm, OutPalmRotation, OutPalmLocation, PalmRadius);
 		}
 		return false;
 	};
@@ -311,7 +310,7 @@ bool UUxtHandConstraintComponent::UpdateHandBounds(const FVector& PalmLocation, 
 		FQuat JointRotation;
 		FVector JointLocation;
 		float JointRadius;
-		if (!UUxtHandTrackingFunctionLibrary::GetHandJointState(TrackedHand, Joint, JointRotation, JointLocation, JointRadius))
+		if (!IUxtHandTracker::Get().GetJointState(TrackedHand, Joint, JointRotation, JointLocation, JointRadius))
 		{
 			continue;
 		}

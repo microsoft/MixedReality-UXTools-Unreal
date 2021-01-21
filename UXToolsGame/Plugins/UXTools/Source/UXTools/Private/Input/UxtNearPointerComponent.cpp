@@ -9,7 +9,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/World.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
+#include "HandTracking/IUxtHandTracker.h"
 #include "Input/UxtPointerFocus.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
@@ -192,10 +192,8 @@ static FTransform CalcGrabPointerTransform(EControllerHand Hand)
 	FQuat IndexTipOrientation, ThumbTipOrientation;
 	FVector IndexTipPosition, ThumbTipPosition;
 	float IndexTipRadius, ThumbTipRadius;
-	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius) &&
-		UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius) &&
+		IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::ThumbTip, ThumbTipOrientation, ThumbTipPosition, ThumbTipRadius))
 	{
 		// Use the midway point between the thumb and index finger tips for grab
 		const float LerpFactor = 0.5f;
@@ -210,8 +208,7 @@ static FTransform CalcPokePointerTransform(EControllerHand Hand)
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;
 	float IndexTipRadius;
-	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return FTransform(IndexTipOrientation, IndexTipPosition);
 	}
@@ -289,7 +286,7 @@ void UUxtNearPointerComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	// Update the grab state
 
 	bool bHandIsGrabbing;
-	if (UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(Hand, bHandIsGrabbing))
+	if (IUxtHandTracker::Get().GetIsGrabbing(Hand, bHandIsGrabbing))
 	{
 		if (bHandIsGrabbing != bHandWasGrabbing && bHandIsGrabbing != GrabFocus->IsGrabbing())
 		{
@@ -318,7 +315,7 @@ void UUxtNearPointerComponent::SetActive(bool bNewActive, bool bReset)
 	bool bOldActive = IsActive();
 	Super::SetActive(bNewActive, bReset);
 
-	if (!UUxtHandTrackingFunctionLibrary::GetIsHandGrabbing(Hand, bHandWasGrabbing))
+	if (!IUxtHandTracker::Get().GetIsGrabbing(Hand, bHandWasGrabbing))
 	{
 		bHandWasGrabbing = false;
 	}
@@ -530,8 +527,7 @@ float UUxtNearPointerComponent::GetPokePointerRadius() const
 	FQuat IndexTipOrientation;
 	FVector IndexTipPosition;
 	float IndexTipRadius;
-	if (UUxtHandTrackingFunctionLibrary::GetHandJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius))
 	{
 		return IndexTipRadius;
 	}

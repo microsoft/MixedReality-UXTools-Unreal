@@ -54,7 +54,7 @@ public:
 	static FName GetModularFeatureName();
 
 	/** Returns the currently registered hand tracker or nullptr if none */
-	static IUxtHandTracker* GetHandTracker();
+	static IUxtHandTracker& Get();
 
 	virtual ~IUxtHandTracker() {}
 

@@ -11,7 +11,6 @@
 #include "Controls/UxtFarCursorComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/AutomationTest.h"

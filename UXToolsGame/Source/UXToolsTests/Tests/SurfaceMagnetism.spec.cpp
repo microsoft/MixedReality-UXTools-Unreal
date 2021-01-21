@@ -12,7 +12,6 @@
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
-#include "HandTracking/UxtHandTrackingFunctionLibrary.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtHandInteractionActor.h"
 #include "Input/UxtNearPointerComponent.h"
