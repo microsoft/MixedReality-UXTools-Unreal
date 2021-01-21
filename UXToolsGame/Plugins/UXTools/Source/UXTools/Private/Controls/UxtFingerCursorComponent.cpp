@@ -8,7 +8,6 @@
 #include "Engine/StaticMesh.h"
 #include "GameFramework/Actor.h"
 #include "HandTracking/IUxtHandTracker.h"
-#include "HandTracking/IUxtHandTracker.h"
 #include "Input/UxtNearPointerComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
@@ -39,8 +38,8 @@ namespace
 		FVector IndexTipPosition;
 		float IndexTipRadius;
 
-		foundValues &= IUxtHandTracker::Get().GetJointState(
-			Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+		foundValues &=
+			IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
 
 		FQuat IndexKnuckleOrientation;
 		FVector IndexKnucklePosition;
