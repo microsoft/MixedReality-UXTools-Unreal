@@ -5,7 +5,38 @@
 
 #include "Components/PrimitiveComponent.h"
 #include "Components/SceneComponent.h"
+#include "Containers/ArrayView.h"
 #include "GameFramework/Actor.h"
+
+namespace
+{
+	void ExpandBoxIfAppropriateComponent(
+		FBox& Box, const USceneComponent* const Component, const FTransform& WorldToCalcSpace, bool bNonColliding,
+		TArrayView<const UPrimitiveComponent* const> Ignore = {})
+	{
+		if (!Component->IsRegistered())
+		{
+			return;
+		}
+		const UPrimitiveComponent* PrimitiveComponent = Cast<const UPrimitiveComponent>(Component);
+		if (!PrimitiveComponent || Ignore.Contains(PrimitiveComponent))
+		{
+			return;
+		}
+
+		// Only use collidable components to find collision bounding box.
+		if (bNonColliding || PrimitiveComponent->IsCollisionEnabled())
+		{
+			const FTransform& ComponentToWorld = PrimitiveComponent->GetComponentTransform();
+			const FTransform ComponentToCalcSpace = ComponentToWorld * WorldToCalcSpace;
+
+			const FBoxSphereBounds ComponentBoundsCalcSpace = PrimitiveComponent->CalcBounds(ComponentToCalcSpace);
+			const FBox ComponentBox = ComponentBoundsCalcSpace.GetBox();
+			Box += ComponentBox;
+		}
+	}
+
+} // namespace
 
 FRotator UUxtMathUtilsFunctionLibrary::GetRotationBetweenVectors(const FVector& Vector1, const FVector& Vector2)
 {
@@ -42,54 +73,19 @@ FBoxSphereBounds UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(
 	return Bounds;
 }
 
-FBox UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInGivenSpace(
-	const AActor* Actor, const FTransform& WorldToCalcSpace, bool bNonColliding, UPrimitiveComponent* Ignore)
+FBox UUxtMathUtilsFunctionLibrary::CalculateNestedBoundsInGivenSpace(
+	const USceneComponent* const Root, const FTransform& WorldToCalcSpace, bool bNonColliding,
+	TArrayView<const UPrimitiveComponent* const> Ignore)
 {
 	FBox Box(ForceInit);
 
-	for (const UActorComponent* ActorComponent : Actor->GetComponents())
+	TArray<USceneComponent*> RelevantComponents;
+	ExpandBoxIfAppropriateComponent(Box, Root, WorldToCalcSpace, bNonColliding, Ignore);
+	Root->GetChildrenComponents(true, RelevantComponents);
+	for (const USceneComponent* ChildComponent : RelevantComponents)
 	{
-		if (!ActorComponent->IsRegistered())
-		{
-			continue;
-		}
-
-		if (const UPrimitiveComponent* PrimitiveComponent = Cast<const UPrimitiveComponent>(ActorComponent))
-		{
-			if (PrimitiveComponent == Ignore)
-			{
-				continue;
-			}
-
-			// Only use collidable components to find collision bounding box.
-			if (bNonColliding || PrimitiveComponent->IsCollisionEnabled())
-			{
-				const FTransform& ComponentToWorld = PrimitiveComponent->GetComponentTransform();
-				const FTransform ComponentToCalcSpace = ComponentToWorld * WorldToCalcSpace;
-
-				const FBoxSphereBounds ComponentBoundsCalcSpace = PrimitiveComponent->CalcBounds(ComponentToCalcSpace);
-				const FBox ComponentBox = ComponentBoundsCalcSpace.GetBox();
-				Box += ComponentBox;
-			}
-		}
-
-		if (const UChildActorComponent* ChildActor = Cast<const UChildActorComponent>(ActorComponent))
-		{
-			if (const AActor* NestedActor = ChildActor->GetChildActor())
-			{
-				Box += CalculateNestedActorBoundsInGivenSpace(NestedActor, WorldToCalcSpace, bNonColliding);
-			}
-		}
+		ExpandBoxIfAppropriateComponent(Box, ChildComponent, WorldToCalcSpace, bNonColliding, Ignore);
 	}
 
 	return Box;
-}
-
-FBox UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInLocalSpace(
-	const AActor* Actor, bool bNonColliding, UPrimitiveComponent* Ignore)
-{
-	const FTransform& ActorToWorld = Actor->GetTransform();
-	const FTransform WorldToActor = ActorToWorld.Inverse();
-
-	return UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInGivenSpace(Actor, WorldToActor, true, Ignore);
 }

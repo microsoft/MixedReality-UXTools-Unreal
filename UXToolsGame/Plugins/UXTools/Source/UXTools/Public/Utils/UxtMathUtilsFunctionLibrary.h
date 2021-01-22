@@ -60,13 +60,9 @@ public:
 		USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter = nullptr);
 
 	/**
-	 * Calculates the actor bounds for a given space transform
+	 * Calculates the bounds of all applicable components under @ref Root, except those included in @ref Ignore.
 	 */
-	static FBox CalculateNestedActorBoundsInGivenSpace(
-		const AActor* Actor, const FTransform& WorldToCalcSpace, bool bNonColliding, UPrimitiveComponent* Ignore = nullptr);
-
-	/**
-	 * Calculates the actor bounds in local space
-	 */
-	static FBox CalculateNestedActorBoundsInLocalSpace(const AActor* Actor, bool bNonColliding, UPrimitiveComponent* Ignore = nullptr);
+	static FBox CalculateNestedBoundsInGivenSpace(
+		const USceneComponent* const Root, const FTransform& WorldToCalcSpace, bool bNonColliding,
+		TArrayView<const UPrimitiveComponent* const> Ignore = {});
 };

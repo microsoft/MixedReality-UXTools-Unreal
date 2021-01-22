@@ -4,6 +4,7 @@
 #include "Behaviors/UxtTapToPlaceComponent.h"
 
 #include "Components/PrimitiveComponent.h"
+#include "Controls/UxtBoundsControlComponent.h"
 #include "Engine/World.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtInputSubsystem.h"
@@ -115,7 +116,14 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 			// Ignore the target being placed
 			FCollisionQueryParams QueryParams;
-			QueryParams.AddIgnoredComponent(Target);
+			QueryParams.AddIgnoredActor(GetOwner());
+
+			// Special case for UxtBoundsControl. If more components need special handling in the future, consider using an interface
+			if (UUxtBoundsControlComponent* BoundsControl = GetOwner()->FindComponentByClass<UUxtBoundsControlComponent>())
+			{
+				// Prevent hits with Bounds Control's affordances associated to the owner
+				QueryParams.AddIgnoredActor(BoundsControl->GetBoundsControlActor());
+			}
 
 			FHitResult Result;
 			FVector Start = OriginPose.GetLocation();

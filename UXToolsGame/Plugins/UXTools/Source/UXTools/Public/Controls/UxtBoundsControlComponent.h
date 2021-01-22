@@ -166,9 +166,6 @@ protected:
 	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
 
-	/** Callback when the parent actor is moved. */
-	void OnActorTransformUpdate(USceneComponent* UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport);
-
 	/**
 	 * Look up the grab pointer data for an affordance.
 	 * Returns null if the affordance is not currently grabbed.
@@ -222,6 +219,10 @@ private:
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", BlueprintGetter = "GetInitBoundsFromActor")
 	bool bInitBoundsFromActor = true;
+
+	/** Component used for bounds calculation, instead of the actor's root */
+	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
+	FComponentReference BoundsOverride;
 
 	/** Current bounding box in the local space of the actor. */
 	UPROPERTY(Transient, Category = "Uxt Bounds Control", BlueprintGetter = "GetBounds")

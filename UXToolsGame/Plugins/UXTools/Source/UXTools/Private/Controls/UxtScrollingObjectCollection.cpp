@@ -470,7 +470,8 @@ void UUxtScrollingObjectCollection::ConfigureBoxComponent()
 			if (Actor->GetActorEnableCollision())
 			{
 				const bool bNonColliding = false;
-				BoundingBox += UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInGivenSpace(Actor, WorldToLocal, bNonColliding);
+				BoundingBox +=
+					UUxtMathUtilsFunctionLibrary::CalculateNestedBoundsInGivenSpace(Actor->GetRootComponent(), WorldToLocal, bNonColliding);
 			}
 		}
 

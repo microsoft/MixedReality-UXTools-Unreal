@@ -233,9 +233,14 @@ const FBox& UUxtBoundsControlComponent::GetBounds() const
 
 void UUxtBoundsControlComponent::ComputeBoundsFromComponents()
 {
-	Bounds = UUxtMathUtilsFunctionLibrary::CalculateNestedActorBoundsInLocalSpace(GetOwner(), true);
-
-	UpdateAffordanceTransforms();
+	const USceneComponent* Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
+	const USceneComponent* BoundsTargetComponent = GetOwner()->GetRootComponent();
+	if (Override)
+	{
+		BoundsTargetComponent = Override;
+	}
+	const FTransform BoundsTargetToWorld = BoundsTargetComponent->GetComponentTransform();
+	Bounds = UUxtMathUtilsFunctionLibrary::CalculateNestedBoundsInGivenSpace(BoundsTargetComponent, BoundsTargetToWorld.Inverse(), true);
 }
 
 void UUxtBoundsControlComponent::CreateAffordances()
@@ -325,19 +330,23 @@ void UUxtBoundsControlComponent::DestroyAffordances()
 
 void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 {
+	const USceneComponent* const Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
+	const USceneComponent* const BoundsTargetComponent = Override ? Override : GetOwner()->GetRootComponent();
 	if (BoundsControlActor)
 	{
-		// Copy loc & rot of the owning actor to the bounds control actor
-		BoundsControlActor->SetActorLocationAndRotation(GetOwner()->GetActorLocation(), GetOwner()->GetActorRotation());
+		const FVector Location = BoundsTargetComponent->GetComponentLocation();
+		const FRotator Rotation = BoundsTargetComponent->GetComponentRotation();
 
-		for (const auto& Item : PrimitiveAffordanceMap)
-		{
-			FVector AffordanceLocation;
-			FQuat AffordanceRotation;
-			Item.Value.Config.GetWorldLocationAndRotation(Bounds, GetOwner()->GetActorTransform(), AffordanceLocation, AffordanceRotation);
-			Item.Key->SetWorldLocation(AffordanceLocation);
-			Item.Key->SetWorldRotation(AffordanceRotation);
-		}
+		BoundsControlActor->SetActorLocationAndRotation(Location, Rotation);
+	}
+	for (const auto& Item : PrimitiveAffordanceMap)
+	{
+		FVector AffordanceLocation;
+		FQuat AffordanceRotation;
+		Item.Value.Config.GetWorldLocationAndRotation(
+			Bounds, BoundsTargetComponent->GetComponentTransform(), AffordanceLocation, AffordanceRotation);
+		Item.Key->SetWorldLocation(AffordanceLocation);
+		Item.Key->SetWorldRotation(AffordanceRotation);
 	}
 }
 
@@ -423,8 +432,6 @@ void UUxtBoundsControlComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetOwner()->GetRootComponent()->TransformUpdated.AddUObject(this, &UUxtBoundsControlComponent::OnActorTransformUpdate);
-
 	if (bInitBoundsFromActor)
 	{
 		ComputeBoundsFromComponents();
@@ -445,7 +452,6 @@ void UUxtBoundsControlComponent::BeginPlay()
 void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	DestroyAffordances();
-
 	// Needs to be destroyed explicitly because it's attached to the owning actor
 	CollisionBox->UnregisterComponent();
 	CollisionBox->DestroyComponent();
@@ -470,6 +476,8 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 			TransformTarget(AffordanceInstance.Config, GrabPointer);
 		}
 	}
+	ComputeBoundsFromComponents();
+	UpdateAffordanceTransforms();
 
 	UpdateAffordanceAnimation(DeltaTime);
 	ConstraintManager->Update(GetOwner()->GetActorTransform());
@@ -549,15 +557,16 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 	}
 	}
 
-	GetOwner()->SetActorTransform(NewTransform);
-
 	if (AffordanceConfig.GetAction() == EUxtAffordanceAction::Scale)
 	{
 		// When scaling, leave the opposite corner pinned to its initial location
-		const FVector CurrentOppositeAffordanceLoc = InteractionCache->OppositeAffordancePrimitive->GetComponentLocation();
-		const FVector Offset = CurrentOppositeAffordanceLoc - InteractionCache->InitialOppositeAffordanceLoc;
-		GetOwner()->SetActorLocation(InteractionCache->InitialTransform.GetLocation() - Offset);
+		const FVector OriginalRelativePosition =
+			InteractionCache->InitialTransform.GetLocation() - InteractionCache->InitialOppositeAffordanceLoc;
+		const FVector NewPos = (OriginalRelativePosition / InteractionCache->InitialTransform.GetScale3D()) * NewTransform.GetScale3D() +
+							   InteractionCache->InitialOppositeAffordanceLoc;
+		NewTransform.SetLocation(NewPos);
 	}
+	GetOwner()->SetActorTransform(NewTransform);
 }
 
 void UUxtBoundsControlComponent::OnAffordanceEnterFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer)
@@ -630,12 +639,6 @@ void UUxtBoundsControlComponent::OnAffordanceEndGrab(UUxtGrabTargetComponent* Gr
 	}
 }
 
-void UUxtBoundsControlComponent::OnActorTransformUpdate(
-	USceneComponent* UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport)
-{
-	UpdateAffordanceTransforms();
-}
-
 const FUxtGrabPointerData* UUxtBoundsControlComponent::FindGrabPointer(const FUxtAffordanceInstance* AffordanceInstance)
 {
 	int32 Index = GrabbedAffordances.IndexOfByKey(AffordanceInstance);
@@ -655,12 +658,16 @@ bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox& Box, const 
 
 void UUxtBoundsControlComponent::CreateCollisionBox()
 {
-	CollisionBox = NewObject<UBoxComponent>(GetOwner());
-	CollisionBox->SetupAttachment(GetOwner()->GetRootComponent());
+	AActor* const Owner = GetOwner();
+	USceneComponent* const Override = Cast<USceneComponent>(BoundsOverride.GetComponent(Owner));
+	USceneComponent* const BoundsRoot = Override ? Override : Owner->GetRootComponent();
+
+	CollisionBox = NewObject<UBoxComponent>(Owner);
+	CollisionBox->SetupAttachment(BoundsRoot);
 	CollisionBox->RegisterComponent();
 
 	CollisionBox->SetBoxExtent(Bounds.GetExtent());
-	CollisionBox->SetWorldTransform(FTransform(Bounds.GetCenter()) * GetOwner()->GetActorTransform());
+	CollisionBox->SetWorldTransform(FTransform(Bounds.GetCenter()) * BoundsRoot->GetComponentTransform());
 
 	CollisionBox->SetCollisionProfileName(CollisionProfile);
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
