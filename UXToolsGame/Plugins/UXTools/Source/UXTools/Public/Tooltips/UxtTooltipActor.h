@@ -26,10 +26,11 @@ class UUxtBackPlateComponent;
  * The Tooltip Actor's component hierarchy looks like this.
  * Tooltip
  *        |_SceneRoot
+ *             |_PivotComponent
  *                   |_BackPlate
  *                   |_TooltipWidgetComponent
  *...................|_Anchor
- *                   |_SplineMeshComponent
+ *             |_SplineMeshComponent
  *
  * The SplineMeshComponent is used to draw the line between the tooltip and the target actor.
  *
@@ -119,6 +120,10 @@ private:
 	/** Actor root component */
 	UPROPERTY(VisibleAnywhere, Category = "Uxt Tooltip - Experimental")
 	USceneComponent* SceneRoot;
+
+	/** Pivot component to root the billboarding.*/
+	UPROPERTY(VisibleAnywhere, Category = "Uxt Tooltip - Experimental")
+	USceneComponent* PivotComponent;
 
 	/** The actual widget component that gets created.*/
 	UPROPERTY(VisibleDefaultsOnly, Category = "Uxt Tooltip - Experimental", AdvancedDisplay)
