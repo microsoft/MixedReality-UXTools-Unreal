@@ -131,13 +131,13 @@ bool UUxtTouchableVolumeComponent::IsFocused() const
 	return NumPointersFocusing > 0;
 }
 
-void UUxtTouchableVolumeComponent::OnEnterFocus(UObject* Pointer)
+void UUxtTouchableVolumeComponent::OnEnterFocus(UUxtPointerComponent* Pointer)
 {
 	const bool bWasFocused = ++NumPointersFocusing > 1;
 	OnBeginFocus.Broadcast(this, Pointer, bWasFocused);
 }
 
-void UUxtTouchableVolumeComponent::OnExitFocus(UObject* Pointer)
+void UUxtTouchableVolumeComponent::OnExitFocus(UUxtPointerComponent* Pointer)
 {
 	--NumPointersFocusing;
 	const bool bIsFocused = IsFocused();
@@ -147,7 +147,7 @@ void UUxtTouchableVolumeComponent::OnExitFocus(UObject* Pointer)
 
 bool UUxtTouchableVolumeComponent::IsPokeFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
-	if (bIsDisabled)
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Near)) || bIsDisabled)
 	{
 		return false;
 	}
@@ -162,7 +162,7 @@ bool UUxtTouchableVolumeComponent::IsPokeFocusable_Implementation(const UPrimiti
 
 bool UUxtTouchableVolumeComponent::CanHandlePoke_Implementation(UPrimitiveComponent* Primitive) const
 {
-	if (bIsDisabled)
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Near)) || bIsDisabled)
 	{
 		return false;
 	}
@@ -195,7 +195,7 @@ void UUxtTouchableVolumeComponent::OnBeginPoke_Implementation(UUxtNearPointerCom
 	if (!bIsDisabled)
 	{
 		// Lock the poking pointer so we remain the focused target as it moves.
-		Pointer->SetFocusLocked(true);
+		Pointer->SetFocusLocked(bLockFocus);
 
 		PokePointers.Add(Pointer);
 		OnBeginPoke.Broadcast(this, Pointer);
@@ -230,7 +230,7 @@ EUxtPokeBehaviour UUxtTouchableVolumeComponent::GetPokeBehaviour_Implementation(
 
 bool UUxtTouchableVolumeComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
-	if (bIsDisabled)
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Far)) || bIsDisabled)
 	{
 		return false;
 	}
@@ -245,7 +245,7 @@ bool UUxtTouchableVolumeComponent::IsFarFocusable_Implementation(const UPrimitiv
 
 bool UUxtTouchableVolumeComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
-	if (bIsDisabled)
+	if (!(InteractionMode & static_cast<int32>(EUxtInteractionMode::Far)) || bIsDisabled)
 	{
 		return false;
 	}
@@ -278,7 +278,8 @@ void UUxtTouchableVolumeComponent::OnFarPressed_Implementation(UUxtFarPointerCom
 	if (!FarPointerWeak.IsValid() && !bIsDisabled)
 	{
 		FarPointerWeak = Pointer;
-		Pointer->SetFocusLocked(true);
+		Pointer->SetFocusLocked(bLockFocus);
+		OnBeginPoke.Broadcast(this, Pointer);
 	}
 }
 
@@ -289,5 +290,6 @@ void UUxtTouchableVolumeComponent::OnFarReleased_Implementation(UUxtFarPointerCo
 	{
 		FarPointerWeak = nullptr;
 		Pointer->SetFocusLocked(false);
+		OnEndPoke.Broadcast(this, Pointer);
 	}
 }

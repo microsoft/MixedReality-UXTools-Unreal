@@ -14,9 +14,11 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [TapToPlace component MaintainOrientation setting](#taptoplace-component-maintainorientation-setting)
   - [BoundsOverride property in UxtBoundsControl](#boundsoverride-property-in-uxtboundscontrol)
   - [UxtBoundsControl and UxtTapToPlace integration](#uxtboundscontrol-and-uxttaptoplace-integration)
+  - [UxtTouchableVolumeComponent improvements](#uxttouchablevolumecomponent-improvements)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
+  - [UxtTouchableVolumeComponent's API update](#uxttouchablevolumecomponents-api-update)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -46,6 +48,11 @@ Thanks to the new [`BoundsOverride` property in `UUxtBoundsControlComponent`](#b
 
 ![BoundsControl - TapToPlace integration](Images/ReleaseNotes/boundscontrol_taptoplace_intregration.gif)
 
+### UxtTouchableVolumeComponent improvements
+
+- An `InteractionMode` property has been added to allow limiting the interactions to only near or far pointers.
+- The `bLockFocus` flag has been added to allow the focus locking of pointers be disabled.
+
 ## Breaking changes
 
 ### `UxtHandTrackingFunctionLibrary` removed
@@ -61,6 +68,11 @@ Hopefully, switching to the new function is not troublesome, but here are some g
 - The first parameter is now a `USceneComponent` instead of an `AActor`. Simply add a `GetRootComponent()` to the previously used parameter.
 - If you were using the `InLocalSpace` variant, now you need to pass in the local space explicitly. On the same component that you're now passing as first parameter (see previous point), simply use `GetComponentTransform().Inverse()`.
 - The `Ignore` parameter is now a `TArrayView<const USceneComponent* const>`, instead of a single component. Typically, enclosing the previously used parameter in curly braces `{}` will suffice, thanks to the [TArrayView's initializer list constructor][tarrayview-initializer-list-ctor]. The [MakeArrayView overload list][makearrayview-overload-list] and [MoveTemp][movetemp] utilities might come in handy, too.
+
+### UxtTouchableVolumeComponent's API update
+
+- The `OnBeginFocus`, `OnUpdateFocus`, `OnEndFocus` events now pass the pointer as a `UUxtPointerComponent` instead of a `UObject`.
+- The `OnBeginPoke`, `OnUpdatePoke`, `OnEndPoke` events now pass the pointer as a `UUxtPointerComponent` instead of a `UUxtNearPointerComponent`.
 
 ## Known issues
 
