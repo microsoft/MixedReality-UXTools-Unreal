@@ -11,7 +11,12 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 # UX Tools 0.12.0 release notes
 
 - [What's new](#whats-new)
+  - [TapToPlace component MaintainOrientation setting](#taptoplace-component-maintainorientation-setting)
+  - [BoundsOverride property in UxtBoundsControl](#boundsoverride-property-in-uxtboundscontrol)
+  - [UxtBoundsControl and UxtTapToPlace integration](#uxtboundscontrol-and-uxttaptoplace-integration)
 - [Breaking changes](#breaking-changes)
+  - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
+  - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
