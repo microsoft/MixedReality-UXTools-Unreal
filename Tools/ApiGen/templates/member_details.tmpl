@@ -37,6 +37,7 @@ template <{% for param in templateParams %}{{param.typePlain}} {{param.name}}{% 
 
 {% if kind in ["variable", "property"] -%}
 ```cpp
+{% if exists("definition") %}{{definition}}{% endif %}
 {% if static %}static {% endif -%}
 {% if exists("typePlain") %}{{typePlain}} {% endif -%}{{name}}{% if exists("initializer") %} {{initializer}}{% endif %};
 ```{% endif -%}

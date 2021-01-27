@@ -3,8 +3,8 @@
     "content": [
 	  {
         // generate html for api docs
-        "files": [ "**/*.yml", "*.yml, toc.yml"],
-        "src": "../../tempcode2yaml/api", // temp meta data folder from previous step
+        "files": [ "**/*.md", "**/*.yml", "toc.md"],
+        "src": "../../api", // temp meta data folder from previous step
         "dest": "./api"
       },
 	  {

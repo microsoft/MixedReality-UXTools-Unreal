@@ -1,6 +1,6 @@
 ---
 {% if exists("title") -%}
-title: {{title}}
+title: MRTK Unreal API Reference {{title}}
 {% else if exists("name") -%}
 title: {{name}}
 {% endif -%}
@@ -9,9 +9,3 @@ summary: {{summary}}
 {% endif -%}
 {% include "meta" %}
 ---
-
-{% if exists("title") -%}
-# {{title}}
-{% else if exists("kind") and kind != "page" -%}
-# {{name}} {{title(kind)}} Reference
-{% endif %}
