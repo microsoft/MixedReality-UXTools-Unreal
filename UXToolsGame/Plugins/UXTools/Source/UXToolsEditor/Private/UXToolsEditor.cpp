@@ -5,6 +5,7 @@
 
 #include "ISettingsModule.h"
 #include "UnrealEdGlobals.h"
+#include "UxtConstrainableComponentCustomization.h"
 #include "UxtIconBrushCustomization.h"
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UxtRuntimeSettings.h"
@@ -12,6 +13,7 @@
 
 #include "Controls/UxtIconBrush.h"
 #include "Editor/UnrealEdEngine.h"
+#include "Interactions/Constraints/UxtConstrainableComponent.h"
 #include "Tooltips/UxtTooltipSpawnerComponent.h"
 
 IMPLEMENT_GAME_MODULE(FUXToolsEditorModule, UXToolsEditor);
@@ -45,6 +47,9 @@ void FUXToolsEditorModule::StartupModule()
 	PropertyModule.RegisterCustomPropertyTypeLayout(
 		FUxtIconBrush::StaticStruct()->GetFName(),
 		FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FUxtIconBrushCustomization::MakeInstance));
+	PropertyModule.RegisterCustomClassLayout(
+		UUxtConstrainableComponent::StaticClass()->GetFName(),
+		FOnGetDetailCustomizationInstance::CreateStatic(&FUxtConstrainableComponentCustomization::MakeInstance));
 
 	// Register settings
 	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
@@ -70,6 +75,7 @@ void FUXToolsEditorModule::ShutdownModule()
 	// Unregister customizations
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.UnregisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName());
+	PropertyModule.UnregisterCustomClassLayout(UUxtConstrainableComponent::StaticClass()->GetFName());
 
 	// Unregister settings
 	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");

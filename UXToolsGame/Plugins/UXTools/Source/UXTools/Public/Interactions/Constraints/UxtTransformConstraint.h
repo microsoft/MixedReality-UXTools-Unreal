@@ -32,10 +32,6 @@ public:
 	virtual void Initialize(const FTransform& WorldPose);
 
 public:
-	/** The component to transform, will default to the root scene component if not specified */
-	UPROPERTY(EditAnywhere, Category = "Uxt Constraint", AdvancedDisplay)
-	FComponentReference TargetComponent;
-
 	/** Whether this constraint applies to one hand manipulation, two hand manipulation or both. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint", meta = (Bitmask, BitmaskEnum = EUxtGrabMode))
 	int32 HandType = static_cast<int32>(EUxtGrabMode::OneHanded | EUxtGrabMode::TwoHanded);

@@ -4,7 +4,6 @@
 #include "Interactions/UxtGenericManipulatorComponent.h"
 
 #include "Components/PrimitiveComponent.h"
-#include "Constraints/UxtConstraintManager.h"
 #include "Engine/World.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtHandInteractionActor.h"
@@ -22,7 +21,7 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	bAutoActivate = true;
 
 	// Default values
-	OneHandRotationMode = EUxtOneHandRotationMode::MaintainOriginalRotation;
+	OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutGrabPoint;
 	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
 	ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::KeepVelocity | EUxtReleaseBehavior::KeepAngularVelocity);
 	Smoothing = 100.0f;
@@ -87,68 +86,11 @@ bool UUxtGenericManipulatorComponent::GetOneHandRotation(const FTransform& InSou
 	}
 
 	OutTargetTransform = InSourceTransform;
-	switch (OneHandRotationMode)
-	{
-	case EUxtOneHandRotationMode::MaintainOriginalRotation:
-	{
-		return true;
-	}
 
-	case EUxtOneHandRotationMode::RotateAboutObjectCenter:
-	case EUxtOneHandRotationMode::RotateAboutGrabPoint:
-	{
-		const FTransform GripTransform = UUxtGrabPointerDataFunctionLibrary::GetGripTransform(PrimaryPointerData);
-		OutTargetTransform.SetRotation((PrimaryPointerData.GripToObject * GripTransform).GetRotation());
-		return true;
-	}
+	const FTransform GripTransform = UUxtGrabPointerDataFunctionLibrary::GetGripTransform(PrimaryPointerData);
+	OutTargetTransform.SetRotation((PrimaryPointerData.GripToObject * GripTransform).GetRotation());
 
-	case EUxtOneHandRotationMode::MaintainRotationToUser:
-	{
-		FQuat Orientation = GetViewInvariantRotation();
-		OutTargetTransform.SetRotation(Orientation);
-		return true;
-	}
-
-	case EUxtOneHandRotationMode::GravityAlignedMaintainRotationToUser:
-	{
-		FQuat Orientation = GetViewInvariantRotation();
-
-		// Decompose and keep only the gravity-aligned twist component of the orientation
-		FQuat OrientationSwing, OrientationTwist;
-		Orientation.ToSwingTwist(FVector::UpVector, OrientationSwing, OrientationTwist);
-
-		OutTargetTransform.SetRotation(OrientationTwist);
-		return true;
-	}
-
-	case EUxtOneHandRotationMode::FaceUser:
-	{
-		FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
-		FVector ObjectLoc = InSourceTransform.GetLocation();
-
-		// Make the object face the user
-		FVector Forward = HeadLoc - ObjectLoc;
-		FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
-
-		OutTargetTransform.SetRotation(Orientation);
-		return true;
-	}
-
-	case EUxtOneHandRotationMode::FaceAwayFromUser:
-	{
-		FVector HeadLoc = UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation();
-		FVector ObjectLoc = InSourceTransform.GetLocation();
-
-		// Make the object face away from the user
-		FVector Forward = ObjectLoc - HeadLoc;
-		FQuat Orientation = FRotationMatrix::MakeFromXZ(Forward, FVector::UpVector).ToQuat();
-
-		OutTargetTransform.SetRotation(Orientation);
-		return true;
-	}
-	}
-
-	return false;
+	return true;
 }
 
 bool UUxtGenericManipulatorComponent::GetTwoHandRotation(const FTransform& InSourceTransform, FTransform& OutTargetTransform) const
@@ -178,13 +120,13 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 	}
 
 	FTransform TargetTransform = GetTargetComponent()->GetComponentTransform();
-	Constraints->ApplyScaleConstraints(TargetTransform, true, IsNearManipulation());
+	ApplyConstraints(TargetTransform, EUxtTransformMode::Scaling, true, IsNearManipulation());
 
 	GetOneHandRotation(TargetTransform, TargetTransform);
-	Constraints->ApplyRotationConstraints(TargetTransform, true, IsNearManipulation());
+	ApplyConstraints(TargetTransform, EUxtTransformMode::Rotation, true, IsNearManipulation());
 
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
-	Constraints->ApplyTranslationConstraints(TargetTransform, true, IsNearManipulation());
+	ApplyConstraints(TargetTransform, EUxtTransformMode::Translation, true, IsNearManipulation());
 
 	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
 
@@ -203,19 +145,19 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Scaling)))
 	{
 		GetTwoHandScale(TargetTransform, TargetTransform);
-		Constraints->ApplyScaleConstraints(TargetTransform, false, IsNearManipulation());
+		ApplyConstraints(TargetTransform, EUxtTransformMode::Scaling, false, IsNearManipulation());
 	}
 
 	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Rotation)))
 	{
 		GetTwoHandRotation(TargetTransform, TargetTransform);
-		Constraints->ApplyRotationConstraints(TargetTransform, false, IsNearManipulation());
+		ApplyConstraints(TargetTransform, EUxtTransformMode::Rotation, false, IsNearManipulation());
 	}
 
 	if (!!(TwoHandTransformModes & static_cast<int32>(EUxtTransformMode::Translation)))
 	{
 		MoveToTargets(TargetTransform, TargetTransform, true);
-		Constraints->ApplyTranslationConstraints(TargetTransform, false, IsNearManipulation());
+		ApplyConstraints(TargetTransform, EUxtTransformMode::Translation, false, IsNearManipulation());
 	}
 
 	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
@@ -235,6 +177,8 @@ void UUxtGenericManipulatorComponent::SetSmoothing(float NewSmoothing)
 
 void UUxtGenericManipulatorComponent::OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)
 {
+	InitializeConstraints(TransformTarget);
+
 	if (GetGrabPointers().Num() == 1)
 	{
 		if (UPrimitiveComponent* Target = Cast<UPrimitiveComponent>(GetTargetComponent()))

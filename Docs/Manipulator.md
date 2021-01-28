@@ -21,13 +21,9 @@ The _Generic Manipulator_ component is a general-purpose implementation of the _
 If one-handed manipulation is enabled the actor can be moved with just one hand. This mode supports movement and rotation, but not scaling of the actor.
 
 The way hand rotation translates into actor rotation depends on the _One Hand Rotation Mode_:
-* _Maintain Original Rotation_: Does not rotate object as it is being moved.
+
 * _Rotate About Object Center_: Only works for articulated hands/controllers. Rotate object using rotation of the hand/controller, but about the object center point. Useful for inspecting at a distance.
 * _Rotate About Grab Point_: Only works for articulated hands/controllers. Rotate object as if it was being held by hand/controller. Useful for inspection.
-* _Maintain Rotation To User_: Maintains the object's original rotation for Y/Z axis to the user.
-* _Gravity Aligned Maintain Rotation To User_: Maintains object's original rotation to user, but makes the object vertical. Useful for bounding boxes.
-* _Face User_: Ensures object always faces the user. Useful for slates/panels.
-* _Face Away From User_: Ensures object always faces away from user. Useful for slates/panels that are configured backwards.
 
 ### Two-handed manipulation
 
@@ -38,6 +34,14 @@ Movement uses the center point between both hands, so each hand contributes half
 Rotation is based on imaginary axis between both hands. The actor will rotate with the change of this axis, while avoiding roll around it.
 
 Scaling uses the change in distance between hands.
+
+### Transform Constraints
+
+Manipulation of an object can be constrained using transform constraints. Transform constraints are components that are added to an actor and are used by the manipulator to limit its effects on the target component. Constraints can be added to a blueprint or actor using the constraint picker, which is exposed in the _Constraints_ dropdown on the generic manipulator. The constraint picker automatically populates with classes inheriting from `UxtTransformConstraint` so user defined constraints can also be added using this dialog box.
+
+![ConstraintPicker](Images/Manipulator/ConstraintPicker.png)
+
+The constraint manager can be configured to automatically detect and use all constraints attached to the actor or a user selected subset of the attached constraints.
 
 ### Smoothing
 
@@ -70,6 +74,7 @@ Sometimes you want to manipulate components that are physics-enabled, that is, c
 ![PhysicsEnabledManipulation](Images/Manipulator/PhysicsEnabledManipulation.png)
 
 This is necessary because:
+
 * By default _Generic Manipulator_ modifies the transform of the actor's root component.
 * Physics-enabled components [detach themselves][set-simulate-physics] from their attach parents automatically at simulation start.
 

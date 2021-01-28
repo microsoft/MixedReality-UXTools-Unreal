@@ -5,8 +5,8 @@
 
 #include "CoreMinimal.h"
 
-#include "Components/ActorComponent.h"
 #include "Controls/UxtBoundsControlConfig.h"
+#include "Interactions/Constraints/UxtConstrainableComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Materials/MaterialParameterCollection.h"
 
@@ -19,7 +19,6 @@ class UMaterialInstanceDynamic;
 class UPrimitiveComponent;
 class UStaticMesh;
 class UBoxComponent;
-class UxtConstraintManager;
 struct UxtAffordanceInteractionCache;
 
 /** Instance of an affordance on the bounds control actor. */
@@ -61,7 +60,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
  * Manages a set of affordances that can be manipulated for changing the actor transform.
  */
 UCLASS(Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtBoundsControlComponent : public UActorComponent
+class UXTOOLS_API UUxtBoundsControlComponent : public UUxtConstrainableComponent
 {
 	GENERATED_BODY()
 
@@ -207,14 +206,16 @@ private:
 	 */
 	void ResetConstraintsReferenceTransform();
 
+	/** Rotates the transform around the pivot, unless constraints apply. */
+	FTransform CalculateConstrainedRotation(
+		const FTransform& OriginalTransform, const FQuat& DeltaRotation, const FVector& Pivot, const bool IsNear) const;
+
 	/**
 	 * Resets the data cache to be used during the interaction.
 	 *
 	 * This is meant to be called at the start of each new interaction.
 	 */
 	void UpdateInteractionCache(const FUxtAffordanceInstance* const AffordanceInstance, const FUxtGrabPointerData& GrabPointerData);
-
-	TUniquePtr<UxtConstraintManager> ConstraintManager;
 
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", BlueprintGetter = "GetInitBoundsFromActor")

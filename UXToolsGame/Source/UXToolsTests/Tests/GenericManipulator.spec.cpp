@@ -198,6 +198,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 			RightHand.Translate(TranslationDelta);
 		});
 
+		// Skip a frame to ensure the manipulator has updated the object.
 		FrameQueue.Skip();
 
 		FrameQueue.Enqueue([this, ExpectedLocation] {
@@ -227,6 +228,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 			LeftHand.Translate(TranslationDelta);
 		});
 
+		// Skip a frame to ensure the manipulator has updated the object.
 		FrameQueue.Skip();
 
 		FrameQueue.Enqueue([this, ExpectedLocation] {
@@ -251,6 +253,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 			RightHand.Rotate(ExpectedRotation);
 		});
 
+		// Skip a frame to ensure the manipulator has updated the object.
 		FrameQueue.Skip();
 
 		FrameQueue.Enqueue([this, ExpectedTransform] {
@@ -277,6 +280,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 			RightHand.Rotate(ExpectedRotation);
 		});
 
+		// Skip a frame to ensure the manipulator has updated the object.
 		FrameQueue.Skip();
 
 		FrameQueue.Enqueue([this, ExpectedTransform] {
@@ -305,6 +309,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 			RightHand.Translate(FVector(0, -50, 50));
 		});
 
+		// Skip a frame to ensure the manipulator has updated the object.
 		FrameQueue.Skip();
 
 		FrameQueue.Enqueue([this, ExpectedTransform] {
@@ -332,6 +337,7 @@ void GenericManipulatorSpec::EnqueueInteractionTests()
 			RightHand.Translate(FVector(0, 50, 0));
 		});
 
+		// Skip a frame to ensure the manipulator has updated the object.
 		FrameQueue.Skip();
 
 		FrameQueue.Enqueue([this, ExpectedScale] {

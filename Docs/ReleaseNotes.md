@@ -14,10 +14,13 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [TapToPlace component MaintainOrientation setting](#taptoplace-component-maintainorientation-setting)
   - [BoundsOverride property in UxtBoundsControl](#boundsoverride-property-in-uxtboundscontrol)
   - [UxtBoundsControl and UxtTapToPlace integration](#uxtboundscontrol-and-uxttaptoplace-integration)
+  - [Constraint Picker](#constraint-picker)
   - [UxtTouchableVolumeComponent improvements](#uxttouchablevolumecomponent-improvements)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
+  - [UxtOneHandedRotationMode](#uxtonehandedrotationmode)
+  - [UxtTransformConstraint](#uxttransformconstraint)
   - [UxtTouchableVolumeComponent's API update](#uxttouchablevolumecomponents-api-update)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
@@ -48,6 +51,12 @@ Thanks to the new [`BoundsOverride` property in `UUxtBoundsControlComponent`](#b
 
 ![BoundsControl - TapToPlace integration](Images/ReleaseNotes/boundscontrol_taptoplace_intregration.gif)
 
+### Constraint Picker
+
+The generic manipulator and bounds control components now provide a constraint picker to allow for fine grained control of what constraints are applied by the manipulator. The constraint picker can be used to add constraints to actor instances and blueprints. The UI automatically populates with classes inheriting from [`UxtTransformConstraint`](Manipulator.md#transform-constraints) so user defined constraints can also be added using this dialog box.
+
+![ConstraintPicker](Images/Manipulator/ConstraintPicker.png)
+
 ### UxtTouchableVolumeComponent improvements
 
 - An `InteractionMode` property has been added to allow limiting the interactions to only near or far pointers.
@@ -68,6 +77,14 @@ Hopefully, switching to the new function is not troublesome, but here are some g
 - The first parameter is now a `USceneComponent` instead of an `AActor`. Simply add a `GetRootComponent()` to the previously used parameter.
 - If you were using the `InLocalSpace` variant, now you need to pass in the local space explicitly. On the same component that you're now passing as first parameter (see previous point), simply use `GetComponentTransform().Inverse()`.
 - The `Ignore` parameter is now a `TArrayView<const USceneComponent* const>`, instead of a single component. Typically, enclosing the previously used parameter in curly braces `{}` will suffice, thanks to the [TArrayView's initializer list constructor][tarrayview-initializer-list-ctor]. The [MakeArrayView overload list][makearrayview-overload-list] and [MoveTemp][movetemp] utilities might come in handy, too.
+
+### UxtOneHandedRotationMode
+
+- `MaintainOriginalRotation`, `MaintainOriginalRotation`, `MaintainOriginalRotation`, `MaintainOriginalRotation` and `MaintainOriginalRotation` have been removed in favor of using [transform constraints](Manipulator.md#transform-constraints).
+
+### UxtTransformConstraint
+
+- The `TargetComponent` property has been removed in favor of using `WorldPoseOnManipulationStart`.
 
 ### UxtTouchableVolumeComponent's API update
 

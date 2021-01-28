@@ -105,6 +105,83 @@ void ManipulatorConstraintSpec::Define()
 		FrameQueue.Reset();
 	});
 
+	Describe("Constraint Selection", [this] {
+		BeforeEach([this] {
+			InteractionMode = EUxtInteractionMode::Near;
+			RightHand.Configure(InteractionMode, TargetLocation);
+
+			UUxtMoveAxisConstraint* MoveConstraint = NewObject<UUxtMoveAxisConstraint>(Target->GetOwner());
+			MoveConstraint->ConstraintOnMovement = static_cast<uint32>(EUxtAxisFlags::X | EUxtAxisFlags::Y | EUxtAxisFlags::Z);
+			MoveConstraint->RegisterComponent();
+
+			UUxtRotationAxisConstraint* RotationConstraint = NewObject<UUxtRotationAxisConstraint>(Target->GetOwner());
+			RotationConstraint->ConstraintOnRotation = static_cast<uint32>(EUxtAxisFlags::X | EUxtAxisFlags::Y | EUxtAxisFlags::Z);
+			RotationConstraint->RegisterComponent();
+
+			Constraint = MoveConstraint;
+		});
+
+		AfterEach([this] { RightHand.Reset(); });
+
+		LatentIt("should automatically detect all constraints", [this](const FDoneDelegate& Done) {
+			Target->SetAutoDetectConstraints(true);
+
+			const FTransform InitialTransform = Target->GetOwner()->GetTransform();
+
+			FrameQueue.Enqueue([this] { RightHand.SetGrabbing(true); });
+
+			FrameQueue.Enqueue([this] {
+				TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+
+				RightHand.Translate(FVector(10, 10, 10));
+				RightHand.Rotate(FQuat(FVector::OneVector, FMath::DegreesToRadians(90)));
+			});
+
+			// Skip a frame to ensure the manipulator has updated the object.
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, InitialTransform] {
+				const FTransform Result = Target->GetOwner()->GetTransform();
+
+				TestEqual("The movement constraint was applied", Result.GetLocation(), InitialTransform.GetLocation());
+				TestEqual("The rotation constraint was applied", Result.GetRotation(), InitialTransform.GetRotation());
+			});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+
+		LatentIt("should only use selected constraints", [this](const FDoneDelegate& Done) {
+			FComponentReference ConstraintReference;
+			ConstraintReference.OverrideComponent = Constraint;
+
+			Target->SetAutoDetectConstraints(false);
+			Target->AddConstraint(ConstraintReference);
+
+			const FTransform InitialTransform = Target->GetOwner()->GetTransform();
+
+			FrameQueue.Enqueue([this] { RightHand.SetGrabbing(true); });
+
+			FrameQueue.Enqueue([this] {
+				TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+
+				RightHand.Translate(FVector(10, 10, 10));
+				RightHand.Rotate(FQuat(FVector::OneVector, FMath::DegreesToRadians(90)));
+			});
+
+			// Skip a frame to ensure the manipulator has updated the object.
+			FrameQueue.Skip();
+
+			FrameQueue.Enqueue([this, InitialTransform] {
+				const FTransform Result = Target->GetOwner()->GetTransform();
+
+				TestEqual("The movement constraint was applied", Result.GetLocation(), InitialTransform.GetLocation());
+				TestNotEqual("The rotation constraint was not applied", Result.GetRotation(), InitialTransform.GetRotation());
+			});
+
+			FrameQueue.Enqueue([Done] { Done.Execute(); });
+		});
+	});
+
 	Describe("Near Interaction", [this] {
 		BeforeEach([this] {
 			InteractionMode = EUxtInteractionMode::Near;
@@ -166,6 +243,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToWorldConstraintTests()
 				RightHand.Rotate(FQuat(FVector::ForwardVector, FMath::DegreesToRadians(90)));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ExpectedTransform] {
@@ -193,6 +271,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToWorldConstraintTests()
 				RightHand.Translate(FVector(0, -50, 50));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ExpectedTransform] {
@@ -235,6 +314,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 				RightHand.Rotate(HeadTilt);
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ExpectedTransformAfterHandRotation, CameraController, HeadTilt] {
@@ -247,6 +327,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 				CameraController->SetRelativeRotation(HeadTilt);
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, RelativeRotationToCameraStart, HeadTilt, CameraController] {
@@ -292,6 +373,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 				RightHand.Translate(FVector(0, -50, 50));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ExpectedTransformAfterHandRotation, CameraController, HeadTilt] {
@@ -304,6 +386,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 				CameraController->SetRelativeRotation(HeadTilt);
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, RelativeRotationToCameraStart, HeadTilt, CameraController] {
@@ -343,6 +426,7 @@ void ManipulatorConstraintSpec::EnqueueFaceUserConstraintTests()
 				RightHand.Rotate(FQuat(FVector::ForwardVector, FMath::DegreesToRadians(90)));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this] {
@@ -375,6 +459,7 @@ void ManipulatorConstraintSpec::EnqueueFaceUserConstraintTests()
 				RightHand.Translate(FVector(-50, -50, 50));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this] {
@@ -414,6 +499,7 @@ void ManipulatorConstraintSpec::EnqueueRotationAxisConstraintTests()
 				RightHand.Rotate(FQuat(FVector::ForwardVector, FMath::DegreesToRadians(90)));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ExpectedRotation] {
@@ -441,6 +527,7 @@ void ManipulatorConstraintSpec::EnqueueRotationAxisConstraintTests()
 				RightHand.Translate(FVector(0, -50, 50));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ExpectedRotation] {
@@ -473,6 +560,7 @@ void ManipulatorConstraintSpec::EnqueueFixedDistanceConstraintTests()
 				RightHand.Translate(FVector(100, 100, 100));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, HeadPose, ExpectedDistance] {
@@ -501,6 +589,7 @@ void ManipulatorConstraintSpec::EnqueueFixedDistanceConstraintTests()
 				RightHand.Translate(FVector(100, 100, 100));
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ConstraintObject, ExpectedDistance] {
@@ -540,6 +629,7 @@ void ManipulatorConstraintSpec::EnqueueMaintainApparentSizeConstraintTests()
 				RightHand.Translate(Translation);
 			});
 
+			// Skip a frame to ensure the manipulator has updated the object.
 			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this, ExpectedScale] {
@@ -567,7 +657,8 @@ void ManipulatorConstraintSpec::EnqueueMaintainApparentSizeConstraintTests()
 				RightHand.Translate(FVector(0, -50, 50));
 			});
 
-			FrameQueue.Skip(2);
+			// Skip a frame to ensure the manipulator has updated the object.
+			FrameQueue.Skip();
 
 			FrameQueue.Enqueue([this] {
 				const FVector Result = Target->GetOwner()->GetActorScale();

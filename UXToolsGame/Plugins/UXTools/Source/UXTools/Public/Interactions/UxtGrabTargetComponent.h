@@ -5,7 +5,7 @@
 
 #include "CoreMinimal.h"
 
-#include "Components/ActorComponent.h"
+#include "Interactions/Constraints/UxtConstrainableComponent.h"
 #include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Interactions/UxtGrabHandler.h"
@@ -164,7 +164,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTarget
  */
 UCLASS(Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtGrabTargetComponent
-	: public UActorComponent
+	: public UUxtConstrainableComponent
 	, public IUxtGrabTarget
 	, public IUxtGrabHandler
 	, public IUxtFarTarget
