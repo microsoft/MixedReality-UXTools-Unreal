@@ -16,6 +16,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtBoundsControl and UxtTapToPlace integration](#uxtboundscontrol-and-uxttaptoplace-integration)
   - [Constraint Picker](#constraint-picker)
   - [UxtTouchableVolumeComponent improvements](#uxttouchablevolumecomponent-improvements)
+  - [UxtBoundsControlComponent's affordance scale](#uxtboundscontrolcomponents-affordance-scale)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
@@ -61,6 +62,10 @@ The generic manipulator and bounds control components now provide a constraint p
 
 - An `InteractionMode` property has been added to allow limiting the interactions to only near or far pointers.
 - The `bLockFocus` flag has been added to allow the focus locking of pointers be disabled.
+
+### UxtBoundsControlComponent's affordance scale
+
+In order to match the HoloLens 2 shell's behavior, affordances are now scaled up, based on the distance to the hologram they are surrounding. This makes it easier to interact with them when the actors are big and far away.
 
 ## Breaking changes
 

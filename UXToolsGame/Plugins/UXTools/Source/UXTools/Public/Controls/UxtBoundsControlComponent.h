@@ -28,7 +28,6 @@ struct FUxtAffordanceInstance
 	GENERATED_BODY()
 
 	/** Copy of the config used for generating the affordance. */
-	UPROPERTY()
 	FUxtAffordanceConfig Config;
 
 	/** Dynamic material for highlighting the affordance. */
@@ -36,16 +35,19 @@ struct FUxtAffordanceInstance
 	UMaterialInstanceDynamic* DynamicMaterial;
 
 	/** Percentage of transition to the focused state. */
-	UPROPERTY()
 	float FocusedTransition = 0.0f;
 
 	/** Percentage of transition to the grabbed state. */
-	UPROPERTY()
 	float ActiveTransition = 0.0f;
 
 	/** Refcount of pointers currently focusing the affordance. */
-	UPROPERTY()
 	int FocusCount = 0;
+
+	/** Initial scale, used to calculate @ref ReferenceRelativeScale */
+	FVector InitialRelativeScale = FVector::OneVector;
+
+	/** Reference scale to be used during scaling animations */
+	FVector ReferenceRelativeScale = FVector::OneVector;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(

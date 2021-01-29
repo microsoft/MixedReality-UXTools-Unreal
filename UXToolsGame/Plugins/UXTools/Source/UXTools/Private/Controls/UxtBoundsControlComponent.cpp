@@ -53,6 +53,28 @@ struct UxtAffordanceInteractionCache
 
 namespace
 {
+	/**
+	 * Associates a specific distance threshold to the corresponding scale factor to apply.
+	 */
+	struct DistanceToScalePair
+	{
+		float DistanceThreshold;
+		float ScaleFactor;
+	};
+
+	/**
+	 * Maps distance (in cm) to the scale that should be applied to affordance meshes.
+	 *
+	 * This must be used to keep affordances visible and easy to interact with even when being far away from the actor.
+	 *
+	 * It might seem silly, since the scale is just dist/100 in all cases at the moment, but using this leaves the door open to make it
+	 * customizable or easily change values later on.
+	 *
+	 * WARNING: Order is important for querying and 0 is not allowed as key.
+	 */
+	const TArray<DistanceToScalePair> AffordanceDistToScale =
+		{{200.0f, 2.0f}, {400.0f, 4.0f}, {600.0f, 6.0f}, {800.0f, 8.0f}, {1000.0f, 10.0f}};
+
 	static FName LeftPositionParam("LeftPointerPosition");
 	static FName RightPositionParam("RightPointerPosition");
 	static FName OpacityParam("Opacity");
@@ -318,7 +340,9 @@ void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 
 		BoundsControlActor->SetActorLocationAndRotation(Location, Rotation);
 	}
-	for (const auto& Item : PrimitiveAffordanceMap)
+
+	const FVector ActorCenterLoc = GetOwner()->GetTransform().TransformPosition(Bounds.GetCenter());
+	for (auto& Item : PrimitiveAffordanceMap)
 	{
 		FVector AffordanceLocation;
 		FQuat AffordanceRotation;
@@ -326,6 +350,30 @@ void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 			Bounds, BoundsTargetComponent->GetComponentTransform(), AffordanceLocation, AffordanceRotation);
 		Item.Key->SetWorldLocation(AffordanceLocation);
 		Item.Key->SetWorldRotation(AffordanceRotation);
+
+		const UPrimitiveComponent* AffordancePrimitive = Item.Key;
+		FUxtAffordanceInstance& AffordanceInstance = Item.Value;
+
+		const float DistanceToCenter = FVector::Distance(ActorCenterLoc, AffordanceLocation);
+		float ScaleFactor = 1.0f;
+		float DistanceThreshold = 0.0f;
+		for (const DistanceToScalePair& Pair : AffordanceDistToScale)
+		{
+			const float PreviousThreshold = DistanceThreshold;
+			DistanceThreshold = Pair.DistanceThreshold;
+			if (DistanceThreshold > DistanceToCenter)
+			{
+				// ScaleFactor already holds the previous value, so add the appropriate amount towards the one after
+				check(!FMath::IsNearlyZero(DistanceThreshold));
+				ScaleFactor += FMath::Lerp(0.0f, Pair.ScaleFactor, DistanceToCenter / DistanceThreshold);
+				break;
+			}
+			else
+			{
+				ScaleFactor = Pair.ScaleFactor;
+			}
+		}
+		AffordanceInstance.ReferenceRelativeScale = AffordanceInstance.InitialRelativeScale * ScaleFactor;
 	}
 }
 
@@ -398,7 +446,8 @@ void UUxtBoundsControlComponent::UpdateAffordanceAnimation(float DeltaTime)
 			AffordanceInstance.DynamicMaterial->SetScalarParameterValue(IsFocusedParam, AffordanceInstance.FocusedTransition);
 			AffordanceInstance.DynamicMaterial->SetScalarParameterValue(IsActiveParam, AffordanceInstance.ActiveTransition);
 		}
-		AffordancePrimitive->SetRelativeScale3D(FVector::OneVector * (1.0f + 0.2f * AffordanceInstance.FocusedTransition));
+		AffordancePrimitive->SetRelativeScale3D(
+			AffordanceInstance.ReferenceRelativeScale * (1.0f + 0.2f * AffordanceInstance.FocusedTransition));
 	}
 }
 
