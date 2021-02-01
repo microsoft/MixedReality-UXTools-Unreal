@@ -33,7 +33,11 @@ stages:
 
     # RepoMirrorUrl will usually contain a PAT because the build agent doesn't have write permission.
     - powershell: '$(UXTSourceDir)\Tools\CI\scripts\MirrorToRemote.ps1 -RemoteUrl $(RepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(MirrorRefsToAllowRegex)'
-      displayName: 'Mirror $(Build.SourceBranch) branch'
+      displayName: 'Mirror $(Build.SourceBranch) branch to shared repo'
+      workingDirectory: $(UXTSourceDir)
+
+    - powershell: '$(UXTSourceDir)\Tools\CI\scripts\MirrorToRemote.ps1 -RemoteUrl $(GitHubRepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(GitHubMirrorRefsToAllowRegex)'
+      displayName: 'Mirror $(Build.SourceBranch) branch to GitHub'
       workingDirectory: $(UXTSourceDir)
 
 - stage: iOS
