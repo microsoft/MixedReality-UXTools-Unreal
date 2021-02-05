@@ -174,9 +174,9 @@ void TooltipSpec::Define()
 			FrameQueue.Enqueue([this, Done] {
 				FTransform HeadTransform = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld());
 				const FVector TargetVector = HeadTransform.GetLocation() - TooltipActor->GetActorLocation();
-				auto Rot1 = TooltipActor->GetActorRotation().Vector();
+				auto Rot1 = TooltipActor->PivotComponent->GetComponentRotation().Vector();
 				auto Rot2 = FRotationMatrix::MakeFromX(TargetVector).Rotator().Vector();
-				TestEqual("Make sure the tooltip is billboarding to the head.", Rot1, Rot2);
+				TestEqual("Make sure the tooltip pivot is billboarding to the head.", Rot1, Rot2);
 				Done.Execute();
 			});
 		});

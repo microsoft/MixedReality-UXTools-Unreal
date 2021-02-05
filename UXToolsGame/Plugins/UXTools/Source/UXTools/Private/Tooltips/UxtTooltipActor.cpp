@@ -20,6 +20,11 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer) 
 	RootComponent = SceneRoot;
 	SceneRoot->SetMobility(EComponentMobility::Movable);
 
+	// Creates the pivot component.
+	PivotComponent = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, TEXT("PivotComponent"));
+	PivotComponent->SetMobility(EComponentMobility::Movable);
+	PivotComponent->SetupAttachment(SceneRoot);
+
 	// Spline Mesh.
 	SplineMeshComponent = ObjectInitializer.CreateDefaultSubobject<USplineMeshComponent>(this, TEXT("SplineMeshComponent"));
 	SplineMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -41,7 +46,7 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer) 
 
 	// Create the anchor component.
 	Anchor = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, "Anchor");
-	Anchor->SetupAttachment(SceneRoot);
+	Anchor->SetupAttachment(PivotComponent);
 	Anchor->SetAbsolute(/*location*/ false, /*rotation*/ false, /*scale*/ true); // Anchor to not be affected by scale.
 
 	// Default value for the component target as most common.
@@ -53,14 +58,14 @@ AUxtTooltipActor::AUxtTooltipActor(const FObjectInitializer& ObjectInitializer) 
 	TooltipWidgetComponent->SetWidgetSpace(EWidgetSpace::World);
 	TooltipWidgetComponent->SetDrawAtDesiredSize(true);
 	TooltipWidgetComponent->SetTwoSided(true);
-	TooltipWidgetComponent->SetupAttachment(SceneRoot);
+	TooltipWidgetComponent->SetupAttachment(PivotComponent);
 	TooltipWidgetComponent->SetRelativeLocation(FVector(0, 0, 0), false);
 	TooltipWidgetComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	TooltipWidgetComponent->SetCastShadow(false);
 
 	// Back Plate.
 	BackPlate = ObjectInitializer.CreateDefaultSubobject<UUxtBackPlateComponent>(this, "BackPlate");
-	BackPlate->SetupAttachment(SceneRoot);
+	BackPlate->SetupAttachment(PivotComponent);
 	BackPlate->SetRelativeLocation(FVector(-0.01f, 0, 0), false);
 	BackPlate->SetRelativeScale3D(FVector{0.f, 0.0f, 0.0f});
 	BackPlate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -185,29 +190,30 @@ void AUxtTooltipActor::UpdateSpline()
 		FVector EndWorldPos = CurrentTooltipTarget->GetComponentLocation();
 		EndWorldPos += Anchor->GetRelativeLocation();
 
-		// Billboarding rotates the actor so we need to compensate the rotation on the start/end points.
-		const FTransform& InverseT = GetActorTransform().Inverse();
-		EndWorldPos = InverseT.TransformPositionNoScale(EndWorldPos);
-		StartWorldPos = InverseT.TransformPositionNoScale(StartWorldPos);
+		// Billboarding rotates the pivot so we need to compensate the rotation on the start/end points.
+		const FTransform& PivotToWorldTransf = PivotComponent->GetComponentTransform();
+		const FTransform& WorldToPivotTransf = PivotToWorldTransf.Inverse();
+		const FTransform& WorldToSplineTransf = SplineMeshComponent->GetComponentTransform().Inverse();
+		const FTransform& PivotToSplineTransf = PivotToWorldTransf * WorldToSplineTransf;
 
-		FVector StartPos = FVector::ZeroVector;
-		const FVector EndPos = EndWorldPos - StartWorldPos;
+		FVector StartPivotPos = FVector::ZeroVector;
+		const FVector EndPivotPos = WorldToPivotTransf.TransformVectorNoScale(EndWorldPos - StartWorldPos);
+
 		if (bIsAutoAnchoring)
 		{
 			// The tooltip doesn't return the correct size until it has been rendered at least once. This coincides with the creation of the
 			// render target.
 			if (TooltipWidgetComponent->GetRenderTarget())
 			{
-				StartPos = GetClosestAnchorToTarget(EndPos);
-				SplineMeshComponent->SetEndPosition(EndPos, false);
-				SplineMeshComponent->SetStartPosition(StartPos, true);
+				StartPivotPos = GetClosestAnchorToTarget(EndPivotPos);
 			}
 		}
-		else
-		{
-			SplineMeshComponent->SetEndPosition(EndPos, false);
-			SplineMeshComponent->SetStartPosition(StartPos, true);
-		}
+
+		FVector StartSplinePos = PivotToSplineTransf.TransformPositionNoScale(StartPivotPos);
+		FVector EndSplinePos = PivotToSplineTransf.TransformPositionNoScale(EndPivotPos);
+
+		SplineMeshComponent->SetEndPosition(EndSplinePos, false);
+		SplineMeshComponent->SetStartPosition(StartSplinePos, true);
 	}
 	else
 	{
@@ -224,7 +230,7 @@ void AUxtTooltipActor::UpdateBillboard()
 	{
 		FTransform HeadTransform = UUxtFunctionLibrary::GetHeadPose(GetWorld());
 		const FVector TargetVector = HeadTransform.GetLocation() - TooltipWidgetComponent->GetComponentLocation();
-		SetActorRotation(FRotationMatrix::MakeFromX(TargetVector).Rotator());
+		PivotComponent->SetWorldRotation(FRotationMatrix::MakeFromX(TargetVector).Rotator());
 	}
 }
 
