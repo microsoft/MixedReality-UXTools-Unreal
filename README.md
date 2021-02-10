@@ -51,22 +51,39 @@ If you're already familiar with Mixed Reality development in Unreal, you can fin
 
 # Example maps
 
-If you want to explore the different UXT features or want a reference for how to use them, we recommend having a look at the example maps contained in the _UX Tools Examples_ plugin (/UXToolsGame/Plugins/UXToolsExamples). You can copy the examples plugin (along with the UXTools plugin) into 'Plugins' subfolder of your own project or you can simply try out the _UX Tools Game_ project (/UXToolsGame) in this repository. For that you should:
+If you want to explore the different UXT features you can try out the _UX Tools Game_ project. You can download the [pre-built UX Tools Game application](#packaged-ux-tools-game-example-application) and deploy it to a HoloLens device right away. Alternatively, you can [build the latest version of UX Tools Game](#building-the-latest-ux-tools-game-example-application) from source.
+
+It is also possible to [try out the UX Tools examples inside your own project](#importing-examples-to-your-project). Please note that the examples should be only used as a reference. Your final project should not have a dependency on the _UX Tools Examples_ plugin.
+
+## Packaged UX Tools Game example application
+
+We also provide the _UX Tools Game_ pre-packaged for HoloLens 2, so you can try out the main _UX Tools_ features directly on device easily. To use it:
+
+1. Obtain the packaged game from the latest release page (i.e. `UXTGame-HoloLens.<version>.zip`) and unzip it to a local directory.
+1. Install it in the device via the [Device Portal](https://docs.microsoft.com/en-us/windows/uwp/debug-test-perf/device-portal#install-sideload-an-app).
+
+## Building the latest UX Tools Game example application
+
+For that you should:
 
 1. [Clone](https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop) this repository.
 1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) the latest 'public/_version_.x' branch.
     * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. _release/0.11.0_) marked as such in GitHub.
 
-You can now open the _UX Tools Game_ (/UXToolsGame) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub. You can also copy the examples (/UXToolsGame/Plugins/UXToolsExamples) into the 'Plugins' folder in your own project and use the pre-made elements as a base for your own Mixed Reality experience.
+You can now open the _UX Tools Game_ (`/UXToolsGame/UXToolsGame.uproject`) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub. 
 
-Please note that the example content might change significantly between releases. Please make sure to always run the examples with a matching version of the UX Tools Plugin as there might be breaking changes in the example code.
+## Importing examples to your project
 
-# Packaged UX Tools Game
+You can also copy the _UX Tools Examples_ to a new project. This is a convenient way to use the provided sample scenes as a reference when building your own Mixed Reality experiences. You are free to reuse the sample UI elements but please ensure that your final project does not declare a dependency on the _UX Tools Examples_ plugin.
 
-We also provide the _UX Tools Game_ pre-packaged for HoloLens 2 so you can try out the main UXT features directly on device easily. To use it:
+There are two ways in which you can add the example scenes to your project:
 
-1. Obtain the packaged game from the latest release page (e.g. _UXTGame-HoloLens.0.11.0.zip_) and unzip it to a local directory.
-1. Install it in the device via the [Device Portal](https://docs.microsoft.com/en-us/windows/uwp/debug-test-perf/device-portal#install-sideload-an-app).
+* You can obtain a pre-built version of the _UX Tools Examples_ plugin from the latest GitHub release. You can download `UXToolsExamples.<version>.zip` from release attachments and extract its contents into the `Plugins` folder inside your Unreal Engine project.
+* Alternatively, you can [clone](https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop) this repository and copy `UXToolsGame/Plugins/UXToolsExamples` to the `Plugins` subdirectory in your own project.
+
+If you want to use content from the examples plugin as part of your project, make sure to copy that content to your project's `Content` folder. Newer versions of the examples plugin may change or remove existing content without notice.
+
+Please note that you also need to [add the UX Tools plugin to your project](Docs/Installation.md). Always use a _UX Tools Plugin_ version that matches the version of the _UX Tools Examples_. Example content is only guaranteed to work with a single version of the _UX Tools Plugin_ as releases can introduce breaking changes.
 
 # Sample apps made with UX Tools
 
