@@ -2,5 +2,7 @@
 variables:
 - name: DocFX.Version
   value: '2.48.1'
-- name: code2yaml.Version
-  value: '1.0.69'
+- name: Doxygen.Version
+  value: '1.9.1'
+- name: Doxybook2.Version
+  value: '1.3.3'

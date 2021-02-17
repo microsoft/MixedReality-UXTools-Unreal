@@ -23,6 +23,11 @@ steps:
     arguments: '-RepoRoot: ${{ parameters.SourceRepoDir }} -Directory: ${{ parameters.SourceRepoDir }}\Docs -ChangesFile: $(Build.ArtifactStagingDirectory)\build\changedfiles.txt'
   displayName: 'Documentation validation'
 
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x' 
+    addToPath: true 
+
 - task: NuGetToolInstaller@1
   displayName: 'Ensure NuGet.exe is installed and in PATH'
 
@@ -33,13 +38,14 @@ steps:
     arguments: 'install docfx.console -Version $(DocFX.Version) -OutputDirectory $(Build.ArtifactStagingDirectory)'
 
 - powershell: |
-    . nuget.exe sources -NonInteractive add -Name code2yaml -Source $(CIUtils.NugetFeed)
-    . nuget.exe sources -NonInteractive update -Name code2yaml -username VSTS -password $(DocFX.PAT) -StorePasswordInClearText
-    . nuget.exe install code2yaml -Version $(code2yaml.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)
-  displayName: 'Install code2yaml'
+    . nuget.exe sources -NonInteractive add -Name doctoolssource -Source $(CIUtils.NugetFeed)
+    . nuget.exe sources -NonInteractive update -Name doctoolssource -username VSTS -password $(DocFX.PAT) -StorePasswordInClearText
+    . nuget.exe install doxygen -Version $(Doxygen.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)
+    . nuget.exe install doxybook2 -Version $(Doxybook2.Version) -OutputDirectory $(Build.ArtifactStagingDirectory) -Source $(CIUtils.NugetFeed)
+  displayName: 'Install docs generation tools'
 
 - powershell: |
-    $env:Path += ";$(Build.ArtifactStagingDirectory)/docfx.console.$(DocFX.Version)/tools;$(Build.ArtifactStagingDirectory)/code2yaml.$(code2yaml.Version)"
+    $env:Path += ";$(Build.ArtifactStagingDirectory)/docfx.console.$(DocFX.Version)/tools;$(Build.ArtifactStagingDirectory)/doxygen.$(Doxygen.Version);$(Build.ArtifactStagingDirectory)/doxybook2.$(Doxybook2.Version)"
     . ${{ parameters.SourceRepoDir }}\Tools\DocGen\generateDocs.ps1
   displayName: "Generate docs"
 

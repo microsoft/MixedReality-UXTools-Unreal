@@ -1,0 +1,11 @@
+---
+{% if exists("title") -%}
+title: MRTK Unreal API Reference {{title}}
+{% else if exists("name") -%}
+title: {{name}}
+{% endif -%}
+{% if exists("summary") -%}
+summary: {{summary}}
+{% endif -%}
+{% include "meta" %}
+---
