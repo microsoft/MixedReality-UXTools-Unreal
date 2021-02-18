@@ -18,6 +18,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtTouchableVolumeComponent improvements](#uxttouchablevolumecomponent-improvements)
   - [UxtBoundsControlComponent's affordance scale](#uxtboundscontrolcomponents-affordance-scale)
   - [Improved UxtRotationAxisConstraint's interaction with UxtBoundsControl and UxtGenericManipulator](#improved-uxtrotationaxisconstraints-interaction-with-uxtboundscontrol-and-uxtgenericmanipulator)
+  - [Fixed UxtBoundsControlComponent's face affordances](#fixed-uxtboundscontrolcomponents-face-affordances)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
@@ -81,6 +82,13 @@ Thanks to these changes, `UUxtBoundsControlComponent` is now able to interact ap
 | --- | --- |
 | ![Rotation Axis Constraint (World Z allowed)](Images/ReleaseNotes/rotation_axis_constraint_z_world.gif) | ![Rotation Axis Constraint (Local Z allowed)](Images/ReleaseNotes/rotation_axis_constraint_z_local.gif) |
 (NOTE: debug axes aligned to world's have been added for reference)
+
+### Fixed UxtBoundsControlComponent's face affordances
+
+- `UUxtBoundsControlComponent::TransformTarget`'s handling of the `EUxtAffordanceAction::Translate` action has been fixed.
+- The face mesh (`SM_BoundingBox_FaceHandle.uasset`) now has collisions, so you can interact with them.
+- A new `UUxtBoundsControlConfig` data asset (named `BoundsControlDefaultWithFaces.uasset`) has been added, with face affordances configured by default.
+- `BoundsControlExamples.umap` has a new coffee cup instance featuring this.
 
 ## Breaking changes
 

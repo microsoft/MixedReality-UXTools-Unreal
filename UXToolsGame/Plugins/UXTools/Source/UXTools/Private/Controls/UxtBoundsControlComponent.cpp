@@ -523,13 +523,14 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 	{
 	case EUxtAffordanceAction::Translate:
 	{
-		// Project the distance between initial and current grab point onto the diagonal
 		const FVector CurrentWorldGrabPointLoc = GrabTransform.GetLocation();
 		const FVector InitialWorldGrabPointLoc = InteractionCache->InitialGrabPointTransform.GetLocation();
-		const float ProjectionFactor =
-			FVector::DotProduct(CurrentWorldGrabPointLoc - InitialWorldGrabPointLoc, InteractionCache->InitialDiagonalDirection);
-		const FVector Translation = InteractionCache->InitialDiagonalDirection * ProjectionFactor;
-		NewTransform.AddToTranslation(Translation);
+
+		// Translation axis aligned to actor's transform
+		const FVector TranslationAxis = NewTransform.TransformVector(AffordanceConfig.GetBoundsLocation());
+
+		const FVector ProjectedTranslation = (CurrentWorldGrabPointLoc - InitialWorldGrabPointLoc).ProjectOnTo(TranslationAxis);
+		NewTransform.AddToTranslation(ProjectedTranslation);
 		ApplyConstraints(NewTransform, EUxtTransformMode::Translation, true, IsNear);
 		break;
 	}
