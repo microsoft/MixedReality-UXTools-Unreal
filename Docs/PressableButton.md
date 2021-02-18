@@ -126,7 +126,7 @@ The fraction of the maximum push distance that an unpressed button needs to be p
 The fraction of the maximum push distance that a pressed button needs to be pushed in order for the button released event to fire.
 
 ### Recovery Speed
-The speed at which the button visuals return to the their resting position when no longer being touched by near interaction or selected using far interaction.
+The speed at which the button visuals return to the their resting position when no longer being touched by near interaction or selected using far interaction. This value is specified in Unreal units per second (uu/s).
 
 ### Front Face Collision Margin
 The distance in front of the visuals front face to place the front of the button box collider.

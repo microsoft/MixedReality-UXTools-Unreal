@@ -162,7 +162,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button", meta = (DisplayAfter = "bUseAbsolutePushDistance"))
 	float ReleasedFraction = 0.2f;
 
-	/** Button movement speed while recovering */
+	/** Button movement speed while recovering in Unreal units per second (uu/s) */
 	UPROPERTY(EditAnywhere, Category = "Uxt Pressable Button", meta = (DisplayAfter = "bUseAbsolutePushDistance"))
 	float RecoverySpeed = 50;
 
