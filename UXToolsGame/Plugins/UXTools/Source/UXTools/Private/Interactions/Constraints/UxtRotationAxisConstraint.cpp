@@ -10,24 +10,35 @@ EUxtTransformMode UUxtRotationAxisConstraint::GetConstraintType() const
 
 void UUxtRotationAxisConstraint::ApplyConstraint(FTransform& Transform) const
 {
-	FQuat InverseRotation = WorldPoseOnManipulationStart.GetRotation().Inverse();
-	FQuat RotationFromManipulationStart = Transform.GetRotation() * InverseRotation;
+	FQuat RotationSpace = WorldPoseOnManipulationStart.GetRotation();
+	FQuat DeltaRotation = RotationSpace.Inverse() * Transform.GetRotation();
 
-	FVector Eulers = RotationFromManipulationStart.Euler();
-	if (ConstraintOnRotation & static_cast<int32>(EUxtAxisFlags::X))
+	// As DeltaRotation is in World space, unrotating the reference vectors aligns them to the actual World axes
+	const FVector RefX = bUseLocalSpaceForConstraint ? FVector::ForwardVector : RotationSpace.UnrotateVector(FVector::ForwardVector);
+	const FVector RefY = bUseLocalSpaceForConstraint ? FVector::RightVector : RotationSpace.UnrotateVector(FVector::RightVector);
+	const FVector RefZ = bUseLocalSpaceForConstraint ? FVector::UpVector : RotationSpace.UnrotateVector(FVector::UpVector);
+
+	FVector TwistAxis = FVector::ZeroVector;
+	switch (AllowedAxis)
 	{
-		Eulers.X = 0;
-	}
-	if (ConstraintOnRotation & static_cast<int32>(EUxtAxisFlags::Y))
-	{
-		Eulers.Y = 0;
-	}
-	if (ConstraintOnRotation & static_cast<int32>(EUxtAxisFlags::Z))
-	{
-		Eulers.Z = 0;
+	case EUxtAxis::None:
+		TwistAxis = FVector::ZeroVector;
+		break;
+	case EUxtAxis::X:
+		TwistAxis = FVector::CrossProduct(RefY, RefZ);
+		break;
+	case EUxtAxis::Y:
+		TwistAxis = FVector::CrossProduct(RefX, RefZ);
+		break;
+	case EUxtAxis::Z:
+		TwistAxis = FVector::CrossProduct(RefX, RefY);
+		break;
+	default:
+		break;
 	}
 
-	Transform.SetRotation(
-		bUseLocalSpaceForConstraint ? WorldPoseOnManipulationStart.GetRotation() * FQuat::MakeFromEuler(Eulers)
-									: FQuat::MakeFromEuler(Eulers) * WorldPoseOnManipulationStart.GetRotation());
+	FQuat Swing, Twist;
+	DeltaRotation.ToSwingTwist(TwistAxis.GetSafeNormal(), Swing, Twist);
+
+	Transform.SetRotation(RotationSpace * Twist);
 }

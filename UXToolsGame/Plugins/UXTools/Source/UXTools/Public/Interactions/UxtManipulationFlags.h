@@ -37,12 +37,22 @@ ENUM_CLASS_FLAGS(EUxtTransformMode)
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum class EUxtAxisFlags : uint8
 {
-	None = 0 UMETA(Hidden),
+	None = 0,
 	X = 1 << 0,
 	Y = 1 << 1,
 	Z = 1 << 2,
 };
 ENUM_CLASS_FLAGS(EUxtAxisFlags)
+
+/** Used to choose a single 3D axis. See @ref EUxtAxisFlags if you need a bit mask */
+UENUM(BlueprintType)
+enum class EUxtAxis : uint8
+{
+	None = 0,
+	X,
+	Y,
+	Z,
+};
 
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum class EUxtReleaseBehavior : uint8

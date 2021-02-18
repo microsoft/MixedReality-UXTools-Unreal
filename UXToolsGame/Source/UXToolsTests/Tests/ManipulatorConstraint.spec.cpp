@@ -115,7 +115,7 @@ void ManipulatorConstraintSpec::Define()
 			MoveConstraint->RegisterComponent();
 
 			UUxtRotationAxisConstraint* RotationConstraint = NewObject<UUxtRotationAxisConstraint>(Target->GetOwner());
-			RotationConstraint->ConstraintOnRotation = static_cast<uint32>(EUxtAxisFlags::X | EUxtAxisFlags::Y | EUxtAxisFlags::Z);
+			RotationConstraint->AllowedAxis = EUxtAxis::None;
 			RotationConstraint->RegisterComponent();
 
 			Constraint = MoveConstraint;
@@ -483,7 +483,7 @@ void ManipulatorConstraintSpec::EnqueueRotationAxisConstraintTests()
 	Describe("UxtRotationAxisConstraint", [this] {
 		BeforeEach([this] {
 			UUxtRotationAxisConstraint* RotationAxisConstraint = NewObject<UUxtRotationAxisConstraint>(Target->GetOwner());
-			RotationAxisConstraint->ConstraintOnRotation = static_cast<int32>(EUxtAxisFlags::X);
+			RotationAxisConstraint->AllowedAxis = EUxtAxis::Z;
 
 			Constraint = RotationAxisConstraint;
 			Constraint->RegisterComponent();

@@ -17,12 +17,14 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [Constraint Picker](#constraint-picker)
   - [UxtTouchableVolumeComponent improvements](#uxttouchablevolumecomponent-improvements)
   - [UxtBoundsControlComponent's affordance scale](#uxtboundscontrolcomponents-affordance-scale)
+  - [Improved UxtRotationAxisConstraint's interaction with UxtBoundsControl and UxtGenericManipulator](#improved-uxtrotationaxisconstraints-interaction-with-uxtboundscontrol-and-uxtgenericmanipulator)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
   - [UxtOneHandedRotationMode](#uxtonehandedrotationmode)
   - [UxtTransformConstraint](#uxttransformconstraint)
   - [UxtTouchableVolumeComponent's API update](#uxttouchablevolumecomponents-api-update)
+  - [UxtRotationAxisConstraint](#uxtrotationaxisconstraint)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -67,6 +69,19 @@ The generic manipulator and bounds control components now provide a constraint p
 
 In order to match the HoloLens 2 shell's behavior, affordances are now scaled up, based on the distance to the hologram they are surrounding. This makes it easier to interact with them when the actors are big and far away.
 
+### Improved UxtRotationAxisConstraint's interaction with UxtBoundsControl and UxtGenericManipulator
+
+The `UUxtRotationAxisConstraint` is now based on quaternions instead of Euler angles. By using swing-twist decomposition, we got rid of rotation errors and undesired flips.
+
+Besides that, `ConstraintOnRotation` has been replaced by `AllowedAxis` in order to better convey the meaning of the constraint and prevent unexpected configurations. If only 1 axis was constrained (which is a configuration previously allowed), combinations of rotations around the other two axes might end up in a rotation that you wouldn't expect to be allowed.
+
+Thanks to these changes, `UUxtBoundsControlComponent` is now able to interact appropriately with this constraint. In the following example, you can see how the constraint works when it only allows rotation around the `Z` axis:
+
+| bUseLocalSpaceForConstraint == false | bUseLocalSpaceForConstraint == true |
+| --- | --- |
+| ![Rotation Axis Constraint (World Z allowed)](Images/ReleaseNotes/rotation_axis_constraint_z_world.gif) | ![Rotation Axis Constraint (Local Z allowed)](Images/ReleaseNotes/rotation_axis_constraint_z_local.gif) |
+(NOTE: debug axes aligned to world's have been added for reference)
+
 ## Breaking changes
 
 ### `UxtHandTrackingFunctionLibrary` removed
@@ -95,6 +110,22 @@ Hopefully, switching to the new function is not troublesome, but here are some g
 
 - The `OnBeginFocus`, `OnUpdateFocus`, `OnEndFocus` events now pass the pointer as a `UUxtPointerComponent` instead of a `UObject`.
 - The `OnBeginPoke`, `OnUpdatePoke`, `OnEndPoke` events now pass the pointer as a `UUxtPointerComponent` instead of a `UUxtNearPointerComponent`.
+
+### UxtRotationAxisConstraint
+
+As mentioned in the [UxtRotationAxisConstraint's improvement](#improved-uxtrotationaxisconstraints-interaction-with-uxtboundscontrol-and-uxtgenericmanipulator) section, `ConstraintOnRotation` has been replaced by `AllowedAxis`, becoming a single `EUxtAxis` instead of a bit mask. Any existing instances of this constraint will take the value `EUxtAxis::None` by default (preventing any rotations at all), so you need to reconfigure said instances by selecting the axis you want to allow rotation around.
+
+In the event that you had any `UUxtRotationAxisConstraint` instanced from C++ code, please remember to check for any assignments of `ConstraintOnRotation`, such as
+
+```C++
+RotationConstraint->ConstraintOnRotation = static_cast<uint32>(EUxtAxisFlags::X | EUxtAxisFlags::Y | EUxtAxisFlags::Z);
+```
+
+and replace them by the corresponding
+
+```C++
+RotationConstraint->AllowedAxis = EUxtAxis::None;
+```
 
 ## Known issues
 

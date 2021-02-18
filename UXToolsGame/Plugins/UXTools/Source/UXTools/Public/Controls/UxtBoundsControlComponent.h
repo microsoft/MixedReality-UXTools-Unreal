@@ -208,10 +208,6 @@ private:
 	 */
 	void ResetConstraintsReferenceTransform();
 
-	/** Rotates the transform around the pivot, unless constraints apply. */
-	FTransform CalculateConstrainedRotation(
-		const FTransform& OriginalTransform, const FQuat& DeltaRotation, const FVector& Pivot, const bool IsNear) const;
-
 	/**
 	 * Resets the data cache to be used during the interaction.
 	 *

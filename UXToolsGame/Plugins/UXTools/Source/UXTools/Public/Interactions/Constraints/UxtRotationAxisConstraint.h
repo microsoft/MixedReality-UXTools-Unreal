@@ -24,9 +24,9 @@ public:
 	virtual void ApplyConstraint(FTransform& Transform) const;
 
 public:
-	/** Defines the axis the rotation constraint should be applied to. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Rotation Axis", meta = (Bitmask, BitmaskEnum = EUxtAxisFlags))
-	int32 ConstraintOnRotation = 0;
+	/** Defines which axis allows rotation. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Rotation Axis")
+	EUxtAxis AllowedAxis = EUxtAxis::None;
 
 	/** Use local or global space for constraint calculations*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Constraint|Rotation Axis")

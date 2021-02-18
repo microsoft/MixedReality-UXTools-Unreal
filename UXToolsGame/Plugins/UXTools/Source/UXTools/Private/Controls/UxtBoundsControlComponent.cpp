@@ -149,15 +149,15 @@ namespace
 		// Since rotation affordances are on the edges, the rotation plane slices the object through the center
 		if (NormalizedAffordanceLoc.Z == 0)
 		{
-			RotationPlane = FVector(0, 0, 1); // Horizontally
+			RotationPlane = FVector::UpVector;
 		}
 		else if (NormalizedAffordanceLoc.Y == 0)
 		{
-			RotationPlane = FVector(0, 1, 0); // Vertically through the front/back
+			RotationPlane = FVector::RightVector;
 		}
 		else
 		{
-			RotationPlane = FVector(1, 0, 0); // Vertically through the sides
+			RotationPlane = FVector::ForwardVector;
 		}
 		return RotationPlane;
 	}
@@ -568,7 +568,7 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 		const FVector Pivot = InteractionCache->InitialTransform.TransformPosition(LocalPivot);
 
 		const FVector RotPlaneNormal =
-			InteractionCache->InitialTransform.TransformVector(GetRotationPlaneNormal(AffordanceConfig.GetBoundsLocation())).GetSafeNormal();
+			InteractionCache->InitialTransform.TransformVectorNoScale(GetRotationPlaneNormal(AffordanceConfig.GetBoundsLocation()));
 
 		const FVector InitialLocalGrabLoc = InteractionCache->InitialGrabPointTransform.GetLocation() - Pivot;
 		const FVector CurrentLocalGrabLoc = GrabTransform.GetLocation() - Pivot;
@@ -576,7 +576,17 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 		const FVector InitDir = FVector::VectorPlaneProject(InitialLocalGrabLoc, RotPlaneNormal).GetSafeNormal();
 		const FVector CurrDir = FVector::VectorPlaneProject(CurrentLocalGrabLoc, RotPlaneNormal).GetSafeNormal();
 
-		NewTransform = CalculateConstrainedRotation(NewTransform, FQuat::FindBetween(InitDir, CurrDir), Pivot, IsNear);
+		FTransform ConstrainedTransform = NewTransform;
+
+		FQuat Swing, Twist;
+		FQuat::FindBetween(InitDir, CurrDir).ToSwingTwist(RotPlaneNormal, Swing, Twist);
+		ConstrainedTransform = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(ConstrainedTransform, Twist.Rotator(), Pivot);
+
+		ApplyConstraints(ConstrainedTransform, EUxtTransformMode::Rotation, true, IsNear);
+
+		// This might seem redundant, but the constraint would rotate back around actor's transform, not Pivot
+		const FRotator ConstrainedDeltaRotator = (ConstrainedTransform.GetRotation() * NewTransform.GetRotation().Inverse()).Rotator();
+		NewTransform = UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(NewTransform, ConstrainedDeltaRotator, Pivot);
 
 		break;
 	}
@@ -701,22 +711,6 @@ void UUxtBoundsControlComponent::CreateCollisionBox()
 void UUxtBoundsControlComponent::ResetConstraintsReferenceTransform()
 {
 	InitializeConstraints(GetOwner()->GetRootComponent());
-}
-
-FTransform UUxtBoundsControlComponent::CalculateConstrainedRotation(
-	const FTransform& OriginalTransform, const FQuat& DeltaRotation, const FVector& Pivot, const bool IsNear) const
-{
-	// Taking the full rotation (not only DeltaRotation) because rotation axis constraint calculates the delta inside
-	const FTransform UnconstrainedRotTransform = FTransform(OriginalTransform.GetRotation() * DeltaRotation);
-	FTransform ConstrainedRotTransform = UnconstrainedRotTransform;
-	ApplyConstraints(ConstrainedRotTransform, EUxtTransformMode::Rotation, true, IsNear);
-	if (ConstrainedRotTransform.Equals(UnconstrainedRotTransform))
-	{
-		// Get the constrained delta only and use it to rotate about the pivot point
-		ConstrainedRotTransform = ConstrainedRotTransform * OriginalTransform.GetRotation().Inverse();
-		return UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(OriginalTransform, ConstrainedRotTransform.Rotator(), Pivot);
-	}
-	return OriginalTransform;
 }
 
 void UUxtBoundsControlComponent::UpdateInteractionCache(
