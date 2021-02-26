@@ -91,6 +91,12 @@ Please note that you also need to [add the UX Tools plugin to your project](Docs
 |:--- |:--- |
 | This simple [Chess App](https://github.com/microsoft/MixedReality-Unreal-Samples/tree/master/ChessApp) is the final result of following the getting started tutorial located on Microsoft's Mixed Reality docs. If you're new to Mixed Reality development and UX Tools, get started here: [Build a chess app with MRTK UX Tools](https://docs.microsoft.com/en-us/windows/mixed-reality/develop/unreal/tutorials/unreal-uxt-ch1) | [Kippy's Escape](https://github.com/microsoft/MixedReality-Unreal-KippysEscape) is an open-source HoloLens 2 sample app demonstrating how to use UX Tools components to create a fun and interactive Mixed Reality experience. Read the story behind the app: [The Making of Kippy's Escape](https://aka.ms/KippysEscape) |
 
+# Videos
+
+| [![Create a HoloLens 2 app](Docs/Images/Readme/CreateHoloLensApp_InsideUnreal.png)](https://youtu.be/u_qR-1DrvMg) | [![Getting started with HoloLens 2 and Unreal Engine](Docs/Images/Readme/GettingStarted_DevDays.png)](https://youtu.be/tGYGA_L8Pnw) | [![Working with UE and HoloLens 2](Docs/Images/Readme/UnrealAndHL_Webinar.png)](https://youtu.be/50zY10O5GM8) |
+| :--- | :--- | :--- |
+| A step-by-step tutorial on how to set up a dev environment for HoloLens 2 and a simple level from scratch | Walk through how to get started developing for HoloLens 2 using Unreal Engine | Webinar showing how to build a product configurator using UX Tools |
+
 # Feedback and contributions
 
 Contributions and feedback in the shape of bug reports, suggestions and feature requests are always welcome! However, we are not in a position to accept external contributions through pull requests at this time.
