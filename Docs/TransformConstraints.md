@@ -1,15 +1,27 @@
 # Transform Constraints
 
-UXTools provides a mechanism to implement and apply transform constraints to actors on manipulation by using a `UxtConstraintManager`. They are integrated with the `UxtManipulatorComponent` and `UxtBoundsControlComponent` out of the box.
+UXTools provides a mechanism to implement and apply transform constraints to actors during manipulation. All you need to do is inherit from `UUxtConstrainableComponent`, as `UUxtGenericManipulatorComponent` and `UUxtBoundsControlComponent` for example.
 
 ## Usage
 
 In order to use constraints:
 
 1. Add any desired `UxtTransformConstraint`-derived components to the actor.
-2. Add any components that contain and use a `UxtConstraintManager` instance, such as `UxtManipulatorComponent` and `UxtBoundsControlComponent`.
+2. Add any `UUxtConstrainableComponent`-derived components to the actor, such as `UUxtGenericManipulatorComponent` and `UUxtBoundsControlComponent`.
 
-By default, every `UxtConstraintManager` instance will take all the constraint components attached to the actor into consideration.
+Each `UUxtConstrainableComponent` will apply all constraint components in the actor if `bAutoDetectConstraints` is set to `true`. Otherwise, you can fill the `SelectedConstraints` array to choose which constraints you'd like that component to apply during its interaction.
+
+## Implicit scale
+
+There's an implicit constraint which doesn't inherit from `UxtTransformConstraint` and is applied by all `UUxtConstrainableComponent`s. The reason for that is preventing their scales from reaching `0` or even negative values. Besides that, `UUxtBoundsControlComponent` avoids having interaction issues with its handles when the scale is too small.
+
+The `MinScale` and `MaxScale` properties give you flexibility to configure this behavior within reasonable values, clamped to prevent the unexpected results previously mentioned.
+
+Use `bRelativeToInitialScale` to configure whether the limits are relative to the scale at interaction start (`true`) or absolute (`false`).
+
+In the following example, `MinScale` is set to `0.3`:
+
+![Min/max scale constraint demo](Images/Constraints/Min_max_scale_constraint.gif)
 
 ## Built-in constraint components
 
@@ -50,16 +62,6 @@ Makes the actor maintain the same rotation (relative to the world) that it had w
 Makes the actor maintain the apparent size (relative to the user) that it had when the interaction started.
 
 ![Maintain apparent size constraint demo](Images/Constraints/Maintain_apparent_size_constraint.gif)
-
-### UxtMinMaxScaleConstraint
-
-Limits the minimum and maximum scale of the actor during manipulation, via `MinScale` and `MaxScale` properties respectively.
-
-Use `bRelativeToInitialScale` to configure whether the limits are relative to the scale at interaction start (`true`) or absolute (`false`).
-
-![Min/max scale constraint demo](Images/Constraints/Min_max_scale_constraint.gif)
-
-(Example limiting the minimum scale to `0.3`)
 
 ### UxtMoveAxisConstraint
 

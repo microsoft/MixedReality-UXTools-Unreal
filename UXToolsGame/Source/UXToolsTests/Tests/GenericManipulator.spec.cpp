@@ -75,6 +75,7 @@ void GenericManipulatorSpec::Define()
 		UxtTestUtils::EnableTestHandTracker();
 
 		Target = CreateTestComponent();
+		Target->SetMaxScale(10.0f);
 	});
 
 	AfterEach([this] {

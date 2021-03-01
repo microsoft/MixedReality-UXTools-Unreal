@@ -19,6 +19,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtBoundsControlComponent's affordance scale](#uxtboundscontrolcomponents-affordance-scale)
   - [Improved UxtRotationAxisConstraint's interaction with UxtBoundsControl and UxtGenericManipulator](#improved-uxtrotationaxisconstraints-interaction-with-uxtboundscontrol-and-uxtgenericmanipulator)
   - [Fixed UxtBoundsControlComponent's face affordances](#fixed-uxtboundscontrolcomponents-face-affordances)
+  - [UxtMinMaxScaleConstraint is now implicit](#uxtminmaxscaleconstraint-is-now-implicit)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
@@ -26,6 +27,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtTransformConstraint](#uxttransformconstraint)
   - [UxtTouchableVolumeComponent's API update](#uxttouchablevolumecomponents-api-update)
   - [UxtRotationAxisConstraint](#uxtrotationaxisconstraint)
+  - [UxtMinMaxScaleConstraint](#uxtminmaxscaleconstraint)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -90,6 +92,10 @@ Thanks to these changes, `UUxtBoundsControlComponent` is now able to interact ap
 - A new `UUxtBoundsControlConfig` data asset (named `BoundsControlDefaultWithFaces.uasset`) has been added, with face affordances configured by default.
 - `BoundsControlExamples.umap` has a new coffee cup instance featuring this.
 
+### UxtMinMaxScaleConstraint is now implicit
+
+Instead of relying on an external component (which is easier to forget about or misconfigure), potentially leading to undesired effects such as actor mirroring, all classes inheriting from `UUxtConstrainableComponent` (which includes `UUxtBoundsControlComponent` and `UUxtGenericManipulatorComponent`) have now an implicitly applied scale constraint, configurable via editor. See [TransformConstraints.md](TransformConstraints.md) for details.
+
 ## Breaking changes
 
 ### `UxtHandTrackingFunctionLibrary` removed
@@ -134,6 +140,10 @@ and replace them by the corresponding
 ```C++
 RotationConstraint->AllowedAxis = EUxtAxis::None;
 ```
+
+### UxtMinMaxScaleConstraint
+
+As this component has been removed and its functionality is now embedded inside `UUxtConstrainableComponent`, you need to revisit any instances of this constraint that you had. All you need to do is copy the `MinScale`, `MaxScale` and `bRelativeToInitialScale` values over to all applicable components in the actor. Please remember that, if you have `UUxtBoundsControlComponent` and `UUxtGenericManipulatorComponent` in the same actor, you now need to configure both of them separately.
 
 ## Known issues
 

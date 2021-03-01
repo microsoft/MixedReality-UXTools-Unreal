@@ -40,9 +40,35 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
 	void RemoveConstraint(const FComponentReference& NewConstraint);
 
+	//
+	// Implicit scale constraint's public API
+
+	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	bool GetRelativeToInitialScale() const { return bRelativeToInitialScale; }
+
+	UFUNCTION(BlueprintSetter, Category = "Uxt Constrainable")
+	void SetRelativeToInitialScale(const bool Value);
+
+	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	float GetMinScale() const { return MinScale; }
+
+	UFUNCTION(BlueprintSetter, Category = "Uxt Constrainable")
+	void SetMinScale(const float Value);
+
+	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	float GetMaxScale() const { return MaxScale; }
+
+	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	void SetMaxScale(const float Value);
+
 protected:
+	//
 	// UActorComponent interface
+	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
 
 	/** Initialize the constraints with a target component to use for a reference transform. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
@@ -59,6 +85,14 @@ private:
 	/** Update the list registed constraints to be applied. */
 	void UpdateActiveConstraints();
 
+	/** Converts @ref MinScale and @ref MaxScale between relative/absolute, based on the value of @ref bRelativeToInitialScale. */
+	void ConvertMinMaxScaleValues();
+
+	/** Returns a vector with the minimum scale allowed by configuration. */
+	FVector GetMinScaleVec() const;
+	/** Returns a vector with the maximum scale allowed by configuration. */
+	FVector GetMaxScaleVec() const;
+
 	/** If set, all constraints present on the actor will be applied, otherwise only selected constraints will be applied. */
 	UPROPERTY(
 		EditAnywhere, Category = "Uxt Constrainable", BlueprintGetter = GetAutoDetectConstraints,
@@ -71,9 +105,25 @@ private:
 		meta = (/*UseComponentPicker, AllowedClasses = "UxtTransformConstraint",*/ EditCondition = "!bAutoDetectConstraints"))
 	TArray<FComponentReference> SelectedConstraints;
 
+	/** Whether the min/max scale values should be relative to the initial scale or absolute. */
+	UPROPERTY(
+		EditAnywhere, BlueprintGetter = GetRelativeToInitialScale, BlueprintSetter = SetRelativeToInitialScale,
+		Category = "Uxt Constrainable")
+	bool bRelativeToInitialScale = true;
+
+	/** Minimum scale allowed. Will be used as relative or absolute depending on the value of @ref bRelativeToInitialScale. */
+	UPROPERTY(EditAnywhere, Category = "Uxt Constrainable", BlueprintGetter = GetMinScale, BlueprintSetter = SetMinScale)
+	float MinScale = 0.2f;
+
+	/** Maximum scale allowed. Will be used as relative or absolute depending on the value of @ref bRelativeToInitialScale. */
+	UPROPERTY(EditAnywhere, Category = "Uxt Constrainable", BlueprintGetter = GetMaxScale, BlueprintSetter = SetMaxScale)
+	float MaxScale = 2.0f;
+
 	/** The list constraints currently being applied. */
 	TArray<UUxtTransformConstraint*> ActiveConstraints;
 
 	/** The component to use for a reference transform when initializing constraints. */
 	USceneComponent* TargetComponent = nullptr;
+
+	FVector InitialScale;
 };
