@@ -16,6 +16,9 @@ UX Tools contains assets, actors, and components which are optimized to render t
 
 To provide automatic text configuration UX Tools contains an actor named `UxtTextRenderActor` and component named `UxtTextRenderComponent`. The `UxtTextRenderActor` and `UxtTextRenderComponent` automatically construct text with appropriate font, font material, and sizing defaults.
 
+> [!NOTE] 
+> Automatic text formatting is not supported by the `UxtTextRender` actor and component. To manually add a single line break in text use the `<br>` tag. If your application requires advanced text formatting then [UMG Text](https://docs.unrealengine.com/en-US/InteractiveExperiences/UMG/UserGuide/UMGRichTextBlock/index.html) has support for this. Note, [UMG](https://docs.unrealengine.com/en-US/Engine/UMG/UserGuide/index.html) can cause decreased performance on HoloLens, so it's best to profile after adding UMG to your app.
+
 The `UxtTextRenderComponent` derives from the [TextRenderComponent](https://docs.unrealengine.com/en-US/API/Runtime/Engine/Components/UTextRenderComponent/index.html) and all properties can be accessed and altered via the top level `UxtTextRenderActor` component wrapper actor details panel:
 
 ![TextActor](Images/Text/TextActor.png)

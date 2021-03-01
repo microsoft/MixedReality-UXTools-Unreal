@@ -93,7 +93,7 @@ Please note that you also need to [add the UX Tools plugin to your project](Docs
 
 # Videos
 
-| [![Create a HoloLens 2 app](Docs/Images/Readme/CreateHoloLensApp_InsideUnreal.png)](https://youtu.be/u_qR-1DrvMg) | [![Getting started with HoloLens 2 and Unreal Engine](Docs/Images/Readme/GettingStarted_DevDays.png)](https://youtu.be/tGYGA_L8Pnw) | [![Working with UE and HoloLens 2](Docs/Images/Readme/UnrealAndHL_Webinar.png)](https://youtu.be/50zY10O5GM8) |
+| [![Create a HoloLens 2 app](Docs/Images/Readme/CreateHoloLensApp_InsideUnreal.png)](https://youtu.be/u_qR-1DrvMg) | [![Getting started with HoloLens 2 and Unreal Engine](Docs/Images/Readme/GettingStarted_DevDays.png)](https://youtu.be/tGYGA_L8Pnw) | [![Working with UE and HoloLens 2](Docs/Images/Readme/UnrealAndHL_Webinar.png)](https://youtu.be/t95Bge-yk5E) |
 | :--- | :--- | :--- |
 | A step-by-step tutorial on how to set up a dev environment for HoloLens 2 and a simple level from scratch | Walk through how to get started developing for HoloLens 2 using Unreal Engine | Webinar showing how to build a product configurator using UX Tools |
 
