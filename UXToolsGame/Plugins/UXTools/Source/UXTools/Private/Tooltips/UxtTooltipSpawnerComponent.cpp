@@ -43,36 +43,43 @@ void UUxtTooltipSpawnerComponent::OnComponentCreated()
 
 void UUxtTooltipSpawnerComponent::CreateTooltip()
 {
+	if (!GetWorld())
+	{
+		return;
+	}
+
 	// Timer is used to schedule the "Appear delay".
 	FTimerDelegate TimerCallback;
 	TimerCallback.BindLambda([this] {
-		SpawnedTooltip = GetWorld()->SpawnActor<AUxtTooltipActor>();
-		SpawnedTooltip->TooltipTarget.OtherActor = GetOwner();
-		SpawnedTooltip->TooltipTarget.OverrideComponent = GetOwner()->GetRootComponent();
-
-		if (WidgetClass != nullptr)
+		if (AActor* Owner = GetOwner())
 		{
-			SpawnedTooltip->WidgetClass = WidgetClass;
-		}
-		else if (!TooltipText.IsEmpty())
-		{
-			SpawnedTooltip->SetText(TooltipText);
-		}
-		SpawnedTooltip->bIsAutoAnchoring = bIsAutoAnchoring;
+			SpawnedTooltip = GetWorld()->SpawnActor<AUxtTooltipActor>();
+			SpawnedTooltip->TooltipTarget.OtherActor = Owner;
+			SpawnedTooltip->TooltipTarget.OverrideComponent = Owner->GetRootComponent();
 
-		AActor* Owner = GetOwner();
-		const USceneComponent* PivotComponent = Cast<USceneComponent>(Pivot.GetComponent(Owner));
-		const FVector Offset = PivotComponent ? PivotComponent->GetRelativeLocation() * Owner->GetActorScale3D() : FVector::ZeroVector;
-		const FVector FinalTooltipLocation = GetOwner()->GetActorLocation() + Offset;
-		SpawnedTooltip->SetActorLocation(FinalTooltipLocation);
-		SpawnedTooltip->SetActorScale3D(WidgetScale);
-		SpawnedTooltip->Margin = Margin;
-		SpawnedTooltip->UpdateComponent();
+			if (WidgetClass != nullptr)
+			{
+				SpawnedTooltip->WidgetClass = WidgetClass;
+			}
+			else if (!TooltipText.IsEmpty())
+			{
+				SpawnedTooltip->SetText(TooltipText);
+			}
+			SpawnedTooltip->bIsAutoAnchoring = bIsAutoAnchoring;
 
-		OnShowTooltip.Broadcast();
+			const USceneComponent* PivotComponent = Cast<USceneComponent>(Pivot.GetComponent(Owner));
+			const FVector Offset = PivotComponent ? PivotComponent->GetRelativeLocation() * Owner->GetActorScale3D() : FVector::ZeroVector;
+			const FVector FinalTooltipLocation = Owner->GetActorLocation() + Offset;
+			SpawnedTooltip->SetActorLocation(FinalTooltipLocation);
+			SpawnedTooltip->SetActorScale3D(WidgetScale);
+			SpawnedTooltip->Margin = Margin;
+			SpawnedTooltip->UpdateComponent();
+
+			OnShowTooltip.Broadcast();
+		}
 	});
 	float FinalDelay = FMath::Max(AppearDelay, SMALL_NUMBER); // Timer handle needs time to be non-zero.
-	GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
 
 	if (RemainType == EUxtTooltipRemainType::Timeout)
 	{
@@ -82,6 +89,11 @@ void UUxtTooltipSpawnerComponent::CreateTooltip()
 
 void UUxtTooltipSpawnerComponent::DestroyTooltip()
 {
+	if (!GetWorld())
+	{
+		return;
+	}
+
 	// Use timer to perform the "VanishDelay".
 	FTimerDelegate TimerCallback;
 	TimerCallback.BindLambda([this] {
@@ -94,11 +106,16 @@ void UUxtTooltipSpawnerComponent::DestroyTooltip()
 		}
 	});
 	auto FinalDelay = FMath::Max(VanishDelay, SMALL_NUMBER); // Timer handle needs time to be non-zero
-	GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
 }
 
 void UUxtTooltipSpawnerComponent::ScheduleDeathAfterLifetime()
 {
+	if (!GetWorld())
+	{
+		return;
+	}
+
 	// Timer is used to schedule the death of the tooltip based on Lifetime.
 	FTimerDelegate LifetimeTimerCallback;
 	LifetimeTimerCallback.BindLambda([this] {
@@ -110,7 +127,7 @@ void UUxtTooltipSpawnerComponent::ScheduleDeathAfterLifetime()
 		}
 	});
 	float FinalLifetime = FMath::Max(Lifetime, SMALL_NUMBER); // Timer handle needs time to be non-zero
-	GetOwner()->GetWorldTimerManager().SetTimer(LifetimeTimerHandle, LifetimeTimerCallback, FinalLifetime, false, FinalLifetime);
+	GetWorld()->GetTimerManager().SetTimer(LifetimeTimerHandle, LifetimeTimerCallback, FinalLifetime, false, FinalLifetime);
 }
 
 void UUxtTooltipSpawnerComponent::OnExitFarFocus_Implementation(UUxtFarPointerComponent* Pointer)

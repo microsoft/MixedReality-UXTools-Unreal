@@ -235,7 +235,7 @@ void UUxtHandConstraintComponent::UpdateConstraint()
 
 	if (!bWasConstraintActive && bIsConstraintActive)
 	{
-		if (bMoveOwningActor)
+		if (bMoveOwningActor && GetOwner())
 		{
 			// When activating snap to the goal
 			GetOwner()->SetActorLocation(GoalLocation);
@@ -349,11 +349,10 @@ bool UUxtHandConstraintComponent::UpdateGoal(const FVector& PalmLocation, const 
 
 	GoalLocation = PalmRotation.RotateVector(LocalHitLocation) + PalmLocation;
 
-	const FTransform& CurrentTransform = GetOwner()->GetActorTransform();
 	switch (RotationMode)
 	{
 	case EUxtHandConstraintRotationMode::None:
-		GoalRotation = CurrentTransform.GetRotation();
+		GoalRotation = GetOwner() ? GetOwner()->GetActorTransform().GetRotation() : FQuat::Identity;
 		break;
 
 	case EUxtHandConstraintRotationMode::LookAtCamera:
@@ -374,31 +373,34 @@ bool UUxtHandConstraintComponent::UpdateGoal(const FVector& PalmLocation, const 
 
 void UUxtHandConstraintComponent::AddMovement(float DeltaTime)
 {
-	FVector Location = GetOwner()->GetActorLocation();
-	FQuat Rotation = GetOwner()->GetActorQuat();
+	if (GetOwner())
+	{
+		FVector Location = GetOwner()->GetActorLocation();
+		FQuat Rotation = GetOwner()->GetActorQuat();
 
-	FVector SmoothLoc;
-	if (LocationLerpTime <= KINDA_SMALL_NUMBER)
-	{
-		SmoothLoc = GoalLocation;
-	}
-	else
-	{
-		float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaTime / LocationLerpTime), 0.0f, 1.0f);
-		SmoothLoc = FMath::Lerp(Location, GoalLocation, Weight);
-	}
+		FVector SmoothLoc;
+		if (LocationLerpTime <= KINDA_SMALL_NUMBER)
+		{
+			SmoothLoc = GoalLocation;
+		}
+		else
+		{
+			float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaTime / LocationLerpTime), 0.0f, 1.0f);
+			SmoothLoc = FMath::Lerp(Location, GoalLocation, Weight);
+		}
 
-	FQuat SmoothRot;
-	if (RotationLerpTime <= KINDA_SMALL_NUMBER)
-	{
-		SmoothRot = GoalRotation;
-	}
-	else
-	{
-		float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaTime / RotationLerpTime), 0.0f, 1.0f);
-		SmoothRot = FMath::Lerp(Rotation, GoalRotation, Weight);
-	}
+		FQuat SmoothRot;
+		if (RotationLerpTime <= KINDA_SMALL_NUMBER)
+		{
+			SmoothRot = GoalRotation;
+		}
+		else
+		{
+			float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaTime / RotationLerpTime), 0.0f, 1.0f);
+			SmoothRot = FMath::Lerp(Rotation, GoalRotation, Weight);
+		}
 
-	GetOwner()->SetActorLocation(SmoothLoc);
-	GetOwner()->SetActorRotation(SmoothRot);
+		GetOwner()->SetActorLocation(SmoothLoc);
+		GetOwner()->SetActorRotation(SmoothRot);
+	}
 }

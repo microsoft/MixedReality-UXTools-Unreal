@@ -235,13 +235,25 @@ const FBox& UUxtBoundsControlComponent::GetBounds() const
 void UUxtBoundsControlComponent::ComputeBoundsFromComponents()
 {
 	const USceneComponent* Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
-	const USceneComponent* BoundsTargetComponent = GetOwner()->GetRootComponent();
+	const USceneComponent* BoundsTargetComponent = nullptr;
 	if (Override)
 	{
 		BoundsTargetComponent = Override;
 	}
-	const FTransform BoundsTargetToWorld = BoundsTargetComponent->GetComponentTransform();
-	Bounds = UUxtMathUtilsFunctionLibrary::CalculateNestedBoundsInGivenSpace(BoundsTargetComponent, BoundsTargetToWorld.Inverse(), true);
+	else if (GetOwner())
+	{
+		BoundsTargetComponent = GetOwner()->GetRootComponent();
+	}
+	if (BoundsTargetComponent)
+	{
+		const FTransform BoundsTargetToWorld = BoundsTargetComponent->GetComponentTransform();
+		Bounds =
+			UUxtMathUtilsFunctionLibrary::CalculateNestedBoundsInGivenSpace(BoundsTargetComponent, BoundsTargetToWorld.Inverse(), true);
+	}
+	else
+	{
+		Bounds.Init();
+	}
 }
 
 void UUxtBoundsControlComponent::CreateAffordances()
@@ -249,6 +261,11 @@ void UUxtBoundsControlComponent::CreateAffordances()
 	if (!IsValid(Config))
 	{
 		UE_LOG(LogUxtBoundsControl, Error, TEXT("Config asset is invalid"));
+		return;
+	}
+	if (!GetOwner())
+	{
+		UE_LOG(LogUxtBoundsControl, Error, TEXT("Bounds control component needs owning actor to create affordances"));
 		return;
 	}
 
@@ -331,6 +348,11 @@ void UUxtBoundsControlComponent::DestroyAffordances()
 
 void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 {
+	if (!GetOwner())
+	{
+		return;
+	}
+
 	const USceneComponent* const Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
 	const USceneComponent* const BoundsTargetComponent = Override ? Override : GetOwner()->GetRootComponent();
 	if (BoundsControlActor)
@@ -602,7 +624,10 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 							   InteractionCache->InitialOppositeAffordanceLoc;
 		NewTransform.SetLocation(NewPos);
 	}
-	GetOwner()->SetActorTransform(NewTransform);
+	if (GetOwner())
+	{
+		GetOwner()->SetActorTransform(NewTransform);
+	}
 }
 
 void UUxtBoundsControlComponent::OnAffordanceEnterFarFocus(UUxtGrabTargetComponent* Grabbable, UUxtFarPointerComponent* Pointer)
@@ -694,24 +719,29 @@ bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox& Box, const 
 
 void UUxtBoundsControlComponent::CreateCollisionBox()
 {
-	AActor* const Owner = GetOwner();
-	USceneComponent* const Override = Cast<USceneComponent>(BoundsOverride.GetComponent(Owner));
-	USceneComponent* const BoundsRoot = Override ? Override : Owner->GetRootComponent();
+	if (AActor* const Owner = GetOwner())
+	{
+		USceneComponent* const Override = Cast<USceneComponent>(BoundsOverride.GetComponent(Owner));
+		USceneComponent* const BoundsRoot = Override ? Override : Owner->GetRootComponent();
 
-	CollisionBox = NewObject<UBoxComponent>(Owner);
-	CollisionBox->SetupAttachment(BoundsRoot);
-	CollisionBox->RegisterComponent();
+		CollisionBox = NewObject<UBoxComponent>(Owner);
+		CollisionBox->SetupAttachment(BoundsRoot);
+		CollisionBox->RegisterComponent();
 
-	CollisionBox->SetBoxExtent(Bounds.GetExtent());
-	CollisionBox->SetWorldTransform(FTransform(Bounds.GetCenter()) * BoundsRoot->GetComponentTransform());
+		CollisionBox->SetBoxExtent(Bounds.GetExtent());
+		CollisionBox->SetWorldTransform(FTransform(Bounds.GetCenter()) * BoundsRoot->GetComponentTransform());
 
-	CollisionBox->SetCollisionProfileName(CollisionProfile);
-	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		CollisionBox->SetCollisionProfileName(CollisionProfile);
+		CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	}
 }
 
 void UUxtBoundsControlComponent::ResetConstraintsReferenceTransform()
 {
-	InitializeConstraints(GetOwner()->GetRootComponent());
+	if (GetOwner())
+	{
+		InitializeConstraints(GetOwner()->GetRootComponent());
+	}
 }
 
 void UUxtBoundsControlComponent::UpdateInteractionCache(
@@ -720,7 +750,7 @@ void UUxtBoundsControlComponent::UpdateInteractionCache(
 	InteractionCache->IsValid = false;
 
 	InteractionCache->InitialBounds = Bounds;
-	InteractionCache->InitialTransform = GetOwner()->GetActorTransform();
+	InteractionCache->InitialTransform = GetOwner() ? GetOwner()->GetActorTransform() : FTransform::Identity;
 
 	InteractionCache->OppositeAffordancePrimitive =
 		GetOppositeAffordance(PrimitiveAffordanceMap, AffordanceInstance->Config, Config->bIsSlate);
@@ -729,9 +759,8 @@ void UUxtBoundsControlComponent::UpdateInteractionCache(
 	{
 		UE_LOG(
 			LogUxtBoundsControl, Error,
-			TEXT("Couldn't find opposite affordance. If '%s' is a 2D slate, please make sure that its face is aligned to the X axis "
-				 "and that the 'Is Slate' property is checked in the Bounds Control Config data asset"),
-			*GetOwner()->GetName());
+			TEXT("Couldn't find opposite affordance. If actor is a 2D slate, please make sure that its face is aligned to the X axis "
+				 "and that the 'Is Slate' property is checked in the Bounds Control Config data asset"));
 		return;
 	}
 

@@ -370,7 +370,7 @@ void UUxtPinchSliderComponent::SetState(EUxtSliderState NewState)
 
 void UUxtPinchSliderComponent::ConfigureBoxComponent()
 {
-	if (BoxComponent)
+	if (BoxComponent && GetOwner())
 	{
 		// If the actor's collision is disabled, we need to enable it before disabling collision on the primitive components.
 		// This is because the it will restore the previous collision state when re-enabled (i.e. re-enabling collision on the components)

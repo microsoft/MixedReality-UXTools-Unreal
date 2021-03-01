@@ -153,7 +153,7 @@ void UUxtInputSubsystem::RaiseEvent(UPrimitiveComponent* Target, const FuncType&
 template <typename HandlerType, typename FuncType>
 void UUxtInputSubsystem::ExecuteHierarchy(UPrimitiveComponent* Target, const FuncType& Callback, const TSet<UObject*>& Handled) const
 {
-	if (Target)
+	if (Target && Target->GetOwner())
 	{
 		for (UActorComponent* Child : Target->GetOwner()->GetComponents())
 		{

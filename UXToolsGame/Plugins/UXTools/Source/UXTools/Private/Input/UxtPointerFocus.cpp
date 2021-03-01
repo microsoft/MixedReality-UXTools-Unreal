@@ -230,43 +230,44 @@ FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestTarget(const TArray<FO
 
 FUxtPointerFocusSearchResult FUxtPointerFocus::FindClosestPointOnComponent(UActorComponent* Target, const FVector& Point) const
 {
-	TArray<UPrimitiveComponent*> PrimitiveComponents;
-	Target->GetOwner()->GetComponents<UPrimitiveComponent>(PrimitiveComponents);
-
-	UPrimitiveComponent* ClosestPrimitive = nullptr;
-	FVector ClosestPoint = FVector::ZeroVector;
-	FVector ClosestNormal = FVector::ForwardVector;
-	float MinDistanceSqr = -1.f;
-	for (UPrimitiveComponent* Primitive : PrimitiveComponents)
+	if (Target->GetOwner())
 	{
-		FVector PointOnPrimitive;
-		FVector Normal;
-		GetClosestPointOnTarget(Target, Primitive, Point, PointOnPrimitive, Normal);
+		TArray<UPrimitiveComponent*> PrimitiveComponents;
+		Target->GetOwner()->GetComponents<UPrimitiveComponent>(PrimitiveComponents);
 
-		float DistanceSqr = FVector::DistSquared(Point, PointOnPrimitive);
-		if (!ClosestPrimitive || DistanceSqr < MinDistanceSqr)
+		UPrimitiveComponent* ClosestPrimitive = nullptr;
+		FVector ClosestPoint = FVector::ZeroVector;
+		FVector ClosestNormal = FVector::ForwardVector;
+		float MinDistanceSqr = -1.f;
+		for (UPrimitiveComponent* Primitive : PrimitiveComponents)
 		{
-			ClosestPrimitive = Primitive;
-			MinDistanceSqr = DistanceSqr;
-			ClosestPoint = PointOnPrimitive;
-			ClosestNormal = Normal;
+			FVector PointOnPrimitive;
+			FVector Normal;
+			GetClosestPointOnTarget(Target, Primitive, Point, PointOnPrimitive, Normal);
 
-			if (MinDistanceSqr <= KINDA_SMALL_NUMBER)
+			float DistanceSqr = FVector::DistSquared(Point, PointOnPrimitive);
+			if (!ClosestPrimitive || DistanceSqr < MinDistanceSqr)
 			{
-				// Best result to be expected.
-				break;
+				ClosestPrimitive = Primitive;
+				MinDistanceSqr = DistanceSqr;
+				ClosestPoint = PointOnPrimitive;
+				ClosestNormal = Normal;
+
+				if (MinDistanceSqr <= KINDA_SMALL_NUMBER)
+				{
+					// Best result to be expected.
+					break;
+				}
 			}
+		}
+
+		if (ClosestPrimitive != nullptr)
+		{
+			return {Target, ClosestPrimitive, ClosestPoint, ClosestNormal, FMath::Sqrt(MinDistanceSqr)};
 		}
 	}
 
-	if (ClosestPrimitive != nullptr)
-	{
-		return {Target, ClosestPrimitive, ClosestPoint, ClosestNormal, FMath::Sqrt(MinDistanceSqr)};
-	}
-	else
-	{
-		return {nullptr, nullptr, FVector::ZeroVector, FVector::ForwardVector, MAX_FLT};
-	}
+	return {nullptr, nullptr, FVector::ZeroVector, FVector::ForwardVector, MAX_FLT};
 }
 
 #if ENABLE_VISUAL_LOG
@@ -282,10 +283,13 @@ void FUxtPointerFocus::VLogFocus(
 	{
 		const FColor FocusColor = bIsFocus ? VLogColor : FColor(VLogColor.R / 2, VLogColor.G / 2, VLogColor.B / 2, VLogColor.A);
 
-		FBoxSphereBounds PrimitiveBounds = Primitive->CalcLocalBounds();
-		UE_VLOG_OBOX(
-			VLogOwner, VLogCategory, Verbose, PrimitiveBounds.GetBox(), Primitive->GetComponentTransform().ToMatrixWithScale(), FocusColor,
-			TEXT("%s | %s"), *Primitive->GetOwner()->GetName(), *Primitive->GetName());
+		if (Primitive->GetOwner())
+		{
+			FBoxSphereBounds PrimitiveBounds = Primitive->CalcLocalBounds();
+			UE_VLOG_OBOX(
+				VLogOwner, VLogCategory, Verbose, PrimitiveBounds.GetBox(), Primitive->GetComponentTransform().ToMatrixWithScale(),
+				FocusColor, TEXT("%s | %s"), *Primitive->GetOwner()->GetName(), *Primitive->GetName());
+		}
 	}
 }
 #endif // ENABLE_VISUAL_LOG

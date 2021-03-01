@@ -136,7 +136,7 @@ void UUxtToggleGroupComponent::BeginPlay()
 				UXTools, Error,
 				TEXT("The UUxtToggleGroupComponent '%s' contains a reference to an actor named '%s' that does not contain a "
 					 "UUxtToggleGroupComponent."),
-				*GetOwner()->GetName(), *ActorToSearch->GetName());
+				*GetName(), *ActorToSearch->GetName());
 		}
 	}
 

@@ -33,29 +33,33 @@ void UUxtFarBeamComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (UUxtFarPointerComponent* FarPointer = GetOwner()->FindComponentByClass<UUxtFarPointerComponent>())
+	if (GetOwner())
 	{
-		FarPointerWeak = FarPointer;
-
-		// Tick after the pointer so we use its latest state
-		AddTickPrerequisiteComponent(FarPointer);
-
-		// Activate now if the pointer is enabled
-		if (FarPointer->IsEnabled())
+		if (UUxtFarPointerComponent* FarPointer = GetOwner()->FindComponentByClass<UUxtFarPointerComponent>())
 		{
-			OnFarPointerEnabled(FarPointer);
+			FarPointerWeak = FarPointer;
+
+			// Tick after the pointer so we use its latest state
+			AddTickPrerequisiteComponent(FarPointer);
+
+			// Activate now if the pointer is enabled
+			if (FarPointer->IsEnabled())
+			{
+				OnFarPointerEnabled(FarPointer);
+			}
+
+			// Subscribe to pointer state changes
+			FarPointer->OnFarPointerEnabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerEnabled);
+			FarPointer->OnFarPointerDisabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerDisabled);
+			UMaterial* Material = GetMaterial(0)->GetMaterial();
+
+			SetBeamMaterial(Material);
 		}
-
-		// Subscribe to pointer state changes
-		FarPointer->OnFarPointerEnabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerEnabled);
-		FarPointer->OnFarPointerDisabled.AddDynamic(this, &UUxtFarBeamComponent::OnFarPointerDisabled);
-		UMaterial* Material = GetMaterial(0)->GetMaterial();
-
-		SetBeamMaterial(Material);
-	}
-	else
-	{
-		UE_LOG(UXTools, Error, TEXT("Could not find a far pointer in actor '%s'. Far beam won't work properly."), *GetOwner()->GetName());
+		else
+		{
+			UE_LOG(
+				UXTools, Error, TEXT("Could not find a far pointer in actor '%s'. Far beam won't work properly."), *GetOwner()->GetName());
+		}
 	}
 }
 

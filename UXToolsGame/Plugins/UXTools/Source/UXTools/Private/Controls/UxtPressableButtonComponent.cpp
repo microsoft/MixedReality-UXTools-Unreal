@@ -528,6 +528,10 @@ float UUxtPressableButtonComponent::GetReleasedDistance() const
 
 void UUxtPressableButtonComponent::ConfigureBoxComponent(USceneComponent* Parent)
 {
+	if (!GetOwner())
+	{
+		return;
+	}
 	if (!BoxComponent)
 	{
 		UE_LOG(

@@ -84,7 +84,7 @@ void UUxtTapToPlaceComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!GetTargetComponent())
+	if (!GetTargetComponent() && GetOwner())
 	{
 		SetTargetComponent(Cast<UPrimitiveComponent>(GetOwner()->GetComponentByClass(UPrimitiveComponent::StaticClass())));
 	}
@@ -119,7 +119,9 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 			QueryParams.AddIgnoredActor(GetOwner());
 
 			// Special case for UxtBoundsControl. If more components need special handling in the future, consider using an interface
-			if (UUxtBoundsControlComponent* BoundsControl = GetOwner()->FindComponentByClass<UUxtBoundsControlComponent>())
+			UUxtBoundsControlComponent* BoundsControl =
+				GetOwner() ? GetOwner()->FindComponentByClass<UUxtBoundsControlComponent>() : nullptr;
+			if (BoundsControl)
 			{
 				// Prevent hits with Bounds Control's affordances associated to the owner
 				QueryParams.AddIgnoredActor(BoundsControl->GetBoundsControlActor());

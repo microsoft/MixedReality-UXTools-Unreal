@@ -23,29 +23,30 @@ void UUxtFarCursorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	const AActor* const Owner = GetOwner();
-	UUxtFarPointerComponent* FarPointer = Owner->FindComponentByClass<UUxtFarPointerComponent>();
-
-	if (FarPointer)
+	if (const AActor* const Owner = GetOwner())
 	{
-		FarPointerWeak = FarPointer;
-
-		// Tick after the pointer so we use its latest state
-		AddTickPrerequisiteComponent(FarPointer);
-
-		// Activate now if the pointer is enabled
-		if (FarPointer->IsEnabled())
+		UUxtFarPointerComponent* FarPointer = Owner->FindComponentByClass<UUxtFarPointerComponent>();
+		if (FarPointer)
 		{
-			OnFarPointerEnabled(FarPointer);
-		}
+			FarPointerWeak = FarPointer;
 
-		// Subscribe to state changes
-		FarPointer->OnFarPointerEnabled.AddDynamic(this, &UUxtFarCursorComponent::OnFarPointerEnabled);
-		FarPointer->OnFarPointerDisabled.AddDynamic(this, &UUxtFarCursorComponent::OnFarPointerDisabled);
-	}
-	else
-	{
-		UE_LOG(UXTools, Error, TEXT("Could not find a far pointer in actor '%s'. Far cursor won't work properly."), *Owner->GetName());
+			// Tick after the pointer so we use its latest state
+			AddTickPrerequisiteComponent(FarPointer);
+
+			// Activate now if the pointer is enabled
+			if (FarPointer->IsEnabled())
+			{
+				OnFarPointerEnabled(FarPointer);
+			}
+
+			// Subscribe to state changes
+			FarPointer->OnFarPointerEnabled.AddDynamic(this, &UUxtFarCursorComponent::OnFarPointerEnabled);
+			FarPointer->OnFarPointerDisabled.AddDynamic(this, &UUxtFarCursorComponent::OnFarPointerDisabled);
+		}
+		else
+		{
+			UE_LOG(UXTools, Error, TEXT("Could not find a far pointer in actor '%s'. Far cursor won't work properly."), *Owner->GetName());
+		}
 	}
 }
 

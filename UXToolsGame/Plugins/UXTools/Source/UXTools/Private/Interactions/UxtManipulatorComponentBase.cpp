@@ -156,7 +156,7 @@ void UUxtManipulatorComponentBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!TransformTarget)
+	if (!TransformTarget && GetOwner())
 	{
 		TransformTarget = GetOwner()->GetRootComponent();
 	}
@@ -198,9 +198,12 @@ void UUxtManipulatorComponentBase::UpdateManipulationLogic(int NumGrabPointers)
 {
 	SetInitialTransform();
 
-	MoveLogic->Setup(
-		GetPointerCentroid(), GetGrabPointCentroid(GetOwner()->GetActorTransform()).GetLocation(), TransformTarget->GetComponentTransform(),
-		UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
+	if (GetOwner())
+	{
+		MoveLogic->Setup(
+			GetPointerCentroid(), GetGrabPointCentroid(GetOwner()->GetActorTransform()).GetLocation(),
+			TransformTarget->GetComponentTransform(), UUxtFunctionLibrary::GetHeadPose(GetWorld()).GetLocation());
+	}
 
 	if (NumGrabPointers > 1)
 	{

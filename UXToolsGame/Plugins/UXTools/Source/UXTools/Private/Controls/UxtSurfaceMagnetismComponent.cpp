@@ -47,7 +47,7 @@ void UUxtSurfaceMagnetismComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!GetTargetComponent())
+	if (!GetTargetComponent() && GetOwner())
 	{
 		SetTargetComponent(Cast<UPrimitiveComponent>(GetOwner()->GetComponentByClass(UPrimitiveComponent::StaticClass())));
 	}

@@ -101,18 +101,21 @@ void UUxtFingerCursorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	const AActor* const Owner = GetOwner();
-	UUxtNearPointerComponent* HandPointer = Owner->FindComponentByClass<UUxtNearPointerComponent>();
-	HandPointerWeak = HandPointer;
+	if (const AActor* const Owner = GetOwner())
+	{
+		UUxtNearPointerComponent* HandPointer = Owner->FindComponentByClass<UUxtNearPointerComponent>();
+		HandPointerWeak = HandPointer;
 
-	if (HandPointer)
-	{
-		// Tick after the pointer so we use its latest state
-		AddTickPrerequisiteComponent(HandPointer);
-	}
-	else
-	{
-		UE_LOG(UXTools, Error, TEXT("Could not find a near pointer in actor '%s'. Finger cursor won't work properly."), *Owner->GetName());
+		if (HandPointer)
+		{
+			// Tick after the pointer so we use its latest state
+			AddTickPrerequisiteComponent(HandPointer);
+		}
+		else
+		{
+			UE_LOG(
+				UXTools, Error, TEXT("Could not find a near pointer in actor '%s'. Finger cursor won't work properly."), *Owner->GetName());
+		}
 	}
 
 	UMaterialInterface* Material = GetMaterial(0);

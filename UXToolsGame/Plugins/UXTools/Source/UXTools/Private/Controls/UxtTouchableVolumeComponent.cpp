@@ -48,7 +48,7 @@ void UUxtTouchableVolumeComponent::BeginPlay()
 #endif
 
 	// Subscribe to touch events raised on primitives
-	if (bEnableTouch)
+	if (bEnableTouch && GetOwner())
 	{
 		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		PlayerController->bEnableTouchEvents = true;

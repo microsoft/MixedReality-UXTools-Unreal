@@ -102,7 +102,7 @@ FTransform UUxtFarPointerComponent::GetCursorTransform() const
 // Finds the far target a primitive belongs to, if any
 static UObject* FindFarTarget(UPrimitiveComponent* Primitive)
 {
-	if (Primitive)
+	if (Primitive && Primitive->GetOwner())
 	{
 		for (UActorComponent* Component : Primitive->GetOwner()->GetComponents())
 		{
@@ -358,10 +358,13 @@ void UUxtFarPointerComponent::VLogPointer() const
 		FColor VLogColor = bFocusLocked ? VLogColorFocusLocked : VLogColorTrace;
 		UE_VLOG_SEGMENT(this, LogUxtFarPointer, Verbose, PointerOrigin, HitPoint, VLogColor, TEXT(""));
 
-		FBoxSphereBounds HitPrimitiveBounds = HitPrimitive->CalcLocalBounds();
-		UE_VLOG_OBOX(
-			this, LogUxtFarPointer, Verbose, HitPrimitiveBounds.GetBox(), HitPrimitive->GetComponentTransform().ToMatrixWithScale(),
-			VLogColor, TEXT("%s | %s"), *HitPrimitive->GetOwner()->GetName(), *HitPrimitive->GetName());
+		if (HitPrimitive->GetOwner())
+		{
+			FBoxSphereBounds HitPrimitiveBounds = HitPrimitive->CalcLocalBounds();
+			UE_VLOG_OBOX(
+				this, LogUxtFarPointer, Verbose, HitPrimitiveBounds.GetBox(), HitPrimitive->GetComponentTransform().ToMatrixWithScale(),
+				VLogColor, TEXT("%s | %s"), *HitPrimitive->GetOwner()->GetName(), *HitPrimitive->GetName());
+		}
 		UE_VLOG_SEGMENT(this, LogUxtFarPointer, Verbose, HitPoint, HitPoint + HitNormal * 5.0f, FColor::Yellow, TEXT(""));
 	}
 	else

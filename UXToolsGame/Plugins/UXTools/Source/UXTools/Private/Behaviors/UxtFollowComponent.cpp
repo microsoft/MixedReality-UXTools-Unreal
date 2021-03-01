@@ -227,7 +227,7 @@ void UUxtFollowComponent::BeginPlay()
 
 	Recenter();
 
-	WorkingTransform = GetOwner()->GetTransform();
+	WorkingTransform = GetOwner() ? GetOwner()->GetTransform() : FTransform::Identity;
 
 	if (bAutoActivate)
 	{
@@ -319,21 +319,24 @@ void UUxtFollowComponent::UpdateLeashing()
 
 void UUxtFollowComponent::UpdateTransformToGoal(bool bSkipInterpolation, float DeltaTime)
 {
-	FVector FollowPosition = GetFollowTransform().GetLocation();
-
-	if (bSkipInterpolation)
+	if (GetOwner())
 	{
-		WorkingTransform.SetLocation(FollowPosition + ToTarget);
-		WorkingTransform.SetRotation(TargetRotation);
-	}
-	else
-	{
-		FVector CurrentPosition = GetOwner()->GetTransform().GetLocation();
-		FVector CurrentDirection = CurrentPosition - FollowPosition;
-		FQuat CurrentRotation = GetOwner()->GetTransform().GetRotation();
-		WorkingTransform.SetLocation(FollowPosition + SmoothTo(CurrentDirection, ToTarget, DeltaTime, LerpTime));
-		WorkingTransform.SetRotation(SmoothTo(CurrentRotation, TargetRotation, DeltaTime, LerpTime));
-	}
+		FVector FollowPosition = GetFollowTransform().GetLocation();
 
-	GetOwner()->SetActorTransform(WorkingTransform, false);
+		if (bSkipInterpolation)
+		{
+			WorkingTransform.SetLocation(FollowPosition + ToTarget);
+			WorkingTransform.SetRotation(TargetRotation);
+		}
+		else
+		{
+			FVector CurrentPosition = GetOwner()->GetTransform().GetLocation();
+			FVector CurrentDirection = CurrentPosition - FollowPosition;
+			FQuat CurrentRotation = GetOwner()->GetTransform().GetRotation();
+			WorkingTransform.SetLocation(FollowPosition + SmoothTo(CurrentDirection, ToTarget, DeltaTime, LerpTime));
+			WorkingTransform.SetRotation(SmoothTo(CurrentRotation, TargetRotation, DeltaTime, LerpTime));
+		}
+
+		GetOwner()->SetActorTransform(WorkingTransform, false);
+	}
 }

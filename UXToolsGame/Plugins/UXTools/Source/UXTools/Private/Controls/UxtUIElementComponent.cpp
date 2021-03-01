@@ -54,7 +54,7 @@ void UUxtUIElementComponent::OnAttachmentChanged()
 
 EUxtUIElementVisibility UUxtUIElementComponent::GetParentVisibility() const
 {
-	const AActor* Parent = GetOwner()->GetAttachParentActor();
+	const AActor* Parent = GetOwner() ? GetOwner()->GetAttachParentActor() : nullptr;
 
 	if (Parent)
 	{
@@ -71,37 +71,39 @@ EUxtUIElementVisibility UUxtUIElementComponent::GetParentVisibility() const
 
 void UUxtUIElementComponent::UpdateVisibility(EUxtUIElementVisibility ParentVisibility)
 {
-	AActor* Actor = GetOwner();
-	const EUxtUIElementVisibility CurrentVisiblity = ParentVisibility == EUxtUIElementVisibility::Show ? Visibility : ParentVisibility;
-
-	// Update self
-	if (CurrentVisiblity == EUxtUIElementVisibility::Show && Actor->IsHidden())
+	if (AActor* Actor = GetOwner())
 	{
-		Actor->SetActorHiddenInGame(false);
-		Actor->SetActorEnableCollision(true);
+		const EUxtUIElementVisibility CurrentVisiblity = ParentVisibility == EUxtUIElementVisibility::Show ? Visibility : ParentVisibility;
 
-		OnShowElement.Broadcast(this);
-	}
-	else if (CurrentVisiblity != EUxtUIElementVisibility::Show && !Actor->IsHidden())
-	{
-		Actor->SetActorHiddenInGame(true);
-		Actor->SetActorEnableCollision(false);
-
-		const bool bShouldAffectLayout = CurrentVisiblity == EUxtUIElementVisibility::LayoutOnly;
-		OnHideElement.Broadcast(this, bShouldAffectLayout);
-	}
-
-	// Update children
-	TArray<AActor*> AttachedActors;
-	Actor->GetAttachedActors(AttachedActors);
-
-	for (AActor* AttachedActor : AttachedActors)
-	{
-		UUxtUIElementComponent* UIElement = AttachedActor->FindComponentByClass<UUxtUIElementComponent>();
-
-		if (UIElement)
+		// Update self
+		if (CurrentVisiblity == EUxtUIElementVisibility::Show && Actor->IsHidden())
 		{
-			UIElement->UpdateVisibility(CurrentVisiblity);
+			Actor->SetActorHiddenInGame(false);
+			Actor->SetActorEnableCollision(true);
+
+			OnShowElement.Broadcast(this);
+		}
+		else if (CurrentVisiblity != EUxtUIElementVisibility::Show && !Actor->IsHidden())
+		{
+			Actor->SetActorHiddenInGame(true);
+			Actor->SetActorEnableCollision(false);
+
+			const bool bShouldAffectLayout = CurrentVisiblity == EUxtUIElementVisibility::LayoutOnly;
+			OnHideElement.Broadcast(this, bShouldAffectLayout);
+		}
+
+		// Update children
+		TArray<AActor*> AttachedActors;
+		Actor->GetAttachedActors(AttachedActors);
+
+		for (AActor* AttachedActor : AttachedActors)
+		{
+			UUxtUIElementComponent* UIElement = AttachedActor->FindComponentByClass<UUxtUIElementComponent>();
+
+			if (UIElement)
+			{
+				UIElement->UpdateVisibility(CurrentVisiblity);
+			}
 		}
 	}
 }

@@ -89,7 +89,10 @@ TArray<UUxtTransformConstraint*> UUxtConstrainableComponent::GetConstraints() co
 
 	if (bAutoDetectConstraints)
 	{
-		GetOwner()->GetComponents<UUxtTransformConstraint>(Constraints);
+		if (GetOwner())
+		{
+			GetOwner()->GetComponents<UUxtTransformConstraint>(Constraints);
+		}
 	}
 	else
 	{
