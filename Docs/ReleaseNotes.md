@@ -28,6 +28,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtTouchableVolumeComponent's API update](#uxttouchablevolumecomponents-api-update)
   - [UxtRotationAxisConstraint](#uxtrotationaxisconstraint)
   - [UxtMinMaxScaleConstraint](#uxtminmaxscaleconstraint)
+  - [UxtBasePressableButtonActor button component access](#uxtbasepressablebuttonactor-button-component-access)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -144,6 +145,10 @@ RotationConstraint->AllowedAxis = EUxtAxis::None;
 ### UxtMinMaxScaleConstraint
 
 As this component has been removed and its functionality is now embedded inside `UUxtConstrainableComponent`, you need to revisit any instances of this constraint that you had. All you need to do is copy the `MinScale`, `MaxScale` and `bRelativeToInitialScale` values over to all applicable components in the actor. Please remember that, if you have `UUxtBoundsControlComponent` and `UUxtGenericManipulatorComponent` in the same actor, you now need to configure both of them separately.
+
+### UxtBasePressableButtonActor button component access
+
+The `UxtBasePressableButtonActor`'s ButtonComponent property has been changed from `BlueprintReadWrite` to `BlueprintReadOnly` because changing the button component is an unsupported code path.
 
 ## Known issues
 

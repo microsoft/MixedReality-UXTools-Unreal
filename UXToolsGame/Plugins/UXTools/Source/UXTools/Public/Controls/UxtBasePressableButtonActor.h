@@ -46,6 +46,6 @@ public:
 
 protected:
 	/** Handle to the root button component. */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pressable Button", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Uxt Pressable Button", meta = (AllowPrivateAccess = "true"))
 	UUxtPressableButtonComponent* ButtonComponent = nullptr;
 };
