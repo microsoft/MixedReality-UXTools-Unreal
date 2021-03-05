@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using UnrealBuildTool;
+using System.IO;
 
 public class UXToolsGame : ModuleRules
 {
@@ -15,9 +16,9 @@ public class UXToolsGame : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "LiveLinkInterface" });
 
 		if (Target.bBuildEditor)
-        {
-            PrivateDependencyModuleNames.Add("UnrealEd");
-        }
+		{
+			PrivateDependencyModuleNames.Add("UnrealEd");
+		}
 	}
 }
 

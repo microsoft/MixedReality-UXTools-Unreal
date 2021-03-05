@@ -150,6 +150,14 @@ As this component has been removed and its functionality is now embedded inside 
 
 The `UxtBasePressableButtonActor`'s ButtonComponent property has been changed from `BlueprintReadWrite` to `BlueprintReadOnly` because changing the button component is an unsupported code path.
 
+### IUxtHandTracker
+
+The `EUxtHandJoint` enum has been replaced by EHandKeypoint, which is part of the UE4 engine (_HeadMountedDisplayTypes.h_). This affects the "Joint" parameter in the `IUxtHandTracker::GetJointState` function.
+
+### ControllerOrientation property removed from UUxtFarPointerComponent
+
+This property was only caching the wrist orientation. The far pointer is now using the Grip pose for the controller orientation, which can be acquired directly through the IUxtHandTracker interface (see `IUxtHandTracker::GetGripPose`).
+
 ## Known issues
 
 ## Full change list

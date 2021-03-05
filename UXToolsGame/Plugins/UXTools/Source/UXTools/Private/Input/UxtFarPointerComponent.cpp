@@ -46,23 +46,15 @@ void UUxtFarPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	FQuat NewOrientation;
 	FVector NewOrigin;
 	const bool bIsTracked = IUxtHandTracker::Get().GetPointerPose(Hand, NewOrientation, NewOrigin);
-
 	if (bIsTracked)
 	{
 		OnPointerPoseUpdated(NewOrientation, NewOrigin);
 		UpdateParameterCollection(GetHitPoint());
+
 		bool bNewPressed;
 		if (IUxtHandTracker::Get().GetIsSelectPressed(Hand, bNewPressed))
 		{
 			SetPressed(bNewPressed);
-		}
-
-		FQuat WristOrientation;
-		FVector WristLocation;
-		float WristRadius;
-		if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristLocation, WristRadius))
-		{
-			ControllerOrientation = WristOrientation;
 		}
 	}
 
@@ -271,11 +263,6 @@ FVector UUxtFarPointerComponent::GetPointerOrigin() const
 FQuat UUxtFarPointerComponent::GetPointerOrientation() const
 {
 	return PointerOrientation;
-}
-
-FQuat UUxtFarPointerComponent::GetControllerOrientation() const
-{
-	return ControllerOrientation;
 }
 
 FVector UUxtFarPointerComponent::GetRayStart() const

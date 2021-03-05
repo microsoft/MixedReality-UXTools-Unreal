@@ -3,6 +3,7 @@
 
 #include "HandTracking/UxtTouchBasedHandTrackerSubsystem.h"
 
+#include "Engine/Engine.h"
 #include "Engine/World.h"
 #include "GameFramework/GameModeBase.h"
 #include "GameFramework/PlayerController.h"
@@ -10,6 +11,12 @@
 
 bool UUxtTouchBasedHandTrackerSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
+	if (GEngine->XRSystem.IsValid())
+	{
+		// When a XR system exists we want to use the default hand tracker.
+		return false;
+	}
+
 #if PLATFORM_ANDROID
 	return true;
 #else

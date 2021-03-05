@@ -11,13 +11,19 @@
 class FDummyHandTracker : public IUxtHandTracker
 {
 public:
+	virtual ETrackingStatus GetTrackingStatus(EControllerHand Hand) const override { return ETrackingStatus::NotTracked; }
+
+	virtual bool IsHandController(EControllerHand Hand) const override { return false; }
+
 	virtual bool GetJointState(
-		EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override
+		EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override
 	{
 		return false;
 	}
 
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override { return false; }
+
+	virtual bool GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override { return false; }
 
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const override { return false; }
 

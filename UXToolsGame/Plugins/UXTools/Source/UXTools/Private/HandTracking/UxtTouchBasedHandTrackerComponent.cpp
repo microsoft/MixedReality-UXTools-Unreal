@@ -35,13 +35,24 @@ void UUxtTouchBasedHandTrackerComponent::EndPlay(const EEndPlayReason::Type EndP
 	Super::EndPlay(EndPlayReason);
 }
 
+ETrackingStatus UUxtTouchBasedHandTrackerComponent::GetTrackingStatus(EControllerHand Hand) const
+{
+	return IsTouchPressed(Hand) ? ETrackingStatus::Tracked : ETrackingStatus::NotTracked;
+}
+
+bool UUxtTouchBasedHandTrackerComponent::IsHandController(EControllerHand Hand) const
+{
+	// Touch input is always hand input
+	return true;
+}
+
 bool UUxtTouchBasedHandTrackerComponent::GetJointState(
-	EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
+	EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const
 {
 	OutRadius = 0;
 	bool bTracked = GetPointerPose(Hand, OutOrientation, OutPosition);
 
-	if (bTracked && Joint == EUxtHandJoint::Palm)
+	if (bTracked && Joint == EHandKeypoint::Palm)
 	{
 		// Use head orientation as the palm's one as it is used to check if the hand is in pointing pose in
 		// AUxtHandInteractionActor::IsInPointingPose
@@ -57,6 +68,12 @@ bool UUxtTouchBasedHandTrackerComponent::GetFingerState(EControllerHand Hand, fl
 	bool bIsCurrentlyPressed;
 	PlayerController->GetInputTouchState(FingerIndex, OutScreenX, OutScreenY, bIsCurrentlyPressed);
 	return bIsCurrentlyPressed;
+}
+
+bool UUxtTouchBasedHandTrackerComponent::IsTouchPressed(EControllerHand Hand) const
+{
+	float ScreenX, ScreenY;
+	return GetFingerState(Hand, ScreenX, ScreenY);
 }
 
 bool UUxtTouchBasedHandTrackerComponent::GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
@@ -80,18 +97,19 @@ bool UUxtTouchBasedHandTrackerComponent::GetPointerPose(EControllerHand Hand, FQ
 	return false;
 }
 
+bool UUxtTouchBasedHandTrackerComponent::GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const
+{
+	return GetPointerPose(Hand, OutOrientation, OutPosition);
+}
+
 bool UUxtTouchBasedHandTrackerComponent::GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const
 {
-	float ScreenX;
-	float ScreenY;
-	OutIsGrabbing = GetFingerState(Hand, ScreenX, ScreenY) ? true : OutIsGrabbing;
-	return OutIsGrabbing;
+	OutIsGrabbing = IsTouchPressed(Hand) ? true : OutIsGrabbing;
+	return true;
 }
 
 bool UUxtTouchBasedHandTrackerComponent::GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const
 {
-	float ScreenX;
-	float ScreenY;
-	OutIsSelectPressed = GetFingerState(Hand, ScreenX, ScreenY) ? true : OutIsSelectPressed;
-	return OutIsSelectPressed;
+	OutIsSelectPressed = IsTouchPressed(Hand) ? true : OutIsSelectPressed;
+	return true;
 }

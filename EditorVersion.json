@@ -1,5 +1,5 @@
 {
-    "name": "ue.4.26.win",
-    "package": "26.1.0",
-    "comment": "Unreal Engine 4.26.1 official release"
+    "name": "analog.internal.unrealengine",
+    "package": "4.26.1",
+    "comment": "Internal Unreal Engine 4.26.1 build"
 }

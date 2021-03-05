@@ -8,7 +8,6 @@
 #include "UxtConstrainableComponentCustomization.h"
 #include "UxtIconBrushCustomization.h"
 #include "UxtPressableButtonComponentVisualizer.h"
-#include "UxtRuntimeSettings.h"
 #include "UxtTooltipSpawnerComponentVisualizer.h"
 
 #include "Controls/UxtIconBrush.h"
@@ -50,17 +49,6 @@ void FUXToolsEditorModule::StartupModule()
 	PropertyModule.RegisterCustomClassLayout(
 		UUxtConstrainableComponent::StaticClass()->GetFName(),
 		FOnGetDetailCustomizationInstance::CreateStatic(&FUxtConstrainableComponentCustomization::MakeInstance));
-
-	// Register settings
-	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
-	if (SettingsModule != nullptr)
-	{
-		{
-			SettingsModule->RegisterSettings(
-				"Project", "Plugins", "UXTools", LOCTEXT("RuntimeSettingsName", "UX Tools"),
-				LOCTEXT("RuntimeSettingsDescription", "Project settings for UX Tools"), GetMutableDefault<UUxtRuntimeSettings>());
-		}
-	}
 }
 
 void FUXToolsEditorModule::ShutdownModule()
@@ -76,14 +64,6 @@ void FUXToolsEditorModule::ShutdownModule()
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.UnregisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName());
 	PropertyModule.UnregisterCustomClassLayout(UUxtConstrainableComponent::StaticClass()->GetFName());
-
-	// Unregister settings
-	ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings");
-
-	if (SettingsModule != nullptr)
-	{
-		SettingsModule->UnregisterSettings("Project", "Plugins", "UXTools");
-	}
 }
 
 #undef LOCTEXT_NAMESPACE

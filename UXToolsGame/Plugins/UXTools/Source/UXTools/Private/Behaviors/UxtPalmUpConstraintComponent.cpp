@@ -14,29 +14,29 @@ namespace
 {
 	bool GetActivationPoint(EControllerHand Hand, EUxtHandConstraintZone Zone, FVector& OutActivationPoint)
 	{
-		EUxtHandJoint ReferenceJoint1 = EUxtHandJoint::Palm;
-		EUxtHandJoint ReferenceJoint2 = EUxtHandJoint::Palm;
+		EHandKeypoint ReferenceJoint1 = EHandKeypoint::Palm;
+		EHandKeypoint ReferenceJoint2 = EHandKeypoint::Palm;
 
 		switch (Zone)
 		{
 		case EUxtHandConstraintZone::UlnarSide:
-			ReferenceJoint1 = EUxtHandJoint::LittleMetacarpal;
-			ReferenceJoint2 = EUxtHandJoint::LittleMetacarpal;
+			ReferenceJoint1 = EHandKeypoint::LittleMetacarpal;
+			ReferenceJoint2 = EHandKeypoint::LittleMetacarpal;
 			break;
 
 		case EUxtHandConstraintZone::RadialSide:
-			ReferenceJoint1 = EUxtHandJoint::IndexMetacarpal;
-			ReferenceJoint2 = EUxtHandJoint::ThumbProximal;
+			ReferenceJoint1 = EHandKeypoint::IndexMetacarpal;
+			ReferenceJoint2 = EHandKeypoint::ThumbProximal;
 			break;
 
 		case EUxtHandConstraintZone::AboveFingerTips:
-			ReferenceJoint1 = EUxtHandJoint::MiddleTip;
-			ReferenceJoint2 = EUxtHandJoint::RingTip;
+			ReferenceJoint1 = EHandKeypoint::MiddleTip;
+			ReferenceJoint2 = EHandKeypoint::RingTip;
 			break;
 
 		case EUxtHandConstraintZone::BelowWrist:
-			ReferenceJoint1 = EUxtHandJoint::Wrist;
-			ReferenceJoint2 = EUxtHandJoint::Wrist;
+			ReferenceJoint1 = EHandKeypoint::Wrist;
+			ReferenceJoint2 = EHandKeypoint::Wrist;
 			break;
 
 		default:
@@ -65,9 +65,9 @@ namespace
 		FQuat Orientation;
 		float Radius;
 
-		if (!IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Wrist, Orientation, WristPosition, Radius) ||
-			!IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexMetacarpal, Orientation, IndexPosition, Radius) ||
-			!IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::LittleMetacarpal, Orientation, LittlePosition, Radius))
+		if (!IUxtHandTracker::Get().GetJointState(Hand, EHandKeypoint::Wrist, Orientation, WristPosition, Radius) ||
+			!IUxtHandTracker::Get().GetJointState(Hand, EHandKeypoint::IndexMetacarpal, Orientation, IndexPosition, Radius) ||
+			!IUxtHandTracker::Get().GetJointState(Hand, EHandKeypoint::LittleMetacarpal, Orientation, LittlePosition, Radius))
 		{
 			return false;
 		}
@@ -91,7 +91,7 @@ bool UUxtPalmUpConstraintComponent::IsHandUsableForConstraint(EControllerHand Ne
 	FQuat PalmRotation;
 	FVector PalmLocation;
 	float PalmRadius;
-	if (!IUxtHandTracker::Get().GetJointState(NewHand, EUxtHandJoint::Palm, PalmRotation, PalmLocation, PalmRadius))
+	if (!IUxtHandTracker::Get().GetJointState(NewHand, EHandKeypoint::Palm, PalmRotation, PalmLocation, PalmRadius))
 	{
 		return false;
 	}
@@ -141,8 +141,8 @@ bool UUxtPalmUpConstraintComponent::IsHandFlat(EControllerHand NewHand, const FV
 	FQuat IndexRotation, RingRotation;
 	FVector IndexLocation, RingLocation;
 	float IndexRadius, RingRadius;
-	if (!IUxtHandTracker::Get().GetJointState(NewHand, EUxtHandJoint::IndexTip, IndexRotation, IndexLocation, IndexRadius) ||
-		!IUxtHandTracker::Get().GetJointState(NewHand, EUxtHandJoint::RingTip, RingRotation, RingLocation, RingRadius))
+	if (!IUxtHandTracker::Get().GetJointState(NewHand, EHandKeypoint::IndexTip, IndexRotation, IndexLocation, IndexRadius) ||
+		!IUxtHandTracker::Get().GetJointState(NewHand, EHandKeypoint::RingTip, RingRotation, RingLocation, RingRadius))
 	{
 		return false;
 	}

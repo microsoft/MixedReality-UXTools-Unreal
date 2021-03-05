@@ -129,9 +129,7 @@ void AUxtHandInteractionActor::UpdateVelocity(float DeltaTime)
 {
 	FVector Position;
 	FQuat Orientation;
-	float Radius;
-
-	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Palm, Orientation, Position, Radius))
+	if (IUxtHandTracker::Get().GetGripPose(Hand, Orientation, Position))
 	{
 		const FVector Normal = -Orientation.GetUpVector();
 
@@ -160,14 +158,25 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 {
 	OutHasNearTarget = false;
 
-	FQuat IndexTipOrientation, PalmOrientation;
-	FVector IndexTipPosition, PalmPosition;
-	float IndexTipRadius, PalmRadius;
-	const bool bIsIndexTipValid =
-		IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
-	const bool bIsPalmValid = IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius);
-	if (bIsIndexTipValid && bIsPalmValid)
+	if (IUxtHandTracker::Get().GetTrackingStatus(Hand) == ETrackingStatus::NotTracked)
 	{
+		return false;
+	}
+
+	// If controller is a hand we use the proximity detection volume,
+	// otherwise near interaction is disabled and only far interaction used.
+	if (IUxtHandTracker::Get().IsHandController(Hand))
+	{
+		FQuat IndexTipOrientation, PalmOrientation;
+		FVector IndexTipPosition, PalmPosition;
+		float IndexTipRadius, PalmRadius;
+		const bool bIsIndexTipValid =
+			IUxtHandTracker::Get().GetJointState(Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+		const bool bIsPalmValid =
+			IUxtHandTracker::Get().GetJointState(Hand, EHandKeypoint::Palm, PalmOrientation, PalmPosition, PalmRadius);
+		// We've checked for valid hand data above
+		check(bIsIndexTipValid && bIsPalmValid);
+
 		const FVector PalmForward = PalmOrientation.GetForwardVector();
 		const FVector PalmToIndex = IndexTipPosition - PalmPosition;
 		const FVector ConeDirection = FMath::Lerp(PalmForward, PalmToIndex, ProximityConeAngleLerp).GetSafeNormal();
@@ -201,11 +210,9 @@ bool AUxtHandInteractionActor::QueryProximityVolume(bool& OutHasNearTarget)
 		{
 			ProximityTrigger->SetWorldTransform(FTransform(ConeOrientation, ConeTip));
 		}
-
-		return true;
 	}
 
-	return false;
+	return true;
 }
 
 // Called every frame
@@ -314,7 +321,7 @@ bool AUxtHandInteractionActor::IsInPointingPose() const
 	FVector PalmPosition;
 	float PalmRadius;
 
-	if (IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::Palm, PalmOrientation, PalmPosition, PalmRadius))
+	if (IUxtHandTracker::Get().GetJointState(Hand, EHandKeypoint::Palm, PalmOrientation, PalmPosition, PalmRadius))
 	{
 		FVector PalmNormal = PalmOrientation * FVector::DownVector;
 		PalmNormal.Normalize();
@@ -362,7 +369,7 @@ void AUxtHandInteractionActor::VLogHandJoints() const
 		FVector WristPosition;
 		FQuat WristOrientation;
 		float WristRadius;
-		if (HandTracker.GetJointState(Hand, EUxtHandJoint::Wrist, WristOrientation, WristPosition, WristRadius))
+		if (HandTracker.GetJointState(Hand, EHandKeypoint::Wrist, WristOrientation, WristPosition, WristRadius))
 		{
 			FString VLogHand = (Hand == EControllerHand::Left) ? TEXT("Left") : TEXT("Right");
 			UE_VLOG_LOCATION(this, LogUxtHandTracking, Log, WristPosition, 0.0f, VLogColorHandJoints, TEXT("%s Hand"), *VLogHand);
@@ -386,7 +393,7 @@ void AUxtHandInteractionActor::VLogHandJoints() const
 	};
 
 	// Utility function for drawing a bone segment
-	auto VlogJointSegment = [this, &HandTracker](EUxtHandJoint JointA, EUxtHandJoint JointB) {
+	auto VlogJointSegment = [this, &HandTracker](EHandKeypoint JointA, EHandKeypoint JointB) {
 		FVector PositionA, PositionB;
 		FQuat OrientationA, OrientationB;
 		float RadiusA, RadiusB;
@@ -399,29 +406,29 @@ void AUxtHandInteractionActor::VLogHandJoints() const
 
 	// Draw segments for finger bones
 
-	VlogJointSegment(EUxtHandJoint::ThumbMetacarpal, EUxtHandJoint::ThumbProximal);
-	VlogJointSegment(EUxtHandJoint::ThumbProximal, EUxtHandJoint::ThumbDistal);
-	VlogJointSegment(EUxtHandJoint::ThumbDistal, EUxtHandJoint::ThumbTip);
+	VlogJointSegment(EHandKeypoint::ThumbMetacarpal, EHandKeypoint::ThumbProximal);
+	VlogJointSegment(EHandKeypoint::ThumbProximal, EHandKeypoint::ThumbDistal);
+	VlogJointSegment(EHandKeypoint::ThumbDistal, EHandKeypoint::ThumbTip);
 
-	VlogJointSegment(EUxtHandJoint::IndexMetacarpal, EUxtHandJoint::IndexProximal);
-	VlogJointSegment(EUxtHandJoint::IndexProximal, EUxtHandJoint::IndexIntermediate);
-	VlogJointSegment(EUxtHandJoint::IndexIntermediate, EUxtHandJoint::IndexDistal);
-	VlogJointSegment(EUxtHandJoint::IndexDistal, EUxtHandJoint::IndexTip);
+	VlogJointSegment(EHandKeypoint::IndexMetacarpal, EHandKeypoint::IndexProximal);
+	VlogJointSegment(EHandKeypoint::IndexProximal, EHandKeypoint::IndexIntermediate);
+	VlogJointSegment(EHandKeypoint::IndexIntermediate, EHandKeypoint::IndexDistal);
+	VlogJointSegment(EHandKeypoint::IndexDistal, EHandKeypoint::IndexTip);
 
-	VlogJointSegment(EUxtHandJoint::MiddleMetacarpal, EUxtHandJoint::MiddleProximal);
-	VlogJointSegment(EUxtHandJoint::MiddleProximal, EUxtHandJoint::MiddleIntermediate);
-	VlogJointSegment(EUxtHandJoint::MiddleIntermediate, EUxtHandJoint::MiddleDistal);
-	VlogJointSegment(EUxtHandJoint::MiddleDistal, EUxtHandJoint::MiddleTip);
+	VlogJointSegment(EHandKeypoint::MiddleMetacarpal, EHandKeypoint::MiddleProximal);
+	VlogJointSegment(EHandKeypoint::MiddleProximal, EHandKeypoint::MiddleIntermediate);
+	VlogJointSegment(EHandKeypoint::MiddleIntermediate, EHandKeypoint::MiddleDistal);
+	VlogJointSegment(EHandKeypoint::MiddleDistal, EHandKeypoint::MiddleTip);
 
-	VlogJointSegment(EUxtHandJoint::RingMetacarpal, EUxtHandJoint::RingProximal);
-	VlogJointSegment(EUxtHandJoint::RingProximal, EUxtHandJoint::RingIntermediate);
-	VlogJointSegment(EUxtHandJoint::RingIntermediate, EUxtHandJoint::RingDistal);
-	VlogJointSegment(EUxtHandJoint::RingDistal, EUxtHandJoint::RingTip);
+	VlogJointSegment(EHandKeypoint::RingMetacarpal, EHandKeypoint::RingProximal);
+	VlogJointSegment(EHandKeypoint::RingProximal, EHandKeypoint::RingIntermediate);
+	VlogJointSegment(EHandKeypoint::RingIntermediate, EHandKeypoint::RingDistal);
+	VlogJointSegment(EHandKeypoint::RingDistal, EHandKeypoint::RingTip);
 
-	VlogJointSegment(EUxtHandJoint::LittleMetacarpal, EUxtHandJoint::LittleProximal);
-	VlogJointSegment(EUxtHandJoint::LittleProximal, EUxtHandJoint::LittleIntermediate);
-	VlogJointSegment(EUxtHandJoint::LittleIntermediate, EUxtHandJoint::LittleDistal);
-	VlogJointSegment(EUxtHandJoint::LittleDistal, EUxtHandJoint::LittleTip);
+	VlogJointSegment(EHandKeypoint::LittleMetacarpal, EHandKeypoint::LittleProximal);
+	VlogJointSegment(EHandKeypoint::LittleProximal, EHandKeypoint::LittleIntermediate);
+	VlogJointSegment(EHandKeypoint::LittleIntermediate, EHandKeypoint::LittleDistal);
+	VlogJointSegment(EHandKeypoint::LittleDistal, EHandKeypoint::LittleTip);
 }
 
 void AUxtHandInteractionActor::VLogProximityQuery(

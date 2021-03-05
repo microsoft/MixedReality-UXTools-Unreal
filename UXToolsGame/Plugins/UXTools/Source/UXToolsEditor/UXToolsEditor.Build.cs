@@ -9,7 +9,7 @@ public class UXToolsEditor : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Core", "CoreUObject", "UXTools", "UXToolsRuntimeSettings" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Core", "CoreUObject", "UXTools" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "SlateCore", "Slate", "EditorStyle", "Blutility", "UMG", "UMGEditor", "Kismet" });
 	}

@@ -40,9 +40,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
 	FQuat GetPointerOrientation() const;
 
-	/** The underlying controller's orientation. */
-	FQuat GetControllerOrientation() const;
-
 	/** Start of the ray used for querying the scene. This is the pointer origin shifted by the ray start offset in the pointer forward
 	 * direction. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Far Pointer")
@@ -129,9 +126,6 @@ private:
 
 	/** Pointer orientation. */
 	FQuat PointerOrientation = FQuat::Identity;
-
-	/** Underlying controller orientation. */
-	FQuat ControllerOrientation = FQuat::Identity;
 
 	TWeakObjectPtr<UPrimitiveComponent> HitPrimitiveWeak;
 	FVector HitPoint = FVector::ZeroVector;

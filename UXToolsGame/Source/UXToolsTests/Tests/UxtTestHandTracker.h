@@ -15,13 +15,13 @@ struct FUxtTestHandData
 	bool bIsTracked = true;
 
 	/** Position for each joint. */
-	FVector JointPosition[(uint8)EUxtHandJoint::Count];
+	TArray<FVector> JointPosition;
 
 	/** Rotation for each joint. */
-	FQuat JointOrientation[(uint8)EUxtHandJoint::Count];
+	TArray<FQuat> JointOrientation;
 
 	/** Radius for each joint. */
-	float JointRadius[(uint8)EUxtHandJoint::Count];
+	TArray<float> JointRadius;
 
 	/** Enable grab state. */
 	bool bIsGrabbing = false;
@@ -37,9 +37,12 @@ public:
 	//
 	// IUxtHandTracker interface
 
+	virtual ETrackingStatus GetTrackingStatus(EControllerHand Hand) const override;
+	virtual bool IsHandController(EControllerHand Hand) const override;
 	virtual bool GetJointState(
-		EControllerHand Hand, EUxtHandJoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override;
+		EControllerHand Hand, EHandKeypoint Joint, FQuat& OutOrientation, FVector& OutPosition, float& OutRadius) const override;
 	virtual bool GetPointerPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override;
+	virtual bool GetGripPose(EControllerHand Hand, FQuat& OutOrientation, FVector& OutPosition) const override;
 	virtual bool GetIsGrabbing(EControllerHand Hand, bool& OutIsGrabbing) const override;
 	virtual bool GetIsSelectPressed(EControllerHand Hand, bool& OutIsSelectPressed) const override;
 
@@ -56,19 +59,19 @@ public:
 	void SetSelectPressed(bool bIsSelectPressed, EControllerHand Hand = EControllerHand::AnyHand);
 
 	/** Set joint position. */
-	void SetJointPosition(const FVector& Position, EControllerHand Hand, EUxtHandJoint Joint);
+	void SetJointPosition(const FVector& Position, EControllerHand Hand, EHandKeypoint Joint);
 
 	/** Set position for all joints of the hand. */
 	void SetAllJointPositions(const FVector& Position, EControllerHand Hand = EControllerHand::AnyHand);
 
 	/** Set joint orientation. */
-	void SetJointOrientation(const FQuat& Orientation, EControllerHand Hand, EUxtHandJoint Joint);
+	void SetJointOrientation(const FQuat& Orientation, EControllerHand Hand, EHandKeypoint Joint);
 
 	/** Set orientation for all joints of the hand. */
 	void SetAllJointOrientations(const FQuat& Orientation, EControllerHand Hand = EControllerHand::AnyHand);
 
 	/** Set joint radius. */
-	void SetJointRadius(float Radius, EControllerHand Hand, EUxtHandJoint Joint);
+	void SetJointRadius(float Radius, EControllerHand Hand, EHandKeypoint Joint);
 
 	/** Set radius for all joints of the hand. */
 	void SetAllJointRadii(float Radius, EControllerHand Hand = EControllerHand::AnyHand);

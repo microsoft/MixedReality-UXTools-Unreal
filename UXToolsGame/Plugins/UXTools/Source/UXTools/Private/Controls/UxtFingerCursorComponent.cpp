@@ -39,14 +39,14 @@ namespace
 		float IndexTipRadius;
 
 		foundValues &=
-			IUxtHandTracker::Get().GetJointState(Hand, EUxtHandJoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
+			IUxtHandTracker::Get().GetJointState(Hand, EHandKeypoint::IndexTip, IndexTipOrientation, IndexTipPosition, IndexTipRadius);
 
 		FQuat IndexKnuckleOrientation;
 		FVector IndexKnucklePosition;
 		float IndexKnuckleRadius;
 
 		foundValues &= IUxtHandTracker::Get().GetJointState(
-			Hand, EUxtHandJoint::IndexProximal, IndexKnuckleOrientation, IndexKnucklePosition, IndexKnuckleRadius);
+			Hand, EHandKeypoint::IndexProximal, IndexKnuckleOrientation, IndexKnucklePosition, IndexKnuckleRadius);
 
 		if (!foundValues)
 		{
