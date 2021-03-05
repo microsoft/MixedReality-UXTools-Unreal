@@ -28,8 +28,7 @@ public:
 	void SetTrackingToWorldTransform(const FTransform& InTrackingToWorldTransform);
 
 	/* Returns the target hand pose from the simulation state for animation. */
-	UFUNCTION(
-		BlueprintPure, Category = "XRSimulation", meta = (WorldContext = "WorldContextObject", UnsafeDuringActorConstruction = "true"))
+	UFUNCTION(BlueprintPure, Category = "XRSimulation", meta = (WorldContext = "WorldContextObject", UnsafeDuringActorConstruction = "true"))
 	void GetTargetHandPose(
 		UObject* WorldContextObject, EControllerHand Hand, FName& TargetPose, FTransform& TargetTransform, bool& bAnimateTransform) const;
 

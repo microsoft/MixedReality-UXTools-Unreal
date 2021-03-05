@@ -49,8 +49,6 @@ private:
 	FVector MovementInput;
 
 	/** Enable linear movement of the head position. */
-	UPROPERTY(
-		EditAnywhere, Category = "XRSimulation", BlueprintGetter = "IsHeadMovementEnabled",
-		BlueprintSetter = "SetHeadMovementEnabled")
+	UPROPERTY(EditAnywhere, Category = "XRSimulation", BlueprintGetter = "IsHeadMovementEnabled", BlueprintSetter = "SetHeadMovementEnabled")
 	bool bEnableHeadMovement = true;
 };
