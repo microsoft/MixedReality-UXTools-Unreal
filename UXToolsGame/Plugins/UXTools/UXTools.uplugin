@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
-	"Version": 4,
-	"VersionName": "0.11.0",
+	"Version": 5,
+	"VersionName": "0.12.0",
 	"FriendlyName": "Mixed Reality UX Tools",
 	"Description": "Set of tools and utilities to add interactivity to mixed reality applications",
 	"Category": "Other",
