@@ -174,7 +174,7 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 	Config = ConfigFinder.Object;
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> FaceAffordanceMeshFinder(
-		TEXT("/UXTools/BoundsControl/SM_BoundingBox_FaceHandle.SM_BoundingBox_FaceHandle"));
+		TEXT("/UXTools/BoundsControl/SM_BoundingBox_TranslateHandle.SM_BoundingBox_TranslateHandle"));
 	FaceAffordanceMesh = FaceAffordanceMeshFinder.Object;
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> EdgeAffordanceMeshFinder(
 		TEXT("/UXTools/BoundsControl/SM_BoundingBox_RotateHandle.SM_BoundingBox_RotateHandle"));

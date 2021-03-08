@@ -18,7 +18,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtTouchableVolumeComponent improvements](#uxttouchablevolumecomponent-improvements)
   - [UxtBoundsControlComponent's affordance scale](#uxtboundscontrolcomponents-affordance-scale)
   - [Improved UxtRotationAxisConstraint's interaction with UxtBoundsControl and UxtGenericManipulator](#improved-uxtrotationaxisconstraints-interaction-with-uxtboundscontrol-and-uxtgenericmanipulator)
-  - [Fixed UxtBoundsControlComponent's face affordances](#fixed-uxtboundscontrolcomponents-face-affordances)
+  - [UxtBoundsControlComponent's face affordances](#uxtboundscontrolcomponents-face-affordances)
   - [UxtMinMaxScaleConstraint is now implicit](#uxtminmaxscaleconstraint-is-now-implicit)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
@@ -28,7 +28,10 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtTouchableVolumeComponent's API update](#uxttouchablevolumecomponents-api-update)
   - [UxtRotationAxisConstraint](#uxtrotationaxisconstraint)
   - [UxtMinMaxScaleConstraint](#uxtminmaxscaleconstraint)
+  - [Renamed mesh for Bounds Control's face handles](#renamed-mesh-for-bounds-controls-face-handles)
   - [UxtBasePressableButtonActor button component access](#uxtbasepressablebuttonactor-button-component-access)
+  - [IUxtHandTracker](#iuxthandtracker)
+  - [ControllerOrientation property removed from UUxtFarPointerComponent](#controllerorientation-property-removed-from-uuxtfarpointercomponent)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -86,12 +89,17 @@ Thanks to these changes, `UUxtBoundsControlComponent` is now able to interact ap
 | ![Rotation Axis Constraint (World Z allowed)](Images/ReleaseNotes/rotation_axis_constraint_z_world.gif) | ![Rotation Axis Constraint (Local Z allowed)](Images/ReleaseNotes/rotation_axis_constraint_z_local.gif) |
 (NOTE: debug axes aligned to world's have been added for reference)
 
-### Fixed UxtBoundsControlComponent's face affordances
+### UxtBoundsControlComponent's face affordances
 
 - `UUxtBoundsControlComponent::TransformTarget`'s handling of the `EUxtAffordanceAction::Translate` action has been fixed.
 - The face mesh (`SM_BoundingBox_FaceHandle.uasset`) now has collisions, so you can interact with them.
 - A new `UUxtBoundsControlConfig` data asset (named `BoundsControlDefaultWithFaces.uasset`) has been added, with face affordances configured by default.
-- `BoundsControlExamples.umap` has a new coffee cup instance featuring this.
+- `BoundsControlExamples.umap` has a new coffee cup instance featuring face handles.
+- The default mesh used for face handles has been renamed to `SM_BoundingBox_TranslateHandle.uasset`, so it better matches its scale/rotate counterparts. The old placeholder mesh is also replaced by the appropriate mesh:
+
+| Old mesh | New mesh |
+| --- | --- |
+| ![Old face handles](Images/ReleaseNotes/BoundsControlOldFaceHandles.jpg) | ![New face handles](Images/ReleaseNotes/BoundsControlNewFaceHandles.jpg) |
 
 ### UxtMinMaxScaleConstraint is now implicit
 
@@ -145,6 +153,10 @@ RotationConstraint->AllowedAxis = EUxtAxis::None;
 ### UxtMinMaxScaleConstraint
 
 As this component has been removed and its functionality is now embedded inside `UUxtConstrainableComponent`, you need to revisit any instances of this constraint that you had. All you need to do is copy the `MinScale`, `MaxScale` and `bRelativeToInitialScale` values over to all applicable components in the actor. Please remember that, if you have `UUxtBoundsControlComponent` and `UUxtGenericManipulatorComponent` in the same actor, you now need to configure both of them separately.
+
+### Renamed mesh for Bounds Control's face handles
+
+The asset has been renamed to better match its rotate/scale counterparts, so you need to replace any references to `SM_BoundingBox_FaceHandle.uasset` by `SM_BoundingBox_TranslateHandle.uasset`.
 
 ### UxtBasePressableButtonActor button component access
 
