@@ -6,7 +6,7 @@
 #include "CoreMinimal.h"
 #include "SceneViewExtension.h"
 
-class UUxtDefaultHandTrackerSubsystem;
+class UUxtXRSimulationSubsystem;
 
 /**
  * Scene view extension for hiding the player pawn in simulated HMD views.
@@ -14,7 +14,7 @@ class UUxtDefaultHandTrackerSubsystem;
 class UXTOOLSINPUT_API FUxtXRSimulationViewExtension : public FSceneViewExtensionBase
 {
 public:
-	FUxtXRSimulationViewExtension(const FAutoRegister& AutoRegister, UUxtDefaultHandTrackerSubsystem* InHandTrackerSubsystem);
+	FUxtXRSimulationViewExtension(const FAutoRegister& AutoRegister, UUxtXRSimulationSubsystem* InSimulationSubsystem);
 
 	/** ISceneViewExtension interface */
 	virtual void SetupViewFamily(FSceneViewFamily& InViewFamily) override;
@@ -25,5 +25,5 @@ public:
 	virtual bool IsActiveThisFrame(class FViewport* InViewport) const;
 
 private:
-	UUxtDefaultHandTrackerSubsystem* HandTrackerSubsystem;
+	UUxtXRSimulationSubsystem* SimulationSubsystem;
 };
