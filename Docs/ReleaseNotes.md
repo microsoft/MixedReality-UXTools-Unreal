@@ -30,6 +30,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtMinMaxScaleConstraint](#uxtminmaxscaleconstraint)
   - [Renamed mesh for Bounds Control's face handles](#renamed-mesh-for-bounds-controls-face-handles)
   - [UxtBasePressableButtonActor button component access](#uxtbasepressablebuttonactor-button-component-access)
+  - [WindowsMixedReality input simulation discontinued](#windowsmixedreality-input-simulation-discontinued)
   - [IUxtHandTracker](#iuxthandtracker)
   - [ControllerOrientation property removed from UUxtFarPointerComponent](#controllerorientation-property-removed-from-uuxtfarpointercomponent)
 - [Known issues](#known-issues)
@@ -161,6 +162,17 @@ The asset has been renamed to better match its rotate/scale counterparts, so you
 ### UxtBasePressableButtonActor button component access
 
 The `UxtBasePressableButtonActor`'s ButtonComponent property has been changed from `BlueprintReadWrite` to `BlueprintReadOnly` because changing the button component is an unsupported code path.
+
+### WindowsMixedReality input simulation discontinued
+
+Input simulation lives entirely in the UXTools plugin now.
+
+* The _Platforms > Windows Mixed Reality > Enable Input Simulation_ option is no longer used.
+  It is replaced by _Plugins > XR Simulation > Enable Simulation_.
+* Accessing WindowsMixedReality API functions will no longer return simulated data.
+  The `IUxtHandTracker` API should be used instead.
+
+The WindowsMixedReality plugin code paths for input simulation remain available for backward compatibility with older UXTools versions (<= 0.11.x).
 
 ### IUxtHandTracker
 
