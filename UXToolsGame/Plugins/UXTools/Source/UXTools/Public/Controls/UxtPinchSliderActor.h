@@ -12,6 +12,10 @@
 #include "UxtPinchSliderActor.generated.h"
 
 class USoundCue;
+class AUxtPinchSliderActor;
+
+/** Delegate for subscribing to slider value updated events in slider actors. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtPinchSliderValueUpdatedDelegate, AUxtPinchSliderActor*, Slider, float, NewValue);
 
 /**
  * A simple HoloLens 2 style slider that can be moved by grabbing / pinching a slider thumb.
@@ -155,11 +159,11 @@ public:
 	void SetThumbScaleCurve(UCurveFloat* NewThumbScaleCurve);
 
 	//
-	// Events
+	// Events.
 
 	/** Event raised when the slider's value changes. */
-	UFUNCTION(BlueprintNativeEvent, Category = "Uxt Pinch Slider")
-	void OnSliderUpdateValue(float NewValue);
+	UPROPERTY(BlueprintAssignable, Category = "Uxt Pinch Slider")
+	FUxtPinchSliderValueUpdatedDelegate OnValueUpdated;
 
 protected:
 	//

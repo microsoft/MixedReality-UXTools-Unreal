@@ -33,6 +33,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [WindowsMixedReality input simulation discontinued](#windowsmixedreality-input-simulation-discontinued)
   - [IUxtHandTracker](#iuxthandtracker)
   - [ControllerOrientation property removed from UUxtFarPointerComponent](#controllerorientation-property-removed-from-uuxtfarpointercomponent)
+  - [Replaced OnSliderUpdateValue function in pinch actor](#replaced-OnSliderUpdateValue-function-in-pinch-actor)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -181,6 +182,10 @@ The `EUxtHandJoint` enum has been replaced by EHandKeypoint, which is part of th
 ### ControllerOrientation property removed from UUxtFarPointerComponent
 
 This property was only caching the wrist orientation. The far pointer is now using the Grip pose for the controller orientation, which can be acquired directly through the IUxtHandTracker interface (see `IUxtHandTracker::GetGripPose`).
+
+### Replaced OnSliderUpdateValue function in pinch actor
+
+If you previously derived from `AUxtPinchSliderActor` and implemented `OnSliderUpdateValue` to listen for value updates you will need to bind to the `OnValueUpdated` event instead.
 
 ## Known issues
 
