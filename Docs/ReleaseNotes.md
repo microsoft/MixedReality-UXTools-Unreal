@@ -33,7 +33,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [WindowsMixedReality input simulation discontinued](#windowsmixedreality-input-simulation-discontinued)
   - [IUxtHandTracker](#iuxthandtracker)
   - [ControllerOrientation property removed from UUxtFarPointerComponent](#controllerorientation-property-removed-from-uuxtfarpointercomponent)
-  - [Replaced OnSliderUpdateValue function in pinch actor](#replaced-OnSliderUpdateValue-function-in-pinch-actor)
+  - [Replaced OnSliderUpdateValue function in pinch actor](#replaced-onsliderupdatevalue-function-in-pinch-actor)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
