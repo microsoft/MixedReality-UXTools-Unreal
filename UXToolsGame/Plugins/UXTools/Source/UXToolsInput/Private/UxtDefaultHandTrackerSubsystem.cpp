@@ -7,6 +7,7 @@
 #include "IXRTrackingSystem.h"
 #include "SceneViewExtension.h"
 #include "UxtXRSimulationSubsystem.h"
+#include "XRSimulationActor.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
@@ -21,6 +22,7 @@
 void UUxtDefaultHandTrackerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	FUxtDefaultHandTracker::RegisterInputMappings();
+	AXRSimulationActor::RegisterInputMappings();
 
 	PostLoginHandle = FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin);
 	LogoutHandle = FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModeLogout);
@@ -34,6 +36,7 @@ void UUxtDefaultHandTrackerSubsystem::Deinitialize()
 	LogoutHandle.Reset();
 
 	FUxtDefaultHandTracker::UnregisterInputMappings();
+	AXRSimulationActor::UnregisterInputMappings();
 }
 
 void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)

@@ -25,7 +25,6 @@ void UUxtXRSimulationSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	PostLoginHandle = FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UUxtXRSimulationSubsystem::OnGameModePostLogin);
 	LogoutHandle = FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UUxtXRSimulationSubsystem::OnGameModeLogout);
 
-	AXRSimulationActor::RegisterInputMappings();
 	SimulationState = MakeShareable(new FXRSimulationState());
 
 	XRSimulationViewExtension = FSceneViewExtensions::NewExtension<FUxtXRSimulationViewExtension>(this);
@@ -38,7 +37,6 @@ void UUxtXRSimulationSubsystem::Deinitialize()
 	PostLoginHandle.Reset();
 	LogoutHandle.Reset();
 
-	AXRSimulationActor::UnregisterInputMappings();
 	SimulationState.Reset();
 
 	XRSimulationViewExtension = nullptr;
