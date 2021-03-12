@@ -6,8 +6,8 @@
 #include "CoreMinimal.h"
 
 #include "Controls/UxtBoundsControlConfig.h"
-#include "Interactions/Constraints/UxtConstrainableComponent.h"
 #include "Interactions/UxtGrabTargetComponent.h"
+#include "Interactions/UxtManipulatorComponent.h"
 #include "Materials/MaterialParameterCollection.h"
 
 #include "UxtBoundsControlComponent.generated.h"
@@ -62,7 +62,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
  * Manages a set of affordances that can be manipulated for changing the actor transform.
  */
 UCLASS(Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtBoundsControlComponent : public UUxtConstrainableComponent
+class UXTOOLS_API UUxtBoundsControlComponent : public UUxtManipulatorComponent
 {
 	GENERATED_BODY()
 
@@ -166,6 +166,8 @@ protected:
 	/** Callback when an affordance is being released. */
 	UFUNCTION(Category = "Uxt Bounds Control|Affordances")
 	void OnAffordanceEndGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
+
+	virtual void OnExternalManipulationStarted() override;
 
 	/**
 	 * Look up the grab pointer data for an affordance.

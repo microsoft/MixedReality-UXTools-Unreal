@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "Interactions/Constraints/UxtConstrainableComponent.h"
+#include "Interactions/UxtManipulatorComponent.h"
 
 #include "UXTools.h"
 
@@ -20,47 +20,64 @@ namespace
 	}
 } // namespace
 
-bool UUxtConstrainableComponent::GetAutoDetectConstraints() const
+bool UUxtManipulatorComponent::GetAutoDetectConstraints() const
 {
 	return bAutoDetectConstraints;
 }
 
-void UUxtConstrainableComponent::SetAutoDetectConstraints(bool bNewAutoDetectConstraints)
+void UUxtManipulatorComponent::SetAutoDetectConstraints(bool bNewAutoDetectConstraints)
 {
 	bAutoDetectConstraints = bNewAutoDetectConstraints;
 	UpdateActiveConstraints();
 }
 
-const TArray<FComponentReference>& UUxtConstrainableComponent::GetSelectedConstraints() const
+const TArray<FComponentReference>& UUxtManipulatorComponent::GetSelectedConstraints() const
 {
 	return SelectedConstraints;
 }
 
-void UUxtConstrainableComponent::AddConstraint(const FComponentReference& NewConstraint)
+void UUxtManipulatorComponent::AddConstraint(const FComponentReference& NewConstraint)
 {
 	if (bAutoDetectConstraints)
 	{
-		UE_LOG(UXTools, Warning, TEXT("Manually adding a constraint to a UxtConstrainableComponent using automatic constraint detection."));
+		UE_LOG(UXTools, Warning, TEXT("Manually adding a constraint to a UxtManipulatorComponent using automatic constraint detection."));
 	}
 
 	SelectedConstraints.Add(NewConstraint);
 	UpdateActiveConstraints();
 }
 
-void UUxtConstrainableComponent::RemoveConstraint(const FComponentReference& NewConstraint)
+void UUxtManipulatorComponent::RemoveConstraint(const FComponentReference& NewConstraint)
 {
 	if (bAutoDetectConstraints)
 	{
 		UE_LOG(
-			UXTools, Warning,
-			TEXT("Manually removing a constraint from a UxtConstrainableComponent using automatic constraint detection."));
+			UXTools, Warning, TEXT("Manually removing a constraint from a UxtManipulatorComponent using automatic constraint detection."));
 	}
 
 	SelectedConstraints.Remove(NewConstraint);
 	UpdateActiveConstraints();
 }
 
-void UUxtConstrainableComponent::SetRelativeToInitialScale(const bool Value)
+void UUxtManipulatorComponent::NotifyManipulationStarted()
+{
+	if (AActor* Owner = GetOwner())
+	{
+		for (UActorComponent* ChildComponent : Owner->GetComponents())
+		{
+			if (ChildComponent == this)
+			{
+				continue;
+			}
+			if (auto* ConstrainableComponent = Cast<UUxtManipulatorComponent>(ChildComponent))
+			{
+				ConstrainableComponent->OnExternalManipulationStarted();
+			}
+		}
+	}
+}
+
+void UUxtManipulatorComponent::SetRelativeToInitialScale(const bool Value)
 {
 	if (bRelativeToInitialScale != Value)
 	{
@@ -68,19 +85,19 @@ void UUxtConstrainableComponent::SetRelativeToInitialScale(const bool Value)
 	}
 }
 
-void UUxtConstrainableComponent::SetMinScale(const float Value)
+void UUxtManipulatorComponent::SetMinScale(const float Value)
 {
 	const float CeilingValue = bRelativeToInitialScale ? kRelativeScaleCeiling : MaxScale;
 	MinScale = FMath::Clamp(Value, kRelativeScaleFloor, CeilingValue);
 }
 
-void UUxtConstrainableComponent::SetMaxScale(const float Value)
+void UUxtManipulatorComponent::SetMaxScale(const float Value)
 {
 	const float FloorValue = bRelativeToInitialScale ? kRelativeScaleCeiling : MinScale;
 	MaxScale = FMath::Max(Value, FloorValue);
 }
 
-void UUxtConstrainableComponent::BeginPlay()
+void UUxtManipulatorComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -97,7 +114,7 @@ void UUxtConstrainableComponent::BeginPlay()
 	}
 }
 
-void UUxtConstrainableComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UUxtManipulatorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
@@ -108,21 +125,21 @@ void UUxtConstrainableComponent::TickComponent(float DeltaTime, ELevelTick TickT
 }
 
 #if WITH_EDITOR
-void UUxtConstrainableComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+void UUxtManipulatorComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	if (FProperty* Property = PropertyChangedEvent.Property)
 	{
 		const FName PropertyName = Property->GetFName();
-		if (PropertyName.IsEqual(GET_MEMBER_NAME_CHECKED(UUxtConstrainableComponent, bRelativeToInitialScale)))
+		if (PropertyName.IsEqual(GET_MEMBER_NAME_CHECKED(UUxtManipulatorComponent, bRelativeToInitialScale)))
 		{
 			InitialScale = GetOwner() ? GetOwner()->GetActorScale3D() : FVector::OneVector;
 			ConvertMinMaxScaleValues();
 		}
-		else if (PropertyName.IsEqual(GET_MEMBER_NAME_CHECKED(UUxtConstrainableComponent, MinScale)))
+		else if (PropertyName.IsEqual(GET_MEMBER_NAME_CHECKED(UUxtManipulatorComponent, MinScale)))
 		{
 			SetMinScale(MinScale);
 		}
-		else if (PropertyName.IsEqual(GET_MEMBER_NAME_CHECKED(UUxtConstrainableComponent, MaxScale)))
+		else if (PropertyName.IsEqual(GET_MEMBER_NAME_CHECKED(UUxtManipulatorComponent, MaxScale)))
 		{
 			SetMaxScale(MaxScale);
 		}
@@ -131,7 +148,7 @@ void UUxtConstrainableComponent::PostEditChangeProperty(FPropertyChangedEvent& P
 }
 #endif // WITH_EDITOR
 
-void UUxtConstrainableComponent::InitializeConstraints(USceneComponent* NewTargetComponent)
+void UUxtManipulatorComponent::InitializeConstraints(USceneComponent* NewTargetComponent)
 {
 	check(NewTargetComponent);
 	TargetComponent = NewTargetComponent;
@@ -143,7 +160,7 @@ void UUxtConstrainableComponent::InitializeConstraints(USceneComponent* NewTarge
 	}
 }
 
-void UUxtConstrainableComponent::ApplyConstraints(
+void UUxtManipulatorComponent::ApplyConstraints(
 	FTransform& Transform, EUxtTransformMode TransformMode, bool bIsOneHanded, bool bIsNear) const
 {
 	const int32 GrabMode = static_cast<int32>(bIsOneHanded ? EUxtGrabMode::OneHanded : EUxtGrabMode::TwoHanded);
@@ -164,7 +181,7 @@ void UUxtConstrainableComponent::ApplyConstraints(
 	}
 }
 
-TArray<UUxtTransformConstraint*> UUxtConstrainableComponent::GetConstraints() const
+TArray<UUxtTransformConstraint*> UUxtManipulatorComponent::GetConstraints() const
 {
 	TArray<UUxtTransformConstraint*> Constraints;
 
@@ -191,7 +208,7 @@ TArray<UUxtTransformConstraint*> UUxtConstrainableComponent::GetConstraints() co
 	return Constraints;
 }
 
-void UUxtConstrainableComponent::UpdateActiveConstraints()
+void UUxtManipulatorComponent::UpdateActiveConstraints()
 {
 	if (!TargetComponent)
 	{
@@ -222,7 +239,7 @@ void UUxtConstrainableComponent::UpdateActiveConstraints()
 	}
 }
 
-void UUxtConstrainableComponent::ConvertMinMaxScaleValues()
+void UUxtManipulatorComponent::ConvertMinMaxScaleValues()
 {
 	const float Min = InitialScale.GetMin();
 	const float Max = InitialScale.GetMax();
@@ -238,7 +255,7 @@ void UUxtConstrainableComponent::ConvertMinMaxScaleValues()
 	}
 }
 
-FVector UUxtConstrainableComponent::GetMinScaleVec() const
+FVector UUxtManipulatorComponent::GetMinScaleVec() const
 {
 	FVector MinScaleVec(MinScale);
 	if (bRelativeToInitialScale)
@@ -248,7 +265,7 @@ FVector UUxtConstrainableComponent::GetMinScaleVec() const
 	return MinScaleVec;
 }
 
-FVector UUxtConstrainableComponent::GetMaxScaleVec() const
+FVector UUxtManipulatorComponent::GetMaxScaleVec() const
 {
 	FVector MaxScaleVec(MaxScale);
 	if (bRelativeToInitialScale)

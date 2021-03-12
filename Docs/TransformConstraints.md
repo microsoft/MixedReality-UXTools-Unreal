@@ -1,19 +1,19 @@
 # Transform Constraints
 
-UXTools provides a mechanism to implement and apply transform constraints to actors during manipulation. All you need to do is inherit from `UUxtConstrainableComponent`, as `UUxtGenericManipulatorComponent` and `UUxtBoundsControlComponent` for example.
+UXTools provides a mechanism to implement and apply transform constraints to actors during manipulation. All you need to do is inherit from `UUxtManipulatorComponent`, as `UUxtGenericManipulatorComponent` and `UUxtBoundsControlComponent` for example.
 
 ## Usage
 
 In order to use constraints:
 
 1. Add any desired `UxtTransformConstraint`-derived components to the actor.
-2. Add any `UUxtConstrainableComponent`-derived components to the actor, such as `UUxtGenericManipulatorComponent` and `UUxtBoundsControlComponent`.
+2. Add any `UUxtManipulatorComponent`-derived components to the actor, such as `UUxtGenericManipulatorComponent` and `UUxtBoundsControlComponent`.
 
-Each `UUxtConstrainableComponent` will apply all constraint components in the actor if `bAutoDetectConstraints` is set to `true`. Otherwise, you can fill the `SelectedConstraints` array to choose which constraints you'd like that component to apply during its interaction.
+Each `UUxtManipulatorComponent` will apply all constraint components in the actor if `bAutoDetectConstraints` is set to `true`. Otherwise, you can fill the `SelectedConstraints` array to choose which constraints you'd like that component to apply during its interaction.
 
 ## Implicit scale
 
-There's an implicit constraint which doesn't inherit from `UxtTransformConstraint` and is applied by all `UUxtConstrainableComponent`s. The reason for that is preventing their scales from reaching `0` or even negative values. Besides that, `UUxtBoundsControlComponent` avoids having interaction issues with its handles when the scale is too small.
+There's an implicit constraint which doesn't inherit from `UxtTransformConstraint` and is applied by all `UUxtManipulatorComponent`s. The reason for that is preventing their scales from reaching `0` or even negative values. Besides that, `UUxtBoundsControlComponent` avoids having interaction issues with its handles when the scale is too small.
 
 The `MinScale` and `MaxScale` properties give you flexibility to configure this behavior within reasonable values, clamped to prevent the unexpected results previously mentioned.
 

@@ -5,11 +5,11 @@
 
 #include "CoreMinimal.h"
 
-#include "Interactions/Constraints/UxtConstrainableComponent.h"
 #include "Interactions/UxtFarHandler.h"
 #include "Interactions/UxtFarTarget.h"
 #include "Interactions/UxtGrabHandler.h"
 #include "Interactions/UxtGrabTarget.h"
+#include "Interactions/UxtManipulatorComponent.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 
 #include "UxtGrabTargetComponent.generated.h"
@@ -164,7 +164,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUxtEndGrabDelegate, UUxtGrabTarget
  */
 UCLASS(Blueprintable, ClassGroup = "UXTools", meta = (BlueprintSpawnableComponent))
 class UXTOOLS_API UUxtGrabTargetComponent
-	: public UUxtConstrainableComponent
+	: public UUxtManipulatorComponent
 	, public IUxtGrabTarget
 	, public IUxtGrabHandler
 	, public IUxtFarTarget
@@ -220,6 +220,10 @@ public:
 	/** Returns a list of all currently grabbing pointers. */
 	UFUNCTION(BlueprintPure, Category = "Uxt Grab Target")
 	const TArray<FUxtGrabPointerData>& GetGrabPointers() const;
+
+	//
+	// UUxtManipulatorComponent interface
+	virtual void OnExternalManipulationStarted() override;
 
 protected:
 	virtual void BeginPlay() override;

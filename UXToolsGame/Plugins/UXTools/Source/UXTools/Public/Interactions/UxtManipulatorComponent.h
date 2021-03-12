@@ -4,18 +4,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UxtTransformConstraint.h"
 
 #include "Components/ActorComponent.h"
 #include "Components/SceneComponent.h"
+#include "Constraints/UxtTransformConstraint.h"
 
-#include "UxtConstrainableComponent.generated.h"
+#include "UxtManipulatorComponent.generated.h"
 
 /**
  * Manages constraints that can be applied by child components.
  */
 UCLASS(Abstract, Blueprintable, Category = "UXTools", meta = (BlueprintSpawnableComponent))
-class UXTOOLS_API UUxtConstrainableComponent : public UActorComponent
+class UXTOOLS_API UUxtManipulatorComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -77,6 +77,13 @@ protected:
 	/** Apply the constraints to the transform. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
 	void ApplyConstraints(FTransform& Transform, EUxtTransformMode TransformMode, bool bIsOneHanded, bool bIsNear) const;
+
+	/** Get notified of another component starting a new manipulation. */
+	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	virtual void OnExternalManipulationStarted() PURE_VIRTUAL(UUxtManipulatorComponent::OnExternalManipulationStarted);
+
+	/** Notifies other Constrainable components by calling @ref OnExternalManipulationStarted on them. */
+	void NotifyManipulationStarted();
 
 private:
 	/** Get a list of constraints that should be applied. */

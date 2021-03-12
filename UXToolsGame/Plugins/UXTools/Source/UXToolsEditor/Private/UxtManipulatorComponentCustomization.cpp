@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "UxtConstrainableComponentCustomization.h"
+#include "UxtManipulatorComponentCustomization.h"
 
 #include "DetailCategoryBuilder.h"
 #include "DetailLayoutBuilder.h"
@@ -10,9 +10,9 @@
 #include "EditorUtilityWidgetBlueprint.h"
 #include "UxtConstraintPickerWidget.h"
 
-#include "Interactions/Constraints/UxtConstrainableComponent.h"
+#include "Interactions/UxtManipulatorComponent.h"
 
-void FUxtConstrainableComponentCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
+void FUxtManipulatorComponentCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 {
 	TArray<TWeakObjectPtr<UObject>> Owners;
 	DetailBuilder.GetObjectsBeingCustomized(Owners);
@@ -42,18 +42,18 @@ void FUxtConstrainableComponentCustomization::CustomizeDetails(IDetailLayoutBuil
 									.HAlign(HAlign_Center)
 									.IsEnabled(true)
 									.OnClicked(
-										this, &FUxtConstrainableComponentCustomization::OnShowEditor,
+										this, &FUxtManipulatorComponentCustomization::OnShowEditor,
 										Owners[0])[SNew(STextBlock)
 													   .Font(IDetailLayoutBuilder::GetDetailFont())
 													   .Text(FText::AsCultureInvariant("Open Constraint Picker"))]];
 }
 
-TSharedRef<IDetailCustomization> FUxtConstrainableComponentCustomization::MakeInstance()
+TSharedRef<IDetailCustomization> FUxtManipulatorComponentCustomization::MakeInstance()
 {
-	return MakeShared<FUxtConstrainableComponentCustomization>();
+	return MakeShared<FUxtManipulatorComponentCustomization>();
 }
 
-FReply FUxtConstrainableComponentCustomization::OnShowEditor(TWeakObjectPtr<UObject> Owner)
+FReply FUxtManipulatorComponentCustomization::OnShowEditor(TWeakObjectPtr<UObject> Owner)
 {
 	if (UWidgetBlueprint* Blueprint = Cast<UWidgetBlueprint>(
 			StaticLoadObject(UWidgetBlueprint::StaticClass(), nullptr, TEXT("/UXTools/Utilities/ConstraintPicker/UxtConstraintPicker"))))

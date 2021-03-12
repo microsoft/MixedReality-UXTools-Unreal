@@ -352,6 +352,7 @@ void UUxtGrabTargetComponent::OnBeginGrab_Implementation(UUxtNearPointerComponen
 	// Only trigger events when the grab mode requirement has been met.
 	if (IsGrabModeRequirementMet())
 	{
+		NotifyManipulationStarted();
 		OnBeginGrab.Broadcast(this, GrabData);
 		UpdateComponentTickEnabled();
 	}
@@ -457,6 +458,8 @@ void UUxtGrabTargetComponent::OnFarPressed_Implementation(UUxtFarPointerComponen
 	{
 		return;
 	}
+
+	NotifyManipulationStarted();
 
 	FUxtGrabPointerData PointerData;
 	PointerData.FarPointer = Pointer;
@@ -585,4 +588,9 @@ bool UUxtGrabTargetComponent::IsGrabbingPointer(const UUxtPointerComponent* Poin
 {
 	return GrabPointers.ContainsByPredicate(
 		[&Pointer](const FUxtGrabPointerData& GrabData) { return GrabData.NearPointer == Pointer || GrabData.FarPointer == Pointer; });
+}
+
+void UUxtGrabTargetComponent::OnExternalManipulationStarted()
+{
+	ForceEndGrab();
 }

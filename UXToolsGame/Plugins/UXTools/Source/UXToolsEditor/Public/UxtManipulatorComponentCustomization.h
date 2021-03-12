@@ -9,9 +9,9 @@
 #include "Input/Reply.h"
 
 /**
- * Provides a custom property panel for the UxtConstrainableComponent.
+ * Provides a custom property panel for the UxtManipulatorComponent.
  */
-class FUxtConstrainableComponentCustomization : public IDetailCustomization
+class FUxtManipulatorComponentCustomization : public IDetailCustomization
 {
 public:
 	// IDetailCustomization interface.
