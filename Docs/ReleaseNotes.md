@@ -23,6 +23,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtConstrainableComponent changes](#uxtconstrainablecomponent-changes)
     - [Renamed to UxtManipulatorComponent](#renamed-to-uxtmanipulatorcomponent)
     - [Manipulators now notify each other when they start a new manipulation](#manipulators-now-notify-each-other-when-they-start-a-new-manipulation)
+  - [Added new Bounds Control presets without constrained affordances](#added-new-bounds-control-presets-without-constrained-affordances)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
@@ -119,6 +120,10 @@ This name better conveys the meaning of the class, which will become the real ba
 #### Manipulators now notify each other when they start a new manipulation
 
 With the addition of **OnExternalManipulationStarted** and **NotifyManipulationStarted** to **UxtManipulatorComponent**, any components inheriting from this class (such as **UxtBoundsControlComponent** or **UxtGenericManipulatorComponent**) now notify the rest of them in their owner when they start a new manipulation. They react to **OnExternalManipulationStarted** by releasing their manipulation, effectively preventing undesired effects such as jitter when two or more of them are updating the transform at the same time.
+
+### Added new Bounds Control presets without constrained affordances
+
+The newly added `BoundsControlConstrained.uasset` and `BoundsControlConstrainedWithFaces.uasset` do not include the affordances that are constrained by default in the `BoundsControlExample.umap`, preventing confusion about why they don't rotate.
 
 ## Breaking changes
 
