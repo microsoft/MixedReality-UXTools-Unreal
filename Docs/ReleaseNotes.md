@@ -20,9 +20,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [Improved UxtRotationAxisConstraint's interaction with UxtBoundsControl and UxtGenericManipulator](#improved-uxtrotationaxisconstraints-interaction-with-uxtboundscontrol-and-uxtgenericmanipulator)
   - [UxtBoundsControlComponent's face affordances](#uxtboundscontrolcomponents-face-affordances)
   - [UxtMinMaxScaleConstraint is now implicit](#uxtminmaxscaleconstraint-is-now-implicit)
-  - [UxtConstrainableComponent changes](#uxtconstrainablecomponent-changes)
-    - [Renamed to UxtManipulatorComponent](#renamed-to-uxtmanipulatorcomponent)
-    - [Manipulators now notify each other when they start a new manipulation](#manipulators-now-notify-each-other-when-they-start-a-new-manipulation)
+  - [Added UxtManipulatorComponent](#added-uxtmanipulatorcomponent)
   - [Added new Bounds Control presets without constrained affordances](#added-new-bounds-control-presets-without-constrained-affordances)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
@@ -109,17 +107,13 @@ Thanks to these changes, `UUxtBoundsControlComponent` is now able to interact ap
 
 ### UxtMinMaxScaleConstraint is now implicit
 
-Instead of relying on an external component (which is easier to forget about or misconfigure), potentially leading to undesired effects such as actor mirroring, all classes inheriting from `UUxtConstrainableComponent` (which includes `UUxtBoundsControlComponent` and `UUxtGenericManipulatorComponent`) have now an implicitly applied scale constraint, configurable via editor. See [TransformConstraints.md](TransformConstraints.md) for details.
+Instead of relying on an external component (which is easier to forget about or misconfigure), potentially leading to undesired effects such as actor mirroring, all classes inheriting from **UxtManipulatorComponent** (which includes **UxtBoundsControlComponent** and **UxtGenericManipulatorComponent**) have now an implicitly applied scale constraint, configurable via editor. See [TransformConstraints.md](TransformConstraints.md) for details.
 
-### **UxtConstrainableComponent** changes
+### Added **UxtManipulatorComponent**
 
-#### Renamed to **UxtManipulatorComponent**
+This is the new base class for manipulators. It contains common [constraints' logic](TransformConstraints.md) and ensures that manipulators can notify each other when they start a new manipulation by using **OnExternalManipulationStarted** and **NotifyManipulationStarted**, effectively preventing undesired effects such as jitter when two or more of them are updating the transform at the same time.
 
-This name better conveys the meaning of the class, which will become the real base for manipulators once **UxtManipulatorComponentBase** is removed in the _0.13.0_ release.
-
-#### Manipulators now notify each other when they start a new manipulation
-
-With the addition of **OnExternalManipulationStarted** and **NotifyManipulationStarted** to **UxtManipulatorComponent**, any components inheriting from this class (such as **UxtBoundsControlComponent** or **UxtGenericManipulatorComponent**) now notify the rest of them in their owner when they start a new manipulation. They react to **OnExternalManipulationStarted** by releasing their manipulation, effectively preventing undesired effects such as jitter when two or more of them are updating the transform at the same time.
+**NOTE**: It shouldn't be confused with **UxtManipulatorComponentBase**, which will be removed (hopefully in the _0.13.0_ release).
 
 ### Added new Bounds Control presets without constrained affordances
 
@@ -172,7 +166,7 @@ RotationConstraint->AllowedAxis = EUxtAxis::None;
 
 ### UxtMinMaxScaleConstraint
 
-As this component has been removed and its functionality is now embedded inside `UUxtConstrainableComponent`, you need to revisit any instances of this constraint that you had. All you need to do is copy the `MinScale`, `MaxScale` and `bRelativeToInitialScale` values over to all applicable components in the actor. Please remember that, if you have `UUxtBoundsControlComponent` and `UUxtGenericManipulatorComponent` in the same actor, you now need to configure both of them separately.
+As this component has been removed and its functionality is now embedded inside **UxtManipulatorComponent**, you need to revisit any instances of this constraint that you had. All you need to do is copy the `MinScale`, `MaxScale` and `bRelativeToInitialScale` values over to all applicable components in the actor. Please remember that, if you have **UxtBoundsControlComponent**s and **UxtGenericManipulatorComponent** in the same actor, you now need to configure both of them separately.
 
 ### Renamed mesh for Bounds Control's face handles
 

@@ -69,9 +69,9 @@ void UUxtManipulatorComponent::NotifyManipulationStarted()
 			{
 				continue;
 			}
-			if (auto* ConstrainableComponent = Cast<UUxtManipulatorComponent>(ChildComponent))
+			if (auto* OtherManipulatorComponent = Cast<UUxtManipulatorComponent>(ChildComponent))
 			{
-				ConstrainableComponent->OnExternalManipulationStarted();
+				OtherManipulatorComponent->OnExternalManipulationStarted();
 			}
 		}
 	}

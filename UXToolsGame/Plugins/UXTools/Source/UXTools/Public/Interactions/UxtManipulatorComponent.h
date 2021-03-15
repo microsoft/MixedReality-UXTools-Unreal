@@ -21,44 +21,44 @@ class UXTOOLS_API UUxtManipulatorComponent : public UActorComponent
 
 public:
 	/** Get if the component is automatically detecting constraints. */
-	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Manipulator")
 	bool GetAutoDetectConstraints() const;
 
 	/** Set if the component should automatically detect constraints. */
-	UFUNCTION(BlueprintSetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Manipulator")
 	void SetAutoDetectConstraints(bool bNewAutoDetectConstraints);
 
 	/** Get the list of currently selected constraints. */
-	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Manipulator")
 	const TArray<FComponentReference>& GetSelectedConstraints() const;
 
 	/** Add a constraint to be applied when bAutoDetectConstraints is not set. */
-	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator")
 	void AddConstraint(const FComponentReference& NewConstraint);
 
 	/** Remove a constraint from being applied when bAutoDetectConstraints is not set. */
-	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator")
 	void RemoveConstraint(const FComponentReference& NewConstraint);
 
 	//
 	// Implicit scale constraint's public API
 
-	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Manipulator")
 	bool GetRelativeToInitialScale() const { return bRelativeToInitialScale; }
 
-	UFUNCTION(BlueprintSetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Manipulator")
 	void SetRelativeToInitialScale(const bool Value);
 
-	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Manipulator")
 	float GetMinScale() const { return MinScale; }
 
-	UFUNCTION(BlueprintSetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintSetter, Category = "Uxt Manipulator")
 	void SetMinScale(const float Value);
 
-	UFUNCTION(BlueprintGetter, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintGetter, Category = "Uxt Manipulator")
 	float GetMaxScale() const { return MaxScale; }
 
-	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator")
 	void SetMaxScale(const float Value);
 
 protected:
@@ -71,18 +71,18 @@ protected:
 #endif
 
 	/** Initialize the constraints with a target component to use for a reference transform. */
-	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator")
 	void InitializeConstraints(USceneComponent* NewTargetComponent);
 
 	/** Apply the constraints to the transform. */
-	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator")
 	void ApplyConstraints(FTransform& Transform, EUxtTransformMode TransformMode, bool bIsOneHanded, bool bIsNear) const;
 
 	/** Get notified of another component starting a new manipulation. */
-	UFUNCTION(BlueprintCallable, Category = "Uxt Constrainable")
+	UFUNCTION(BlueprintCallable, Category = "Uxt Manipulator")
 	virtual void OnExternalManipulationStarted() PURE_VIRTUAL(UUxtManipulatorComponent::OnExternalManipulationStarted);
 
-	/** Notifies other Constrainable components by calling @ref OnExternalManipulationStarted on them. */
+	/** Notifies other manipulator components by calling @ref OnExternalManipulationStarted on them. */
 	void NotifyManipulationStarted();
 
 private:
@@ -102,28 +102,27 @@ private:
 
 	/** If set, all constraints present on the actor will be applied, otherwise only selected constraints will be applied. */
 	UPROPERTY(
-		EditAnywhere, Category = "Uxt Constrainable", BlueprintGetter = GetAutoDetectConstraints,
-		BlueprintSetter = SetAutoDetectConstraints)
+		EditAnywhere, Category = "Uxt Manipulator", BlueprintGetter = GetAutoDetectConstraints, BlueprintSetter = SetAutoDetectConstraints)
 	bool bAutoDetectConstraints = true;
 
 	/** The list of constraints to be applied if bAutoDetectConstraints is false. */
 	UPROPERTY(
-		EditAnywhere, Category = "Uxt Constrainable", BlueprintGetter = GetSelectedConstraints,
+		EditAnywhere, Category = "Uxt Manipulator", BlueprintGetter = GetSelectedConstraints,
 		meta = (/*UseComponentPicker, AllowedClasses = "UxtTransformConstraint",*/ EditCondition = "!bAutoDetectConstraints"))
 	TArray<FComponentReference> SelectedConstraints;
 
 	/** Whether the min/max scale values should be relative to the initial scale or absolute. */
 	UPROPERTY(
 		EditAnywhere, BlueprintGetter = GetRelativeToInitialScale, BlueprintSetter = SetRelativeToInitialScale,
-		Category = "Uxt Constrainable")
+		Category = "Uxt Manipulator")
 	bool bRelativeToInitialScale = true;
 
 	/** Minimum scale allowed. Will be used as relative or absolute depending on the value of @ref bRelativeToInitialScale. */
-	UPROPERTY(EditAnywhere, Category = "Uxt Constrainable", BlueprintGetter = GetMinScale, BlueprintSetter = SetMinScale)
+	UPROPERTY(EditAnywhere, Category = "Uxt Manipulator", BlueprintGetter = GetMinScale, BlueprintSetter = SetMinScale)
 	float MinScale = 0.2f;
 
 	/** Maximum scale allowed. Will be used as relative or absolute depending on the value of @ref bRelativeToInitialScale. */
-	UPROPERTY(EditAnywhere, Category = "Uxt Constrainable", BlueprintGetter = GetMaxScale, BlueprintSetter = SetMaxScale)
+	UPROPERTY(EditAnywhere, Category = "Uxt Manipulator", BlueprintGetter = GetMaxScale, BlueprintSetter = SetMaxScale)
 	float MaxScale = 2.0f;
 
 	/** The list constraints currently being applied. */

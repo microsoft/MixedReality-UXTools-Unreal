@@ -30,7 +30,7 @@ void FUxtManipulatorComponentCustomization::CustomizeDetails(IDetailLayoutBuilde
 		}
 	}
 
-	IDetailCategoryBuilder& Category = DetailBuilder.EditCategory("Uxt Constrainable");
+	IDetailCategoryBuilder& Category = DetailBuilder.EditCategory("Uxt Manipulator");
 	const FText Description = FText::AsCultureInvariant("Add Constraint");
 	Category.AddCustomRow(Description)
 		.NameContent()[SNew(STextBlock).Font(IDetailLayoutBuilder::GetDetailFont()).Text(Description)]
