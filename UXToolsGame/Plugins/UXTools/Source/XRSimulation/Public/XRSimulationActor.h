@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HeadMountedDisplayTypes.h"
 #include "XRSimulationState.h"
 
 #include "GameFramework/Actor.h"
@@ -51,6 +52,13 @@ public:
 	static void UnregisterInputMappings();
 
 private:
+	/** Find bone transforms matching the requested keypoints in the skeletal hand mesh. */
+	bool GetKeypointTransforms(
+		EControllerHand Hand, const TArray<EHandKeypoint>& Keypoints, TArray<FTransform>& OutTransforms, TArray<float>& OutRadii) const;
+
+	/** Set or clear the GripToWristTransform when grip starts or stops. */
+	void UpdateStabilizedGripTransform(EControllerHand Hand);
+
 	/** Bind input events to handler functions. */
 	void BindInputEvents();
 

@@ -38,6 +38,12 @@ struct XRSIMULATION_API FXRSimulationHandState
 
 	/** Target pose. */
 	FName TargetPose = NAME_None;
+
+	/**
+	 * Relative transform of palm to wrist, frozen at the time grip starts.
+	 * This is used to produce a stable grip pose by ignoring palm animation during grab.
+	 */
+	TOptional<FTransform> GripToWristTransform;
 };
 
 enum class XRSIMULATION_API EXRSimulationHandMode : uint8
@@ -120,6 +126,20 @@ public:
 	 *  - If any hand does NOT use the target pose already, all hands will use it.
 	 */
 	void TogglePoseForControlledHands(FName PoseName);
+
+	/** True if grip transform offset has been set. */
+	bool HasGripToWristTransform(EControllerHand Hand) const;
+
+	/** Get the frozen grip transform offset from the wrist.
+	 * @return Valid if the grip transform offset has been set.
+	 */
+	FTransform GetGripToWristTransform(EControllerHand Hand) const;
+
+	/** Set the frozen grip transform offset from the wrist. */
+	void SetGripToWristTransform(EControllerHand Hand, const FTransform& GripToWristTransform);
+
+	/** Clear the frozen grip transform offset from the wrist. */
+	void ClearGripToWristTransform(EControllerHand Hand);
 
 public:
 	/** If true, input will be interpreted as hand rotation instead of movement. */

@@ -88,6 +88,20 @@ namespace
 		// FInputAxisKeyMapping(Axis_ScrollRate, ???, 1.f),
 	});
 
+	/** Utility for building a static list of all keypoint enum values. */
+	TArray<EHandKeypoint> BuildHandKeypointList()
+	{
+		const UEnum* KeypointEnum = StaticEnum<EHandKeypoint>();
+
+		TArray<EHandKeypoint> Result;
+		Result.SetNumUninitialized(EHandKeypointCount);
+		for (int32 iKeypoint = 0; iKeypoint < EHandKeypointCount; ++iKeypoint)
+		{
+			Result[iKeypoint] = (EHandKeypoint)KeypointEnum->GetValueByIndex(iKeypoint);
+		}
+
+		return Result;
+	}
 } // namespace
 
 AXRSimulationActor::AXRSimulationActor(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -166,9 +180,6 @@ void AXRSimulationActor::GetHandData(EControllerHand Hand, FXRMotionControllerDa
 
 	MotionControllerData.DeviceVisualType = EXRVisualType::Hand;
 
-	TArray<FName> BoneNames;
-	MeshComp->GetBoneNames(BoneNames);
-
 	// Transforms needed for aim/grip pose
 	FTransform WristTransform = MeshComp->GetComponentTransform();
 	FTransform IndexKnuckleTransform = MeshComp->GetComponentTransform();
@@ -187,47 +198,28 @@ void AXRSimulationActor::GetHandData(EControllerHand Hand, FXRMotionControllerDa
 		MotionControllerData.HandKeyRotations.SetNum(EHandKeypointCount);
 		MotionControllerData.HandKeyRadii.SetNum(EHandKeypointCount);
 
-		// Get key point transforms
-		const TArray<FTransform>& ComponentSpaceTMs = MeshComp->GetComponentSpaceTransforms();
-		for (int32 iKeypoint = 0; iKeypoint < EHandKeypointCount; ++iKeypoint)
+		// Get keypoint transforms for all hand joints
+		static const TArray<EHandKeypoint> AllKeypoints = BuildHandKeypointList();
+		TArray<FTransform> AllKeypointTransforms;
+		TArray<float> AllKeypointRadii;
+		GetKeypointTransforms(Hand, AllKeypoints, AllKeypointTransforms, AllKeypointRadii);
+
+		for (int32 i = 0; i < EHandKeypointCount; ++i)
 		{
-			EHandKeypoint Keypoint = (EHandKeypoint)KeypointEnum->GetValueByIndex(iKeypoint);
-			FName KeypointName = FName(*KeypointEnum->GetNameStringByValue((int64)Keypoint));
+			const EHandKeypoint Keypoint = (EHandKeypoint)KeypointEnum->GetValueByIndex(i);
+			check(AllKeypoints[i] == Keypoint);
+			const FTransform& KeypointTransform = AllKeypointTransforms[i];
+			const float KeypointRadius = AllKeypointRadii[i];
 
-			int32 KeypointPoseIndex;
-			FTransform KeypointTransform;
-			if (BoneNames.Find(KeypointName, KeypointPoseIndex))
-			{
-				KeypointTransform = ComponentSpaceTMs[KeypointPoseIndex];
-			}
-			else
-			{
-				KeypointTransform.SetIdentity();
-			}
-
-			FTransform::Multiply(&KeypointTransform, &KeypointTransform, &MeshComp->GetComponentTransform());
-
-			// TODO What skeletal mesh property could be used for the radius?
-			float KeypointRadius = 1.0f;
-
-			MotionControllerData.HandKeyPositions[(int64)Keypoint] = KeypointTransform.GetLocation();
-			MotionControllerData.HandKeyRotations[(int64)Keypoint] = KeypointTransform.GetRotation();
-			MotionControllerData.HandKeyRadii[(int64)Keypoint] = KeypointRadius;
-
-			// Keep special transforms for aim/grip computation below
-			switch (Keypoint)
-			{
-			case EHandKeypoint::Wrist:
-				WristTransform = KeypointTransform;
-				break;
-			case EHandKeypoint::IndexProximal:
-				IndexKnuckleTransform = KeypointTransform;
-				break;
-			case EHandKeypoint::Palm:
-				PalmTransform = KeypointTransform;
-				break;
-			}
+			MotionControllerData.HandKeyPositions[i] = KeypointTransform.GetLocation();
+			MotionControllerData.HandKeyRotations[i] = KeypointTransform.GetRotation();
+			MotionControllerData.HandKeyRadii[i] = KeypointRadius;
 		}
+
+		// Keep special transforms for aim/grip computation below
+		WristTransform = AllKeypointTransforms[(int32)EHandKeypoint::Wrist];
+		IndexKnuckleTransform = AllKeypointTransforms[(int32)EHandKeypoint::IndexProximal];
+		PalmTransform = AllKeypointTransforms[(int32)EHandKeypoint::Palm];
 	}
 
 	// Build aim pose from bones
@@ -247,8 +239,18 @@ void AXRSimulationActor::GetHandData(EControllerHand Hand, FXRMotionControllerDa
 	}
 
 	// Build grip pose from bones
-	MotionControllerData.GripPosition = PalmTransform.GetLocation();
-	MotionControllerData.GripRotation = PalmTransform.GetRotation();
+	if (SimulationState->HasGripToWristTransform(Hand))
+	{
+		// Use stabilized grip transform while gripping
+		const FTransform FrozenGripTransform = SimulationState->GetGripToWristTransform(Hand) * WristTransform;
+		MotionControllerData.GripPosition = FrozenGripTransform.GetLocation();
+		MotionControllerData.GripRotation = FrozenGripTransform.GetRotation();
+	}
+	else
+	{
+		MotionControllerData.GripPosition = PalmTransform.GetLocation();
+		MotionControllerData.GripRotation = PalmTransform.GetRotation();
+	}
 
 	// Motion controller data only valid while tracking (consistent with physical devices)
 	MotionControllerData.bValid = bIsTracked;
@@ -378,6 +380,10 @@ void AXRSimulationActor::Tick(float DeltaSeconds)
 {
 	UpdateHandMeshComponent(EControllerHand::Left);
 	UpdateHandMeshComponent(EControllerHand::Right);
+
+	// Freeze the grip-to-wrist transform when gripping starts
+	UpdateStabilizedGripTransform(EControllerHand::Left);
+	UpdateStabilizedGripTransform(EControllerHand::Right);
 
 	// Copy head pose to the simulation state for persistence
 	if (SimulationState.IsValid())
@@ -545,6 +551,78 @@ void AXRSimulationActor::OnHandRotateReleased()
 	if (SimulationState.IsValid())
 	{
 		SimulationState->HandInputMode = EXRSimulationHandMode::Movement;
+	}
+}
+
+bool AXRSimulationActor::GetKeypointTransforms(
+	EControllerHand Hand, const TArray<EHandKeypoint>& Keypoints, TArray<FTransform>& OutTransforms, TArray<float>& OutRadii) const
+{
+	const UEnum* KeypointEnum = StaticEnum<EHandKeypoint>();
+	USkeletalMeshComponent* MeshComp = GetHandMesh(Hand);
+	if (!ensureAsRuntimeWarning(MeshComp != nullptr))
+	{
+		return false;
+	}
+
+	TArray<FName> BoneNames;
+	MeshComp->GetBoneNames(BoneNames);
+	const TArray<FTransform>& ComponentSpaceTMs = MeshComp->GetComponentSpaceTransforms();
+
+	OutTransforms.Reset(Keypoints.Num());
+	OutRadii.Reset(Keypoints.Num());
+	for (EHandKeypoint Keypoint : Keypoints)
+	{
+		FName KeypointName = FName(*KeypointEnum->GetNameStringByValue((int64)Keypoint));
+
+		int32 KeypointPoseIndex;
+		FTransform KeypointTransform;
+		if (BoneNames.Find(KeypointName, KeypointPoseIndex))
+		{
+			KeypointTransform = ComponentSpaceTMs[KeypointPoseIndex];
+		}
+		else
+		{
+			KeypointTransform.SetIdentity();
+		}
+
+		FTransform::Multiply(&KeypointTransform, &KeypointTransform, &MeshComp->GetComponentTransform());
+
+		// TODO What skeletal mesh property could be used for the radius?
+		float KeypointRadius = 1.0f;
+
+		OutTransforms.Add(KeypointTransform);
+		OutRadii.Add(KeypointRadius);
+	}
+
+	return true;
+}
+
+void AXRSimulationActor::UpdateStabilizedGripTransform(EControllerHand Hand)
+{
+	if (SimulationState.IsValid())
+	{
+		bool bSelect, bGrip;
+		GetControllerActionState(Hand, bSelect, bGrip);
+
+		const bool bGripFrozen = SimulationState->HasGripToWristTransform(Hand);
+
+		if (bGrip && !bGripFrozen)
+		{
+			// Freeze grip transform
+			TArray<FTransform> KeypointTransforms;
+			TArray<float> KeypointRadii;
+			if (GetKeypointTransforms(Hand, {EHandKeypoint::Palm, EHandKeypoint::Wrist}, KeypointTransforms, KeypointRadii))
+			{
+				const FTransform& PalmTransform = KeypointTransforms[(int32)EHandKeypoint::Palm];
+				const FTransform& WristTransform = KeypointTransforms[(int32)EHandKeypoint::Wrist];
+				SimulationState->SetGripToWristTransform(Hand, PalmTransform.GetRelativeTransform(WristTransform));
+			}
+		}
+		else if (!bGrip && bGripFrozen)
+		{
+			// Unfreeze grip transform
+			SimulationState->ClearGripToWristTransform(Hand);
+		}
 	}
 }
 

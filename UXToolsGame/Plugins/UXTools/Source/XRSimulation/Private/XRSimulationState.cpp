@@ -282,7 +282,8 @@ FName FXRSimulationState::GetTargetPose(EControllerHand Hand) const
 
 void FXRSimulationState::SetTargetPose(EControllerHand Hand, FName PoseName)
 {
-	HandStates.FindOrAdd(Hand).TargetPose = PoseName;
+	FXRSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
+	HandState.TargetPose = PoseName;
 }
 
 void FXRSimulationState::ResetTargetPose(EControllerHand Hand)
@@ -321,6 +322,33 @@ void FXRSimulationState::TogglePoseForControlledHands(FName PoseName)
 			SetTargetPose(Hand, PoseName);
 		}
 	}
+}
+
+bool FXRSimulationState::HasGripToWristTransform(EControllerHand Hand) const
+{
+	return HandStates.FindRef(Hand).GripToWristTransform.IsSet();
+}
+
+FTransform FXRSimulationState::GetGripToWristTransform(EControllerHand Hand) const
+{
+	const FXRSimulationHandState& HandState = HandStates.FindRef(Hand);
+	if (HandState.GripToWristTransform.IsSet())
+	{
+		return HandState.GripToWristTransform.GetValue();
+	}
+	return FTransform::Identity;
+}
+
+void FXRSimulationState::SetGripToWristTransform(EControllerHand Hand, const FTransform& GripToWristTransform)
+{
+	FXRSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
+	HandState.GripToWristTransform = GripToWristTransform;
+}
+
+void FXRSimulationState::ClearGripToWristTransform(EControllerHand Hand)
+{
+	FXRSimulationHandState& HandState = HandStates.FindOrAdd(Hand);
+	HandState.GripToWristTransform.Reset();
 }
 
 #undef LOCTEXT_NAMESPACE
