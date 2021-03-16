@@ -12,6 +12,7 @@
 #include "UxtHandInteractionActor.generated.h"
 
 class UProceduralMeshComponent;
+class UUxtHandMeshCollisionDeactivationComponent;
 class UUxtNearPointerComponent;
 class UUxtFarPointerComponent;
 
@@ -177,4 +178,7 @@ private:
 	FVector VelocityNormalsCache[VelocityUpdateInterval];
 	FVector VelocityPositionsSum = FVector::ZeroVector;
 	FVector VelocityNormalsSum = FVector::ZeroVector;
+
+	UPROPERTY()
+	UUxtHandMeshCollisionDeactivationComponent* UxtHandMeshCollisionDeactivationComponent;
 };
