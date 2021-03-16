@@ -12,6 +12,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 - [What's new](#whats-new)
   - [TapToPlace component MaintainOrientation setting](#taptoplace-component-maintainorientation-setting)
+  - [TapToPlace component orientation fixes](#taptoplace-component-orientation-fixes)
   - [BoundsOverride property in UxtBoundsControl](#boundsoverride-property-in-uxtboundscontrol)
   - [UxtBoundsControl and UxtTapToPlace integration](#uxtboundscontrol-and-uxttaptoplace-integration)
   - [Constraint Picker](#constraint-picker)
@@ -50,6 +51,10 @@ These are some of this release's highlights. For a more comprehensive list of ch
 ### TapToPlace component MaintainOrientation setting
 
 Added `MaintainOrientation` mode to `UxtTapToPlaceComponent`. It allows to preserve the original rotation of the object while it is being repositioned.
+
+### TapToPlace component orientation fixes
+
+Objects using _Align To Surface_ mode used to rotate randomly when placed on horizontal surfaces (e.g. on the floor or on the ceiling). Such objects will now correctly face towards or away from the camera when moved over a horizontal surface. A new `HorizontalSurfaceThreshold` setting (in _Advanced_ properties section) allows to specify the angle at which the object being placed stops rotating with the camera and aligns its Up vector with the surface. Increasing this threshold helps to eliminate jitter resulting from inaccuracies in the reconstructed depth mesh. However, if the value is too high, it can cause the object to lean sideways when moved over slightly inclined surfaces. Therefore, the value should be kept as low as possible. The `HorizontalSurfaceThreshold` is expressed as the angle in degrees that a surface can deviate from horizontal plane and by default is set to 10 degrees.
 
 ### BoundsOverride property in UxtBoundsControl
 

@@ -8,6 +8,7 @@
 #include "Engine/World.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtInputSubsystem.h"
+#include "Math/UnrealMathUtility.h"
 #include "Utils/UxtFunctionLibrary.h"
 
 namespace
@@ -135,22 +136,39 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 			FVector HitPosition = Start + OriginPose.GetUnitAxis(EAxis::X) * DefaultPlacementDistance;
 			FVector Facing = OriginPose.GetLocation() - HitPosition;
 			FVector Up = FVector::UpVector;
+
 			if (Result.GetComponent())
 			{
 				// Add SurfaceNormalOffset so object is placed touching the surface, rather than overlapping with it
 				HitPosition = Result.Location + Result.Normal * SurfaceNormalOffset;
+				const FVector TowardsOriginPose = Facing = OriginPose.GetLocation() - HitPosition;
+
+				// Check if the target surface is flat, e.g. floor or ceiling
+				const float HorizontalSurfaceCosineThreshold =
+					FMath::Clamp(cosf(FMath::DegreesToRadians(HorizontalSurfaceThreshold)), 0.0f, THRESH_NORMALS_ARE_PARALLEL);
+				const bool IsFloor = FVector::Coincident(Result.Normal, FVector::UpVector, HorizontalSurfaceCosineThreshold);
+				const bool IsCeiling = FVector::Coincident(Result.Normal, FVector::DownVector, HorizontalSurfaceCosineThreshold);
 
 				if (OrientationType == EUxtTapToPlaceOrientBehavior::AlignToSurface)
 				{
 					Facing = Result.Normal;
-					if (Facing == FVector::UpVector)
+
+					if (KeepOrientationVertical)
 					{
-						Up = HitPosition - OriginPose.GetLocation();
+						// Horizontal surface - object sitting vertically on the surface, front should face the camera
+						// Vertical or tilted surface - front of the object should align with the surface
+						FVector ParallelToSurface =
+							FVector::CrossProduct((IsFloor || IsCeiling) ? TowardsOriginPose : Result.Normal, FVector::UpVector);
+						Facing = FVector::CrossProduct(FVector::UpVector, ParallelToSurface);
 					}
-				}
-				else
-				{
-					Facing = OriginPose.GetLocation() - HitPosition;
+					else if (IsFloor || IsCeiling)
+					{
+						// Horizontal surface - object resting flat on the surface, the top of the object should face:
+						// - away from the camera when placing the object on a surface below the view level (i.e. floor)
+						// - towards the camera when placing on a surface above the view level (i.e. ceiling)
+						const FVector ParallelToSurface = FVector::CrossProduct(TowardsOriginPose, Result.Normal);
+						Up = (IsFloor ? 1.0f : -1.0f) * FVector::CrossProduct(ParallelToSurface, Result.Normal);
+					}
 				}
 			}
 
