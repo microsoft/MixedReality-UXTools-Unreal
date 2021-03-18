@@ -192,6 +192,7 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 				FQuat TargetRot = Target->GetComponentRotation().Quaternion();
 
 				float LerpAmount = LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime;
+				LerpAmount = (LerpAmount > 1.0f) ? 1.0f : LerpAmount;
 				Position = FMath::Lerp(TargetPos, HitPosition, LerpAmount);
 				Orientation = FQuat::Slerp(TargetRot, GetOrientationQuat(Facing, Up), LerpAmount);
 			}
