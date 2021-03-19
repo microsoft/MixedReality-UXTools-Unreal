@@ -5,14 +5,14 @@
 
 #include "ISettingsModule.h"
 #include "UnrealEdGlobals.h"
-#include "UxtConstrainableComponentCustomization.h"
 #include "UxtIconBrushCustomization.h"
+#include "UxtManipulatorComponentCustomization.h"
 #include "UxtPressableButtonComponentVisualizer.h"
 #include "UxtTooltipSpawnerComponentVisualizer.h"
 
 #include "Controls/UxtIconBrush.h"
 #include "Editor/UnrealEdEngine.h"
-#include "Interactions/Constraints/UxtConstrainableComponent.h"
+#include "Interactions/UxtManipulatorComponent.h"
 #include "Tooltips/UxtTooltipSpawnerComponent.h"
 
 IMPLEMENT_GAME_MODULE(FUXToolsEditorModule, UXToolsEditor);
@@ -47,8 +47,8 @@ void FUXToolsEditorModule::StartupModule()
 		FUxtIconBrush::StaticStruct()->GetFName(),
 		FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FUxtIconBrushCustomization::MakeInstance));
 	PropertyModule.RegisterCustomClassLayout(
-		UUxtConstrainableComponent::StaticClass()->GetFName(),
-		FOnGetDetailCustomizationInstance::CreateStatic(&FUxtConstrainableComponentCustomization::MakeInstance));
+		UUxtManipulatorComponent::StaticClass()->GetFName(),
+		FOnGetDetailCustomizationInstance::CreateStatic(&FUxtManipulatorComponentCustomization::MakeInstance));
 }
 
 void FUXToolsEditorModule::ShutdownModule()
@@ -60,10 +60,13 @@ void FUXToolsEditorModule::ShutdownModule()
 		GUnrealEd->UnregisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName());
 	}
 
-	// Unregister customizations
-	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
-	PropertyModule.UnregisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName());
-	PropertyModule.UnregisterCustomClassLayout(UUxtConstrainableComponent::StaticClass()->GetFName());
+	if (UObjectInitialized() && FModuleManager::Get().IsModuleLoaded(TEXT("PropertyEditor")))
+	{
+		// Unregister customizations
+		FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+		PropertyModule.UnregisterCustomPropertyTypeLayout(FUxtIconBrush::StaticStruct()->GetFName());
+		PropertyModule.UnregisterCustomClassLayout(UUxtManipulatorComponent::StaticClass()->GetFName());
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -132,6 +132,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	bool KeepOrientationVertical = false;
 
+	/** Angle in degrees at which a surface is considered horizontal in AlignToSurface mode. Slightly increasing this value helps avoid
+	 * jitter resulting from noise in depth data but it can cause objects to lean sideways when moved over slightly inclined surfaces. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place|Advanced", meta = (ClampMin = "0", ClampMax = "45"))
+	float HorizontalSurfaceThreshold = 10.0f;
+
 	/** Distance to place the object at if no obstructing surface. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	float DefaultPlacementDistance = 150;

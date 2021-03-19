@@ -252,10 +252,6 @@ void AUxtPinchSliderActor::SetThumbScaleCurve(UCurveFloat* NewThumbScaleCurve)
 	ScaleTimeline->AddInterpFloat(ThumbScaleCurve, ScaleTimelineCallback, "Scale");
 }
 
-void AUxtPinchSliderActor::OnSliderUpdateValue_Implementation(float NewValue)
-{
-}
-
 void AUxtPinchSliderActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
@@ -333,7 +329,7 @@ void AUxtPinchSliderActor::OnUpdateValue(UUxtPinchSliderComponent* Slider, float
 		// Update value.
 		Value = FromNormalizedValue(NewValue);
 		UpdateText();
-		OnSliderUpdateValue(Value);
+		OnValueUpdated.Broadcast(this, Value);
 	}
 }
 

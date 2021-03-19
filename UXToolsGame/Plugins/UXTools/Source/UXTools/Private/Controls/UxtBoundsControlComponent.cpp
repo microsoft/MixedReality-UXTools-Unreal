@@ -675,6 +675,8 @@ void UUxtBoundsControlComponent::OnAffordanceBeginGrab(UUxtGrabTargetComponent* 
 	// Only one affordance grab allowed for now.
 	if (GrabbedAffordances.Num() == 0)
 	{
+		NotifyManipulationStarted();
+
 		GrabbedAffordances.Emplace(AffordanceInstance);
 		UpdateInteractionCache(AffordanceInstance, GrabPointer);
 		ResetConstraintsReferenceTransform();
@@ -698,6 +700,16 @@ void UUxtBoundsControlComponent::OnAffordanceEndGrab(UUxtGrabTargetComponent* Gr
 	{
 		OnManipulationEnded.Broadcast(this, AffordanceInstance->Config, Grabbable);
 	}
+}
+
+void UUxtBoundsControlComponent::OnExternalManipulationStarted()
+{
+	if (GrabbedAffordances.Num() == 0)
+	{
+		return;
+	}
+	check(GrabbedAffordances.Num() == 1);
+	BoundsControlGrabbable->ForceEndGrab();
 }
 
 const FUxtGrabPointerData* UUxtBoundsControlComponent::FindGrabPointer(const FUxtAffordanceInstance* AffordanceInstance)

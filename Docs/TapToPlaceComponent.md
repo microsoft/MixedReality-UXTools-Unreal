@@ -36,6 +36,8 @@ Add a primitive component to your actor/actor blueprint. Also add a UxtTapToPlac
 
 **Keep Orientation Vertical**: If true, the object will remain upright, even if being placed against surfaces that are not upright.
 
+**Horizontal Surface Threshold**: Objects using _Align To Surface_ mode face towards or away from the camera when moved over a flat surface (e.g. on the floor or on the ceiling). This setting allows to specify the angle at which the object being placed stops rotating with the camera and aligns its Up vector with the surface (i.e. the angle at which the surface is still considered to be horizontal for the purposes of setting the orientation of the object). Increasing this threshold helps to eliminate jitter resulting from inaccuracies in the reconstructed depth mesh. However, if the value is too high, it can cause the object to lean sideways when moved over slightly inclined surfaces. Therefore, the value should be kept as low as possible. The `HorizontalSurfaceThreshold` is expressed as the angle in degrees that a surface can deviate from horizontal plane and by default is set to 10 degrees.
+
 **Default Placement Distance**: During placement, if there is no surface to place against, the target component will be placed at this distance from the head/hand.
 
 **Max Raycast Distance**: The maximum distance to ray cast to check if there are surfaces to place against.

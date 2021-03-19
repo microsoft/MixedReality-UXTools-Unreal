@@ -10,11 +10,21 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 # Pinch slider
 
-A pinch slider component allows the user to continuously change a value by moving the slider thumb along a track.
+![PinchSliderActor](Images/Slider/PinchSliderActor.gif)
 
-![ExampleSlider](Images/Slider/Example.gif)
+Sliders are UI components that allow you to continuously change a value by moving a slider on a track. Currently the Pinch Slider can be moved by directly grabbing the slider, either directly or at a distance.
 
-## Creating a pinch slider from scratch
+## Example scene
+
+You can find examples in the **SliderExample** map in the _UX Tools Examples_ plugin.
+
+## How to use sliders
+
+You can simply add a [`UxtPinchSliderActor`](xref:_a_uxt_pinch_slider_actor) to your level. This will give you a HoloLens 2 style slider ready to use. To react to changes to the slider value subscribe to the `OnValueUpdated` event in the actor:
+
+![EventSubscription](Images/Slider/EventSubscription.png)
+
+If the default slider actor doesn't suit your needs, you can create your own slider from scratch following these steps:
 
 1. Create a new actor blueprint with a [`UxtPinchSliderComponent`](xref:_u_uxt_pinch_slider_component) as the root component of the actor.
 
@@ -30,24 +40,18 @@ A pinch slider component allows the user to continuously change a value by movin
 
 ## Events
 
-Although the slider created above is behaving correctly, it's not doing anything useful. The `UxtPinchSliderComponent` has a number of events that can be used to respond to slider input:
+`UxtPinchSliderActor` has just one event, covering the most common use case:
 
-- **OnUpdateState**: Event raised when slider changes state.
-- **OnBeginFocus**: Event raised when a pointer starts focusing the slider.
-- **OnUpdateFocus**: Event raised when a focusing pointer updates.
-- **OnEndFocus**: Event raised when a pointer stops focusing the slider.
-- **OnBeginGrab**: Event raised when slider is grabbed.
-- **OnUpdateValue**: Event raised when slider's value changes.
-- **OnEndGrab**: Event raised when slider is released.
-- **OnEnable**: Event raised when slider is enabled.
-- **OnDisable**: Event raised when slider is disabled.
+- **OnValueUpdated**: raised when the slider value changes.
 
-## HoloLens 2 Pinch Slider
+`UxtPinchSliderComponent` has a number of events that can be used to respond to slider input:
 
-UXTools provides a ready to use HoloLens 2 style pinch slider called the `UxtPinchSliderActor`.
-
-![PinchSliderActor](Images/Slider/PinchSliderActor.gif)
-
-This slider can be configured and extended using Blueprints or C++. There is an example of this in `BP_HandMenuSlider` that can be found in the hand menu example scene.
-
-![HandMenuSlider](Images/Slider/HandMenuSlider.gif)
+- **OnUpdateState**: raised when the slider changes state.
+- **OnBeginFocus**: raised when a pointer starts focusing the slider.
+- **OnUpdateFocus**: raised when a focusing pointer updates.
+- **OnEndFocus**: raised when a pointer stops focusing the slider.
+- **OnBeginGrab**: raised when the slider is grabbed.
+- **OnUpdateValue**: raised when the slider's value changes.
+- **OnEndGrab**: raised when the slider is released.
+- **OnEnable**: raised when the slider is enabled.
+- **OnDisable**: raised when the slider is disabled.

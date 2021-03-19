@@ -3,15 +3,15 @@
 
 #include "UxtXRSimulationViewExtension.h"
 
-#include "UxtDefaultHandTrackerSubsystem.h"
+#include "UxtXRSimulationSubsystem.h"
 
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 
 FUxtXRSimulationViewExtension::FUxtXRSimulationViewExtension(
-	const FAutoRegister& AutoRegister, UUxtDefaultHandTrackerSubsystem* InHandTrackerSubsystem)
+	const FAutoRegister& AutoRegister, UUxtXRSimulationSubsystem* InSimulationSubsystem)
 	: FSceneViewExtensionBase(AutoRegister)
-	, HandTrackerSubsystem(InHandTrackerSubsystem)
+	, SimulationSubsystem(InSimulationSubsystem)
 {
 }
 
@@ -53,5 +53,5 @@ void FUxtXRSimulationViewExtension::PreRenderView_RenderThread(FRHICommandListIm
 
 bool FUxtXRSimulationViewExtension::IsActiveThisFrame(class FViewport* InViewport) const
 {
-	return HandTrackerSubsystem->IsSimulationEnabled();
+	return SimulationSubsystem->IsSimulationEnabled();
 }
