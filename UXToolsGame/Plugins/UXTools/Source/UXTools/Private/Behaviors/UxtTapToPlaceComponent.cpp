@@ -3,10 +3,13 @@
 
 #include "Behaviors/UxtTapToPlaceComponent.h"
 
+#include "SceneManagement.h"
+
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtInputSubsystem.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Utils/UxtFunctionLibrary.h"
@@ -14,32 +17,34 @@
 
 namespace
 {
-	FQuat GetOrientationQuat(FVector Forward, FVector Up = FVector::UpVector)
+	// Get combined bounds of component and its subcomponents
+	FBoxSphereBounds GetComponentHierarchyBounds(const USceneComponent* TargetComponent)
 	{
-		FVector Right = FVector::CrossProduct(Up, Forward);
-		Up = FVector::CrossProduct(Forward, Right);
-
-		Forward.Normalize();
-		Right.Normalize();
-		Up.Normalize();
-
-		if (Forward.SizeSquared() == 0 || Right.SizeSquared() == 0 || Up.SizeSquared() == 0)
+		TArray<USceneComponent*> Children;
+		TargetComponent->GetChildrenComponents(true, Children);
+		FBoxSphereBounds Bounds = TargetComponent->Bounds;
+		for (int i = 0; i < Children.Num(); ++i)
 		{
-			return FQuat::Identity;
+			Bounds = Bounds + Children[i]->Bounds;
 		}
-
-		FMatrix Axes;
-		Axes.SetAxes(&Forward, &Right, &Up);
-		return FQuat(Axes);
+		return Bounds;
 	}
 
 	float GetDefaultSurfaceNormalOffset(const USceneComponent* TargetComponent)
 	{
-		FVector BoundsCentre, BoxExtent;
-		float SphereRadius;
-		UKismetSystemLibrary::GetComponentBounds(TargetComponent, BoundsCentre, BoxExtent, SphereRadius);
-		float PivotPointOffset = TargetComponent->GetComponentLocation().X - BoundsCentre.X;
-		return BoxExtent.X - PivotPointOffset;
+		if (TargetComponent->IsA(UPrimitiveComponent::StaticClass()))
+		{
+			FVector BoundsCentre, BoxExtent;
+			float SphereRadius;
+			UKismetSystemLibrary::GetComponentBounds(TargetComponent, BoundsCentre, BoxExtent, SphereRadius);
+			float PivotPointOffset = TargetComponent->GetComponentLocation().X - BoundsCentre.X;
+			return BoxExtent.X - PivotPointOffset;
+		}
+		else
+		{
+			// Use the bounding box as approximation in case the Target Component is a parent of multiple meshes
+			return GetComponentHierarchyBounds(TargetComponent).BoxExtent.X;
+		}
 	}
 } // namespace
 
@@ -176,6 +181,33 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 						Up = (IsFloor ? 1.0f : -1.0f) * FVector::CrossProduct(ParallelToSurface, Result.Normal);
 					}
 				}
+
+				if ((OrientationType != EUxtTapToPlaceOrientBehavior::AlignToSurface) || KeepOrientationVertical)
+				{
+					// Perform a sweep query to prevent the target object from interpenetrating with other objects
+					FHitResult HitResult;
+					FCollisionShape CollisionShape;
+					if (Target->IsA(UPrimitiveComponent::StaticClass()))
+					{
+						// Use exact collision shape if the target is a UPrimitiveComponent
+						CollisionShape = Cast<UPrimitiveComponent>(Target)->GetCollisionShape();
+					}
+					else
+					{
+						// Use the bounding box for a generic USceneComponent which can have multiple child components
+						CollisionShape.SetBox(GetComponentHierarchyBounds(GetTargetComponent()).BoxExtent);
+					}
+
+					if (GetWorld()->SweepSingleByChannel(
+							HitResult, Start, Result.Location, UKismetMathLibrary::Conv_VectorToQuaterion(Facing), TraceChannel,
+							CollisionShape, QueryParams))
+					{
+						FVector Displacement = UKismetMathLibrary::ProjectVectorOnToVector(HitResult.ImpactPoint - Result.Location, Facing);
+						HitPosition =
+							Result.Location + Displacement +
+							HitResult.ImpactNormal * (bUseDefaultSurfaceNormalOffset ? DefaultSurfaceNormalOffset : SurfaceNormalOffset);
+					}
+				}
 			}
 
 			if (OrientationType == EUxtTapToPlaceOrientBehavior::MaintainOrientation)
@@ -200,12 +232,12 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 				float LerpAmount = LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime;
 				LerpAmount = (LerpAmount > 1.0f) ? 1.0f : LerpAmount;
 				Position = FMath::Lerp(TargetPos, HitPosition, LerpAmount);
-				Orientation = FQuat::Slerp(TargetRot, GetOrientationQuat(Facing, Up), LerpAmount);
+				Orientation = FQuat::Slerp(TargetRot, UKismetMathLibrary::Conv_VectorToQuaterion(Facing), LerpAmount);
 			}
 			else
 			{
 				Position = HitPosition;
-				Orientation = GetOrientationQuat(Facing, Up);
+				Orientation = UKismetMathLibrary::Conv_VectorToQuaterion(Facing);
 			}
 
 			Target->SetWorldLocation(Position);
