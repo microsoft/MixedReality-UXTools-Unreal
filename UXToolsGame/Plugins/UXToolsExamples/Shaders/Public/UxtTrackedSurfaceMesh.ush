@@ -1,0 +1,72 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+//
+// ProceduralNormal and BiplanarMapping copied from GraphicsTools for Unreal:
+// https://github.com/microsoft/MixedReality-GraphicsTools-Unreal
+
+#ifndef UXT_TRACKED_SURFACE_MESH
+#define UXT_TRACKED_SURFACE_MESH
+
+float3 ProceduralNormal(float3 position)
+{
+	float3 normal = cross(ddx(position), ddy(position));
+	return normalize(normal);
+}
+
+// Biplanar mapping derived from: https://iquilezles.org/www/articles/biplanar/biplanar.htm
+float4 BiplanarMapping(float3 position,
+                       float3 normal,
+                       float tiling,
+                       float sharpness,
+                       Texture2D baseColor,
+                       SamplerState baseColorSampler)
+{
+	normal = abs(normal);
+
+    // Major axis (in x; yz are following axis)
+	int3 major = (normal.x > normal.y && normal.x > normal.z) ? int3(0, 1, 2) : (normal.y > normal.z) ? int3(1, 2, 0) : int3(2, 0, 1);
+
+    // Minor axis (in x; yz are following axis)
+	int3 minor = (normal.x < normal.y && normal.x < normal.z) ? int3(0, 1, 2) : (normal.y < normal.z) ? int3(1, 2, 0) : int3(2, 0, 1);
+
+    // Median axis (in x; yz are following axis)
+	int3 median = int3(3, 3, 3) - minor - major;
+
+    // Project and fetch
+	position *= tiling;
+
+#if GT_EXPLICIT_GRADIENTS
+    float3 dpdx = ddx(position);
+    float3 dpdy = ddy(position);
+
+    float4 x = baseColor.SampleGrad(baseColorSampler,
+                                    float2(position[major.y], position[major.z]),
+                                    float2(dpdx[major.y], dpdx[major.z]),
+                                    float2(dpdy[major.y], dpdy[major.z]));
+
+    float4 y = baseColor.SampleGrad(baseColorSampler,
+                                    float2(position[median.y], position[median.z]),
+                                    float2(dpdx[median.y], dpdx[median.z]),
+                                    float2(dpdy[median.y], dpdy[median.z]));
+#else
+	float4 x = baseColor.Sample(baseColorSampler,
+                                float2(position[major.y], position[major.z]));
+	float4 y = baseColor.Sample(baseColorSampler,
+                                float2(position[median.y], position[median.z]));
+#endif // GT_EXPLICIT_GRADIENTS
+
+    // Blend factors
+	float2 m = float2(normal[major.x], normal[median.x]);
+
+    // Add local support (prevents discontinuty)
+	m = saturate((m - 0.5773) / (1 - 0.5773));
+
+    // Transition control
+	float k = sharpness / 8.0;
+	m = pow(m, float2(k, k));
+
+    // Blending
+	return (x * m.x + y * m.y) / (m.x + m.y);
+}
+
+#endif // UXT_TRACKED_SURFACE_MESH
