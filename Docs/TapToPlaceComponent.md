@@ -48,5 +48,9 @@ Add a primitive component to your actor/actor blueprint. Also add a UxtTapToPlac
 
 **Lerp Time**: The rate at which the object will interpolate between target poses if _Interpolate Pose_ is true.
 
+**Use Default Surface Normal Offset**: If true, the object will be aligned with the surface on which it is being placed and the value `SurfaceNormalOffset` will be calculated automatically. Setting this property to false allows to provide a custom value for `SurfaceNormalOffset`, e.g. in order to maintain a fixed distance between the surface and the object.
+
+**Surface Normal Offset**: The distance between the pivot point of the object and the surface on which the object is being placed. The offset should be measured along the X axis in the positive direction. This property is only applied to an object if `UseDefaultSurfaceNormalOffset` is false.
+
 **Target Component**: A reference to the primitive component that is transformed by the tap to place component. Selecting this primitive with far interaction will initiate placement.
 

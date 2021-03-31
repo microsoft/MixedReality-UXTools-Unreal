@@ -11,6 +11,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 # UX Tools 0.13.0 release notes
 
 - [What's new](#whats-new)
+  - [Custom SurfaceNormalOffset in TapToPlace component](#custom-surfacenormaloffset-in-taptoplace-component)
 - [Breaking changes](#breaking-changes)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
@@ -20,6 +21,12 @@ Unreal 4.26 required.
 ## What's new
 
 These are some of this release's highlights. For a more comprehensive list of changes see the [full change list](#full-change-list).
+
+### Custom SurfaceNormalOffset in TapToPlace component
+
+TapTopPlace component now allows to specify a custom offset between the object being placed and the surface it is being placed on. This can be achieved by setting `bUseDefaultSurfaceNormalOffset` to false and providing a custom offset in `SurfaceNormalOffset` property. The offset is measured from the pivot point of the object along the X axis (towards the positive direction as this is the side which is aligned with the surface).
+
+If `bUseDefaultSurfaceNormalOffset` is set to true, the object will be aligned with the surface on which it is being placed and the value `SurfaceNormalOffset` will be calculated automatically. The offset will now be correct also for objects that use a pivot point which is not located in the centre of the bounding box.
 
 ## Breaking changes
 

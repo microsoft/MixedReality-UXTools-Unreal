@@ -157,13 +157,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
 	float LerpTime = 0.1f;
 
+	/** When false, use @ref SurfaceNormalOffset. Otherwise, automatically calculate the offset value. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place")
+	bool bUseDefaultSurfaceNormalOffset = true;
+
+	/** The distance between the pivot point of the object and the surface on which the object is being placed. */
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, Category = "Uxt Tap To Place",
+		meta = (DisplayAfter = "bUseDefaultSurfaceNormalOffset", EditCondition = "!bUseDefaultSurfaceNormalOffset"))
+	float SurfaceNormalOffset = 0.0f;
+
 private:
 	/** The component to transform, defaults to the first primitive component if not specified */
 	UPROPERTY(EditAnywhere, Category = "Uxt Tap To Place", meta = (UseComponentPicker, AllowedClasses = "PrimitiveComponent"))
 	FComponentReference TargetComponent;
 
 	bool bIsBeingPlaced = false;
-	float SurfaceNormalOffset;
+	float DefaultSurfaceNormalOffset;
 	int NumFocusedPointers = 0;
 
 	/** Far pointer that initiated placement, if any. */
