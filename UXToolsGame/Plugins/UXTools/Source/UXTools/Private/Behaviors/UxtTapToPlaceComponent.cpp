@@ -11,6 +11,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Utils/UxtFunctionLibrary.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
 
 namespace
 {
@@ -50,12 +51,12 @@ UUxtTapToPlaceComponent::UUxtTapToPlaceComponent()
 	bAutoActivate = true;
 }
 
-UPrimitiveComponent* UUxtTapToPlaceComponent::GetTargetComponent() const
+USceneComponent* UUxtTapToPlaceComponent::GetTargetComponent() const
 {
-	return Cast<UPrimitiveComponent>(TargetComponent.GetComponent(GetOwner()));
+	return Cast<USceneComponent>(TargetComponent.GetComponent(GetOwner()));
 }
 
-void UUxtTapToPlaceComponent::SetTargetComponent(UPrimitiveComponent* Target)
+void UUxtTapToPlaceComponent::SetTargetComponent(USceneComponent* Target)
 {
 	TargetComponent.OverrideComponent = Target;
 	if (Target)
@@ -96,10 +97,10 @@ void UUxtTapToPlaceComponent::BeginPlay()
 
 	if (!GetTargetComponent() && GetOwner())
 	{
-		SetTargetComponent(Cast<UPrimitiveComponent>(GetOwner()->GetComponentByClass(UPrimitiveComponent::StaticClass())));
+		SetTargetComponent(GetOwner()->GetRootComponent());
 	}
 
-	if (UPrimitiveComponent* Target = GetTargetComponent())
+	if (USceneComponent* Target = GetTargetComponent())
 	{
 		DefaultSurfaceNormalOffset = GetDefaultSurfaceNormalOffset(Target);
 	}
@@ -111,7 +112,7 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 	if (bIsBeingPlaced)
 	{
-		if (UPrimitiveComponent* Target = GetTargetComponent())
+		if (USceneComponent* Target = GetTargetComponent())
 		{
 			FTransform OriginPose;
 			switch (PlacementType)
@@ -227,12 +228,12 @@ void UUxtTapToPlaceComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 bool UUxtTapToPlaceComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
-	return Primitive == GetTargetComponent();
+	return UUxtInternalFunctionLibrary::IsPrimitiveEqualOrAttachedTo(GetTargetComponent(), Primitive);
 }
 
 bool UUxtTapToPlaceComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
-	return bIsBeingPlaced ? true : Primitive == GetTargetComponent();
+	return bIsBeingPlaced ? true : UUxtInternalFunctionLibrary::IsPrimitiveEqualOrAttachedTo(GetTargetComponent(), Primitive);
 }
 
 void UUxtTapToPlaceComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)

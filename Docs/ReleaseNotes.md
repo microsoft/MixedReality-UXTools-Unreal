@@ -12,6 +12,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 - [What's new](#whats-new)
   - [Custom SurfaceNormalOffset in TapToPlace component](#custom-surfacenormaloffset-in-taptoplace-component)
+  - [TapToPlace component allows SceneComponent as target](#taptoplace-component-allows-scenecomponent-as-target)
 - [Breaking changes](#breaking-changes)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
@@ -27,6 +28,10 @@ These are some of this release's highlights. For a more comprehensive list of ch
 TapTopPlace component now allows to specify a custom offset between the object being placed and the surface it is being placed on. This can be achieved by setting `bUseDefaultSurfaceNormalOffset` to false and providing a custom offset in `SurfaceNormalOffset` property. The offset is measured from the pivot point of the object along the X axis (towards the positive direction as this is the side which is aligned with the surface).
 
 If `bUseDefaultSurfaceNormalOffset` is set to true, the object will be aligned with the surface on which it is being placed and the value `SurfaceNormalOffset` will be calculated automatically. The offset will now be correct also for objects that use a pivot point which is not located in the centre of the bounding box.
+
+### TapToPlace component allows SceneComponent as target
+
+`UUxtTapToPlaceComponent` allows assigning `USceneComponent` as the `TargetComponent` (previously `UPrimitiveComponent` was required). This allows adding TapToPlace behaviour to any hierarchy of actor components and makes the experience consistent with the other _UX Tools_ components (e.g. `UxtGenericManipulator`).
 
 ## Breaking changes
 

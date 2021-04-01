@@ -190,7 +190,7 @@ void TapToPlaceComponentSpec::EnqueuePlacementTest(const bool bSurfaceExists)
 		float ExpectedDistance = TapToPlace->DefaultPlacementDistance;
 		if (bSurfaceExists)
 		{
-			const UPrimitiveComponent* Target = TapToPlace->GetTargetComponent();
+			const USceneComponent* Target = TapToPlace->GetTargetComponent();
 			const float SurfaceDepth = Surface->CalcBounds(Surface->GetComponentToWorld()).BoxExtent.X;
 			const float TargetDepth = Target->CalcBounds(Target->GetComponentToWorld()).BoxExtent.X;
 			ExpectedDistance = Centre.X + Delta.X - SurfaceDepth - TargetDepth;

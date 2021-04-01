@@ -88,4 +88,10 @@ public:
 
 		return ObjectPtr.Get();
 	}
+
+	/** Returns true if Other is attached to Parent or if they are the same component. */
+	static bool IsPrimitiveEqualOrAttachedTo(const USceneComponent* Parent, const USceneComponent* Other)
+	{
+		return (Other == Parent) || (Other->IsAttachedTo(Parent));
+	}
 };

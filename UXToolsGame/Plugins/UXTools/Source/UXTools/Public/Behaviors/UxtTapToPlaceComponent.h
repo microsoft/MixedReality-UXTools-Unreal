@@ -63,11 +63,11 @@ public:
 
 	/** Get the component to transform. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Tap To Place")
-	UPrimitiveComponent* GetTargetComponent() const;
+	USceneComponent* GetTargetComponent() const;
 
 	/** Set the component to transform. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Tap To Place")
-	void SetTargetComponent(UPrimitiveComponent* Target);
+	void SetTargetComponent(USceneComponent* Target);
 
 	/** Start placement of the target component. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Tap To Place")
@@ -169,7 +169,7 @@ public:
 
 private:
 	/** The component to transform, defaults to the first primitive component if not specified */
-	UPROPERTY(EditAnywhere, Category = "Uxt Tap To Place", meta = (UseComponentPicker, AllowedClasses = "PrimitiveComponent"))
+	UPROPERTY(EditAnywhere, Category = "Uxt Tap To Place", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference TargetComponent;
 
 	bool bIsBeingPlaced = false;
