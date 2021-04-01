@@ -58,7 +58,7 @@ Objects using _Align To Surface_ mode used to rotate randomly when placed on hor
 
 ### BoundsOverride property in UxtBoundsControl
 
-`UUxtBoundsControlComponent` now has a `BoundsOverride` property, which (if set) will make the bounds control box and affordances display around that `UPrimitiveComponent` instead of around the whole actor. Please note that this setup will still modify the actor's root transform.
+`UxtBoundsControlComponent` now has a `BoundsOverride` property. If set, bounds control box and affordances will surround all of the appropriate primitives in the hierarchy starting at that `USceneComponent`, instead of surrounding the whole actor. Please note that this setup will still modify the actor's root transform.
 
 | Unset | Set |
 | --- | --- |
@@ -112,13 +112,13 @@ Thanks to these changes, `UUxtBoundsControlComponent` is now able to interact ap
 
 ### UxtMinMaxScaleConstraint is now implicit
 
-Instead of relying on an external component (which is easier to forget about or misconfigure), potentially leading to undesired effects such as actor mirroring, all classes inheriting from **UxtManipulatorComponent** (which includes **UxtBoundsControlComponent** and **UxtGenericManipulatorComponent**) have now an implicitly applied scale constraint, configurable via editor. See [TransformConstraints.md](TransformConstraints.md) for details.
+Instead of relying on an external component (which is easier to forget about or misconfigure), potentially leading to undesired effects such as actor mirroring, all classes inheriting from `UxtManipulatorComponent` (which includes `UxtBoundsControlComponent` and `UxtGenericManipulatorComponent`) have now an implicitly applied scale constraint, configurable via editor. See [TransformConstraints.md](TransformConstraints.md) for details.
 
-### Added **UxtManipulatorComponent**
+### Added `UxtManipulatorComponent`
 
-This is the new base class for manipulators. It contains common [constraints' logic](TransformConstraints.md) and ensures that manipulators can notify each other when they start a new manipulation by using **OnExternalManipulationStarted** and **NotifyManipulationStarted**, effectively preventing undesired effects such as jitter when two or more of them are updating the transform at the same time.
+This is the new base class for manipulators. It contains common [constraints' logic](TransformConstraints.md) and ensures that manipulators can notify each other when they start a new manipulation by using `OnExternalManipulationStarted` and `NotifyManipulationStarted`, effectively preventing undesired effects such as jitter when two or more of them are updating the transform at the same time.
 
-**NOTE**: It shouldn't be confused with **UxtManipulatorComponentBase**, which will be removed (hopefully in the _0.13.0_ release).
+**NOTE**: It shouldn't be confused with `UxtManipulatorComponentBase`, which will be removed (hopefully in the _0.13.0_ release).
 
 ### Added new Bounds Control presets without constrained affordances
 
@@ -138,7 +138,7 @@ Hopefully, switching to the new function is not troublesome, but here are some g
 
 - The first parameter is now a `USceneComponent` instead of an `AActor`. Simply add a `GetRootComponent()` to the previously used parameter.
 - If you were using the `InLocalSpace` variant, now you need to pass in the local space explicitly. On the same component that you're now passing as first parameter (see previous point), simply use `GetComponentTransform().Inverse()`.
-- The `Ignore` parameter is now a `TArrayView<const USceneComponent* const>`, instead of a single component. Typically, enclosing the previously used parameter in curly braces `{}` will suffice, thanks to the [TArrayView's initializer list constructor][tarrayview-initializer-list-ctor]. The [MakeArrayView overload list][makearrayview-overload-list] and [MoveTemp][movetemp] utilities might come in handy, too.
+- The `Ignore` parameter is now a `TArrayView<const UPrimitiveComponent* const>`, instead of a single component. Typically, enclosing the previously used parameter in curly braces `{}` will suffice, thanks to the [TArrayView's initializer list constructor][tarrayview-initializer-list-ctor]. The [MakeArrayView overload list][makearrayview-overload-list] and [MoveTemp][movetemp] utilities might come in handy, too.
 
 ### UxtOneHandedRotationMode
 
@@ -171,7 +171,7 @@ RotationConstraint->AllowedAxis = EUxtAxis::None;
 
 ### UxtMinMaxScaleConstraint
 
-As this component has been removed and its functionality is now embedded inside **UxtManipulatorComponent**, you need to revisit any instances of this constraint that you had. All you need to do is copy the `MinScale`, `MaxScale` and `bRelativeToInitialScale` values over to all applicable components in the actor. Please remember that, if you have **UxtBoundsControlComponent**s and **UxtGenericManipulatorComponent** in the same actor, you now need to configure both of them separately.
+As this component has been removed and its functionality is now embedded inside `UxtManipulatorComponent`, you need to revisit any instances of this constraint that you had. All you need to do is copy the `MinScale`, `MaxScale` and `bRelativeToInitialScale` values over to all applicable components in the actor. Please remember that, if you have `UxtBoundsControlComponent` and `UxtGenericManipulatorComponent` in the same actor, you now need to configure both of them separately.
 
 ### Renamed mesh for Bounds Control's face handles
 
