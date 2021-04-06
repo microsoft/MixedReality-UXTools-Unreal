@@ -285,6 +285,7 @@ void UUxtBoundsControlComponent::CreateAffordances()
 	BoundsControlActor->SetRootComponent(RootComponent);
 
 	BoundsControlGrabbable = NewObject<UUxtGrabTargetComponent>(BoundsControlActor);
+	BoundsControlGrabbable->GrabModes = static_cast<int32>(EUxtGrabMode::OneHanded);
 	BoundsControlGrabbable->RegisterComponent();
 	BoundsControlActor->AddInstanceComponent(BoundsControlGrabbable);
 
