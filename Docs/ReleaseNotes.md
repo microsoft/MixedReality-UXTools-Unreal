@@ -23,6 +23,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [UxtMinMaxScaleConstraint is now implicit](#uxtminmaxscaleconstraint-is-now-implicit)
   - [Added UxtManipulatorComponent](#added-uxtmanipulatorcomponent)
   - [Added new Bounds Control presets without constrained affordances](#added-new-bounds-control-presets-without-constrained-affordances)
+  - [BoundsControl configured for one-handed interaction](#boundscontrol-configured-for-one-handed-interaction)
 - [Breaking changes](#breaking-changes)
   - [UxtHandTrackingFunctionLibrary removed](#uxthandtrackingfunctionlibrary-removed)
   - [UxtMathUtilsFunctionLibrary's API update](#uxtmathutilsfunctionlibrarys-api-update)
@@ -123,6 +124,10 @@ This is the new base class for manipulators. It contains common [constraints' lo
 ### Added new Bounds Control presets without constrained affordances
 
 The newly added `BoundsControlConstrained.uasset` and `BoundsControlConstrainedWithFaces.uasset` do not include the affordances that are constrained by default in the `BoundsControlExample.umap`, preventing confusion about why they don't rotate.
+
+### BoundsControl configured for one-handed interaction
+
+By default, `UxtGrabTargetComponent` is configured to allow two-handed interaction. Bounds Control only allows interacting with one hand at a time, so it now properly configures its internal `UxtGrabTargetComponent`, getting rid of some undesired situations.
 
 ## Breaking changes
 
