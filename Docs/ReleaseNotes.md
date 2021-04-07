@@ -13,8 +13,9 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 - [What's new](#whats-new)
   - [Custom SurfaceNormalOffset in TapToPlace component](#custom-surfacenormaloffset-in-taptoplace-component)
   - [TapToPlace component allows SceneComponent as target](#taptoplace-component-allows-scenecomponent-as-target)
-- [Breaking changes](#breaking-changes)
   - [Manipulator and Pinch Slider smoothing fixes](#manipulator-and-pinch-slider-smoothing-fixes)
+- [Breaking changes](#breaking-changes)
+  - [Updated smoothing factors for Manipulator and Pinch Slider](#updated-smoothing-factors-for-manipulator-and-pinch-slider)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -34,13 +35,15 @@ If `bUseDefaultSurfaceNormalOffset` is set to true, the object will be aligned w
 
 `UUxtTapToPlaceComponent` allows assigning `USceneComponent` as the `TargetComponent` (previously `UPrimitiveComponent` was required). This allows adding TapToPlace behaviour to any hierarchy of actor components and makes the experience consistent with the other _UX Tools_ components (e.g. `UxtGenericManipulator`).
 
-## Breaking changes
-
 ### Manipulator and Pinch Slider smoothing fixes
 
-The calculation of smoothed movement for the manipulator and pinch slider components was using an incorrect formula, leading to slower manipulation when the frame rate drops. The default smoothing factors in the `UUxtGenericManipulatorComponent` and `UUxtPinchSliderComponent` have been changed to yield the same behavior at the targeted frame rate of 60 FPS.
+The calculation of smoothed movement for the manipulator and pinch slider components was using an incorrect formula, leading to slower manipulation when the frame rate drops. See the breaking changes section for necessary action: [Updated smoothing factors for Manipulator and Pinch Slider](#updated-smoothing-factors-for-manipulator-and-pinch-slider).
 
-The smoothing factors for these components are now equivalent to the "Lerp Time" settings of `UUxtFollowComponent`, `UUxtHandConstraintComponent`, and `UUxtTapToPlaceComponent`. If your manipulator or slider uses a modified smoothing factor you must update the value. You can revert it to the default value, or you or you can calculate the exact equivalent smoothing at 60 FPS using the formula below:
+## Breaking changes
+
+### Updated smoothing factors for Manipulator and Pinch Slider
+
+The default smoothing factors in the `UUxtGenericManipulatorComponent` and `UUxtPinchSliderComponent` have been changed to yield the same behavior at the targeted frame rate of 60 FPS after fixes to the smoothing formula. The smoothing factors for these components are now equivalent to the "Lerp Time" settings of `UUxtFollowComponent`, `UUxtHandConstraintComponent`, and `UUxtTapToPlaceComponent`. If your manipulator or slider uses a modified smoothing factor you must update the value. You can revert it to the default value, or you or you can calculate the exact equivalent smoothing at 60 FPS using the formula below:
 
 `S_new = - 1 / (60 * log(1 - exp(-S_old / 60)))`
 
