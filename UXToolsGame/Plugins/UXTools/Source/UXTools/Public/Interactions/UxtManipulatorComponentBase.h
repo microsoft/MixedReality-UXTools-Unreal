@@ -60,7 +60,7 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category = "Uxt Manipulator Component Base")
 	void SmoothTransform(
-		const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds,
+		const FTransform& SourceTransform, float LocationLerpTime, float RotationLerpTime, float DeltaSeconds,
 		FTransform& TargetTransform) const;
 
 	/**

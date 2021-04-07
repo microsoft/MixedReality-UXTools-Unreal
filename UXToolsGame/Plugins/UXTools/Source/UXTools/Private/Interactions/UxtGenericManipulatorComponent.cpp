@@ -24,7 +24,6 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutGrabPoint;
 	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
 	ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::KeepVelocity | EUxtReleaseBehavior::KeepAngularVelocity);
-	Smoothing = 100.0f;
 }
 
 void UUxtGenericManipulatorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -128,7 +127,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 	ApplyConstraints(TargetTransform, EUxtTransformMode::Translation, true, IsNearManipulation());
 
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	SmoothTransform(TargetTransform, LerpTime, LerpTime, DeltaTime, TargetTransform);
 
 	ApplyTargetTransform(TargetTransform);
 }
@@ -160,19 +159,9 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 		ApplyConstraints(TargetTransform, EUxtTransformMode::Translation, false, IsNearManipulation());
 	}
 
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	SmoothTransform(TargetTransform, LerpTime, LerpTime, DeltaTime, TargetTransform);
 
 	ApplyTargetTransform(TargetTransform);
-}
-
-float UUxtGenericManipulatorComponent::GetSmoothing() const
-{
-	return Smoothing;
-}
-
-void UUxtGenericManipulatorComponent::SetSmoothing(float NewSmoothing)
-{
-	Smoothing = FMath::Max(NewSmoothing, 0.0f);
 }
 
 void UUxtGenericManipulatorComponent::OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)

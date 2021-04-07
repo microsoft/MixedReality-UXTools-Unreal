@@ -10,6 +10,8 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Utils/UxtFunctionLibrary.h"
 
+DEFINE_LOG_CATEGORY_STATIC(LogManipulatorBase, Log, Log)
+
 UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
 {
 	MoveLogic = new UxtManipulationMoveLogic();
@@ -98,35 +100,35 @@ void UUxtManipulatorComponentBase::RotateAboutAxis(
 }
 
 void UUxtManipulatorComponentBase::SmoothTransform(
-	const FTransform& SourceTransform, float LocationSmoothing, float RotationSmoothing, float DeltaSeconds,
+	const FTransform& SourceTransform, float LocationLerpTime, float RotationLerpTime, float DeltaSeconds,
 	FTransform& TargetTransform) const
 {
 	FVector SmoothLoc;
 	FQuat SmoothRot;
 
-	FTransform CurTransform = TransformTarget->GetComponentTransform();
+	const FTransform CurTransform = TransformTarget->GetComponentTransform();
 
-	FVector CurLoc = CurTransform.GetLocation();
-	FVector SourceLoc = SourceTransform.GetLocation();
-	if (LocationSmoothing <= 0.0f)
+	const FVector CurLoc = CurTransform.GetLocation();
+	const FVector SourceLoc = SourceTransform.GetLocation();
+	if (LocationLerpTime <= KINDA_SMALL_NUMBER)
 	{
 		SmoothLoc = SourceLoc;
 	}
 	else
 	{
-		float Weight = FMath::Clamp(FMath::Exp(-LocationSmoothing * DeltaSeconds), 0.0f, 1.0f);
+		const float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / LocationLerpTime), 0.0f, 1.0f);
 		SmoothLoc = FMath::Lerp(CurLoc, SourceLoc, Weight);
 	}
 
-	FQuat CurRot = CurTransform.GetRotation();
-	FQuat SourceRot = SourceTransform.GetRotation();
-	if (RotationSmoothing <= 0.0f)
+	const FQuat CurRot = CurTransform.GetRotation();
+	const FQuat SourceRot = SourceTransform.GetRotation();
+	if (RotationLerpTime <= KINDA_SMALL_NUMBER)
 	{
 		SmoothRot = SourceRot;
 	}
 	else
 	{
-		float Weight = FMath::Clamp(FMath::Exp(-RotationSmoothing * DeltaSeconds), 0.0f, 1.0f);
+		const float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / RotationLerpTime), 0.0f, 1.0f);
 		SmoothRot = FMath::Lerp(CurRot, SourceRot, Weight);
 	}
 

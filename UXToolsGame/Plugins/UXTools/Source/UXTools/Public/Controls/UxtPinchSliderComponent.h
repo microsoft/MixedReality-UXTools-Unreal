@@ -126,11 +126,11 @@ public:
 	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
 	void SetNumSteps(int NewNumSteps);
 
-	// Smoothing.
+	// LerpTime.
 	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
-	float GetSmoothing() const { return Smoothing; }
+	float GetLerpTime() const { return LerpTime; }
 	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider")
-	void SetSmoothing(float NewSmoothing);
+	void SetLerpTime(float NewLerpTime);
 
 	// Collision profile.
 	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider")
@@ -275,11 +275,13 @@ private:
 		meta = (ClampMin = 2, EditCondition = "bUseSteppedMovement"))
 	int NumSteps = 5;
 
-	/** The motion smoothing to apply to the slider. */
+	/**
+	 * Interpolation time for smoothed movement while manipulating.
+	 */
 	UPROPERTY(
-		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing,
-		meta = (ClampMin = 0.0f, EditCondition = "!bUseSteppedMovement"))
-	float Smoothing = 10.0f;
+		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetLerpTime, BlueprintSetter = SetLerpTime,
+		meta = (ClampMin = "0.0", EditCondition = "!bUseSteppedMovement"))
+	float LerpTime = 0.01f;
 
 	/** The collision profile used by the slider thumb. */
 	UPROPERTY(
