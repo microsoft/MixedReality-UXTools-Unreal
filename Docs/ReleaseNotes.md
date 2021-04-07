@@ -43,7 +43,7 @@ The calculation of smoothed movement for the manipulator and pinch slider compon
 
 ### Updated smoothing factors for Manipulator and Pinch Slider
 
-The default smoothing factors in the `UUxtGenericManipulatorComponent` and `UUxtPinchSliderComponent` have been changed to yield the same behavior at the targeted frame rate of 60 FPS after fixes to the smoothing formula. The smoothing factors for these components are now equivalent to the "Lerp Time" settings of `UUxtFollowComponent`, `UUxtHandConstraintComponent`, and `UUxtTapToPlaceComponent`. If your manipulator or slider uses a modified smoothing factor you must update the value. You can revert it to the default value, or you or you can calculate the exact equivalent smoothing at 60 FPS using the formula below:
+The default smoothing factors in the `UUxtGenericManipulatorComponent` and `UUxtPinchSliderComponent` have been changed to yield the same behavior at the targeted frame rate of 60 FPS after fixes to the smoothing formula. The smoothing factors for these components are now equivalent to the "Lerp Time" settings of `UUxtFollowComponent`, `UUxtHandConstraintComponent`, and `UUxtTapToPlaceComponent`. If your manipulator or slider uses a modified smoothing factor you must update the value. You can revert it to the default value, or you can calculate the exact equivalent smoothing at 60 FPS using the formula below:
 
 `S_new = - 1 / (60 * log(1 - exp(-S_old / 60)))`
 
