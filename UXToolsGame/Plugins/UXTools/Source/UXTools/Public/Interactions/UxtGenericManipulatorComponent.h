@@ -83,7 +83,7 @@ private:
 	UPROPERTY(
 		EditAnywhere, Category = "Uxt Generic Manipulator", BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing,
 		meta = (ClampMin = "0.0"))
-	float Smoothing;
+	float Smoothing = 0.08f;
 
 	/** Was the target simulating physics */
 	bool bWasSimulatingPhysics = false;
