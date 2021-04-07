@@ -24,7 +24,7 @@ UUxtGenericManipulatorComponent::UUxtGenericManipulatorComponent()
 	OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutGrabPoint;
 	TwoHandTransformModes = static_cast<int32>(EUxtTransformMode::Translation | EUxtTransformMode::Rotation | EUxtTransformMode::Scaling);
 	ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::KeepVelocity | EUxtReleaseBehavior::KeepAngularVelocity);
-	Smoothing = 100.0f;
+	Smoothing = 0.08f;
 }
 
 void UUxtGenericManipulatorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

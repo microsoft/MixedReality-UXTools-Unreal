@@ -10,6 +10,8 @@
 #include "Interactions/UxtGrabTargetComponent.h"
 #include "Utils/UxtFunctionLibrary.h"
 
+DEFINE_LOG_CATEGORY_STATIC(LogManipulatorBase, Log, Log)
+
 UUxtManipulatorComponentBase::UUxtManipulatorComponentBase()
 {
 	MoveLogic = new UxtManipulationMoveLogic();
@@ -108,25 +110,25 @@ void UUxtManipulatorComponentBase::SmoothTransform(
 
 	FVector CurLoc = CurTransform.GetLocation();
 	FVector SourceLoc = SourceTransform.GetLocation();
-	if (LocationSmoothing <= 0.0f)
+	if (LocationSmoothing <= KINDA_SMALL_NUMBER)
 	{
 		SmoothLoc = SourceLoc;
 	}
 	else
 	{
-		float Weight = FMath::Clamp(FMath::Exp(-LocationSmoothing * DeltaSeconds), 0.0f, 1.0f);
+		float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / LocationSmoothing), 0.0f, 1.0f);
 		SmoothLoc = FMath::Lerp(CurLoc, SourceLoc, Weight);
 	}
 
 	FQuat CurRot = CurTransform.GetRotation();
 	FQuat SourceRot = SourceTransform.GetRotation();
-	if (RotationSmoothing <= 0.0f)
+	if (RotationSmoothing <= KINDA_SMALL_NUMBER)
 	{
 		SmoothRot = SourceRot;
 	}
 	else
 	{
-		float Weight = FMath::Clamp(FMath::Exp(-RotationSmoothing * DeltaSeconds), 0.0f, 1.0f);
+		float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / RotationSmoothing), 0.0f, 1.0f);
 		SmoothRot = FMath::Lerp(CurRot, SourceRot, Weight);
 	}
 

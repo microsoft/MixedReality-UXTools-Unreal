@@ -279,7 +279,7 @@ private:
 	UPROPERTY(
 		EditAnywhere, Category = "Uxt Pinch Slider", AdvancedDisplay, BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing,
 		meta = (ClampMin = 0.0f, EditCondition = "!bUseSteppedMovement"))
-	float Smoothing = 10.0f;
+	float Smoothing = 0.01f;
 
 	/** The collision profile used by the slider thumb. */
 	UPROPERTY(

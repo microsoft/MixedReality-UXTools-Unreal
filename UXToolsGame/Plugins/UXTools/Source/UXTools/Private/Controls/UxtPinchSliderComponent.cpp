@@ -17,12 +17,12 @@ namespace
 	 */
 	float SmoothValue(float StartValue, float EndValue, float Smoothing, float DeltaSeconds)
 	{
-		if (Smoothing <= 0.0f)
+		if (Smoothing <= KINDA_SMALL_NUMBER)
 		{
 			return EndValue;
 		}
 
-		const float Weight = FMath::Clamp(FMath::Exp(-Smoothing * DeltaSeconds), 0.0f, 1.0f);
+		const float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / Smoothing), 0.0f, 1.0f);
 
 		return FMath::Lerp(StartValue, EndValue, Weight);
 	}
