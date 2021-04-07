@@ -39,6 +39,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [ControllerOrientation property removed from UUxtFarPointerComponent](#controllerorientation-property-removed-from-uuxtfarpointercomponent)
   - [Replaced OnSliderUpdateValue function in pinch actor](#replaced-onsliderupdatevalue-function-in-pinch-actor)
 - [Known issues](#known-issues)
+  - [Manipulator and Pinch Slider move slow at low FPS](#manipulator-and-pinch-slider-move-slow-at-low-fps)
 - [Full change list](#full-change-list)
 
 This release of the UX Tools supports only HoloLens 2. Support for other MR platforms remains a goal for us and we are hoping to be able to deliver it in the near future.
@@ -210,6 +211,10 @@ This property was only caching the wrist orientation. The far pointer is now usi
 If you previously derived from `AUxtPinchSliderActor` and implemented `OnSliderUpdateValue` to listen for value updates you will need to bind to the `OnValueUpdated` event instead.
 
 ## Known issues
+
+### Manipulator and Pinch Slider move slow at low FPS
+
+When the frame rate drops below the targeted 60 FPS the manipulator and pinch slider components movement can become very slow and sluggish. This is because of a known bug in the smoothing calculation. The fix has been postponed because it involves a breaking change regarding the smoothing factors.
 
 ## Full change list
 
