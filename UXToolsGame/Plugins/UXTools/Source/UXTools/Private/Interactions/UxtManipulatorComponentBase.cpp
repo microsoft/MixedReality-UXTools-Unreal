@@ -106,29 +106,29 @@ void UUxtManipulatorComponentBase::SmoothTransform(
 	FVector SmoothLoc;
 	FQuat SmoothRot;
 
-	FTransform CurTransform = TransformTarget->GetComponentTransform();
+	const FTransform CurTransform = TransformTarget->GetComponentTransform();
 
-	FVector CurLoc = CurTransform.GetLocation();
-	FVector SourceLoc = SourceTransform.GetLocation();
+	const FVector CurLoc = CurTransform.GetLocation();
+	const FVector SourceLoc = SourceTransform.GetLocation();
 	if (LocationLerpTime <= KINDA_SMALL_NUMBER)
 	{
 		SmoothLoc = SourceLoc;
 	}
 	else
 	{
-		float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / LocationLerpTime), 0.0f, 1.0f);
+		const float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / LocationLerpTime), 0.0f, 1.0f);
 		SmoothLoc = FMath::Lerp(CurLoc, SourceLoc, Weight);
 	}
 
-	FQuat CurRot = CurTransform.GetRotation();
-	FQuat SourceRot = SourceTransform.GetRotation();
+	const FQuat CurRot = CurTransform.GetRotation();
+	const FQuat SourceRot = SourceTransform.GetRotation();
 	if (RotationLerpTime <= KINDA_SMALL_NUMBER)
 	{
 		SmoothRot = SourceRot;
 	}
 	else
 	{
-		float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / RotationLerpTime), 0.0f, 1.0f);
+		const float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / RotationLerpTime), 0.0f, 1.0f);
 		SmoothRot = FMath::Lerp(CurRot, SourceRot, Weight);
 	}
 
