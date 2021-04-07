@@ -29,7 +29,7 @@ namespace
 		PinchSlider->SetVisuals(Thumb);
 		PinchSlider->SetTrackLength(10.0f);
 		PinchSlider->SetValue(0.5f);
-		PinchSlider->SetSmoothing(0.0f);
+		PinchSlider->SetLerpTime(0.0f);
 		PinchSlider->RegisterComponent();
 
 		Actor->SetRootComponent(PinchSlider);

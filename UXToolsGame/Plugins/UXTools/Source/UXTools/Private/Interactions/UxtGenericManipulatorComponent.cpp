@@ -127,7 +127,7 @@ void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 	MoveToTargets(TargetTransform, TargetTransform, OneHandRotationMode != EUxtOneHandRotationMode::RotateAboutObjectCenter);
 	ApplyConstraints(TargetTransform, EUxtTransformMode::Translation, true, IsNearManipulation());
 
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	SmoothTransform(TargetTransform, LerpTime, LerpTime, DeltaTime, TargetTransform);
 
 	ApplyTargetTransform(TargetTransform);
 }
@@ -159,19 +159,9 @@ void UUxtGenericManipulatorComponent::UpdateTwoHandManipulation(float DeltaTime)
 		ApplyConstraints(TargetTransform, EUxtTransformMode::Translation, false, IsNearManipulation());
 	}
 
-	SmoothTransform(TargetTransform, Smoothing, Smoothing, DeltaTime, TargetTransform);
+	SmoothTransform(TargetTransform, LerpTime, LerpTime, DeltaTime, TargetTransform);
 
 	ApplyTargetTransform(TargetTransform);
-}
-
-float UUxtGenericManipulatorComponent::GetSmoothing() const
-{
-	return Smoothing;
-}
-
-void UUxtGenericManipulatorComponent::SetSmoothing(float NewSmoothing)
-{
-	Smoothing = FMath::Max(NewSmoothing, 0.0f);
 }
 
 void UUxtGenericManipulatorComponent::OnGrab(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer)

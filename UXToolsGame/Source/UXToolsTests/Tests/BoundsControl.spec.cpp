@@ -29,7 +29,7 @@ namespace
 
 		// Generic manipulator component
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
-		Manipulator->SetSmoothing(0.0f);
+		Manipulator->LerpTime = 0.0f;
 		Manipulator->RegisterComponent();
 
 		// Bounds control component

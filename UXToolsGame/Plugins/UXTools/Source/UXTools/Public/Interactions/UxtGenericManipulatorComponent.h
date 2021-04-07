@@ -27,11 +27,6 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintGetter, Category = "Uxt Generic Manipulator")
-	float GetSmoothing() const;
-	UFUNCTION(BlueprintSetter, Category = "Uxt Generic Manipulator")
-	void SetSmoothing(float NewSmoothing);
-
 protected:
 	void UpdateOneHandManipulation(float DeltaSeconds);
 	void UpdateTwoHandManipulation(float DeltaSeconds);
@@ -63,6 +58,13 @@ public:
 		EditAnywhere, Category = "Uxt Generic Manipulator", AdvancedDisplay, meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference TargetComponent;
 
+	/**
+	 * Interpolation time for smoothed movement while manipulating.
+	 * Set to zero to disable smoothing.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Generic Manipulator", meta = (ClampMin = "0.0"))
+	float LerpTime = 0.08f;
+
 private:
 	bool IsNearManipulation() const;
 
@@ -71,19 +73,6 @@ private:
 
 	UFUNCTION(Category = "Uxt Generic Manipulator")
 	void OnRelease(UUxtGrabTargetComponent* Grabbable, FUxtGrabPointerData GrabPointer);
-
-	/** Motion smoothing factor to apply while manipulating the object.
-	 *
-	 * A low-pass filter is applied to the source transform location and rotation to smooth out jittering.
-	 * The new actor transform is a exponentially weighted average of the current transform and the raw target transform based on the time
-	 * step:
-	 *
-	 * T_final = Lerp( T_current, T_target, Exp(-Smoothing * DeltaSeconds) )
-	 */
-	UPROPERTY(
-		EditAnywhere, Category = "Uxt Generic Manipulator", BlueprintGetter = GetSmoothing, BlueprintSetter = SetSmoothing,
-		meta = (ClampMin = "0.0"))
-	float Smoothing = 0.08f;
 
 	/** Was the target simulating physics */
 	bool bWasSimulatingPhysics = false;
