@@ -17,6 +17,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 - [Breaking changes](#breaking-changes)
   - [Updated smoothing factors for Manipulator and Pinch Slider](#updated-smoothing-factors-for-manipulator-and-pinch-slider)
 - [Known issues](#known-issues)
+  - [Manipulator and Pinch Slider move slow at low FPS](#manipulator-and-pinch-slider-move-slow-at-low-fps)
 - [Full change list](#full-change-list)
 
 Unreal 4.26 required.
@@ -61,6 +62,10 @@ Here are a few values for comparison:
 |100|0.080|
 
 ## Known issues
+
+### Manipulator and Pinch Slider move slow at low FPS
+
+When the frame rate drops below the targeted 60 FPS the manipulator and pinch slider components movement can become very slow and sluggish. This is because of a known bug in the smoothing calculation. The fix has been postponed because it involves a breaking change regarding the smoothing factors.
 
 ## Full change list
 
