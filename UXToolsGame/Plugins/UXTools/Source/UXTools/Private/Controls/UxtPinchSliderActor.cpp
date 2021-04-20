@@ -87,6 +87,7 @@ AUxtPinchSliderActor::AUxtPinchSliderActor()
 	TickMarks->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 	TickMarks->SetStaticMesh(DefaultTickMarkMesh.Object);
 	TickMarks->SetMaterial(0, DefaultMaterial.Object);
+	TickMarks->SetCanEverAffectNavigation(false);
 
 	TextRoot = CreateDefaultSubobject<USceneComponent>("TextRoot");
 	TextRoot->SetupAttachment(PinchSlider);
@@ -192,6 +193,12 @@ void AUxtPinchSliderActor::SetNumTickMarks(int NewNumTickMarks)
 void AUxtPinchSliderActor::SetTickMarkScale(FVector NewTickMarkScale)
 {
 	TickMarkScale = NewTickMarkScale;
+	UpdateTickMarks();
+}
+
+void AUxtPinchSliderActor::SetInstanceTickMarks(bool InstanceTickMarks)
+{
+	bInstanceTickMarks = InstanceTickMarks;
 	UpdateTickMarks();
 }
 
@@ -379,12 +386,47 @@ void AUxtPinchSliderActor::UpdateTickMarks()
 		PinchSlider->SetNumSteps(NumTickMarks);
 	}
 
-	// Update meshes.
+	// Ensure the correct mesh instance counts exist.
 	TickMarks->ClearInstances();
+
+	if (bInstanceTickMarks)
+	{
+		while (TickMarksNonInstanced.Num() > 0)
+		{
+			TickMarksNonInstanced.Pop()->DestroyComponent();
+		}
+	}
+	else
+	{
+		while (TickMarksNonInstanced.Num() > NumTickMarks)
+		{
+			TickMarksNonInstanced.Pop()->DestroyComponent();
+		}
+
+		while (TickMarksNonInstanced.Num() < NumTickMarks)
+		{
+			UStaticMeshComponent* Tick = NewObject<UStaticMeshComponent>(this);
+			Tick->SetupAttachment(TickMarks);
+			Tick->RegisterComponent();
+			Tick->SetStaticMesh(TickMarks->GetStaticMesh());
+			Tick->SetMaterial(0, TickMarks->GetMaterial(0));
+			TickMarksNonInstanced.Push(Tick);
+		}
+	}
+
+	// Update meshes.
 	if (NumTickMarks == 1)
 	{
 		const FTransform Transform(FQuat::Identity, FVector::ZeroVector, TickMarkScale);
-		TickMarks->AddInstance(Transform);
+
+		if (bInstanceTickMarks)
+		{
+			TickMarks->AddInstance(Transform);
+		}
+		else
+		{
+			TickMarksNonInstanced[0]->SetRelativeTransform(Transform);
+		}
 	}
 	else if (NumTickMarks > 1)
 	{
@@ -393,7 +435,15 @@ void AUxtPinchSliderActor::UpdateTickMarks()
 
 		for (int i = 0; i < NumTickMarks; ++i)
 		{
-			TickMarks->AddInstance(Transform);
+			if (bInstanceTickMarks)
+			{
+				TickMarks->AddInstance(Transform);
+			}
+			else
+			{
+				TickMarksNonInstanced[i]->SetRelativeTransform(Transform);
+			}
+
 			Transform.AddToTranslation(FVector(0.0f, Step, 0.0f));
 		}
 	}
