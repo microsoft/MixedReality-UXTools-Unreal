@@ -98,6 +98,12 @@ public:
 	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider|TickMarks")
 	void SetTickMarkScale(FVector NewTickMarkScale);
 
+	// Instance tick marks.
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider|TickMarks")
+	bool GetInstanceTickMarks() const { return bInstanceTickMarks; }
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider|TickMarks")
+	void SetInstanceTickMarks(bool InstanceTickMarks);
+
 	// Default color.
 	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider|Visuals")
 	FLinearColor GetDefaultThumbColor() const { return DefaultThumbColor; }
@@ -207,9 +213,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider|Visuals")
 	UStaticMeshComponent* Track;
 
-	/** The tick mark visuals. */
+	/** The tick mark visuals if bInstanceTickMarks is true. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider|Visuals")
 	class UInstancedStaticMeshComponent* TickMarks;
+
+	/** The tick mark visuals if bInstanceTickMarks is false. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider|Visuals")
+	TArray<UStaticMeshComponent*> TickMarksNonInstanced;
 
 	/** Root text component to allow text to move as a block. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Uxt Pinch Slider|Text")
@@ -300,6 +310,13 @@ private:
 	/** The scale of the tick marks. */
 	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider|TickMarks", BlueprintGetter = GetTickMarkScale, BlueprintSetter = SetTickMarkScale)
 	FVector TickMarkScale = FVector(0.0075f);
+
+	/** Determines if tick marks should be rendered using instancing via a InstancedStaticMeshComponent or as discrete StaticMeshComponents.
+	 * Defaults to false because of issue UE-93861 "Instanced Static Mesh Rendering in One Eye With Multi-View Enabled on HoloLens 2" */
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider|TickMarks", BlueprintGetter = GetInstanceTickMarks,
+		BlueprintSetter = SetInstanceTickMarks)
+	bool bInstanceTickMarks = false;
 
 	/** The default color for the thumb. */
 	UPROPERTY(
