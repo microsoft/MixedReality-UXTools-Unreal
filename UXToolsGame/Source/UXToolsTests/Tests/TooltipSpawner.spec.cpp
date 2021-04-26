@@ -58,7 +58,7 @@ void TooltipSpawnerSpec::Define()
 			TooltipSpawnerActor->SetRootComponent(RootNode);
 
 			// Mesh.
-			UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(TooltipSpawnerActor);
+			UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateStaticMesh(TooltipSpawnerActor);
 			TooltipSpawnerActor->SetRootComponent(MeshComponent);
 			MeshComponent->RegisterComponent();
 			HitPrimitive = MeshComponent;

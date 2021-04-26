@@ -32,7 +32,7 @@ namespace
 		UUxtTapToPlaceComponent* TestTarget = NewObject<UUxtTapToPlaceComponent>(Actor);
 		TestTarget->RegisterComponent();
 
-		UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor, Bounds);
+		UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Actor, Bounds);
 		Mesh->SetupAttachment(Root);
 		Mesh->RegisterComponent();
 
@@ -45,7 +45,7 @@ namespace
 	{
 		AActor* Actor = World->SpawnActor<AActor>();
 
-		UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor, Bounds);
+		UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Actor, Bounds);
 		Actor->SetRootComponent(Mesh);
 		Mesh->SetWorldLocation(Location);
 		Mesh->RegisterComponent();

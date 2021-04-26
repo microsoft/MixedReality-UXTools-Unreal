@@ -62,7 +62,7 @@ void FSurfaceMagnetism::Define()
 			// Target Actor
 			TargetActor = World->SpawnActor<AActor>();
 
-			UStaticMeshComponent* Root = UxtTestUtils::CreateBoxStaticMesh(TargetActor, FVector(0.3f));
+			UStaticMeshComponent* Root = UxtTestUtils::CreateStaticMesh(TargetActor, FVector(0.3f));
 			TargetActor->SetRootComponent(Root);
 			Root->SetWorldLocation(TargetLocation);
 			Root->RegisterComponent();
@@ -93,7 +93,7 @@ void FSurfaceMagnetism::Define()
 			RootSurface->SetWorldLocation(SurfaceLocation);
 			RootSurface->RegisterComponent();
 
-			UStaticMeshComponent* SurfaceMesh = UxtTestUtils::CreateBoxStaticMesh(SurfaceActor, FVector(.5, 5, 5));
+			UStaticMeshComponent* SurfaceMesh = UxtTestUtils::CreateStaticMesh(SurfaceActor, FVector(.5, 5, 5));
 			SurfaceMesh->SetupAttachment(SurfaceActor->GetRootComponent());
 			SurfaceMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 			SurfaceMesh->SetCollisionProfileName(TEXT("BlockAllDynamic"));

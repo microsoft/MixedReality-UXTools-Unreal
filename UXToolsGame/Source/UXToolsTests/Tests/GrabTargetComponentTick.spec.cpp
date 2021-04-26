@@ -30,7 +30,7 @@ static UGrabTickTestComponent* CreateTestComponent(UWorld* World, const FVector&
 	UGrabTickTestComponent* testTarget = NewObject<UGrabTickTestComponent>(actor);
 	testTarget->RegisterComponent();
 
-	UStaticMeshComponent* mesh = UxtTestUtils::CreateBoxStaticMesh(actor, FVector(0.3f));
+	UStaticMeshComponent* mesh = UxtTestUtils::CreateStaticMesh(actor, FVector(0.3f));
 	mesh->SetupAttachment(actor->GetRootComponent());
 	mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	mesh->SetCollisionProfileName(TEXT("OverlapAll"));

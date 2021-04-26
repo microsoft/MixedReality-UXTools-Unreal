@@ -71,7 +71,7 @@ void HandInteractionModeSpec::Define()
 			NearPointer = HandActor->FindComponentByClass<UUxtNearPointerComponent>();
 			FarPointer = HandActor->FindComponentByClass<UUxtFarPointerComponent>();
 
-			Target = UxtTestUtils::CreateTestBoxWithComponent<UUxtGrabTargetComponent>(World, Center);
+			Target = UxtTestUtils::CreateTestMeshWithComponent<UUxtGrabTargetComponent>(World, Center);
 
 			// Register all new components.
 			World->UpdateWorldComponents(false, false);

@@ -49,7 +49,7 @@ void TooltipSpec::Define()
 			SomeTargetActor = World->SpawnActor<AActor>();
 			USceneComponent* RootNode = NewObject<USceneComponent>(SomeTargetActor);
 			SomeTargetActor->SetRootComponent(RootNode);
-			UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(SomeTargetActor);
+			UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateStaticMesh(SomeTargetActor);
 			SomeTargetActor->SetRootComponent(MeshComponent);
 			MeshComponent->RegisterComponent();
 			SomeTargetActor->SetActorLocation(FVector(50, 10, 0), false);

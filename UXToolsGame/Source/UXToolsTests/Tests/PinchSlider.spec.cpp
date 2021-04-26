@@ -22,7 +22,7 @@ namespace
 	{
 		AActor* Actor = UxtTestUtils::GetTestWorld()->SpawnActor<AActor>();
 
-		UStaticMeshComponent* Thumb = UxtTestUtils::CreateBoxStaticMesh(Actor);
+		UStaticMeshComponent* Thumb = UxtTestUtils::CreateStaticMesh(Actor);
 		Thumb->RegisterComponent();
 
 		UUxtPinchSliderComponent* PinchSlider = NewObject<UUxtPinchSliderComponent>(Actor);

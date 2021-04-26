@@ -34,8 +34,13 @@ public:
 	/** Rotate the hand by the given quaternion. */
 	void Rotate(const FQuat& Rotation);
 
-	/** Set the hand to the given translation. */
-	void SetTranslation(const FVector& Translation);
+	/**
+	 * Set the hand to the given translation.
+	 *
+	 * If @ref bApplyOffset is true, the appropriate offset (@ref NearLocationOffset or @ref FarLocationOffset) will be added in order to
+	 * place the hand at the appropriate distance.
+	 */
+	void SetTranslation(const FVector& Translation, bool bApplyOffset = false);
 
 	/** Set the hand to the given rotation. */
 	void SetRotation(const FQuat& Rotation);
@@ -45,6 +50,13 @@ public:
 
 	/** Get the hand transform */
 	FTransform GetTransform() const;
+
+	/**
+	 * Sets the offset that will be applied to locations when requested.
+	 *
+	 * When Mode == None (default value), the modified offset is the one currently in use (depending on @ref InteractionMode).
+	 */
+	void SetLocationOffset(const FVector& NewOffset, EUxtInteractionMode Mode = EUxtInteractionMode::None);
 
 private:
 	/** The hand. */
@@ -58,4 +70,7 @@ private:
 
 	/** The active pointer attached to the hand. */
 	UUxtPointerComponent* Pointer = nullptr;
+
+	FVector NearLocationOffset = FVector(-5, 0, 0);
+	FVector FarLocationOffset = FVector(-200, 0, 0);
 };

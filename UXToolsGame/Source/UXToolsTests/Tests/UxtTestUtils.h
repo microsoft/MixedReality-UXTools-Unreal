@@ -35,8 +35,10 @@ public:
 
 	static UWorld* CreateTestWorld();
 
-	/** Creates a static mesh using the engine's basic cube shape. Does not attach or register it. The unscaled side length is 100. */
-	static UStaticMeshComponent* CreateBoxStaticMesh(AActor* Owner, FVector Scale = FVector::OneVector);
+	/** Creates a static mesh with the asset and scale specified (defaults to a cube with unscaled side length of 100). Does not attach or
+	 * register it. */
+	static UStaticMeshComponent* CreateStaticMesh(
+		AActor* Owner, FVector Scale = FVector::OneVector, const FString& AssetReference = TEXT("/Engine/BasicShapes/Cube.Cube"));
 
 	/** Create a basic near pointer actor. */
 	static UUxtNearPointerComponent* CreateNearPointer(
@@ -54,7 +56,8 @@ public:
 
 	/** Create a test box actor with attached TestComponent*/
 	template <typename TestComponent>
-	static TestComponent* CreateTestBoxWithComponent(UWorld* World, const FVector& Location);
+	static TestComponent* CreateTestMeshWithComponent(
+		UWorld* World, const FVector& Location, const FString& AssetReference = TEXT("/Engine/BasicShapes/Cube.Cube"));
 
 	/** Create a pokable target actor. */
 	static UTestPokeTarget* CreateNearPointerPokeTarget(
@@ -100,12 +103,12 @@ public:
 DEFINE_LATENT_AUTOMATION_COMMAND(FUxtDisableTestHandTrackerCommand);
 
 template <typename TestComponent>
-TestComponent* UxtTestUtils::CreateTestBoxWithComponent(UWorld* World, const FVector& Location)
+TestComponent* UxtTestUtils::CreateTestMeshWithComponent(UWorld* World, const FVector& Location, const FString& AssetReference)
 {
 	AActor* TargetActor = World->SpawnActor<AActor>();
 
 	// Box Mesh
-	UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(TargetActor);
+	UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateStaticMesh(TargetActor, FVector::OneVector, AssetReference);
 	TargetActor->SetRootComponent(MeshComponent);
 	MeshComponent->RegisterComponent();
 

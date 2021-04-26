@@ -78,7 +78,7 @@ public:
 	AActor* GetBoundsControlActor() const;
 
 	/** Get the map between the affordance actors and their information. */
-	const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& GetPrimitiveAffordanceMap();
+	const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& GetPrimitiveAffordanceMap() const;
 
 	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control|Affordances")
 	bool GetInitBoundsFromActor() const;
@@ -93,6 +93,8 @@ public:
 	/** Compute the bounding box based on the components of the bounding box actor. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Bounds Control")
 	void ComputeBoundsFromComponents();
+
+	UPrimitiveComponent* GetAffordancePrimitive(const EUxtAffordancePlacement Placement) const;
 
 public:
 	/** Configuration of the bounds control affordances. */
