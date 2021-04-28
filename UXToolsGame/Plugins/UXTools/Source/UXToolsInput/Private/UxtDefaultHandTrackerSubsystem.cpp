@@ -63,6 +63,18 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMod
 				UxtHandTrackerInputActions::RightGrab, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnRightGripReleased);
 		}
 
+		if (IXRTrackingSystem* XRSystem = GEngine->XRSystem.Get())
+		{
+			// Check if the project is using the WMR plugin and currently running on an Unreal version earlier than either 4.26.3 or 4.27.
+			// WMR in earlier versions has a known incompatibility with WindowsMixedReality grip poses not applying the world scale.
+			const FEngineVersion EngineVersion = FEngineVersion::Current();
+			const FEngineVersionBase GripPoseFixVersion = FEngineVersionBase(4, 26, 3);
+			EVersionComponent VersionComponent;
+			ShouldApplyGripPoseScale =
+				FEngineVersion::GetNewest(EngineVersion, GripPoseFixVersion, &VersionComponent) == EVersionComparison::Second &&
+				XRSystem->GetSystemName().ToString().ToLower().TrimStartAndEnd() == "windowsmixedrealityhmd";
+		}
+
 		// Tick handler for updating the cached motion controller data.
 		// Using OnWorldPreActorTick here which runs after OnWorldTickStart, at which point XR systems should have updated all controller
 		// data.
@@ -127,6 +139,27 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldPreActorTick(UWorld* World, ELevelT
 		{
 			XRSystem->GetMotionControllerData(World, EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
 			XRSystem->GetMotionControllerData(World, EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
+
+			// Work around a known bug with WindowsMixedReality not scaling the grip pose from GetMotionControllerData.
+			if (ShouldApplyGripPoseScale)
+			{
+				float Scale = XRSystem->GetWorldToMetersScale();
+				FTransform TrackingToWorld = XRSystem->GetTrackingToWorldTransform();
+				FTransform LeftGripTransform =
+					FTransform(
+						DefaultHandTracker.ControllerData_Left.GripRotation, DefaultHandTracker.ControllerData_Left.GripPosition * Scale) *
+					TrackingToWorld;
+				FTransform RightGripTransform = FTransform(
+													DefaultHandTracker.ControllerData_Right.GripRotation,
+													DefaultHandTracker.ControllerData_Right.GripPosition * Scale) *
+												TrackingToWorld;
+
+				DefaultHandTracker.ControllerData_Left.GripRotation = LeftGripTransform.GetRotation();
+				DefaultHandTracker.ControllerData_Left.GripPosition = LeftGripTransform.GetLocation();
+
+				DefaultHandTracker.ControllerData_Right.GripRotation = RightGripTransform.GetRotation();
+				DefaultHandTracker.ControllerData_Right.GripPosition = RightGripTransform.GetLocation();
+			}
 		}
 
 		// Disable head pose override from simulation
