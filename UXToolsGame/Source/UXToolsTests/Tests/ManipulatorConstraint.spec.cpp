@@ -34,14 +34,14 @@ namespace
 		AActor* Actor = World->SpawnActor<AActor>();
 
 		// Box Mesh
-		UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor);
+		UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Actor);
 		Actor->SetRootComponent(Mesh);
 		Mesh->RegisterComponent();
 
 		// Generic manipulator component
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
 		Manipulator->OneHandRotationMode = EUxtOneHandRotationMode::RotateAboutObjectCenter;
-		Manipulator->SetSmoothing(0.0f);
+		Manipulator->LerpTime = 0.0f;
 		Manipulator->RegisterComponent();
 
 		Actor->SetActorLocation(TargetLocation);

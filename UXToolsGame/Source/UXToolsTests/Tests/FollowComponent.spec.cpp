@@ -38,7 +38,7 @@ namespace
 			TestTarget->SetAutoActivate(true);
 			TestTarget->RegisterComponent();
 
-			UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor, FVector(0.3f));
+			UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Actor, FVector(0.3f));
 			Mesh->SetupAttachment(Actor->GetRootComponent());
 			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 			Mesh->SetCollisionProfileName(TEXT("OverlapAll"));

@@ -25,12 +25,12 @@ void FUxtTestHand::Configure(EUxtInteractionMode TargetInteractionMode, const FV
 	switch (InteractionMode)
 	{
 	case EUxtInteractionMode::Near:
-		Transform.SetLocation(TargetLocation + FVector(-5, 0, 0));
+		SetTranslation(TargetLocation + NearLocationOffset);
 		Pointer = UxtTestUtils::CreateNearPointer(UxtTestUtils::GetTestWorld(), "Near Pointer", Transform.GetLocation(), Hand);
 		break;
 
 	case EUxtInteractionMode::Far:
-		Transform.SetLocation(TargetLocation + FVector(-200, 0, 0));
+		SetTranslation(TargetLocation + FarLocationOffset);
 		Pointer = UxtTestUtils::CreateFarPointer(UxtTestUtils::GetTestWorld(), "Far Pointer", Transform.GetLocation(), Hand);
 		break;
 
@@ -71,11 +71,18 @@ void FUxtTestHand::Rotate(const FQuat& Rotation)
 	SetRotation(Transform.GetRotation() * Rotation);
 }
 
-void FUxtTestHand::SetTranslation(const FVector& Translation)
+void FUxtTestHand::SetTranslation(const FVector& Translation, bool bApplyOffset)
 {
 	check(InteractionMode != EUxtInteractionMode::None && "Test hand must be configured before use");
 
-	Transform.SetLocation(Translation);
+	FVector OffsetTranslation = Translation;
+
+	if (bApplyOffset)
+	{
+		OffsetTranslation += InteractionMode == EUxtInteractionMode::Far ? FarLocationOffset : NearLocationOffset;
+	}
+
+	Transform.SetLocation(OffsetTranslation);
 
 	UxtTestUtils::GetTestHandTracker().SetAllJointPositions(Transform.GetTranslation(), Hand);
 }
@@ -112,4 +119,27 @@ void FUxtTestHand::SetGrabbing(bool bIsGrabbing)
 FTransform FUxtTestHand::GetTransform() const
 {
 	return Transform;
+}
+
+void FUxtTestHand::SetLocationOffset(const FVector& NewOffset, EUxtInteractionMode Mode)
+{
+	if (Mode == EUxtInteractionMode::None)
+	{
+		Mode = InteractionMode;
+	}
+
+	switch (Mode)
+	{
+	case EUxtInteractionMode::Near:
+		NearLocationOffset = NewOffset;
+		break;
+
+	case EUxtInteractionMode::Far:
+		FarLocationOffset = NewOffset;
+		break;
+
+	default:
+		checkNoEntry();
+		break;
+	}
 }

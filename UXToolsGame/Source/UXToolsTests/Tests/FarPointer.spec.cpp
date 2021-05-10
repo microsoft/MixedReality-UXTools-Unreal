@@ -84,7 +84,7 @@ void FFarPointerSpec::Define()
 			FarTarget->RegisterComponent();
 
 			// Mesh
-			UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateBoxStaticMesh(TargetActor);
+			UStaticMeshComponent* MeshComponent = UxtTestUtils::CreateStaticMesh(TargetActor);
 			TargetActor->SetRootComponent(MeshComponent);
 			MeshComponent->RegisterComponent();
 			HitPrimitive = MeshComponent;

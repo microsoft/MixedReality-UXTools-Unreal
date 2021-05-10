@@ -200,7 +200,7 @@ AActor* UUxtBoundsControlComponent::GetBoundsControlActor() const
 	return BoundsControlActor;
 }
 
-const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& UUxtBoundsControlComponent::GetPrimitiveAffordanceMap()
+const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& UUxtBoundsControlComponent::GetPrimitiveAffordanceMap() const
 {
 	return PrimitiveAffordanceMap;
 }
@@ -254,6 +254,18 @@ void UUxtBoundsControlComponent::ComputeBoundsFromComponents()
 	{
 		Bounds.Init();
 	}
+}
+
+UPrimitiveComponent* UUxtBoundsControlComponent::GetAffordancePrimitive(const EUxtAffordancePlacement Placement) const
+{
+	for (const TPair<UPrimitiveComponent*, FUxtAffordanceInstance>& Pair : PrimitiveAffordanceMap)
+	{
+		if (Pair.Value.Config.Placement == Placement)
+		{
+			return Pair.Key;
+		}
+	}
+	return nullptr;
 }
 
 void UUxtBoundsControlComponent::CreateAffordances()

@@ -8,8 +8,10 @@
 #include "Engine/World.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtInputSubsystem.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Utils/UxtFunctionLibrary.h"
+#include "Utils/UxtInternalFunctionLibrary.h"
 
 namespace
 {
@@ -31,6 +33,15 @@ namespace
 		Axes.SetAxes(&Forward, &Right, &Up);
 		return FQuat(Axes);
 	}
+
+	float GetDefaultSurfaceNormalOffset(const USceneComponent* TargetComponent)
+	{
+		FVector BoundsCentre, BoxExtent;
+		float SphereRadius;
+		UKismetSystemLibrary::GetComponentBounds(TargetComponent, BoundsCentre, BoxExtent, SphereRadius);
+		float PivotPointOffset = TargetComponent->GetComponentLocation().X - BoundsCentre.X;
+		return BoxExtent.X - PivotPointOffset;
+	}
 } // namespace
 
 UUxtTapToPlaceComponent::UUxtTapToPlaceComponent()
@@ -40,18 +51,17 @@ UUxtTapToPlaceComponent::UUxtTapToPlaceComponent()
 	bAutoActivate = true;
 }
 
-UPrimitiveComponent* UUxtTapToPlaceComponent::GetTargetComponent() const
+USceneComponent* UUxtTapToPlaceComponent::GetTargetComponent() const
 {
-	return Cast<UPrimitiveComponent>(TargetComponent.GetComponent(GetOwner()));
+	return Cast<USceneComponent>(TargetComponent.GetComponent(GetOwner()));
 }
 
-void UUxtTapToPlaceComponent::SetTargetComponent(UPrimitiveComponent* Target)
+void UUxtTapToPlaceComponent::SetTargetComponent(USceneComponent* Target)
 {
 	TargetComponent.OverrideComponent = Target;
 	if (Target)
 	{
-		FBoxSphereBounds Bounds = Target->CalcLocalBounds();
-		SurfaceNormalOffset = Bounds.BoxExtent.X * Target->GetComponentTransform().GetScale3D().X;
+		DefaultSurfaceNormalOffset = GetDefaultSurfaceNormalOffset(Target);
 	}
 }
 
@@ -87,13 +97,12 @@ void UUxtTapToPlaceComponent::BeginPlay()
 
 	if (!GetTargetComponent() && GetOwner())
 	{
-		SetTargetComponent(Cast<UPrimitiveComponent>(GetOwner()->GetComponentByClass(UPrimitiveComponent::StaticClass())));
+		SetTargetComponent(GetOwner()->GetRootComponent());
 	}
 
-	if (UPrimitiveComponent* Target = GetTargetComponent())
+	if (USceneComponent* Target = GetTargetComponent())
 	{
-		FBoxSphereBounds Bounds = Target->CalcLocalBounds();
-		SurfaceNormalOffset = Bounds.BoxExtent.X * Target->GetComponentTransform().GetScale3D().X;
+		DefaultSurfaceNormalOffset = GetDefaultSurfaceNormalOffset(Target);
 	}
 }
 
@@ -103,7 +112,7 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 	if (bIsBeingPlaced)
 	{
-		if (UPrimitiveComponent* Target = GetTargetComponent())
+		if (USceneComponent* Target = GetTargetComponent())
 		{
 			FTransform OriginPose;
 			switch (PlacementType)
@@ -140,7 +149,8 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 			if (Result.GetComponent())
 			{
 				// Add SurfaceNormalOffset so object is placed touching the surface, rather than overlapping with it
-				HitPosition = Result.Location + Result.Normal * SurfaceNormalOffset;
+				HitPosition =
+					Result.Location + Result.Normal * (bUseDefaultSurfaceNormalOffset ? DefaultSurfaceNormalOffset : SurfaceNormalOffset);
 				const FVector TowardsOriginPose = Facing = OriginPose.GetLocation() - HitPosition;
 
 				// Check if the target surface is flat, e.g. floor or ceiling
@@ -218,12 +228,12 @@ void UUxtTapToPlaceComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 bool UUxtTapToPlaceComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
 {
-	return Primitive == GetTargetComponent();
+	return UUxtInternalFunctionLibrary::IsPrimitiveEqualOrAttachedTo(GetTargetComponent(), Primitive);
 }
 
 bool UUxtTapToPlaceComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
 {
-	return bIsBeingPlaced ? true : Primitive == GetTargetComponent();
+	return bIsBeingPlaced ? true : UUxtInternalFunctionLibrary::IsPrimitiveEqualOrAttachedTo(GetTargetComponent(), Primitive);
 }
 
 void UUxtTapToPlaceComponent::OnFarReleased_Implementation(UUxtFarPointerComponent* Pointer)

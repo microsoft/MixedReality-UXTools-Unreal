@@ -26,7 +26,7 @@ namespace
 		PinchSliderActor->SetActorRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 
 		UUxtPinchSliderComponent* PinchSlider = PinchSliderActor->FindComponentByClass<UUxtPinchSliderComponent>();
-		PinchSlider->SetSmoothing(0.0f);
+		PinchSlider->SetLerpTime(0.0f);
 
 		return PinchSliderActor;
 	}

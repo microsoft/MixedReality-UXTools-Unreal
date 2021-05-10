@@ -27,7 +27,7 @@ namespace
 		AActor* Actor = World->SpawnActor<AActor>();
 
 		// Box Mesh
-		UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor);
+		UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Actor);
 		Actor->SetRootComponent(Mesh);
 		Mesh->RegisterComponent();
 
@@ -39,7 +39,7 @@ namespace
 		UUxtGenericManipulatorComponent* Manipulator = NewObject<UUxtGenericManipulatorComponent>(Actor);
 		Manipulator->TargetComponent = TargetComponent;
 		Manipulator->ReleaseBehavior = static_cast<int32>(EUxtReleaseBehavior::None);
-		Manipulator->SetSmoothing(0.0f);
+		Manipulator->LerpTime = 0.0f;
 		Manipulator->RegisterComponent();
 
 		Actor->SetActorLocation(TargetLocation);

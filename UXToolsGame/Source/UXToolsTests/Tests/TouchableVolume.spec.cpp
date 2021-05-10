@@ -23,7 +23,7 @@ namespace
 		AActor* Actor = World->SpawnActor<AActor>();
 
 		// Box Mesh
-		UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor);
+		UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Actor);
 		Actor->SetRootComponent(Mesh);
 		Mesh->RegisterComponent();
 
@@ -161,7 +161,7 @@ void TouchableVolumeSpec::Define()
 		});
 
 		LatentIt("should only trigger events on selected primitives", [this](const FDoneDelegate& Done) {
-			UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Target->GetOwner());
+			UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Target->GetOwner());
 			Mesh->SetWorldLocation(TargetLocation + FVector(0, 0, 100));
 			Mesh->RegisterComponent();
 
@@ -271,7 +271,7 @@ void TouchableVolumeSpec::Define()
 		});
 
 		LatentIt("should only trigger events on selected primitives", [this](const FDoneDelegate& Done) {
-			UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Target->GetOwner());
+			UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Target->GetOwner());
 			Mesh->SetWorldLocation(TargetLocation + FVector(0, 0, 100));
 			Mesh->RegisterComponent();
 

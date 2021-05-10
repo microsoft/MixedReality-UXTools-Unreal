@@ -15,14 +15,14 @@ namespace
 	 * Smooth a value to remove jittering.
 	 * Returns a exponentially weighted average of the current start value and the end value based on the time step.
 	 */
-	float SmoothValue(float StartValue, float EndValue, float Smoothing, float DeltaSeconds)
+	float SmoothValue(float StartValue, float EndValue, float LerpTime, float DeltaSeconds)
 	{
-		if (Smoothing <= 0.0f)
+		if (LerpTime <= KINDA_SMALL_NUMBER)
 		{
 			return EndValue;
 		}
 
-		const float Weight = FMath::Clamp(FMath::Exp(-Smoothing * DeltaSeconds), 0.0f, 1.0f);
+		const float Weight = FMath::Clamp(1.0f - FMath::Exp(-DeltaSeconds / LerpTime), 0.0f, 1.0f);
 
 		return FMath::Lerp(StartValue, EndValue, Weight);
 	}
@@ -119,14 +119,14 @@ void UUxtPinchSliderComponent::SetNumSteps(int NewNumSteps)
 	NumSteps = FMath::Max(2, NewNumSteps);
 }
 
-void UUxtPinchSliderComponent::SetSmoothing(float NewSmoothing)
+void UUxtPinchSliderComponent::SetLerpTime(float NewLerpTime)
 {
 	if (bUseSteppedMovement)
 	{
-		UE_LOG(UXTools, Warning, TEXT("The smoothing value was set but the slider is using stepped movement."));
+		UE_LOG(UXTools, Warning, TEXT("The LerpTime value was set but the slider is using stepped movement."));
 	}
 
-	Smoothing = FMath::Max(0.0f, NewSmoothing);
+	LerpTime = FMath::Max(0.0f, NewLerpTime);
 }
 
 void UUxtPinchSliderComponent::SetCollisionProfile(FName NewCollisionProfile)
@@ -338,7 +338,7 @@ void UUxtPinchSliderComponent::UpdateGrab(FVector DeltaPosition)
 		}
 		else
 		{
-			SetValue(SmoothValue(Value, NewValue, Smoothing, GetWorld()->GetDeltaSeconds()));
+			SetValue(SmoothValue(Value, NewValue, LerpTime, GetWorld()->GetDeltaSeconds()));
 		}
 
 		UpdateVisuals();

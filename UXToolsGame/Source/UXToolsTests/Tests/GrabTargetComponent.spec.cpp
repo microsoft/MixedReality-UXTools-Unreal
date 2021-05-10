@@ -22,7 +22,7 @@ namespace
 		AActor* Actor = World->SpawnActor<AActor>();
 
 		// Box mesh
-		UStaticMeshComponent* Mesh = UxtTestUtils::CreateBoxStaticMesh(Actor);
+		UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Actor);
 		Actor->SetRootComponent(Mesh);
 		Mesh->RegisterComponent();
 

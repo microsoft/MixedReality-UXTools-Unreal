@@ -100,10 +100,10 @@ UWorld* UxtTestUtils::CreateTestWorld()
 	return world;
 }
 
-UStaticMeshComponent* UxtTestUtils::CreateBoxStaticMesh(AActor* Owner, FVector Scale)
+UStaticMeshComponent* UxtTestUtils::CreateStaticMesh(AActor* Owner, FVector Scale, const FString& AssetReference)
 {
 	UStaticMeshComponent* Component = NewObject<UStaticMeshComponent>(Owner);
-	UStaticMesh* Mesh = LoadObject<UStaticMesh>(Owner, TEXT("/Engine/BasicShapes/Cube.Cube"));
+	UStaticMesh* Mesh = LoadObject<UStaticMesh>(Owner, *AssetReference);
 	Component->SetStaticMesh(Mesh);
 	Component->SetWorldScale3D(Scale);
 	return Component;
@@ -169,7 +169,7 @@ UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(
 
 	if (AddMeshVisualizer)
 	{
-		UStaticMeshComponent* Mesh = CreateBoxStaticMesh(PointerActor, FVector(0.01f));
+		UStaticMeshComponent* Mesh = CreateStaticMesh(PointerActor, FVector(0.01f));
 		Mesh->SetupAttachment(Root);
 		Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		Mesh->RegisterComponent();
