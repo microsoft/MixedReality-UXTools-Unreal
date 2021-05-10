@@ -140,6 +140,18 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldPreActorTick(UWorld* World, ELevelT
 			XRSystem->GetMotionControllerData(World, EControllerHand::Left, DefaultHandTracker.ControllerData_Left);
 			XRSystem->GetMotionControllerData(World, EControllerHand::Right, DefaultHandTracker.ControllerData_Right);
 
+			// Work around: tracking loss does not send a release event for Select/Grip
+			if (DefaultHandTracker.ControllerData_Left.TrackingStatus == ETrackingStatus::NotTracked)
+			{
+				DefaultHandTracker.bIsSelectPressed_Left = false;
+				DefaultHandTracker.bIsGrabbing_Left = false;
+			}
+			if (DefaultHandTracker.ControllerData_Right.TrackingStatus == ETrackingStatus::NotTracked)
+			{
+				DefaultHandTracker.bIsSelectPressed_Right = false;
+				DefaultHandTracker.bIsGrabbing_Right = false;
+			}
+
 			// Work around a known bug with WindowsMixedReality not scaling the grip pose from GetMotionControllerData.
 			if (ShouldApplyGripPoseScale)
 			{
