@@ -62,7 +62,9 @@
 			"Type": "Runtime",
 			"LoadingPhase": "PostConfigInit",
 			"WhitelistPlatforms": [
-				"Win64"
+				"Win64",
+				"HoloLens",
+				"Android"
 			]
 		},
 		{
