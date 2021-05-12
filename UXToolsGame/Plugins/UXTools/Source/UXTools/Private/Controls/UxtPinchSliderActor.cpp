@@ -87,6 +87,8 @@ AUxtPinchSliderActor::AUxtPinchSliderActor()
 	TickMarks->SetRelativeRotation(FQuat::MakeFromEuler(FVector(0.0f, 0.0f, 180.0f)));
 	TickMarks->SetStaticMesh(DefaultTickMarkMesh.Object);
 	TickMarks->SetMaterial(0, DefaultMaterial.Object);
+	TickMarks->SetVisibility(bShowTickMarks);
+	TickMarks->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	TickMarks->SetCanEverAffectNavigation(false);
 
 	TextRoot = CreateDefaultSubobject<USceneComponent>("TextRoot");
@@ -188,6 +190,17 @@ void AUxtPinchSliderActor::SetNumTickMarks(int NewNumTickMarks)
 {
 	NumTickMarks = FMath::Max(0, NewNumTickMarks);
 	UpdateTickMarks();
+}
+
+void AUxtPinchSliderActor::SetShowTickMarks(bool bNewShowTickMarks)
+{
+	bShowTickMarks = bNewShowTickMarks;
+	TickMarks->SetVisibility(bShowTickMarks);
+
+	for (UStaticMeshComponent* TickMark : TickMarksNonInstanced)
+	{
+		TickMark->SetVisibility(bShowTickMarks);
+	}
 }
 
 void AUxtPinchSliderActor::SetTickMarkScale(FVector NewTickMarkScale)
@@ -388,21 +401,18 @@ void AUxtPinchSliderActor::UpdateTickMarks()
 
 	// Ensure the correct mesh instance counts exist.
 	TickMarks->ClearInstances();
-
-	if (bInstanceTickMarks)
+	while (TickMarksNonInstanced.Num() > 0)
 	{
-		while (TickMarksNonInstanced.Num() > 0)
+		// We have to clear all tick marks instead of re-using them because the mesh components can get garbage collected
+		// without the array being reset, which causes a crash when compiling blueprints that inherit from this actor.
+		if (UStaticMeshComponent* TickMark = TickMarksNonInstanced.Pop())
 		{
-			TickMarksNonInstanced.Pop()->DestroyComponent();
+			TickMark->DestroyComponent();
 		}
 	}
-	else
-	{
-		while (TickMarksNonInstanced.Num() > NumTickMarks)
-		{
-			TickMarksNonInstanced.Pop()->DestroyComponent();
-		}
 
+	if (!bInstanceTickMarks)
+	{
 		while (TickMarksNonInstanced.Num() < NumTickMarks)
 		{
 			UStaticMeshComponent* Tick = NewObject<UStaticMeshComponent>(this);
@@ -410,6 +420,8 @@ void AUxtPinchSliderActor::UpdateTickMarks()
 			Tick->RegisterComponent();
 			Tick->SetStaticMesh(TickMarks->GetStaticMesh());
 			Tick->SetMaterial(0, TickMarks->GetMaterial(0));
+			Tick->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			Tick->SetVisibility(bShowTickMarks);
 			TickMarksNonInstanced.Push(Tick);
 		}
 	}
