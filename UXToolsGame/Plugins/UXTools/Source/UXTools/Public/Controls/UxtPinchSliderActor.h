@@ -92,6 +92,12 @@ public:
 	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider|TickMarks")
 	void SetNumTickMarks(int NewNumTickMarks);
 
+	// Tick mark visibility.
+	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider|TickMarks")
+	bool GetShowTickMarks() const { return bShowTickMarks; }
+	UFUNCTION(BlueprintSetter, Category = "Uxt Pinch Slider|TickMarks")
+	void SetShowTickMarks(bool bNewShowTickMarks);
+
 	// Tick mark scale.
 	UFUNCTION(BlueprintGetter, Category = "Uxt Pinch Slider|TickMarks")
 	FVector GetTickMarkScale() const { return TickMarkScale; }
@@ -307,8 +313,14 @@ private:
 		meta = (ClampMin = 0))
 	int NumTickMarks = 5;
 
+	/** Should the tick marks be rendered. */
+	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider|TickMarks", BlueprintGetter = GetShowTickMarks, BlueprintSetter = SetShowTickMarks)
+	bool bShowTickMarks = true;
+
 	/** The scale of the tick marks. */
-	UPROPERTY(EditAnywhere, Category = "Uxt Pinch Slider|TickMarks", BlueprintGetter = GetTickMarkScale, BlueprintSetter = SetTickMarkScale)
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Pinch Slider|TickMarks", BlueprintGetter = GetTickMarkScale, BlueprintSetter = SetTickMarkScale,
+		meta = (EditCondition = "bShowTickMarks"))
 	FVector TickMarkScale = FVector(0.0075f);
 
 	/** Determines if tick marks should be rendered using instancing via a InstancedStaticMeshComponent or as discrete StaticMeshComponents.
