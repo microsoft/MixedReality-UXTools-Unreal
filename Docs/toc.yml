@@ -3,6 +3,8 @@
   items:
     - name: Installation Guide
       href: Installation.md 
+    - name: Release Notes
+      href: ReleaseNotes.md 
 - name: Feature Overview
   items:
   - name: Input Simulation
@@ -11,6 +13,10 @@
     href: HandConstraintComponent.md
   - name: Hand Interaction
     href: HandInteraction.md
+  - name: Hand Menu
+    href: HandMenu.md
+  - name: Near Menu
+    href: NearMenu.md
   - name: Pressable Button
     href: PressableButton.md
   - name: UI Elements
@@ -37,7 +43,13 @@
     href: Graphics.md
   - name: Text
     href: Text.md
+  - name: Tooltips
+    href: Tooltip.md
+  - name: Touchable Volume
+    href: TouchableVolume.md
   - name: Utilities
     href: Utilities.md
+  - name: UMG Widgets
+    href: WidgetComponent.md 
 - name: Contributing
   href: CONTRIBUTING.md
