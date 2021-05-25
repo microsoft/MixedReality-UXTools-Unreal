@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Transform Constraints | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Transform Constraints | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="transform-constraints">Transform Constraints</h1>
+
+<p>UXTools provides a mechanism to implement and apply transform constraints to actors on manipulation by using a <code>UxtConstraintManager</code>. They are integrated with the <code>UxtManipulatorComponent</code> and <code>UxtBoundsControlComponent</code> out of the box.</p>
+<h2 id="usage">Usage</h2>
+<p>In order to use constraints:</p>
+<ol>
+<li>Add any desired <code>UxtTransformConstraint</code>-derived components to the actor.</li>
+<li>Add any components that contain and use a <code>UxtConstraintManager</code> instance, such as <code>UxtManipulatorComponent</code> and <code>UxtBoundsControlComponent</code>.</li>
+</ol>
+<p>By default, every <code>UxtConstraintManager</code> instance will take all the constraint components attached to the actor into consideration.</p>
+<h2 id="built-in-constraint-components">Built-in constraint components</h2>
+<p>There are a few built-in constraint components, which will hopefully save you from having to write your own.</p>
+<h3 id="uxtfaceuserconstraint">UxtFaceUserConstraint</h3>
+<p>Makes the actor face the camera while interacting with it.</p>
+<p>Set <code>bFaceAway</code> to <code>true</code> to make the object face away from the camera.</p>
+<p><img src="Images/Constraints/Face_user_constraint.gif" alt="Face user constraint demo"></p>
+<h3 id="uxtfixeddistanceconstraint">UxtFixedDistanceConstraint</h3>
+<p>Makes the actor stay at a fixed distance from the camera.</p>
+<table>
+<thead>
+<tr>
+<th>With</th>
+<th>Without</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="Images/Constraints/Fixed_distance_with_constraint.gif" alt="Fixed distance constraint demo"></td>
+<td><img src="Images/Constraints/Fixed_distance_without_constraint.gif" alt="Fixed distance without constraint demo"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="uxtfixedrotationtouserconstraint">UxtFixedRotationToUserConstraint</h3>
+<p>Makes the actor maintain the same rotation (relative to the user) that it had when the interaction started.</p>
+<p>Set <code>bExcludeRoll</code> to <code>false</code> to allow rolling of the actor.</p>
+<p><img src="Images/Constraints/Fixed_rotation_to_user_constraint.gif" alt="Fixed rotation to user constraint demo"></p>
+<h3 id="uxtfixedrotationtoworldconstraint">UxtFixedRotationToWorldConstraint</h3>
+<p>Makes the actor maintain the same rotation (relative to the world) that it had when the interaction started.</p>
+<p><img src="Images/Constraints/Fixed_rotation_to_world_constraint.gif" alt="Fixed rotation to world constraint demo"></p>
+<h3 id="uxtmaintainapparentsizeconstraint">UxtMaintainApparentSizeConstraint</h3>
+<p>Makes the actor maintain the apparent size (relative to the user) that it had when the interaction started.</p>
+<p><img src="Images/Constraints/Maintain_apparent_size_constraint.gif" alt="Maintain apparent size constraint demo"></p>
+<h3 id="uxtminmaxscaleconstraint">UxtMinMaxScaleConstraint</h3>
+<p>Limits the minimum and maximum scale of the actor during manipulation, via <code>MinScale</code> and <code>MaxScale</code> properties respectively.</p>
+<p>Use <code>bRelativeToInitialScale</code> to configure whether the limits are relative to the scale at interaction start (<code>true</code>) or absolute (<code>false</code>).</p>
+<p><img src="Images/Constraints/Min_max_scale_constraint.gif" alt="Min/max scale constraint demo"></p>
+<p>(Example limiting the minimum scale to <code>0.3</code>)</p>
+<h3 id="uxtmoveaxisconstraint">UxtMoveAxisConstraint</h3>
+<p>Limits movement on specific axes. Use the <code>ConstraintOnMovement</code> bit mask of <code>EUxtAxisFlags</code>.</p>
+<p><img src="Images/Constraints/Move_axis_constraint.gif" alt="Move axis constraint demo"></p>
+<p>(Example limiting the movement along the <code>X</code> and <code>Z</code> axes)</p>
+<h3 id="uxtrotationaxisconstraint">UxtRotationAxisConstraint</h3>
+<p>Limits rotation on specific axes. Use the <code>ConstraintOnRotation</code> bit mask of <code>EUxtAxisFlags</code>.</p>
+<p><img src="Images/Constraints/Rotation_axis_constraint.gif" alt="Rotation axis constraint demo"></p>
+<p>(Example limiting the rotation around the <code>X</code> and <code>Y</code> axes)</p>
+<h2 id="adding-more-constraint-components">Adding more constraint components</h2>
+<p>If none of the <a href="#built-in-constraint-components">Built-in constraint components</a> suits your needs, you can add more by simply creating a new <code>UCLASS</code> that inherits from <code>UxtTransformConstraint</code>. Then, provide implementations for <code>GetConstraintType</code>, <code>ApplyConstraint</code> and (optionally) <code>Initialize</code>.</p>
+<p>In this case, please feel free to take a look at our <a href="CONTRIBUTING.html">contributing docs</a> and make a suggestion!</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/TransformConstraints.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

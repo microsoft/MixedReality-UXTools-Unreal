@@ -132,6 +132,105 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Face_user_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Face_user_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_distance_with_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_distance_with_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_distance_without_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_distance_without_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_rotation_to_user_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_rotation_to_user_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_rotation_to_world_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_rotation_to_world_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Maintain_apparent_size_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Maintain_apparent_size_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Min_max_scale_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Min_max_scale_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Move_axis_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Move_axis_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Rotation_axis_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Rotation_axis_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "../../Docs/Images/Far-Beam.png",
       "output": {
         "resource": {
@@ -1751,6 +1850,18 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "../../Docs/TransformConstraints.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/TransformConstraints.html",
+          "hash": "mFscrQ0EgSugxAzck09g/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "../../Docs/UIElements.md",
       "output": {
         ".html": {
@@ -1803,7 +1914,7 @@
       "output": {
         ".html": {
           "relative_path": "Docs/toc.html",
-          "hash": "QhW3WhCm0Fmpw/54tezJzQ=="
+          "hash": "QWHMLzOMw4uRiiBf4/Pl9w=="
         }
       },
       "is_incremental": false,
@@ -1815,7 +1926,7 @@
       "output": {
         ".html": {
           "relative_path": "README.html",
-          "hash": "VJCJT5IeQnTxmhW80u74Jw=="
+          "hash": "CByL7qiCkPQtVkf2Sba1/A=="
         }
       },
       "is_incremental": false,
@@ -1827,7 +1938,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_base_pressable_button_actor.html",
-          "hash": "zZSnzLGuwTrGiX89TEXOUQ=="
+          "hash": "tr1IoBCCUemaeuGo0plLNA=="
         }
       },
       "is_incremental": false,
@@ -1839,7 +1950,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_hand_interaction_actor.html",
-          "hash": "56ZYbtNLKbdNWvEaCuhzGg=="
+          "hash": "bcJ/4Y+0Qrbhk3mTr97dDg=="
         }
       },
       "is_incremental": false,
@@ -1851,7 +1962,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_input_simulation_actor.html",
-          "hash": "ezW6BvCr5WZTF9n4x7W+Pw=="
+          "hash": "5jJcJvIT8/1liIbAqdV1YA=="
         }
       },
       "is_incremental": false,
@@ -1863,7 +1974,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pinch_slider_actor.html",
-          "hash": "NRnLhqy6jvlsf/2rUDNqEg=="
+          "hash": "e9I+xlBVQzX7VuGscQaG1A=="
         }
       },
       "is_incremental": false,
@@ -1875,7 +1986,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_button_actor.html",
-          "hash": "zFTqtmhMjrAsqh4TYYerKA=="
+          "hash": "9uu6b8InoyMzsGZBIeOdPw=="
         }
       },
       "is_incremental": false,
@@ -1887,7 +1998,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_check_button_actor.html",
-          "hash": "NUg6k4IbdIq5VktEJSOeTw=="
+          "hash": "24SJ7wLSKzPOZvt0q/B0pw=="
         }
       },
       "is_incremental": false,
@@ -1899,7 +2010,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_radio_button_actor.html",
-          "hash": "5hJYkOCn1wvkCnH/Pw/SFA=="
+          "hash": "F+nv1+pr1ldHqgydt3Op3w=="
         }
       },
       "is_incremental": false,
@@ -1911,7 +2022,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_switch_button_actor.html",
-          "hash": "6FJGz8WbRZ5nLxWU/Qm/tQ=="
+          "hash": "SZf1ciTZR9s9aTs+nMBhuQ=="
         }
       },
       "is_incremental": false,
@@ -1923,7 +2034,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_pressable_toggle_button_actor.html",
-          "hash": "f+WKHaoY7l7FJ41ZZWxBUA=="
+          "hash": "EAbdLOYVDhhh/Uf2Zo9Fkw=="
         }
       },
       "is_incremental": false,
@@ -1935,7 +2046,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_a_uxt_text_render_actor.html",
-          "hash": "c8T3obg7OcqrLhxvZ9XvJQ=="
+          "hash": "aoLz/xw7U7+btyy04GR1Xw=="
         }
       },
       "is_incremental": false,
@@ -1947,7 +2058,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_scrolling_collection_properties.html",
-          "hash": "XVxJBsFaVCMdr2Z7hwtOsA=="
+          "hash": "cu6zksGyqjwDOgeuIbzlhA=="
         }
       },
       "is_incremental": false,
@@ -1959,7 +2070,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_editor_module.html",
-          "hash": "VD3VqZsWJ1zeJZ30c+8oSA=="
+          "hash": "HcvETgGHnOzhQR9KqR8ZcQ=="
         }
       },
       "is_incremental": false,
@@ -1971,7 +2082,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_module.html",
-          "hash": "5ise441VPV9JTwWHEVaW9Q=="
+          "hash": "Exzu3ztYpuLuO2OY0ZedTg=="
         }
       },
       "is_incremental": false,
@@ -1983,7 +2094,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_shaders_module.html",
-          "hash": "54Cuhkn47+RqXHBryT12cg=="
+          "hash": "FfMrcylehEMRbNk8+8MxNA=="
         }
       },
       "is_incremental": false,
@@ -1995,7 +2106,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_u_x_tools_w_m_r_module.html",
-          "hash": "yaUI1aB+mgYhZkDggTSbyg=="
+          "hash": "V9fc9Iip0MWehxgb3mz2kQ=="
         }
       },
       "is_incremental": false,
@@ -2007,7 +2118,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_affordance_config.html",
-          "hash": "eLp0Bq9D5A1kbpw49otypw=="
+          "hash": "au1ZyEaH7ZuNoxqBCcCVhw=="
         }
       },
       "is_incremental": false,
@@ -2019,7 +2130,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_affordance_instance.html",
-          "hash": "oEZar1ts77/bDxnuaojX7A=="
+          "hash": "IU4RbKDjXxhK/3uK9yKyvA=="
         }
       },
       "is_incremental": false,
@@ -2031,7 +2142,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_button_audio_brush.html",
-          "hash": "hYPwOB7iuqnm49EIqYe3TQ=="
+          "hash": "hoZJusxNliCvoJEQHf2RtA=="
         }
       },
       "is_incremental": false,
@@ -2043,7 +2154,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_button_brush.html",
-          "hash": "5b4CQgemrX4vrmT9PaFJKw=="
+          "hash": "8LLvgtdGyeHgaHI1DKT2Ag=="
         }
       },
       "is_incremental": false,
@@ -2055,7 +2166,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_button_visuals_brush.html",
-          "hash": "fY1UJFIZyA9ASkb9qz3yOw=="
+          "hash": "UuEVCu2d8A9rm31o2HZozg=="
         }
       },
       "is_incremental": false,
@@ -2067,7 +2178,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_font_character.html",
-          "hash": "/RVYNoNXrObHAaqi470nsg=="
+          "hash": "yDAssom8NTfuXXl3bMXRYw=="
         }
       },
       "is_incremental": false,
@@ -2079,7 +2190,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_grab_pointer_data.html",
-          "hash": "9n8prDnci2nyaq6YLCZhNg=="
+          "hash": "ZsFm2r7HJU2xr90RZjco3A=="
         }
       },
       "is_incremental": false,
@@ -2091,7 +2202,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_grab_pointer_focus.html",
-          "hash": "NiscO9VdDmoMUgL8OviV2g=="
+          "hash": "sVqs1tm4mZmLAkbPkDVTmg=="
         }
       },
       "is_incremental": false,
@@ -2103,7 +2214,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_hand_proximity_mesh_data.html",
-          "hash": "rpLohfBx1nZ0IU7+3OUDsQ=="
+          "hash": "+b2uwgjVVna8+Zj+jpdYQg=="
         }
       },
       "is_incremental": false,
@@ -2115,7 +2226,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_icon_brush.html",
-          "hash": "Dsi7wu4S+gR4+ujkc/H7xw=="
+          "hash": "0V3eFgOTDblXP32K5NQhhg=="
         }
       },
       "is_incremental": false,
@@ -2127,7 +2238,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_icon_brush_customization.html",
-          "hash": "6U9JF7ih1xMnehvx+XzHZw=="
+          "hash": "VKseHaTT3SH2hcDqDpqzGA=="
         }
       },
       "is_incremental": false,
@@ -2139,7 +2250,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_input_animation_utils.html",
-          "hash": "uoUB10WBwvbbZv7aXLRoZw=="
+          "hash": "Ibd+GN+giWAX/iLDo6w5Fw=="
         }
       },
       "is_incremental": false,
@@ -2151,7 +2262,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_input_simulation_hand_state.html",
-          "hash": "tBq/cQZAvJgKtfujtG1FuQ=="
+          "hash": "vyiCvL+1ZSA1OAz6i+4o5A=="
         }
       },
       "is_incremental": false,
@@ -2163,7 +2274,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_interaction_utils.html",
-          "hash": "YuFX9lKMkhwTQUmyzYissw=="
+          "hash": "s3HodiAS248T7NqyioGr0A=="
         }
       },
       "is_incremental": false,
@@ -2175,7 +2286,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_pointer_focus.html",
-          "hash": "fYgnNCo8ydjRgm1o+dwBww=="
+          "hash": "OTHc4GgCvXPNwruMAal28g=="
         }
       },
       "is_incremental": false,
@@ -2187,7 +2298,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_pointer_focus_search_result.html",
-          "hash": "yH4ni9ChyWz3NfZRIJpt5w=="
+          "hash": "f0P+j1svCOAQhVcPaQEPhQ=="
         }
       },
       "is_incremental": false,
@@ -2199,7 +2310,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_poke_pointer_focus.html",
-          "hash": "e/E7f48eoejTC2840/e9Og=="
+          "hash": "DNDUnACXCmRR5lcUXncJIQ=="
         }
       },
       "is_incremental": false,
@@ -2211,7 +2322,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_pressable_button_component_visualizer.html",
-          "hash": "I28125No2QLxY/zh5dRAPg=="
+          "hash": "HifdD0rRMDc9Rgwav6zXcw=="
         }
       },
       "is_incremental": false,
@@ -2223,7 +2334,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_runtime_settings_button_set.html",
-          "hash": "NxvA59kerFjgHL+baGsf2w=="
+          "hash": "aDObz5p23YkwLL2c3zab5w=="
         }
       },
       "is_incremental": false,
@@ -2235,7 +2346,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_text_brush.html",
-          "hash": "WWWXQz+DmobGZjHSQB9Ung=="
+          "hash": "vlH1KS0rjYM6ywS5T0ctbQ=="
         }
       },
       "is_incremental": false,
@@ -2247,7 +2358,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_tooltip_spawner_component_visualizer.html",
-          "hash": "/pS71yzHcwD7/uCd2NT9sg=="
+          "hash": "cSaN507NhU/asGDf4PR7rw=="
         }
       },
       "is_incremental": false,
@@ -2259,7 +2370,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_f_uxt_wmr_hand_tracker.html",
-          "hash": "FEK7eAeUrkc8aqrj7Hd6yw=="
+          "hash": "wM5xS3sUgsgRUOzaK17TPw=="
         }
       },
       "is_incremental": false,
@@ -2271,7 +2382,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_collection_object.html",
-          "hash": "b0trqgrd/sD3SeMWma/IZw=="
+          "hash": "YL/eMO8rk46I7xiDBZriPg=="
         }
       },
       "is_incremental": false,
@@ -2283,7 +2394,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_far_handler.html",
-          "hash": "QHruFhzYW9pPCn6HopBNAQ=="
+          "hash": "aNczVVgBtpR5Qz959C5uOA=="
         }
       },
       "is_incremental": false,
@@ -2295,7 +2406,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_far_target.html",
-          "hash": "0wCFIsLBgeV1vCMnqGG9Ug=="
+          "hash": "f/qdo1MBLl+OM+1QQqlX6A=="
         }
       },
       "is_incremental": false,
@@ -2307,7 +2418,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_grab_handler.html",
-          "hash": "xzyCmZCKgCdJ96bPtQLwQA=="
+          "hash": "CA4jC3tCJF/teDRzM7fCIw=="
         }
       },
       "is_incremental": false,
@@ -2319,7 +2430,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_grab_target.html",
-          "hash": "tKu/H8iUWwn4fxtk8riIVA=="
+          "hash": "zTIxZQ011Wc5x72qZwPYZQ=="
         }
       },
       "is_incremental": false,
@@ -2331,7 +2442,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_hand_tracker.html",
-          "hash": "d21ieIIKHIqa1HqxtQsAWQ=="
+          "hash": "F49n6IvmNRprUTGqjT8/eA=="
         }
       },
       "is_incremental": false,
@@ -2343,7 +2454,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_poke_handler.html",
-          "hash": "M7mVIx45BPCTqAiEg1EDsA=="
+          "hash": "8/Hbk9WklCPYhId8OzP5yQ=="
         }
       },
       "is_incremental": false,
@@ -2355,7 +2466,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_i_uxt_poke_target.html",
-          "hash": "BrhmXmo2wK/ybhBno/wV9g=="
+          "hash": "NX2vCDm0HCrjcWgOW1KHuw=="
         }
       },
       "is_incremental": false,
@@ -2367,7 +2478,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_base_object_collection.html",
-          "hash": "z+VNaE0Wc4mmdQItLMjIIg=="
+          "hash": "DLGfqOglZW5G7r61xnoynQ=="
         }
       },
       "is_incremental": false,
@@ -2379,7 +2490,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_bounds_control_component.html",
-          "hash": "8JETKSqSi3OAcpHYa0w3+Q=="
+          "hash": "nIgj5aq+cnX/+E67KqInBg=="
         }
       },
       "is_incremental": false,
@@ -2391,7 +2502,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_bounds_control_config.html",
-          "hash": "tATAHcyae1tUhu/owwy65g=="
+          "hash": "PoEF/F6cGO77snmH7YeAIQ=="
         }
       },
       "is_incremental": false,
@@ -2403,7 +2514,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_collection_object.html",
-          "hash": "XMW+SHtEnxEyi6G+hPiv9Q=="
+          "hash": "SOsY7cbJpuvhIqAhSbIrxg=="
         }
       },
       "is_incremental": false,
@@ -2415,7 +2526,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_face_user_constraint.html",
-          "hash": "gB/n37RXW/KXUSRHMPJ7mg=="
+          "hash": "VVooQVw64/FXHWOZ1ugkUA=="
         }
       },
       "is_incremental": false,
@@ -2427,7 +2538,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_beam_component.html",
-          "hash": "CYg7w8v54JlxMKlKe2SgOQ=="
+          "hash": "+LLM/QFLH7xgSz5hsFEFSg=="
         }
       },
       "is_incremental": false,
@@ -2439,7 +2550,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_cursor_component.html",
-          "hash": "4hvUZVubWeUwgU+uOklF2w=="
+          "hash": "kdslRsWr0DXfz5AwNhGjNw=="
         }
       },
       "is_incremental": false,
@@ -2451,7 +2562,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_handler.html",
-          "hash": "871jSNmiCaTPSYWbyc5w8Q=="
+          "hash": "10J+kFTWBmowSBjb1dfB3A=="
         }
       },
       "is_incremental": false,
@@ -2463,7 +2574,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_pointer_component.html",
-          "hash": "SRMmt/3oym/1BIBliR5INw=="
+          "hash": "KNY+BlkHpv6JKtvXd9tZOQ=="
         }
       },
       "is_incremental": false,
@@ -2475,7 +2586,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_far_target.html",
-          "hash": "H6pBM9yxWWN0gRc5J3ZVyw=="
+          "hash": "miXo//QVXcNLmIHA96Lw4g=="
         }
       },
       "is_incremental": false,
@@ -2487,7 +2598,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_finger_cursor_component.html",
-          "hash": "01EAgvs8cH6xYBASte/Sow=="
+          "hash": "Cy8O93I6ZntWHGDQEZadLw=="
         }
       },
       "is_incremental": false,
@@ -2499,7 +2610,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_fixed_distance_constraint.html",
-          "hash": "HZtXUL2du+iB1cbpoodk5Q=="
+          "hash": "GH8otXSOUF+w+IKrHv0NQQ=="
         }
       },
       "is_incremental": false,
@@ -2511,7 +2622,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_fixed_rotation_to_user_constraint.html",
-          "hash": "xW5W2DWzHwtKWhq8C2nfow=="
+          "hash": "bfTFkaAMcFfi2mccWMbwrw=="
         }
       },
       "is_incremental": false,
@@ -2523,7 +2634,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_fixed_rotation_to_world_constraint.html",
-          "hash": "Q5Oum5FctHBrev/ETMx3hw=="
+          "hash": "AKgeHmvFEhXb4aCe6UOgdg=="
         }
       },
       "is_incremental": false,
@@ -2535,7 +2646,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_follow_component.html",
-          "hash": "bgAQnaRqTLa0SKeGpRX2VQ=="
+          "hash": "1hbyXu3LDgofdlvQ+yzsfA=="
         }
       },
       "is_incremental": false,
@@ -2547,7 +2658,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_function_library.html",
-          "hash": "TVJqiZrAcHysbTk5wMx4GQ=="
+          "hash": "2swKbxFzueR9lN4NdRBKpw=="
         }
       },
       "is_incremental": false,
@@ -2559,7 +2670,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_handler.html",
-          "hash": "/15EdnuSeLzL+bQFPHOf9w=="
+          "hash": "1zZorkXrreOyBPfDd+i2cg=="
         }
       },
       "is_incremental": false,
@@ -2571,7 +2682,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_pointer_data_function_library.html",
-          "hash": "gNUC8IrRwFQlisEb68RvkQ=="
+          "hash": "PZGBGdR+IR0pK0/+QAMFbw=="
         }
       },
       "is_incremental": false,
@@ -2583,7 +2694,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_target.html",
-          "hash": "ZnTn3mMiDqJJo0Zmfc78sQ=="
+          "hash": "vrGheAOV5Pq1pCmjWjwogg=="
         }
       },
       "is_incremental": false,
@@ -2595,7 +2706,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_grab_target_component.html",
-          "hash": "EhPgFh9zPEDpuvvWw/Ebmg=="
+          "hash": "ViN55GBJ8mQaM71efFQWzA=="
         }
       },
       "is_incremental": false,
@@ -2607,7 +2718,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_hand_constraint_component.html",
-          "hash": "dWb160TGcxFRb4UraHsBLQ=="
+          "hash": "J8oC23tLqIpT7JFg5vP4sw=="
         }
       },
       "is_incremental": false,
@@ -2619,7 +2730,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_hand_tracking_function_library.html",
-          "hash": "OpLOFtJGUCtBZsPHkr/YwQ=="
+          "hash": "eYgvkzB4sYv9bs2GU2h4ew=="
         }
       },
       "is_incremental": false,
@@ -2631,7 +2742,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_icon_brush_editor_utility_widget.html",
-          "hash": "dFy7H2yDWxcxF/IvTSOydA=="
+          "hash": "8f4y/tQIYVw8ebT3sVjS9w=="
         }
       },
       "is_incremental": false,
@@ -2643,7 +2754,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_simulation_head_movement_component.html",
-          "hash": "/JQBFfeazKrV43Txa6OqsA=="
+          "hash": "tRY4UyQZ0N8+eRq9y7TwAA=="
         }
       },
       "is_incremental": false,
@@ -2655,7 +2766,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_simulation_local_player_subsystem.html",
-          "hash": "YdDUyd4VqpOd3w346vFK/Q=="
+          "hash": "Xtgqr6Ynsek0oYWKS8Db5A=="
         }
       },
       "is_incremental": false,
@@ -2667,7 +2778,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_simulation_state.html",
-          "hash": "6jdFc9E0kiZF1S0rdYGMWA=="
+          "hash": "yYKfKuoEf2oeb6baqFGeoQ=="
         }
       },
       "is_incremental": false,
@@ -2679,7 +2790,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_input_subsystem.html",
-          "hash": "uS93WBhIA4JAeEwizchBAw=="
+          "hash": "k5zx/kE4ETQLHnYsWEt+JQ=="
         }
       },
       "is_incremental": false,
@@ -2691,7 +2802,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_internal_function_library.html",
-          "hash": "sowdvDLe8AExeo3+lceU+A=="
+          "hash": "A011/b8VDVBMo1lC695QyQ=="
         }
       },
       "is_incremental": false,
@@ -2703,7 +2814,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_maintain_apparent_size_constraint.html",
-          "hash": "90ZKdG7RvB3re+TdW+EJqg=="
+          "hash": "zCcREP2nF8cAmlK0w9Z7xw=="
         }
       },
       "is_incremental": false,
@@ -2715,7 +2826,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_manipulator_component_base.html",
-          "hash": "G5RO1R/GnyHheVw11fDWCQ=="
+          "hash": "J1sKdgmyTlK5DAo4qMepqA=="
         }
       },
       "is_incremental": false,
@@ -2727,7 +2838,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_math_utils_function_library.html",
-          "hash": "lGGmRfiuRdfv9wX462OGYQ=="
+          "hash": "9Qe8Z4Nyf7WJyW5HNKFTyg=="
         }
       },
       "is_incremental": false,
@@ -2739,7 +2850,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_min_max_scale_constraint.html",
-          "hash": "t+9PqU3kHvpmW6R6XYW+Gw=="
+          "hash": "wENFHLXoIAq4iyKghVU+oA=="
         }
       },
       "is_incremental": false,
@@ -2751,7 +2862,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_move_axis_constraint.html",
-          "hash": "BzB6pVE3/s2g31osiR9YRw=="
+          "hash": "Lesra0DIaFQRqwy/BdNq0Q=="
         }
       },
       "is_incremental": false,
@@ -2763,7 +2874,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_near_pointer_component.html",
-          "hash": "BIwCL80O6T3qCt8hD+T53w=="
+          "hash": "GbUbEp4GUnprZV6i6sDZdg=="
         }
       },
       "is_incremental": false,
@@ -2775,7 +2886,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_palm_up_constraint_component.html",
-          "hash": "XzH+9A68nDJ5bz/ZtQ6gSg=="
+          "hash": "+Gmh5RdnRJW/rdkpm6E9QQ=="
         }
       },
       "is_incremental": false,
@@ -2787,7 +2898,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_pinch_slider_component.html",
-          "hash": "3YDLU6WBURrOn/0ZbnfnBw=="
+          "hash": "rBCXlkHdBlrP48wd4udlsQ=="
         }
       },
       "is_incremental": false,
@@ -2799,7 +2910,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_pointer_component.html",
-          "hash": "Fp+cOWPsdQLDvQBg9nLOEw=="
+          "hash": "wrFj6B8kz3lMlq1NRqfKfg=="
         }
       },
       "is_incremental": false,
@@ -2811,7 +2922,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_poke_handler.html",
-          "hash": "aq74qYpasNMebFtHlGfjTA=="
+          "hash": "gBvq1UMaD2GYYOJnfkckoQ=="
         }
       },
       "is_incremental": false,
@@ -2823,7 +2934,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_poke_target.html",
-          "hash": "f8ISUFkbNPy2IJGH3YNt5w=="
+          "hash": "0iEvlIzqAwLByHwgFCh/Tw=="
         }
       },
       "is_incremental": false,
@@ -2835,7 +2946,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_pressable_button_component.html",
-          "hash": "JoG4yA/i5L1Ri2QHLA271g=="
+          "hash": "D2QmzAApNI4s7N4Pe/MeAw=="
         }
       },
       "is_incremental": false,
@@ -2847,7 +2958,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_rotation_axis_constraint.html",
-          "hash": "3izJaMuu4G4iFf6VHsGjXQ=="
+          "hash": "3nIe+G9Kus0AM3jRfiwHxw=="
         }
       },
       "is_incremental": false,
@@ -2859,7 +2970,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_runtime_settings.html",
-          "hash": "6HkMIwl3x3WsAZIy8yVHTQ=="
+          "hash": "IPln8nxdpgHompRki+cX3g=="
         }
       },
       "is_incremental": false,
@@ -2871,7 +2982,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_tap_to_place_component.html",
-          "hash": "7nDbfQiwnhQqEjZeZUocLA=="
+          "hash": "FThGvtRBX53MiuyBKjU/fQ=="
         }
       },
       "is_incremental": false,
@@ -2883,7 +2994,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_text_render_component.html",
-          "hash": "v1gV1tadbRlfE+O1PAaagA=="
+          "hash": "AnwUgyE6TFAtmJaltQcfjA=="
         }
       },
       "is_incremental": false,
@@ -2895,7 +3006,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_toggle_group_component.html",
-          "hash": "7r7Vj4HR/OunOFSmyF7Z1A=="
+          "hash": "zeGfWiZ1Q6DYghlyjj/AcA=="
         }
       },
       "is_incremental": false,
@@ -2907,7 +3018,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_touch_based_hand_tracker_component.html",
-          "hash": "kwlgVCitSuzhP16dVKXYgA=="
+          "hash": "6zPTAo2IQh/gGqCdp8ELhA=="
         }
       },
       "is_incremental": false,
@@ -2919,7 +3030,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_touch_based_hand_tracker_subsystem.html",
-          "hash": "/X8o8BtQ31Yls55wwpU+Xw=="
+          "hash": "JyTrCYh4clDwD0TruLg0Vw=="
         }
       },
       "is_incremental": false,
@@ -2931,7 +3042,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_touchable_volume_component.html",
-          "hash": "O912oWUuTAgSkn6HG/xLhA=="
+          "hash": "wbJ+RUKIu1uz48ZNZIpLrw=="
         }
       },
       "is_incremental": false,
@@ -2943,7 +3054,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_transform_constraint.html",
-          "hash": "QQyuVmROua7hl4InBIGtzQ=="
+          "hash": "XFVUtgDM5Odhi3We2VkHzA=="
         }
       },
       "is_incremental": false,
@@ -2955,7 +3066,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_u_i_element_component.html",
-          "hash": "LcoaPdROq+f0CwdyB7AqXQ=="
+          "hash": "Q05+mHrk6NndfZ+2JmV+5w=="
         }
       },
       "is_incremental": false,
@@ -2967,7 +3078,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_uxt_widget_component.html",
-          "hash": "J2FZI50zG3BizhkrvU9C3w=="
+          "hash": "vj7bPH0I1sCEG3z0wkrDww=="
         }
       },
       "is_incremental": false,
@@ -2979,7 +3090,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools.html",
-          "hash": "vI/nej92eUds8c2JIvhwzA=="
+          "hash": "0s74EPLDfDJhNpliIy70uA=="
         }
       },
       "is_incremental": false,
@@ -2991,7 +3102,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_editor.html",
-          "hash": "+E4EeupbDMu5TbeVsC0+pg=="
+          "hash": "pk/GSdgQs09HX9dr8Fhn+g=="
         }
       },
       "is_incremental": false,
@@ -3003,7 +3114,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_input_simulation.html",
-          "hash": "FIYth1fj7e+paQsiXfCyGg=="
+          "hash": "SeIyUJczzv6ZJi5F1MJNEw=="
         }
       },
       "is_incremental": false,
@@ -3015,7 +3126,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_runtime_settings.html",
-          "hash": "IiBrpMzVlgGTYwe7/K7Jwg=="
+          "hash": "ntV+geytkxGDcJdzNWdcHg=="
         }
       },
       "is_incremental": false,
@@ -3027,7 +3138,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_shaders.html",
-          "hash": "8KPmXWa6Mdgsz84YzvsDcg=="
+          "hash": "xX+voGknybP8bv5i+Az8jA=="
         }
       },
       "is_incremental": false,
@@ -3039,7 +3150,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_u_x_tools_w_m_r.html",
-          "hash": "Ubp/e8D0fq60nQrfzvIVaQ=="
+          "hash": "EQbQO472Mw3BuCHtRbZDeA=="
         }
       },
       "is_incremental": false,
@@ -3051,7 +3162,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_affordance_interaction_cache.html",
-          "hash": "IPxecqre70CikaguPccvhw=="
+          "hash": "WJyHNeE5tnp7t0bSFwqJ2g=="
         }
       },
       "is_incremental": false,
@@ -3063,7 +3174,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_constraint_manager.html",
-          "hash": "1k/moCiOJaCHedKTQ1jZ5A=="
+          "hash": "hVXH7kbEvRLqd+8zVNDecQ=="
         }
       },
       "is_incremental": false,
@@ -3075,7 +3186,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_manipulation_move_logic.html",
-          "hash": "+ZfiLpjMY8nqmOQ8nuF3cQ=="
+          "hash": "fnxl4HyIm73w08Xxcqm5zA=="
         }
       },
       "is_incremental": false,
@@ -3087,7 +3198,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_two_hand_manipulation_rotate_logic.html",
-          "hash": "YSPMTZbtAUaEawgc8zzurA=="
+          "hash": "yrl4iPhE6/nORjS0Q2d4AQ=="
         }
       },
       "is_incremental": false,
@@ -3099,7 +3210,7 @@
       "output": {
         ".html": {
           "relative_path": "api/_uxt_two_hand_manipulation_scale_logic.html",
-          "hash": "Yz2swoZ/NfvO25C708DZTg=="
+          "hash": "Pq1o4jbdHXCLsg1apTvD9Q=="
         }
       },
       "is_incremental": false,
@@ -3185,17 +3296,11 @@
         "full_build_reason_code": "ForceRebuild"
       },
       "processors": {
-        "TocDocumentProcessor": {
+        "ResourceDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
           "total_file_count": 0,
-          "skipped_file_count": 0
-        },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 26,
           "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
@@ -3204,9 +3309,15 @@
           "total_file_count": 107,
           "skipped_file_count": 0
         },
-        "ResourceDocumentProcessor": {
+        "ConceptualDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 27,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
           "total_file_count": 0,
           "skipped_file_count": 0
