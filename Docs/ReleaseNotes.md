@@ -216,6 +216,10 @@ Here are a few values for comparison:
 
 ## Known issues
 
+### Crash in UX Tools game when leaving surface magnetism or tap to place maps
+
+This happens only when running on device without OpenXR. It's caused by a bug in the engine (UEVR-2118) that happens after stopping an AR session with tracked geometry enabled. We expect it will be fixed in the next UE4 release (4.26.3 or 4.27).
+
 ## Full change list
 
 | Commit | Description |
