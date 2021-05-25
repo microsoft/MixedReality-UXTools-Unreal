@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Surface Magnetism | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Surface Magnetism | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="surface-magnetism">Surface Magnetism</h1>
+
+<p>The surface magnetism component allows the user to interact with the component and stick the containing actor to a surface (either in game or to real world walls). Interaction is done via far interaction only.</p>
+<p>To enable real world collision generation, the following values should be enabled in <code>ARSessionConfig &gt; ARSettings &gt; World Mapping</code>:</p>
+<ul>
+<li>[x] <code>Generate Mesh Data from Tracked Geometry</code></li>
+<li>[x] <code>Generate Collision for Mesh Data</code></li>
+</ul>
+<p>Here are the events that you can use to hook up to your application logic:</p>
+<ul>
+<li><strong>OnMagnetismStarted</strong>: This event is called when the user interacts with the component.</li>
+<li><strong>OnMagnetismEnded</strong>: This event is called when the user stops interacting with the component or, if movement is smoothed, when the component comes to a stop after interaction ends.</li>
+</ul>
+<h2 id="instance-editable-properties">Instance Editable Properties</h2>
+<h3 id="trace-distance">Trace Distance</h3>
+<p>Maximum length of the trace for a surface to stick to.</p>
+<h3 id="smooth-position">Smooth position</h3>
+<p>If <code>true</code>, the target will interpolate between current position and hit location. If <code>false</code>, the target will snap instantly to the hit location.</p>
+<h3 id="position-interp-value">Position Interp Value</h3>
+<p>If <code>SmoothPosition</code> is <code>true</code>, this is the position's interpolation speed (using standard UE4 <code>Interp</code> values).</p>
+<h3 id="smooth-rotation">Smooth Rotation</h3>
+<p>If <code>true</code>, the target will interpolate between current rotation and hit normal. If <code>false</code>, the target will snap instantly to the hit normal.</p>
+<h3 id="rotation-interp-value">Rotation Interp Value</h3>
+<p>If <code>SmoothRotation</code> is <code>true</code>, this is the rotation's interpolation speed (using standard UE4 <code>Interp</code> values)</p>
+<h3 id="impact-normal-offset">Impact Normal Offset</h3>
+<p>Distance offset from the hit point to place the target at, along the hit normal.</p>
+<h3 id="trace-ray-offset">Trace Ray Offset</h3>
+<p>Distance offset from the hit point to place the target at, along the traced ray (i.e. back towards the user).</p>
+<h3 id="trace-channel">Trace Channel</h3>
+<p>The channel that is traced for surfaces to stick to.</p>
+<h3 id="keep-orientation-vertical">Keep Orientation Vertical</h3>
+<p>If <code>true</code>, pitch and roll are omitted.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/SurfaceMagnetism.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

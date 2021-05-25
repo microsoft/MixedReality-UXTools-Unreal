@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference IUxtHandTracker | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference IUxtHandTracker | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_i_uxt_hand_tracker">
+<h1 id="iuxthandtracker">IUxtHandTracker</h1>
+
+<p>Hand tracker device interface. We assume that implementations poll and cache the hand tracking state at the beginning of the frame. This allows us to assume that if a hand is reported as tracked it will remain so for the remainder of the frame, simplifying client logic.</p>
+<pre><code class="lang-cpp">class IUxtHandTracker;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;HandTracking/IUxtHandTracker.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from IModularFeature</p>
+<p>Inherited by <a href="_f_dummy_hand_tracker.html">FDummyHandTracker</a>, <a href="_f_uxt_default_hand_tracker.html">FUxtDefaultHandTracker</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html">UUxtTouchBasedHandTrackerComponent</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FName</td>
+<td><strong><a href="#function-getmodularfeaturename">GetModularFeatureName</a></strong>()</td>
+</tr>
+<tr>
+<td><a href="_i_uxt_hand_tracker.html">IUxtHandTracker</a> &amp;</td>
+<td><strong><a href="#function-get">Get</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual</td>
+<td><strong><a href="#function-iuxthandtracker">~IUxtHandTracker</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual ETrackingStatus</td>
+<td><strong><a href="#function-gettrackingstatus">GetTrackingStatus</a></strong>(EControllerHand Hand) const =0</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-ishandcontroller">IsHandController</a></strong>(EControllerHand Hand) const =0</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getjointstate">GetJointState</a></strong>(EControllerHand Hand, EHandKeypoint Joint, FQuat &amp; OutOrientation, FVector &amp; OutPosition, float &amp; OutRadius) const =0</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getpointerpose">GetPointerPose</a></strong>(EControllerHand Hand, FQuat &amp; OutOrientation, FVector &amp; OutPosition) const =0</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getgrippose">GetGripPose</a></strong>(EControllerHand Hand, FQuat &amp; OutOrientation, FVector &amp; OutPosition) const =0</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getisgrabbing">GetIsGrabbing</a></strong>(EControllerHand Hand, bool &amp; OutIsGrabbing) const =0</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getisselectpressed">GetIsSelectPressed</a></strong>(EControllerHand Hand, bool &amp; OutIsSelectPressed) const =0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-getmodularfeaturename">function GetModularFeatureName</h3>
+<pre><code class="lang-cpp">static FName GetModularFeatureName()
+</code></pre>
+<h3 id="function-get">function Get</h3>
+<pre><code class="lang-cpp">static IUxtHandTracker &amp; Get()
+</code></pre>
+<p>Returns the currently registered hand tracker or nullptr if none</p>
+<h3 id="function-iuxthandtracker">function ~IUxtHandTracker</h3>
+<pre><code class="lang-cpp">inline virtual ~IUxtHandTracker()
+</code></pre>
+<h3 id="function-gettrackingstatus">function GetTrackingStatus</h3>
+<pre><code class="lang-cpp">virtual ETrackingStatus GetTrackingStatus(
+    EControllerHand Hand
+) const =0
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_f_dummy_hand_tracker.html#function-gettrackingstatus">FDummyHandTracker::GetTrackingStatus</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html#function-gettrackingstatus">UUxtTouchBasedHandTrackerComponent::GetTrackingStatus</a>, <a href="_f_uxt_default_hand_tracker.html#function-gettrackingstatus">FUxtDefaultHandTracker::GetTrackingStatus</a></p>
+<p>Get tracking status of the hand or motion controller.</p>
+<h3 id="function-ishandcontroller">function IsHandController</h3>
+<pre><code class="lang-cpp">virtual bool IsHandController(
+    EControllerHand Hand
+) const =0
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_f_dummy_hand_tracker.html#function-ishandcontroller">FDummyHandTracker::IsHandController</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html#function-ishandcontroller">UUxtTouchBasedHandTrackerComponent::IsHandController</a>, <a href="_f_uxt_default_hand_tracker.html#function-ishandcontroller">FUxtDefaultHandTracker::IsHandController</a></p>
+<p>True if the controller is a hand.</p>
+<h3 id="function-getjointstate">function GetJointState</h3>
+<pre><code class="lang-cpp">virtual bool GetJointState(
+    EControllerHand Hand,
+    EHandKeypoint Joint,
+    FQuat &amp; OutOrientation,
+    FVector &amp; OutPosition,
+    float &amp; OutRadius
+) const =0
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_f_dummy_hand_tracker.html#function-getjointstate">FDummyHandTracker::GetJointState</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html#function-getjointstate">UUxtTouchBasedHandTrackerComponent::GetJointState</a>, <a href="_f_uxt_default_hand_tracker.html#function-getjointstate">FUxtDefaultHandTracker::GetJointState</a></p>
+<p>Obtain the state of the given joint. Returns false if the hand is not tracked this frame, in which case the values of the output parameters are unchanged.</p>
+<h3 id="function-getpointerpose">function GetPointerPose</h3>
+<pre><code class="lang-cpp">virtual bool GetPointerPose(
+    EControllerHand Hand,
+    FQuat &amp; OutOrientation,
+    FVector &amp; OutPosition
+) const =0
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_f_dummy_hand_tracker.html#function-getpointerpose">FDummyHandTracker::GetPointerPose</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html#function-getpointerpose">UUxtTouchBasedHandTrackerComponent::GetPointerPose</a>, <a href="_f_uxt_default_hand_tracker.html#function-getpointerpose">FUxtDefaultHandTracker::GetPointerPose</a></p>
+<p>Obtain the pointer pose. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged.</p>
+<h3 id="function-getgrippose">function GetGripPose</h3>
+<pre><code class="lang-cpp">virtual bool GetGripPose(
+    EControllerHand Hand,
+    FQuat &amp; OutOrientation,
+    FVector &amp; OutPosition
+) const =0
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_f_dummy_hand_tracker.html#function-getgrippose">FDummyHandTracker::GetGripPose</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html#function-getgrippose">UUxtTouchBasedHandTrackerComponent::GetGripPose</a>, <a href="_f_uxt_default_hand_tracker.html#function-getgrippose">FUxtDefaultHandTracker::GetGripPose</a></p>
+<p>Grip pose following the controller. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged.</p>
+<h3 id="function-getisgrabbing">function GetIsGrabbing</h3>
+<pre><code class="lang-cpp">virtual bool GetIsGrabbing(
+    EControllerHand Hand,
+    bool &amp; OutIsGrabbing
+) const =0
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_f_dummy_hand_tracker.html#function-getisgrabbing">FDummyHandTracker::GetIsGrabbing</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html#function-getisgrabbing">UUxtTouchBasedHandTrackerComponent::GetIsGrabbing</a>, <a href="_f_uxt_default_hand_tracker.html#function-getisgrabbing">FUxtDefaultHandTracker::GetIsGrabbing</a></p>
+<p>Obtain current grabbing state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged.</p>
+<h3 id="function-getisselectpressed">function GetIsSelectPressed</h3>
+<pre><code class="lang-cpp">virtual bool GetIsSelectPressed(
+    EControllerHand Hand,
+    bool &amp; OutIsSelectPressed
+) const =0
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_f_dummy_hand_tracker.html#function-getisselectpressed">FDummyHandTracker::GetIsSelectPressed</a>, <a href="_u_uxt_touch_based_hand_tracker_component.html#function-getisselectpressed">UUxtTouchBasedHandTrackerComponent::GetIsSelectPressed</a>, <a href="_f_uxt_default_hand_tracker.html#function-getisselectpressed">FUxtDefaultHandTracker::GetIsSelectPressed</a></p>
+<p>Obtain current selection state. Returns false if the hand is not tracked this frame, in which case the value of the output parameter is unchanged.</p>
+<hr>
+<p>Updated on 25 May 2021 at 15:08:44 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_i_uxt_hand_tracker.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

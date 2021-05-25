@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Graphics | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Graphics | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="graphics">Graphics</h1>
+
+<p>UX Tools contains a handful of graphics and rendering techniques to implement <a href="https://www.microsoft.com/design/fluent">Fluent Design System</a> principles, and remain performant on Mixed Reality devices.</p>
+<h2 id="materials">Materials</h2>
+<p>Many mobile stereo headsets are <a href="https://en.wikipedia.org/wiki/Fillrate">fill rate</a> bound, to reduce fill rate materials should be as simple, or inexpensive as possible. A handful of inexpensive <a href="https://docs.unrealengine.com/en-US/Engine/Rendering/Materials/MaterialInstances/index.html">material instances</a> are included with the toolkit which derive from <code>M_SimpleLit_Color.</code></p>
+<p><img src="Images/Graphics/GraphicsSimpleLit.png" alt="MovingVisuals"></p>
+<p><code>M_SimpleLit_Color</code> uses the Unreal <a href="https://docs.unrealengine.com/en-US/Engine/Rendering/Materials/MaterialProperties/LightingModels/#unlit">unlit lighting model</a> to avoid extra computations, but uses the <code>MF_SimpleLit</code> material function to perform basic realtime <a href="https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model">Blinn-Phong lighting</a> on a single (virtual) directional light. The virtual directional light's properties are passed in via the <code>MPC_UXSettings</code> <a href="https://www.unrealengine.com/en-US/blog/material-parameter-collections">material parameter collection</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Unreal's built in <a href="https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/LightTypes/index.html">light types</a> are not included within <code>MF_SimpleLit</code> calculations.</p>
+</div>
+<p><code>MPC_UXSettings</code> contains global shader constants that are used to drive lighting effects as well as UI effects. For example, the left and right pointer positions are updated each frame within <code>MPC_UXSettings</code> to drive lighting effects emitted from the <a href="HandInteraction.html">hand interaction</a> pointers.</p>
+<h2 id="shaders">Shaders</h2>
+<p>To achieve visual parity with the HoloLens 2 shell, a couple of shaders exist in the <em>&quot;UX Tools plugin root&quot;/Shaders/Public/</em> directory. A shader source directory mapping is created by the UX Tools plugin to allow any UE4 material to reference shaders within that directory as <em>/Plugin/UXTools/Public/Shader_Name.ush</em>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Note, many of the shaders within this directory are generated from an external tool, and are not formatted for user readability.</p>
+</div>
+<p>A couple of shaders are described below in more detail, as well as any special considerations which must be made when using the shader.</p>
+<h3 id="button-box">Button Box</h3>
+<p>The <code>M_ButtonBox</code> material and <code>Bounding_Box.ush</code> shader generate glowing edges on a cube with optional circular blob. The blob appears only on the active face set with the Blob_Active_Face parameter. The shader must be used with the correct corresponding cube model. The special model enables the shader to render only the visible areas of the surfaces. The last two letters of the <code>SM_FrontPlate_xx</code> model name indicates which face is active. For example, SM_FrontPlate_PY indicates the positive y-axis.</p>
+<p><img src="Images/Graphics/GraphicsButtonBox.png" alt="GraphicsButtonBox"></p>
+<h3 id="rounded-edge-thick">Rounded Edge Thick</h3>
+<p>The <code>M_RoundedEdgeThick</code> material and <code>Rounded_Edge_Thick.ush</code> shader are designed to render a quad as an outlined rounded rectangle with depth. The shader works with a special mesh that approximates the round corners using triangles and includes additional information for anti-aliased silhouette edges. UX Tools includes several models named <code>SM_BackPlateRoundedThick_#</code> where # is the number of triangles per rounded corner. Use the model with the fewest triangles that works for your scenario.</p>
+<p><img src="Images/Graphics/GraphicsRoundedEdgeThick.png" alt="GraphicsRoundedEdgeThick"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Note, the <code>SM_BackPlateRoundedThick_#</code> mesh and <code>Rounded_Edge_Thick.ush</code> shader assume the local y-axis is up, and not Unreal's traditional z-axis up. These assumptions were made when the <code>Rounded_Edge_Thick.ush</code> shader was authored in a separate content creation tool. To resolve these assumptions the <code>UxtBackPlateComponent</code> and <code>Rounded_Edge_Thick.ush</code> perform an additional rotation. This rotation is transparent to the end user and should not effect anything but advanced use cases.</p>
+</div>
+<h3 id="thick-finger-ring">Thick Finger Ring</h3>
+<p>The <code>M_FingerTipRing</code> material and <code>Thick_Finger_Ring.ush</code> shader with the <code>M_FingerTipRing</code> model are used to create a volumetric finger tip affordance.</p>
+<h3 id="bounding-box">Bounding Box</h3>
+<p>The <code>M_BoundsControl</code> material and <code>Bounding_Box.ush</code> shader generate glowing edges on a cube with optional glowing blob and on/off transition effect. The shader must be used with the <code>SM_BoundsControl</code> model. The special models enable the shader to render only the visible areas of the box surfaces.</p>
+<p>The above shader uses additive blending; if alpha blending is preferred a second method of creating the Bounding Box effects exists which works by splitting the box affordance into parts:</p>
+<ul>
+<li>The finger tip blob visuals are rendered using the <code>SM_BoundsControlFace</code> model with the <code>M_BoundsControlFace</code> material.</li>
+<li>Six copies of the <code>SM_BoundsControlEdge</code> model are scaled and offset to create the bound edges and rendered with the <code>M_BoundsControlEdge</code> shader.</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="PressableButton.html">Pressable button component</a></li>
+<li><a href="BoundsControl.html">Bounds Control</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/Graphics.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

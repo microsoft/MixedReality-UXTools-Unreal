@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Palm-Up Constraint Component | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Palm-Up Constraint Component | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="palm-up-constraint-component">Palm-Up Constraint Component</h1>
+
+<p><a href="HandConstraintComponent.html">Hand constraint</a> specialization that activates only when the palm is facing the player.</p>
+<p><img src="Images/HandConstraint/PalmUpFacingCamera.png" alt="Palm facing camera">
+<img src="Images/HandConstraint/PalmUpFacingAway.png" alt="Palm facing camera"></p>
+<h2 id="usage">Usage</h2>
+<p>Create a PalmUpConstraintComponent on an Actor. See Hand constraint documentation for common settings.</p>
+<p>The Palm-Up constraint will activate when the palm normal is within a cone of size <em>Max Palm Angle</em> of the camera direction.</p>
+<h3 id="optional-conditions">Optional conditions</h3>
+<ul>
+<li><strong>Require Flat Hand</strong>: Requires the user to have their hand flat for the constraint to activate. Flatness is approximated by checking the triangle between palm, index finger tip and ring finger tip. If the triangle aligns to the palm within the <em>Max Flat Hand Angle</em> the hand is considered flat.</li>
+<li><strong>Require Gaze</strong>: Requires the user to be looking at their hand for the constraint to activate. This will use eye gaze by default but will fall back to head gaze if no eye tracker is available. The activation area will shift towards the Hand Constraint's zone:
+<ul>
+<li><strong>Ulnar Side</strong>: The activation area shifts to the little finger metacarpal joint.</li>
+<li><strong>Radial Side</strong>: The activation area shifts to between the index finger metacarpal and the thumb proximal joints.</li>
+<li><strong>Above Finger Tips</strong>: The activation area shifts to between the middle finger tip and the ring finger tip joints.</li>
+<li><strong>Below Wrist</strong>: The activation area shifts to the wrist joint.</li>
+</ul>
+</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/PalmUpConstraintComponent.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

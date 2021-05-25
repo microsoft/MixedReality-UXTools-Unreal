@@ -1,0 +1,733 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtPinchSliderComponent | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtPinchSliderComponent | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_pinch_slider_component">
+<h1 id="uuxtpinchslidercomponent">UUxtPinchSliderComponent</h1>
+
+<p>A slider that can be moved by grabbing / pinching a slider thumb.</p>
+<p>The thumb visuals must be set using the 'Visuals' property.</p>
+<pre><code class="lang-cpp">class UUxtPinchSliderComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtPinchSliderComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a>, <a href="_i_uxt_grab_target.html">IUxtGrabTarget</a>, <a href="_i_uxt_grab_handler.html">IUxtGrabHandler</a>, <a href="_i_uxt_far_target.html">IUxtFarTarget</a>, <a href="_i_uxt_far_handler.html">IUxtFarHandler</a>, USceneComponent</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EUxtSliderState</td>
+<td><strong><a href="#function-getstate">GetState</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setenabled">SetEnabled</a></strong>(bool bEnabled)</td>
+</tr>
+<tr>
+<td>UStaticMeshComponent *</td>
+<td><strong><a href="#function-getvisuals">GetVisuals</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setvisuals">SetVisuals</a></strong>(UStaticMeshComponent * NewVisuals)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setvisuals">SetVisuals</a></strong>(const FComponentReference &amp; NewVisuals)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getvalue">GetValue</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setvalue">SetValue</a></strong>(float NewValue)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-gettracklength">GetTrackLength</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settracklength">SetTrackLength</a></strong>(float NewTrackLength)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getvaluelowerbound">GetValueLowerBound</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setvaluelowerbound">SetValueLowerBound</a></strong>(float NewLowerBound)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getvalueupperbound">GetValueUpperBound</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setvalueupperbound">SetValueUpperBound</a></strong>(float NewUpperBound)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getusesteppedmovement">GetUseSteppedMovement</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setusesteppedmovement">SetUseSteppedMovement</a></strong>(bool bNewUseSteppedMovement)</td>
+</tr>
+<tr>
+<td>int</td>
+<td><strong><a href="#function-getnumsteps">GetNumSteps</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setnumsteps">SetNumSteps</a></strong>(int NewNumSteps)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getlerptime">GetLerpTime</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setlerptime">SetLerpTime</a></strong>(float NewLerpTime)</td>
+</tr>
+<tr>
+<td>FName</td>
+<td><strong><a href="#function-getcollisionprofile">GetCollisionProfile</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setcollisionprofile">SetCollisionProfile</a></strong>(FName NewCollisionProfile)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isgrabfocusable_implementation">IsGrabFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlegrab_implementation">CanHandleGrab_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onentergrabfocus_implementation">OnEnterGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdategrabfocus_implementation">OnUpdateGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitgrabfocus_implementation">OnExitGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbegingrab_implementation">OnBeginGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdategrab_implementation">OnUpdateGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onendgrab_implementation">OnEndGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isfarfocusable_implementation">IsFarFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlefar_implementation">CanHandleFar_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterfarfocus_implementation">OnEnterFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatedfarfocus_implementation">OnUpdatedFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitfarfocus_implementation">OnExitFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarpressed_implementation">OnFarPressed_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfardragged_implementation">OnFarDragged_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarreleased_implementation">OnFarReleased_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtPinchSliderUpdateStateDelegate</td>
+<td><strong><a href="#variable-onupdatestate">OnUpdateState</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderBeginFocusDelegate</td>
+<td><strong><a href="#variable-onbeginfocus">OnBeginFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderUpdateFocusDelegate</td>
+<td><strong><a href="#variable-onupdatefocus">OnUpdateFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderEndFocusDelegate</td>
+<td><strong><a href="#variable-onendfocus">OnEndFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderBeginGrabDelegate</td>
+<td><strong><a href="#variable-onbegingrab">OnBeginGrab</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderUpdateValueDelegate</td>
+<td><strong><a href="#variable-onupdatevalue">OnUpdateValue</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderEndGrabDelegate</td>
+<td><strong><a href="#variable-onendgrab">OnEndGrab</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderEnableDelegate</td>
+<td><strong><a href="#variable-onenable">OnEnable</a></strong></td>
+</tr>
+<tr>
+<td>FUxtPinchSliderDisableDelegate</td>
+<td><strong><a href="#variable-ondisable">OnDisable</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-uuxtuielementcomponent">UUxtUIElementComponent</a></strong>() =default</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-getuivisibilityself">GetUIVisibilitySelf</a></strong>() const</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-getuivisibilityinhierarchy">GetUIVisibilityInHierarchy</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-setuivisibility">SetUIVisibility</a></strong>(EUxtUIElementVisibility NewVisibility)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-refreshuielement">RefreshUIElement</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-onattachmentchanged">OnAttachmentChanged</a></strong>() override</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Attributes inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtUIElementShowDelegate</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#variable-onshowelement">OnShowElement</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUIElementHideDelegate</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#variable-onhideelement">OnHideElement</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_grab_target.html">IUxtGrabTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_grab_target.html#function-isgrabfocusable">IsGrabFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_grab_handler.html">IUxtGrabHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-canhandlegrab">CanHandleGrab</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onentergrabfocus">OnEnterGrabFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onupdategrabfocus">OnUpdateGrabFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onexitgrabfocus">OnExitGrabFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onupdategrab">OnUpdateGrab</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_target.html">IUxtFarTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_target.html#function-isfarfocusable">IsFarFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-canhandlefar">CanHandleFar</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onenterfarfocus">OnEnterFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onupdatedfarfocus">OnUpdatedFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onexitfarfocus">OnExitFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarpressed">OnFarPressed</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfardragged">OnFarDragged</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarreleased">OnFarReleased</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-getstate">function GetState</h3>
+<pre><code class="lang-cpp">inline EUxtSliderState GetState() const
+</code></pre>
+<p>Get the current state of the slider.</p>
+<h3 id="function-setenabled">function SetEnabled</h3>
+<pre><code class="lang-cpp">void SetEnabled(
+    bool bEnabled
+)
+</code></pre>
+<p>Set if the slider is enabled.</p>
+<h3 id="function-getvisuals">function GetVisuals</h3>
+<pre><code class="lang-cpp">inline UStaticMeshComponent * GetVisuals() const
+</code></pre>
+<p>Get the static mesh representing the thumb visuals.</p>
+<h3 id="function-setvisuals">function SetVisuals</h3>
+<pre><code class="lang-cpp">void SetVisuals(
+    UStaticMeshComponent * NewVisuals
+)
+</code></pre>
+<p>Set the static mesh representing the thumb visuals.</p>
+<h3 id="function-setvisuals-1">function SetVisuals</h3>
+<pre><code class="lang-cpp">void SetVisuals(
+    const FComponentReference &amp; NewVisuals
+)
+</code></pre>
+<p>Set the thumb visuals using a component reference, this is necessary if the visuals will be serialized.</p>
+<h3 id="function-getvalue">function GetValue</h3>
+<pre><code class="lang-cpp">inline float GetValue() const
+</code></pre>
+<h3 id="function-setvalue">function SetValue</h3>
+<pre><code class="lang-cpp">void SetValue(
+    float NewValue
+)
+</code></pre>
+<h3 id="function-gettracklength">function GetTrackLength</h3>
+<pre><code class="lang-cpp">inline float GetTrackLength() const
+</code></pre>
+<h3 id="function-settracklength">function SetTrackLength</h3>
+<pre><code class="lang-cpp">void SetTrackLength(
+    float NewTrackLength
+)
+</code></pre>
+<h3 id="function-getvaluelowerbound">function GetValueLowerBound</h3>
+<pre><code class="lang-cpp">inline float GetValueLowerBound() const
+</code></pre>
+<h3 id="function-setvaluelowerbound">function SetValueLowerBound</h3>
+<pre><code class="lang-cpp">void SetValueLowerBound(
+    float NewLowerBound
+)
+</code></pre>
+<h3 id="function-getvalueupperbound">function GetValueUpperBound</h3>
+<pre><code class="lang-cpp">inline float GetValueUpperBound() const
+</code></pre>
+<h3 id="function-setvalueupperbound">function SetValueUpperBound</h3>
+<pre><code class="lang-cpp">void SetValueUpperBound(
+    float NewUpperBound
+)
+</code></pre>
+<h3 id="function-getusesteppedmovement">function GetUseSteppedMovement</h3>
+<pre><code class="lang-cpp">inline bool GetUseSteppedMovement() const
+</code></pre>
+<h3 id="function-setusesteppedmovement">function SetUseSteppedMovement</h3>
+<pre><code class="lang-cpp">void SetUseSteppedMovement(
+    bool bNewUseSteppedMovement
+)
+</code></pre>
+<h3 id="function-getnumsteps">function GetNumSteps</h3>
+<pre><code class="lang-cpp">inline int GetNumSteps() const
+</code></pre>
+<h3 id="function-setnumsteps">function SetNumSteps</h3>
+<pre><code class="lang-cpp">void SetNumSteps(
+    int NewNumSteps
+)
+</code></pre>
+<h3 id="function-getlerptime">function GetLerpTime</h3>
+<pre><code class="lang-cpp">inline float GetLerpTime() const
+</code></pre>
+<h3 id="function-setlerptime">function SetLerpTime</h3>
+<pre><code class="lang-cpp">void SetLerpTime(
+    float NewLerpTime
+)
+</code></pre>
+<h3 id="function-getcollisionprofile">function GetCollisionProfile</h3>
+<pre><code class="lang-cpp">inline FName GetCollisionProfile() const
+</code></pre>
+<h3 id="function-setcollisionprofile">function SetCollisionProfile</h3>
+<pre><code class="lang-cpp">void SetCollisionProfile(
+    FName NewCollisionProfile
+)
+</code></pre>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_u_uxt_u_i_element_component.html#function-beginplay">UUxtUIElementComponent::BeginPlay</a></p>
+<h3 id="function-isgrabfocusable_implementation">function IsGrabFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsGrabFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlegrab_implementation">function CanHandleGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleGrab_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onentergrabfocus_implementation">function OnEnterGrabFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterGrabFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdategrabfocus_implementation">function OnUpdateGrabFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdateGrabFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitgrabfocus_implementation">function OnExitGrabFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitGrabFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onbegingrab_implementation">function OnBeginGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnBeginGrab_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdategrab_implementation">function OnUpdateGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdateGrab_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onendgrab_implementation">function OnEndGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEndGrab_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-isfarfocusable_implementation">function IsFarFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsFarFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlefar_implementation">function CanHandleFar_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleFar_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onenterfarfocus_implementation">function OnEnterFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatedfarfocus_implementation">function OnUpdatedFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatedFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitfarfocus_implementation">function OnExitFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarpressed_implementation">function OnFarPressed_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarPressed_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfardragged_implementation">function OnFarDragged_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarDragged_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarreleased_implementation">function OnFarReleased_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarReleased_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-onupdatestate">variable OnUpdateState</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderUpdateStateDelegate OnUpdateState;
+</code></pre>
+<p>Event raised when slider changes state.</p>
+<h3 id="variable-onbeginfocus">variable OnBeginFocus</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderBeginFocusDelegate OnBeginFocus;
+</code></pre>
+<p>Event raised when a pointer starts focusing the slider.</p>
+<h3 id="variable-onupdatefocus">variable OnUpdateFocus</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderUpdateFocusDelegate OnUpdateFocus;
+</code></pre>
+<p>Event raised when a focusing pointer updates.</p>
+<h3 id="variable-onendfocus">variable OnEndFocus</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderEndFocusDelegate OnEndFocus;
+</code></pre>
+<p>Event raised when a pointer stops focusing the slider.</p>
+<h3 id="variable-onbegingrab">variable OnBeginGrab</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderBeginGrabDelegate OnBeginGrab;
+</code></pre>
+<p>Event raised when slider is grabbed.</p>
+<h3 id="variable-onupdatevalue">variable OnUpdateValue</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderUpdateValueDelegate OnUpdateValue;
+</code></pre>
+<p>Event raised when slider's value changes.</p>
+<h3 id="variable-onendgrab">variable OnEndGrab</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderEndGrabDelegate OnEndGrab;
+</code></pre>
+<p>Event raised when slider is released.</p>
+<h3 id="variable-onenable">variable OnEnable</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderEnableDelegate OnEnable;
+</code></pre>
+<p>Event raised when slider is enabled.</p>
+<h3 id="variable-ondisable">variable OnDisable</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderDisableDelegate OnDisable;
+</code></pre>
+<p>Event raised when slider is disabled.</p>
+<hr>
+<p>Updated on 25 May 2021 at 15:08:44 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_u_uxt_pinch_slider_component.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

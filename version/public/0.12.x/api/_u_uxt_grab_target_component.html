@@ -1,0 +1,675 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtGrabTargetComponent | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtGrabTargetComponent | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_grab_target_component">
+<h1 id="uuxtgrabtargetcomponent">UUxtGrabTargetComponent</h1>
+
+<p>Interactable component that listens to grab events from near pointers.</p>
+<p>A pointer that starts grabing while near the actor is considered a grabbing pointer. The grab is released when the pointer stops grabing, regardless of whether it is still near or not.</p>
+<p>The GrabComponent does not react to grabbing pointers by itself, but serves as a base class for manipulation.</p>
+<pre><code class="lang-cpp">class UUxtGrabTargetComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Interactions/UxtGrabTargetComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a>, <a href="_i_uxt_grab_target.html">IUxtGrabTarget</a>, <a href="_i_uxt_grab_handler.html">IUxtGrabHandler</a>, <a href="_i_uxt_far_target.html">IUxtFarTarget</a>, <a href="_i_uxt_far_handler.html">IUxtFarHandler</a>, UActorComponent</p>
+<p>Inherited by <a href="_u_uxt_manipulator_component_base.html">UUxtManipulatorComponentBase</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtgrabtargetcomponent">UUxtGrabTargetComponent</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-findgrabpointer">FindGrabPointer</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * NearPointer, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * FarPointer, bool &amp; Success, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; PointerData, int &amp; Index) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-getprimarygrabpointer">GetPrimaryGrabPointer</a></strong>(bool &amp; Valid, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; PointerData) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-getsecondarygrabpointer">GetSecondaryGrabPointer</a></strong>(bool &amp; Valid, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; PointerData) const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-forceendgrab">ForceEndGrab</a></strong>()</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#function-getgrabpointcentroid">GetGrabPointCentroid</a></strong>(const FTransform &amp; ToWorldTransform) const</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-gettargetcentroid">GetTargetCentroid</a></strong>() const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-gettickonlywhilegrabbed">GetTickOnlyWhileGrabbed</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settickonlywhilegrabbed">SetTickOnlyWhileGrabbed</a></strong>(bool bEnable)</td>
+</tr>
+<tr>
+<td>const TArray&lt; <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &gt; &amp;</td>
+<td><strong><a href="#function-getgrabpointers">GetGrabPointers</a></strong>() const</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexternalmanipulationstarted">OnExternalManipulationStarted</a></strong>() override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isgrabfocusable_implementation">IsGrabFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlegrab_implementation">CanHandleGrab_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onentergrabfocus_implementation">OnEnterGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdategrabfocus_implementation">OnUpdateGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitgrabfocus_implementation">OnExitGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbegingrab_implementation">OnBeginGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdategrab_implementation">OnUpdateGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onendgrab_implementation">OnEndGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isfarfocusable_implementation">IsFarFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlefar_implementation">CanHandleFar_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarpressed_implementation">OnFarPressed_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarreleased_implementation">OnFarReleased_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfardragged_implementation">OnFarDragged_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterfarfocus_implementation">OnEnterFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitfarfocus_implementation">OnExitFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatedfarfocus_implementation">OnUpdatedFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#function-getpointercentroid">GetPointerCentroid</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtEnterFarFocusDelegate</td>
+<td><strong><a href="#variable-onenterfarfocus">OnEnterFarFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUpdateFarFocusDelegate</td>
+<td><strong><a href="#variable-onupdatefarfocus">OnUpdateFarFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtExitFarFocusDelegate</td>
+<td><strong><a href="#variable-onexitfarfocus">OnExitFarFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtEnterGrabFocusDelegate</td>
+<td><strong><a href="#variable-onentergrabfocus">OnEnterGrabFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUpdateGrabFocusDelegate</td>
+<td><strong><a href="#variable-onupdategrabfocus">OnUpdateGrabFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtExitGrabFocusDelegate</td>
+<td><strong><a href="#variable-onexitgrabfocus">OnExitGrabFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtBeginGrabDelegate</td>
+<td><strong><a href="#variable-onbegingrab">OnBeginGrab</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUpdateGrabDelegate</td>
+<td><strong><a href="#variable-onupdategrab">OnUpdateGrab</a></strong></td>
+</tr>
+<tr>
+<td>FUxtEndGrabDelegate</td>
+<td><strong><a href="#variable-onendgrab">OnEndGrab</a></strong></td>
+</tr>
+<tr>
+<td>int32</td>
+<td><strong><a href="#variable-interactionmode">InteractionMode</a></strong></td>
+</tr>
+<tr>
+<td>int32</td>
+<td><strong><a href="#variable-grabmodes">GrabModes</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getautodetectconstraints">GetAutoDetectConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setautodetectconstraints">SetAutoDetectConstraints</a></strong>(bool bNewAutoDetectConstraints)</td>
+</tr>
+<tr>
+<td>const TArray&lt; FComponentReference &gt; &amp;</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getselectedconstraints">GetSelectedConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-addconstraint">AddConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-removeconstraint">RemoveConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getrelativetoinitialscale">GetRelativeToInitialScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setrelativetoinitialscale">SetRelativeToInitialScale</a></strong>(const bool Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getminscale">GetMinScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setminscale">SetMinScale</a></strong>(const float Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getmaxscale">GetMaxScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setmaxscale">SetMaxScale</a></strong>(const float Value)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-tickcomponent">TickComponent</a></strong>(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-initializeconstraints">InitializeConstraints</a></strong>(USceneComponent * NewTargetComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-applyconstraints">ApplyConstraints</a></strong>(FTransform &amp; Transform, EUxtTransformMode TransformMode, bool bIsOneHanded, bool bIsNear) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_grab_target.html">IUxtGrabTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_grab_target.html#function-isgrabfocusable">IsGrabFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_grab_handler.html">IUxtGrabHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-canhandlegrab">CanHandleGrab</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_target.html">IUxtFarTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_target.html#function-isfarfocusable">IsFarFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-canhandlefar">CanHandleFar</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onupdatedfarfocus">OnUpdatedFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarpressed">OnFarPressed</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfardragged">OnFarDragged</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarreleased">OnFarReleased</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-uuxtgrabtargetcomponent">function UUxtGrabTargetComponent</h3>
+<pre><code class="lang-cpp">UUxtGrabTargetComponent()
+</code></pre>
+<h3 id="function-findgrabpointer">function FindGrabPointer</h3>
+<pre><code class="lang-cpp">void FindGrabPointer(
+    UUxtNearPointerComponent * NearPointer,
+    UUxtFarPointerComponent * FarPointer,
+    bool &amp; Success,
+    FUxtGrabPointerData &amp; PointerData,
+    int &amp; Index
+) const
+</code></pre>
+<p>Returns true if the pointer is currently grabbing the actor. PointerData will contain the associated grab data for the pointer. Index is the order in which pointers started grabbing.</p>
+<h3 id="function-getprimarygrabpointer">function GetPrimaryGrabPointer</h3>
+<pre><code class="lang-cpp">void GetPrimaryGrabPointer(
+    bool &amp; Valid,
+    FUxtGrabPointerData &amp; PointerData
+) const
+</code></pre>
+<p>Returns the first active grab pointer. If no pointer is grabbing the Valid output will be false.</p>
+<h3 id="function-getsecondarygrabpointer">function GetSecondaryGrabPointer</h3>
+<pre><code class="lang-cpp">void GetSecondaryGrabPointer(
+    bool &amp; Valid,
+    FUxtGrabPointerData &amp; PointerData
+) const
+</code></pre>
+<p>Returns the second active grab pointer. If less than two pointers are grabbing the Valid output will be false.</p>
+<h3 id="function-forceendgrab">function ForceEndGrab</h3>
+<pre><code class="lang-cpp">bool ForceEndGrab()
+</code></pre>
+<p>Release all currently grabbing pointers. Returns true if any pointers were grabbing and have been released, false if no pointers were grabbing.</p>
+<h3 id="function-getgrabpointcentroid">function GetGrabPointCentroid</h3>
+<pre><code class="lang-cpp">FTransform GetGrabPointCentroid(
+    const FTransform &amp; ToWorldTransform
+) const
+</code></pre>
+<p>Compute the centroid of the grab points in world space.</p>
+<h3 id="function-gettargetcentroid">function GetTargetCentroid</h3>
+<pre><code class="lang-cpp">FVector GetTargetCentroid() const
+</code></pre>
+<p>Compute the centroid of the pointer targets in world space.</p>
+<h3 id="function-gettickonlywhilegrabbed">function GetTickOnlyWhileGrabbed</h3>
+<pre><code class="lang-cpp">bool GetTickOnlyWhileGrabbed() const
+</code></pre>
+<h3 id="function-settickonlywhilegrabbed">function SetTickOnlyWhileGrabbed</h3>
+<pre><code class="lang-cpp">void SetTickOnlyWhileGrabbed(
+    bool bEnable
+)
+</code></pre>
+<h3 id="function-getgrabpointers">function GetGrabPointers</h3>
+<pre><code class="lang-cpp">const TArray&lt; FUxtGrabPointerData &gt; &amp; GetGrabPointers() const
+</code></pre>
+<p>Returns a list of all currently grabbing pointers.</p>
+<h3 id="function-onexternalmanipulationstarted">function OnExternalManipulationStarted</h3>
+<pre><code class="lang-cpp">virtual void OnExternalManipulationStarted() override
+</code></pre>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_u_uxt_manipulator_component.html#function-beginplay">UUxtManipulatorComponent::BeginPlay</a></p>
+<p><strong>Reimplemented by</strong>: <a href="_u_uxt_manipulator_component_base.html#function-beginplay">UUxtManipulatorComponentBase::BeginPlay</a></p>
+<h3 id="function-isgrabfocusable_implementation">function IsGrabFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsGrabFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlegrab_implementation">function CanHandleGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleGrab_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onentergrabfocus_implementation">function OnEnterGrabFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterGrabFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdategrabfocus_implementation">function OnUpdateGrabFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdateGrabFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitgrabfocus_implementation">function OnExitGrabFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitGrabFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onbegingrab_implementation">function OnBeginGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnBeginGrab_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdategrab_implementation">function OnUpdateGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdateGrab_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onendgrab_implementation">function OnEndGrab_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEndGrab_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-isfarfocusable_implementation">function IsFarFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsFarFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlefar_implementation">function CanHandleFar_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleFar_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onfarpressed_implementation">function OnFarPressed_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarPressed_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarreleased_implementation">function OnFarReleased_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarReleased_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfardragged_implementation">function OnFarDragged_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarDragged_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onenterfarfocus_implementation">function OnEnterFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitfarfocus_implementation">function OnExitFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatedfarfocus_implementation">function OnUpdatedFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatedFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-getpointercentroid">function GetPointerCentroid</h3>
+<pre><code class="lang-cpp">FTransform GetPointerCentroid() const
+</code></pre>
+<p>Compute the average transform of currently grabbing pointers</p>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-onenterfarfocus">variable OnEnterFarFocus</h3>
+<pre><code class="lang-cpp">FUxtEnterFarFocusDelegate OnEnterFarFocus;
+</code></pre>
+<p>Event raised when entering grab focus.</p>
+<h3 id="variable-onupdatefarfocus">variable OnUpdateFarFocus</h3>
+<pre><code class="lang-cpp">FUxtUpdateFarFocusDelegate OnUpdateFarFocus;
+</code></pre>
+<p>Event raised when grab focus updates.</p>
+<h3 id="variable-onexitfarfocus">variable OnExitFarFocus</h3>
+<pre><code class="lang-cpp">FUxtExitFarFocusDelegate OnExitFarFocus;
+</code></pre>
+<p>Event raised when exiting grab.</p>
+<h3 id="variable-onentergrabfocus">variable OnEnterGrabFocus</h3>
+<pre><code class="lang-cpp">FUxtEnterGrabFocusDelegate OnEnterGrabFocus;
+</code></pre>
+<p>Event raised when entering grab focus.</p>
+<h3 id="variable-onupdategrabfocus">variable OnUpdateGrabFocus</h3>
+<pre><code class="lang-cpp">FUxtUpdateGrabFocusDelegate OnUpdateGrabFocus;
+</code></pre>
+<p>Event raised when grab focus updates.</p>
+<h3 id="variable-onexitgrabfocus">variable OnExitGrabFocus</h3>
+<pre><code class="lang-cpp">FUxtExitGrabFocusDelegate OnExitGrabFocus;
+</code></pre>
+<p>Event raised when exiting grab.</p>
+<h3 id="variable-onbegingrab">variable OnBeginGrab</h3>
+<pre><code class="lang-cpp">FUxtBeginGrabDelegate OnBeginGrab;
+</code></pre>
+<p>Event raised when grab starts.</p>
+<h3 id="variable-onupdategrab">variable OnUpdateGrab</h3>
+<pre><code class="lang-cpp">FUxtUpdateGrabDelegate OnUpdateGrab;
+</code></pre>
+<p>Event raised when grab updates.</p>
+<h3 id="variable-onendgrab">variable OnEndGrab</h3>
+<pre><code class="lang-cpp">FUxtEndGrabDelegate OnEndGrab;
+</code></pre>
+<p>Event raised when grab ends.</p>
+<h3 id="variable-interactionmode">variable InteractionMode</h3>
+<pre><code class="lang-cpp">int32 InteractionMode;
+</code></pre>
+<p>Property that indicates if the object is grabbable with far or near interaction or both.</p>
+<h3 id="variable-grabmodes">variable GrabModes</h3>
+<pre><code class="lang-cpp">int32 GrabModes;
+</code></pre>
+<p>Enabled grab modes.</p>
+<hr>
+<p>Updated on 25 May 2021 at 15:08:44 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_u_uxt_grab_target_component.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
