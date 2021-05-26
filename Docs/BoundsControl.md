@@ -12,7 +12,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using _affordances_. Affordances are grabbable areas on corners (scale), edges (rotate), and faces (translate) of the actor's bounding box.
 
-To enable bounds control on an actor, add an `UUxtBoundsControlComponent` to it. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.
+To enable bounds control on an actor, add an `UxtBoundsControlComponent` to it. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.
 
 ![BoundsControlComponent](Images/BoundsControl.png)
 
@@ -33,7 +33,7 @@ There are some presets in _BoundsControl/Presets_:
 
 ## Integration with manipulator constraints
 
-The `UUxtBoundsControlComponent` works out of the box with the same constraint components that [Manipulators](./Manipulator.md) use. For example, simply adding and configuring a `UUxtRotationAxisConstraint` component will prevent rotation around the appropriate axes when interacting via affordances.
+The `UxtBoundsControlComponent` works out of the box with the same constraint components that [Manipulators](./Manipulator.md) use. For example, simply adding and configuring a `UxtRotationAxisConstraint` component will prevent rotation around the appropriate axes when interacting via affordances.
 
 ## Affordance meshes
 

@@ -50,7 +50,7 @@ The pinch slider actor has gained a number of quality of life improvements. Thes
 
 #### Constraint support
 
-Manipulation constraints (i.e. derived from `UUxtTransformConstraint`) now also apply to manipulations performed via [bounds control](BoundsControl.md), making it easier to produce a consistent behavior when manipulating transforms.
+Manipulation constraints (i.e. derived from `UxtTransformConstraint`) now also apply to manipulations performed via [bounds control](BoundsControl.md), making it easier to produce a consistent behavior when manipulating transforms.
 
 #### Uniform scaling
 
@@ -96,7 +96,7 @@ Most blueprints will continue to work with no issues but any blueprints that acc
 
 ### UxtHandConstraintComponent
 
-`UUxtHandConstraintComponent::IsHandUsableForConstraint()` is now a non-const member function.
+`UxtHandConstraintComponent::IsHandUsableForConstraint()` is now a non-const member function.
 
 ### UxtPinchSliderActor
 
@@ -115,9 +115,9 @@ Most blueprints will continue to work with no issues but any blueprints that acc
 
 ### UxtBoundsControlComponent
 
-Configuring each affordance's action separately is no longer allowed so, if any feature relied on that, an extension to the `UUxtBoundsControlComponent` should be implemented instead. Besides that, the `EUxtAffordanceAction::Resize` has been removed, so only `EUxtAffordanceAction::Scale` (action of corner affordances) can scale the object in the direction that the grabbed affordance is on, leaving the opposite affordance pinned to its location at the start of the interaction.
+Configuring each affordance's action separately is no longer allowed so, if any feature relied on that, an extension to the `UxtBoundsControlComponent` should be implemented instead. Besides that, the `EUxtAffordanceAction::Resize` has been removed, so only `EUxtAffordanceAction::Scale` (action of corner affordances) can scale the object in the direction that the grabbed affordance is on, leaving the opposite affordance pinned to its location at the start of the interaction.
 
-_Locked Axes_ property in `UUxtBoundsControlConfig` data assets no longer exists. Therefore, if you were using the _Locked Axes_ flags to constrain movement or rotation of an object, you should now add the appropriate `UUxtMoveAxisConstraint` or `UUxtRotationAxisConstraint` (respectively) instead.
+_Locked Axes_ property in `UxtBoundsControlConfig` data assets no longer exists. Therefore, if you were using the _Locked Axes_ flags to constrain movement or rotation of an object, you should now add the appropriate `UxtMoveAxisConstraint` or `UxtRotationAxisConstraint` (respectively) instead.
 
 The _MinimumBoundsScale_ and _MaximumBoundsScale_ properties have been removed in favor of using the `UxtMinMaxScaleConstraint` for controlling this behavior.
 

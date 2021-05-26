@@ -93,7 +93,7 @@ If a blueprint needs to respond to a button event externally, such as a button c
 
 ### Button Actor Variants
 
-A handful of derived `UxtPressableButtonActors` exist to exhibit behavior not found on a typical pressable button. Non-typical behavior includes a binary button state achieved with the `UUxtToggleGroup`. To control groups of mutually exclusive `UxtToggleStates` like [radio buttons](https://en.wikipedia.org/wiki/Radio_button). To make a group of buttons mutually exclusive supply a `UUxtToggleGroup` with a list of `UxtToggleStates`.
+A handful of derived `UxtPressableButtonActors` exist to exhibit behavior not found on a typical pressable button. Non-typical behavior includes a binary button state achieved with the `UxtToggleGroup`. To control groups of mutually exclusive `UxtToggleStates` like [radio buttons](https://en.wikipedia.org/wiki/Radio_button). To make a group of buttons mutually exclusive supply a `UxtToggleGroup` with a list of `UxtToggleStates`.
 
 - `UxtPressableToggleButton`, displays an additional back plate based on the button's `UxtToggleState` checked property.
 
@@ -107,7 +107,7 @@ A handful of derived `UxtPressableButtonActors` exist to exhibit behavior not fo
 
 ![ButtonActorSwitch](Images/PressableButton/ButtonActorSwitch.png)
 
-- `UxtPressableRadioButton`, displays a radio circle icon based on the button's `UxtToggleState` checked property. Radio buttons are intended to be used with the `UUxtToggleGroup` to ensure only one button is checked at a time.
+- `UxtPressableRadioButton`, displays a radio circle icon based on the button's `UxtToggleState` checked property. Radio buttons are intended to be used with the `UxtToggleGroup` to ensure only one button is checked at a time.
 
 ![ButtonActorRadio](Images/PressableButton/ButtonActorRadio.png)
 
