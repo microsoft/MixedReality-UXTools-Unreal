@@ -113,14 +113,7 @@ AUxtPressableButtonActor::AUxtPressableButtonActor()
 	ButtonBrush.Visuals.TogglePlateMaterial = DefaultTogglePlateMaterial.Object;
 	ButtonBrush.Audio.PressedSound = DefaultPressedSound.Object;
 	ButtonBrush.Audio.ReleasedSound = DefaultReleasedSound.Object;
-
-	// Apply default button settings and subscriptions.
 	ButtonComponent->SetPushBehavior(EUxtPushBehavior::Compress);
-	ButtonComponent->OnButtonPressed.AddDynamic(this, &AUxtPressableButtonActor::OnButtonPressed);
-	ButtonComponent->OnButtonReleased.AddDynamic(this, &AUxtPressableButtonActor::OnButtonReleased);
-	ButtonComponent->OnBeginFocus.AddDynamic(this, &AUxtPressableButtonActor::OnBeginFocus);
-	ButtonComponent->OnButtonEnabled.AddDynamic(this, &AUxtPressableButtonActor::OnButtonEnabled);
-	ButtonComponent->OnButtonDisabled.AddDynamic(this, &AUxtPressableButtonActor::OnButtonDisabled);
 
 	// Create the component hierarchy.
 	BackPlatePivotComponent = CreateAndAttachComponent<USceneComponent>(TEXT("BackPlatePivot"), RootComponent);
@@ -148,6 +141,18 @@ void AUxtPressableButtonActor::OnConstruction(const FTransform& Transform)
 	ConstructVisuals();
 	ConstructIcon();
 	ConstructLabel();
+}
+
+void AUxtPressableButtonActor::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Setup the default button subscriptions. (Add unique so that previously serialized buttons don't assert.)
+	ButtonComponent->OnButtonPressed.AddUniqueDynamic(this, &AUxtPressableButtonActor::OnButtonPressed);
+	ButtonComponent->OnButtonReleased.AddUniqueDynamic(this, &AUxtPressableButtonActor::OnButtonReleased);
+	ButtonComponent->OnBeginFocus.AddUniqueDynamic(this, &AUxtPressableButtonActor::OnBeginFocus);
+	ButtonComponent->OnButtonEnabled.AddUniqueDynamic(this, &AUxtPressableButtonActor::OnButtonEnabled);
+	ButtonComponent->OnButtonDisabled.AddUniqueDynamic(this, &AUxtPressableButtonActor::OnButtonDisabled);
 }
 
 void AUxtPressableButtonActor::Tick(float DeltaTime)
@@ -211,7 +216,13 @@ void ApplyTextBrushToText(UTextRenderComponent* Text, const FUxtTextBrush& TextB
 	Text->SetRelativeRotation(TextBrush.RelativeRotation);
 	Text->SetWorldSize(TextBrush.Size);
 	Text->SetFont(TextBrush.Font);
-	Text->SetMaterial(0, TextBrush.Material);
+
+	// Avoid updating the render state if the material is the same.
+	if (!UUxtInternalFunctionLibrary::IsSameOrParentMaterial(Text->GetMaterial(0), TextBrush.Material))
+	{
+		Text->SetMaterial(0, TextBrush.Material);
+	}
+
 	Text->SetTextRenderColor(TextBrush.DefaultColor);
 }
 

@@ -77,6 +77,9 @@ public:
 	virtual void SetFocusLocked(bool bLocked) override;
 	virtual UObject* GetFocusTarget() const override;
 	virtual FTransform GetCursorTransform() const override;
+	virtual bool TraceFromPointer(
+		struct FHitResult& OutHit, const TArray<UPrimitiveComponent*>& IgnoreComponents,
+		const TArray<AActor*>& IgnoreActors) const override;
 
 private:
 	/** Called every tick to update the pointer pose with the latest information from the hand tracker. */

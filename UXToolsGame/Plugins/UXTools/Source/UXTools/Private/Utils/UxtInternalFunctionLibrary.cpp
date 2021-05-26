@@ -7,6 +7,8 @@
 #include "Engine/Font.h"
 #include "Engine/Texture2D.h"
 
+#include <Materials/MaterialInstanceDynamic.h>
+
 bool UUxtInternalFunctionLibrary::HexCodePointToFString(const FString& Input, FString& Output)
 {
 	TCHAR Char = (TCHAR)FCString::Strtoi(*Input, nullptr, 16);
@@ -132,4 +134,22 @@ FVector UUxtInternalFunctionLibrary::Slerp(const FVector& Vector1, const FVector
 	float ResultSize = FMath::Lerp(Vector1Size, Vector2Size, Slerp);
 
 	return ResultDir * ResultSize;
+}
+
+bool UUxtInternalFunctionLibrary::IsSameOrParentMaterial(const UMaterialInterface* ExistingMaterial, const UMaterialInterface* NewMaterial)
+{
+	if (ExistingMaterial == NewMaterial)
+	{
+		return true;
+	}
+
+	if (const UMaterialInstanceDynamic* MID = Cast<UMaterialInstanceDynamic>(ExistingMaterial))
+	{
+		if (MID->Parent == NewMaterial)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

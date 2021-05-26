@@ -94,4 +94,7 @@ public:
 	{
 		return (Other == Parent) || (Other->IsAttachedTo(Parent));
 	}
+
+	/** Returns true if the two materials are the same or the new material is the parent of the existing. */
+	static bool IsSameOrParentMaterial(const UMaterialInterface* ExistingMaterial, const UMaterialInterface* NewMaterial);
 };

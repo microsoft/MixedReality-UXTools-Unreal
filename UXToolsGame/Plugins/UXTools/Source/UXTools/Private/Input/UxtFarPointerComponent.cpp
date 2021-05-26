@@ -91,6 +91,21 @@ FTransform UUxtFarPointerComponent::GetCursorTransform() const
 	return Transform;
 }
 
+bool UUxtFarPointerComponent::TraceFromPointer(
+	struct FHitResult& OutHit, const TArray<UPrimitiveComponent*>& IgnoreComponents, const TArray<AActor*>& IgnoreActors) const
+{
+	const FVector Forward = PointerOrientation.GetForwardVector();
+	FVector Start = PointerOrigin + Forward * RayStartOffset;
+	FVector End = Start + Forward * RayLength;
+
+	// Disable complex collision to enable overlap from inside primitives and add ignored components/actors.
+	FCollisionQueryParams QueryParams(NAME_None, false);
+	QueryParams.AddIgnoredComponents(IgnoreComponents);
+	QueryParams.AddIgnoredActors(IgnoreActors);
+
+	return GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, TraceChannel, QueryParams);
+}
+
 // Finds the far target a primitive belongs to, if any
 static UObject* FindFarTarget(UPrimitiveComponent* Primitive)
 {

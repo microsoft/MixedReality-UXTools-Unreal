@@ -44,6 +44,9 @@ public:
 
 	virtual UObject* GetFocusTarget() const override;
 	virtual FTransform GetCursorTransform() const override;
+	virtual bool TraceFromPointer(
+		struct FHitResult& OutHit, const TArray<UPrimitiveComponent*>& IgnoreComponents,
+		const TArray<AActor*>& IgnoreActors) const override;
 
 	/** Update poke distances and detect if poking the target. */
 	void UpdatePokeInteraction();

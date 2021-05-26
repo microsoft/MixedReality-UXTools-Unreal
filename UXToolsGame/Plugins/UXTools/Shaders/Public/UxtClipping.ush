@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+#ifndef UXT_CLIPPING
+#define UXT_CLIPPING
+
+#define UXT_FLOAT_MAX 3.402823466e+38
+
+// Derived from distance functions provided from: https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
+float UxtPointVsBox(float3 WorldPosition, float4x4 InverseTransform)
+{
+	float3 distance = abs(mul(InverseTransform, float4(WorldPosition, 1.0))) - 0.5;
+	return -(length(max(distance, 0.0)) + min(max(distance.x, max(distance.y, distance.z)), 0.0));
+}
+
+float4x4 UxtCreateMatrixFromColumns(float4 c0, float4 c1, float4 c2, float4 c3)
+{
+	return float4x4(c0.x, c1.x, c2.x, c3.x, c0.y, c1.y, c2.y, c3.y, c0.z, c1.z, c2.z, c3.z, c0.w, c1.w, c2.w, c3.w);
+}
+
+float UxtClippingBox(
+	FMaterialPixelParameters Parameters, float4 Settings, float4 TransformColumn0, float4 TransformColumn1, float4 TransformColumn2,
+	float4 TransformColumn3)
+{
+	return (Settings.x > 0) ? UxtPointVsBox(
+								  GetWorldPosition(Parameters),
+								  UxtCreateMatrixFromColumns(TransformColumn0, TransformColumn1, TransformColumn2, TransformColumn3))
+							: UXT_FLOAT_MAX;
+}
+
+#endif // UXT_CLIPPING

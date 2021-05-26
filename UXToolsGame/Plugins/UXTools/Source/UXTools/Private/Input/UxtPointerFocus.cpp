@@ -136,7 +136,7 @@ void FUxtPointerFocus::SetFocus(
 	else
 	{
 		// Update focused target
-		if (FocusedPrimitive && FocusedTarget && ImplementsTargetInterface(FocusedTarget))
+		if (FocusedPrimitive && FocusedTarget && ImplementsTargetInterface(FocusedTarget) && Pointer)
 		{
 			RaiseExitFocusEvent(FocusedPrimitive, Pointer);
 		}
@@ -148,7 +148,7 @@ void FUxtPointerFocus::SetFocus(
 		ClosestTargetPoint = FocusResult.ClosestPointOnTarget;
 		ClosestTargetNormal = FocusResult.Normal;
 
-		if (FocusedPrimitive && FocusedTarget && ImplementsTargetInterface(FocusedTarget))
+		if (FocusedPrimitive && FocusedTarget && ImplementsTargetInterface(FocusedTarget) && Pointer)
 		{
 			RaiseEnterFocusEvent(FocusedPrimitive, Pointer);
 		}

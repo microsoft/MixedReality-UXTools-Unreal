@@ -18,7 +18,7 @@ class UXTOOLS_API UUxtCollectionObject : public UInterface
 	GENERATED_BODY()
 };
 
-/** Interface for components that can be poked. */
+/** Interface for components that can be poked within a UUxtScrollingObjectCollectionComponent. */
 class UXTOOLS_API IUxtCollectionObject
 {
 	GENERATED_BODY()

@@ -111,6 +111,58 @@ bool UUxtGenericManipulatorComponent::IsNearManipulation() const
 	return GetGrabPointers()[0].NearPointer != nullptr;
 }
 
+bool UUxtGenericManipulatorComponent::IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	if ((TargetPrimitiveComponent == FComponentReference()) == false) // Ensure the reference is not the default.
+	{
+		if (UPrimitiveComponent* Reference = Cast<UPrimitiveComponent>(TargetPrimitiveComponent.GetComponent(GetOwner())))
+		{
+			return Primitive == Reference;
+		}
+	}
+
+	return Super::IsGrabFocusable_Implementation(Primitive);
+}
+
+bool UUxtGenericManipulatorComponent::CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const
+{
+	if ((TargetPrimitiveComponent == FComponentReference()) == false) // Ensure the reference is not the default.
+	{
+		if (UPrimitiveComponent* Reference = Cast<UPrimitiveComponent>(TargetPrimitiveComponent.GetComponent(GetOwner())))
+		{
+			return Primitive == Reference;
+		}
+	}
+
+	return Super::CanHandleGrab_Implementation(Primitive);
+}
+
+bool UUxtGenericManipulatorComponent::IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const
+{
+	if ((TargetPrimitiveComponent == FComponentReference()) == false) // Ensure the reference is not the default.
+	{
+		if (UPrimitiveComponent* Reference = Cast<UPrimitiveComponent>(TargetPrimitiveComponent.GetComponent(GetOwner())))
+		{
+			return Primitive == Reference;
+		}
+	}
+
+	return Super::IsFarFocusable_Implementation(Primitive);
+}
+
+bool UUxtGenericManipulatorComponent::CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const
+{
+	if ((TargetPrimitiveComponent == FComponentReference()) == false) // Ensure the reference is not the default.
+	{
+		if (UPrimitiveComponent* Reference = Cast<UPrimitiveComponent>(TargetPrimitiveComponent.GetComponent(GetOwner())))
+		{
+			return Primitive == Reference;
+		}
+	}
+
+	return Super::CanHandleFar_Implementation(Primitive);
+}
+
 void UUxtGenericManipulatorComponent::UpdateOneHandManipulation(float DeltaTime)
 {
 	if (!(GrabModes & static_cast<int32>(EUxtGrabMode::OneHanded)))

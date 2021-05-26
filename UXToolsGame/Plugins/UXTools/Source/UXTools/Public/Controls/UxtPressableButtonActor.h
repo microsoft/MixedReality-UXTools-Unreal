@@ -35,6 +35,9 @@ public:
 	/** Creates (and initializes) the button hierarchy when properties are changed. */
 	virtual void OnConstruction(const FTransform& Transform) override;
 
+	/** Sets up the button's subscriptions. */
+	virtual void BeginPlay() override;
+
 	/** Conditional tick method which occurs when a button needs to animate. */
 	virtual void Tick(float DeltaTime) override;
 

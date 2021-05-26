@@ -28,6 +28,22 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
+	//
+	// IUxtGrabTarget interface
+	virtual bool IsGrabFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtGrabHandler interface
+	virtual bool CanHandleGrab_Implementation(UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtFarTarget interface
+	virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent* Primitive) const override;
+
+	//
+	// IUxtFarHandler interface
+	virtual bool CanHandleFar_Implementation(UPrimitiveComponent* Primitive) const override;
+
 	void UpdateOneHandManipulation(float DeltaSeconds);
 	void UpdateTwoHandManipulation(float DeltaSeconds);
 
@@ -57,6 +73,12 @@ public:
 	UPROPERTY(
 		EditAnywhere, Category = "Uxt Generic Manipulator", AdvancedDisplay, meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference TargetComponent;
+
+	/** The primitive component to use from interaction filtering, will default to all the actor's primitive component if not specified */
+	UPROPERTY(
+		EditAnywhere, Category = "Uxt Generic Manipulator", AdvancedDisplay,
+		meta = (UseComponentPicker, AllowedClasses = "PrimitiveComponent"))
+	FComponentReference TargetPrimitiveComponent;
 
 	/**
 	 * Interpolation time for smoothed movement while manipulating.

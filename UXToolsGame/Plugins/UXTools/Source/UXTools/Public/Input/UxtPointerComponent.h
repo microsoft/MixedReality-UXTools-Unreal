@@ -40,6 +40,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Uxt Pointer")
 	virtual FTransform GetCursorTransform() const PURE_VIRTUAL(UUxtPointerComponent::GetCursorTransform, return FTransform::Identity;);
 
+	/** Performs a collision trace based on the pointer's tracing strategy. */
+	UFUNCTION(BlueprintCallable, Category = "Uxt Pointer")
+	virtual bool TraceFromPointer(
+		struct FHitResult& OutHit, const TArray<UPrimitiveComponent*>& IgnoreComponents, const TArray<AActor*>& IgnoreActors) const
+		PURE_VIRTUAL(UUxtPointerComponent::TraceFromPointer, return false;);
+
 public:
 	/** The hand to be used for targeting. TODO: replace with generic input device. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Pointer")

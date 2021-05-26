@@ -362,6 +362,33 @@ FTransform UUxtNearPointerComponent::GetCursorTransform() const
 	return GetPokePointerTransform();
 }
 
+bool UUxtNearPointerComponent::TraceFromPointer(
+	struct FHitResult& OutHit, const TArray<UPrimitiveComponent*>& IgnoreComponents, const TArray<AActor*>& IgnoreActors) const
+{
+	const FVector ProximityCenter = GrabPointerTransform.GetLocation();
+
+	// Disable complex collision to enable overlap from inside primitives and add ignored components/actors.
+	FCollisionQueryParams QueryParams(NAME_None, false);
+	QueryParams.AddIgnoredComponents(IgnoreComponents);
+	QueryParams.AddIgnoredActors(IgnoreActors);
+
+	TArray<FOverlapResult> Overlaps;
+	if (GetWorld()->OverlapMultiByChannel(
+			Overlaps, ProximityCenter, FQuat::Identity, TraceChannel, FCollisionShape::MakeSphere(ProximityRadius), QueryParams))
+	{
+		FUxtPokePointerFocus TracePokeFocus;
+		TracePokeFocus.SelectClosestTarget(nullptr, PokePointerTransform, Overlaps);
+
+		OutHit = FHitResult(
+			TracePokeFocus.GetFocusedPrimitive()->GetOwner(), TracePokeFocus.GetFocusedPrimitive(), TracePokeFocus.GetClosestTargetPoint(),
+			TracePokeFocus.GetClosestTargetNormal());
+
+		return true;
+	}
+
+	return false;
+}
+
 void UUxtNearPointerComponent::UpdatePokeInteraction()
 {
 	FVector PokePointerLocation = GetPokePointerTransform().GetLocation();

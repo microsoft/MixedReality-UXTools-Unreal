@@ -8,9 +8,11 @@
 #include "UxtIconBrushCustomization.h"
 #include "UxtManipulatorComponentCustomization.h"
 #include "UxtPressableButtonComponentVisualizer.h"
+#include "UxtScrollingObjectCollectionComponentVisualizer.h"
 #include "UxtTooltipSpawnerComponentVisualizer.h"
 
 #include "Controls/UxtIconBrush.h"
+#include "Controls/UxtScrollingObjectCollectionComponent.h"
 #include "Editor/UnrealEdEngine.h"
 #include "Interactions/UxtManipulatorComponent.h"
 #include "Tooltips/UxtTooltipSpawnerComponent.h"
@@ -26,17 +28,25 @@ void FUXToolsEditorModule::StartupModule()
 	if (GUnrealEd)
 	{
 		// Register visualizers
-		TSharedPtr<FComponentVisualizer> Visualizer = MakeShareable(new FUxtPressableButtonComponentVisualizer());
+		TSharedPtr<FComponentVisualizer> PressableButtonVisualizer = MakeShareable(new FUxtPressableButtonComponentVisualizer());
 		TSharedPtr<FComponentVisualizer> TooltipVisualizer = MakeShareable(new FUxtTooltipSpawnerComponentVisualizer());
+		TSharedPtr<FComponentVisualizer> ScrollingObjectCollectionVisualizer =
+			MakeShareable(new FUxtScrollingObjectCollectionComponentVisualizer());
 
-		if (Visualizer.IsValid())
+		if (PressableButtonVisualizer.IsValid())
 		{
-			GUnrealEd->RegisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName(), Visualizer);
-			Visualizer->OnRegister();
+			GUnrealEd->RegisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName(), PressableButtonVisualizer);
+			PressableButtonVisualizer->OnRegister();
 		}
 		if (TooltipVisualizer.IsValid())
 		{
 			GUnrealEd->RegisterComponentVisualizer(UUxtTooltipSpawnerComponent::StaticClass()->GetFName(), TooltipVisualizer);
+			TooltipVisualizer->OnRegister();
+		}
+		if (ScrollingObjectCollectionVisualizer.IsValid())
+		{
+			GUnrealEd->RegisterComponentVisualizer(
+				UUxtScrollingObjectCollectionComponent::StaticClass()->GetFName(), ScrollingObjectCollectionVisualizer);
 			TooltipVisualizer->OnRegister();
 		}
 	}
@@ -56,6 +66,7 @@ void FUXToolsEditorModule::ShutdownModule()
 	if (GUnrealEd)
 	{
 		// Unregister visualizers
+		GUnrealEd->UnregisterComponentVisualizer(UUxtScrollingObjectCollectionComponent::StaticClass()->GetFName());
 		GUnrealEd->UnregisterComponentVisualizer(UUxtTooltipSpawnerComponent::StaticClass()->GetFName());
 		GUnrealEd->UnregisterComponentVisualizer(UUxtPressableButtonComponent::StaticClass()->GetFName());
 	}
