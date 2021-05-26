@@ -4,7 +4,7 @@
 
 UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example assets created to help you add in features commonly needed when you're developing UX for Mixed Reality applications.
 
-| NOTE: Only HoloLens 2 development is supported at the moment. |
+| NOTE: All OpenXR devices should be supported, although only HoloLens 2 and Windows Mixed Reality VR devices have been tested. |
 | --- |
 
 ![Features](Docs/Images/Features.png)
@@ -13,15 +13,15 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 
 If you're new to MRTK or Mixed Reality development in Unreal, **we recommend starting at the beginning of our** [Unreal development journey](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview) in the Microsoft Docs. The Unreal development journey is specifically tailored to walk new developers through the installation, core concepts, and usage of the UX Tools.
 
-| CAUTION: The Unreal development journey currently uses **UX Tools 0.11.x** and **Unreal 4.26.0+**. |
+| CAUTION: The Unreal development journey currently uses **UX Tools 0.12.x** and **Unreal 4.26.0+**. |
 | --- |
 
 If you're already familiar with Mixed Reality development in Unreal, you can find the installation instructions for the UX Tools plugin [here](Docs/Installation.md).
 
 # Documentation
 
-| [![Getting Started and Documentation](Docs/Images/MRTK_Icon_Welcome.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/Docs/WelcomeToUXTools.html)<br/>[Welcome to UX Tools](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/Docs/InputSimulation.html)<br/>[Feature Guides](https://microsoft.github.io/MixedReality-UXTools-Unreal/Docs/InputSimulation.html)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/api/_a_uxt_hand_interaction_actor.html)|
-|:---|:---|:---
+| [![Release Notes](Docs/Images/MRTK_Icon_ReleaseNotes.png)](Docs/ReleaseNotes.md)<br/>[Release Notes](Docs/ReleaseNotes.md) | [![Getting Started and Documentation](Docs/Images/MRTK_Icon_Welcome.png)](Docs/WelcomeToUXTools.md)<br/>[Welcome to UX Tools](Docs/WelcomeToUXTools.md)| [![Feature Guides](Docs/Images/MRTK_Icon_FeatureGuides.png)](Docs/InputSimulation.md)<br/>[Feature Guides](Docs/InputSimulation.md)| [![API Reference](Docs/Images/MRTK_Icon_APIReference.png)](https://microsoft.github.io/MixedReality-UXTools-Unreal/api/_a_uxt_hand_interaction_actor.html)<br/>[API Reference](https://microsoft.github.io/MixedReality-UXTools-Unreal/api/_a_uxt_hand_interaction_actor.html)|
+|:---|:---|:--- |:---
 
 # Required software
 
@@ -40,8 +40,8 @@ If you're already familiar with Mixed Reality development in Unreal, you can fin
 | Hand-attached UI great for frequently used functions | Floating menu UI for near interactions | A component that allows hand-driven interactions with Unreal's UMG widgets |
 | [![Tap to Place](Docs/Images/FeatureCards/TapToPlace.png)](Docs/TapToPlaceComponent.md) [Tap to Place](Docs/TapToPlaceComponent.md) | [![Follow Behavior](Docs/Images/FeatureCards/FollowComponent.png)](Docs/FollowComponent.md) [Follow Behavior](Docs/FollowComponent.md) | [![Surface Magnetism](Docs/Images/FeatureCards/SurfaceMagnetism.png)](Docs/SurfaceMagnetism.md) [Surface Magnetism](Docs/SurfaceMagnetism.md) |
 | A component that can be used to easily place primitive components against surfaces | A component used to keep objects "following" the user by applying a set of constraints on the component's owner | A component that allows an actor to stick to a surface |
-| [![UI Element](Docs/Images/FeatureCards/UIElement.png)](Docs/UIElements.md) [UI Element](Docs/UIElements.md) |
-| A component that allows an actor's visibility to be controlled by its parent actor, allowing for easy construction of hierarchical UIs |
+| [![UI Element](Docs/Images/FeatureCards/UIElement.png)](Docs/UIElements.md) [UI Element](Docs/UIElements.md) | [![Tooltips](Docs/Images/FeatureCards/Tooltips.png)](Docs/Tooltip.md) [Tooltips](Docs/Tooltip.md) | [![Touchable Volume](Docs/Images/FeatureCards/TouchableVolume.png)](Docs/TouchableVolume.md) [Touchable Volume](Docs/TouchableVolume.md) |
+| A component that allows an actor's visibility to be controlled by its parent actor, allowing for easy construction of hierarchical UIs | Annotation UI with a flexible anchor/pivot system, which can be used for labeling objects | A component that allows the user to interact with an object by touching it|
 
 # Tools
 
