@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class UUxtTouchableVolumeComponent
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference UUxtTouchableVolumeComponent | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class UUxtTouchableVolumeComponent
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference UUxtTouchableVolumeComponent | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,1174 +80,513 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_u_uxt_touchable_volume_component">
-  
-  
-  <h1 id="_u_uxt_touchable_volume_component" data-uid="_u_uxt_touchable_volume_component" class="text-break">Class UUxtTouchableVolumeComponent
-  </h1>
-  <div class="markdown level0 summary"><p>Component that turns the actor it is attached to into a touchable volume. </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System::Object</span></div>
-    <div class="level1"><span class="xref">USceneComponent</span></div>
-    <div class="level2"><a class="xref" href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></div>
-    <div class="level3"><span class="xref">UUxtTouchableVolumeComponent</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_CanHandleFar_UPrimitiveComponent___">IUxtFarHandler::CanHandleFar(UPrimitiveComponent *Primitive)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_CanHandlePoke_UPrimitiveComponent___">IUxtPokeHandler::CanHandlePoke(UPrimitiveComponent *Primitive)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_GetClosestPoint_const_UPrimitiveComponent___const_FVector___FVector___FVector___">IUxtPokeTarget::GetClosestPoint(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_GetPokeBehaviour__">IUxtPokeTarget::GetPokeBehaviour()</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_GetUIVisibilityInHierarchy__">UUxtUIElementComponent::GetUIVisibilityInHierarchy()</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_GetUIVisibilitySelf__">UUxtUIElementComponent::GetUIVisibilitySelf()</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_IsFarFocusable_const_UPrimitiveComponent___">IUxtFarTarget::IsFarFocusable(const UPrimitiveComponent *Primitive)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_target.html#_i_uxt_poke_target_IsPokeFocusable_const_UPrimitiveComponent___">IUxtPokeTarget::IsPokeFocusable(const UPrimitiveComponent *Primitive)</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_OnAttachmentChanged__">UUxtUIElementComponent::OnAttachmentChanged()</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnBeginPoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnBeginPoke(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnEndPoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnEndPoke(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnEnterFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnEnterFarFocus(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnEnterPokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnEnterPokeFocus(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnExitFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnExitFarFocus(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnExitPokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnExitPokeFocus(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarDragged_UUxtFarPointerComponent___">IUxtFarHandler::OnFarDragged(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarPressed_UUxtFarPointerComponent___">IUxtFarHandler::OnFarPressed(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarReleased_UUxtFarPointerComponent___">IUxtFarHandler::OnFarReleased(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_OnHideElement">UUxtUIElementComponent::OnHideElement</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_OnShowElement">UUxtUIElementComponent::OnShowElement</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnUpdatedFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnUpdatedFarFocus(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnUpdatePoke_UUxtNearPointerComponent___">IUxtPokeHandler::OnUpdatePoke(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_poke_handler.html#_i_uxt_poke_handler_OnUpdatePokeFocus_UUxtNearPointerComponent___">IUxtPokeHandler::OnUpdatePokeFocus(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_RefreshUIElement__">UUxtUIElementComponent::RefreshUIElement()</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_SetUIVisibility_EUxtUIElementVisibility_">UUxtUIElementComponent::SetUIVisibility(EUxtUIElementVisibility NewVisibility)</a>
-    </div>
-    <div>
-      <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_UUxtUIElementComponent__">UUxtUIElementComponent::UUxtUIElementComponent()</a>
-    </div>
-  </div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_u_uxt_touchable_volume_component_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: class UUxtTouchableVolumeComponent : public xtUIElementComponent, public xtPokeTarget, public xtPokeHandler, public xtFarTarget, public xtFarHandler</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnBeginFocus.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnBeginFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L69">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnBeginFocus" data-uid="_u_uxt_touchable_volume_component.OnBeginFocus">OnBeginFocus</h4>
-  <div class="markdown level1 summary"><p>Event raised when a pointer starts focusing the touchable volume. WasFocused indicates if the volume was already focused by another pointer. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeBeginFocusDelegate OnBeginFocus</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeBeginFocusDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnBeginPoke.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnBeginPoke%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L82">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnBeginPoke" data-uid="_u_uxt_touchable_volume_component.OnBeginPoke">OnBeginPoke</h4>
-  <div class="markdown level1 summary"><p>Event raised when a pointer starts poking the touchable volume. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeBeginPokeDelegate OnBeginPoke</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeBeginPokeDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnEndFocus.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnEndFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L78">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnEndFocus" data-uid="_u_uxt_touchable_volume_component.OnEndFocus">OnEndFocus</h4>
-  <div class="markdown level1 summary"><p>Event raised when a pointer ends focusing the touchable volume. IsFocused indicates if the volume is still focused by another pointer. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeEndFocusDelegate OnEndFocus</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeEndFocusDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnEndPoke.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnEndPoke%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L90">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnEndPoke" data-uid="_u_uxt_touchable_volume_component.OnEndPoke">OnEndPoke</h4>
-  <div class="markdown level1 summary"><p>Event raised when a pointer ends poking the touchable volume. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeEndPokeDelegate OnEndPoke</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeEndPokeDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnUpdateFocus.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnUpdateFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L73">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnUpdateFocus" data-uid="_u_uxt_touchable_volume_component.OnUpdateFocus">OnUpdateFocus</h4>
-  <div class="markdown level1 summary"><p>Event raised when a focusing pointer updates. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeUpdateFocusDelegate OnUpdateFocus</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeUpdateFocusDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnUpdatePoke.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnUpdatePoke%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L86">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnUpdatePoke" data-uid="_u_uxt_touchable_volume_component.OnUpdatePoke">OnUpdatePoke</h4>
-  <div class="markdown level1 summary"><p>Event raised while a pointer is poking the touchable volume. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeUpdatePokeDelegate OnUpdatePoke</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeUpdatePokeDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnVolumeDisabled.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnVolumeDisabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L98">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnVolumeDisabled" data-uid="_u_uxt_touchable_volume_component.OnVolumeDisabled">OnVolumeDisabled</h4>
-  <div class="markdown level1 summary"><p>Event raised when the volume is disabled. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeDisabledDelegate OnVolumeDisabled</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeDisabledDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnVolumeEnabled.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnVolumeEnabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L94">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_OnVolumeEnabled" data-uid="_u_uxt_touchable_volume_component.OnVolumeEnabled">OnVolumeEnabled</h4>
-  <div class="markdown level1 summary"><p>Event raised when the volume is enabled. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtVolumeEnabledDelegate OnVolumeEnabled</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtVolumeEnabledDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_TouchablePrimitives.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.TouchablePrimitives%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L61">View Source</a>
-  </span>
-  <h4 id="_u_uxt_touchable_volume_component_TouchablePrimitives" data-uid="_u_uxt_touchable_volume_component.TouchablePrimitives">TouchablePrimitives</h4>
-  <div class="markdown level1 summary"><p>List of primitives used as touchable targets. If the list is empty then all primitives of the actor are used. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: TSet&lt;UPrimitiveComponent *&gt; TouchablePrimitives</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>TSet&lt;UPrimitiveComponent *&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L40">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_BeginPlay_" data-uid="_u_uxt_touchable_volume_component.BeginPlay*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_BeginPlay__" data-uid="_u_uxt_touchable_volume_component.BeginPlay()">BeginPlay()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
-  </div>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_BeginPlay__">UUxtUIElementComponent::BeginPlay()</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_CanHandleFar_Implementation_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.CanHandleFar_Implementation(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L246">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_CanHandleFar_Implementation_" data-uid="_u_uxt_touchable_volume_component.CanHandleFar_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_CanHandleFar_Implementation_UPrimitiveComponent___" data-uid="_u_uxt_touchable_volume_component.CanHandleFar_Implementation(UPrimitiveComponent *)">CanHandleFar_Implementation(UPrimitiveComponent *Primitive)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool CanHandleFar_Implementation(UPrimitiveComponent *Primitive) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_CanHandlePoke_Implementation_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.CanHandlePoke_Implementation(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L163">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_CanHandlePoke_Implementation_" data-uid="_u_uxt_touchable_volume_component.CanHandlePoke_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_CanHandlePoke_Implementation_UPrimitiveComponent___" data-uid="_u_uxt_touchable_volume_component.CanHandlePoke_Implementation(UPrimitiveComponent *)">CanHandlePoke_Implementation(UPrimitiveComponent *Primitive)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool CanHandlePoke_Implementation(UPrimitiveComponent *Primitive) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_GetClosestPoint_Implementation_const_UPrimitiveComponent___const_FVector___FVector___FVector___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.GetClosestPoint_Implementation(const%20UPrimitiveComponent%20*%2Cconst%20FVector%20%26%2CFVector%20%26%2CFVector%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L69">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_GetClosestPoint_Implementation_" data-uid="_u_uxt_touchable_volume_component.GetClosestPoint_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_GetClosestPoint_Implementation_const_UPrimitiveComponent___const_FVector___FVector___FVector___" data-uid="_u_uxt_touchable_volume_component.GetClosestPoint_Implementation(const UPrimitiveComponent *,const FVector &amp;,FVector &amp;,FVector &amp;)">GetClosestPoint_Implementation(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool GetClosestPoint_Implementation(const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>const FVector &amp;</td>
-        <td><span class="parametername">Point</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>FVector &amp;</td>
-        <td><span class="parametername">OutClosestPoint</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>FVector &amp;</td>
-        <td><span class="parametername">OutNormal</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_GetPokeBehaviour_Implementation__.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.GetPokeBehaviour_Implementation()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L226">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_GetPokeBehaviour_Implementation_" data-uid="_u_uxt_touchable_volume_component.GetPokeBehaviour_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_GetPokeBehaviour_Implementation__" data-uid="_u_uxt_touchable_volume_component.GetPokeBehaviour_Implementation()">GetPokeBehaviour_Implementation()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>EUxtPokeBehaviour</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.IsFarFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L231">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_IsFarFocusable_Implementation_" data-uid="_u_uxt_touchable_volume_component.IsFarFocusable_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_touchable_volume_component.IsFarFocusable_Implementation(const UPrimitiveComponent *)">IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_IsPokeFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.IsPokeFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L148">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_IsPokeFocusable_Implementation_" data-uid="_u_uxt_touchable_volume_component.IsPokeFocusable_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_IsPokeFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_touchable_volume_component.IsPokeFocusable_Implementation(const UPrimitiveComponent *)">IsPokeFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool IsPokeFocusable_Implementation(const UPrimitiveComponent *Primitive) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnBeginPoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnBeginPoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L193">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnBeginPoke_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnBeginPoke_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnBeginPoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnBeginPoke_Implementation(UUxtNearPointerComponent *)">OnBeginPoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnBeginPoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnEndPoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnEndPoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L213">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnEndPoke_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnEndPoke_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnEndPoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnEndPoke_Implementation(UUxtNearPointerComponent *)">OnEndPoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnEndPoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L261">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnEnterFarFocus_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnEnterFarFocus_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent *)">OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnEnterPokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnEnterPokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L178">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnEnterPokeFocus_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnEnterPokeFocus_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnEnterPokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *)">OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterPokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L271">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnExitFarFocus_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnExitFarFocus_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent *)">OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnExitPokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnExitPokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L188">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnExitPokeFocus_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnExitPokeFocus_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnExitPokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnExitPokeFocus_Implementation(UUxtNearPointerComponent *)">OnExitPokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnExitPokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnFarPressed_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnFarPressed_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L276">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnFarPressed_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnFarPressed_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnFarPressed_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnFarPressed_Implementation(UUxtFarPointerComponent *)">OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnFarReleased_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnFarReleased_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L285">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnFarReleased_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnFarReleased_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnFarReleased_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnFarReleased_Implementation(UUxtFarPointerComponent *)">OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnInputTouchBeginHandler_ETouchIndex__Type_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnInputTouchBeginHandler(ETouchIndex%3A%3AType%2CUPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L90">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnInputTouchBeginHandler_" data-uid="_u_uxt_touchable_volume_component.OnInputTouchBeginHandler*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnInputTouchBeginHandler_ETouchIndex__Type_UPrimitiveComponent___" data-uid="_u_uxt_touchable_volume_component.OnInputTouchBeginHandler(ETouchIndex::Type,UPrimitiveComponent *)">OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent *TouchedComponent)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: void OnInputTouchBeginHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent *TouchedComponent)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>ETouchIndex::Type</td>
-        <td><span class="parametername">FingerIndex</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">TouchedComponent</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnInputTouchEndHandler_ETouchIndex__Type_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnInputTouchEndHandler(ETouchIndex%3A%3AType%2CUPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L100">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnInputTouchEndHandler_" data-uid="_u_uxt_touchable_volume_component.OnInputTouchEndHandler*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnInputTouchEndHandler_ETouchIndex__Type_UPrimitiveComponent___" data-uid="_u_uxt_touchable_volume_component.OnInputTouchEndHandler(ETouchIndex::Type,UPrimitiveComponent *)">OnInputTouchEndHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent *TouchedComponent)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: void OnInputTouchEndHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent *TouchedComponent)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>ETouchIndex::Type</td>
-        <td><span class="parametername">FingerIndex</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">TouchedComponent</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnInputTouchLeaveHandler_ETouchIndex__Type_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnInputTouchLeaveHandler(ETouchIndex%3A%3AType%2CUPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L112">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnInputTouchLeaveHandler_" data-uid="_u_uxt_touchable_volume_component.OnInputTouchLeaveHandler*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnInputTouchLeaveHandler_ETouchIndex__Type_UPrimitiveComponent___" data-uid="_u_uxt_touchable_volume_component.OnInputTouchLeaveHandler(ETouchIndex::Type,UPrimitiveComponent *)">OnInputTouchLeaveHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent *TouchedComponent)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: void OnInputTouchLeaveHandler(ETouchIndex::Type FingerIndex, UPrimitiveComponent *TouchedComponent)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>ETouchIndex::Type</td>
-        <td><span class="parametername">FingerIndex</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">TouchedComponent</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L266">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnUpdatedFarFocus_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnUpdatedFarFocus_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *)">OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnUpdatePoke_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnUpdatePoke_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L205">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnUpdatePoke_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnUpdatePoke_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnUpdatePoke_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnUpdatePoke_Implementation(UUxtNearPointerComponent *)">OnUpdatePoke_Implementation(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatePoke_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_OnUpdatePokeFocus_Implementation_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L183">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_OnUpdatePokeFocus_Implementation_" data-uid="_u_uxt_touchable_volume_component.OnUpdatePokeFocus_Implementation*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_OnUpdatePokeFocus_Implementation_UUxtNearPointerComponent___" data-uid="_u_uxt_touchable_volume_component.OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *)">OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatePokeFocus_Implementation(UUxtNearPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component_SetEnabled_bool_.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component.SetEnabled(bool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtTouchableVolumeComponent.cpp/#L17">View Source</a>
-  </span>
-  <a id="_u_uxt_touchable_volume_component_SetEnabled_" data-uid="_u_uxt_touchable_volume_component.SetEnabled*"></a>
-  <h4 id="_u_uxt_touchable_volume_component_SetEnabled_bool_" data-uid="_u_uxt_touchable_volume_component.SetEnabled(bool)">SetEnabled(bool Enabled)</h4>
-  <div class="markdown level1 summary"><p>Set if the touchable volume is enabled </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void SetEnabled(bool Enabled)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td><span class="parametername">Enabled</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<h1 id="uuxttouchablevolumecomponent">UUxtTouchableVolumeComponent</h1>
+
+<p>Component that turns the actor it is attached to into a touchable volume.</p>
+<pre><code class="lang-cpp">class UUxtTouchableVolumeComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtTouchableVolumeComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a>, <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a>, <a href="_i_uxt_poke_handler.html">IUxtPokeHandler</a>, <a href="_i_uxt_far_target.html">IUxtFarTarget</a>, <a href="_i_uxt_far_handler.html">IUxtFarHandler</a>, USceneComponent</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setenabled">SetEnabled</a></strong>(bool Enabled)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-ispokefocusable_implementation">IsPokeFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual EUxtPokeBehaviour</td>
+<td><strong><a href="#function-getpokebehaviour_implementation">GetPokeBehaviour_Implementation</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getclosestpoint_implementation">GetClosestPoint_Implementation</a></strong>(const UPrimitiveComponent * Primitive, const FVector &amp; Point, FVector &amp; OutClosestPoint, FVector &amp; OutNormal) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlepoke_implementation">CanHandlePoke_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterpokefocus_implementation">OnEnterPokeFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatepokefocus_implementation">OnUpdatePokeFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitpokefocus_implementation">OnExitPokeFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbeginpoke_implementation">OnBeginPoke_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatepoke_implementation">OnUpdatePoke_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onendpoke_implementation">OnEndPoke_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isfarfocusable_implementation">IsFarFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlefar_implementation">CanHandleFar_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterfarfocus_implementation">OnEnterFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatedfarfocus_implementation">OnUpdatedFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitfarfocus_implementation">OnExitFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarpressed_implementation">OnFarPressed_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarreleased_implementation">OnFarReleased_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-oninputtouchbeginhandler">OnInputTouchBeginHandler</a></strong>(ETouchIndex::Type FingerIndex, UPrimitiveComponent * TouchedComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-oninputtouchendhandler">OnInputTouchEndHandler</a></strong>(ETouchIndex::Type FingerIndex, UPrimitiveComponent * TouchedComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-oninputtouchleavehandler">OnInputTouchLeaveHandler</a></strong>(ETouchIndex::Type FingerIndex, UPrimitiveComponent * TouchedComponent)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int32</td>
+<td><strong><a href="#variable-interactionmode">InteractionMode</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-blockfocus">bLockFocus</a></strong></td>
+</tr>
+<tr>
+<td>TSet&lt; UPrimitiveComponent * &gt;</td>
+<td><strong><a href="#variable-touchableprimitives">TouchablePrimitives</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeBeginFocusDelegate</td>
+<td><strong><a href="#variable-onbeginfocus">OnBeginFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeUpdateFocusDelegate</td>
+<td><strong><a href="#variable-onupdatefocus">OnUpdateFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeEndFocusDelegate</td>
+<td><strong><a href="#variable-onendfocus">OnEndFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeBeginPokeDelegate</td>
+<td><strong><a href="#variable-onbeginpoke">OnBeginPoke</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeUpdatePokeDelegate</td>
+<td><strong><a href="#variable-onupdatepoke">OnUpdatePoke</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeEndPokeDelegate</td>
+<td><strong><a href="#variable-onendpoke">OnEndPoke</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeEnabledDelegate</td>
+<td><strong><a href="#variable-onvolumeenabled">OnVolumeEnabled</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeDisabledDelegate</td>
+<td><strong><a href="#variable-onvolumedisabled">OnVolumeDisabled</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-uuxtuielementcomponent">UUxtUIElementComponent</a></strong>() =default</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-getuivisibilityself">GetUIVisibilitySelf</a></strong>() const</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-getuivisibilityinhierarchy">GetUIVisibilityInHierarchy</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-setuivisibility">SetUIVisibility</a></strong>(EUxtUIElementVisibility NewVisibility)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-refreshuielement">RefreshUIElement</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-onattachmentchanged">OnAttachmentChanged</a></strong>() override</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Attributes inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtUIElementShowDelegate</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#variable-onshowelement">OnShowElement</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUIElementHideDelegate</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#variable-onhideelement">OnHideElement</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_poke_target.html#function-ispokefocusable">IsPokeFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>EUxtPokeBehaviour</td>
+<td><strong><a href="_i_uxt_poke_target.html#function-getpokebehaviour">GetPokeBehaviour</a></strong>() const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_poke_target.html#function-getclosestpoint">GetClosestPoint</a></strong>(const UPrimitiveComponent * Primitive, const FVector &amp; Point, FVector &amp; OutClosestPoint, FVector &amp; OutNormal) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_poke_handler.html">IUxtPokeHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-canhandlepoke">CanHandlePoke</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-onenterpokefocus">OnEnterPokeFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-onupdatepokefocus">OnUpdatePokeFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-onexitpokefocus">OnExitPokeFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_target.html">IUxtFarTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_target.html#function-isfarfocusable">IsFarFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-canhandlefar">CanHandleFar</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onenterfarfocus">OnEnterFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onupdatedfarfocus">OnUpdatedFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onexitfarfocus">OnExitFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarpressed">OnFarPressed</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfardragged">OnFarDragged</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarreleased">OnFarReleased</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-setenabled">function SetEnabled</h3>
+<pre><code class="lang-cpp">void SetEnabled(
+    bool Enabled
+)
+</code></pre>
+<p>Set if the touchable volume is enabled</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_u_uxt_u_i_element_component.html#function-beginplay">UUxtUIElementComponent::BeginPlay</a></p>
+<h3 id="function-ispokefocusable_implementation">function IsPokeFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsPokeFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-getpokebehaviour_implementation">function GetPokeBehaviour_Implementation</h3>
+<pre><code class="lang-cpp">virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override
+</code></pre>
+<h3 id="function-getclosestpoint_implementation">function GetClosestPoint_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool GetClosestPoint_Implementation(
+    const UPrimitiveComponent * Primitive,
+    const FVector &amp; Point,
+    FVector &amp; OutClosestPoint,
+    FVector &amp; OutNormal
+) const override
+</code></pre>
+<h3 id="function-canhandlepoke_implementation">function CanHandlePoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandlePoke_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onenterpokefocus_implementation">function OnEnterPokeFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterPokeFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatepokefocus_implementation">function OnUpdatePokeFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatePokeFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitpokefocus_implementation">function OnExitPokeFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitPokeFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onbeginpoke_implementation">function OnBeginPoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnBeginPoke_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatepoke_implementation">function OnUpdatePoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatePoke_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onendpoke_implementation">function OnEndPoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEndPoke_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-isfarfocusable_implementation">function IsFarFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsFarFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlefar_implementation">function CanHandleFar_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleFar_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onenterfarfocus_implementation">function OnEnterFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatedfarfocus_implementation">function OnUpdatedFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatedFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitfarfocus_implementation">function OnExitFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarpressed_implementation">function OnFarPressed_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarPressed_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarreleased_implementation">function OnFarReleased_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarReleased_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-oninputtouchbeginhandler">function OnInputTouchBeginHandler</h3>
+<pre><code class="lang-cpp">void OnInputTouchBeginHandler(
+    ETouchIndex::Type FingerIndex,
+    UPrimitiveComponent * TouchedComponent
+)
+</code></pre>
+<h3 id="function-oninputtouchendhandler">function OnInputTouchEndHandler</h3>
+<pre><code class="lang-cpp">void OnInputTouchEndHandler(
+    ETouchIndex::Type FingerIndex,
+    UPrimitiveComponent * TouchedComponent
+)
+</code></pre>
+<h3 id="function-oninputtouchleavehandler">function OnInputTouchLeaveHandler</h3>
+<pre><code class="lang-cpp">void OnInputTouchLeaveHandler(
+    ETouchIndex::Type FingerIndex,
+    UPrimitiveComponent * TouchedComponent
+)
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-interactionmode">variable InteractionMode</h3>
+<pre><code class="lang-cpp">int32 InteractionMode = static_cast&lt;int32&gt;(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
+</code></pre>
+<p>Types of interaction the volume should respond to.</p>
+<h3 id="variable-blockfocus">variable bLockFocus</h3>
+<pre><code class="lang-cpp">bool bLockFocus = true;
+</code></pre>
+<p>Should the volume lock the pointer's focus when poked.</p>
+<h3 id="variable-touchableprimitives">variable TouchablePrimitives</h3>
+<pre><code class="lang-cpp">TSet&lt; UPrimitiveComponent * &gt; TouchablePrimitives;
+</code></pre>
+<p>List of primitives used as touchable targets. If the list is empty then all primitives of the actor are used.</p>
+<h3 id="variable-onbeginfocus">variable OnBeginFocus</h3>
+<pre><code class="lang-cpp">FUxtVolumeBeginFocusDelegate OnBeginFocus;
+</code></pre>
+<p>Event raised when a pointer starts focusing the touchable volume. WasFocused indicates if the volume was already focused by another pointer.</p>
+<h3 id="variable-onupdatefocus">variable OnUpdateFocus</h3>
+<pre><code class="lang-cpp">FUxtVolumeUpdateFocusDelegate OnUpdateFocus;
+</code></pre>
+<p>Event raised when a focusing pointer updates.</p>
+<h3 id="variable-onendfocus">variable OnEndFocus</h3>
+<pre><code class="lang-cpp">FUxtVolumeEndFocusDelegate OnEndFocus;
+</code></pre>
+<p>Event raised when a pointer ends focusing the touchable volume. IsFocused indicates if the volume is still focused by another pointer.</p>
+<h3 id="variable-onbeginpoke">variable OnBeginPoke</h3>
+<pre><code class="lang-cpp">FUxtVolumeBeginPokeDelegate OnBeginPoke;
+</code></pre>
+<p>Event raised when a pointer starts poking the touchable volume.</p>
+<h3 id="variable-onupdatepoke">variable OnUpdatePoke</h3>
+<pre><code class="lang-cpp">FUxtVolumeUpdatePokeDelegate OnUpdatePoke;
+</code></pre>
+<p>Event raised while a pointer is poking the touchable volume.</p>
+<h3 id="variable-onendpoke">variable OnEndPoke</h3>
+<pre><code class="lang-cpp">FUxtVolumeEndPokeDelegate OnEndPoke;
+</code></pre>
+<p>Event raised when a pointer ends poking the touchable volume.</p>
+<h3 id="variable-onvolumeenabled">variable OnVolumeEnabled</h3>
+<pre><code class="lang-cpp">FUxtVolumeEnabledDelegate OnVolumeEnabled;
+</code></pre>
+<p>Event raised when the volume is enabled.</p>
+<h3 id="variable-onvolumedisabled">variable OnVolumeDisabled</h3>
+<pre><code class="lang-cpp">FUxtVolumeDisabledDelegate OnVolumeDisabled;
+</code></pre>
+<p>Event raised when the volume is disabled.</p>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:34 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -1258,10 +595,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_touchable_volume_component.md&amp;value=---%0Auid%3A%20_u_uxt_touchable_volume_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtTouchableVolumeComponent.h/#L43" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_u_uxt_touchable_volume_component.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

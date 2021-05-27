@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Struct FUxtGrabPointerData
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference FUxtGrabPointerData | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Struct FUxtGrabPointerData
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference FUxtGrabPointerData | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,263 +80,101 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_f_uxt_grab_pointer_data">
-  
-  
-  <h1 id="_f_uxt_grab_pointer_data" data-uid="_f_uxt_grab_pointer_data" class="text-break">Struct FUxtGrabPointerData
-  </h1>
-  <div class="markdown level0 summary"><p>Utility struct that stores transient data for a pointer which is interacting with a grabbable component. </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_f_uxt_grab_pointer_data_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: struct FUxtGrabPointerData</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_FarPointer.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.FarPointer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L31">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_FarPointer" data-uid="_f_uxt_grab_pointer_data.FarPointer">FarPointer</h4>
-  <div class="markdown level1 summary"><p>The far pointer that is interacting with the component </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: UUxtFarPointerComponent * FarPointer= nullptr</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_FarRayHitPointInPointer.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.FarRayHitPointInPointer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L68">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_FarRayHitPointInPointer" data-uid="_f_uxt_grab_pointer_data.FarRayHitPointInPointer">FarRayHitPointInPointer</h4>
-  <div class="markdown level1 summary"><p>Far pointer only property -&gt; describes the relative transform of the grab point to the pointer transform (pointer origin / orientation) This is needed to calculate the new grab point on the object on pointer translations / rotations </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FTransform FarRayHitPointInPointer= FTransform::Identity</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FTransform</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_GrabPointTransform.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.GrabPointTransform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L35">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_GrabPointTransform" data-uid="_f_uxt_grab_pointer_data.GrabPointTransform">GrabPointTransform</h4>
-  <div class="markdown level1 summary"><p>Last updated grab point transform. (Pointer transform in near pointer case, ray hit transform in far pointer case) </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FTransform GrabPointTransform</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FTransform</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_GripToGrabPoint.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.GripToGrabPoint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L57">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_GripToGrabPoint" data-uid="_f_uxt_grab_pointer_data.GripToGrabPoint">GripToGrabPoint</h4>
-  <div class="markdown level1 summary"><p>Transform of the grab point in near pointer's grip local space at the start of the interaction.</p>
+<h1 id="fuxtgrabpointerdata">FUxtGrabPointerData</h1>
+
+<p>Utility struct that stores transient data for a pointer which is interacting with a grabbable component.</p>
+<pre><code class="lang-cpp">struct FUxtGrabPointerData;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;UxtGrabTargetComponent.h&gt;</code></p>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
+<td><strong><a href="#variable-nearpointer">NearPointer</a></strong></td>
+</tr>
+<tr>
+<td><a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
+<td><strong><a href="#variable-farpointer">FarPointer</a></strong></td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#variable-grabpointtransform">GrabPointTransform</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-starttime">StartTime</a></strong></td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#variable-localgrabpoint">LocalGrabPoint</a></strong></td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#variable-griptograbpoint">GripToGrabPoint</a></strong></td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#variable-griptoobject">GripToObject</a></strong></td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#variable-farrayhitpointinpointer">FarRayHitPointInPointer</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-nearpointer">variable NearPointer</h3>
+<pre><code class="lang-cpp">UUxtNearPointerComponent* FUxtGrabPointerData::NearPointer
+UUxtNearPointerComponent * NearPointer = nullptr;
+</code></pre>
+<p>The near pointer that is interacting with the component.</p>
+<h3 id="variable-farpointer">variable FarPointer</h3>
+<pre><code class="lang-cpp">UUxtFarPointerComponent* FUxtGrabPointerData::FarPointer
+UUxtFarPointerComponent * FarPointer = nullptr;
+</code></pre>
+<p>The far pointer that is interacting with the component</p>
+<h3 id="variable-grabpointtransform">variable GrabPointTransform</h3>
+<pre><code class="lang-cpp">FTransform FUxtGrabPointerData::GrabPointTransform
+FTransform GrabPointTransform;
+</code></pre>
+<p>Last updated grab point transform. (Pointer transform in near pointer case, ray hit transform in far pointer case)</p>
+<h3 id="variable-starttime">variable StartTime</h3>
+<pre><code class="lang-cpp">float FUxtGrabPointerData::StartTime
+float StartTime;
+</code></pre>
+<p>The time at which interaction started, in seconds since application start.</p>
+<h3 id="variable-localgrabpoint">variable LocalGrabPoint</h3>
+<pre><code class="lang-cpp">FTransform FUxtGrabPointerData::LocalGrabPoint
+FTransform LocalGrabPoint;
+</code></pre>
+<p>Transform of the pointer when it started interacting, in the local space of the target component. This allows computing pointer offset in relation to the current actor transform.</p>
+<h3 id="variable-griptograbpoint">variable GripToGrabPoint</h3>
+<pre><code class="lang-cpp">FTransform FUxtGrabPointerData::GripToGrabPoint
+FTransform GripToGrabPoint;
+</code></pre>
+<p>Transform of the grab point in near pointer's grip local space at the start of the interaction.</p>
 <p>This is useful to prevent grab point's position changes after grab starts from altering object's transform (e.g. animation of InputSim's hand).</p>
-<p>Far pointer doesn't need this because its grip transform is already at grab point. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FTransform GripToGrabPoint</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FTransform</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_GripToObject.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.GripToObject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L63">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_GripToObject" data-uid="_f_uxt_grab_pointer_data.GripToObject">GripToObject</h4>
-  <div class="markdown level1 summary"><p>Transform of the object in pointer's grip local space at the start of the interaction. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FTransform GripToObject</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FTransform</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_LocalGrabPoint.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.LocalGrabPoint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L46">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_LocalGrabPoint" data-uid="_f_uxt_grab_pointer_data.LocalGrabPoint">LocalGrabPoint</h4>
-  <div class="markdown level1 summary"><p>Transform of the pointer when it started interacting, in the local space of the target component. This allows computing pointer offset in relation to the current actor transform. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FTransform LocalGrabPoint</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FTransform</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_NearPointer.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.NearPointer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L27">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_NearPointer" data-uid="_f_uxt_grab_pointer_data.NearPointer">NearPointer</h4>
-  <div class="markdown level1 summary"><p>The near pointer that is interacting with the component. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: UUxtNearPointerComponent * NearPointer= nullptr</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data_StartTime.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data.StartTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L39">View Source</a>
-  </span>
-  <h4 id="_f_uxt_grab_pointer_data_StartTime" data-uid="_f_uxt_grab_pointer_data.StartTime">StartTime</h4>
-  <div class="markdown level1 summary"><p>The time at which interaction started, in seconds since application start. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float StartTime</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<p>Far pointer doesn't need this because its grip transform is already at grab point.</p>
+<h3 id="variable-griptoobject">variable GripToObject</h3>
+<pre><code class="lang-cpp">FTransform FUxtGrabPointerData::GripToObject
+FTransform GripToObject;
+</code></pre>
+<p>Transform of the object in pointer's grip local space at the start of the interaction.</p>
+<h3 id="variable-farrayhitpointinpointer">variable FarRayHitPointInPointer</h3>
+<pre><code class="lang-cpp">FTransform FUxtGrabPointerData::FarRayHitPointInPointer
+FTransform FarRayHitPointInPointer = FTransform::Identity;
+</code></pre>
+<p>Far pointer only property -&gt; describes the relative transform of the grab point to the pointer transform (pointer origin / orientation) This is needed to calculate the new grab point on the object on pointer translations / rotations</p>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:34 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -347,10 +183,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_data.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_data%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Interactions/UxtGrabTargetComponent.h/#L21" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_f_uxt_grab_pointer_data.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

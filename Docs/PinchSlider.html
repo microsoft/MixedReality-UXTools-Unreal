@@ -82,9 +82,14 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="pinch-slider">Pinch slider</h1>
 
-<p>A pinch slider component allows the user to continuously change a value by moving the slider thumb along a track.</p>
-<p><img src="Images/Slider/Example.gif" alt="ExampleSlider"></p>
-<h2 id="creating-a-pinch-slider-from-scratch">Creating a pinch slider from scratch</h2>
+<p><img src="Images/Slider/PinchSliderActor.gif" alt="PinchSliderActor"></p>
+<p>Sliders are UI components that allow you to continuously change a value by moving a slider on a track. Currently the Pinch Slider can be moved by directly grabbing the slider, either directly or at a distance.</p>
+<h2 id="example-scene">Example scene</h2>
+<p>You can find examples in the <strong>SliderExample</strong> map in the <em>UX Tools Examples</em> plugin.</p>
+<h2 id="how-to-use-sliders">How to use sliders</h2>
+<p>You can simply add a <a class="xref" href="../api/_a_uxt_pinch_slider_actor.html"><code>UxtPinchSliderActor</code></a> to your level. This will give you a HoloLens 2 style slider ready to use. To react to changes to the slider value subscribe to the <code>OnValueUpdated</code> event in the actor:</p>
+<p><img src="Images/Slider/EventSubscription.png" alt="EventSubscription"></p>
+<p>If the default slider actor doesn't suit your needs, you can create your own slider from scratch following these steps:</p>
 <ol>
 <li><p>Create a new actor blueprint with a <a class="xref" href="../api/_u_uxt_pinch_slider_component.html"><code>UxtPinchSliderComponent</code></a> as the root component of the actor.</p>
 </li>
@@ -99,23 +104,22 @@
 </ol>
 <p><img src="Images/Slider/BasicSlider.gif" alt="BasicSlider"></p>
 <h2 id="events">Events</h2>
-<p>Although the slider created above is behaving correctly, it's not doing anything useful. The <code>UxtPinchSliderComponent</code> has a number of events that can be used to respond to slider input:</p>
+<p><code>UxtPinchSliderActor</code> has just one event, covering the most common use case:</p>
 <ul>
-<li><strong>OnUpdateState</strong>: Event raised when slider changes state.</li>
-<li><strong>OnBeginFocus</strong>: Event raised when a pointer starts focusing the slider.</li>
-<li><strong>OnUpdateFocus</strong>: Event raised when a focusing pointer updates.</li>
-<li><strong>OnEndFocus</strong>: Event raised when a pointer stops focusing the slider.</li>
-<li><strong>OnBeginGrab</strong>: Event raised when slider is grabbed.</li>
-<li><strong>OnUpdateValue</strong>: Event raised when slider's value changes.</li>
-<li><strong>OnEndGrab</strong>: Event raised when slider is released.</li>
-<li><strong>OnEnable</strong>: Event raised when slider is enabled.</li>
-<li><strong>OnDisable</strong>: Event raised when slider is disabled.</li>
+<li><strong>OnValueUpdated</strong>: raised when the slider value changes.</li>
 </ul>
-<h2 id="hololens-2-pinch-slider">HoloLens 2 Pinch Slider</h2>
-<p>UXTools provides a ready to use HoloLens 2 style pinch slider called the <code>UxtPinchSliderActor</code>.</p>
-<p><img src="Images/Slider/PinchSliderActor.gif" alt="PinchSliderActor"></p>
-<p>This slider can be configured and extended using Blueprints or C++. There is an example of this in <code>BP_HandMenuSlider</code> that can be found in the hand menu example scene.</p>
-<p><img src="Images/Slider/HandMenuSlider.gif" alt="HandMenuSlider"></p>
+<p><code>UxtPinchSliderComponent</code> has a number of events that can be used to respond to slider input:</p>
+<ul>
+<li><strong>OnUpdateState</strong>: raised when the slider changes state.</li>
+<li><strong>OnBeginFocus</strong>: raised when a pointer starts focusing the slider.</li>
+<li><strong>OnUpdateFocus</strong>: raised when a focusing pointer updates.</li>
+<li><strong>OnEndFocus</strong>: raised when a pointer stops focusing the slider.</li>
+<li><strong>OnBeginGrab</strong>: raised when the slider is grabbed.</li>
+<li><strong>OnUpdateValue</strong>: raised when the slider's value changes.</li>
+<li><strong>OnEndGrab</strong>: raised when the slider is released.</li>
+<li><strong>OnEnable</strong>: raised when the slider is enabled.</li>
+<li><strong>OnDisable</strong>: raised when the slider is disabled.</li>
+</ul>
 </article>
           </div>
           
@@ -124,7 +128,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/PinchSlider.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/PinchSlider.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

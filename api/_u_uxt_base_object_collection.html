@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class UUxtBaseObjectCollection
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference UUxtBaseObjectCollection | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class UUxtBaseObjectCollection
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference UUxtBaseObjectCollection | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,259 +80,108 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_u_uxt_base_object_collection">
-  
-  
-  <h1 id="_u_uxt_base_object_collection" data-uid="_u_uxt_base_object_collection" class="text-break">Class UUxtBaseObjectCollection
-  </h1>
-  <div class="markdown level0 summary"><p>Base scene component class for object collections </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System::Object</span></div>
-    <div class="level1"><span class="xref">USceneComponent</span></div>
-    <div class="level2"><span class="xref">UUxtBaseObjectCollection</span></div>
-  </div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_u_uxt_base_object_collection_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: class UUxtBaseObjectCollection</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_base_object_collection_SortCollection.md&amp;value=---%0Auid%3A%20_u_uxt_base_object_collection.SortCollection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtBaseObjectCollection.h/#L36">View Source</a>
-  </span>
-  <h4 id="_u_uxt_base_object_collection_SortCollection" data-uid="_u_uxt_base_object_collection.SortCollection">SortCollection</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtSortScrollingObjectCollectionDelegate SortCollection</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtSortScrollingObjectCollectionDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_base_object_collection_CollectAttachedActors__.md&amp;value=---%0Auid%3A%20_u_uxt_base_object_collection.CollectAttachedActors()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtBaseObjectCollection.cpp/#L23">View Source</a>
-  </span>
-  <a id="_u_uxt_base_object_collection_CollectAttachedActors_" data-uid="_u_uxt_base_object_collection.CollectAttachedActors*"></a>
-  <h4 id="_u_uxt_base_object_collection_CollectAttachedActors__" data-uid="_u_uxt_base_object_collection.CollectAttachedActors()">CollectAttachedActors()</h4>
-  <div class="markdown level1 summary"><p>Collect array of actors that are currently attached to the actor that this component is a part of. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: const TArray&lt;AActor *&gt; &amp; CollectAttachedActors()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const TArray&lt;AActor *&gt; &amp;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_base_object_collection_CompareString_const_FString___const_FString___.md&amp;value=---%0Auid%3A%20_u_uxt_base_object_collection.CompareString(const%20FString%20%26%2Cconst%20FString%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtBaseObjectCollection.h/#L44">View Source</a>
-  </span>
-  <a id="_u_uxt_base_object_collection_CompareString_" data-uid="_u_uxt_base_object_collection.CompareString*"></a>
-  <h4 id="_u_uxt_base_object_collection_CompareString_const_FString___const_FString___" data-uid="_u_uxt_base_object_collection.CompareString(const FString &amp;,const FString &amp;)">CompareString(const FString &amp;LHS, const FString &amp;RHS)</h4>
-  <div class="markdown level1 summary"><p>Helper function to allow Blueprint class to easily compare a pair of string objects within sort. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: static bool CompareString(const FString &amp;LHS, const FString &amp;RHS)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const FString &amp;</td>
-        <td><span class="parametername">LHS</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>const FString &amp;</td>
-        <td><span class="parametername">RHS</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_base_object_collection_CompareText_const_FText___const_FText___.md&amp;value=---%0Auid%3A%20_u_uxt_base_object_collection.CompareText(const%20FText%20%26%2Cconst%20FText%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtBaseObjectCollection.h/#L40">View Source</a>
-  </span>
-  <a id="_u_uxt_base_object_collection_CompareText_" data-uid="_u_uxt_base_object_collection.CompareText*"></a>
-  <h4 id="_u_uxt_base_object_collection_CompareText_const_FText___const_FText___" data-uid="_u_uxt_base_object_collection.CompareText(const FText &amp;,const FText &amp;)">CompareText(const FText &amp;LHS, const FText &amp;RHS)</h4>
-  <div class="markdown level1 summary"><p>Helper function to allow Blueprint class to easily compare a pair of text objects within sort. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: static bool CompareText(const FText &amp;LHS, const FText &amp;RHS)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const FText &amp;</td>
-        <td><span class="parametername">LHS</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>const FText &amp;</td>
-        <td><span class="parametername">RHS</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_base_object_collection_GetAttachedActors__.md&amp;value=---%0Auid%3A%20_u_uxt_base_object_collection.GetAttachedActors()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtBaseObjectCollection.h/#L61">View Source</a>
-  </span>
-  <a id="_u_uxt_base_object_collection_GetAttachedActors_" data-uid="_u_uxt_base_object_collection.GetAttachedActors*"></a>
-  <h4 id="_u_uxt_base_object_collection_GetAttachedActors__" data-uid="_u_uxt_base_object_collection.GetAttachedActors()">GetAttachedActors()</h4>
-  <div class="markdown level1 summary"><p>Get the array of attached actors. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: const TArray&lt;AActor *&gt; &amp; GetAttachedActors() const</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const TArray&lt;AActor *&gt; &amp;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_base_object_collection_SetSortCallback_const_FUxtSortScrollingObjectCollectionDelegate___.md&amp;value=---%0Auid%3A%20_u_uxt_base_object_collection.SetSortCallback(const%20FUxtSortScrollingObjectCollectionDelegate%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtBaseObjectCollection.h/#L30">View Source</a>
-  </span>
-  <a id="_u_uxt_base_object_collection_SetSortCallback_" data-uid="_u_uxt_base_object_collection.SetSortCallback*"></a>
-  <h4 id="_u_uxt_base_object_collection_SetSortCallback_const_FUxtSortScrollingObjectCollectionDelegate___" data-uid="_u_uxt_base_object_collection.SetSortCallback(const FUxtSortScrollingObjectCollectionDelegate &amp;)">SetSortCallback(const FUxtSortScrollingObjectCollectionDelegate &amp;Callback)</h4>
-  <div class="markdown level1 summary"><p>Set the the callback function to be used by the sort to compare actor pairs. In order to see results of sorting with the editor it is necessary to enable run in editor in the functions details panel. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void SetSortCallback(const FUxtSortScrollingObjectCollectionDelegate &amp;Callback)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const FUxtSortScrollingObjectCollectionDelegate &amp;</td>
-        <td><span class="parametername">Callback</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<h1 id="uuxtbaseobjectcollection">UUxtBaseObjectCollection</h1>
+
+<p>Base scene component class for object collections</p>
+<pre><code class="lang-cpp">class UUxtBaseObjectCollection;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtBaseObjectCollection.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from USceneComponent</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setsortcallback">SetSortCallback</a></strong>(const FUxtSortScrollingObjectCollectionDelegate &amp; Callback)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-comparetext">CompareText</a></strong>(const FText &amp; LHS, const FText &amp; RHS)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-comparestring">CompareString</a></strong>(const FString &amp; LHS, const FString &amp; RHS)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const TArray&lt; AActor * &gt; &amp;</td>
+<td><strong><a href="#function-getattachedactors">GetAttachedActors</a></strong>() const</td>
+</tr>
+<tr>
+<td>const TArray&lt; AActor * &gt; &amp;</td>
+<td><strong><a href="#function-collectattachedactors">CollectAttachedActors</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtSortScrollingObjectCollectionDelegate</td>
+<td><strong><a href="#variable-sortcollection">SortCollection</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-setsortcallback">function SetSortCallback</h3>
+<pre><code class="lang-cpp">inline void SetSortCallback(
+    const FUxtSortScrollingObjectCollectionDelegate &amp; Callback
+)
+</code></pre>
+<p>Set the the callback function to be used by the sort to compare actor pairs. In order to see results of sorting with the editor it is necessary to enable run in editor in the functions details panel.</p>
+<h3 id="function-comparetext">function CompareText</h3>
+<pre><code class="lang-cpp">static inline bool CompareText(
+    const FText &amp; LHS,
+    const FText &amp; RHS
+)
+</code></pre>
+<p>Helper function to allow Blueprint class to easily compare a pair of text objects within sort.</p>
+<h3 id="function-comparestring">function CompareString</h3>
+<pre><code class="lang-cpp">static inline bool CompareString(
+    const FString &amp; LHS,
+    const FString &amp; RHS
+)
+</code></pre>
+<p>Helper function to allow Blueprint class to easily compare a pair of string objects within sort.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-getattachedactors">function GetAttachedActors</h3>
+<pre><code class="lang-cpp">inline const TArray&lt; AActor * &gt; &amp; GetAttachedActors() const
+</code></pre>
+<p>Get the array of attached actors.</p>
+<h3 id="function-collectattachedactors">function CollectAttachedActors</h3>
+<pre><code class="lang-cpp">const TArray&lt; AActor * &gt; &amp; CollectAttachedActors()
+</code></pre>
+<p>Collect array of actors that are currently attached to the actor that this component is a part of.</p>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-sortcollection">variable SortCollection</h3>
+<pre><code class="lang-cpp">FUxtSortScrollingObjectCollectionDelegate SortCollection;
+</code></pre>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:33 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -343,10 +190,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_base_object_collection.md&amp;value=---%0Auid%3A%20_u_uxt_base_object_collection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtBaseObjectCollection.h/#L21" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_u_uxt_base_object_collection.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

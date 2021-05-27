@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class UUxtFollowComponent
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference UUxtFollowComponent | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class UUxtFollowComponent
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference UUxtFollowComponent | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,620 +80,227 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_u_uxt_follow_component">
-  
-  
-  <h1 id="_u_uxt_follow_component" data-uid="_u_uxt_follow_component" class="text-break">Class UUxtFollowComponent
-  </h1>
-  <div class="markdown level0 summary"><p>The follow component has three different constraints that keeps its owner in front of the camera: Angular Clamp, Distance Clamp, and Orientation. The combination of Angular and Distance Clamp creates a frustum in front of the camera where its owner can be. If its owner is outside that frustum it is adjusted.</p>
+<h1 id="uuxtfollowcomponent">UUxtFollowComponent</h1>
+
+<p>The follow component has three different constraints that keeps its owner in front of the camera: Angular Clamp, Distance Clamp, and Orientation. The combination of Angular and Distance Clamp creates a frustum in front of the camera where its owner can be. If its owner is outside that frustum it is adjusted.</p>
 <p>Angular Clamp: The objective of this constraint is to ensure that the reference forward vector remains within the bounds set by the leashing parameters. To do this, determine the angles between toTarget and the leashing bounds about the global Z-axis and the reference's Y-axis. If the toTarget falls within the leashing bounds, then we don't have to modify it. Otherwise, we apply a correction rotation to bring it within bounds. This will ensure that the its owner stays within the top, bottom, right and left planes of the frustum.</p>
 <p>Distance Clamp: The objective of this constraint is to ensure that the following actor stays within bounds set by the distance parameters. To do this, we measure the current distance from the camera to the its owner. If the distance is within the MinimumDistance and MaximumDistance then we don't have to modify it. Otherwise, we push away or pull in the its owner along the reference forward vector. This will ensure that the its owner stays within the near and far planes of the frustum.</p>
-<p>Orientation: The two options provided are constant FaceCamera or WorldLock. While world locked there are three conditions that will cause the its owner to face the camera: Angular Clamps Distance Clamps The angle between the forward vector of the its owner and toTarget vector (vector between the camera and the its owner) is larger than dead zone angle parameter </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System::Object</span></div>
-    <div class="level1"><span class="xref">UActorComponent</span></div>
-    <div class="level2"><span class="xref">UUxtFollowComponent</span></div>
-  </div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_u_uxt_follow_component_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: class UUxtFollowComponent</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.UPROPERTY(EditAnywhere%2CBlueprintReadWrite%2CCategory%2Cmeta)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L98">View Source</a>
-  </span>
-  <a id="_u_uxt_follow_component_UPROPERTY_" data-uid="_u_uxt_follow_component.UPROPERTY*"></a>
-  <h4 id="_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_" data-uid="_u_uxt_follow_component.UPROPERTY(EditAnywhere,BlueprintReadWrite,Category,meta)">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;UxtFollow&quot;, meta=(EditCondition=&quot;bUseFixedVerticalOffset&quot;, EditConditionHides))</h4>
-  <div class="markdown level1 summary"><p>Fixed vertical position offset distance. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: virtual UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;UxtFollow&quot;, meta=(EditCondition=&quot;bUseFixedVerticalOffset&quot;, EditConditionHides)) float FixedVerticalOffset=0.0f</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>EditAnywhere</td>
-        <td><span class="parametername">_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>BlueprintReadWrite</td>
-        <td><span class="parametername">_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Category</td>
-        <td><span class="parametername">_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>meta</td>
-        <td><span class="parametername">_u_uxt_follow_component_UPROPERTY_EditAnywhere_BlueprintReadWrite_Category_meta_</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_UUxtFollowComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.UUxtFollowComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtFollowComponent.cpp/#L212">View Source</a>
-  </span>
-  <a id="_u_uxt_follow_component_UUxtFollowComponent_" data-uid="_u_uxt_follow_component.UUxtFollowComponent*"></a>
-  <h4 id="_u_uxt_follow_component_UUxtFollowComponent__" data-uid="_u_uxt_follow_component.UUxtFollowComponent()">UUxtFollowComponent()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: UUxtFollowComponent()</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_ActorToFollow.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.ActorToFollow%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L63">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_ActorToFollow" data-uid="_u_uxt_follow_component.ActorToFollow">ActorToFollow</h4>
-  <div class="markdown level1 summary"><p>Actor that this component will follow. If null, this component will follow the camera </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: AActor * ActorToFollow</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>AActor *</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_bIgnoreAngleClamp.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.bIgnoreAngleClamp%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L104">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_bIgnoreAngleClamp" data-uid="_u_uxt_follow_component.bIgnoreAngleClamp">bIgnoreAngleClamp</h4>
-  <div class="markdown level1 summary"><p>Option to ignore angle clamping </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool bIgnoreAngleClamp= false</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_bIgnoreCameraPitchAndRoll.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.bIgnoreCameraPitchAndRoll%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L116">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_bIgnoreCameraPitchAndRoll" data-uid="_u_uxt_follow_component.bIgnoreCameraPitchAndRoll">bIgnoreCameraPitchAndRoll</h4>
-  <div class="markdown level1 summary"><p>Option to ignore the pitch and roll of the camera </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool bIgnoreCameraPitchAndRoll= false</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_bIgnoreDistanceClamp.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.bIgnoreDistanceClamp%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L75">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_bIgnoreDistanceClamp" data-uid="_u_uxt_follow_component.bIgnoreDistanceClamp">bIgnoreDistanceClamp</h4>
-  <div class="markdown level1 summary"><p>Option to ignore distance clamping </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool bIgnoreDistanceClamp= false</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_bInterpolatePose.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.bInterpolatePose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L126">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_bInterpolatePose" data-uid="_u_uxt_follow_component.bInterpolatePose">bInterpolatePose</h4>
-  <div class="markdown level1 summary"><p>Option to ignore interpolation between follow poses </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool bInterpolatePose= true</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_bUseFixedVerticalOffset.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.bUseFixedVerticalOffset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L95">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_bUseFixedVerticalOffset" data-uid="_u_uxt_follow_component.bUseFixedVerticalOffset">bUseFixedVerticalOffset</h4>
-  <div class="markdown level1 summary"><p>Ignore vertical movement and lock the Y position of the object. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool bUseFixedVerticalOffset= false</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_DefaultDistance.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.DefaultDistance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L87">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_DefaultDistance" data-uid="_u_uxt_follow_component.DefaultDistance">DefaultDistance</h4>
-  <div class="markdown level1 summary"><p>Default distance from eye to position its owner around, i.e. the sphere radius </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float DefaultDistance= 75.0f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_LerpTime.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.LerpTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L130">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_LerpTime" data-uid="_u_uxt_follow_component.LerpTime">LerpTime</h4>
-  <div class="markdown level1 summary"><p>Rate at which its owner will move toward default distance when angular leashing </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float LerpTime= 0.1f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_MaximumDistance.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.MaximumDistance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L83">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_MaximumDistance" data-uid="_u_uxt_follow_component.MaximumDistance">MaximumDistance</h4>
-  <div class="markdown level1 summary"><p>Max distance from eye to its owner </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float MaximumDistance= 100.0f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_MaxViewHorizontalDegrees.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.MaxViewHorizontalDegrees%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L108">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_MaxViewHorizontalDegrees" data-uid="_u_uxt_follow_component.MaxViewHorizontalDegrees">MaxViewHorizontalDegrees</h4>
-  <div class="markdown level1 summary"><p>The horizontal angle from the camera forward axis to the owner will not exceed this value </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float MaxViewHorizontalDegrees= 30.0f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_MaxViewVerticalDegrees.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.MaxViewVerticalDegrees%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L112">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_MaxViewVerticalDegrees" data-uid="_u_uxt_follow_component.MaxViewVerticalDegrees">MaxViewVerticalDegrees</h4>
-  <div class="markdown level1 summary"><p>The vertical angle from the camera forward axis to the owner will not exceed this value </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float MaxViewVerticalDegrees= 30.0f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_MinimumDistance.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.MinimumDistance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L79">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_MinimumDistance" data-uid="_u_uxt_follow_component.MinimumDistance">MinimumDistance</h4>
-  <div class="markdown level1 summary"><p>Min distance from eye to position its owner around, i.e. the sphere radius </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float MinimumDistance= 50.0f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_OrientationType.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.OrientationType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L67">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_OrientationType" data-uid="_u_uxt_follow_component.OrientationType">OrientationType</h4>
-  <div class="markdown level1 summary"><p>Orientation Type </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: TEnumAsByte&lt;EUxtFollowOrientBehavior&gt; OrientationType= EUxtFollowOrientBehavior::WorldLock</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>TEnumAsByte&lt;EUxtFollowOrientBehavior&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_OrientToCameraDeadzoneDegrees.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.OrientToCameraDeadzoneDegrees%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L71">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_OrientToCameraDeadzoneDegrees" data-uid="_u_uxt_follow_component.OrientToCameraDeadzoneDegrees">OrientToCameraDeadzoneDegrees</h4>
-  <div class="markdown level1 summary"><p>The owner will not reorient until the angle between its forward vector and the vector to the camera is greater than this value </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float OrientToCameraDeadzoneDegrees= 60.0f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_VerticalMaxDistance.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.VerticalMaxDistance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L91">View Source</a>
-  </span>
-  <h4 id="_u_uxt_follow_component_VerticalMaxDistance" data-uid="_u_uxt_follow_component.VerticalMaxDistance">VerticalMaxDistance</h4>
-  <div class="markdown level1 summary"><p>Max vertical distance between the owner and camera </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float VerticalMaxDistance= 0.0f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtFollowComponent.cpp/#L224">View Source</a>
-  </span>
-  <a id="_u_uxt_follow_component_BeginPlay_" data-uid="_u_uxt_follow_component.BeginPlay*"></a>
-  <h4 id="_u_uxt_follow_component_BeginPlay__" data-uid="_u_uxt_follow_component.BeginPlay()">BeginPlay()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_Recenter__.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.Recenter()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtFollowComponent.cpp/#L219">View Source</a>
-  </span>
-  <a id="_u_uxt_follow_component_Recenter_" data-uid="_u_uxt_follow_component.Recenter*"></a>
-  <h4 id="_u_uxt_follow_component_Recenter__" data-uid="_u_uxt_follow_component.Recenter()">Recenter()</h4>
-  <div class="markdown level1 summary"><p>Force the owner to recenter in the camera's field of view. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void Recenter()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component.TickComponent(float%2CELevelTick%2CFActorComponentTickFunction%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtFollowComponent.cpp/#L239">View Source</a>
-  </span>
-  <a id="_u_uxt_follow_component_TickComponent_" data-uid="_u_uxt_follow_component.TickComponent*"></a>
-  <h4 id="_u_uxt_follow_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___" data-uid="_u_uxt_follow_component.TickComponent(float,ELevelTick,FActorComponentTickFunction *)">TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td><span class="parametername">DeltaTime</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>ELevelTick</td>
-        <td><span class="parametername">TickType</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>FActorComponentTickFunction *</td>
-        <td><span class="parametername">ThisTickFunction</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<p>Orientation: The two options provided are constant FaceCamera or WorldLock. While world locked there are three conditions that will cause the its owner to face the camera: Angular Clamps Distance Clamps The angle between the forward vector of the its owner and toTarget vector (vector between the camera and the its owner) is larger than dead zone angle parameter</p>
+<pre><code class="lang-cpp">class UUxtFollowComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Behaviors/UxtFollowComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from UActorComponent</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtfollowcomponent">UUxtFollowComponent</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-recenter">Recenter</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tickcomponent">TickComponent</a></strong>(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AActor *</td>
+<td><strong><a href="#variable-actortofollow">ActorToFollow</a></strong></td>
+</tr>
+<tr>
+<td>TEnumAsByte&lt; EUxtFollowOrientBehavior &gt;</td>
+<td><strong><a href="#variable-orientationtype">OrientationType</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-orienttocameradeadzonedegrees">OrientToCameraDeadzoneDegrees</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bignoredistanceclamp">bIgnoreDistanceClamp</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-minimumdistance">MinimumDistance</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-maximumdistance">MaximumDistance</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-defaultdistance">DefaultDistance</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-verticalmaxdistance">VerticalMaxDistance</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-busefixedverticaloffset">bUseFixedVerticalOffset</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bignoreangleclamp">bIgnoreAngleClamp</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-maxviewhorizontaldegrees">MaxViewHorizontalDegrees</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-maxviewverticaldegrees">MaxViewVerticalDegrees</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bignorecamerapitchandroll">bIgnoreCameraPitchAndRoll</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-binterpolatepose">bInterpolatePose</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-lerptime">LerpTime</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-fixedverticaloffset">FixedVerticalOffset</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-pitchoffset">PitchOffset</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-uuxtfollowcomponent">function UUxtFollowComponent</h3>
+<pre><code class="lang-cpp">UUxtFollowComponent()
+</code></pre>
+<h3 id="function-recenter">function Recenter</h3>
+<pre><code class="lang-cpp">void Recenter()
+</code></pre>
+<p>Force the owner to recenter in the camera's field of view.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<h3 id="function-tickcomponent">function TickComponent</h3>
+<pre><code class="lang-cpp">virtual void TickComponent(
+    float DeltaTime,
+    ELevelTick TickType,
+    FActorComponentTickFunction * ThisTickFunction
+) override
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-actortofollow">variable ActorToFollow</h3>
+<pre><code class="lang-cpp">AActor * ActorToFollow;
+</code></pre>
+<p>Actor that this component will follow. If null, this component will follow the camera</p>
+<h3 id="variable-orientationtype">variable OrientationType</h3>
+<pre><code class="lang-cpp">TEnumAsByte&lt; EUxtFollowOrientBehavior &gt; OrientationType = EUxtFollowOrientBehavior::WorldLock;
+</code></pre>
+<p>Orientation Type</p>
+<h3 id="variable-orienttocameradeadzonedegrees">variable OrientToCameraDeadzoneDegrees</h3>
+<pre><code class="lang-cpp">float OrientToCameraDeadzoneDegrees = 60.0f;
+</code></pre>
+<p>The owner will not reorient until the angle between its forward vector and the vector to the camera is greater than this value</p>
+<h3 id="variable-bignoredistanceclamp">variable bIgnoreDistanceClamp</h3>
+<pre><code class="lang-cpp">bool bIgnoreDistanceClamp = false;
+</code></pre>
+<p>Option to ignore distance clamping</p>
+<h3 id="variable-minimumdistance">variable MinimumDistance</h3>
+<pre><code class="lang-cpp">float MinimumDistance = 50.0f;
+</code></pre>
+<p>Min distance from eye to position its owner around, i.e. the sphere radius</p>
+<h3 id="variable-maximumdistance">variable MaximumDistance</h3>
+<pre><code class="lang-cpp">float MaximumDistance = 100.0f;
+</code></pre>
+<p>Max distance from eye to its owner</p>
+<h3 id="variable-defaultdistance">variable DefaultDistance</h3>
+<pre><code class="lang-cpp">float DefaultDistance = 75.0f;
+</code></pre>
+<p>Default distance from eye to position its owner around, i.e. the sphere radius</p>
+<h3 id="variable-verticalmaxdistance">variable VerticalMaxDistance</h3>
+<pre><code class="lang-cpp">float VerticalMaxDistance = 0.0f;
+</code></pre>
+<p>Max vertical distance between the owner and camera</p>
+<h3 id="variable-busefixedverticaloffset">variable bUseFixedVerticalOffset</h3>
+<pre><code class="lang-cpp">bool bUseFixedVerticalOffset = false;
+</code></pre>
+<p>Ignore vertical movement and lock the Y position of the object.</p>
+<h3 id="variable-bignoreangleclamp">variable bIgnoreAngleClamp</h3>
+<pre><code class="lang-cpp">bool bIgnoreAngleClamp = false;
+</code></pre>
+<p>Option to ignore angle clamping</p>
+<h3 id="variable-maxviewhorizontaldegrees">variable MaxViewHorizontalDegrees</h3>
+<pre><code class="lang-cpp">float MaxViewHorizontalDegrees = 30.0f;
+</code></pre>
+<p>The horizontal angle from the camera forward axis to the owner will not exceed this value</p>
+<h3 id="variable-maxviewverticaldegrees">variable MaxViewVerticalDegrees</h3>
+<pre><code class="lang-cpp">float MaxViewVerticalDegrees = 30.0f;
+</code></pre>
+<p>The vertical angle from the camera forward axis to the owner will not exceed this value</p>
+<h3 id="variable-bignorecamerapitchandroll">variable bIgnoreCameraPitchAndRoll</h3>
+<pre><code class="lang-cpp">bool bIgnoreCameraPitchAndRoll = false;
+</code></pre>
+<p>Option to ignore the pitch and roll of the camera</p>
+<h3 id="variable-binterpolatepose">variable bInterpolatePose</h3>
+<pre><code class="lang-cpp">bool bInterpolatePose = true;
+</code></pre>
+<p>Option to ignore interpolation between follow poses</p>
+<h3 id="variable-lerptime">variable LerpTime</h3>
+<pre><code class="lang-cpp">float LerpTime = 0.1f;
+</code></pre>
+<p>Rate at which its owner will move toward default distance when angular leashing</p>
+<h3 id="variable-fixedverticaloffset">variable FixedVerticalOffset</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;UxtFollow&quot;, meta=(EditCondition=&quot;bUseFixedVerticalOffset&quot;, EditConditionHides))
+float FixedVerticalOffset = 0.0f;
+</code></pre>
+<p>Fixed vertical position offset distance.</p>
+<h3 id="variable-pitchoffset">variable PitchOffset</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;UxtFollow&quot;, meta=(EditCondition=&quot;bIgnoreCameraPitchAndRoll &amp;&amp; !bIgnoreAngleClamp &amp;&amp; !bUseFixedVerticalOffset&quot;, EditConditionHides))
+float PitchOffset = 0.0f;
+</code></pre>
+<p>Pitch offset from camera (relative to Max Distance)</p>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:33 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -704,10 +309,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_follow_component.md&amp;value=---%0Auid%3A%20_u_uxt_follow_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtFollowComponent.h/#L49" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_u_uxt_follow_component.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

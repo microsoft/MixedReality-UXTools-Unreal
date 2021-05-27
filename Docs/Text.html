@@ -85,6 +85,10 @@
 <p>UX Tools contains assets, actors, and components which are optimized to render text correctly and efficiently on Mixed Reality devices. Text rendering within Mixed Reality can be challenging as opposed to traditional 2D text because text in Mixed Reality can be viewed from any angle or distance. Make sure text is large, high contrast, and accessible. More information about designing text for Mixed Reality can be found on this <a href="https://docs.microsoft.com/en-us/windows/mixed-reality/typography">page</a>.</p>
 <h2 id="text-actors--components">Text Actors &amp; Components</h2>
 <p>To provide automatic text configuration UX Tools contains an actor named <code>UxtTextRenderActor</code> and component named <code>UxtTextRenderComponent</code>. The <code>UxtTextRenderActor</code> and <code>UxtTextRenderComponent</code> automatically construct text with appropriate font, font material, and sizing defaults.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Automatic text formatting is not supported by the <code>UxtTextRender</code> actor and component. To manually add a single line break in text use the <code>&lt;br&gt;</code> tag. If your application requires advanced text formatting then <a href="https://docs.unrealengine.com/en-US/InteractiveExperiences/UMG/UserGuide/UMGRichTextBlock/index.html">UMG Text</a> has support for this. Note, <a href="https://docs.unrealengine.com/en-US/Engine/UMG/UserGuide/index.html">UMG</a> can cause decreased performance on HoloLens, so it's best to profile after adding UMG to your app.</p>
+</div>
 <p>The <code>UxtTextRenderComponent</code> derives from the <a href="https://docs.unrealengine.com/en-US/API/Runtime/Engine/Components/UTextRenderComponent/index.html">TextRenderComponent</a> and all properties can be accessed and altered via the top level <code>UxtTextRenderActor</code> component wrapper actor details panel:</p>
 <p><img src="Images/Text/TextActor.png" alt="TextActor"></p>
 <p>It is recommended when adding new text to your level, or blueprint, that you begin with the <code>UxtTextRenderActor</code> or <code>UxtTextRenderComponent</code> and make adjustments where required.</p>
@@ -148,7 +152,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/Text.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/Text.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

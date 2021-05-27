@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class AUxtPressableToggleButtonActor
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference AUxtPressableToggleButtonActor | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class AUxtPressableToggleButtonActor
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference AUxtPressableToggleButtonActor | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,629 +80,482 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_a_uxt_pressable_toggle_button_actor">
-  
-  
-  <h1 id="_a_uxt_pressable_toggle_button_actor" data-uid="_a_uxt_pressable_toggle_button_actor" class="text-break">Class AUxtPressableToggleButtonActor
-  </h1>
-  <div class="markdown level0 summary"><p>A derived actor of <a class="xref" href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a> with a UUxtToggleStateComponent component to track state and visuals for a button can which can be toggled on or off (checked or unchecked). </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System::Object</span></div>
-    <div class="level1"><span class="xref">AActor</span></div>
-    <div class="level2"><a class="xref" href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a></div>
-    <div class="level3"><a class="xref" href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a></div>
-    <div class="level4"><span class="xref">AUxtPressableToggleButtonActor</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_AnimateFocus_float_">AUxtPressableButtonActor::AnimateFocus(float DeltaTime)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_AnimatePulse_float_">AUxtPressableButtonActor::AnimatePulse(float DeltaTime)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_AudioComponent">AUxtPressableButtonActor::AudioComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_AUxtBasePressableButtonActor__">AUxtBasePressableButtonActor::AUxtBasePressableButtonActor()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_AUxtPressableButtonActor__">AUxtPressableButtonActor::AUxtPressableButtonActor()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_BackPlateMeshComponent">AUxtPressableButtonActor::BackPlateMeshComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_BackPlatePivotComponent">AUxtPressableButtonActor::BackPlatePivotComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_bCanEditIconBrush">AUxtPressableButtonActor::bCanEditIconBrush</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_BeginPulse_const_UUxtPointerComponent___">AUxtPressableButtonActor::BeginPulse(const UUxtPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_bIsPlated">AUxtPressableButtonActor::bIsPlated</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_ButtonBrush">AUxtPressableButtonActor::ButtonBrush</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_ButtonComponent">AUxtBasePressableButtonActor::ButtonComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_ConstructIcon__">AUxtPressableButtonActor::ConstructIcon()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_ConstructLabel__">AUxtPressableButtonActor::ConstructLabel()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_CreateAndAttachComponent_FName_USceneComponent___">AUxtPressableButtonActor::CreateAndAttachComponent(FName Name, USceneComponent *Parent)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_FocusTimer">AUxtPressableButtonActor::FocusTimer</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_FrontPlateCenterComponent">AUxtPressableButtonActor::FrontPlateCenterComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_FrontPlateMeshComponent">AUxtPressableButtonActor::FrontPlateMeshComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_FrontPlatePivotComponent">AUxtPressableButtonActor::FrontPlatePivotComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_GetButtonBrush__">AUxtPressableButtonActor::GetButtonBrush()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetButtonComponent__">AUxtBasePressableButtonActor::GetButtonComponent()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetFarTarget__">AUxtBasePressableButtonActor::GetFarTarget()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetFarTarget_Implementation__">AUxtBasePressableButtonActor::GetFarTarget_Implementation()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_GetIconBrush__">AUxtPressableButtonActor::GetIconBrush()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_GetLabel__">AUxtPressableButtonActor::GetLabel()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_GetLabelTextBrush__">AUxtPressableButtonActor::GetLabelTextBrush()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_GetMillimeterSize__">AUxtPressableButtonActor::GetMillimeterSize()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetPokeTarget__">AUxtBasePressableButtonActor::GetPokeTarget()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_base_pressable_button_actor.html#_a_uxt_base_pressable_button_actor_GetPokeTarget_Implementation__">AUxtBasePressableButtonActor::GetPokeTarget_Implementation()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_GetSize__">AUxtPressableButtonActor::GetSize()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_IconComponent">AUxtPressableButtonActor::IconComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_IsPlated__">AUxtPressableButtonActor::IsPlated()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_IsPulsing__">AUxtPressableButtonActor::IsPulsing()</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_Label">AUxtPressableButtonActor::Label</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_LabelComponent">AUxtPressableButtonActor::LabelComponent</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_LabelTextBrush">AUxtPressableButtonActor::LabelTextBrush</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_MaterialIndex">AUxtPressableButtonActor::MaterialIndex</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_MillimeterSize">AUxtPressableButtonActor::MillimeterSize</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_OnBeginFocus_UUxtPressableButtonComponent___UUxtPointerComponent___bool_">AUxtPressableButtonActor::OnBeginFocus(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer, bool WasAlreadyFocused)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_OnButtonDisabled_UUxtPressableButtonComponent___">AUxtPressableButtonActor::OnButtonDisabled(UUxtPressableButtonComponent *Button)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_OnButtonEnabled_UUxtPressableButtonComponent___">AUxtPressableButtonActor::OnButtonEnabled(UUxtPressableButtonComponent *Button)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_PrePulseMaterial">AUxtPressableButtonActor::PrePulseMaterial</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_PulseFadeTimer">AUxtPressableButtonActor::PulseFadeTimer</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_PulseMaterialInstance">AUxtPressableButtonActor::PulseMaterialInstance</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_PulseTimer">AUxtPressableButtonActor::PulseTimer</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_SetButtonBrush_const_FUxtButtonBrush___">AUxtPressableButtonActor::SetButtonBrush(const FUxtButtonBrush &amp;Brush)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_SetIconBrush_const_FUxtIconBrush___">AUxtPressableButtonActor::SetIconBrush(const FUxtIconBrush &amp;Brush)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_SetIsPlated_bool_">AUxtPressableButtonActor::SetIsPlated(bool IsPlated)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_SetLabel_const_FText___">AUxtPressableButtonActor::SetLabel(const FText &amp;NewLabel)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_SetLabelTextBrush_const_FUxtTextBrush___">AUxtPressableButtonActor::SetLabelTextBrush(const FUxtTextBrush &amp;Brush)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_SetMillimeterSize_FVector_">AUxtPressableButtonActor::SetMillimeterSize(FVector Size)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_SetSize_FVector_">AUxtPressableButtonActor::SetSize(FVector Size)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_Tick_float_">AUxtPressableButtonActor::Tick(float DeltaTime)</a>
-    </div>
-    <div>
-      <a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_meta_">AUxtPressableButtonActor::UPROPERTY(EditAnywhere, Category=&quot;Uxt Pressable Button&quot;, BlueprintGetter=&quot;GetIconBrush&quot;, BlueprintSetter=&quot;SetIconBrush&quot;, meta=(EditCondition=&quot;bCanEditIconBrush&quot;))</a>
-    </div>
-  </div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_a_uxt_pressable_toggle_button_actor_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: class AUxtPressableToggleButtonActor : public xtPressableButtonActor</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_AUxtPressableToggleButtonActor__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.AUxtPressableToggleButtonActor()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L10">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_AUxtPressableToggleButtonActor_" data-uid="_a_uxt_pressable_toggle_button_actor.AUxtPressableToggleButtonActor*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_AUxtPressableToggleButtonActor__" data-uid="_a_uxt_pressable_toggle_button_actor.AUxtPressableToggleButtonActor()">AUxtPressableToggleButtonActor()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: AUxtPressableToggleButtonActor()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.UPROPERTY(EditAnywhere%2CCategory%2CBlueprintGetter%2CBlueprintSetter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableToggleButtonActor.h/#L72">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_UPROPERTY_" data-uid="_a_uxt_pressable_toggle_button_actor.UPROPERTY*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_" data-uid="_a_uxt_pressable_toggle_button_actor.UPROPERTY(EditAnywhere,Category,BlueprintGetter,BlueprintSetter)">UPROPERTY(EditAnywhere, Category=&quot;Uxt Pressable Button&quot;, BlueprintGetter=&quot;IsInitiallyChecked&quot;, BlueprintSetter=&quot;SetIsInitiallyChecked&quot;)</h4>
-  <div class="markdown level1 summary"><p>Should the button be toggled on or off at BeginPlay? </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: UPROPERTY(EditAnywhere, Category=&quot;Uxt Pressable Button&quot;, BlueprintGetter=&quot;IsInitiallyChecked&quot;, BlueprintSetter=&quot;SetIsInitiallyChecked&quot;) bool bIsInitiallyChecked</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>EditAnywhere</td>
-        <td><span class="parametername">_a_uxt_pressable_toggle_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Category</td>
-        <td><span class="parametername">_a_uxt_pressable_toggle_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>BlueprintGetter</td>
-        <td><span class="parametername">_a_uxt_pressable_toggle_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>BlueprintSetter</td>
-        <td><span class="parametername">_a_uxt_pressable_toggle_button_actor_UPROPERTY_EditAnywhere_Category_BlueprintGetter_BlueprintSetter_</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_bToggleOnRelease.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.bToggleOnRelease%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableToggleButtonActor.h/#L78">View Source</a>
-  </span>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_bToggleOnRelease" data-uid="_a_uxt_pressable_toggle_button_actor.bToggleOnRelease">bToggleOnRelease</h4>
-  <div class="markdown level1 summary"><p>Should the button toggle on press or release? </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: bool bToggleOnRelease= false</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_TogglePlateComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.TogglePlateComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableToggleButtonActor.h/#L86">View Source</a>
-  </span>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_TogglePlateComponent" data-uid="_a_uxt_pressable_toggle_button_actor.TogglePlateComponent">TogglePlateComponent</h4>
-  <div class="markdown level1 summary"><p>Visual component to indicate the toggled state. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: UUxtBackPlateComponent * TogglePlateComponent= nullptr</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UUxtBackPlateComponent *</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_ToggleStateComponent.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.ToggleStateComponent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableToggleButtonActor.h/#L82">View Source</a>
-  </span>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_ToggleStateComponent" data-uid="_a_uxt_pressable_toggle_button_actor.ToggleStateComponent">ToggleStateComponent</h4>
-  <div class="markdown level1 summary"><p>Component which keeps track of the toggled state. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: UUxtToggleStateComponent * ToggleStateComponent= nullptr</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UUxtToggleStateComponent *</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_BeginPlay__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L27">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_BeginPlay_" data-uid="_a_uxt_pressable_toggle_button_actor.BeginPlay*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_BeginPlay__" data-uid="_a_uxt_pressable_toggle_button_actor.BeginPlay()">BeginPlay()</h4>
-  <div class="markdown level1 summary"><p>Subscribes to toggle events and sets the initial toggle state. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: virtual void BeginPlay() override</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_ConstructVisuals__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.ConstructVisuals()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L35">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_ConstructVisuals_" data-uid="_a_uxt_pressable_toggle_button_actor.ConstructVisuals*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_ConstructVisuals__" data-uid="_a_uxt_pressable_toggle_button_actor.ConstructVisuals()">ConstructVisuals()</h4>
-  <div class="markdown level1 summary"><p>Adds toggle visuals and components. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: virtual void ConstructVisuals() override</code></pre>
-  </div>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_ConstructVisuals__">AUxtPressableButtonActor::ConstructVisuals()</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_IsInitiallyChecked__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.IsInitiallyChecked()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableToggleButtonActor.h/#L50">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_IsInitiallyChecked_" data-uid="_a_uxt_pressable_toggle_button_actor.IsInitiallyChecked*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_IsInitiallyChecked__" data-uid="_a_uxt_pressable_toggle_button_actor.IsInitiallyChecked()">IsInitiallyChecked()</h4>
-  <div class="markdown level1 summary"><p>Gets if the button was toggled on at BeginPlay. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool IsInitiallyChecked() const</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_OnButtonPressed_UUxtPressableButtonComponent___UUxtPointerComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.OnButtonPressed(UUxtPressableButtonComponent%20*%2CUUxtPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L87">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_OnButtonPressed_" data-uid="_a_uxt_pressable_toggle_button_actor.OnButtonPressed*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_OnButtonPressed_UUxtPressableButtonComponent___UUxtPointerComponent___" data-uid="_a_uxt_pressable_toggle_button_actor.OnButtonPressed(UUxtPressableButtonComponent *,UUxtPointerComponent *)">OnButtonPressed(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Button pressed event delegate. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnButtonPressed(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
-        <td><span class="parametername">Button</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_OnButtonPressed_UUxtPressableButtonComponent___UUxtPointerComponent___">AUxtPressableButtonActor::OnButtonPressed(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_OnButtonReleased_UUxtPressableButtonComponent___UUxtPointerComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.OnButtonReleased(UUxtPressableButtonComponent%20*%2CUUxtPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L97">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_OnButtonReleased_" data-uid="_a_uxt_pressable_toggle_button_actor.OnButtonReleased*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_OnButtonReleased_UUxtPressableButtonComponent___UUxtPointerComponent___" data-uid="_a_uxt_pressable_toggle_button_actor.OnButtonReleased(UUxtPressableButtonComponent *,UUxtPointerComponent *)">OnButtonReleased(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Button released event delegate. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnButtonReleased(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
-        <td><span class="parametername">Button</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_OnButtonReleased_UUxtPressableButtonComponent___UUxtPointerComponent___">AUxtPressableButtonActor::OnButtonReleased(UUxtPressableButtonComponent *Button, UUxtPointerComponent *Pointer)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_OnButtonToggled_UUxtToggleStateComponent___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.OnButtonToggled(UUxtToggleStateComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L107">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_OnButtonToggled_" data-uid="_a_uxt_pressable_toggle_button_actor.OnButtonToggled*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_OnButtonToggled_UUxtToggleStateComponent___" data-uid="_a_uxt_pressable_toggle_button_actor.OnButtonToggled(UUxtToggleStateComponent *)">OnButtonToggled(UUxtToggleStateComponent *ToggleState)</h4>
-  <div class="markdown level1 summary"><p>Updates the toggle visuals when the toggles state changes. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnButtonToggled(UUxtToggleStateComponent *ToggleState)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UUxtToggleStateComponent *</td>
-        <td><span class="parametername">ToggleState</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_OnConstruction_const_FTransform___.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.OnConstruction(const%20FTransform%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L20">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_OnConstruction_" data-uid="_a_uxt_pressable_toggle_button_actor.OnConstruction*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_OnConstruction_const_FTransform___" data-uid="_a_uxt_pressable_toggle_button_actor.OnConstruction(const FTransform &amp;)">OnConstruction(const FTransform &amp;Transform)</h4>
-  <div class="markdown level1 summary"><p>Ensures the toggle visuals get updated when constructed. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: virtual void OnConstruction(const FTransform &amp;Transform) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const FTransform &amp;</td>
-        <td><span class="parametername">Transform</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_a_uxt_pressable_button_actor.html#_a_uxt_pressable_button_actor_OnConstruction_const_FTransform___">AUxtPressableButtonActor::OnConstruction(const FTransform &amp;Transform)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_RemoveTogglePlate__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.RemoveTogglePlate()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L78">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_RemoveTogglePlate_" data-uid="_a_uxt_pressable_toggle_button_actor.RemoveTogglePlate*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_RemoveTogglePlate__" data-uid="_a_uxt_pressable_toggle_button_actor.RemoveTogglePlate()">RemoveTogglePlate()</h4>
-  <div class="markdown level1 summary"><p>Option to remove the toggle plate if it is not needed for this button (for example in derived classes). </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void RemoveTogglePlate()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_SetIsInitiallyChecked_bool_.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.SetIsInitiallyChecked(bool)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L71">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_SetIsInitiallyChecked_" data-uid="_a_uxt_pressable_toggle_button_actor.SetIsInitiallyChecked*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_SetIsInitiallyChecked_bool_" data-uid="_a_uxt_pressable_toggle_button_actor.SetIsInitiallyChecked(bool)">SetIsInitiallyChecked(bool InitiallyChecked)</h4>
-  <div class="markdown level1 summary"><p>Sets if the button was toggled on at BeginPlay. This method has no function after BeginPlay. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void SetIsInitiallyChecked(bool InitiallyChecked)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td><span class="parametername">InitiallyChecked</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor_UpdateToggleVisuals__.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor.UpdateToggleVisuals()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtPressableToggleButtonActor.cpp/#L63">View Source</a>
-  </span>
-  <a id="_a_uxt_pressable_toggle_button_actor_UpdateToggleVisuals_" data-uid="_a_uxt_pressable_toggle_button_actor.UpdateToggleVisuals*"></a>
-  <h4 id="_a_uxt_pressable_toggle_button_actor_UpdateToggleVisuals__" data-uid="_a_uxt_pressable_toggle_button_actor.UpdateToggleVisuals()">UpdateToggleVisuals()</h4>
-  <div class="markdown level1 summary"><p>Alters the toggle visuals when the toggle state changes. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: virtual void UpdateToggleVisuals()</code></pre>
-  </div>
+<h1 id="auxtpressabletogglebuttonactor">AUxtPressableToggleButtonActor</h1>
+
+<p>A derived actor of <a href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a> with a UUxtToggleStateComponent component to track state and visuals for a button can which can be toggled on or off (checked or unchecked).</p>
+<pre><code class="lang-cpp">class AUxtPressableToggleButtonActor;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtPressableToggleButtonActor.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a>, <a href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a>, AActor, <a href="_i_uxt_collection_object.html">IUxtCollectionObject</a></p>
+<p>Inherited by <a href="_a_uxt_pressable_check_button_actor.html">AUxtPressableCheckButtonActor</a>, <a href="_a_uxt_pressable_radio_button_actor.html">AUxtPressableRadioButtonActor</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-auxtpressabletogglebuttonactor">AUxtPressableToggleButtonActor</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onconstruction">OnConstruction</a></strong>(const FTransform &amp; Transform) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-constructvisuals">ConstructVisuals</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-updatetogglevisuals">UpdateToggleVisuals</a></strong>()</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-isinitiallychecked">IsInitiallyChecked</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setisinitiallychecked">SetIsInitiallyChecked</a></strong>(bool InitiallyChecked)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-removetoggleplate">RemoveTogglePlate</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbuttonpressed">OnButtonPressed</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbuttonreleased">OnButtonReleased</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbuttontoggled">OnButtonToggled</a></strong>(UUxtToggleStateComponent * ToggleState)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-attributes">Protected Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-btoggleonrelease">bToggleOnRelease</a></strong></td>
+</tr>
+<tr>
+<td>UUxtToggleStateComponent *</td>
+<td><strong><a href="#variable-togglestatecomponent">ToggleStateComponent</a></strong></td>
+</tr>
+<tr>
+<td>UUxtBackPlateComponent *</td>
+<td><strong><a href="#variable-toggleplatecomponent">TogglePlateComponent</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bisinitiallychecked">bIsInitiallyChecked</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-auxtpressablebuttonactor">AUxtPressableButtonActor</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-tick">Tick</a></strong>(float DeltaTime) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-constructicon">ConstructIcon</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-constructlabel">ConstructLabel</a></strong>()</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-beginpulse">BeginPulse</a></strong>(const <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-ispulsing">IsPulsing</a></strong>() const</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-getmillimetersize">GetMillimeterSize</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-setmillimetersize">SetMillimeterSize</a></strong>(FVector Size)</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-getsize">GetSize</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-setsize">SetSize</a></strong>(FVector Size)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-isplated">IsPlated</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-setisplated">SetIsPlated</a></strong>(bool IsPlated)</td>
+</tr>
+<tr>
+<td>const <a href="_f_uxt_icon_brush.html">FUxtIconBrush</a> &amp;</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-geticonbrush">GetIconBrush</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-seticonbrush">SetIconBrush</a></strong>(const <a href="_f_uxt_icon_brush.html">FUxtIconBrush</a> &amp; Brush)</td>
+</tr>
+<tr>
+<td>const FText &amp;</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-getlabel">GetLabel</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-setlabel">SetLabel</a></strong>(const FText &amp; NewLabel)</td>
+</tr>
+<tr>
+<td>const <a href="_f_uxt_text_brush.html">FUxtTextBrush</a> &amp;</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-getlabeltextbrush">GetLabelTextBrush</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-setlabeltextbrush">SetLabelTextBrush</a></strong>(const <a href="_f_uxt_text_brush.html">FUxtTextBrush</a> &amp; Brush)</td>
+</tr>
+<tr>
+<td>const <a href="_f_uxt_button_brush.html">FUxtButtonBrush</a> &amp;</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-getbuttonbrush">GetButtonBrush</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-setbuttonbrush">SetButtonBrush</a></strong>(const <a href="_f_uxt_button_brush.html">FUxtButtonBrush</a> &amp; Brush)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-onbeginfocus">OnBeginFocus</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer, bool WasAlreadyFocused)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-onbuttonenabled">OnButtonEnabled</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-onbuttondisabled">OnButtonDisabled</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button)</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-animatepulse">AnimatePulse</a></strong>(float DeltaTime)</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-animatefocus">AnimateFocus</a></strong>(float DeltaTime)</td>
+</tr>
+<tr>
+<td>template &lt;class T &gt; <br>T *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#function-createandattachcomponent">CreateAndAttachComponent</a></strong>(FName Name, USceneComponent * Parent)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Attributes inherited from <a href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FVector</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-millimetersize">MillimeterSize</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-bisplated">bIsPlated</a></strong></td>
+</tr>
+<tr>
+<td>FText</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-label">Label</a></strong></td>
+</tr>
+<tr>
+<td><a href="_f_uxt_text_brush.html">FUxtTextBrush</a></td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-labeltextbrush">LabelTextBrush</a></strong></td>
+</tr>
+<tr>
+<td><a href="_f_uxt_button_brush.html">FUxtButtonBrush</a></td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-buttonbrush">ButtonBrush</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-backplatepivotcomponent">BackPlatePivotComponent</a></strong></td>
+</tr>
+<tr>
+<td>UUxtBackPlateComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-backplatemeshcomponent">BackPlateMeshComponent</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-frontplatepivotcomponent">FrontPlatePivotComponent</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-frontplatecentercomponent">FrontPlateCenterComponent</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMeshComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-frontplatemeshcomponent">FrontPlateMeshComponent</a></strong></td>
+</tr>
+<tr>
+<td>UTextRenderComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-iconcomponent">IconComponent</a></strong></td>
+</tr>
+<tr>
+<td>UTextRenderComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-labelcomponent">LabelComponent</a></strong></td>
+</tr>
+<tr>
+<td>UAudioComponent *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-audiocomponent">AudioComponent</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-pulsetimer">PulseTimer</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-pulsefadetimer">PulseFadeTimer</a></strong></td>
+</tr>
+<tr>
+<td>UMaterialInterface *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-prepulsematerial">PrePulseMaterial</a></strong></td>
+</tr>
+<tr>
+<td>UMaterialInstanceDynamic *</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-pulsematerialinstance">PulseMaterialInstance</a></strong></td>
+</tr>
+<tr>
+<td>uint32</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-materialindex">MaterialIndex</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-focustimer">FocusTimer</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-bcanediticonbrush">bCanEditIconBrush</a></strong></td>
+</tr>
+<tr>
+<td>FUxtIconBrush</td>
+<td><strong><a href="_a_uxt_pressable_button_actor.html#variable-iconbrush">IconBrush</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-auxtbasepressablebuttonactor">AUxtBasePressableButtonActor</a></strong>()</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getpoketarget">GetPokeTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getpoketarget_implementation">GetPokeTarget_Implementation</a></strong>() override</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getfartarget">GetFarTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getfartarget_implementation">GetFarTarget_Implementation</a></strong>() override</td>
+</tr>
+<tr>
+<td><a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getbuttoncomponent">GetButtonComponent</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Attributes inherited from <a href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#variable-buttoncomponent">ButtonComponent</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_collection_object.html">IUxtCollectionObject</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="_i_uxt_collection_object.html#function-getpoketarget">GetPokeTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="_i_uxt_collection_object.html#function-getfartarget">GetFarTarget</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-auxtpressabletogglebuttonactor">function AUxtPressableToggleButtonActor</h3>
+<pre><code class="lang-cpp">AUxtPressableToggleButtonActor()
+</code></pre>
+<h3 id="function-onconstruction">function OnConstruction</h3>
+<pre><code class="lang-cpp">virtual void OnConstruction(
+    const FTransform &amp; Transform
+) override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_a_uxt_pressable_button_actor.html#function-onconstruction">AUxtPressableButtonActor::OnConstruction</a></p>
+<p>Ensures the toggle visuals get updated when constructed.</p>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p>Subscribes to toggle events and sets the initial toggle state.</p>
+<h3 id="function-constructvisuals">function ConstructVisuals</h3>
+<pre><code class="lang-cpp">virtual void ConstructVisuals() override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_a_uxt_pressable_button_actor.html#function-constructvisuals">AUxtPressableButtonActor::ConstructVisuals</a></p>
+<p>Adds toggle visuals and components.</p>
+<h3 id="function-updatetogglevisuals">function UpdateToggleVisuals</h3>
+<pre><code class="lang-cpp">virtual void UpdateToggleVisuals()
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_a_uxt_pressable_check_button_actor.html#function-updatetogglevisuals">AUxtPressableCheckButtonActor::UpdateToggleVisuals</a>, <a href="_a_uxt_pressable_radio_button_actor.html#function-updatetogglevisuals">AUxtPressableRadioButtonActor::UpdateToggleVisuals</a>, <a href="_a_uxt_pressable_switch_button_actor.html#function-updatetogglevisuals">AUxtPressableSwitchButtonActor::UpdateToggleVisuals</a></p>
+<p>Alters the toggle visuals when the toggle state changes.</p>
+<h3 id="function-isinitiallychecked">function IsInitiallyChecked</h3>
+<pre><code class="lang-cpp">inline bool IsInitiallyChecked() const
+</code></pre>
+<p>Gets if the button was toggled on at BeginPlay.</p>
+<h3 id="function-setisinitiallychecked">function SetIsInitiallyChecked</h3>
+<pre><code class="lang-cpp">void SetIsInitiallyChecked(
+    bool InitiallyChecked
+)
+</code></pre>
+<p>Sets if the button was toggled on at BeginPlay. This method has no function after BeginPlay.</p>
+<h3 id="function-removetoggleplate">function RemoveTogglePlate</h3>
+<pre><code class="lang-cpp">void RemoveTogglePlate()
+</code></pre>
+<p>Option to remove the toggle plate if it is not needed for this button (for example in derived classes).</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-onbuttonpressed">function OnButtonPressed</h3>
+<pre><code class="lang-cpp">virtual void OnButtonPressed(
+    UUxtPressableButtonComponent * Button,
+    UUxtPointerComponent * Pointer
+) override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_a_uxt_pressable_button_actor.html#function-onbuttonpressed">AUxtPressableButtonActor::OnButtonPressed</a></p>
+<p>Button pressed event delegate.</p>
+<h3 id="function-onbuttonreleased">function OnButtonReleased</h3>
+<pre><code class="lang-cpp">virtual void OnButtonReleased(
+    UUxtPressableButtonComponent * Button,
+    UUxtPointerComponent * Pointer
+) override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_a_uxt_pressable_button_actor.html#function-onbuttonreleased">AUxtPressableButtonActor::OnButtonReleased</a></p>
+<p>Button released event delegate.</p>
+<h3 id="function-onbuttontoggled">function OnButtonToggled</h3>
+<pre><code class="lang-cpp">virtual void OnButtonToggled(
+    UUxtToggleStateComponent * ToggleState
+)
+</code></pre>
+<p>Updates the toggle visuals when the toggles state changes.</p>
+<h2 id="protected-attributes-documentation">Protected Attributes Documentation</h2>
+<h3 id="variable-btoggleonrelease">variable bToggleOnRelease</h3>
+<pre><code class="lang-cpp">bool bToggleOnRelease = false;
+</code></pre>
+<p>Should the button toggle on press or release?</p>
+<h3 id="variable-togglestatecomponent">variable ToggleStateComponent</h3>
+<pre><code class="lang-cpp">UUxtToggleStateComponent * ToggleStateComponent = nullptr;
+</code></pre>
+<p>Component which keeps track of the toggled state.</p>
+<h3 id="variable-toggleplatecomponent">variable TogglePlateComponent</h3>
+<pre><code class="lang-cpp">UUxtBackPlateComponent * TogglePlateComponent = nullptr;
+</code></pre>
+<p>Visual component to indicate the toggled state.</p>
+<h3 id="variable-bisinitiallychecked">variable bIsInitiallyChecked</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, Category=&quot;Uxt Pressable Button&quot;, BlueprintGetter=&quot;IsInitiallyChecked&quot;, BlueprintSetter=&quot;SetIsInitiallyChecked&quot;)
+bool bIsInitiallyChecked;
+</code></pre>
+<p>Should the button be toggled on or off at BeginPlay?</p>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:33 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -713,10 +564,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_a_uxt_pressable_toggle_button_actor.md&amp;value=---%0Auid%3A%20_a_uxt_pressable_toggle_button_actor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtPressableToggleButtonActor.h/#L19" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_a_uxt_pressable_toggle_button_actor.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Struct FUxtGrabPointerFocus
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference FUxtGrabPointerFocus | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Struct FUxtGrabPointerFocus
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference FUxtGrabPointerFocus | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,471 +80,232 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_f_uxt_grab_pointer_focus">
-  
-  
-  <h1 id="_f_uxt_grab_pointer_focus" data-uid="_f_uxt_grab_pointer_focus" class="text-break">Struct FUxtGrabPointerFocus
-  </h1>
-  <div class="markdown level0 summary"><p>Focus implementation for the grab pointers. </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_ClearFocus_UUxtNearPointerComponent___">FUxtPointerFocus::ClearFocus(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_FindClosestPointOnComponent_UActorComponent___const_FVector___">FUxtPointerFocus::FindClosestPointOnComponent(UActorComponent *Target, const FVector &amp;Point)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_FindClosestTarget_const_TArray_FOverlapResult____const_FVector___">FUxtPointerFocus::FindClosestTarget(const TArray&lt;FOverlapResult&gt; &amp;Overlaps, const FVector &amp;Point)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_FindInterfaceComponent_AActor___">FUxtPointerFocus::FindInterfaceComponent(AActor *Owner)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_GetClosestTargetNormal__">FUxtPointerFocus::GetClosestTargetNormal()</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_GetClosestTargetPoint__">FUxtPointerFocus::GetClosestTargetPoint()</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_GetFocusedPrimitive__">FUxtPointerFocus::GetFocusedPrimitive()</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_GetFocusedTarget__">FUxtPointerFocus::GetFocusedTarget()</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_GetFocusedTargetChecked__">FUxtPointerFocus::GetFocusedTargetChecked()</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_SelectClosestPointOnTarget_UUxtNearPointerComponent___const_FTransform___UActorComponent___">FUxtPointerFocus::SelectClosestPointOnTarget(UUxtNearPointerComponent *Pointer, const FTransform &amp;PointerTransform, UActorComponent *NewTarget)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_SelectClosestTarget_UUxtNearPointerComponent___const_FTransform___const_TArray_FOverlapResult____">FUxtPointerFocus::SelectClosestTarget(UUxtNearPointerComponent *Pointer, const FTransform &amp;PointerTransform, const TArray&lt;FOverlapResult&gt; &amp;Overlaps)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_SetFocus_UUxtNearPointerComponent___const_FTransform___const_FUxtPointerFocusSearchResult___">FUxtPointerFocus::SetFocus(UUxtNearPointerComponent *Pointer, const FTransform &amp;PointerTransform, const FUxtPointerFocusSearchResult &amp;FocusResult)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_UpdateClosestTarget_const_FTransform___">FUxtPointerFocus::UpdateClosestTarget(const FTransform &amp;PointerTransform)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_UpdateFocus_UUxtNearPointerComponent___">FUxtPointerFocus::UpdateFocus(UUxtNearPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus__FUxtPointerFocus__">FUxtPointerFocus::~FUxtPointerFocus()</a>
-    </div>
-  </div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_f_uxt_grab_pointer_focus_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: struct FUxtGrabPointerFocus : public xtPointerFocus</code></pre>
-  </div>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_BeginGrab_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.BeginGrab(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L293">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_BeginGrab_" data-uid="_f_uxt_grab_pointer_focus.BeginGrab*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_BeginGrab_UUxtNearPointerComponent___" data-uid="_f_uxt_grab_pointer_focus.BeginGrab(UUxtNearPointerComponent *)">BeginGrab(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Notify the target object that grab has started. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void BeginGrab(UUxtNearPointerComponent *Pointer)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_EndGrab_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.EndGrab(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L311">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_EndGrab_" data-uid="_f_uxt_grab_pointer_focus.EndGrab*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_EndGrab_UUxtNearPointerComponent___" data-uid="_f_uxt_grab_pointer_focus.EndGrab(UUxtNearPointerComponent *)">EndGrab(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Notify the target object that grab has ended. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void EndGrab(UUxtNearPointerComponent *Pointer)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_GetClosestPointOnTarget_const_UActorComponent___const_UPrimitiveComponent___const_FVector___FVector___FVector___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.GetClosestPointOnTarget(const%20UActorComponent%20*%2Cconst%20UPrimitiveComponent%20*%2Cconst%20FVector%20%26%2CFVector%20%26%2CFVector%20%26)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L336">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_GetClosestPointOnTarget_" data-uid="_f_uxt_grab_pointer_focus.GetClosestPointOnTarget*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_GetClosestPointOnTarget_const_UActorComponent___const_UPrimitiveComponent___const_FVector___FVector___FVector___" data-uid="_f_uxt_grab_pointer_focus.GetClosestPointOnTarget(const UActorComponent *,const UPrimitiveComponent *,const FVector &amp;,FVector &amp;,FVector &amp;)">GetClosestPointOnTarget(const UActorComponent *Target, const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</h4>
-  <div class="markdown level1 summary"><p>Find the closest point on the given primitive using the distance function of the target interface. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool GetClosestPointOnTarget(const UActorComponent *Target, const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const UActorComponent *</td>
-        <td><span class="parametername">Target</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>const UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>const FVector &amp;</td>
-        <td><span class="parametername">Point</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>FVector &amp;</td>
-        <td><span class="parametername">OutClosestPoint</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>FVector &amp;</td>
-        <td><span class="parametername">OutNormal</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_GetClosestPointOnTarget_const_UActorComponent___const_UPrimitiveComponent___const_FVector___FVector___FVector___">FUxtPointerFocus::GetClosestPointOnTarget(const UActorComponent *Target, const UPrimitiveComponent *Primitive, const FVector &amp;Point, FVector &amp;OutClosestPoint, FVector &amp;OutNormal)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_GetInterfaceClass__.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.GetInterfaceClass()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L326">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_GetInterfaceClass_" data-uid="_f_uxt_grab_pointer_focus.GetInterfaceClass*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_GetInterfaceClass__" data-uid="_f_uxt_grab_pointer_focus.GetInterfaceClass()">GetInterfaceClass()</h4>
-  <div class="markdown level1 summary"><p>Get the interface class that targets for the pointer must implement. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual UClass * GetInterfaceClass() const override</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UClass *</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_GetInterfaceClass__">FUxtPointerFocus::GetInterfaceClass()</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_ImplementsTargetInterface_UObject___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.ImplementsTargetInterface(UObject%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L331">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_ImplementsTargetInterface_" data-uid="_f_uxt_grab_pointer_focus.ImplementsTargetInterface*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_ImplementsTargetInterface_UObject___" data-uid="_f_uxt_grab_pointer_focus.ImplementsTargetInterface(UObject *)">ImplementsTargetInterface(UObject *Target)</h4>
-  <div class="markdown level1 summary"><p>Returns true if the given object implements the required target interface. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool ImplementsTargetInterface(UObject *Target) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UObject *</td>
-        <td><span class="parametername">Target</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_ImplementsTargetInterface_UObject___">FUxtPointerFocus::ImplementsTargetInterface(UObject *Target)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_IsGrabbing__.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.IsGrabbing()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L321">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_IsGrabbing_" data-uid="_f_uxt_grab_pointer_focus.IsGrabbing*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_IsGrabbing__" data-uid="_f_uxt_grab_pointer_focus.IsGrabbing()">IsGrabbing()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool IsGrabbing() const</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_RaiseEnterFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.RaiseEnterFocusEvent(UPrimitiveComponent%20*%2CUUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L358">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_RaiseEnterFocusEvent_" data-uid="_f_uxt_grab_pointer_focus.RaiseEnterFocusEvent*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_RaiseEnterFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___" data-uid="_f_uxt_grab_pointer_focus.RaiseEnterFocusEvent(UPrimitiveComponent *,UUxtNearPointerComponent *)">RaiseEnterFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Notify the target object that it has entered focus. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void RaiseEnterFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">Target</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_RaiseEnterFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___">FUxtPointerFocus::RaiseEnterFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_RaiseExitFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.RaiseExitFocusEvent(UPrimitiveComponent%20*%2CUUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L368">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_RaiseExitFocusEvent_" data-uid="_f_uxt_grab_pointer_focus.RaiseExitFocusEvent*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_RaiseExitFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___" data-uid="_f_uxt_grab_pointer_focus.RaiseExitFocusEvent(UPrimitiveComponent *,UUxtNearPointerComponent *)">RaiseExitFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Notify the target object that it has exited focus. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void RaiseExitFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">Target</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_RaiseExitFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___">FUxtPointerFocus::RaiseExitFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_RaiseUpdateFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.RaiseUpdateFocusEvent(UPrimitiveComponent%20*%2CUUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L363">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_RaiseUpdateFocusEvent_" data-uid="_f_uxt_grab_pointer_focus.RaiseUpdateFocusEvent*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_RaiseUpdateFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___" data-uid="_f_uxt_grab_pointer_focus.RaiseUpdateFocusEvent(UPrimitiveComponent *,UUxtNearPointerComponent *)">RaiseUpdateFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Notify the focused target object that the pointer has been updated. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void RaiseUpdateFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">Target</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="_f_uxt_pointer_focus.html#_f_uxt_pointer_focus_RaiseUpdateFocusEvent_UPrimitiveComponent___UUxtNearPointerComponent___">FUxtPointerFocus::RaiseUpdateFocusEvent(UPrimitiveComponent *Target, UUxtNearPointerComponent *Pointer)</a></div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus_UpdateGrab_UUxtNearPointerComponent___.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus.UpdateGrab(UUxtNearPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.cpp/#L303">View Source</a>
-  </span>
-  <a id="_f_uxt_grab_pointer_focus_UpdateGrab_" data-uid="_f_uxt_grab_pointer_focus.UpdateGrab*"></a>
-  <h4 id="_f_uxt_grab_pointer_focus_UpdateGrab_UUxtNearPointerComponent___" data-uid="_f_uxt_grab_pointer_focus.UpdateGrab(UUxtNearPointerComponent *)">UpdateGrab(UUxtNearPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"><p>Notify the grabbed target object that the pointer has been updated. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void UpdateGrab(UUxtNearPointerComponent *Pointer)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<h1 id="fuxtgrabpointerfocus">FUxtGrabPointerFocus</h1>
+
+<p>Focus implementation for the grab pointers.</p>
+<pre><code class="lang-cpp">struct FUxtGrabPointerFocus;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;UxtPointerFocus.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_f_uxt_pointer_focus.html">FUxtPointerFocus</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-begingrab">BeginGrab</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-updategrab">UpdateGrab</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-endgrab">EndGrab</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-isgrabbing">IsGrabbing</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual UClass *</td>
+<td><strong><a href="#function-getinterfaceclass">GetInterfaceClass</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-implementstargetinterface">ImplementsTargetInterface</a></strong>(UObject * Target) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getclosestpointontarget">GetClosestPointOnTarget</a></strong>(const UActorComponent * Target, const UPrimitiveComponent * Primitive, const FVector &amp; Point, FVector &amp; OutClosestPoint, FVector &amp; OutNormal) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-raiseenterfocusevent">RaiseEnterFocusEvent</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-raiseupdatefocusevent">RaiseUpdateFocusEvent</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-raiseexitfocusevent">RaiseExitFocusEvent</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) const override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_f_uxt_pointer_focus.html">FUxtPointerFocus</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-fuxtpointerfocus">~FUxtPointerFocus</a></strong>()</td>
+</tr>
+<tr>
+<td>const FVector &amp;</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-getclosesttargetpoint">GetClosestTargetPoint</a></strong>() const</td>
+</tr>
+<tr>
+<td>const FVector &amp;</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-getclosesttargetnormal">GetClosestTargetNormal</a></strong>() const</td>
+</tr>
+<tr>
+<td>UObject *</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-getfocusedtarget">GetFocusedTarget</a></strong>() const</td>
+</tr>
+<tr>
+<td>UPrimitiveComponent *</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-getfocusedprimitive">GetFocusedPrimitive</a></strong>() const</td>
+</tr>
+<tr>
+<td>UObject *</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-getfocusedtargetchecked">GetFocusedTargetChecked</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-selectclosesttarget">SelectClosestTarget</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer, const FTransform &amp; PointerTransform, const TArray&lt; FOverlapResult &gt; &amp; Overlaps)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-updateclosesttarget">UpdateClosestTarget</a></strong>(const FTransform &amp; PointerTransform)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-selectclosestpointontarget">SelectClosestPointOnTarget</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer, const FTransform &amp; PointerTransform, UActorComponent * NewTarget)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-clearfocus">ClearFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-updatefocus">UpdateFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) const</td>
+</tr>
+<tr>
+<td>UActorComponent *</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-findinterfacecomponent">FindInterfaceComponent</a></strong>(AActor * Owner) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_f_uxt_pointer_focus.html">FUxtPointerFocus</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-setfocus">SetFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer, const FTransform &amp; PointerTransform, const <a href="_f_uxt_pointer_focus_search_result.html">FUxtPointerFocusSearchResult</a> &amp; FocusResult)</td>
+</tr>
+<tr>
+<td><a href="_f_uxt_pointer_focus_search_result.html">FUxtPointerFocusSearchResult</a></td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-findclosesttarget">FindClosestTarget</a></strong>(const TArray&lt; FOverlapResult &gt; &amp; Overlaps, const FVector &amp; Point) const</td>
+</tr>
+<tr>
+<td><a href="_f_uxt_pointer_focus_search_result.html">FUxtPointerFocusSearchResult</a></td>
+<td><strong><a href="_f_uxt_pointer_focus.html#function-findclosestpointoncomponent">FindClosestPointOnComponent</a></strong>(UActorComponent * Target, const FVector &amp; Point) const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-begingrab">function BeginGrab</h3>
+<pre><code class="lang-cpp">void BeginGrab(
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Notify the target object that grab has started.</p>
+<h3 id="function-updategrab">function UpdateGrab</h3>
+<pre><code class="lang-cpp">void UpdateGrab(
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Notify the grabbed target object that the pointer has been updated.</p>
+<h3 id="function-endgrab">function EndGrab</h3>
+<pre><code class="lang-cpp">void EndGrab(
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Notify the target object that grab has ended.</p>
+<h3 id="function-isgrabbing">function IsGrabbing</h3>
+<pre><code class="lang-cpp">bool IsGrabbing() const
+</code></pre>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-getinterfaceclass">function GetInterfaceClass</h3>
+<pre><code class="lang-cpp">virtual UClass * GetInterfaceClass() const override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_f_uxt_pointer_focus.html#function-getinterfaceclass">FUxtPointerFocus::GetInterfaceClass</a></p>
+<p>Get the interface class that targets for the pointer must implement.</p>
+<h3 id="function-implementstargetinterface">function ImplementsTargetInterface</h3>
+<pre><code class="lang-cpp">virtual bool ImplementsTargetInterface(
+    UObject * Target
+) const override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_f_uxt_pointer_focus.html#function-implementstargetinterface">FUxtPointerFocus::ImplementsTargetInterface</a></p>
+<p>Returns true if the given object implements the required target interface.</p>
+<h3 id="function-getclosestpointontarget">function GetClosestPointOnTarget</h3>
+<pre><code class="lang-cpp">virtual bool GetClosestPointOnTarget(
+    const UActorComponent * Target,
+    const UPrimitiveComponent * Primitive,
+    const FVector &amp; Point,
+    FVector &amp; OutClosestPoint,
+    FVector &amp; OutNormal
+) const override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_f_uxt_pointer_focus.html#function-getclosestpointontarget">FUxtPointerFocus::GetClosestPointOnTarget</a></p>
+<p>Find the closest point on the given primitive using the distance function of the target interface.</p>
+<h3 id="function-raiseenterfocusevent">function RaiseEnterFocusEvent</h3>
+<pre><code class="lang-cpp">virtual void RaiseEnterFocusEvent(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+) const override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_f_uxt_pointer_focus.html#function-raiseenterfocusevent">FUxtPointerFocus::RaiseEnterFocusEvent</a></p>
+<p>Notify the target object that it has entered focus.</p>
+<h3 id="function-raiseupdatefocusevent">function RaiseUpdateFocusEvent</h3>
+<pre><code class="lang-cpp">virtual void RaiseUpdateFocusEvent(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+) const override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_f_uxt_pointer_focus.html#function-raiseupdatefocusevent">FUxtPointerFocus::RaiseUpdateFocusEvent</a></p>
+<p>Notify the focused target object that the pointer has been updated.</p>
+<h3 id="function-raiseexitfocusevent">function RaiseExitFocusEvent</h3>
+<pre><code class="lang-cpp">virtual void RaiseExitFocusEvent(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+) const override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_f_uxt_pointer_focus.html#function-raiseexitfocusevent">FUxtPointerFocus::RaiseExitFocusEvent</a></p>
+<p>Notify the target object that it has exited focus.</p>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:34 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -555,10 +314,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_f_uxt_grab_pointer_focus.md&amp;value=---%0Auid%3A%20_f_uxt_grab_pointer_focus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Input/UxtPointerFocus.h/#L135" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_f_uxt_grab_pointer_focus.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

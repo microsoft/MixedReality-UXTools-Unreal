@@ -82,14 +82,20 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="transform-constraints">Transform Constraints</h1>
 
-<p>UXTools provides a mechanism to implement and apply transform constraints to actors on manipulation by using a <code>UxtConstraintManager</code>. They are integrated with the <code>UxtManipulatorComponent</code> and <code>UxtBoundsControlComponent</code> out of the box.</p>
+<p>UXTools provides a mechanism to implement and apply transform constraints to actors during manipulation. All you need to do is inherit from <code>UUxtManipulatorComponent</code>, as <code>UUxtGenericManipulatorComponent</code> and <code>UUxtBoundsControlComponent</code> for example.</p>
 <h2 id="usage">Usage</h2>
 <p>In order to use constraints:</p>
 <ol>
 <li>Add any desired <code>UxtTransformConstraint</code>-derived components to the actor.</li>
-<li>Add any components that contain and use a <code>UxtConstraintManager</code> instance, such as <code>UxtManipulatorComponent</code> and <code>UxtBoundsControlComponent</code>.</li>
+<li>Add any <code>UUxtManipulatorComponent</code>-derived components to the actor, such as <code>UUxtGenericManipulatorComponent</code> and <code>UUxtBoundsControlComponent</code>.</li>
 </ol>
-<p>By default, every <code>UxtConstraintManager</code> instance will take all the constraint components attached to the actor into consideration.</p>
+<p>Each <code>UUxtManipulatorComponent</code> will apply all constraint components in the actor if <code>bAutoDetectConstraints</code> is set to <code>true</code>. Otherwise, you can fill the <code>SelectedConstraints</code> array to choose which constraints you'd like that component to apply during its interaction.</p>
+<h2 id="implicit-scale">Implicit scale</h2>
+<p>There's an implicit constraint which doesn't inherit from <code>UxtTransformConstraint</code> and is applied by all <code>UUxtManipulatorComponent</code>s. The reason for that is preventing their scales from reaching <code>0</code> or even negative values. Besides that, <code>UUxtBoundsControlComponent</code> avoids having interaction issues with its handles when the scale is too small.</p>
+<p>The <code>MinScale</code> and <code>MaxScale</code> properties give you flexibility to configure this behavior within reasonable values, clamped to prevent the unexpected results previously mentioned.</p>
+<p>Use <code>bRelativeToInitialScale</code> to configure whether the limits are relative to the scale at interaction start (<code>true</code>) or absolute (<code>false</code>).</p>
+<p>In the following example, <code>MinScale</code> is set to <code>0.3</code>:</p>
+<p><img src="Images/Constraints/Min_max_scale_constraint.gif" alt="Min/max scale constraint demo"></p>
 <h2 id="built-in-constraint-components">Built-in constraint components</h2>
 <p>There are a few built-in constraint components, which will hopefully save you from having to write your own.</p>
 <h3 id="uxtfaceuserconstraint">UxtFaceUserConstraint</h3>
@@ -122,11 +128,6 @@
 <h3 id="uxtmaintainapparentsizeconstraint">UxtMaintainApparentSizeConstraint</h3>
 <p>Makes the actor maintain the apparent size (relative to the user) that it had when the interaction started.</p>
 <p><img src="Images/Constraints/Maintain_apparent_size_constraint.gif" alt="Maintain apparent size constraint demo"></p>
-<h3 id="uxtminmaxscaleconstraint">UxtMinMaxScaleConstraint</h3>
-<p>Limits the minimum and maximum scale of the actor during manipulation, via <code>MinScale</code> and <code>MaxScale</code> properties respectively.</p>
-<p>Use <code>bRelativeToInitialScale</code> to configure whether the limits are relative to the scale at interaction start (<code>true</code>) or absolute (<code>false</code>).</p>
-<p><img src="Images/Constraints/Min_max_scale_constraint.gif" alt="Min/max scale constraint demo"></p>
-<p>(Example limiting the minimum scale to <code>0.3</code>)</p>
 <h3 id="uxtmoveaxisconstraint">UxtMoveAxisConstraint</h3>
 <p>Limits movement on specific axes. Use the <code>ConstraintOnMovement</code> bit mask of <code>EUxtAxisFlags</code>.</p>
 <p><img src="Images/Constraints/Move_axis_constraint.gif" alt="Move axis constraint demo"></p>
@@ -146,7 +147,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/TransformConstraints.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/TransformConstraints.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

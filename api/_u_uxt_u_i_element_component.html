@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class UUxtUIElementComponent
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference UUxtUIElementComponent | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class UUxtUIElementComponent
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference UUxtUIElementComponent | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,249 +80,128 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_u_uxt_u_i_element_component">
-  
-  
-  <h1 id="_u_uxt_u_i_element_component" data-uid="_u_uxt_u_i_element_component" class="text-break">Class UUxtUIElementComponent
-  </h1>
-  <div class="markdown level0 summary"><p>Controls visibility of a UI element in the scene.</p>
-<p>Parent-child relationships are managed via actor attachments. If the parent is hidden, all of its children will be hidden. It is recommended to have the UxtUIElementComponent as the root component as the actor as this allows it to automatically update if the actor is attached to a new parent actor. If it is not the root component, <a class="xref" href="_u_uxt_u_i_element_component.html#_u_uxt_u_i_element_component_RefreshUIElement__">RefreshUIElement()</a> will need to be called manually after attaching a new parent actor.</p>
-<p>Note: Manually changing actor visibility will not affect child UI elements and may lead to unwanted behavior. </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System::Object</span></div>
-    <div class="level1"><span class="xref">USceneComponent</span></div>
-    <div class="level2"><span class="xref">UUxtUIElementComponent</span></div>
-  </div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_u_uxt_u_i_element_component_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: class UUxtUIElementComponent</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_UUxtUIElementComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.UUxtUIElementComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtUIElementComponent.h/#L42">View Source</a>
-  </span>
-  <a id="_u_uxt_u_i_element_component_UUxtUIElementComponent_" data-uid="_u_uxt_u_i_element_component.UUxtUIElementComponent*"></a>
-  <h4 id="_u_uxt_u_i_element_component_UUxtUIElementComponent__" data-uid="_u_uxt_u_i_element_component.UUxtUIElementComponent()">UUxtUIElementComponent()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: UUxtUIElementComponent()=default</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_OnHideElement.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.OnHideElement%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtUIElementComponent.h/#L67">View Source</a>
-  </span>
-  <h4 id="_u_uxt_u_i_element_component_OnHideElement" data-uid="_u_uxt_u_i_element_component.OnHideElement">OnHideElement</h4>
-  <div class="markdown level1 summary"><p>Event raised when the element is hidden. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtUIElementHideDelegate OnHideElement</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtUIElementHideDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_OnShowElement.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.OnShowElement%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtUIElementComponent.h/#L63">View Source</a>
-  </span>
-  <h4 id="_u_uxt_u_i_element_component_OnShowElement" data-uid="_u_uxt_u_i_element_component.OnShowElement">OnShowElement</h4>
-  <div class="markdown level1 summary"><p>Event raised when the element is shown. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtUIElementShowDelegate OnShowElement</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtUIElementShowDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtUIElementComponent.cpp/#L40">View Source</a>
-  </span>
-  <a id="_u_uxt_u_i_element_component_BeginPlay_" data-uid="_u_uxt_u_i_element_component.BeginPlay*"></a>
-  <h4 id="_u_uxt_u_i_element_component_BeginPlay__" data-uid="_u_uxt_u_i_element_component.BeginPlay()">BeginPlay()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_GetUIVisibilityInHierarchy__.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.GetUIVisibilityInHierarchy()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtUIElementComponent.cpp/#L13">View Source</a>
-  </span>
-  <a id="_u_uxt_u_i_element_component_GetUIVisibilityInHierarchy_" data-uid="_u_uxt_u_i_element_component.GetUIVisibilityInHierarchy*"></a>
-  <h4 id="_u_uxt_u_i_element_component_GetUIVisibilityInHierarchy__" data-uid="_u_uxt_u_i_element_component.GetUIVisibilityInHierarchy()">GetUIVisibilityInHierarchy()</h4>
-  <div class="markdown level1 summary"><p>Get the element's visibility in the scene. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: EUxtUIElementVisibility GetUIVisibilityInHierarchy() const</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>EUxtUIElementVisibility</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_GetUIVisibilitySelf__.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.GetUIVisibilitySelf()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtUIElementComponent.cpp/#L8">View Source</a>
-  </span>
-  <a id="_u_uxt_u_i_element_component_GetUIVisibilitySelf_" data-uid="_u_uxt_u_i_element_component.GetUIVisibilitySelf*"></a>
-  <h4 id="_u_uxt_u_i_element_component_GetUIVisibilitySelf__" data-uid="_u_uxt_u_i_element_component.GetUIVisibilitySelf()">GetUIVisibilitySelf()</h4>
-  <div class="markdown level1 summary"><p>Get the element's visibility. This does not reflect if the element is visible in the scene. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: EUxtUIElementVisibility GetUIVisibilitySelf() const</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>EUxtUIElementVisibility</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_OnAttachmentChanged__.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.OnAttachmentChanged()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtUIElementComponent.cpp/#L50">View Source</a>
-  </span>
-  <a id="_u_uxt_u_i_element_component_OnAttachmentChanged_" data-uid="_u_uxt_u_i_element_component.OnAttachmentChanged*"></a>
-  <h4 id="_u_uxt_u_i_element_component_OnAttachmentChanged__" data-uid="_u_uxt_u_i_element_component.OnAttachmentChanged()">OnAttachmentChanged()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnAttachmentChanged() override</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_RefreshUIElement__.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.RefreshUIElement()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtUIElementComponent.cpp/#L35">View Source</a>
-  </span>
-  <a id="_u_uxt_u_i_element_component_RefreshUIElement_" data-uid="_u_uxt_u_i_element_component.RefreshUIElement*"></a>
-  <h4 id="_u_uxt_u_i_element_component_RefreshUIElement__" data-uid="_u_uxt_u_i_element_component.RefreshUIElement()">RefreshUIElement()</h4>
-  <div class="markdown level1 summary"><p>Refresh the element's visibility. This is only necessary after changing the element's parent actor when this is not the root component of the actor. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void RefreshUIElement()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component_SetUIVisibility_EUxtUIElementVisibility_.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component.SetUIVisibility(EUxtUIElementVisibility)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Controls/UxtUIElementComponent.cpp/#L25">View Source</a>
-  </span>
-  <a id="_u_uxt_u_i_element_component_SetUIVisibility_" data-uid="_u_uxt_u_i_element_component.SetUIVisibility*"></a>
-  <h4 id="_u_uxt_u_i_element_component_SetUIVisibility_EUxtUIElementVisibility_" data-uid="_u_uxt_u_i_element_component.SetUIVisibility(EUxtUIElementVisibility)">SetUIVisibility(EUxtUIElementVisibility NewVisibility)</h4>
-  <div class="markdown level1 summary"><p>Set the element's visibility. The element will not be visible in the scene if it's parent is hidden. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void SetUIVisibility(EUxtUIElementVisibility NewVisibility)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>EUxtUIElementVisibility</td>
-        <td><span class="parametername">NewVisibility</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<h1 id="uuxtuielementcomponent">UUxtUIElementComponent</h1>
+
+<p>Controls visibility of a UI element in the scene.</p>
+<p>Parent-child relationships are managed via actor attachments. If the parent is hidden, all of its children will be hidden. It is recommended to have the UxtUIElementComponent as the root component as the actor as this allows it to automatically update if the actor is attached to a new parent actor. If it is not the root component, <a href="#function-refreshuielement">RefreshUIElement()</a> will need to be called manually after attaching a new parent actor.</p>
+<p>Note: Manually changing actor visibility will not affect child UI elements and may lead to unwanted behavior.</p>
+<pre><code class="lang-cpp">class UUxtUIElementComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtUIElementComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from USceneComponent</p>
+<p>Inherited by <a href="_u_uxt_pinch_slider_component.html">UUxtPinchSliderComponent</a>, <a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a>, <a href="_u_uxt_touchable_volume_component.html">UUxtTouchableVolumeComponent</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtuielementcomponent">UUxtUIElementComponent</a></strong>() =default</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="#function-getuivisibilityself">GetUIVisibilitySelf</a></strong>() const</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="#function-getuivisibilityinhierarchy">GetUIVisibilityInHierarchy</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setuivisibility">SetUIVisibility</a></strong>(EUxtUIElementVisibility NewVisibility)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-refreshuielement">RefreshUIElement</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onattachmentchanged">OnAttachmentChanged</a></strong>() override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtUIElementShowDelegate</td>
+<td><strong><a href="#variable-onshowelement">OnShowElement</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUIElementHideDelegate</td>
+<td><strong><a href="#variable-onhideelement">OnHideElement</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-uuxtuielementcomponent">function UUxtUIElementComponent</h3>
+<pre><code class="lang-cpp">UUxtUIElementComponent() =default
+</code></pre>
+<h3 id="function-getuivisibilityself">function GetUIVisibilitySelf</h3>
+<pre><code class="lang-cpp">EUxtUIElementVisibility GetUIVisibilitySelf() const
+</code></pre>
+<p>Get the element's visibility. This does not reflect if the element is visible in the scene.</p>
+<h3 id="function-getuivisibilityinhierarchy">function GetUIVisibilityInHierarchy</h3>
+<pre><code class="lang-cpp">EUxtUIElementVisibility GetUIVisibilityInHierarchy() const
+</code></pre>
+<p>Get the element's visibility in the scene.</p>
+<h3 id="function-setuivisibility">function SetUIVisibility</h3>
+<pre><code class="lang-cpp">void SetUIVisibility(
+    EUxtUIElementVisibility NewVisibility
+)
+</code></pre>
+<p>Set the element's visibility. The element will not be visible in the scene if it's parent is hidden.</p>
+<h3 id="function-refreshuielement">function RefreshUIElement</h3>
+<pre><code class="lang-cpp">void RefreshUIElement()
+</code></pre>
+<p>Refresh the element's visibility. This is only necessary after changing the element's parent actor when this is not the root component of the actor.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_u_uxt_pinch_slider_component.html#function-beginplay">UUxtPinchSliderComponent::BeginPlay</a>, <a href="_u_uxt_pressable_button_component.html#function-beginplay">UUxtPressableButtonComponent::BeginPlay</a>, <a href="_u_uxt_touchable_volume_component.html#function-beginplay">UUxtTouchableVolumeComponent::BeginPlay</a></p>
+<h3 id="function-onattachmentchanged">function OnAttachmentChanged</h3>
+<pre><code class="lang-cpp">virtual void OnAttachmentChanged() override
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-onshowelement">variable OnShowElement</h3>
+<pre><code class="lang-cpp">FUxtUIElementShowDelegate OnShowElement;
+</code></pre>
+<p>Event raised when the element is shown.</p>
+<h3 id="variable-onhideelement">variable OnHideElement</h3>
+<pre><code class="lang-cpp">FUxtUIElementHideDelegate OnHideElement;
+</code></pre>
+<p>Event raised when the element is hidden.</p>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:34 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -333,10 +210,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_u_i_element_component.md&amp;value=---%0Auid%3A%20_u_uxt_u_i_element_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Controls/UxtUIElementComponent.h/#L37" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_u_uxt_u_i_element_component.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

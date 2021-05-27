@@ -94,7 +94,7 @@ At the end of the beam a <em>far cursor</em> gives feedback about the current fa
 All visible objects with collision will be hit by the far ray by default but only components implementing the <em>far target interface</em> will receive far interaction events.
 Provided UX elements like the <em>pressable button</em> implement these interfaces to use interactions to drive their state.</p>
 <h2 id="hand-interaction-actor">Hand interaction actor</h2>
-<p>Add a <a class="xref" href="../api/_a_uxt_hand_interaction_actor.html">AUxtHandInteractionActor</a> to the world per hand in order to be able to interact with UX elements.
+<p>Add a <a class="xref" href="../api/_a_uxt_hand_interaction_actor.html">MRTK Unreal API Reference AUxtHandInteractionActor</a> to the world per hand in order to be able to interact with UX elements.
 There is no other additional setup required, just remember to set the actors to different hands via their <em>Hand</em> property as by default they use the left hand.
 See <em>MRPawn</em> in <em>UXToolsGame</em> for an example of hand interaction setup.</p>
 <p>The actor will automatically create the required components for near and far pointers and their visualization.
@@ -109,17 +109,17 @@ The trace channel property is used to filter the results of those queries.</p>
 <h3 id="default-visuals">Default visuals</h3>
 <p>Default visuals are created for near and far cursor and far beam in the form of the following components:</p>
 <ul>
-<li>Near cursor: <a class="xref" href="../api/_u_uxt_finger_cursor_component.html">UUxtFingerCursorComponent</a></li>
-<li>Far cursor: <a class="xref" href="../api/_u_uxt_far_cursor_component.html">UUxtFarCursorComponent</a></li>
-<li>Far beam: <a class="xref" href="../api/_u_uxt_far_beam_component.html">UUxtFarBeamComponent</a></li>
+<li>Near cursor: <a class="xref" href="../api/_u_uxt_finger_cursor_component.html">MRTK Unreal API Reference UUxtFingerCursorComponent</a></li>
+<li>Far cursor: <a class="xref" href="../api/_u_uxt_far_cursor_component.html">MRTK Unreal API Reference UUxtFarCursorComponent</a></li>
+<li>Far beam: <a class="xref" href="../api/_u_uxt_far_beam_component.html">MRTK Unreal API Reference UUxtFarBeamComponent</a></li>
 </ul>
 <p>In order to allow for custom visuals, their creation can be individually disabled via properties in the advanced section of the <em>Hand Interaction</em> category.</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/windows/mixed-reality/interaction-fundamentals">Mixed Reality Instinctual Interactions</a>: design principles behind the interaction model.</li>
-<li><a class="xref" href="../api/_i_uxt_grab_target.html">IUxtGrabTarget</a></li>
-<li><a class="xref" href="../api/_i_uxt_poke_target.html">IUxtPokeTarget</a></li>
-<li><a class="xref" href="../api/_i_uxt_far_target.html">IUxtFarTarget</a></li>
+<li><a class="xref" href="../api/_i_uxt_grab_target.html">MRTK Unreal API Reference IUxtGrabTarget</a></li>
+<li><a class="xref" href="../api/_i_uxt_poke_target.html">MRTK Unreal API Reference IUxtPokeTarget</a></li>
+<li><a class="xref" href="../api/_i_uxt_far_target.html">MRTK Unreal API Reference IUxtFarTarget</a></li>
 </ul>
 </article>
           </div>
@@ -129,7 +129,7 @@ The trace channel property is used to filter the results of those queries.</p>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/HandInteraction.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/HandInteraction.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

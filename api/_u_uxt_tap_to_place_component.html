@@ -5,11 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class UUxtTapToPlaceComponent
-   | UXT Documentation </title>
+    <title>MRTK Unreal API Reference UUxtTapToPlaceComponent | UXT Documentation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class UUxtTapToPlaceComponent
-   | UXT Documentation ">
+    <meta name="title" content="MRTK Unreal API Reference UUxtTapToPlaceComponent | UXT Documentation ">
     <meta name="generator" content="docfx 2.48.1.0">
     
     <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
@@ -82,902 +80,368 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="_u_uxt_tap_to_place_component">
-  
-  
-  <h1 id="_u_uxt_tap_to_place_component" data-uid="_u_uxt_tap_to_place_component" class="text-break">Class UUxtTapToPlaceComponent
-  </h1>
-  <div class="markdown level0 summary"><p>Tap to place is a control used to transform objects at a distance. The control allows you to select an object you wish to place using far interaction. After that, the object will be locked to your gaze and will be placed against surfaces and other objects. Any subsequent far release will end placement, even if the pointer is not pointing at the object being placed. </p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><span class="xref">System::Object</span></div>
-    <div class="level1"><span class="xref">UActorComponent</span></div>
-    <div class="level2"><span class="xref">UUxtTapToPlaceComponent</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_CanHandleFar_UPrimitiveComponent___">IUxtFarHandler::CanHandleFar(UPrimitiveComponent *Primitive)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_target.html#_i_uxt_far_target_IsFarFocusable_const_UPrimitiveComponent___">IUxtFarTarget::IsFarFocusable(const UPrimitiveComponent *Primitive)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnEnterFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnEnterFarFocus(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnExitFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnExitFarFocus(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarDragged_UUxtFarPointerComponent___">IUxtFarHandler::OnFarDragged(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarPressed_UUxtFarPointerComponent___">IUxtFarHandler::OnFarPressed(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnFarReleased_UUxtFarPointerComponent___">IUxtFarHandler::OnFarReleased(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-    <div>
-      <a class="xref" href="_i_uxt_far_handler.html#_i_uxt_far_handler_OnUpdatedFarFocus_UUxtFarPointerComponent___">IUxtFarHandler::OnUpdatedFarFocus(UUxtFarPointerComponent *Pointer)</a>
-    </div>
-  </div>
-  <h6><strong>Namespace</strong>: </h6>
-  <h6><strong>Assembly</strong>: .dll</h6>
-  <h5 id="_u_uxt_tap_to_place_component_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: class UUxtTapToPlaceComponent : public xtFarTarget, public xtFarHandler</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_UUxtTapToPlaceComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.UUxtTapToPlaceComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L34">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_UUxtTapToPlaceComponent_" data-uid="_u_uxt_tap_to_place_component.UUxtTapToPlaceComponent*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_UUxtTapToPlaceComponent__" data-uid="_u_uxt_tap_to_place_component.UUxtTapToPlaceComponent()">UUxtTapToPlaceComponent()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: UUxtTapToPlaceComponent()</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_bInterpolatePose.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.bInterpolatePose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L147">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_bInterpolatePose" data-uid="_u_uxt_tap_to_place_component.bInterpolatePose">bInterpolatePose</h4>
-  <div class="markdown level1 summary"><p>Option to ignore interpolation between follow poses </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool bInterpolatePose= true</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_DefaultPlacementDistance.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.DefaultPlacementDistance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L135">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_DefaultPlacementDistance" data-uid="_u_uxt_tap_to_place_component.DefaultPlacementDistance">DefaultPlacementDistance</h4>
-  <div class="markdown level1 summary"><p>Distance to place the object at if no obstructing surface. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float DefaultPlacementDistance= 150</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_KeepOrientationVertical.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.KeepOrientationVertical%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L131">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_KeepOrientationVertical" data-uid="_u_uxt_tap_to_place_component.KeepOrientationVertical">KeepOrientationVertical</h4>
-  <div class="markdown level1 summary"><p>Whether the orientation of the object should pitch or roll. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: bool KeepOrientationVertical= false</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_LerpTime.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.LerpTime%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L151">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_LerpTime" data-uid="_u_uxt_tap_to_place_component.LerpTime">LerpTime</h4>
-  <div class="markdown level1 summary"><p>Rate at which its owner will move toward default distance when angular leashing </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float LerpTime= 0.1f</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_MaxRaycastDistance.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.MaxRaycastDistance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L139">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_MaxRaycastDistance" data-uid="_u_uxt_tap_to_place_component.MaxRaycastDistance">MaxRaycastDistance</h4>
-  <div class="markdown level1 summary"><p>Max distance to cast to when checking for obstructing surfaces. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: float MaxRaycastDistance= 2000</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnBeginFocus.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnBeginFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L102">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_OnBeginFocus" data-uid="_u_uxt_tap_to_place_component.OnBeginFocus">OnBeginFocus</h4>
-  <div class="markdown level1 summary"><p>Event raised when a pointer starts focusing the placeable object. bWasAlreadyFocused indicates if the object was already focused by another pointer. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtTapToPlaceBeginFocusDelegate OnBeginFocus</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtTapToPlaceBeginFocusDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnBeginPlacing.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnBeginPlacing%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L115">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_OnBeginPlacing" data-uid="_u_uxt_tap_to_place_component.OnBeginPlacing">OnBeginPlacing</h4>
-  <div class="markdown level1 summary"><p>Event raised when a placeable object is selected. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtTapToPlaceBeginPlacingDelegate OnBeginPlacing</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtTapToPlaceBeginPlacingDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnEndFocus.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnEndFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L111">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_OnEndFocus" data-uid="_u_uxt_tap_to_place_component.OnEndFocus">OnEndFocus</h4>
-  <div class="markdown level1 summary"><p>Event raised when a pointer ends focusing the placeable object. bIsStillFocused indicates if the object is still focused by another pointer. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtTapToPlaceEndFocusDelegate OnEndFocus</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtTapToPlaceEndFocusDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnEndPlacing.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnEndPlacing%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L119">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_OnEndPlacing" data-uid="_u_uxt_tap_to_place_component.OnEndPlacing">OnEndPlacing</h4>
-  <div class="markdown level1 summary"><p>Event raised when a placeable object is deselected and placed. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtTapToPlaceEndPlacingDelegate OnEndPlacing</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtTapToPlaceEndPlacingDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnUpdateFocus.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnUpdateFocus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L106">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_OnUpdateFocus" data-uid="_u_uxt_tap_to_place_component.OnUpdateFocus">OnUpdateFocus</h4>
-  <div class="markdown level1 summary"><p>Event raised when a focusing pointer updates. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: FUxtTapToPlaceUpdateFocusDelegate OnUpdateFocus</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>FUxtTapToPlaceUpdateFocusDelegate</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OrientationType.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OrientationType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L123">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_OrientationType" data-uid="_u_uxt_tap_to_place_component.OrientationType">OrientationType</h4>
-  <div class="markdown level1 summary"><p>How the object is oriented against hit surfaces. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: TEnumAsByte&lt;EUxtTapToPlaceOrientBehavior&gt; OrientationType= EUxtTapToPlaceOrientBehavior::AlignToSurface</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>TEnumAsByte&lt;EUxtTapToPlaceOrientBehavior&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_PlacementType.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.PlacementType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L127">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_PlacementType" data-uid="_u_uxt_tap_to_place_component.PlacementType">PlacementType</h4>
-  <div class="markdown level1 summary"><p>How the target should be placed, using head or far pointer. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: TEnumAsByte&lt;EUxtTapToPlaceMode&gt; PlacementType= EUxtTapToPlaceMode::Head</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>TEnumAsByte&lt;EUxtTapToPlaceMode&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_TraceChannel.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.TraceChannel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L143">View Source</a>
-  </span>
-  <h4 id="_u_uxt_tap_to_place_component_TraceChannel" data-uid="_u_uxt_tap_to_place_component.TraceChannel">TraceChannel</h4>
-  <div class="markdown level1 summary"><p>Trace channel for raycast. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: TEnumAsByte&lt;ECollisionChannel&gt; TraceChannel= ECollisionChannel::ECC_Visibility</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>TEnumAsByte&lt;ECollisionChannel&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_BeginPlay__.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.BeginPlay()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L82">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_BeginPlay_" data-uid="_u_uxt_tap_to_place_component.BeginPlay*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_BeginPlay__" data-uid="_u_uxt_tap_to_place_component.BeginPlay()">BeginPlay()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void BeginPlay() override</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_CanHandleFar_Implementation_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.CanHandleFar_Implementation(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L190">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_CanHandleFar_Implementation_" data-uid="_u_uxt_tap_to_place_component.CanHandleFar_Implementation*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_CanHandleFar_Implementation_UPrimitiveComponent___" data-uid="_u_uxt_tap_to_place_component.CanHandleFar_Implementation(UPrimitiveComponent *)">CanHandleFar_Implementation(UPrimitiveComponent *Primitive)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool CanHandleFar_Implementation(UPrimitiveComponent *Primitive) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_EndPlacement__.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.EndPlacement()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L71">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_EndPlacement_" data-uid="_u_uxt_tap_to_place_component.EndPlacement*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_EndPlacement__" data-uid="_u_uxt_tap_to_place_component.EndPlacement()">EndPlacement()</h4>
-  <div class="markdown level1 summary"><p>End placement of the target component. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void EndPlacement()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_EndPlay_const_EEndPlayReason__Type_.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.EndPlay(const%20EEndPlayReason%3A%3AType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L177">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_EndPlay_" data-uid="_u_uxt_tap_to_place_component.EndPlay*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_EndPlay_const_EEndPlayReason__Type_" data-uid="_u_uxt_tap_to_place_component.EndPlay(const EEndPlayReason::Type)">EndPlay(const EEndPlayReason::Type EndPlayReason)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const EEndPlayReason::Type</td>
-        <td><span class="parametername">EndPlayReason</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_GetTargetComponent__.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.GetTargetComponent()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L41">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_GetTargetComponent_" data-uid="_u_uxt_tap_to_place_component.GetTargetComponent*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_GetTargetComponent__" data-uid="_u_uxt_tap_to_place_component.GetTargetComponent()">GetTargetComponent()</h4>
-  <div class="markdown level1 summary"><p>Get the component to transform. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: UPrimitiveComponent * GetTargetComponent() const</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.IsFarFocusable_Implementation(const%20UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L185">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_IsFarFocusable_Implementation_" data-uid="_u_uxt_tap_to_place_component.IsFarFocusable_Implementation*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_IsFarFocusable_Implementation_const_UPrimitiveComponent___" data-uid="_u_uxt_tap_to_place_component.IsFarFocusable_Implementation(const UPrimitiveComponent *)">IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual bool IsFarFocusable_Implementation(const UPrimitiveComponent *Primitive) const override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>const UPrimitiveComponent *</td>
-        <td><span class="parametername">Primitive</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>bool</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L207">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_OnEnterFarFocus_Implementation_" data-uid="_u_uxt_tap_to_place_component.OnEnterFarFocus_Implementation*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_OnEnterFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_tap_to_place_component.OnEnterFarFocus_Implementation(UUxtFarPointerComponent *)">OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnEnterFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L218">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_OnExitFarFocus_Implementation_" data-uid="_u_uxt_tap_to_place_component.OnExitFarFocus_Implementation*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_OnExitFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_tap_to_place_component.OnExitFarFocus_Implementation(UUxtFarPointerComponent *)">OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnExitFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnFarPressed_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnFarPressed_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L224">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_OnFarPressed_Implementation_" data-uid="_u_uxt_tap_to_place_component.OnFarPressed_Implementation*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_OnFarPressed_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_tap_to_place_component.OnFarPressed_Implementation(UUxtFarPointerComponent *)">OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnFarPressed_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnFarReleased_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnFarReleased_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L195">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_OnFarReleased_Implementation_" data-uid="_u_uxt_tap_to_place_component.OnFarReleased_Implementation*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_OnFarReleased_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_tap_to_place_component.OnFarReleased_Implementation(UUxtFarPointerComponent *)">OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnFarReleased_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L213">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_OnUpdatedFarFocus_Implementation_" data-uid="_u_uxt_tap_to_place_component.OnUpdatedFarFocus_Implementation*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_OnUpdatedFarFocus_Implementation_UUxtFarPointerComponent___" data-uid="_u_uxt_tap_to_place_component.OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *)">OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void OnUpdatedFarFocus_Implementation(UUxtFarPointerComponent *Pointer) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> *</td>
-        <td><span class="parametername">Pointer</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_SetTargetComponent_UPrimitiveComponent___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.SetTargetComponent(UPrimitiveComponent%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L46">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_SetTargetComponent_" data-uid="_u_uxt_tap_to_place_component.SetTargetComponent*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_SetTargetComponent_UPrimitiveComponent___" data-uid="_u_uxt_tap_to_place_component.SetTargetComponent(UPrimitiveComponent *)">SetTargetComponent(UPrimitiveComponent *Target)</h4>
-  <div class="markdown level1 summary"><p>Set the component to transform. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void SetTargetComponent(UPrimitiveComponent *Target)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>UPrimitiveComponent *</td>
-        <td><span class="parametername">Target</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_StartPlacement__.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.StartPlacement()%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L56">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_StartPlacement_" data-uid="_u_uxt_tap_to_place_component.StartPlacement*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_StartPlacement__" data-uid="_u_uxt_tap_to_place_component.StartPlacement()">StartPlacement()</h4>
-  <div class="markdown level1 summary"><p>Start placement of the target component. </p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public: void StartPlacement()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component.TickComponent(float%2CELevelTick%2CFActorComponentTickFunction%20*)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Private/Behaviors/UxtTapToPlaceComponent.cpp/#L98">View Source</a>
-  </span>
-  <a id="_u_uxt_tap_to_place_component_TickComponent_" data-uid="_u_uxt_tap_to_place_component.TickComponent*"></a>
-  <h4 id="_u_uxt_tap_to_place_component_TickComponent_float_ELevelTick_FActorComponentTickFunction___" data-uid="_u_uxt_tap_to_place_component.TickComponent(float,ELevelTick,FActorComponentTickFunction *)">TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected: virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>float</td>
-        <td><span class="parametername">DeltaTime</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>ELevelTick</td>
-        <td><span class="parametername">TickType</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>FActorComponentTickFunction *</td>
-        <td><span class="parametername">ThisTickFunction</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+<h1 id="uuxttaptoplacecomponent">UUxtTapToPlaceComponent</h1>
+
+<p>Tap to place is a control used to transform objects at a distance. The control allows you to select an object you wish to place using far interaction. After that, the object will be locked to your gaze and will be placed against surfaces and other objects. Any subsequent far release will end placement, even if the pointer is not pointing at the object being placed.</p>
+<pre><code class="lang-cpp">class UUxtTapToPlaceComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Behaviors/UxtTapToPlaceComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from UActorComponent, <a href="_i_uxt_far_target.html">IUxtFarTarget</a>, <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxttaptoplacecomponent">UUxtTapToPlaceComponent</a></strong>()</td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#function-gettargetcomponent">GetTargetComponent</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settargetcomponent">SetTargetComponent</a></strong>(USceneComponent * Target)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-startplacement">StartPlacement</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-endplacement">EndPlacement</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tickcomponent">TickComponent</a></strong>(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-endplay">EndPlay</a></strong>(const EEndPlayReason::Type EndPlayReason) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isfarfocusable_implementation">IsFarFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlefar_implementation">CanHandleFar_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterfarfocus_implementation">OnEnterFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatedfarfocus_implementation">OnUpdatedFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitfarfocus_implementation">OnExitFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarpressed_implementation">OnFarPressed_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarreleased_implementation">OnFarReleased_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtTapToPlaceBeginFocusDelegate</td>
+<td><strong><a href="#variable-onbeginfocus">OnBeginFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceUpdateFocusDelegate</td>
+<td><strong><a href="#variable-onupdatefocus">OnUpdateFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceEndFocusDelegate</td>
+<td><strong><a href="#variable-onendfocus">OnEndFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceBeginPlacingDelegate</td>
+<td><strong><a href="#variable-onbeginplacing">OnBeginPlacing</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceEndPlacingDelegate</td>
+<td><strong><a href="#variable-onendplacing">OnEndPlacing</a></strong></td>
+</tr>
+<tr>
+<td>TEnumAsByte&lt; EUxtTapToPlaceOrientBehavior &gt;</td>
+<td><strong><a href="#variable-orientationtype">OrientationType</a></strong></td>
+</tr>
+<tr>
+<td>TEnumAsByte&lt; EUxtTapToPlaceMode &gt;</td>
+<td><strong><a href="#variable-placementtype">PlacementType</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-keeporientationvertical">KeepOrientationVertical</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-horizontalsurfacethreshold">HorizontalSurfaceThreshold</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-defaultplacementdistance">DefaultPlacementDistance</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-maxraycastdistance">MaxRaycastDistance</a></strong></td>
+</tr>
+<tr>
+<td>TEnumAsByte&lt; ECollisionChannel &gt;</td>
+<td><strong><a href="#variable-tracechannel">TraceChannel</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-binterpolatepose">bInterpolatePose</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-lerptime">LerpTime</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-busedefaultsurfacenormaloffset">bUseDefaultSurfaceNormalOffset</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-surfacenormaloffset">SurfaceNormalOffset</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_target.html">IUxtFarTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_target.html#function-isfarfocusable">IsFarFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-canhandlefar">CanHandleFar</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onenterfarfocus">OnEnterFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onupdatedfarfocus">OnUpdatedFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onexitfarfocus">OnExitFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarpressed">OnFarPressed</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfardragged">OnFarDragged</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarreleased">OnFarReleased</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-uuxttaptoplacecomponent">function UUxtTapToPlaceComponent</h3>
+<pre><code class="lang-cpp">UUxtTapToPlaceComponent()
+</code></pre>
+<h3 id="function-gettargetcomponent">function GetTargetComponent</h3>
+<pre><code class="lang-cpp">USceneComponent * GetTargetComponent() const
+</code></pre>
+<p>Get the component to transform.</p>
+<h3 id="function-settargetcomponent">function SetTargetComponent</h3>
+<pre><code class="lang-cpp">void SetTargetComponent(
+    USceneComponent * Target
+)
+</code></pre>
+<p>Set the component to transform.</p>
+<h3 id="function-startplacement">function StartPlacement</h3>
+<pre><code class="lang-cpp">void StartPlacement()
+</code></pre>
+<p>Start placement of the target component.</p>
+<h3 id="function-endplacement">function EndPlacement</h3>
+<pre><code class="lang-cpp">void EndPlacement()
+</code></pre>
+<p>End placement of the target component.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<h3 id="function-tickcomponent">function TickComponent</h3>
+<pre><code class="lang-cpp">virtual void TickComponent(
+    float DeltaTime,
+    ELevelTick TickType,
+    FActorComponentTickFunction * ThisTickFunction
+) override
+</code></pre>
+<h3 id="function-endplay">function EndPlay</h3>
+<pre><code class="lang-cpp">virtual void EndPlay(
+    const EEndPlayReason::Type EndPlayReason
+) override
+</code></pre>
+<h3 id="function-isfarfocusable_implementation">function IsFarFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsFarFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlefar_implementation">function CanHandleFar_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleFar_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onenterfarfocus_implementation">function OnEnterFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatedfarfocus_implementation">function OnUpdatedFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatedFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitfarfocus_implementation">function OnExitFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarpressed_implementation">function OnFarPressed_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarPressed_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarreleased_implementation">function OnFarReleased_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarReleased_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-onbeginfocus">variable OnBeginFocus</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceBeginFocusDelegate OnBeginFocus;
+</code></pre>
+<p>Event raised when a pointer starts focusing the placeable object. bWasAlreadyFocused indicates if the object was already focused by another pointer.</p>
+<h3 id="variable-onupdatefocus">variable OnUpdateFocus</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceUpdateFocusDelegate OnUpdateFocus;
+</code></pre>
+<p>Event raised when a focusing pointer updates.</p>
+<h3 id="variable-onendfocus">variable OnEndFocus</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceEndFocusDelegate OnEndFocus;
+</code></pre>
+<p>Event raised when a pointer ends focusing the placeable object. bIsStillFocused indicates if the object is still focused by another pointer.</p>
+<h3 id="variable-onbeginplacing">variable OnBeginPlacing</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceBeginPlacingDelegate OnBeginPlacing;
+</code></pre>
+<p>Event raised when a placeable object is selected.</p>
+<h3 id="variable-onendplacing">variable OnEndPlacing</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceEndPlacingDelegate OnEndPlacing;
+</code></pre>
+<p>Event raised when a placeable object is deselected and placed.</p>
+<h3 id="variable-orientationtype">variable OrientationType</h3>
+<pre><code class="lang-cpp">TEnumAsByte&lt; EUxtTapToPlaceOrientBehavior &gt; OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
+</code></pre>
+<p>How the object is oriented against hit surfaces.</p>
+<h3 id="variable-placementtype">variable PlacementType</h3>
+<pre><code class="lang-cpp">TEnumAsByte&lt; EUxtTapToPlaceMode &gt; PlacementType = EUxtTapToPlaceMode::Head;
+</code></pre>
+<p>How the target should be placed, using head or far pointer.</p>
+<h3 id="variable-keeporientationvertical">variable KeepOrientationVertical</h3>
+<pre><code class="lang-cpp">bool KeepOrientationVertical = false;
+</code></pre>
+<p>Whether the orientation of the object should pitch or roll.</p>
+<h3 id="variable-horizontalsurfacethreshold">variable HorizontalSurfaceThreshold</h3>
+<pre><code class="lang-cpp">float HorizontalSurfaceThreshold = 10.0f;
+</code></pre>
+<p>Angle in degrees at which a surface is considered horizontal in AlignToSurface mode. Slightly increasing this value helps avoid jitter resulting from noise in depth data but it can cause objects to lean sideways when moved over slightly inclined surfaces.</p>
+<h3 id="variable-defaultplacementdistance">variable DefaultPlacementDistance</h3>
+<pre><code class="lang-cpp">float DefaultPlacementDistance = 150;
+</code></pre>
+<p>Distance to place the object at if no obstructing surface.</p>
+<h3 id="variable-maxraycastdistance">variable MaxRaycastDistance</h3>
+<pre><code class="lang-cpp">float MaxRaycastDistance = 2000;
+</code></pre>
+<p>Max distance to cast to when checking for obstructing surfaces.</p>
+<h3 id="variable-tracechannel">variable TraceChannel</h3>
+<pre><code class="lang-cpp">TEnumAsByte&lt; ECollisionChannel &gt; TraceChannel = ECollisionChannel::ECC_Visibility;
+</code></pre>
+<p>Trace channel for raycast.</p>
+<h3 id="variable-binterpolatepose">variable bInterpolatePose</h3>
+<pre><code class="lang-cpp">bool bInterpolatePose = true;
+</code></pre>
+<p>Option to ignore interpolation between follow poses</p>
+<h3 id="variable-lerptime">variable LerpTime</h3>
+<pre><code class="lang-cpp">float LerpTime = 0.1f;
+</code></pre>
+<p>Rate at which its owner will move toward default distance when angular leashing</p>
+<h3 id="variable-busedefaultsurfacenormaloffset">variable bUseDefaultSurfaceNormalOffset</h3>
+<pre><code class="lang-cpp">bool bUseDefaultSurfaceNormalOffset = true;
+</code></pre>
+<p>When false, use SurfaceNormalOffset. Otherwise, automatically calculate the offset value.</p>
+<h3 id="variable-surfacenormaloffset">variable SurfaceNormalOffset</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;Uxt Tap To Place&quot;, meta=(DisplayAfter=&quot;bUseDefaultSurfaceNormalOffset&quot;, EditCondition=&quot;!bUseDefaultSurfaceNormalOffset&quot;))
+float SurfaceNormalOffset = 0.0f;
+</code></pre>
+<p>The distance between the pivot point of the object and the surface on which the object is being placed.</p>
+<hr>
+<p>Updated on 27 May 2021 at 12:00:34 Coordinated Universal Time</p>
 </article>
           </div>
           
@@ -986,10 +450,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/new/2bfb0b4099f9530b29200db74cd5c65518eb900d/apiSpec/new?filename=_u_uxt_tap_to_place_component.md&amp;value=---%0Auid%3A%20_u_uxt_tap_to_place_component%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/2bfb0b4099f9530b29200db74cd5c65518eb900d/UXToolsGame/Plugins/UXTools/Source/UXTools/Public/Behaviors/UxtTapToPlaceComponent.h/#L52" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/api/_u_uxt_tap_to_place_component.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

@@ -105,6 +105,7 @@
 <ul>
 <li>If <em>Align to Camera</em> is selected, the target component will always face the camera.</li>
 <li>If <em>Align To Surface</em> is selected, the target component will align with the normal of the surface the component is being placed against.</li>
+<li>If <em>Maintain Orientation</em> is selected, the original orientation of the target component will be preserved while the object is being placed.</li>
 </ul>
 <p><strong>Placement Type</strong>: This property provides options for what the target component will track during placement.</p>
 <ul>
@@ -112,11 +113,14 @@
 <li>If <em>Hand</em> is selected, the component will be placed at the end of the hand <a href="FarBeam.html">Far Beam</a> and will move as the user moves their hand.</li>
 </ul>
 <p><strong>Keep Orientation Vertical</strong>: If true, the object will remain upright, even if being placed against surfaces that are not upright.</p>
+<p><strong>Horizontal Surface Threshold</strong>: Objects using <em>Align To Surface</em> mode face towards or away from the camera when moved over a flat surface (e.g. on the floor or on the ceiling). This setting allows to specify the angle at which the object being placed stops rotating with the camera and aligns its Up vector with the surface (i.e. the angle at which the surface is still considered to be horizontal for the purposes of setting the orientation of the object). Increasing this threshold helps to eliminate jitter resulting from inaccuracies in the reconstructed depth mesh. However, if the value is too high, it can cause the object to lean sideways when moved over slightly inclined surfaces. Therefore, the value should be kept as low as possible. The <code>HorizontalSurfaceThreshold</code> is expressed as the angle in degrees that a surface can deviate from horizontal plane and by default is set to 10 degrees.</p>
 <p><strong>Default Placement Distance</strong>: During placement, if there is no surface to place against, the target component will be placed at this distance from the head/hand.</p>
 <p><strong>Max Raycast Distance</strong>: The maximum distance to ray cast to check if there are surfaces to place against.</p>
 <p><strong>Trace Channel</strong>: The trace channel used for the ray cast.</p>
 <p><strong>Interpolate Pose</strong>: If true, the object will interpolate smoothly between poses.</p>
 <p><strong>Lerp Time</strong>: The rate at which the object will interpolate between target poses if <em>Interpolate Pose</em> is true.</p>
+<p><strong>Use Default Surface Normal Offset</strong>: If true, the object will be aligned with the surface on which it is being placed and the value <code>SurfaceNormalOffset</code> will be calculated automatically. Setting this property to false allows to provide a custom value for <code>SurfaceNormalOffset</code>, e.g. in order to maintain a fixed distance between the surface and the object.</p>
+<p><strong>Surface Normal Offset</strong>: The distance between the pivot point of the object and the surface on which the object is being placed. The offset should be measured along the X axis in the positive direction. This property is only applied to an object if <code>UseDefaultSurfaceNormalOffset</code> is false.</p>
 <p><strong>Target Component</strong>: A reference to the primitive component that is transformed by the tap to place component. Selecting this primitive with far interaction will initiate placement.</p>
 </article>
           </div>
@@ -126,7 +130,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.11.x/Docs/TapToPlaceComponent.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x/Docs/TapToPlaceComponent.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
