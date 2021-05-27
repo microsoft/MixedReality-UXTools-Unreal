@@ -34,7 +34,12 @@
 		},
 		{
 			"Name": "UXToolsExamples",
-			"Enabled": true
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"HoloLens",
+				"Android"
+			]
 		},
 		{
 			"Name": "SteamVR",
