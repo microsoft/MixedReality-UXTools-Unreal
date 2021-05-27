@@ -15,6 +15,11 @@
 	"IsBetaVersion": true,
 	"IsExperimentalVersion": false,
 	"Installed": false,
+	"SupportedTargetPlatforms": [
+		"Win64",
+		"HoloLens",
+		"Android"
+	],
 	"Modules": [
 		{
 			"Name": "UXToolsExamples",
