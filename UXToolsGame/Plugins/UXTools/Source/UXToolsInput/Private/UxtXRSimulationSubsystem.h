@@ -22,6 +22,7 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
+	UFUNCTION(BlueprintCallable, Category = "XR Simulation")
 	bool IsSimulationEnabled() const { return bSimulationEnabled; }
 
 	bool GetMotionControllerData(
