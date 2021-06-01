@@ -16,7 +16,8 @@ param(
     [string]$PluginPath = $null,
     [string]$TargetPlatforms = "Win64+HoloLens+Android",
     [boolean]$Clean = $false,
-    [boolean]$StrictMode = $false
+    [boolean]$StrictMode = $false,
+    [boolean]$UseVS2019 = $false
 )
 
 Import-Module -Name "$PSScriptRoot\BuildTools.psm1" -Force
@@ -41,7 +42,12 @@ if ($StrictMode)
     $CommandArgs += "-StrictIncludes"
 }
 
-# Static Analyzer turned off for Plugin Build as it reports errors in Engine when building Shipping config 
+if($UseVS2019)
+{
+    $CommandArgs += "-vs2019"
+}
+
+# Static Analyzer turned off for Plugin Build as it reports errors in Engine when building Shipping config
 $Result = Start-UAT -UnrealEngine $UnrealEngine -CommandArgs $CommandArgs -UseStaticAnalyzer $False -UseUnityBuild (-not $StrictMode) -ErrorAction Stop
 
 $RC = 0
