@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+    UXTools NuGet package metadata.
+
+    Ensure to set the `BasePath` parameter to the built plugin directory. (e.g. BuildPlugin.ps1's 'PackageOutDir' parameter)
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>UXTools-UE4.26.0</id>
+        <title>Mixed Reality UX Tools</title>
+        <description>Set of tools and utilities to add interactivity to mixed reality applications.</description>
+        <version>0.12.0</version>
+        <authors>Microsoft</authors>
+        <projectUrl>https://github.com/microsoft/MixedReality-UXTools-Unreal</projectUrl>
+        <releaseNotes>https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x/Docs/ReleaseNotes.html</releaseNotes>
+        <license type="expression">MIT</license>
+        <copyright>Copyright (c) Microsoft Corporation. All rights reserved.</copyright>
+        <icon>native/Resources/Icon128.png</icon>
+        <tags>HoloLens2</tags>
+    </metadata>
+    <files>
+        <file src="**/*" target="native" />
+    </files>
+</package>

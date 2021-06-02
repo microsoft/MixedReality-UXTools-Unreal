@@ -35,3 +35,31 @@ stages:
     - template: templates/build-android.yml
       parameters:
         Configuration: 'Shipping'
+
+    # TODO: Sign UXTools binaries
+
+    - task: NuGetCommand@2
+      inputs:
+        command: 'pack'
+        packagesToPack: '$(UXTSourceDir)/UXTools.nuspec'
+        packDestination: '$(NuGetStagingDir)'
+        basePath: '$(UXToolsPluginOutputDir)'
+      displayName: 'Create UXTools NuGet package'
+
+    # TODO: Sign UXToolsExamples binaries
+
+    - task: NuGetCommand@2
+      inputs:
+        command: 'pack'
+        packagesToPack: '$(UXTSourceDir)/UXToolsExamples.nuspec'
+        packDestination: '$(NuGetStagingDir)'
+        basePath: '$(UXToolsExamplesPluginOutputDir)'
+      displayName: 'Create UXToolsExamples NuGet package'
+
+    # TODO: Sign NuGet packages
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish NuGet packages build artifacts'
+      inputs:
+        ArtifactName: 'NuGet Packages'
+        PathtoPublish: '$(NuGetStagingDir)'

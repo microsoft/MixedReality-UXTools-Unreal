@@ -58,6 +58,31 @@ steps:
     PathtoPublish: '$(UXToolsPluginOutputDir)'
   condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
 
+- task: PowerShell@2
+  inputs:
+    filePath: $(UXTSourceDir)\Tools\scripts\InstallPlugin.ps1
+    arguments: -UnrealEngine $(UnrealEngine) -PluginPath $(UXToolsPluginOutputDir)
+  displayName: 'Install UXTools into the engine'
+
+- task: PowerShell@2
+  inputs:
+    filePath: $(UXTSourceDir)\Tools\scripts\BuildPlugin.ps1
+    arguments: -UnrealEngine $(UnrealEngine) -PluginPath "$(UXToolsExamplesPluginSourceDir)\UXToolsExamples.uplugin" -PackageOutDir $(UXToolsExamplesPluginOutputDir) -StrictMode $${{ parameters.StrictMode }}
+  displayName: 'Build UXToolsExamples plugin'
+
+- task: PowerShell@2
+  inputs:
+    filePath: $(UXTSourceDir)\Tools\scripts\UninstallPlugin.ps1
+    arguments: -UnrealEngine $(UnrealEngine) -PluginName UXTools
+  displayName: 'Uninstall UXTools from the engine'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish UXToolsExamples plugin to build artifacts'
+  inputs:
+    ArtifactName: 'UXToolsExamples'
+    PathtoPublish: '$(UXToolsExamplesPluginOutputDir)'
+  condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
+
 - powershell: |
     # remove all folders that are symbolic links as they are incorrectly handled by Remove-Item in some versions of PowerShell
     Write-Host "Deleting symbolic links under $(UXToolsPluginSourceDir)"
