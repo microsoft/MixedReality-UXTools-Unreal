@@ -33,6 +33,8 @@
     href: FarBeam.md
   - name: Bounds Control
     href: BoundsControl.md
+  - name: Scrolling Object Collection
+    href: ScrollingObjectCollection.md
   - name: Tap To Place
     href: TapToPlaceComponent.md
   - name: Transform Constraints
