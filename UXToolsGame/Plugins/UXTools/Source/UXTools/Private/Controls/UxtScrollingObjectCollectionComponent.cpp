@@ -349,9 +349,10 @@ void UUxtScrollingObjectCollectionComponent::RefreshCollection()
 		ScrollDirection == EUxtScrollDirection::UpAndDown || ScrollDirection == EUxtScrollDirection::LeftAndRight,
 		TEXT("Unsupported scroll direction."));
 
-	// Conditionally select the location based on how the actor is attached.
+	// Conditionally select the location/rotation based on how the actor is attached.
 	const bool PlaceRelative = (GetOwner() && GetOwner()->GetRootComponent() == this) || HasBegunPlay();
 	FVector ActorLocation = PlaceRelative ? FVector::ZeroVector : GetRelativeLocation();
+	const FRotator ActorRotation = PlaceRelative ? FRotator::ZeroRotator : GetRelativeRotation();
 	Tiers = FMath::Max(Tiers, ScrollingObjectCollectionMinDim); // Ensure we have at least 1 tier.
 
 	// Outer loop iterates through actor array, one tier at a time
@@ -363,7 +364,7 @@ void UUxtScrollingObjectCollectionComponent::RefreshCollection()
 		for (int32 ColumnIndex = 0; ColumnIndex < NumColumnsInRow; ++ColumnIndex)
 		{
 			Actors[ActorIndex + ColumnIndex]->SetActorRelativeLocation(ActorLocation);
-			Actors[ActorIndex + ColumnIndex]->SetActorRelativeRotation(GetRelativeRotation());
+			Actors[ActorIndex + ColumnIndex]->SetActorRelativeRotation(ActorRotation);
 
 			// Increment location offset in tier direction ready for the next actor.
 			ActorLocation.*pTier += TierOffset;
@@ -690,9 +691,29 @@ void UUxtScrollingObjectCollectionComponent::AddActorToCollection(AActor* ActorT
 		if (HasBegunPlay() && CollectionRootComponent != nullptr)
 		{
 			ActorToAdd->AttachToComponent(CollectionRootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
 
-		RefreshCollection();
+			RefreshCollection();
+		}
+	}
+}
+
+void UUxtScrollingObjectCollectionComponent::RemoveActorFromCollection(AActor* ActorToRemove, bool DestroyActor)
+{
+	if (ActorToRemove && GetAttachedActors().Contains(ActorToRemove))
+	{
+		// We only want to do this when playing to make sure we don't serialize the detachment of a instance component from a template
+		// component.
+		if (HasBegunPlay())
+		{
+			ActorToRemove->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+			if (DestroyActor)
+			{
+				ActorToRemove->Destroy();
+			}
+
+			RefreshCollection();
+		}
 	}
 }
 

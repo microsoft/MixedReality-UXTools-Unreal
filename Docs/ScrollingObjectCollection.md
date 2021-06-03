@@ -24,14 +24,14 @@ Check out the `BP_ScrollingObjectCollectionExample` blueprint to see how scrolli
 
 Below we will walk though the steps to create, populate, and customize a scrolling object collection.
 
-1. The quickest way to add a scrolling object collection to your level is to place a [`UxtScrollingObjectCollectionActor`](xref:_a_uxt_scrolling_object_collection_actor) in the world outliner.
-    * Note, the `UxtScrollingObjectCollectionActor` is a utility actor around the [`UxtScrollingObjectCollectionComponent`](xref:_a_uxt_scrolling_object_collection_component). The component contains most of the logic and properties, and can be used without relying on the actor.
+1. The quickest way to add a scrolling object collection to your level is to place a `UxtScrollingObjectCollectionActor` in the world outliner.
+    * Note, the `UxtScrollingObjectCollectionActor` is a utility actor around the `UxtScrollingObjectCollectionComponent`. The component contains most of the logic and properties, and can be used without relying on the actor.
 
     * By default, the scrolling object collection is configured for a 2x4 grid of items. The checkered lines display the item boundaries.
 
     ![DefaultScrollingObjectCollection](Images/ScrollingObjectCollection/DefaultScrollingObjectCollection.png)
 
-2. Now that we have our scrolling object collection, let's add some items to it. The collection can be populated via the world outliner or programmatically. We will populate it with the world outliner. Please see the [advanced usage](#Advanced-usage) section for programmatic population. A scrolling object collection will attempt to scroll any actor attached to it. Any actor can be attached to a scrolling object collection, but the most common use case is a button.
+2. Now that we have our scrolling object collection, let's add some items to it. The collection can be populated via the world outliner or programmatically. We will populate it with the world outliner. Please see the [advanced usage](#advanced-usage) section for programmatic population. A scrolling object collection will attempt to scroll any actor attached to it. Any actor can be attached to a scrolling object collection, but the most common use case is a button.
     * Drag and drop a `UxtPressableButtonActor` into the world outliner. Next, attach the button to the `UxtScrollingObjectCollectionActor` so that the button is a child of the collection.
 
     ![ScrollingObjectCollectionChildButton](Images/ScrollingObjectCollection/ScrollingObjectCollectionChildButton.png)

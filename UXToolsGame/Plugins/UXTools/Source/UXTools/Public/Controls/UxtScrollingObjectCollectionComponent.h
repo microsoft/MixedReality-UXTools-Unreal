@@ -161,9 +161,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection", meta = (AutoCreateRefTerm = "Callback"))
 	void MoveByItems(const int32 NumItems, const bool bAnimate, const FUxtScrollingObjectCollectionOnPaginationEnd& Callback);
 
-	/** Adds an actor to the collection at runtime.  */
+	/** Adds an actor to the collection at runtime. */
 	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection")
 	void AddActorToCollection(AActor* ActorToAdd);
+
+	/** Removes an actor from the collection at runtime. Optionally can destroy the actor as well. */
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection")
+	void RemoveActorFromCollection(AActor* ActorToRemove, bool DestroyActor = false);
 
 	/** Returns the last calculated (cached) scrollable bounds. */
 	UFUNCTION(BlueprintPure, Category = "Uxt Scrolling Object Collection")
@@ -255,7 +259,7 @@ protected:
 	// UUxtBaseObjectCollection interface
 
 	/** Called to update the collection based on the current properties. */
-	UFUNCTION(Category = "Uxt Scrolling Object Collection", CallInEditor)
+	UFUNCTION(BlueprintCallable, Category = "Uxt Scrolling Object Collection", CallInEditor)
 	virtual void RefreshCollection() override;
 
 	/** Component used to contain attached actors and make movement easier. */
