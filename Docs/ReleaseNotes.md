@@ -12,6 +12,8 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 
 - [What's new](#whats-new)
   - [Graduation of the scrolling object collection from experimental](#graduation-of-the-scrolling-object-collection-from-experimental)
+- [Breaking changes](#breaking-changes)
+  - [UxtBoundsControl](#uxtboundscontrol)
 - [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
@@ -33,7 +35,18 @@ The scrolling object collection has been updated and is no longer tagged as expe
 
 ![ScrollingObjectCollectionVariants](Images/ScrollingObjectCollection/ScrollingObjectCollectionVariants.png)
 
+### Re-parented UxtBoundsControl's affordances
+
+**Uxt Bounds Control** places its associated affordances and box collider in an actor that it creates on **Begin Play**. This external actor used to be un-parented and required its transform (and those of the affordances) to be recalculated explicitly every frame. Now, the external actor is parented to the one that owns the **Uxt Bounds Control** component and it leverages the `TransformUpdated` event instead of the tick function, so it only recalculates the scale of the affordances when necessary.
+
 ## Breaking changes
+
+### UxtBoundsControl
+
+As described [above](#re-parented-uxtboundscontrols-affordances), affordances are re-parented, so there are a few things to keep in mind:
+
+- The `UpdateAffordanceTransforms` protected member has been removed so, if you have any explicit calls to this function for some reason, you should remove them. Everything should still work as expected, because the affordance transforms are updated automatically when modifying the bounds' root transform.
+- `InitialRelativeScale` and `ReferenceRelativeScale` inside `FUxtAffordanceInstance` need to be absolute now, so they have been renamed to `InitialScale` and `ReferenceScale`. If you were using them, please make sure to update their usage.
 
 ## Known issues
 

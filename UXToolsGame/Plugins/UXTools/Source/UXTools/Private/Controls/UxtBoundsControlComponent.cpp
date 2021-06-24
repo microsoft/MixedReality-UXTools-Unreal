@@ -3,6 +3,8 @@
 
 #include "Controls/UxtBoundsControlComponent.h"
 
+#include "TimerManager.h"
+
 #include "Components/BoxComponent.h"
 #include "Components/MeshComponent.h"
 #include "Components/PrimitiveComponent.h"
@@ -234,21 +236,11 @@ const FBox& UUxtBoundsControlComponent::GetBounds() const
 
 void UUxtBoundsControlComponent::ComputeBoundsFromComponents()
 {
-	const USceneComponent* Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
-	const USceneComponent* BoundsTargetComponent = nullptr;
-	if (Override)
+	const USceneComponent* const BoundsRoot = GetBoundsRoot();
+	if (BoundsRoot)
 	{
-		BoundsTargetComponent = Override;
-	}
-	else if (GetOwner())
-	{
-		BoundsTargetComponent = GetOwner()->GetRootComponent();
-	}
-	if (BoundsTargetComponent)
-	{
-		const FTransform BoundsTargetToWorld = BoundsTargetComponent->GetComponentTransform();
-		Bounds =
-			UUxtMathUtilsFunctionLibrary::CalculateNestedBoundsInGivenSpace(BoundsTargetComponent, BoundsTargetToWorld.Inverse(), true);
+		const FTransform BoundsTargetToWorld = BoundsRoot->GetComponentTransform();
+		Bounds = UUxtMathUtilsFunctionLibrary::CalculateNestedBoundsInGivenSpace(BoundsRoot, BoundsTargetToWorld.Inverse(), true);
 	}
 	else
 	{
@@ -266,6 +258,12 @@ UPrimitiveComponent* UUxtBoundsControlComponent::GetAffordancePrimitive(const EU
 		}
 	}
 	return nullptr;
+}
+
+USceneComponent* UUxtBoundsControlComponent::GetBoundsRoot() const
+{
+	USceneComponent* Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
+	return Override ? Override : GetOwner()->GetRootComponent();
 }
 
 void UUxtBoundsControlComponent::CreateAffordances()
@@ -295,6 +293,7 @@ void UUxtBoundsControlComponent::CreateAffordances()
 	RootComponent->RegisterComponent();
 	BoundsControlActor->AddInstanceComponent(RootComponent);
 	BoundsControlActor->SetRootComponent(RootComponent);
+	BoundsControlActor->AttachToActor(GetOwner(), FAttachmentTransformRules::KeepWorldTransform);
 
 	BoundsControlGrabbable = NewObject<UUxtGrabTargetComponent>(BoundsControlActor);
 	BoundsControlGrabbable->GrabModes = static_cast<int32>(EUxtGrabMode::OneHanded);
@@ -315,7 +314,7 @@ void UUxtBoundsControlComponent::CreateAffordances()
 		// Create the mesh component for visuals and collision
 		const FName AffordanceName = FName("Affordance_" + GetAffordanceBoundsAsString(AffordanceConfig));
 		UStaticMeshComponent* MeshComponent = NewObject<UStaticMeshComponent>(BoundsControlActor, AffordanceName);
-		MeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		MeshComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 		MeshComponent->RegisterComponent();
 		BoundsControlActor->AddInstanceComponent(MeshComponent);
 		if (UStaticMesh* AffordanceMesh = GetAffordanceKindMesh(AffordanceConfig.GetAffordanceKind()))
@@ -328,6 +327,7 @@ void UUxtBoundsControlComponent::CreateAffordances()
 
 		// Register the affordance
 		FUxtAffordanceInstance AffordanceInstance = {AffordanceConfig, DynamicMaterial};
+		AffordanceInstance.InitialScale = MeshComponent->GetComponentScale();
 		PrimitiveAffordanceMap.Add(MeshComponent, AffordanceInstance);
 	}
 }
@@ -366,12 +366,11 @@ void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 		return;
 	}
 
-	const USceneComponent* const Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
-	const USceneComponent* const BoundsTargetComponent = Override ? Override : GetOwner()->GetRootComponent();
+	const USceneComponent* const BoundsRoot = GetBoundsRoot();
 	if (BoundsControlActor)
 	{
-		const FVector Location = BoundsTargetComponent->GetComponentLocation();
-		const FRotator Rotation = BoundsTargetComponent->GetComponentRotation();
+		const FVector Location = BoundsRoot->GetComponentLocation();
+		const FRotator Rotation = BoundsRoot->GetComponentRotation();
 
 		BoundsControlActor->SetActorLocationAndRotation(Location, Rotation);
 	}
@@ -381,15 +380,32 @@ void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 	{
 		FVector AffordanceLocation;
 		FQuat AffordanceRotation;
-		Item.Value.Config.GetWorldLocationAndRotation(
-			Bounds, BoundsTargetComponent->GetComponentTransform(), AffordanceLocation, AffordanceRotation);
+		Item.Value.Config.GetWorldLocationAndRotation(Bounds, BoundsRoot->GetComponentTransform(), AffordanceLocation, AffordanceRotation);
 		Item.Key->SetWorldLocation(AffordanceLocation);
 		Item.Key->SetWorldRotation(AffordanceRotation);
+	}
+}
 
-		const UPrimitiveComponent* AffordancePrimitive = Item.Key;
+void UUxtBoundsControlComponent::UpdateAffordanceScales()
+{
+	if (!GetOwner())
+	{
+		return;
+	}
+
+	const USceneComponent* const BoundsRoot = GetBoundsRoot();
+	const FTransform& BoundsRootTransform = BoundsRoot->GetComponentTransform();
+
+	const FVector WorldBoundsCenter = BoundsRootTransform.TransformPosition(Bounds.GetCenter());
+	for (auto& Item : PrimitiveAffordanceMap)
+	{
 		FUxtAffordanceInstance& AffordanceInstance = Item.Value;
 
-		const float DistanceToCenter = FVector::Distance(ActorCenterLoc, AffordanceLocation);
+		FVector AffordanceLocation;
+		FQuat AffordanceRotation;
+		AffordanceInstance.Config.GetWorldLocationAndRotation(Bounds, BoundsRootTransform, AffordanceLocation, AffordanceRotation);
+
+		const float DistanceToCenter = FVector::Distance(WorldBoundsCenter, AffordanceLocation);
 		float ScaleFactor = 1.0f;
 		float DistanceThreshold = 0.0f;
 		for (const DistanceToScalePair& Pair : AffordanceDistToScale)
@@ -408,8 +424,9 @@ void UUxtBoundsControlComponent::UpdateAffordanceTransforms()
 				ScaleFactor = Pair.ScaleFactor;
 			}
 		}
-		AffordanceInstance.ReferenceRelativeScale = AffordanceInstance.InitialRelativeScale * ScaleFactor;
+		AffordanceInstance.ReferenceScale = AffordanceInstance.InitialScale * ScaleFactor;
 	}
+	bAffordanceScalesNeedUpdate = false;
 }
 
 void UUxtBoundsControlComponent::UpdateAffordanceAnimation(float DeltaTime)
@@ -481,8 +498,7 @@ void UUxtBoundsControlComponent::UpdateAffordanceAnimation(float DeltaTime)
 			AffordanceInstance.DynamicMaterial->SetScalarParameterValue(IsFocusedParam, AffordanceInstance.FocusedTransition);
 			AffordanceInstance.DynamicMaterial->SetScalarParameterValue(IsActiveParam, AffordanceInstance.ActiveTransition);
 		}
-		AffordancePrimitive->SetRelativeScale3D(
-			AffordanceInstance.ReferenceRelativeScale * (1.0f + 0.2f * AffordanceInstance.FocusedTransition));
+		AffordancePrimitive->SetWorldScale3D(AffordanceInstance.ReferenceScale * (1.0f + 0.2f * AffordanceInstance.FocusedTransition));
 	}
 }
 
@@ -506,13 +522,18 @@ void UUxtBoundsControlComponent::BeginPlay()
 
 	CreateAffordances();
 	UpdateAffordanceTransforms();
+	UpdateAffordanceScales();
 	ResetConstraintsReferenceTransform();
 
 	CreateCollisionBox();
+
+	TransformUpdatedDelegateHandle = GetBoundsRoot()->TransformUpdated.AddUObject(this, &UUxtBoundsControlComponent::OnTransformUpdated);
 }
 
 void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	GetBoundsRoot()->TransformUpdated.Remove(TransformUpdatedDelegateHandle);
+
 	DestroyAffordances();
 	// Needs to be destroyed explicitly because it's attached to the owning actor
 	CollisionBox->UnregisterComponent();
@@ -538,9 +559,11 @@ void UUxtBoundsControlComponent::TickComponent(float DeltaTime, ELevelTick TickT
 			TransformTarget(AffordanceInstance.Config, GrabPointer);
 		}
 	}
-	ComputeBoundsFromComponents();
-	UpdateAffordanceTransforms();
 
+	if (bAffordanceScalesNeedUpdate)
+	{
+		UpdateAffordanceScales();
+	}
 	UpdateAffordanceAnimation(DeltaTime);
 }
 
@@ -746,8 +769,7 @@ void UUxtBoundsControlComponent::CreateCollisionBox()
 {
 	if (AActor* const Owner = GetOwner())
 	{
-		USceneComponent* const Override = Cast<USceneComponent>(BoundsOverride.GetComponent(Owner));
-		USceneComponent* const BoundsRoot = Override ? Override : Owner->GetRootComponent();
+		USceneComponent* const BoundsRoot = GetBoundsRoot();
 
 		CollisionBox = NewObject<UBoxComponent>(Owner);
 		CollisionBox->SetupAttachment(BoundsRoot);
@@ -797,4 +819,10 @@ void UUxtBoundsControlComponent::UpdateInteractionCache(
 	InteractionCache->InitialGrabPointTransform = GrabPointerData.GrabPointTransform;
 
 	InteractionCache->IsValid = true;
+}
+
+void UUxtBoundsControlComponent::OnTransformUpdated(
+	USceneComponent* UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport)
+{
+	bAffordanceScalesNeedUpdate = true;
 }

@@ -43,11 +43,11 @@ struct FUxtAffordanceInstance
 	/** Refcount of pointers currently focusing the affordance. */
 	int FocusCount = 0;
 
-	/** Initial scale, used to calculate @ref ReferenceRelativeScale */
-	FVector InitialRelativeScale = FVector::OneVector;
+	/** Initial scale, used to calculate @ref ReferenceScale */
+	FVector InitialScale = FVector::OneVector;
 
 	/** Reference scale to be used during scaling animations */
-	FVector ReferenceRelativeScale = FVector::OneVector;
+	FVector ReferenceScale = FVector::OneVector;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(
@@ -95,6 +95,9 @@ public:
 	void ComputeBoundsFromComponents();
 
 	UPrimitiveComponent* GetAffordancePrimitive(const EUxtAffordancePlacement Placement) const;
+
+	/** Retrieves the component that is considered the root for the bounds. This is @ref BoundsOverride or the owner's root. */
+	USceneComponent* GetBoundsRoot() const;
 
 public:
 	/** Configuration of the bounds control affordances. */
@@ -189,6 +192,9 @@ protected:
 	/** Update the world transforms of affordance actors to match the current bounding box. */
 	void UpdateAffordanceTransforms();
 
+	/** Keeps affordances at the appropriate scale. */
+	void UpdateAffordanceScales();
+
 	/** Update animated properties such as affordance highlights. */
 	void UpdateAffordanceAnimation(float DeltaTime);
 
@@ -219,6 +225,11 @@ private:
 	 */
 	void UpdateInteractionCache(const FUxtAffordanceInstance* const AffordanceInstance, const FUxtGrabPointerData& GrabPointerData);
 
+	/**
+	 * Handles TransformUpdated event for the component returned by @ref GetBoundsRoot.
+	 */
+	void OnTransformUpdated(USceneComponent* UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport);
+
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", BlueprintGetter = "GetInitBoundsFromActor")
 	bool bInitBoundsFromActor = true;
@@ -227,7 +238,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))
 	FComponentReference BoundsOverride;
 
-	/** Current bounding box in the local space of the actor. */
+	/** Current bounding box in the local space of @ref GetBoundsRoot. */
 	UPROPERTY(Transient, Category = "Uxt Bounds Control", BlueprintGetter = "GetBounds")
 	FBox Bounds;
 
@@ -260,4 +271,9 @@ private:
 
 	/** Cache that holds certain data that is relevant during the whole interaction with an affordance. */
 	TUniquePtr<UxtAffordanceInteractionCache> InteractionCache;
+
+	/** Allows updating affordance scales only when necessary. */
+	bool bAffordanceScalesNeedUpdate;
+
+	FDelegateHandle TransformUpdatedDelegateHandle;
 };
