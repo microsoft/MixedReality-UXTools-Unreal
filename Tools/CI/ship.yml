@@ -36,27 +36,147 @@ stages:
       parameters:
         Configuration: 'Shipping'
 
-    # TODO: Sign UXTools binaries
+    - task: ComponentGovernanceComponentDetection@0
+      displayName: 'Component Governance'
+      inputs:
+        scanType: 'Register'
+        alertWarningLevel: 'High'
+        failOnAlert: true
+
+    - task: NuGetToolInstaller@1
+      displayName: 'Install NuGet'
+      inputs:
+        versionSpec: 5.9.1
+
+    - task: EsrpCodeSigning@1
+      displayName: 'Sign UXTools binaries'
+      inputs:
+        ConnectedServiceName: 'MixedReality-UXTools-Unreal-ESRP'
+        FolderPath: '$(UXToolsPluginOutputDir)'
+        Pattern: '**/*.dll'
+        UseMinimatch: true
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+              {
+                  "KeyCode" : "CP-230012",
+                  "OperationCode" : "SigntoolSign",
+                  "Parameters" : {
+                      "OpusName" : "Microsoft",
+                      "OpusInfo" : "http://www.microsoft.com",
+                      "FileDigest" : "/fd \"SHA256\"",
+                      "PageHash" : "/NPH",
+                      "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                  },
+                  "ToolName" : "sign",
+                  "ToolVersion" : "1.0"
+              },
+              {
+                  "KeyCode" : "CP-230012",
+                  "OperationCode" : "SigntoolVerify",
+                  "Parameters" : {},
+                  "ToolName" : "sign",
+                  "ToolVersion" : "1.0"
+              }
+          ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+
+    - task: EsrpCodeSigning@1
+      displayName: 'Sign UXToolsExamples binaries'
+      inputs:
+        ConnectedServiceName: 'MixedReality-UXTools-Unreal-ESRP'
+        FolderPath: '$(UXToolsExamplesPluginOutputDir)'
+        Pattern: '**/*.dll'
+        UseMinimatch: true
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+              {
+                  "KeyCode" : "CP-230012",
+                  "OperationCode" : "SigntoolSign",
+                  "Parameters" : {
+                      "OpusName" : "Microsoft",
+                      "OpusInfo" : "http://www.microsoft.com",
+                      "FileDigest" : "/fd \"SHA256\"",
+                      "PageHash" : "/NPH",
+                      "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                  },
+                  "ToolName" : "sign",
+                  "ToolVersion" : "1.0"
+              },
+              {
+                  "KeyCode" : "CP-230012",
+                  "OperationCode" : "SigntoolVerify",
+                  "Parameters" : {},
+                  "ToolName" : "sign",
+                  "ToolVersion" : "1.0"
+              }
+          ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+
+    # The ESRP CodeSign task drops a summary of it's results in the plugin's output directory.
+    # These should not be included in the NuGet packages so we move them to the $(NuGetStagingDir) to keep them available in the build artifact.
+    # $(NuGetStagingDir) has not been created at this stage so we have to create it manually before calling Move-Item.
+    - powershell: |
+        New-Item -Path $(NuGetStagingDir) -ItemType Directory
+        Get-ChildItem -Path $(UXToolsPluginOutputDir)/CodeSignSummary-*.md | Move-Item -Destination $(NuGetStagingDir)
+        Get-ChildItem -Path $(UXToolsExamplesPluginOutputDir)/CodeSignSummary-*.md | Move-Item -Destination $(NuGetStagingDir)
+      displayName: 'Move signing results out of NuGet package contents'
 
     - task: NuGetCommand@2
+      displayName: 'Create UXTools NuGet package'
       inputs:
         command: 'pack'
         packagesToPack: '$(UXTSourceDir)/UXTools.nuspec'
         packDestination: '$(NuGetStagingDir)'
         basePath: '$(UXToolsPluginOutputDir)'
-      displayName: 'Create UXTools NuGet package'
-
-    # TODO: Sign UXToolsExamples binaries
 
     - task: NuGetCommand@2
+      displayName: 'Create UXToolsExamples NuGet package'
       inputs:
         command: 'pack'
         packagesToPack: '$(UXTSourceDir)/UXToolsExamples.nuspec'
         packDestination: '$(NuGetStagingDir)'
         basePath: '$(UXToolsExamplesPluginOutputDir)'
-      displayName: 'Create UXToolsExamples NuGet package'
 
-    # TODO: Sign NuGet packages
+    - task: EsrpCodeSigning@1
+      displayName: 'Sign NuGet packages'
+      inputs:
+        ConnectedServiceName: 'MixedReality-UXTools-Unreal-ESRP'
+        FolderPath: '$(NuGetStagingDir)'
+        Pattern: '*.nupkg'
+        UseMinimatch: true
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+              {
+                  "KeyCode" : "CP-401405",
+                  "OperationCode" : "NuGetSign",
+                  "Parameters" : {},
+                  "ToolName" : "sign",
+                  "ToolVersion" : "1.0"
+              },
+              {
+                  "KeyCode" : "CP-401405",
+                  "OperationCode" : "NuGetVerify",
+                  "Parameters" : {},
+                  "ToolName" : "sign",
+                  "ToolVersion" : "1.0"
+              }
+          ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+
+    - task: PowerShell@2
+      displayName: 'Verify code signing'
+      inputs:
+        filePath: $(UXTSourceDir)\Tools\scripts\SignCheck.ps1
+        arguments: -packageDir $(NuGetStagingDir)
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish NuGet packages build artifacts'
