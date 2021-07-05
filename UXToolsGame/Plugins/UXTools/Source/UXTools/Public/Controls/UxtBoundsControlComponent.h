@@ -84,6 +84,9 @@ public:
 	bool GetInitBoundsFromActor() const;
 
 	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control")
+	UStaticMeshComponent* GetBoundingBox() const;
+
+	UFUNCTION(BlueprintGetter, Category = "Uxt Bounds Control")
 	const FBox& GetBounds() const;
 
 	/** Mesh for the given kind of affordance. */
@@ -120,11 +123,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Affordances")
 	UStaticMesh* CornerAffordanceMesh;
 
-	/** Collision box that prevents pointer rays from passing through bounds control's box. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control")
-	UBoxComponent* CollisionBox;
+	/** Mesh used for the bounding box. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Advanced")
+	UStaticMesh* BoundingBoxMesh;
 
-	/** The collision profile used by @ref CollisionBox. */
+	/** Material used by the bounding box by default. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Advanced")
+	UMaterialInstance* BoundingBoxDefaultMaterial;
+
+	/** Material used by the bounding box while grabbed. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control|Advanced")
+	UMaterialInstance* BoundingBoxGrabbedMaterial;
+
+	/** The collision profile used by @ref BoundingBoxComponent. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Bounds Control", AdvancedDisplay)
 	FName CollisionProfile = TEXT("UI");
 
@@ -208,8 +219,8 @@ protected:
 	static bool GetRelativeBoxTransform(const FBox& Box, const FBox& RelativeTo, FTransform& OutTransform);
 
 private:
-	/** Setup the @ref CollisionBox component. */
-	void CreateCollisionBox();
+	/** Creates the bounding box that surrounds the actor. */
+	void CreateBoundingBox();
 
 	/**
 	 * Resets the Transform that the @ref ConstraintsManager uses as reference.
@@ -233,6 +244,10 @@ private:
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", BlueprintGetter = "GetInitBoundsFromActor")
 	bool bInitBoundsFromActor = true;
+
+	/** Component added automatically that holds the bounding box mesh used to surround the object. */
+	UPROPERTY(Transient, Category = "Uxt Bounds Control", BlueprintGetter = "GetBoundingBox")
+	UStaticMeshComponent* BoundingBoxComponent;
 
 	/** Component used for bounds calculation, instead of the actor's root */
 	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", meta = (UseComponentPicker, AllowedClasses = "SceneComponent"))

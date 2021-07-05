@@ -163,7 +163,7 @@ void BoundsControlSpec::Define()
 			FrameQueue.Enqueue([this] {
 				TestNotNull("Pointer is focusing something", LeftHand.GetPointer()->GetFocusTarget());
 				UPrimitiveComponent* HitPrimitive = GetFocusedPrimitive(LeftHand);
-				TestEqual("Pointer is focusing the collision box", HitPrimitive, Cast<UPrimitiveComponent>(Target->CollisionBox));
+				TestEqual("Pointer is focusing the collision box", HitPrimitive, Cast<UPrimitiveComponent>(Target->GetBoundingBox()));
 			});
 			FrameQueue.Enqueue([Done] { Done.Execute(); });
 		});

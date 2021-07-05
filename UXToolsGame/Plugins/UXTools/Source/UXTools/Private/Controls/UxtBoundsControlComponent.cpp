@@ -175,6 +175,17 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 		TEXT("/UXTools/BoundsControl/Presets/BoundsControlDefault"));
 	Config = ConfigFinder.Object;
 
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> BoxMeshFinder(TEXT("/UXTools/BoundsControl/SM_BoundsControl.SM_BoundsControl"));
+	BoundingBoxMesh = BoxMeshFinder.Object;
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> BoxMaterialFinder(
+		TEXT("/UXTools/BoundsControl/MI_BoundsControl.MI_BoundsControl"));
+	BoundingBoxDefaultMaterial = BoxMaterialFinder.Object;
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInstance> BoxGrabbedMaterialFinder(
+		TEXT("/UXTools/BoundsControl/MI_BoundsControlGrabbed.MI_BoundsControlGrabbed"));
+	BoundingBoxGrabbedMaterial = BoxGrabbedMaterialFinder.Object;
+
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> FaceAffordanceMeshFinder(
 		TEXT("/UXTools/BoundsControl/SM_BoundingBox_TranslateHandle.SM_BoundingBox_TranslateHandle"));
 	FaceAffordanceMesh = FaceAffordanceMeshFinder.Object;
@@ -210,6 +221,11 @@ const TMap<UPrimitiveComponent*, FUxtAffordanceInstance>& UUxtBoundsControlCompo
 bool UUxtBoundsControlComponent::GetInitBoundsFromActor() const
 {
 	return bInitBoundsFromActor;
+}
+
+UStaticMeshComponent* UUxtBoundsControlComponent::GetBoundingBox() const
+{
+	return BoundingBoxComponent;
 }
 
 UStaticMesh* UUxtBoundsControlComponent::GetAffordanceKindMesh(EUxtAffordanceKind Kind) const
@@ -264,6 +280,24 @@ USceneComponent* UUxtBoundsControlComponent::GetBoundsRoot() const
 {
 	USceneComponent* Override = Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner()));
 	return Override ? Override : GetOwner()->GetRootComponent();
+}
+
+void UUxtBoundsControlComponent::CreateBoundingBox()
+{
+	const FTransform BoundsRootTransform = GetBoundsRoot()->GetComponentTransform();
+	const FTransform BoundingBoxTransform(
+		BoundsRootTransform.GetRotation(), BoundsRootTransform.TransformPosition(Bounds.GetCenter()),
+		BoundsRootTransform.GetScale3D() * Bounds.GetExtent() * 2);
+	AActor* const Owner = GetOwner();
+	BoundingBoxComponent = NewObject<UStaticMeshComponent>(Owner, TEXT("BoundingBox"));
+	BoundingBoxComponent->SetWorldTransform(BoundingBoxTransform);
+	BoundingBoxComponent->AttachToComponent(Owner->GetRootComponent(), FAttachmentTransformRules::KeepWorldTransform);
+	BoundingBoxComponent->RegisterComponent();
+	BoundingBoxComponent->SetStaticMesh(BoundingBoxMesh);
+	BoundingBoxComponent->SetMaterial(0, BoundingBoxDefaultMaterial);
+	BoundingBoxComponent->SetCollisionProfileName(CollisionProfile);
+	BoundingBoxComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	Owner->AddInstanceComponent(BoundingBoxComponent);
 }
 
 void UUxtBoundsControlComponent::CreateAffordances()
@@ -520,12 +554,11 @@ void UUxtBoundsControlComponent::BeginPlay()
 		Bounds = FBox(EForceInit::ForceInitToZero);
 	}
 
+	CreateBoundingBox();
 	CreateAffordances();
 	UpdateAffordanceTransforms();
 	UpdateAffordanceScales();
 	ResetConstraintsReferenceTransform();
-
-	CreateCollisionBox();
 
 	TransformUpdatedDelegateHandle = GetBoundsRoot()->TransformUpdated.AddUObject(this, &UUxtBoundsControlComponent::OnTransformUpdated);
 }
@@ -535,9 +568,9 @@ void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReaso
 	GetBoundsRoot()->TransformUpdated.Remove(TransformUpdatedDelegateHandle);
 
 	DestroyAffordances();
-	// Needs to be destroyed explicitly because it's attached to the owning actor
-	CollisionBox->UnregisterComponent();
-	CollisionBox->DestroyComponent();
+
+	// Destroyed explicitly because it was manually attached to the owning actor
+	BoundingBoxComponent->DestroyComponent();
 
 	Super::EndPlay(EndPlayReason);
 }
@@ -717,6 +750,8 @@ void UUxtBoundsControlComponent::OnAffordanceBeginGrab(UUxtGrabTargetComponent* 
 		UpdateInteractionCache(AffordanceInstance, GrabPointer);
 		ResetConstraintsReferenceTransform();
 
+		BoundingBoxComponent->SetMaterial(0, BoundingBoxGrabbedMaterial);
+
 		OnManipulationStarted.Broadcast(this, AffordanceInstance->Config, Grabbable);
 	}
 }
@@ -734,6 +769,7 @@ void UUxtBoundsControlComponent::OnAffordanceEndGrab(UUxtGrabTargetComponent* Gr
 	int NumRemoved = GrabbedAffordances.Remove(AffordanceInstance);
 	if (NumRemoved > 0)
 	{
+		BoundingBoxComponent->SetMaterial(0, BoundingBoxDefaultMaterial);
 		OnManipulationEnded.Broadcast(this, AffordanceInstance->Config, Grabbable);
 	}
 }
@@ -763,24 +799,6 @@ bool UUxtBoundsControlComponent::GetRelativeBoxTransform(const FBox& Box, const 
 	FVector Scale = bIsValid ? ExtentA / ExtentB : FVector::OneVector;
 	OutTransform = FTransform(FRotator::ZeroRotator, Box.GetCenter() - RelativeTo.GetCenter() * Scale, Scale);
 	return bIsValid;
-}
-
-void UUxtBoundsControlComponent::CreateCollisionBox()
-{
-	if (AActor* const Owner = GetOwner())
-	{
-		USceneComponent* const BoundsRoot = GetBoundsRoot();
-
-		CollisionBox = NewObject<UBoxComponent>(Owner);
-		CollisionBox->SetupAttachment(BoundsRoot);
-		CollisionBox->RegisterComponent();
-
-		CollisionBox->SetBoxExtent(Bounds.GetExtent());
-		CollisionBox->SetWorldTransform(FTransform(Bounds.GetCenter()) * BoundsRoot->GetComponentTransform());
-
-		CollisionBox->SetCollisionProfileName(CollisionProfile);
-		CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	}
 }
 
 void UUxtBoundsControlComponent::ResetConstraintsReferenceTransform()
