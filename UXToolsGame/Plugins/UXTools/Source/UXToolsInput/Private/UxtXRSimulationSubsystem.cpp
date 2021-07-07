@@ -68,7 +68,7 @@ bool UUxtXRSimulationSubsystem::GetHeadPose(FQuat& OutHeadRotation, FVector& Out
 
 void UUxtXRSimulationSubsystem::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)
 {
-	if (NewPlayer->IsLocalController())
+	if (NewPlayer->Player == GetLocalPlayer())
 	{
 		bSimulationEnabled = false;
 		const UXRSimulationRuntimeSettings* Settings = UXRSimulationRuntimeSettings::Get();
@@ -104,7 +104,7 @@ void UUxtXRSimulationSubsystem::OnGameModeLogout(AGameModeBase* GameMode, AContr
 {
 	if (APlayerController* PlayerController = Cast<APlayerController>(Exiting))
 	{
-		if (PlayerController->IsLocalController())
+		if (PlayerController->Player == GetLocalPlayer())
 		{
 			DestroyInputSimActor();
 			DestroyHmdCameraActor();
