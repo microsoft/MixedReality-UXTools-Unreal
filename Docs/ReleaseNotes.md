@@ -14,6 +14,7 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [Graduation of the scrolling object collection from experimental](#graduation-of-the-scrolling-object-collection-from-experimental)
   - [Re-parented UxtBoundsControl's affordances](#re-parented-uxtboundscontrols-affordances)
   - [Create UxtBoundsControl's bounding box automatically](#create-uxtboundscontrols-bounding-box-automatically)
+  - [Align actors on arc](#align-actors-on-arc)
 - [Breaking changes](#breaking-changes)
   - [UxtBoundsControl](#uxtboundscontrol)
     - [Affordances re-parenting](#affordances-re-parenting)
@@ -47,6 +48,12 @@ The scrolling object collection has been updated and is no longer tagged as expe
 ### Create UxtBoundsControl's bounding box automatically
 
 We used to add the **Static Mesh** that would work as bounding box manually via Blueprints, as in *BP_CoffeeCup.uasset* and *BP_Slate2D.uasset*. However, this is now handled by the component itself, which means that simply adding an **Uxt Bounds Control** component to an actor will set it up automatically!
+
+### Align actors on arc
+
+UX Tools contains a handful of utilities that augment the Unreal Engine editor. The `Align Actors on Arc` scripted action allows you to layout actors on a circular arc. Check out the [new documentation](Utilities.md) to learn more.
+
+![AlignActorsOnArc](Images/Utilities/UtilitiesAlignActorsOnArc.png)
 
 ## Breaking changes
 

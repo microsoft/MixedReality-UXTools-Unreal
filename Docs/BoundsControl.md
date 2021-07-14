@@ -14,7 +14,7 @@ Bounds Control is a component that allows the user to change the position, rotat
 
 To enable bounds control on an actor, add an `UUxtBoundsControlComponent` to it. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.
 
-![BoundsControlComponent](Images/BoundsControl.png)
+![BoundsControlComponent](Images/FeatureCards/BoundsControl.png)
 
 ## Bounds Control Config
 
