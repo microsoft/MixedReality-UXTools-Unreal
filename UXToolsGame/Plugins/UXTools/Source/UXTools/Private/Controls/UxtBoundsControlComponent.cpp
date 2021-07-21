@@ -264,6 +264,51 @@ void UUxtBoundsControlComponent::ComputeBoundsFromComponents()
 	}
 }
 
+void UUxtBoundsControlComponent::SetBoundsOverride(USceneComponent* NewBoundsOverride)
+{
+	if (BoundsOverride.OverrideComponent != NewBoundsOverride)
+	{
+		if (NewBoundsOverride && NewBoundsOverride->GetOwner() != GetOwner())
+		{
+			UE_LOG(LogUxtBoundsControl, Error, TEXT("Bounds override component must belong to the same actor as the bounds control"));
+			return;
+		}
+
+		BoundsOverride.OverrideComponent = NewBoundsOverride;
+
+		if (HasBegunPlay())
+		{
+			// Re-initialize if we have already been initialized
+			Deinit();
+			Init();
+		}
+	}
+}
+
+void UUxtBoundsControlComponent::SetBoundsOverride(const FComponentReference& NewBoundsOverride)
+{
+	if (!(BoundsOverride == NewBoundsOverride))
+	{
+		if (UActorComponent* Component = NewBoundsOverride.GetComponent(GetOwner()))
+		{
+			if (Component->GetOwner() != GetOwner())
+			{
+				UE_LOG(LogUxtBoundsControl, Error, TEXT("Bounds override component must belong to the same actor as the bounds control"));
+				return;
+			}
+		}
+
+		BoundsOverride = NewBoundsOverride;
+
+		if (HasBegunPlay())
+		{
+			// Re-initialize if we have already been initialized
+			Deinit();
+			Init();
+		}
+	}
+}
+
 UPrimitiveComponent* UUxtBoundsControlComponent::GetAffordancePrimitive(const EUxtAffordancePlacement Placement) const
 {
 	for (const TPair<UPrimitiveComponent*, FUxtAffordanceInstance>& Pair : PrimitiveAffordanceMap)
@@ -544,7 +589,11 @@ bool UUxtBoundsControlComponent::IsAffordanceGrabbed(const FUxtAffordanceInstanc
 void UUxtBoundsControlComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	Init();
+}
 
+void UUxtBoundsControlComponent::Init()
+{
 	if (bInitBoundsFromActor)
 	{
 		ComputeBoundsFromComponents();
@@ -563,7 +612,7 @@ void UUxtBoundsControlComponent::BeginPlay()
 	TransformUpdatedDelegateHandle = GetBoundsRoot()->TransformUpdated.AddUObject(this, &UUxtBoundsControlComponent::OnTransformUpdated);
 }
 
-void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void UUxtBoundsControlComponent::Deinit()
 {
 	GetBoundsRoot()->TransformUpdated.Remove(TransformUpdatedDelegateHandle);
 
@@ -571,7 +620,11 @@ void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReaso
 
 	// Destroyed explicitly because it was manually attached to the owning actor
 	BoundingBoxComponent->DestroyComponent();
+}
 
+void UUxtBoundsControlComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Deinit();
 	Super::EndPlay(EndPlayReason);
 }
 

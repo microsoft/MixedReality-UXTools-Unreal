@@ -97,6 +97,25 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Uxt Bounds Control")
 	void ComputeBoundsFromComponents();
 
+	/** Returns the bounds override component or nullptr if one hasn't been set. */
+	UFUNCTION(BlueprintCallable, Category = "Uxt Bounds Control")
+	USceneComponent* GetBoundsOverride() const { return Cast<USceneComponent>(BoundsOverride.GetComponent(GetOwner())); }
+
+	/**
+	 * Sets the component to create the bounds around. If not set the actor root will be used.
+	 * It must be owned by the same actor as the bounds control. Pass nullptr to clear the override.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Uxt Bounds Control")
+	void SetBoundsOverride(USceneComponent* NewBoundsOverride);
+
+	/**
+	 * Sets the component to create the bounds around. If not set the actor root will be used.
+	 * It must be owned by the same actor as the bounds control.
+	 * Use this override if the bounds override needs to be serialized, e.g. when setting
+	 * from an actor constructor.
+	 */
+	void SetBoundsOverride(const FComponentReference& NewBoundsOverride);
+
 	UPrimitiveComponent* GetAffordancePrimitive(const EUxtAffordancePlacement Placement) const;
 
 	/** Retrieves the component that is considered the root for the bounds. This is @ref BoundsOverride or the owner's root. */
@@ -240,6 +259,12 @@ private:
 	 * Handles TransformUpdated event for the component returned by @ref GetBoundsRoot.
 	 */
 	void OnTransformUpdated(USceneComponent* UpdatedComponent, EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport);
+
+	/** Initializes the component at runtime */
+	void Init();
+
+	/** Deinitializes the component at runtime */
+	void Deinit();
 
 	/** Initialize bounds from actor content. */
 	UPROPERTY(EditAnywhere, Category = "Uxt Bounds Control", BlueprintGetter = "GetInitBoundsFromActor")
