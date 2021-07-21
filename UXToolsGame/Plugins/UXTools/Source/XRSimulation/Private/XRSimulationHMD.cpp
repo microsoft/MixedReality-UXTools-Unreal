@@ -528,9 +528,9 @@ void FXRSimulationHMD::PreRenderViewFamily_RenderThread(FRHICommandListImmediate
 	check(IsInRenderingThread());
 }
 
-bool FXRSimulationHMD::IsActiveThisFrame(class FViewport* InViewport) const
+bool FXRSimulationHMD::IsActiveThisFrame_Internal(const FSceneViewExtensionContext& Context) const
 {
-	return GEngine && GEngine->IsStereoscopic3D(InViewport);
+	return GEngine && GEngine->IsStereoscopic3D(Context.Viewport);
 }
 
 FXRSimulationHMD::FXRSimulationHMD(const FAutoRegister& AutoRegister)

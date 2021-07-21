@@ -31,7 +31,7 @@ struct UXTOOLS_API FUxtFontCharacter
 	 * The texutre containing the font character.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Font Character")
-	UTexture2D* Texture;
+	UTexture2D* Texture = nullptr;
 
 	/**
 	 * The UV offset within the texture to find the character.

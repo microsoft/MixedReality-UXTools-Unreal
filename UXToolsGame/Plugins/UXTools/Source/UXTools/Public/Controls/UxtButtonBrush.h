@@ -39,11 +39,11 @@ public:
 
 	/** Handle to the default left pulse materials to use for the button front plate. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Button Visuals Brush")
-	UMaterialInterface* FrontPlatePulseLeftMaterial;
+	UMaterialInterface* FrontPlatePulseLeftMaterial = nullptr;
 
 	/** Handle to the default right pulse materials to use for the button front plate. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Button Visuals Brush")
-	UMaterialInterface* FrontPlatePulseRightMaterial;
+	UMaterialInterface* FrontPlatePulseRightMaterial = nullptr;
 
 	/** How long it takes the front plate pulse to animate in size in seconds. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Uxt Button Visuals Brush")

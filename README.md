@@ -25,7 +25,7 @@ If you're already familiar with Mixed Reality development in Unreal, you can fin
 
 # Required software
 
- | [![Utilities](Docs/Images/Windows-Logo.png)](https://developer.microsoft.com/windows/downloads/windows-10-sdk) <br> [Windows SDK 18362+](https://developer.microsoft.com/windows/downloads/windows-10-sdk)| [![Unreal](Docs/Images/Unreal-Logo.png)](https://www.unrealengine.com/get-now) <br> [Unreal 4.26.0+](https://www.unrealengine.com/get-now)| [![Visual Studio 2019](Docs/Images/VS-Logo.png)](http://dev.windows.com/downloads) <br> [Visual Studio 2019](http://dev.windows.com/downloads)|
+ | [![Utilities](Docs/Images/Windows-Logo.png)](https://developer.microsoft.com/windows/downloads/windows-10-sdk) <br> [Windows SDK 18362+](https://developer.microsoft.com/windows/downloads/windows-10-sdk)| [![Unreal](Docs/Images/Unreal-Logo.png)](https://www.unrealengine.com/get-now) <br> [Unreal 4.27.0+](https://www.unrealengine.com/get-now)| [![Visual Studio 2019](Docs/Images/VS-Logo.png)](http://dev.windows.com/downloads) <br> [Visual Studio 2019](http://dev.windows.com/downloads)|
 | :--- | :--- | :--- |
 | To build apps with MRTK-Unreal and UX Tools, you need the Windows 10 May 2019 Update SDK | The Unreal Engine provides support for building Mixed Reality projects in Windows 10 | Visual Studio is used for code editing |
 
@@ -45,9 +45,9 @@ If you're already familiar with Mixed Reality development in Unreal, you can fin
 
 # Tools
 
-|  [![Utilities](Docs/Images/Utilities.png)](Docs/Utilities.md) [Utilities](Docs/Utilities.md) | [![Graphics](Docs/Images/Graphics.png)](Docs/Graphics.md) [Graphics](Docs/Graphics.md) | 
-|:--- | :--- | 
-| Plugin containing a handful of tools that augment the Unreal Engine editor | Breakdown of shaders, materials, and graphics techniques used to render UX components | 
+|  [![Utilities](Docs/Images/Utilities.png)](Docs/Utilities.md) [Utilities](Docs/Utilities.md) | [![Graphics](Docs/Images/Graphics.png)](Docs/Graphics.md) [Graphics](Docs/Graphics.md) |
+|:--- | :--- |
+| Plugin containing a handful of tools that augment the Unreal Engine editor | Breakdown of shaders, materials, and graphics techniques used to render UX components |
 
 # Example maps
 
@@ -70,7 +70,7 @@ For that you should:
 1. [Checkout](https://help.github.com/en/desktop/contributing-to-projects/switching-between-branches) the latest 'public/_version_.x' branch.
     * Bear in mind that this branch is alive. It's not a release, and will be **updated regularly with potentially breaking changes**. There will be a release tag (e.g. _release/0.11.0_) marked as such in GitHub.
 
-You can now open the _UX Tools Game_ (`/UXToolsGame/UXToolsGame.uproject`) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub. 
+You can now open the _UX Tools Game_ (`/UXToolsGame/UXToolsGame.uproject`) and explore individual example maps or open the _Loader_ level to access some of the examples from a centralized hub.
 
 ## Importing examples to your project
 

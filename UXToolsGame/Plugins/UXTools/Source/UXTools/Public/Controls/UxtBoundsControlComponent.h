@@ -32,7 +32,7 @@ struct FUxtAffordanceInstance
 
 	/** Dynamic material for highlighting the affordance. */
 	UPROPERTY()
-	UMaterialInstanceDynamic* DynamicMaterial;
+	UMaterialInstanceDynamic* DynamicMaterial = nullptr;
 
 	/** Percentage of transition to the focused state. */
 	float FocusedTransition = 0.0f;

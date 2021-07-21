@@ -50,6 +50,4 @@ private:
 
 	FDelegateHandle PostLoginHandle;
 	FDelegateHandle LogoutHandle;
-
-	bool ShouldApplyGripPoseScale = false;
 };
