@@ -29,7 +29,6 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [IUxtHandTracker](#iuxthandtracker)
   - [ControllerOrientation property removed from UUxtFarPointerComponent](#controllerorientation-property-removed-from-uuxtfarpointercomponent)
   - [Updated smoothing factors for Manipulator and Pinch Slider](#updated-smoothing-factors-for-manipulator-and-pinch-slider)
-- [Known issues](#known-issues)
 - [Full change list](#full-change-list)
 
 This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Reality VR but should work on all [XR devices supported by Unreal Engine via OpenXR](https://docs.unrealengine.com/en-US/SharingAndReleasing/XRDevelopment/OpenXR/#platformsupport):
