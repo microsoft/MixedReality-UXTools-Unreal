@@ -61,10 +61,10 @@ FTransform UUxtMathUtilsFunctionLibrary::RotateAboutPivotPoint(const FTransform&
 }
 
 FBoxSphereBounds UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(
-	USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter)
+	const USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter)
 {
 	FBoxSphereBounds Bounds =
-		(Filter != nullptr && Filter(Component)) ? Component->CalcBounds(LocalToTarget) : FBoxSphereBounds(EForceInit::ForceInit);
+		(Filter == nullptr || Filter(Component)) ? Component->CalcBounds(LocalToTarget) : FBoxSphereBounds(EForceInit::ForceInit);
 	for (USceneComponent* Child : Component->GetAttachChildren())
 	{
 		FTransform ChildLocalToParent = Child->GetRelativeTransform() * LocalToTarget;

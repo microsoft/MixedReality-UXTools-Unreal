@@ -14,22 +14,10 @@
 #include "Math/UnrealMathUtility.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "Utils/UxtInternalFunctionLibrary.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 namespace
 {
-	// Get combined bounds of component and its subcomponents
-	FBoxSphereBounds GetComponentHierarchyBounds(const USceneComponent* TargetComponent)
-	{
-		TArray<USceneComponent*> Children;
-		TargetComponent->GetChildrenComponents(true, Children);
-		FBoxSphereBounds Bounds = TargetComponent->Bounds;
-		for (int i = 0; i < Children.Num(); ++i)
-		{
-			Bounds = Bounds + Children[i]->Bounds;
-		}
-		return Bounds;
-	}
-
 	float GetDefaultSurfaceNormalOffset(const USceneComponent* TargetComponent)
 	{
 		if (TargetComponent->IsA(UPrimitiveComponent::StaticClass()))
@@ -43,7 +31,8 @@ namespace
 		else
 		{
 			// Use the bounding box as approximation in case the Target Component is a parent of multiple meshes
-			return GetComponentHierarchyBounds(TargetComponent).BoxExtent.X;
+			return UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(TargetComponent, TargetComponent->GetComponentTransform())
+				.BoxExtent.X;
 		}
 	}
 } // namespace
@@ -195,11 +184,13 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 					else
 					{
 						// Use the bounding box for a generic USceneComponent which can have multiple child components
-						CollisionShape.SetBox(GetComponentHierarchyBounds(GetTargetComponent()).BoxExtent);
+						CollisionShape.SetBox(UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(
+												  GetTargetComponent(), GetTargetComponent()->GetComponentTransform())
+												  .BoxExtent);
 					}
 
 					if (GetWorld()->SweepSingleByChannel(
-							HitResult, Start, Result.Location, UKismetMathLibrary::Conv_VectorToQuaterion(Facing), TraceChannel,
+							HitResult, Start, Result.Location, UKismetMathLibrary::Conv_VectorToQuaternion(Facing), TraceChannel,
 							CollisionShape, QueryParams))
 					{
 						FVector Displacement = UKismetMathLibrary::ProjectVectorOnToVector(HitResult.ImpactPoint - Result.Location, Facing);
@@ -232,12 +223,12 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 				float LerpAmount = LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime;
 				LerpAmount = (LerpAmount > 1.0f) ? 1.0f : LerpAmount;
 				Position = FMath::Lerp(TargetPos, HitPosition, LerpAmount);
-				Orientation = FQuat::Slerp(TargetRot, UKismetMathLibrary::Conv_VectorToQuaterion(Facing), LerpAmount);
+				Orientation = FQuat::Slerp(TargetRot, UKismetMathLibrary::Conv_VectorToQuaternion(Facing), LerpAmount);
 			}
 			else
 			{
 				Position = HitPosition;
-				Orientation = UKismetMathLibrary::Conv_VectorToQuaterion(Facing);
+				Orientation = UKismetMathLibrary::Conv_VectorToQuaternion(Facing);
 			}
 
 			Target->SetWorldLocation(Position);
