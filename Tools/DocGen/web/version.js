@@ -1,30 +1,30 @@
 function createDropdown()
 {
 	// configurable values:
-	var defaultTitle = "public/0.12.x"; // title in the dropdown for the root version of the docs - alternatively put a version from the version array as a default
-	var versionArray = ["public/0.8.x", "public/0.9.x", "public/0.10.x", "public/0.11.x", "public/0.12.x"]; // list of all versions in the version folder
+	var defaultTitle = "public/0.12.x-UE4.27"; // title in the dropdown for the root version of the docs - alternatively put a version from the version array as a default
+	var versionArray = ["public/0.8.x", "public/0.9.x", "public/0.10.x", "public/0.11.x", "public/0.12.x", "public/0.12.x-UE4.27"]; // list of all versions in the version folder
 
 	var ignoreDefaultInVersionFolder = true;
 
 	//--------------------------------------
-	
+
 	// get web root path
 	var script = document.getElementById('dropdownScript');
 	var scriptPath = script.src;
 	var currentVersionName = defaultTitle;
 	var rootDir = scriptPath.substring(0, scriptPath.lastIndexOf('web/'));
-	
+
 	// figure out in which version we're currently working in
 	for (var i = 0; i < versionArray.length; i++)
 	{
 		var currentUrl = window.location.href.toString();
 		if (currentUrl.indexOf(versionArray[i]) > 0)
 		{
-			currentVersionName = versionArray[i];			
+			currentVersionName = versionArray[i];
 			break;
 		}
 	}
-		
+
 	// create dropdown button
 	var versionDropDiv = document.getElementById('versionDropdown');
 	var btn = document.createElement('button');
@@ -36,7 +36,7 @@ function createDropdown()
 	innerDiv.className = "version-dropdown-content";
 	versionDropDiv.appendChild(btn);
 	versionDropDiv.appendChild(innerDiv);
-	
+
 	var isDefaultInVersionFolder = false;
 	// create version entries
 	for (i = 0; i<versionArray.length; i++)
@@ -62,13 +62,13 @@ function createDropdown()
 			}
 		}
 	}
-	
+
 	// create default entry
 	if (currentVersionName != defaultTitle && isDefaultInVersionFolder == false)
 	{
 		createEntry(innerDiv, defaultTitle, rootDir+"README.html", true);
 	}
-	
+
 }
 
 function createEntry(attachTo, name, url, prepend)

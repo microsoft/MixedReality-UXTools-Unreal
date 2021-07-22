@@ -51,7 +51,7 @@ void FUxtXRSimulationViewExtension::PreRenderView_RenderThread(FRHICommandListIm
 	check(IsInRenderingThread());
 }
 
-bool FUxtXRSimulationViewExtension::IsActiveThisFrame(class FViewport* InViewport) const
+bool FUxtXRSimulationViewExtension::IsActiveThisFrame_Internal(const FSceneViewExtensionContext& Context) const
 {
 	return SimulationSubsystem->IsSimulationEnabled();
 }

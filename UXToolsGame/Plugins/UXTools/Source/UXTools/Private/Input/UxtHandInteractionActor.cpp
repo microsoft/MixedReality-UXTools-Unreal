@@ -4,7 +4,6 @@
 #include "Input/UxtHandInteractionActor.h"
 
 #include "ProceduralMeshComponent.h"
-#include "UxtHandMeshCollisionDeactivationComponent.h"
 
 #include "Controls/UxtFarBeamComponent.h"
 #include "Controls/UxtFarCursorComponent.h"
@@ -15,7 +14,6 @@
 #include "Input/UxtNearPointerComponent.h"
 #include "Interactions/UxtGrabTarget.h"
 #include "Interactions/UxtPokeTarget.h"
-#include "Kismet/GameplayStatics.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "VisualLogger/VisualLogger.h"
 
@@ -52,10 +50,6 @@ AUxtHandInteractionActor::AUxtHandInteractionActor(const FObjectInitializer& Obj
 		VelocityPositionsCache[i] = FVector::ZeroVector;
 		VelocityNormalsCache[i] = FVector::ZeroVector;
 	}
-
-	// Workaround for near interaction issues when depth data is enabled in AR Session
-	UxtHandMeshCollisionDeactivationComponent =
-		CreateDefaultSubobject<UUxtHandMeshCollisionDeactivationComponent>("UxtHandMeshCollisionDeactivationComponent");
 }
 
 // Called when the game starts or when spawned

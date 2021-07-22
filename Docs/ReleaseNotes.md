@@ -29,7 +29,7 @@ This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Rea
 - Oculus
 - Steam VR
 
-Unreal 4.26 required.
+Unreal 4.27 required.
 
 ## What's new
 
@@ -69,11 +69,5 @@ As described [above](#re-parented-uxtboundscontrols-affordances), affordances ar
 #### Bounding box created automatically
 
 As described [above](#create-uxtboundscontrols-bounding-box-automatically), the bounding box is now created automatically by the **Uxt Bounds Control** component. Therefore, if you manually added a **Static Mesh** to your actor in order to replicate the logic in our Blueprints, simply get rid of it.
-
-## Known issues
-
-### Crash in UX Tools game when leaving surface magnetism or tap to place maps
-
-This happens only when running on device without OpenXR. It's caused by a bug in the engine (UEVR-2118) that happens after stopping an AR session with tracked geometry enabled. We expect it will be fixed in the next UE4 release (4.26.3 or 4.27).
 
 ## Full change list
