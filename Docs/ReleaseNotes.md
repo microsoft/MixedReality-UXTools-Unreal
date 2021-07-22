@@ -15,12 +15,11 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [Re-parented UxtBoundsControl's affordances](#re-parented-uxtboundscontrols-affordances)
   - [Create UxtBoundsControl's bounding box automatically](#create-uxtboundscontrols-bounding-box-automatically)
   - [Align actors on arc](#align-actors-on-arc)
+  - [TapToPlace improvements](#taptoplace-improvements)
 - [Breaking changes](#breaking-changes)
   - [UxtBoundsControl](#uxtboundscontrol)
     - [Affordances re-parenting](#affordances-re-parenting)
     - [Bounding box created automatically](#bounding-box-created-automatically)
-- [Known issues](#known-issues)
-  - [Crash in UX Tools game when leaving surface magnetism or tap to place maps](#crash-in-ux-tools-game-when-leaving-surface-magnetism-or-tap-to-place-maps)
 - [Full change list](#full-change-list)
 
 This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Reality VR but should work on all [XR devices supported by Unreal Engine via OpenXR](https://docs.unrealengine.com/en-US/SharingAndReleasing/XRDevelopment/OpenXR/#platformsupport):
@@ -54,6 +53,10 @@ We used to add the **Static Mesh** that would work as bounding box manually via 
 UX Tools contains a handful of utilities that augment the Unreal Engine editor. The `Align Actors on Arc` scripted action allows you to layout actors on a circular arc. Check out the [new documentation](Utilities.md) to learn more.
 
 ![AlignActorsOnArc](Images/Utilities/UtilitiesAlignActorsOnArc.png)
+
+### TapToPlace improvements
+
+Objects using **TapToPlace** in **AlignToCamera** mode tended to overlap with the target surface when positioned at acute angles. To prevent this, `UUxtTapToPlaceComponent` now uses collision shapes to determine the new location of the object being placed. A bounding box is used as an approximation of the collision shape in case the `TargetComponent` property points to a hierarchy of meshes instead of a single primitive.
 
 ## Breaking changes
 
