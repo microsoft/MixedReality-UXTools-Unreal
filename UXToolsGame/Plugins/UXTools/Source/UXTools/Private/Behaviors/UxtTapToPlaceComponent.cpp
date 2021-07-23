@@ -3,14 +3,18 @@
 
 #include "Behaviors/UxtTapToPlaceComponent.h"
 
+#include "SceneManagement.h"
+
 #include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "Input/UxtFarPointerComponent.h"
 #include "Input/UxtInputSubsystem.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Utils/UxtFunctionLibrary.h"
 #include "Utils/UxtInternalFunctionLibrary.h"
+#include "Utils/UxtMathUtilsFunctionLibrary.h"
 
 namespace
 {
@@ -35,11 +39,20 @@ namespace
 
 	float GetDefaultSurfaceNormalOffset(const USceneComponent* TargetComponent)
 	{
-		FVector BoundsCentre, BoxExtent;
-		float SphereRadius;
-		UKismetSystemLibrary::GetComponentBounds(TargetComponent, BoundsCentre, BoxExtent, SphereRadius);
-		float PivotPointOffset = TargetComponent->GetComponentLocation().X - BoundsCentre.X;
-		return BoxExtent.X - PivotPointOffset;
+		if (TargetComponent->IsA(UPrimitiveComponent::StaticClass()))
+		{
+			FVector BoundsCentre, BoxExtent;
+			float SphereRadius;
+			UKismetSystemLibrary::GetComponentBounds(TargetComponent, BoundsCentre, BoxExtent, SphereRadius);
+			float PivotPointOffset = TargetComponent->GetComponentLocation().X - BoundsCentre.X;
+			return BoxExtent.X - PivotPointOffset;
+		}
+		else
+		{
+			// Use the bounding box as approximation in case the Target Component is a parent of multiple meshes
+			return UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(TargetComponent, TargetComponent->GetComponentTransform())
+				.BoxExtent.X;
+		}
 	}
 } // namespace
 
@@ -176,11 +189,38 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 						Up = (IsFloor ? 1.0f : -1.0f) * FVector::CrossProduct(ParallelToSurface, Result.Normal);
 					}
 				}
+
+				if ((OrientationType != EUxtTapToPlaceOrientBehavior::AlignToSurface) || KeepOrientationVertical)
+				{
+					// Perform a sweep query to prevent the target object from interpenetrating with other objects
+					FHitResult HitResult;
+					FCollisionShape CollisionShape;
+					if (Target->IsA(UPrimitiveComponent::StaticClass()) && (Target->GetNumChildrenComponents() == 0))
+					{
+						// Use exact collision shape if the target is a UPrimitiveComponent
+						CollisionShape = Cast<UPrimitiveComponent>(Target)->GetCollisionShape();
+					}
+					else
+					{
+						// Use the bounding box including all child components
+						CollisionShape.SetBox(
+							UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Target, Target->GetComponentTransform()).BoxExtent);
+					}
+
+					if (GetWorld()->SweepSingleByChannel(
+							HitResult, Start, Result.Location, GetOrientationQuat(Facing, Up), TraceChannel, CollisionShape, QueryParams))
+					{
+						FVector Displacement = UKismetMathLibrary::ProjectVectorOnToVector(HitResult.ImpactPoint - Result.Location, Facing);
+						HitPosition =
+							Result.Location + Displacement +
+							HitResult.ImpactNormal * (bUseDefaultSurfaceNormalOffset ? DefaultSurfaceNormalOffset : SurfaceNormalOffset);
+					}
+				}
 			}
 
 			if (OrientationType == EUxtTapToPlaceOrientBehavior::MaintainOrientation)
 			{
-				Facing = GetTargetComponent()->GetComponentRotation().Vector();
+				Facing = Target->GetComponentRotation().Vector();
 			}
 
 			if (KeepOrientationVertical)

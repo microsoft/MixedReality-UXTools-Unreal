@@ -47,7 +47,7 @@ public:
 	 * Calculates the composite bounding box and bounding sphere around a component and its children, the output is in
 	 * the space of the component. The optional filter component can be used to ignore specific scene components.
 	 */
-	static FBoxSphereBounds CalculateHierarchyBounds(USceneComponent* Component, HierarchyBoundsFilter Filter = nullptr)
+	static FBoxSphereBounds CalculateHierarchyBounds(const USceneComponent* Component, HierarchyBoundsFilter Filter = nullptr)
 	{
 		return CalculateHierarchyBounds(Component, FTransform::Identity, Filter);
 	}
@@ -57,7 +57,7 @@ public:
 	 * used to ignore specific scene components.
 	 */
 	static FBoxSphereBounds CalculateHierarchyBounds(
-		USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter = nullptr);
+		const USceneComponent* Component, const FTransform& LocalToTarget, HierarchyBoundsFilter Filter = nullptr);
 
 	/**
 	 * Calculates the bounds of all applicable components under @ref Root, except those included in @ref Ignore.

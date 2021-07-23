@@ -15,12 +15,13 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
   - [Re-parented UxtBoundsControl's affordances](#re-parented-uxtboundscontrols-affordances)
   - [Create UxtBoundsControl's bounding box automatically](#create-uxtboundscontrols-bounding-box-automatically)
   - [Align actors on arc](#align-actors-on-arc)
+  - [TapToPlace improvements](#taptoplace-improvements)
 - [Breaking changes](#breaking-changes)
   - [UxtBoundsControl](#uxtboundscontrol)
     - [Affordances re-parenting](#affordances-re-parenting)
     - [Bounding box created automatically](#bounding-box-created-automatically)
-- [Known issues](#known-issues)
-  - [Crash in UX Tools game when leaving surface magnetism or tap to place maps](#crash-in-ux-tools-game-when-leaving-surface-magnetism-or-tap-to-place-maps)
+  - [UUxtMathUtilsFunctionLibrary](#uuxtmathutilsfunctionlibrary)
+    - [CalculateHierarchyBounds returns component bounds even if no filter was provided](#calculatehierarchybounds-returns-component-bounds-even-if-no-filter-was-provided)
 - [Full change list](#full-change-list)
 
 This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Reality VR but should work on all [XR devices supported by Unreal Engine via OpenXR](https://docs.unrealengine.com/en-US/SharingAndReleasing/XRDevelopment/OpenXR/#platformsupport):
@@ -55,6 +56,10 @@ UX Tools contains a handful of utilities that augment the Unreal Engine editor. 
 
 ![AlignActorsOnArc](Images/Utilities/UtilitiesAlignActorsOnArc.png)
 
+### TapToPlace improvements
+
+Objects using **TapToPlace** in **AlignToCamera** mode tended to overlap with the target surface when positioned at acute angles. To prevent this, `UUxtTapToPlaceComponent` now uses collision shapes to determine the new location of the object being placed. A bounding box is used as an approximation of the collision shape in case the `TargetComponent` property points to a hierarchy of meshes instead of a single primitive.
+
 ## Breaking changes
 
 ### UxtBoundsControl
@@ -69,5 +74,11 @@ As described [above](#re-parented-uxtboundscontrols-affordances), affordances ar
 #### Bounding box created automatically
 
 As described [above](#create-uxtboundscontrols-bounding-box-automatically), the bounding box is now created automatically by the **Uxt Bounds Control** component. Therefore, if you manually added a **Static Mesh** to your actor in order to replicate the logic in our Blueprints, simply get rid of it.
+
+### UUxtMathUtilsFunctionLibrary
+
+#### CalculateHierarchyBounds returns component bounds even if no filter was provided
+
+`UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds` function used to return empty bounds if no component filter was provided. If you do not provide a filter, the function will now return combined bounds of the target component and all of the components attached to it.
 
 ## Full change list
