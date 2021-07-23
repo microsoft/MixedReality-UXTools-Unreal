@@ -195,17 +195,16 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 					// Perform a sweep query to prevent the target object from interpenetrating with other objects
 					FHitResult HitResult;
 					FCollisionShape CollisionShape;
-					if (Target->IsA(UPrimitiveComponent::StaticClass()))
+					if (Target->IsA(UPrimitiveComponent::StaticClass()) && (Target->GetNumChildrenComponents() == 0))
 					{
 						// Use exact collision shape if the target is a UPrimitiveComponent
 						CollisionShape = Cast<UPrimitiveComponent>(Target)->GetCollisionShape();
 					}
 					else
 					{
-						// Use the bounding box for a generic USceneComponent which can have multiple child components
-						CollisionShape.SetBox(UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(
-												  GetTargetComponent(), GetTargetComponent()->GetComponentTransform())
-												  .BoxExtent);
+						// Use the bounding box including all child components
+						CollisionShape.SetBox(
+							UUxtMathUtilsFunctionLibrary::CalculateHierarchyBounds(Target, Target->GetComponentTransform()).BoxExtent);
 					}
 
 					if (GetWorld()->SweepSingleByChannel(
@@ -221,7 +220,7 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 			if (OrientationType == EUxtTapToPlaceOrientBehavior::MaintainOrientation)
 			{
-				Facing = GetTargetComponent()->GetComponentRotation().Vector();
+				Facing = Target->GetComponentRotation().Vector();
 			}
 
 			if (KeepOrientationVertical)
