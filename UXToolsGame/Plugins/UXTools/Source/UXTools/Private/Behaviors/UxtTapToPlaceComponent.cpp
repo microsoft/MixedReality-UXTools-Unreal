@@ -18,6 +18,25 @@
 
 namespace
 {
+	FQuat GetOrientationQuat(FVector Forward, FVector Up = FVector::UpVector)
+	{
+		FVector Right = FVector::CrossProduct(Up, Forward);
+		Up = FVector::CrossProduct(Forward, Right);
+
+		Forward.Normalize();
+		Right.Normalize();
+		Up.Normalize();
+
+		if (Forward.SizeSquared() == 0 || Right.SizeSquared() == 0 || Up.SizeSquared() == 0)
+		{
+			return FQuat::Identity;
+		}
+
+		FMatrix Axes;
+		Axes.SetAxes(&Forward, &Right, &Up);
+		return FQuat(Axes);
+	}
+
 	float GetDefaultSurfaceNormalOffset(const USceneComponent* TargetComponent)
 	{
 		if (TargetComponent->IsA(UPrimitiveComponent::StaticClass()))
@@ -190,8 +209,7 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 					}
 
 					if (GetWorld()->SweepSingleByChannel(
-							HitResult, Start, Result.Location, UKismetMathLibrary::Conv_VectorToQuaternion(Facing), TraceChannel,
-							CollisionShape, QueryParams))
+							HitResult, Start, Result.Location, GetOrientationQuat(Facing, Up), TraceChannel, CollisionShape, QueryParams))
 					{
 						FVector Displacement = UKismetMathLibrary::ProjectVectorOnToVector(HitResult.ImpactPoint - Result.Location, Facing);
 						HitPosition =
@@ -223,12 +241,12 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 				float LerpAmount = LerpTime == 0.0f ? 1.0f : DeltaTime / LerpTime;
 				LerpAmount = (LerpAmount > 1.0f) ? 1.0f : LerpAmount;
 				Position = FMath::Lerp(TargetPos, HitPosition, LerpAmount);
-				Orientation = FQuat::Slerp(TargetRot, UKismetMathLibrary::Conv_VectorToQuaternion(Facing), LerpAmount);
+				Orientation = FQuat::Slerp(TargetRot, GetOrientationQuat(Facing, Up), LerpAmount);
 			}
 			else
 			{
 				Position = HitPosition;
-				Orientation = UKismetMathLibrary::Conv_VectorToQuaternion(Facing);
+				Orientation = GetOrientationQuat(Facing, Up);
 			}
 
 			Target->SetWorldLocation(Position);
