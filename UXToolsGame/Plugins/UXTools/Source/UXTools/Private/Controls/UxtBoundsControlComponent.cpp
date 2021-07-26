@@ -202,7 +202,7 @@ UUxtBoundsControlComponent::UUxtBoundsControlComponent()
 	InteractionCache = MakeUnique<UxtAffordanceInteractionCache>();
 }
 
-UUxtBoundsControlComponent::UUxtBoundsControlComponent(FVTableHelper& Helper)
+UUxtBoundsControlComponent::UUxtBoundsControlComponent(FVTableHelper& Helper) : Super(Helper)
 {
 }
 
