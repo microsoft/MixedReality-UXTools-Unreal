@@ -89,6 +89,13 @@ public:
 	/**  Sets default values for this component's properties. */
 	UUxtScrollingObjectCollectionComponent();
 
+	//
+	// UActorComponent interface
+
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void DestroyComponent(bool bPromoteToChildred) override;
+
 	/** Returns a bitmask of what specific interaction types are enabled. */
 	UFUNCTION(BlueprintGetter, Category = "Uxt Scrolling Object Collection")
 	int32 GetCanScroll() const { return CanScroll; }
@@ -213,13 +220,6 @@ public:
 	float ClickMovementThreshold = 1.0f;
 
 protected:
-	//
-	// UActorComponent interface
-
-	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	virtual void DestroyComponent(bool bPromoteToChildred) override;
-
 	//
 	// USceneComponent interface
 
