@@ -115,16 +115,23 @@ elseif ($ModifiedOnly -or $Staged)
 if ($UseVS2019)
 {
     # Attempt to use clang-format from Visual Studio 2019 if available
-    $LLVMDir = "${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Enterprise\VC\Tools\Llvm"
-    $VS2019ClangFormatX64 = "$LLVMDir\x64\bin\clang-format.exe"
-    $VS2019ClangFormatX86 = "$LLVMDir\bin\clang-format.exe"
-    if (Test-Path -Type Leaf -Path $VS2019ClangFormatX64)
+    $LLVMDirs = @("${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Enterprise\VC\Tools\Llvm",
+                  "${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Professional\VC\Tools\Llvm",
+                  "${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\VC\Tools\Llvm")
+    foreach ($LLVMDir in $LLVMDirs)
     {
-        $ClangFormat = $VS2019ClangFormatX64
-    }
-    elseif (Test-Path -Type Leaf -Path $VS2019ClangFormatX86)
-    {
-        $ClangFormat = $VS2019ClangFormatX86
+        $VS2019ClangFormatX64 = "$LLVMDir\x64\bin\clang-format.exe"
+        $VS2019ClangFormatX86 = "$LLVMDir\bin\clang-format.exe"
+        if (Test-Path -Type Leaf -Path $VS2019ClangFormatX64)
+        {
+            $ClangFormat = $VS2019ClangFormatX64
+            break
+        }
+        elseif (Test-Path -Type Leaf -Path $VS2019ClangFormatX86)
+        {
+            $ClangFormat = $VS2019ClangFormatX86
+            break
+        }
     }
 }
 elseif ([string]::IsNullOrEmpty($ClangFormat) -or (-not (Test-Path -Type Leaf -Path $ClangFormat)))
@@ -174,7 +181,10 @@ function Format-Directory
                 $FilePath = "$Path\$_"
                 if (($null -eq $ModifiedFiles) -or ($ModifiedFiles -contains $FilePath))
                 {
-                    $FilesToFormat += $FilePath
+                    if (!($FilePath -match "Intermediate"))
+                    {
+                        $FilesToFormat += $FilePath
+                    }                    
                 }
             }
             Get-ChildItem -Path $Path -Directory `
