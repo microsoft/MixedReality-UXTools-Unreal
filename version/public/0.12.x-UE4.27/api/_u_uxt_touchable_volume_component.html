@@ -1,0 +1,628 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtTouchableVolumeComponent | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtTouchableVolumeComponent | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_touchable_volume_component">
+<h1 id="uuxttouchablevolumecomponent">UUxtTouchableVolumeComponent</h1>
+
+<p>Component that turns the actor it is attached to into a touchable volume.</p>
+<pre><code class="lang-cpp">class UUxtTouchableVolumeComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtTouchableVolumeComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a>, <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a>, <a href="_i_uxt_poke_handler.html">IUxtPokeHandler</a>, <a href="_i_uxt_far_target.html">IUxtFarTarget</a>, <a href="_i_uxt_far_handler.html">IUxtFarHandler</a>, USceneComponent</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setenabled">SetEnabled</a></strong>(bool Enabled)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-ispokefocusable_implementation">IsPokeFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual EUxtPokeBehaviour</td>
+<td><strong><a href="#function-getpokebehaviour_implementation">GetPokeBehaviour_Implementation</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getclosestpoint_implementation">GetClosestPoint_Implementation</a></strong>(const UPrimitiveComponent * Primitive, const FVector &amp; Point, FVector &amp; OutClosestPoint, FVector &amp; OutNormal) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlepoke_implementation">CanHandlePoke_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterpokefocus_implementation">OnEnterPokeFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatepokefocus_implementation">OnUpdatePokeFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitpokefocus_implementation">OnExitPokeFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbeginpoke_implementation">OnBeginPoke_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatepoke_implementation">OnUpdatePoke_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onendpoke_implementation">OnEndPoke_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isfarfocusable_implementation">IsFarFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlefar_implementation">CanHandleFar_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterfarfocus_implementation">OnEnterFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatedfarfocus_implementation">OnUpdatedFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitfarfocus_implementation">OnExitFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarpressed_implementation">OnFarPressed_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarreleased_implementation">OnFarReleased_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-oninputtouchbeginhandler">OnInputTouchBeginHandler</a></strong>(ETouchIndex::Type FingerIndex, UPrimitiveComponent * TouchedComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-oninputtouchendhandler">OnInputTouchEndHandler</a></strong>(ETouchIndex::Type FingerIndex, UPrimitiveComponent * TouchedComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-oninputtouchleavehandler">OnInputTouchLeaveHandler</a></strong>(ETouchIndex::Type FingerIndex, UPrimitiveComponent * TouchedComponent)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int32</td>
+<td><strong><a href="#variable-interactionmode">InteractionMode</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-blockfocus">bLockFocus</a></strong></td>
+</tr>
+<tr>
+<td>TSet&lt; UPrimitiveComponent * &gt;</td>
+<td><strong><a href="#variable-touchableprimitives">TouchablePrimitives</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeBeginFocusDelegate</td>
+<td><strong><a href="#variable-onbeginfocus">OnBeginFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeUpdateFocusDelegate</td>
+<td><strong><a href="#variable-onupdatefocus">OnUpdateFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeEndFocusDelegate</td>
+<td><strong><a href="#variable-onendfocus">OnEndFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeBeginPokeDelegate</td>
+<td><strong><a href="#variable-onbeginpoke">OnBeginPoke</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeUpdatePokeDelegate</td>
+<td><strong><a href="#variable-onupdatepoke">OnUpdatePoke</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeEndPokeDelegate</td>
+<td><strong><a href="#variable-onendpoke">OnEndPoke</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeEnabledDelegate</td>
+<td><strong><a href="#variable-onvolumeenabled">OnVolumeEnabled</a></strong></td>
+</tr>
+<tr>
+<td>FUxtVolumeDisabledDelegate</td>
+<td><strong><a href="#variable-onvolumedisabled">OnVolumeDisabled</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-uuxtuielementcomponent">UUxtUIElementComponent</a></strong>() =default</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-getuivisibilityself">GetUIVisibilitySelf</a></strong>() const</td>
+</tr>
+<tr>
+<td>EUxtUIElementVisibility</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-getuivisibilityinhierarchy">GetUIVisibilityInHierarchy</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-setuivisibility">SetUIVisibility</a></strong>(EUxtUIElementVisibility NewVisibility)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-refreshuielement">RefreshUIElement</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#function-onattachmentchanged">OnAttachmentChanged</a></strong>() override</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Attributes inherited from <a href="_u_uxt_u_i_element_component.html">UUxtUIElementComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtUIElementShowDelegate</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#variable-onshowelement">OnShowElement</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUIElementHideDelegate</td>
+<td><strong><a href="_u_uxt_u_i_element_component.html#variable-onhideelement">OnHideElement</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_poke_target.html#function-ispokefocusable">IsPokeFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>EUxtPokeBehaviour</td>
+<td><strong><a href="_i_uxt_poke_target.html#function-getpokebehaviour">GetPokeBehaviour</a></strong>() const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_poke_target.html#function-getclosestpoint">GetClosestPoint</a></strong>(const UPrimitiveComponent * Primitive, const FVector &amp; Point, FVector &amp; OutClosestPoint, FVector &amp; OutNormal) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_poke_handler.html">IUxtPokeHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-canhandlepoke">CanHandlePoke</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-onenterpokefocus">OnEnterPokeFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-onupdatepokefocus">OnUpdatePokeFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_poke_handler.html#function-onexitpokefocus">OnExitPokeFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_target.html">IUxtFarTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_target.html#function-isfarfocusable">IsFarFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-canhandlefar">CanHandleFar</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onenterfarfocus">OnEnterFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onupdatedfarfocus">OnUpdatedFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onexitfarfocus">OnExitFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarpressed">OnFarPressed</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfardragged">OnFarDragged</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarreleased">OnFarReleased</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-setenabled">function SetEnabled</h3>
+<pre><code class="lang-cpp">void SetEnabled(
+    bool Enabled
+)
+</code></pre>
+<p>Set if the touchable volume is enabled</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_u_uxt_u_i_element_component.html#function-beginplay">UUxtUIElementComponent::BeginPlay</a></p>
+<h3 id="function-ispokefocusable_implementation">function IsPokeFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsPokeFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-getpokebehaviour_implementation">function GetPokeBehaviour_Implementation</h3>
+<pre><code class="lang-cpp">virtual EUxtPokeBehaviour GetPokeBehaviour_Implementation() const override
+</code></pre>
+<h3 id="function-getclosestpoint_implementation">function GetClosestPoint_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool GetClosestPoint_Implementation(
+    const UPrimitiveComponent * Primitive,
+    const FVector &amp; Point,
+    FVector &amp; OutClosestPoint,
+    FVector &amp; OutNormal
+) const override
+</code></pre>
+<h3 id="function-canhandlepoke_implementation">function CanHandlePoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandlePoke_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onenterpokefocus_implementation">function OnEnterPokeFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterPokeFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatepokefocus_implementation">function OnUpdatePokeFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatePokeFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitpokefocus_implementation">function OnExitPokeFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitPokeFocus_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onbeginpoke_implementation">function OnBeginPoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnBeginPoke_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatepoke_implementation">function OnUpdatePoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatePoke_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onendpoke_implementation">function OnEndPoke_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEndPoke_Implementation(
+    UUxtNearPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-isfarfocusable_implementation">function IsFarFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsFarFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlefar_implementation">function CanHandleFar_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleFar_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onenterfarfocus_implementation">function OnEnterFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatedfarfocus_implementation">function OnUpdatedFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatedFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitfarfocus_implementation">function OnExitFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarpressed_implementation">function OnFarPressed_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarPressed_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarreleased_implementation">function OnFarReleased_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarReleased_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-oninputtouchbeginhandler">function OnInputTouchBeginHandler</h3>
+<pre><code class="lang-cpp">void OnInputTouchBeginHandler(
+    ETouchIndex::Type FingerIndex,
+    UPrimitiveComponent * TouchedComponent
+)
+</code></pre>
+<h3 id="function-oninputtouchendhandler">function OnInputTouchEndHandler</h3>
+<pre><code class="lang-cpp">void OnInputTouchEndHandler(
+    ETouchIndex::Type FingerIndex,
+    UPrimitiveComponent * TouchedComponent
+)
+</code></pre>
+<h3 id="function-oninputtouchleavehandler">function OnInputTouchLeaveHandler</h3>
+<pre><code class="lang-cpp">void OnInputTouchLeaveHandler(
+    ETouchIndex::Type FingerIndex,
+    UPrimitiveComponent * TouchedComponent
+)
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-interactionmode">variable InteractionMode</h3>
+<pre><code class="lang-cpp">int32 InteractionMode = static_cast&lt;int32&gt;(EUxtInteractionMode::Near | EUxtInteractionMode::Far);
+</code></pre>
+<p>Types of interaction the volume should respond to.</p>
+<h3 id="variable-blockfocus">variable bLockFocus</h3>
+<pre><code class="lang-cpp">bool bLockFocus = true;
+</code></pre>
+<p>Should the volume lock the pointer's focus when poked.</p>
+<h3 id="variable-touchableprimitives">variable TouchablePrimitives</h3>
+<pre><code class="lang-cpp">TSet&lt; UPrimitiveComponent * &gt; TouchablePrimitives;
+</code></pre>
+<p>List of primitives used as touchable targets. If the list is empty then all primitives of the actor are used.</p>
+<h3 id="variable-onbeginfocus">variable OnBeginFocus</h3>
+<pre><code class="lang-cpp">FUxtVolumeBeginFocusDelegate OnBeginFocus;
+</code></pre>
+<p>Event raised when a pointer starts focusing the touchable volume. WasFocused indicates if the volume was already focused by another pointer.</p>
+<h3 id="variable-onupdatefocus">variable OnUpdateFocus</h3>
+<pre><code class="lang-cpp">FUxtVolumeUpdateFocusDelegate OnUpdateFocus;
+</code></pre>
+<p>Event raised when a focusing pointer updates.</p>
+<h3 id="variable-onendfocus">variable OnEndFocus</h3>
+<pre><code class="lang-cpp">FUxtVolumeEndFocusDelegate OnEndFocus;
+</code></pre>
+<p>Event raised when a pointer ends focusing the touchable volume. IsFocused indicates if the volume is still focused by another pointer.</p>
+<h3 id="variable-onbeginpoke">variable OnBeginPoke</h3>
+<pre><code class="lang-cpp">FUxtVolumeBeginPokeDelegate OnBeginPoke;
+</code></pre>
+<p>Event raised when a pointer starts poking the touchable volume.</p>
+<h3 id="variable-onupdatepoke">variable OnUpdatePoke</h3>
+<pre><code class="lang-cpp">FUxtVolumeUpdatePokeDelegate OnUpdatePoke;
+</code></pre>
+<p>Event raised while a pointer is poking the touchable volume.</p>
+<h3 id="variable-onendpoke">variable OnEndPoke</h3>
+<pre><code class="lang-cpp">FUxtVolumeEndPokeDelegate OnEndPoke;
+</code></pre>
+<p>Event raised when a pointer ends poking the touchable volume.</p>
+<h3 id="variable-onvolumeenabled">variable OnVolumeEnabled</h3>
+<pre><code class="lang-cpp">FUxtVolumeEnabledDelegate OnVolumeEnabled;
+</code></pre>
+<p>Event raised when the volume is enabled.</p>
+<h3 id="variable-onvolumedisabled">variable OnVolumeDisabled</h3>
+<pre><code class="lang-cpp">FUxtVolumeDisabledDelegate OnVolumeDisabled;
+</code></pre>
+<p>Event raised when the volume is disabled.</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_u_uxt_touchable_volume_component.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

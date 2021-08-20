@@ -1,0 +1,638 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference FXRSimulationHMD | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference FXRSimulationHMD | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_f_x_r_simulation_h_m_d">
+<h1 id="fxrsimulationhmd">FXRSimulationHMD</h1>
+
+<p>Simple Head Mounted Display</p>
+<pre><code class="lang-cpp">class FXRSimulationHMD;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;XRSimulationHMD.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from FHeadMountedDisplayBase, FXRRenderTargetManager, FSceneViewExtensionBase</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual FName</td>
+<td><strong><a href="#function-getsystemname">GetSystemName</a></strong>() const override</td>
+</tr>
+<tr>
+<td>int32</td>
+<td><strong><a href="#function-getxrsystemflags">GetXRSystemFlags</a></strong>() const</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-enumeratetrackeddevices">EnumerateTrackedDevices</a></strong>(TArray&lt; int32 &gt; &amp; OutDevices, EXRTrackedDeviceType Type =EXRTrackedDeviceType::Any) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setinterpupillarydistance">SetInterpupillaryDistance</a></strong>(float NewInterpupillaryDistance) override</td>
+</tr>
+<tr>
+<td>virtual float</td>
+<td><strong><a href="#function-getinterpupillarydistance">GetInterpupillaryDistance</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-resetorientationandposition">ResetOrientationAndPosition</a></strong>(float Yaw =0.f) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-resetorientation">ResetOrientation</a></strong>(float Yaw =0.f) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-resetposition">ResetPosition</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-getcurrentpose">GetCurrentPose</a></strong>(int32 DeviceId, FQuat &amp; CurrentOrientation, FVector &amp; CurrentPosition) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setbaserotation">SetBaseRotation</a></strong>(const FRotator &amp; BaseRot) override</td>
+</tr>
+<tr>
+<td>virtual FRotator</td>
+<td><strong><a href="#function-getbaserotation">GetBaseRotation</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setbaseorientation">SetBaseOrientation</a></strong>(const FQuat &amp; BaseOrient) override</td>
+</tr>
+<tr>
+<td>virtual FQuat</td>
+<td><strong><a href="#function-getbaseorientation">GetBaseOrientation</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-doessupportpositionaltracking">DoesSupportPositionalTracking</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual class IHeadMountedDisplay *</td>
+<td><strong><a href="#function-gethmddevice">GetHMDDevice</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual class TSharedPtr&lt; class IStereoRendering, ESPMode::ThreadSafe &gt;</td>
+<td><strong><a href="#function-getstereorenderingdevice">GetStereoRenderingDevice</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbeginplay">OnBeginPlay</a></strong>(FWorldContext &amp; InWorldContext) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onendplay">OnEndPlay</a></strong>(FWorldContext &amp; InWorldContext) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbeginrendering_renderthread">OnBeginRendering_RenderThread</a></strong>(FRHICommandListImmediate &amp; RHICmdList, FSceneViewFamily &amp; ViewFamily) override</td>
+</tr>
+<tr>
+<td>virtual FIntRect</td>
+<td><strong><a href="#function-getfullflateyerect_renderthread">GetFullFlatEyeRect_RenderThread</a></strong>(FTexture2DRHIRef EyeTexture) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-copytexture_renderthread">CopyTexture_RenderThread</a></strong>(FRHICommandListImmediate &amp; RHICmdList, FRHITexture2D * SrcTexture, FIntRect SrcRect, FRHITexture2D * DstTexture, FIntRect DstRect, bool bClearBlack, bool bNoAlpha) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-getmotioncontrollerdata">GetMotionControllerData</a></strong>(UObject * WorldContext, const EControllerHand Hand, FXRMotionControllerData &amp; MotionControllerData) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-ishmdconnected">IsHMDConnected</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-ishmdenabled">IsHMDEnabled</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-enablehmd">EnableHMD</a></strong>(bool bEnable =true) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-gethmdmonitorinfo">GetHMDMonitorInfo</a></strong>(MonitorInfo &amp; MonitorDesc) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-getfieldofview">GetFieldOfView</a></strong>(float &amp; OutHFOVInDegrees, float &amp; OutVFOVInDegrees) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-ischromaabcorrectionenabled">IsChromaAbCorrectionEnabled</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual FIntPoint</td>
+<td><strong><a href="#function-getidealrendertargetsize">GetIdealRenderTargetSize</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-onstartgameframe">OnStartGameFrame</a></strong>(FWorldContext &amp; WorldContext) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isstereoenabled">IsStereoEnabled</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-enablestereo">EnableStereo</a></strong>(bool bEnable =true) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-adjustviewrect">AdjustViewRect</a></strong>(EStereoscopicPass StereoPass, int32 &amp; X, int32 &amp; Y, uint32 &amp; SizeX, uint32 &amp; SizeY) const override</td>
+</tr>
+<tr>
+<td>virtual EStereoscopicPass</td>
+<td><strong><a href="#function-getviewpassforindex">GetViewPassForIndex</a></strong>(bool bStereoRequested, uint32 ViewIndex) const override</td>
+</tr>
+<tr>
+<td>virtual uint32</td>
+<td><strong><a href="#function-getviewindexforpass">GetViewIndexForPass</a></strong>(EStereoscopicPass StereoPassType) const override</td>
+</tr>
+<tr>
+<td>virtual int32</td>
+<td><strong><a href="#function-getdesirednumberofviews">GetDesiredNumberOfViews</a></strong>(bool bStereoRequested) const override</td>
+</tr>
+<tr>
+<td>virtual FMatrix</td>
+<td><strong><a href="#function-getstereoprojectionmatrix">GetStereoProjectionMatrix</a></strong>(const enum EStereoscopicPass StereoPassType) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-geteyerenderparams_renderthread">GetEyeRenderParams_RenderThread</a></strong>(const struct FRenderingCompositePassContext &amp; Context, FVector2D &amp; EyeToSrcUVScaleValue, FVector2D &amp; EyeToSrcUVOffsetValue) const override</td>
+</tr>
+<tr>
+<td>virtual IStereoRenderTargetManager *</td>
+<td><strong><a href="#function-getrendertargetmanager">GetRenderTargetManager</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-rendertexture_renderthread">RenderTexture_RenderThread</a></strong>(class FRHICommandListImmediate &amp; RHICmdList, class FRHITexture2D * BackBuffer, class FRHITexture2D * SrcTexture, FVector2D WindowSize) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-shoulduseseparaterendertarget">ShouldUseSeparateRenderTarget</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setupviewfamily">SetupViewFamily</a></strong>(FSceneViewFamily &amp; InViewFamily) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setupview">SetupView</a></strong>(FSceneViewFamily &amp; InViewFamily, FSceneView &amp; InView) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginrenderviewfamily">BeginRenderViewFamily</a></strong>(FSceneViewFamily &amp; InViewFamily)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-prerenderview_renderthread">PreRenderView_RenderThread</a></strong>(FRHICommandListImmediate &amp; RHICmdList, FSceneView &amp; InView) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-prerenderviewfamily_renderthread">PreRenderViewFamily_RenderThread</a></strong>(FRHICommandListImmediate &amp; RHICmdList, FSceneViewFamily &amp; InViewFamily) override</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="#function-fxrsimulationhmd">FXRSimulationHMD</a></strong>(const FAutoRegister &amp; AutoRegister)</td>
+</tr>
+<tr>
+<td>virtual</td>
+<td><strong><a href="#function-fxrsimulationhmd">~FXRSimulationHMD</a></strong>()</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-isinitialized">IsInitialized</a></strong>() const</td>
+</tr>
+<tr>
+<td><a href="_a_x_r_simulation_actor.html">AXRSimulationActor</a> *</td>
+<td><strong><a href="#function-getsimulationactor">GetSimulationActor</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual float</td>
+<td><strong><a href="#function-getworldtometersscale">GetWorldToMetersScale</a></strong>() const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isactivethisframe_internal">IsActiveThisFrame_Internal</a></strong>(const FSceneViewExtensionContext &amp; Context) const override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const FName</td>
+<td><strong><a href="#variable-systemname">SystemName</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-getsystemname">function GetSystemName</h3>
+<pre><code class="lang-cpp">inline virtual FName GetSystemName() const override
+</code></pre>
+<p>IXRTrackingSystem interface</p>
+<h3 id="function-getxrsystemflags">function GetXRSystemFlags</h3>
+<pre><code class="lang-cpp">inline int32 GetXRSystemFlags() const
+</code></pre>
+<h3 id="function-enumeratetrackeddevices">function EnumerateTrackedDevices</h3>
+<pre><code class="lang-cpp">virtual bool EnumerateTrackedDevices(
+    TArray&lt; int32 &gt; &amp; OutDevices,
+    EXRTrackedDeviceType Type =EXRTrackedDeviceType::Any
+) override
+</code></pre>
+<h3 id="function-setinterpupillarydistance">function SetInterpupillaryDistance</h3>
+<pre><code class="lang-cpp">virtual void SetInterpupillaryDistance(
+    float NewInterpupillaryDistance
+) override
+</code></pre>
+<h3 id="function-getinterpupillarydistance">function GetInterpupillaryDistance</h3>
+<pre><code class="lang-cpp">virtual float GetInterpupillaryDistance() const override
+</code></pre>
+<h3 id="function-resetorientationandposition">function ResetOrientationAndPosition</h3>
+<pre><code class="lang-cpp">virtual void ResetOrientationAndPosition(
+    float Yaw =0.f
+) override
+</code></pre>
+<h3 id="function-resetorientation">function ResetOrientation</h3>
+<pre><code class="lang-cpp">virtual void ResetOrientation(
+    float Yaw =0.f
+) override
+</code></pre>
+<h3 id="function-resetposition">function ResetPosition</h3>
+<pre><code class="lang-cpp">virtual void ResetPosition() override
+</code></pre>
+<h3 id="function-getcurrentpose">function GetCurrentPose</h3>
+<pre><code class="lang-cpp">virtual bool GetCurrentPose(
+    int32 DeviceId,
+    FQuat &amp; CurrentOrientation,
+    FVector &amp; CurrentPosition
+) override
+</code></pre>
+<h3 id="function-setbaserotation">function SetBaseRotation</h3>
+<pre><code class="lang-cpp">virtual void SetBaseRotation(
+    const FRotator &amp; BaseRot
+) override
+</code></pre>
+<h3 id="function-getbaserotation">function GetBaseRotation</h3>
+<pre><code class="lang-cpp">virtual FRotator GetBaseRotation() const override
+</code></pre>
+<h3 id="function-setbaseorientation">function SetBaseOrientation</h3>
+<pre><code class="lang-cpp">virtual void SetBaseOrientation(
+    const FQuat &amp; BaseOrient
+) override
+</code></pre>
+<h3 id="function-getbaseorientation">function GetBaseOrientation</h3>
+<pre><code class="lang-cpp">virtual FQuat GetBaseOrientation() const override
+</code></pre>
+<h3 id="function-doessupportpositionaltracking">function DoesSupportPositionalTracking</h3>
+<pre><code class="lang-cpp">virtual bool DoesSupportPositionalTracking() const override
+</code></pre>
+<h3 id="function-gethmddevice">function GetHMDDevice</h3>
+<pre><code class="lang-cpp">inline virtual class IHeadMountedDisplay * GetHMDDevice() override
+</code></pre>
+<h3 id="function-getstereorenderingdevice">function GetStereoRenderingDevice</h3>
+<pre><code class="lang-cpp">inline virtual class TSharedPtr&lt; class IStereoRendering, ESPMode::ThreadSafe &gt; GetStereoRenderingDevice() override
+</code></pre>
+<h3 id="function-onbeginplay">function OnBeginPlay</h3>
+<pre><code class="lang-cpp">virtual void OnBeginPlay(
+    FWorldContext &amp; InWorldContext
+) override
+</code></pre>
+<h3 id="function-onendplay">function OnEndPlay</h3>
+<pre><code class="lang-cpp">virtual void OnEndPlay(
+    FWorldContext &amp; InWorldContext
+) override
+</code></pre>
+<h3 id="function-onbeginrendering_renderthread">function OnBeginRendering_RenderThread</h3>
+<pre><code class="lang-cpp">virtual void OnBeginRendering_RenderThread(
+    FRHICommandListImmediate &amp; RHICmdList,
+    FSceneViewFamily &amp; ViewFamily
+) override
+</code></pre>
+<h3 id="function-getfullflateyerect_renderthread">function GetFullFlatEyeRect_RenderThread</h3>
+<pre><code class="lang-cpp">virtual FIntRect GetFullFlatEyeRect_RenderThread(
+    FTexture2DRHIRef EyeTexture
+) const override
+</code></pre>
+<h3 id="function-copytexture_renderthread">function CopyTexture_RenderThread</h3>
+<pre><code class="lang-cpp">virtual void CopyTexture_RenderThread(
+    FRHICommandListImmediate &amp; RHICmdList,
+    FRHITexture2D * SrcTexture,
+    FIntRect SrcRect,
+    FRHITexture2D * DstTexture,
+    FIntRect DstRect,
+    bool bClearBlack,
+    bool bNoAlpha
+) const override
+</code></pre>
+<h3 id="function-getmotioncontrollerdata">function GetMotionControllerData</h3>
+<pre><code class="lang-cpp">virtual void GetMotionControllerData(
+    UObject * WorldContext,
+    const EControllerHand Hand,
+    FXRMotionControllerData &amp; MotionControllerData
+) override
+</code></pre>
+<h3 id="function-ishmdconnected">function IsHMDConnected</h3>
+<pre><code class="lang-cpp">virtual bool IsHMDConnected() override
+</code></pre>
+<p>IHeadMountedDisplay interface</p>
+<h3 id="function-ishmdenabled">function IsHMDEnabled</h3>
+<pre><code class="lang-cpp">virtual bool IsHMDEnabled() const override
+</code></pre>
+<h3 id="function-enablehmd">function EnableHMD</h3>
+<pre><code class="lang-cpp">virtual void EnableHMD(
+    bool bEnable =true
+) override
+</code></pre>
+<h3 id="function-gethmdmonitorinfo">function GetHMDMonitorInfo</h3>
+<pre><code class="lang-cpp">virtual bool GetHMDMonitorInfo(
+    MonitorInfo &amp; MonitorDesc
+) override
+</code></pre>
+<h3 id="function-getfieldofview">function GetFieldOfView</h3>
+<pre><code class="lang-cpp">virtual void GetFieldOfView(
+    float &amp; OutHFOVInDegrees,
+    float &amp; OutVFOVInDegrees
+) const override
+</code></pre>
+<h3 id="function-ischromaabcorrectionenabled">function IsChromaAbCorrectionEnabled</h3>
+<pre><code class="lang-cpp">virtual bool IsChromaAbCorrectionEnabled() const override
+</code></pre>
+<h3 id="function-getidealrendertargetsize">function GetIdealRenderTargetSize</h3>
+<pre><code class="lang-cpp">virtual FIntPoint GetIdealRenderTargetSize() const override
+</code></pre>
+<h3 id="function-onstartgameframe">function OnStartGameFrame</h3>
+<pre><code class="lang-cpp">virtual bool OnStartGameFrame(
+    FWorldContext &amp; WorldContext
+) override
+</code></pre>
+<h3 id="function-isstereoenabled">function IsStereoEnabled</h3>
+<pre><code class="lang-cpp">virtual bool IsStereoEnabled() const override
+</code></pre>
+<p>IStereoRendering interface</p>
+<h3 id="function-enablestereo">function EnableStereo</h3>
+<pre><code class="lang-cpp">virtual bool EnableStereo(
+    bool bEnable =true
+) override
+</code></pre>
+<h3 id="function-adjustviewrect">function AdjustViewRect</h3>
+<pre><code class="lang-cpp">virtual void AdjustViewRect(
+    EStereoscopicPass StereoPass,
+    int32 &amp; X,
+    int32 &amp; Y,
+    uint32 &amp; SizeX,
+    uint32 &amp; SizeY
+) const override
+</code></pre>
+<h3 id="function-getviewpassforindex">function GetViewPassForIndex</h3>
+<pre><code class="lang-cpp">virtual EStereoscopicPass GetViewPassForIndex(
+    bool bStereoRequested,
+    uint32 ViewIndex
+) const override
+</code></pre>
+<h3 id="function-getviewindexforpass">function GetViewIndexForPass</h3>
+<pre><code class="lang-cpp">virtual uint32 GetViewIndexForPass(
+    EStereoscopicPass StereoPassType
+) const override
+</code></pre>
+<h3 id="function-getdesirednumberofviews">function GetDesiredNumberOfViews</h3>
+<pre><code class="lang-cpp">virtual int32 GetDesiredNumberOfViews(
+    bool bStereoRequested
+) const override
+</code></pre>
+<h3 id="function-getstereoprojectionmatrix">function GetStereoProjectionMatrix</h3>
+<pre><code class="lang-cpp">virtual FMatrix GetStereoProjectionMatrix(
+    const enum EStereoscopicPass StereoPassType
+) const override
+</code></pre>
+<h3 id="function-geteyerenderparams_renderthread">function GetEyeRenderParams_RenderThread</h3>
+<pre><code class="lang-cpp">virtual void GetEyeRenderParams_RenderThread(
+    const struct FRenderingCompositePassContext &amp; Context,
+    FVector2D &amp; EyeToSrcUVScaleValue,
+    FVector2D &amp; EyeToSrcUVOffsetValue
+) const override
+</code></pre>
+<h3 id="function-getrendertargetmanager">function GetRenderTargetManager</h3>
+<pre><code class="lang-cpp">virtual IStereoRenderTargetManager * GetRenderTargetManager() override
+</code></pre>
+<h3 id="function-rendertexture_renderthread">function RenderTexture_RenderThread</h3>
+<pre><code class="lang-cpp">virtual void RenderTexture_RenderThread(
+    class FRHICommandListImmediate &amp; RHICmdList,
+    class FRHITexture2D * BackBuffer,
+    class FRHITexture2D * SrcTexture,
+    FVector2D WindowSize
+) const override
+</code></pre>
+<h3 id="function-shoulduseseparaterendertarget">function ShouldUseSeparateRenderTarget</h3>
+<pre><code class="lang-cpp">virtual bool ShouldUseSeparateRenderTarget() const override
+</code></pre>
+<p>IStereoRenderTargetManager</p>
+<h3 id="function-setupviewfamily">function SetupViewFamily</h3>
+<pre><code class="lang-cpp">virtual void SetupViewFamily(
+    FSceneViewFamily &amp; InViewFamily
+) override
+</code></pre>
+<p>ISceneViewExtension interface</p>
+<h3 id="function-setupview">function SetupView</h3>
+<pre><code class="lang-cpp">virtual void SetupView(
+    FSceneViewFamily &amp; InViewFamily,
+    FSceneView &amp; InView
+) override
+</code></pre>
+<h3 id="function-beginrenderviewfamily">function BeginRenderViewFamily</h3>
+<pre><code class="lang-cpp">inline virtual void BeginRenderViewFamily(
+    FSceneViewFamily &amp; InViewFamily
+)
+</code></pre>
+<h3 id="function-prerenderview_renderthread">function PreRenderView_RenderThread</h3>
+<pre><code class="lang-cpp">virtual void PreRenderView_RenderThread(
+    FRHICommandListImmediate &amp; RHICmdList,
+    FSceneView &amp; InView
+) override
+</code></pre>
+<h3 id="function-prerenderviewfamily_renderthread">function PreRenderViewFamily_RenderThread</h3>
+<pre><code class="lang-cpp">virtual void PreRenderViewFamily_RenderThread(
+    FRHICommandListImmediate &amp; RHICmdList,
+    FSceneViewFamily &amp; InViewFamily
+) override
+</code></pre>
+<h3 id="function-fxrsimulationhmd">function FXRSimulationHMD</h3>
+<pre><code class="lang-cpp">FXRSimulationHMD(
+    const FAutoRegister &amp; AutoRegister
+)
+</code></pre>
+<p>Constructor</p>
+<h3 id="function-fxrsimulationhmd-1">function ~FXRSimulationHMD</h3>
+<pre><code class="lang-cpp">virtual ~FXRSimulationHMD()
+</code></pre>
+<p>Destructor</p>
+<h3 id="function-isinitialized">function IsInitialized</h3>
+<pre><code class="lang-cpp">bool IsInitialized() const
+</code></pre>
+<p><strong>Return</strong>: True if the HMD was initialized OK</p>
+<h3 id="function-getsimulationactor">function GetSimulationActor</h3>
+<pre><code class="lang-cpp">AXRSimulationActor * GetSimulationActor() const
+</code></pre>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-getworldtometersscale">function GetWorldToMetersScale</h3>
+<pre><code class="lang-cpp">virtual float GetWorldToMetersScale() const override
+</code></pre>
+<p>FXRTrackingSystemBase protected interface</p>
+<h3 id="function-isactivethisframe_internal">function IsActiveThisFrame_Internal</h3>
+<pre><code class="lang-cpp">virtual bool IsActiveThisFrame_Internal(
+    const FSceneViewExtensionContext &amp; Context
+) const override
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-systemname">variable SystemName</h3>
+<pre><code class="lang-cpp">static const FName SystemName = TEXT(&quot;XRSimulation&quot;);
+</code></pre>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_f_x_r_simulation_h_m_d.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Bounds Control | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Bounds Control | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="boundscontrol">BoundsControl</h1>
+
+<p>Bounds Control is a component that allows the user to change the position, rotation, and size of an actor, using <em>affordances</em>. Affordances are grabbable areas on corners (scale), edges (rotate), and faces (translate) of the actor's bounding box.</p>
+<p>To enable bounds control on an actor, add an <code>UUxtBoundsControlComponent</code> to it. The component has a default configuration that can be tweaked to change the behavior and appearance as needed.</p>
+<p><img src="Images/BoundsControl.png" alt="BoundsControlComponent"></p>
+<h2 id="bounds-control-config">Bounds Control Config</h2>
+<p><code>UxtBoundsControlConfig</code> data assets are used to configure:</p>
+<ul>
+<li><code>Affordances</code> array. Each has:
+<ul>
+<li><code>Placement</code>. Enumerator with the position of the affordance around the actor. For example, <code>CornerFrontTopLeft</code>, <code>EdgeBottomRight</code> or <code>FaceBack</code>. See <code>EUxtAffordancePlacement</code> for a complete list.</li>
+<li><code>Rotation</code> of the instanced mesh.</li>
+</ul>
+</li>
+<li><code>IsSlate</code>. Whether it should be considered a 2D element or not. If so, it won't scale along the <em>X</em> axis.</li>
+<li><code>UniformScaling</code>. Whether uniform or non-uniform scaling is desired.</li>
+</ul>
+<p>There are some presets in <em>BoundsControl/Presets</em>:</p>
+<ul>
+<li><code>BoundsControlDefault</code>: All corner and edge affordances with uniform scaling.</li>
+<li><code>BoundsControlSlate2D</code>: Only front corners and edges, with non-uniform scaling.</li>
+</ul>
+<h2 id="integration-with-manipulator-constraints">Integration with manipulator constraints</h2>
+<p>The <code>UUxtBoundsControlComponent</code> works out of the box with the same constraint components that <a href="Manipulator.html">Manipulators</a> use. For example, simply adding and configuring a <code>UUxtRotationAxisConstraint</code> component will prevent rotation around the appropriate axes when interacting via affordances.</p>
+<h2 id="affordance-meshes">Affordance meshes</h2>
+<p>At runtime a separate actor is created for displaying affordances. Each affordance is a StaticMesh component on the BoundsControlActor. The mesh used for each kind of affordance (Corner, Edge, Face, Center) can be changed on the bounds control component (<code>Corner Affordance Mesh</code> etc.).</p>
+<p>When creating custom affordance meshes you can fine tune the orientation of each affordance by duplicating one of the preset layouts and modifying the <em>Rotation</em> properties. It is recommended to use simple box collision primitives to make affordances grabbable.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/Docs/BoundsControl.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

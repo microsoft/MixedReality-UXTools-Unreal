@@ -1,0 +1,3434 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/1/s/Tools/DocGen",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/BoundsControl.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/BoundsControl.html",
+          "hash": "Wycy1UzlNuP/IkGYcbxoMg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/CONTRIBUTING.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/CONTRIBUTING.html",
+          "hash": "MsjAPHuN4Jod+x+aFiH6aA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/FarBeam.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/FarBeam.html",
+          "hash": "2Larp123b122q9/hebEhMg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/FollowComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/FollowComponent.html",
+          "hash": "kxHF+BTzcd1Drrmbh5XuwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Graphics.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Graphics.html",
+          "hash": "oYE0mlX1P/njdnaDfHOO5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/HandConstraintComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/HandConstraintComponent.html",
+          "hash": "no56D4cfx/WtULyhXI9XtA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/HandInteraction.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/HandInteraction.html",
+          "hash": "7J3xfLRSSn4UvGBmy3mwNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/HandMenu.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/HandMenu.html",
+          "hash": "WobVehjmuTNb6i9oFfQpIA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ARSettingsMagnetism.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ARSettingsMagnetism.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/BoundsControl.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/BoundsControl.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Face_user_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Face_user_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_distance_with_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_distance_with_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_distance_without_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_distance_without_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_rotation_to_user_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_rotation_to_user_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Fixed_rotation_to_world_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Fixed_rotation_to_world_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Maintain_apparent_size_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Maintain_apparent_size_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Min_max_scale_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Min_max_scale_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Move_axis_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Move_axis_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Constraints/Rotation_axis_constraint.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Constraints/Rotation_axis_constraint.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Far-Beam.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Far-Beam.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FarBeam.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FarBeam.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FarBeamMatInterface.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FarBeamMatInterface.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FarInteraction.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FarInteraction.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/BoundsControl.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/BoundsControl.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/FollowComponent.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/FollowComponent.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/HandInteraction.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/HandInteraction.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/HandMenu.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/HandMenu.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/InputSimulation.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/InputSimulation.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/Manipulator.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/Manipulator.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/NearMenu.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/NearMenu.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/PinchSlider.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/PinchSlider.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/PressableButton.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/PressableButton.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/SurfaceMagnetism.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/SurfaceMagnetism.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/TapToPlace.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/TapToPlace.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/Tooltips.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/Tooltips.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/TouchableVolume.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/TouchableVolume.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/UIElement.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/UIElement.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FeatureCards/UMG.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FeatureCards/UMG.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Features.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Features.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Follow-Behavior.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Follow-Behavior.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Follow/FixedVerticalDistance.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Follow/FixedVerticalDistance.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/FollowComponent.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/FollowComponent.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Graphics.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Graphics.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Graphics/GraphicsButtonBox.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Graphics/GraphicsButtonBox.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Graphics/GraphicsRoundedEdgeThick.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Graphics/GraphicsRoundedEdgeThick.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Graphics/GraphicsSimpleLit.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Graphics/GraphicsSimpleLit.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Hand-Interaction.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Hand-Interaction.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Hand-Tracking.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Hand-Tracking.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/HandContraintsBack.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/HandContraintsBack.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/HandContraintsFront.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/HandContraintsFront.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/HandRotation.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/HandRotation.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/LookAtCamera.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/LookAtCamera.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/MixedRotation.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/MixedRotation.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/PalmUpFacingAway.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/PalmUpFacingAway.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/PalmUpFacingCamera.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/PalmUpFacingCamera.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandConstraint/Zones.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandConstraint/Zones.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandMenu/Example_ButtonSetup.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandMenu/Example_ButtonSetup.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandMenu/Example_CreateActor.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandMenu/Example_CreateActor.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandMenu/Example_EventGraph.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandMenu/Example_EventGraph.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandMenu/Example_SeamlessBackplate.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandMenu/Example_SeamlessBackplate.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandMenu/Example_TestInEditor.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandMenu/Example_TestInEditor.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/HandMenu/HandMenu.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/HandMenu/HandMenu.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Input-System.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Input-System.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/HideLeftHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/HideLeftHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/HideRightHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/HideRightHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/MenuHandPose.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/MenuHandPose.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/MoveLeftHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/MoveLeftHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/MoveRightHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/MoveRightHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/Pinch.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/Pinch.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/Poke.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/Poke.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/InputSimulation/RotateHand.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/InputSimulation/RotateHand.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Logos/MRTK_Unreal_Badge.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Logos/MRTK_Unreal_Badge.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Logos/MRTK_Unreal_Badge_Rounded.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Logos/MRTK_Unreal_Badge_Rounded.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Logos/MRTK_Unreal_UXT_Badge.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Logos/MRTK_Unreal_UXT_Badge.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Logos/MRTK_Unreal_UXT_Badge_Rounded.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Logos/MRTK_Unreal_UXT_Badge_Rounded.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Logos/MRTK_Unreal_UXT_Banner.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Logos/MRTK_Unreal_UXT_Banner.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Logos/MRTK_Unreal_UXT_Banner_Rounded.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Logos/MRTK_Unreal_UXT_Banner_Rounded.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_BoundingBox_Main.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_BoundingBox_Main.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_Button_Main.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_Button_Main.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_Icon_APIReference.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_Icon_APIReference.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_Icon_FeatureGuides.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_Icon_FeatureGuides.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_Icon_ReleaseNotes.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_Icon_ReleaseNotes.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/MRTK_Icon_Welcome.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/MRTK_Icon_Welcome.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/ConstraintPicker.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/ConstraintPicker.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/CreateCollision.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/CreateCollision.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/CustomTarget.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/CustomTarget.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/PhysicsEnabledManipulation.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/PhysicsEnabledManipulation.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Manipulator/UseComplexAsSimpleCollision.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Manipulator/UseComplexAsSimpleCollision.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/NearMenu/NearMenu.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/NearMenu/NearMenu.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/NearMenu/NearMenuCustomize.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/NearMenu/NearMenuCustomize.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/NearMenu/NearMenuEventGraph.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/NearMenu/NearMenuEventGraph.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/NearMenu/NearMenuParentClass.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/NearMenu/NearMenuParentClass.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Pinch-Slider.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Pinch-Slider.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PokeInteraction.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PokeInteraction.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Pressable-Button.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Pressable-Button.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActor.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActor.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActorBindEvent.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActorBindEvent.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActorBindEventExternal.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActorBindEventExternal.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActorCheck.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActorCheck.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActorRadio.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActorRadio.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActorSwitch.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActorSwitch.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActorToggle.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActorToggle.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonActorVisualConfig.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonActorVisualConfig.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonEvents.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonEvents.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonHoverEvents.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonHoverEvents.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonPlanes.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonPlanes.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonSetup.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonSetup.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/ButtonWithText.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/ButtonWithText.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/FrontFaceCollisionFraction.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/FrontFaceCollisionFraction.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/PressableButton/MovingVisuals.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/PressableButton/MovingVisuals.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Readme/CreateHoloLensApp_InsideUnreal.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Readme/CreateHoloLensApp_InsideUnreal.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Readme/GettingStarted_DevDays.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Readme/GettingStarted_DevDays.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Readme/UnrealAndHL_Webinar.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Readme/UnrealAndHL_Webinar.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/BoundsControlNewFaceHandles.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/BoundsControlNewFaceHandles.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/BoundsControlOldFaceHandles.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/BoundsControlOldFaceHandles.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/bounds_control_override_set.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/bounds_control_override_set.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/bounds_control_override_unset.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/bounds_control_override_unset.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/boundscontrol_taptoplace_intregration.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/boundscontrol_taptoplace_intregration.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/rotation_axis_constraint_z_local.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/rotation_axis_constraint_z_local.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/ReleaseNotes/rotation_axis_constraint_z_world.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/ReleaseNotes/rotation_axis_constraint_z_world.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Samples_Chess.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Samples_Chess.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Samples_KE.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Samples_KE.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Slider/BasicSlider.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Slider/BasicSlider.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Slider/EventSubscription.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Slider/EventSubscription.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Slider/PinchSliderActor.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Slider/PinchSliderActor.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Slider/SteppedSlider.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Slider/SteppedSlider.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/SurfaceMagnetismSettings.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/SurfaceMagnetismSettings.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/TapToPlace.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/TapToPlace.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Text/FontAtlas.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Text/FontAtlas.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Text/FontChars.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Text/FontChars.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Text/TextActor.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Text/TextActor.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Tooltips/TooltipExample.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Tooltips/TooltipExample.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Tooltips/TooltipStep1.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Tooltips/TooltipStep1.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Tooltips/TooltipStep2.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Tooltips/TooltipStep2.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Tooltips/TooltipStep3.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Tooltips/TooltipStep3.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/TouchableVolume/Example.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/TouchableVolume/Example.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/UIElement/UIElement.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/UIElement/UIElement.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/UXTools-Doc-Versions.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/UXTools-Doc-Versions.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Unity-Logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Unity-Logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Unreal-Logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Unreal-Logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Utilities.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Utilities.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Utilities/UtilitiesAlignActors.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Utilities/UtilitiesAlignActors.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Utilities/UtilitiesIconBrushEditor.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Utilities/UtilitiesIconBrushEditor.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Utilities/UtilitiesIconBrushEditorDetails.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Utilities/UtilitiesIconBrushEditorDetails.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/VS-Logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/VS-Logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/VisualLogging/GrabPointer.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/VisualLogging/GrabPointer.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Widget/FarGrabWidget.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Widget/FarGrabWidget.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Widget/NearPokeWidget.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Widget/NearPokeWidget.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Widget/Overview.gif",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Widget/Overview.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/WidgetComponent.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/WidgetComponent.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/Windows-Logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/Windows-Logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "../../Docs/Images/uxt_favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "Docs/Images/uxt_favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/InputSimulation.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/InputSimulation.html",
+          "hash": "8cdxpIMemAvEvJbsZacdYQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Installation.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Installation.html",
+          "hash": "skclFhcwhqDlfJF/Vn9vHA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Manipulator.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Manipulator.html",
+          "hash": "q1eqmO5b/0lAXVbabYx2AA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/NearMenu.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/NearMenu.html",
+          "hash": "Ji9b6cVDftkEt0miBKOjLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/PalmUpConstraintComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/PalmUpConstraintComponent.html",
+          "hash": "AzV/nMCtbzEFtXuYLXgjiA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/PinchSlider.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/PinchSlider.html",
+          "hash": "ArQD5J5HEEY/e8s6auvkVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/PressableButton.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/PressableButton.html",
+          "hash": "0OKZsB4gDrrYfdsRnvrTdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/ReleaseNotes.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/ReleaseNotes.html",
+          "hash": "9Tqa130820EoqRassTKeKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/SurfaceMagnetism.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/SurfaceMagnetism.html",
+          "hash": "tVGf03GLZe6J0Wxvr6dKEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/TapToPlaceComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/TapToPlaceComponent.html",
+          "hash": "kT/2xYLdOG2KodgWWWbyzQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Text.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Text.html",
+          "hash": "tPEkn8RZPVGoQ5TvDqWyTA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Tooltip.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Tooltip.html",
+          "hash": "PmiVGoCoPxJNNj+FDo/pcw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/TouchableVolume.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/TouchableVolume.html",
+          "hash": "QOtinxrYS5HTF6hxIi1xiA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/TransformConstraints.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/TransformConstraints.html",
+          "hash": "khFZgMoTfeHXQkCIe/TXyw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/UIElements.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/UIElements.html",
+          "hash": "qTUSM5+ezcYVsyqgnGytQQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/Utilities.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/Utilities.html",
+          "hash": "AjecxlkPAa7n0vDegCngXQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/WelcomeToUXTools.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/WelcomeToUXTools.html",
+          "hash": "/4JJgAqefJCCnBKBxmoR3w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../Docs/WidgetComponent.md",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/WidgetComponent.html",
+          "hash": "pBzvDBeFMhjjfze1DPZI1w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "../../Docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "Docs/toc.html",
+          "hash": "sxb/ioSliO9qKFZ5Pvl0xg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../README.md",
+      "output": {
+        ".html": {
+          "relative_path": "README.html",
+          "hash": "Ue97d78AjBN37b0rKA2jtQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_base_pressable_button_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_base_pressable_button_actor.html",
+          "hash": "yNwQz2eWIsWhV2QzUNgy7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_hand_interaction_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_hand_interaction_actor.html",
+          "hash": "KF4BLkajv4s1KMAsIn9BmA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_pinch_slider_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_pinch_slider_actor.html",
+          "hash": "lmWrASt69clMOnhpsilfOQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_pressable_button_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_pressable_button_actor.html",
+          "hash": "kAlkiAWWLIoux6bmvGqtAw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_pressable_check_button_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_pressable_check_button_actor.html",
+          "hash": "BLKYijb69PHHvZm4gKlB8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_pressable_radio_button_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_pressable_radio_button_actor.html",
+          "hash": "b6XmiyfC8+jRJCoRZQo38w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_pressable_switch_button_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_pressable_switch_button_actor.html",
+          "hash": "5Gk1ECyFCbC/rBql6P36tA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_pressable_toggle_button_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_pressable_toggle_button_actor.html",
+          "hash": "75T8VILynKc6sRpBr4TVgA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_uxt_text_render_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_uxt_text_render_actor.html",
+          "hash": "+O9B7SA/oPlhnoOZ9YqiXA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_a_x_r_simulation_actor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_a_x_r_simulation_actor.html",
+          "hash": "zih5Ce13QNsVRKXvP/fQGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_dummy_hand_tracker.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_dummy_hand_tracker.html",
+          "hash": "21Cx4iuwwgbZJ4TrfUsmgg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_scrolling_collection_properties.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_scrolling_collection_properties.html",
+          "hash": "2wiEHqxeZ7mYMTiKII31vQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_u_x_tools_editor_module.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_u_x_tools_editor_module.html",
+          "hash": "vxlKVzR7HJggDBYCCdOxAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_u_x_tools_input_module.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_u_x_tools_input_module.html",
+          "hash": "dRLS0NR70wzY0Ve5WUPsjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_u_x_tools_module.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_u_x_tools_module.html",
+          "hash": "JivsW7MbyEJ78o0kcf6+sA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_u_x_tools_shaders_module.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_u_x_tools_shaders_module.html",
+          "hash": "J29e4ULs/+039zoWiAnCNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_affordance_config.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_affordance_config.html",
+          "hash": "FzvlA+73k7pDCyjvlomAeg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_affordance_instance.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_affordance_instance.html",
+          "hash": "l17hrcDWUmuGOJ+MBEeSRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_button_audio_brush.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_button_audio_brush.html",
+          "hash": "v1TM+QVCQcWPkNEkUIw7nA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_button_brush.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_button_brush.html",
+          "hash": "PcALDUWBiDQAWsbMic0uwA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_button_visuals_brush.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_button_visuals_brush.html",
+          "hash": "yaEFpn5ij4A4wKSUp9enoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_default_hand_tracker.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_default_hand_tracker.html",
+          "hash": "ejQF4FhFmYiq2uj6Ltfj1Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_font_character.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_font_character.html",
+          "hash": "pJl4KeeAsRP25JOXMgYCNQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_grab_pointer_data.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_grab_pointer_data.html",
+          "hash": "xUV8aaYfRHpvvqyh9HCCDw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_grab_pointer_focus.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_grab_pointer_focus.html",
+          "hash": "sGnavHWbP4MXCR2jJDTy0w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_hand_proximity_mesh_data.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_hand_proximity_mesh_data.html",
+          "hash": "EcfwKL9vfHJQ4bb4g8cixg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_icon_brush.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_icon_brush.html",
+          "hash": "Dj72pKWW8TrZsGerY73LdQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_icon_brush_customization.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_icon_brush_customization.html",
+          "hash": "bOa7BgPyeNK14+Z9QwTdgQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_interaction_utils.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_interaction_utils.html",
+          "hash": "2BF0XxvW8Axjb9UkpvPu0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_manipulator_component_customization.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_manipulator_component_customization.html",
+          "hash": "0MWeDnz6VyhLraDB1+zcQw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_pointer_focus.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_pointer_focus.html",
+          "hash": "xYAESnS+LZKwTbt0QTrayg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_pointer_focus_search_result.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_pointer_focus_search_result.html",
+          "hash": "2noLSIggcz0NBznSSSxCWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_poke_pointer_focus.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_poke_pointer_focus.html",
+          "hash": "HqD6qByHy4Zubi9e5g/m+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_pressable_button_component_visualizer.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_pressable_button_component_visualizer.html",
+          "hash": "3KtziPGxaUT61RCRURWP3w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_text_brush.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_text_brush.html",
+          "hash": "yDP47NrgSGcyR7/wmMtzcw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_tooltip_spawner_component_visualizer.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_tooltip_spawner_component_visualizer.html",
+          "hash": "ocYFIqrHiP+Z38NrF0STzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_uxt_x_r_simulation_view_extension.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_uxt_x_r_simulation_view_extension.html",
+          "hash": "sM1NOP9pZT7Csh9Vpt+Jiw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_input_animation_utils.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_input_animation_utils.html",
+          "hash": "+V+T0fdLImBus9F9kZVf0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_simulation_editor_module.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_simulation_editor_module.html",
+          "hash": "p4Vr/LKTwsGNxcbsY9YSZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_simulation_h_m_d.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_simulation_h_m_d.html",
+          "hash": "xmoehkEncn00LQvIE5UHGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_simulation_hand_pose_key_mapping.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_simulation_hand_pose_key_mapping.html",
+          "hash": "PVFi5az06f9lihuFh6vArQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_simulation_hand_state.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_simulation_hand_state.html",
+          "hash": "biyfigc7aI+kJbZc6kS2bA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_simulation_input_device.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_simulation_input_device.html",
+          "hash": "HLuqDX0rr4Ykn/Dyq46tzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_simulation_keys.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_simulation_keys.html",
+          "hash": "gcMAukPjUYXFssI3QVpFmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_f_x_r_simulation_state.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_f_x_r_simulation_state.html",
+          "hash": "9GmWaRTKCGmxMKkleTRzcw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_collection_object.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_collection_object.html",
+          "hash": "JVKHVrYH5/GMH5SE10nO1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_far_handler.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_far_handler.html",
+          "hash": "xkz/L+TgWNfU/oRZSwGdtw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_far_target.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_far_target.html",
+          "hash": "MahtRks9elgkHwqwYfkXew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_grab_handler.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_grab_handler.html",
+          "hash": "kIQsxM80ib5M00XPlthAmA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_grab_target.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_grab_target.html",
+          "hash": "sxOfFlv8y+6LXVjkaWGi/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_hand_tracker.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_hand_tracker.html",
+          "hash": "ttbg3vGfnNFhEQxEkYBCUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_poke_handler.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_poke_handler.html",
+          "hash": "zkvPZpYy1HRqm5SWAGDWVg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_i_uxt_poke_target.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_i_uxt_poke_target.html",
+          "hash": "FU0Tl/9MS4amSkG4ZvrT3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_base_object_collection.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_base_object_collection.html",
+          "hash": "mQ3iiBFNEcIVeZCINkrEkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_bounds_control_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_bounds_control_component.html",
+          "hash": "MpRhk4te28ydhJ+8BY8umQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_bounds_control_config.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_bounds_control_config.html",
+          "hash": "k4DVP3gv83fIWu7Sm+g4Xw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_collection_object.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_collection_object.html",
+          "hash": "LAa6XDNVPNfJwVfU/QYdqA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_constraint_picker_widget.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_constraint_picker_widget.html",
+          "hash": "0wAV/zMFxSfog10cbd/QUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_default_hand_tracker_subsystem.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_default_hand_tracker_subsystem.html",
+          "hash": "MioZUGMPhi8JSzokI9RjSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_face_user_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_face_user_constraint.html",
+          "hash": "NtysZGWs9UrOy0wh/r+fEA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_far_beam_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_beam_component.html",
+          "hash": "seROCqZyH/aBg8yg5Ht0Iw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_far_cursor_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_cursor_component.html",
+          "hash": "bXPnwnpUlTFjax73+xrpuQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_far_handler.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_handler.html",
+          "hash": "jxe8SHyHBoYPaJQgrNnUJA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_far_pointer_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_pointer_component.html",
+          "hash": "Mp2qCFGxoEKu4qT052lAVg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_far_target.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_far_target.html",
+          "hash": "jrlqDBUPa8ckRPacAW+CHw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_finger_cursor_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_finger_cursor_component.html",
+          "hash": "jQUGVIyzz2nWE9qVsD4LrQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_fixed_distance_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_fixed_distance_constraint.html",
+          "hash": "WyFKFGVStG5E5vnHBkx6IA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_fixed_rotation_to_user_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_fixed_rotation_to_user_constraint.html",
+          "hash": "i2wdamYukZR249CDjU6giw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_fixed_rotation_to_world_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_fixed_rotation_to_world_constraint.html",
+          "hash": "hoxXCjFjQe8rGABcUQHqkA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_follow_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_follow_component.html",
+          "hash": "dyLShg+OQq2XYzLgZjalHg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_function_library.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_function_library.html",
+          "hash": "Ky1Um9zVQEg5NGs03krdmA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_grab_handler.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_grab_handler.html",
+          "hash": "F4KHdZWmLLp7BzJWNMBZ+w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_grab_pointer_data_function_library.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_grab_pointer_data_function_library.html",
+          "hash": "Q9ktUGrnqPG7RrtkADBI7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_grab_target.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_grab_target.html",
+          "hash": "GzUO18PQL9QkoW/IUXw69A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_grab_target_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_grab_target_component.html",
+          "hash": "kpTWyL5x2IF9kLXO0zkMog=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_hand_constraint_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_hand_constraint_component.html",
+          "hash": "QQu4ykLpl3Ogf0PXLas6Fg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_icon_brush_editor_utility_widget.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_icon_brush_editor_utility_widget.html",
+          "hash": "TglkR8SEfW2rqTbT+jO7dQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_input_subsystem.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_input_subsystem.html",
+          "hash": "PNCi3sP7rRl/XA4X6p160w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_internal_function_library.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_internal_function_library.html",
+          "hash": "mS0lG3UivZAU3w6bLU18wg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_maintain_apparent_size_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_maintain_apparent_size_constraint.html",
+          "hash": "WQeCBpCTzCMRIJOc+AWCmw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_manipulator_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_manipulator_component.html",
+          "hash": "DQjvTQImImrnmr88odxLng=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_manipulator_component_base.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_manipulator_component_base.html",
+          "hash": "10UrqBsBxysuMnG1vn0e6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_math_utils_function_library.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_math_utils_function_library.html",
+          "hash": "pM53XKDmajP7sShWPh4STQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_move_axis_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_move_axis_constraint.html",
+          "hash": "/12vQgilZwyGHPHHdxUspQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_near_pointer_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_near_pointer_component.html",
+          "hash": "DGMugI6y5ESrYE7UM/Q79Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_palm_up_constraint_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_palm_up_constraint_component.html",
+          "hash": "nlxpuUrf9VNKXNoNjTlkOg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_pinch_slider_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_pinch_slider_component.html",
+          "hash": "8S5qWNSNbaB+yK5XvRqIEA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_pointer_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_pointer_component.html",
+          "hash": "vcQ86Meiu2yo8AnESERkjw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_poke_handler.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_poke_handler.html",
+          "hash": "hK7MopHvEDHurh87rAYDSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_poke_target.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_poke_target.html",
+          "hash": "Mj5VCtPf7+D4CDMZiru9Jw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_pressable_button_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_pressable_button_component.html",
+          "hash": "hboxDBCodaGE9dLMa8zGgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_rotation_axis_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_rotation_axis_constraint.html",
+          "hash": "xq+GwjZ4l8wmQTxH7uSXCQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_tap_to_place_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_tap_to_place_component.html",
+          "hash": "SDRqQ6orb6YV26idtl8WyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_text_render_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_text_render_component.html",
+          "hash": "4CRvaT8ExeJ3suZi3gvSTQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_toggle_group_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_toggle_group_component.html",
+          "hash": "vylqaQlavnh3sQatlph84g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_touch_based_hand_tracker_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_touch_based_hand_tracker_component.html",
+          "hash": "UOJ0EgTagc7TmMcaPa8pwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_touch_based_hand_tracker_subsystem.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_touch_based_hand_tracker_subsystem.html",
+          "hash": "A6v4/5hEr+cP6kzXNlgoCw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_touchable_volume_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_touchable_volume_component.html",
+          "hash": "/SKadB/OWde6uxNs4CGEgQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_transform_constraint.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_transform_constraint.html",
+          "hash": "O7NLuuWXKmwCJcl8ndecAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_u_i_element_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_u_i_element_component.html",
+          "hash": "67TCvPWJn25L7KLexUBr8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_widget_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_widget_component.html",
+          "hash": "VEPRSsIJbvEYBfQ/f6QGGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_uxt_x_r_simulation_subsystem.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_uxt_x_r_simulation_subsystem.html",
+          "hash": "6W9NC0FHYpaSZsr33w6Lzw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_x_r_simulation_head_movement_component.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_r_simulation_head_movement_component.html",
+          "hash": "sZrUl0NLdtCeXude+VMivw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_x_r_simulation_runtime_settings.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_r_simulation_runtime_settings.html",
+          "hash": "zCqTb/VMt4sBKnJQZNIOFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_x_tools.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools.html",
+          "hash": "Ymb/aCEPuw3KwQf6zCpLbg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_x_tools_editor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools_editor.html",
+          "hash": "OApgA8xNQg88NTVgOHSlYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_x_tools_input.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools_input.html",
+          "hash": "tzKCe8UajlsRnlB4GGuhHw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_u_x_tools_shaders.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_u_x_tools_shaders.html",
+          "hash": "GPVYqIOnvmuHOopSO/Nf4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_uxt_affordance_interaction_cache.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_affordance_interaction_cache.html",
+          "hash": "ArW3aV/x9wZvxs7DbaHRhQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_uxt_manipulation_move_logic.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_manipulation_move_logic.html",
+          "hash": "9fzu096TFP/9/5r+a6ATVw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_uxt_two_hand_manipulation_rotate_logic.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_two_hand_manipulation_rotate_logic.html",
+          "hash": "HhrO27RYwslH89b+QexAGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_uxt_two_hand_manipulation_scale_logic.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_uxt_two_hand_manipulation_scale_logic.html",
+          "hash": "T/FT838my1mDt0AP/gVtIA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_x_r_simulation.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_x_r_simulation.html",
+          "hash": "aKizytJmfLhBQ69wMnABkA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_x_r_simulation_editor.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_x_r_simulation_editor.html",
+          "hash": "Q4xt7p5F8iEpyBto/eT26g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../../api/_x_r_simulation_input.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/_x_r_simulation_input.html",
+          "hash": "dk897tinKqaZMlvXz8//IA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "../../api/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "u9N9PMHliqVBO8GvbFDHEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "../../toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "De6Tl/dxtpbb68V+2o81KA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": ".nojekyll",
+      "output": {
+        "resource": {
+          "relative_path": ".nojekyll"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "index.html",
+      "output": {
+        "resource": {
+          "relative_path": "index.html"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "web/version.css",
+      "output": {
+        "resource": {
+          "relative_path": "web/version.css"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "web/version.js",
+      "output": {
+        "resource": {
+          "relative_path": "web/version.js"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Disable incremental build by force rebuild option.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "ForceRebuild"
+      },
+      "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 142,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

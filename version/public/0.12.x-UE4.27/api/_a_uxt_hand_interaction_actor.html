@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference AUxtHandInteractionActor | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference AUxtHandInteractionActor | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_a_uxt_hand_interaction_actor">
+<h1 id="auxthandinteractionactor">AUxtHandInteractionActor</h1>
+
+<p>Actor that drives hand interactions with components that implement the far, grab and poke target interfaces. A hand has two interaction modes:</p>
+<ul>
+<li>Near: interactions performed by poking or grabbing targets directly.</li>
+<li>Far: interactions performed by pointing at far targets from a distance via a hand ray. The actor transitions between modes depending on whether there is a grab or poke target within the near activation distance.</li>
+</ul>
+<pre><code class="lang-cpp">class AUxtHandInteractionActor;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Input/UxtHandInteractionActor.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from AActor</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-auxthandinteractionactor">AUxtHandInteractionActor</a></strong>(const FObjectInitializer &amp; ObjectInitializer)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tick">Tick</a></strong>(float DeltaTime) override</td>
+</tr>
+<tr>
+<td>EControllerHand</td>
+<td><strong><a href="#function-gethand">GetHand</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-sethand">SetHand</a></strong>(EControllerHand NewHand)</td>
+</tr>
+<tr>
+<td>ECollisionChannel</td>
+<td><strong><a href="#function-gettracechannel">GetTraceChannel</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settracechannel">SetTraceChannel</a></strong>(ECollisionChannel NewTraceChannel)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getpokeradius">GetPokeRadius</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setpokeradius">SetPokeRadius</a></strong>(float NewPokeRadius)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getraystartoffset">GetRayStartOffset</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setraystartoffset">SetRayStartOffset</a></strong>(float NewRayStartOffset)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getraylength">GetRayLength</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setraylength">SetRayLength</a></strong>(float NewRayLength)</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-gethandvelocity">GetHandVelocity</a></strong>() const</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-gethandangularvelocity">GetHandAngularVelocity</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-proximityconeoffset">ProximityConeOffset</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-proximityconesidelength">ProximityConeSideLength</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-busedefaultnearcursor">bUseDefaultNearCursor</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-busedefaultfarcursor">bUseDefaultFarCursor</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-busedefaultfarbeam">bUseDefaultFarBeam</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bshownearcursorongrabtargets">bShowNearCursorOnGrabTargets</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-proximityconeangle">ProximityConeAngle</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-proximityconeanglelerp">ProximityConeAngleLerp</a></strong></td>
+</tr>
+<tr>
+<td>int32</td>
+<td><strong><a href="#variable-interactionmode">InteractionMode</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-auxthandinteractionactor">function AUxtHandInteractionActor</h3>
+<pre><code class="lang-cpp">AUxtHandInteractionActor(
+    const FObjectInitializer &amp; ObjectInitializer
+)
+</code></pre>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<h3 id="function-tick">function Tick</h3>
+<pre><code class="lang-cpp">virtual void Tick(
+    float DeltaTime
+) override
+</code></pre>
+<h3 id="function-gethand">function GetHand</h3>
+<pre><code class="lang-cpp">inline EControllerHand GetHand() const
+</code></pre>
+<h3 id="function-sethand">function SetHand</h3>
+<pre><code class="lang-cpp">void SetHand(
+    EControllerHand NewHand
+)
+</code></pre>
+<h3 id="function-gettracechannel">function GetTraceChannel</h3>
+<pre><code class="lang-cpp">inline ECollisionChannel GetTraceChannel() const
+</code></pre>
+<h3 id="function-settracechannel">function SetTraceChannel</h3>
+<pre><code class="lang-cpp">void SetTraceChannel(
+    ECollisionChannel NewTraceChannel
+)
+</code></pre>
+<h3 id="function-getpokeradius">function GetPokeRadius</h3>
+<pre><code class="lang-cpp">inline float GetPokeRadius() const
+</code></pre>
+<h3 id="function-setpokeradius">function SetPokeRadius</h3>
+<pre><code class="lang-cpp">void SetPokeRadius(
+    float NewPokeRadius
+)
+</code></pre>
+<h3 id="function-getraystartoffset">function GetRayStartOffset</h3>
+<pre><code class="lang-cpp">inline float GetRayStartOffset() const
+</code></pre>
+<h3 id="function-setraystartoffset">function SetRayStartOffset</h3>
+<pre><code class="lang-cpp">void SetRayStartOffset(
+    float NewRayStartOffset
+)
+</code></pre>
+<h3 id="function-getraylength">function GetRayLength</h3>
+<pre><code class="lang-cpp">inline float GetRayLength() const
+</code></pre>
+<h3 id="function-setraylength">function SetRayLength</h3>
+<pre><code class="lang-cpp">void SetRayLength(
+    float NewRayLength
+)
+</code></pre>
+<h3 id="function-gethandvelocity">function GetHandVelocity</h3>
+<pre><code class="lang-cpp">inline FVector GetHandVelocity() const
+</code></pre>
+<h3 id="function-gethandangularvelocity">function GetHandAngularVelocity</h3>
+<pre><code class="lang-cpp">inline FVector GetHandAngularVelocity() const
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-proximityconeoffset">variable ProximityConeOffset</h3>
+<pre><code class="lang-cpp">float ProximityConeOffset = 8.0f;
+</code></pre>
+<h3 id="variable-proximityconesidelength">variable ProximityConeSideLength</h3>
+<pre><code class="lang-cpp">float ProximityConeSideLength = 35.0f;
+</code></pre>
+<h3 id="variable-busedefaultnearcursor">variable bUseDefaultNearCursor</h3>
+<pre><code class="lang-cpp">bool bUseDefaultNearCursor = true;
+</code></pre>
+<p>Create default visuals for the near cursor. Changes to this value after BeginPlay have no effect.</p>
+<h3 id="variable-busedefaultfarcursor">variable bUseDefaultFarCursor</h3>
+<pre><code class="lang-cpp">bool bUseDefaultFarCursor = true;
+</code></pre>
+<p>Create default visuals for the far cursor. Changes to this value after BeginPlay have no effect.</p>
+<h3 id="variable-busedefaultfarbeam">variable bUseDefaultFarBeam</h3>
+<pre><code class="lang-cpp">bool bUseDefaultFarBeam = true;
+</code></pre>
+<p>Create default visuals for the far beam. Changes to this value after BeginPlay have no effect.</p>
+<h3 id="variable-bshownearcursorongrabtargets">variable bShowNearCursorOnGrabTargets</h3>
+<pre><code class="lang-cpp">bool bShowNearCursorOnGrabTargets = false;
+</code></pre>
+<p>Show the near cursor on grab targets. Changes to this value after BeginPlay have no effect.</p>
+<h3 id="variable-proximityconeangle">variable ProximityConeAngle</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;Uxt Hand Interaction&quot;, AdvancedDisplay, meta=(ClampMin=&quot;0.0&quot;, ClampMax=&quot;90.0&quot;))
+float ProximityConeAngle;
+</code></pre>
+<h3 id="variable-proximityconeanglelerp">variable ProximityConeAngleLerp</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;Uxt Hand Interaction&quot;, AdvancedDisplay, meta=(ClampMin=&quot;0.0&quot;, ClampMax=&quot;1.0&quot;))
+float ProximityConeAngleLerp = 0.9f;
+</code></pre>
+<h3 id="variable-interactionmode">variable InteractionMode</h3>
+<pre><code class="lang-cpp">UPROPERTY(Transient, EditAnywhere, BlueprintReadWrite, Category=&quot;Uxt Hand Interaction&quot;, meta=(Bitmask, BitmaskEnum=EUxtInteractionMode))
+int32 InteractionMode;
+</code></pre>
+<p>Active interaction modes</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:12 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_a_uxt_hand_interaction_actor.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtInputSubsystem | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtInputSubsystem | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_input_subsystem">
+<h1 id="uuxtinputsubsystem">UUxtInputSubsystem</h1>
+
+<p>Subsystem for dispatching events to interested handlers.</p>
+<pre><code class="lang-cpp">class UUxtInputSubsystem;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Input/UxtInputSubsystem.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from UGameInstanceSubsystem</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-registerhandler">RegisterHandler</a></strong>(UObject * Handler, TSubclassOf&lt; UInterface &gt; Interface)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-unregisterhandler">UnregisterHandler</a></strong>(UObject * Handler, TSubclassOf&lt; UInterface &gt; Interface)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseenterfarfocus">RaiseEnterFarFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseupdatedfarfocus">RaiseUpdatedFarFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseexitfarfocus">RaiseExitFarFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raisefarpressed">RaiseFarPressed</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raisefardragged">RaiseFarDragged</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raisefarreleased">RaiseFarReleased</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseentergrabfocus">RaiseEnterGrabFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseupdategrabfocus">RaiseUpdateGrabFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseexitgrabfocus">RaiseExitGrabFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raisebegingrab">RaiseBeginGrab</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseupdategrab">RaiseUpdateGrab</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseendgrab">RaiseEndGrab</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseenterpokefocus">RaiseEnterPokeFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseupdatepokefocus">RaiseUpdatePokeFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseexitpokefocus">RaiseExitPokeFocus</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raisebeginpoke">RaiseBeginPoke</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseupdatepoke">RaiseUpdatePoke</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-raiseendpoke">RaiseEndPoke</a></strong>(UPrimitiveComponent * Target, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-registerhandler">function RegisterHandler</h3>
+<pre><code class="lang-cpp">static bool RegisterHandler(
+    UObject * Handler,
+    TSubclassOf&lt; UInterface &gt; Interface
+)
+</code></pre>
+<p>Register the given handler as interested in events for a given handler interface.</p>
+<h3 id="function-unregisterhandler">function UnregisterHandler</h3>
+<pre><code class="lang-cpp">static bool UnregisterHandler(
+    UObject * Handler,
+    TSubclassOf&lt; UInterface &gt; Interface
+)
+</code></pre>
+<p>Unregister the given handler as interested in events for a given handler interface.</p>
+<h3 id="function-raiseenterfarfocus">function RaiseEnterFarFocus</h3>
+<pre><code class="lang-cpp">static void RaiseEnterFarFocus(
+    UPrimitiveComponent * Target,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a far pointer starts focusing a primitive.</p>
+<h3 id="function-raiseupdatedfarfocus">function RaiseUpdatedFarFocus</h3>
+<pre><code class="lang-cpp">static void RaiseUpdatedFarFocus(
+    UPrimitiveComponent * Target,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a focusing far pointer is updated.</p>
+<h3 id="function-raiseexitfarfocus">function RaiseExitFarFocus</h3>
+<pre><code class="lang-cpp">static void RaiseExitFarFocus(
+    UPrimitiveComponent * Target,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a far pointer stops focusing a primitive.</p>
+<h3 id="function-raisefarpressed">function RaiseFarPressed</h3>
+<pre><code class="lang-cpp">static void RaiseFarPressed(
+    UPrimitiveComponent * Target,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a focusing far pointer is pressed.</p>
+<h3 id="function-raisefardragged">function RaiseFarDragged</h3>
+<pre><code class="lang-cpp">static void RaiseFarDragged(
+    UPrimitiveComponent * Target,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a focusing far pointer is dragged.</p>
+<h3 id="function-raisefarreleased">function RaiseFarReleased</h3>
+<pre><code class="lang-cpp">static void RaiseFarReleased(
+    UPrimitiveComponent * Target,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a focusing far pointer is released.</p>
+<h3 id="function-raiseentergrabfocus">function RaiseEnterGrabFocus</h3>
+<pre><code class="lang-cpp">static void RaiseEnterGrabFocus(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer focuses the actor.</p>
+<h3 id="function-raiseupdategrabfocus">function RaiseUpdateGrabFocus</h3>
+<pre><code class="lang-cpp">static void RaiseUpdateGrabFocus(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer has been updated while focused.</p>
+<h3 id="function-raiseexitgrabfocus">function RaiseExitGrabFocus</h3>
+<pre><code class="lang-cpp">static void RaiseExitGrabFocus(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer stops focusing the actor.</p>
+<h3 id="function-raisebegingrab">function RaiseBeginGrab</h3>
+<pre><code class="lang-cpp">static void RaiseBeginGrab(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer starts grabbing while overlapping the actor.</p>
+<h3 id="function-raiseupdategrab">function RaiseUpdateGrab</h3>
+<pre><code class="lang-cpp">static void RaiseUpdateGrab(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer has been updated while grabbing.</p>
+<h3 id="function-raiseendgrab">function RaiseEndGrab</h3>
+<pre><code class="lang-cpp">static void RaiseEndGrab(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer stops grabbing or stops overlapping the actor while grabbing.</p>
+<h3 id="function-raiseenterpokefocus">function RaiseEnterPokeFocus</h3>
+<pre><code class="lang-cpp">static void RaiseEnterPokeFocus(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer focuses the actor.</p>
+<h3 id="function-raiseupdatepokefocus">function RaiseUpdatePokeFocus</h3>
+<pre><code class="lang-cpp">static void RaiseUpdatePokeFocus(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer has been updated while focused.</p>
+<h3 id="function-raiseexitpokefocus">function RaiseExitPokeFocus</h3>
+<pre><code class="lang-cpp">static void RaiseExitPokeFocus(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer stops focusing the actor.</p>
+<h3 id="function-raisebeginpoke">function RaiseBeginPoke</h3>
+<pre><code class="lang-cpp">static void RaiseBeginPoke(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer poke volume starts overlapping the actor.</p>
+<h3 id="function-raiseupdatepoke">function RaiseUpdatePoke</h3>
+<pre><code class="lang-cpp">static void RaiseUpdatePoke(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised while a pointer poke volume is overlapping the actor.</p>
+<h3 id="function-raiseendpoke">function RaiseEndPoke</h3>
+<pre><code class="lang-cpp">static void RaiseEndPoke(
+    UPrimitiveComponent * Target,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Raised when a pointer poke volume stops overlapping the actor.</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_u_uxt_input_subsystem.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

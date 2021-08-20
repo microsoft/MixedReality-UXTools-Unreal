@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Hand Interaction | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Hand Interaction | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="hand-interaction">Hand interaction</h1>
+
+<p>Hand interaction with UX elements is performed via the <em>hand interaction actor</em>. This actor takes care of creating and driving the pointers and visuals for near and far interactions.</p>
+<p>Near interactions are performed by either <em>grabbing</em> elements pinching them between index and thumb or <em>poking</em> at them with the finger tip.
+While in near interaction mode a <em>finger cursor</em> is displayed on the finger tip to provide feedback about the closest poke target.</p>
+<p><img src="Images/PokeInteraction.png" alt="PokeInteraction"></p>
+<p>Far interacions are performed pointing via a ray attached to the hand with selection triggered by pressing index and thumb tips together.
+A <em>far beam</em> is displayed representing the ray shooting out of the hand.
+At the end of the beam a <em>far cursor</em> gives feedback about the current far target.</p>
+<p><img src="Images/FarInteraction.png" alt="FarInteraction"></p>
+<p>Poke and grab targets are defined by adding a component implementing the <em>grab target interface</em> and <em>poke target interface</em>.
+All visible objects with collision will be hit by the far ray by default but only components implementing the <em>far target interface</em> will receive far interaction events.
+Provided UX elements like the <em>pressable button</em> implement these interfaces to use interactions to drive their state.</p>
+<h2 id="hand-interaction-actor">Hand interaction actor</h2>
+<p>Add a <a class="xref" href="../api/_a_uxt_hand_interaction_actor.html">MRTK Unreal API Reference AUxtHandInteractionActor</a> to the world per hand in order to be able to interact with UX elements.
+There is no other additional setup required, just remember to set the actors to different hands via their <em>Hand</em> property as by default they use the left hand.
+See <em>MRPawn</em> in <em>UXToolsGame</em> for an example of hand interaction setup.</p>
+<p>The actor will automatically create the required components for near and far pointers and their visualization.
+Properties controlling the setup of these are exposed in the actor directly.
+A few ones deserving special attention are explained in the following sections.</p>
+<h3 id="near-activation-distance">Near activation distance</h3>
+<p>Each hand will transition automatically from far to near interaction mode when close enough to a near interaction target.
+The near activation distance defines how close the hand must be to the target for this to happen.</p>
+<h3 id="trace-channel">Trace channel</h3>
+<p>The hand actor and its pointers perform a series of world queries to determine the current interaction target.
+The trace channel property is used to filter the results of those queries.</p>
+<h3 id="default-visuals">Default visuals</h3>
+<p>Default visuals are created for near and far cursor and far beam in the form of the following components:</p>
+<ul>
+<li>Near cursor: <a class="xref" href="../api/_u_uxt_finger_cursor_component.html">MRTK Unreal API Reference UUxtFingerCursorComponent</a></li>
+<li>Far cursor: <a class="xref" href="../api/_u_uxt_far_cursor_component.html">MRTK Unreal API Reference UUxtFarCursorComponent</a></li>
+<li>Far beam: <a class="xref" href="../api/_u_uxt_far_beam_component.html">MRTK Unreal API Reference UUxtFarBeamComponent</a></li>
+</ul>
+<p>In order to allow for custom visuals, their creation can be individually disabled via properties in the advanced section of the <em>Hand Interaction</em> category.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/mixed-reality/interaction-fundamentals">Mixed Reality Instinctual Interactions</a>: design principles behind the interaction model.</li>
+<li><a class="xref" href="../api/_i_uxt_grab_target.html">MRTK Unreal API Reference IUxtGrabTarget</a></li>
+<li><a class="xref" href="../api/_i_uxt_poke_target.html">MRTK Unreal API Reference IUxtPokeTarget</a></li>
+<li><a class="xref" href="../api/_i_uxt_far_target.html">MRTK Unreal API Reference IUxtFarTarget</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/Docs/HandInteraction.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

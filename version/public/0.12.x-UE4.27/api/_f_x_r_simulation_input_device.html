@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference FXRSimulationInputDevice | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference FXRSimulationInputDevice | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_f_x_r_simulation_input_device">
+<h1 id="fxrsimulationinputdevice">FXRSimulationInputDevice</h1>
+
+<p>Virtual device for simulated XR input events.</p>
+<pre><code class="lang-cpp">class FXRSimulationInputDevice;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;XRSimulationInputDevice.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from IInputDevice, TSharedFromThis&lt; FXRSimulationInputDevice &gt;</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-fxrsimulationinputdevice">FXRSimulationInputDevice</a></strong>(<a href="_f_x_r_simulation_h_m_d.html">FXRSimulationHMD</a> * InputSimHMD)</td>
+</tr>
+<tr>
+<td>virtual</td>
+<td><strong><a href="#function-fxrsimulationinputdevice">~FXRSimulationInputDevice</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tick">Tick</a></strong>(float DeltaTime) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-sendcontrollerevents">SendControllerEvents</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setmessagehandler">SetMessageHandler</a></strong>(const TSharedRef&lt; FGenericApplicationMessageHandler &gt; &amp; InMessageHandler) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-exec">Exec</a></strong>(UWorld * InWorld, const TCHAR * Cmd, FOutputDevice &amp; Ar) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setchannelvalue">SetChannelValue</a></strong>(int32 ControllerId, FForceFeedbackChannelType ChannelType, float Value) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-setchannelvalues">SetChannelValues</a></strong>(int32 ControllerId, const FForceFeedbackValues &amp; values) override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-fxrsimulationinputdevice">function FXRSimulationInputDevice</h3>
+<pre><code class="lang-cpp">FXRSimulationInputDevice(
+    FXRSimulationHMD * InputSimHMD
+)
+</code></pre>
+<h3 id="function-fxrsimulationinputdevice-1">function ~FXRSimulationInputDevice</h3>
+<pre><code class="lang-cpp">virtual ~FXRSimulationInputDevice()
+</code></pre>
+<h3 id="function-tick">function Tick</h3>
+<pre><code class="lang-cpp">virtual void Tick(
+    float DeltaTime
+) override
+</code></pre>
+<p>IInputDevice implementation</p>
+<h3 id="function-sendcontrollerevents">function SendControllerEvents</h3>
+<pre><code class="lang-cpp">virtual void SendControllerEvents() override
+</code></pre>
+<h3 id="function-setmessagehandler">function SetMessageHandler</h3>
+<pre><code class="lang-cpp">virtual void SetMessageHandler(
+    const TSharedRef&lt; FGenericApplicationMessageHandler &gt; &amp; InMessageHandler
+) override
+</code></pre>
+<h3 id="function-exec">function Exec</h3>
+<pre><code class="lang-cpp">virtual bool Exec(
+    UWorld * InWorld,
+    const TCHAR * Cmd,
+    FOutputDevice &amp; Ar
+) override
+</code></pre>
+<h3 id="function-setchannelvalue">function SetChannelValue</h3>
+<pre><code class="lang-cpp">virtual void SetChannelValue(
+    int32 ControllerId,
+    FForceFeedbackChannelType ChannelType,
+    float Value
+) override
+</code></pre>
+<h3 id="function-setchannelvalues">function SetChannelValues</h3>
+<pre><code class="lang-cpp">virtual void SetChannelValues(
+    int32 ControllerId,
+    const FForceFeedbackValues &amp; values
+) override
+</code></pre>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_f_x_r_simulation_input_device.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

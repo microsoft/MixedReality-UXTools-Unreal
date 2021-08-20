@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference AUxtBasePressableButtonActor | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference AUxtBasePressableButtonActor | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_a_uxt_base_pressable_button_actor">
+<h1 id="auxtbasepressablebuttonactor">AUxtBasePressableButtonActor</h1>
+
+<p>Abstract base class for all pressable button actors. Ensures a <a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> as the root component.</p>
+<pre><code class="lang-cpp">class AUxtBasePressableButtonActor;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtBasePressableButtonActor.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from AActor, <a href="_i_uxt_collection_object.html">IUxtCollectionObject</a></p>
+<p>Inherited by <a href="_a_uxt_pressable_button_actor.html">AUxtPressableButtonActor</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-auxtbasepressablebuttonactor">AUxtBasePressableButtonActor</a></strong>()</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="#function-getpoketarget">GetPokeTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="#function-getpoketarget_implementation">GetPokeTarget_Implementation</a></strong>() override</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="#function-getfartarget">GetFarTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="#function-getfartarget_implementation">GetFarTarget_Implementation</a></strong>() override</td>
+</tr>
+<tr>
+<td><a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+<td><strong><a href="#function-getbuttoncomponent">GetButtonComponent</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-attributes">Protected Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+<td><strong><a href="#variable-buttoncomponent">ButtonComponent</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-auxtbasepressablebuttonactor">function AUxtBasePressableButtonActor</h3>
+<pre><code class="lang-cpp">AUxtBasePressableButtonActor()
+</code></pre>
+<h3 id="function-getpoketarget">function GetPokeTarget</h3>
+<pre><code class="lang-cpp">TScriptInterface&lt; IUxtPokeTarget &gt; GetPokeTarget()
+</code></pre>
+<p>Returns <a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> as the poke target.</p>
+<h3 id="function-getpoketarget_implementation">function GetPokeTarget_Implementation</h3>
+<pre><code class="lang-cpp">virtual TScriptInterface&lt; IUxtPokeTarget &gt; GetPokeTarget_Implementation() override
+</code></pre>
+<h3 id="function-getfartarget">function GetFarTarget</h3>
+<pre><code class="lang-cpp">TScriptInterface&lt; IUxtFarTarget &gt; GetFarTarget()
+</code></pre>
+<p>Returns <a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> as the far target.</p>
+<h3 id="function-getfartarget_implementation">function GetFarTarget_Implementation</h3>
+<pre><code class="lang-cpp">virtual TScriptInterface&lt; IUxtFarTarget &gt; GetFarTarget_Implementation() override
+</code></pre>
+<h3 id="function-getbuttoncomponent">function GetButtonComponent</h3>
+<pre><code class="lang-cpp">inline UUxtPressableButtonComponent * GetButtonComponent() const
+</code></pre>
+<p>Returns <a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> subobject.</p>
+<h2 id="protected-attributes-documentation">Protected Attributes Documentation</h2>
+<h3 id="variable-buttoncomponent">variable ButtonComponent</h3>
+<pre><code class="lang-cpp">UUxtPressableButtonComponent * ButtonComponent = nullptr;
+</code></pre>
+<p>Handle to the root button component.</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:12 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_a_uxt_base_pressable_button_actor.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

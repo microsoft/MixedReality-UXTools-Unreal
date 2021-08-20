@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtGrabPointerDataFunctionLibrary | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtGrabPointerDataFunctionLibrary | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_grab_pointer_data_function_library">
+<h1 id="uuxtgrabpointerdatafunctionlibrary">UUxtGrabPointerDataFunctionLibrary</h1>
+
+<p>Utility functions for FGrabPointerData.</p>
+<pre><code class="lang-cpp">class UUxtGrabPointerDataFunctionLibrary;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;UxtGrabTargetComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from UBlueprintFunctionLibrary</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-getgrablocation">GetGrabLocation</a></strong>(const FTransform &amp; Transform, const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FRotator</td>
+<td><strong><a href="#function-getgrabrotation">GetGrabRotation</a></strong>(const FTransform &amp; Transform, const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#function-getgrabtransform">GetGrabTransform</a></strong>(const FTransform &amp; Transform, const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-gettargetlocation">GetTargetLocation</a></strong>(const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FRotator</td>
+<td><strong><a href="#function-gettargetrotation">GetTargetRotation</a></strong>(const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#function-getgrabpointtransform">GetGrabPointTransform</a></strong>(const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-getlocationoffset">GetLocationOffset</a></strong>(const FTransform &amp; Transform, const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FRotator</td>
+<td><strong><a href="#function-getrotationoffset">GetRotationOffset</a></strong>(const FTransform &amp; Transform, const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#function-getpointertransform">GetPointerTransform</a></strong>(const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-getpointerlocation">GetPointerLocation</a></strong>(const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#function-getgriptransform">GetGripTransform</a></strong>(const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabData)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-getgrablocation">function GetGrabLocation</h3>
+<pre><code class="lang-cpp">static FVector GetGrabLocation(
+    const FTransform &amp; Transform,
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the grab point in world space.</p>
+<h3 id="function-getgrabrotation">function GetGrabRotation</h3>
+<pre><code class="lang-cpp">static FRotator GetGrabRotation(
+    const FTransform &amp; Transform,
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the grab rotation in world space.</p>
+<h3 id="function-getgrabtransform">function GetGrabTransform</h3>
+<pre><code class="lang-cpp">static FTransform GetGrabTransform(
+    const FTransform &amp; Transform,
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the grab transform in world space.</p>
+<h3 id="function-gettargetlocation">function GetTargetLocation</h3>
+<pre><code class="lang-cpp">static FVector GetTargetLocation(
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the pointer target in world space.</p>
+<h3 id="function-gettargetrotation">function GetTargetRotation</h3>
+<pre><code class="lang-cpp">static FRotator GetTargetRotation(
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the target rotation in world space.</p>
+<h3 id="function-getgrabpointtransform">function GetGrabPointTransform</h3>
+<pre><code class="lang-cpp">static FTransform GetGrabPointTransform(
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the grab point transform in world space.</p>
+<h3 id="function-getlocationoffset">function GetLocationOffset</h3>
+<pre><code class="lang-cpp">static FVector GetLocationOffset(
+    const FTransform &amp; Transform,
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the world space offset between pointer grab point and target.</p>
+<h3 id="function-getrotationoffset">function GetRotationOffset</h3>
+<pre><code class="lang-cpp">static FRotator GetRotationOffset(
+    const FTransform &amp; Transform,
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Compute the world space rotation between pointer grab point and target.</p>
+<h3 id="function-getpointertransform">function GetPointerTransform</h3>
+<pre><code class="lang-cpp">static FTransform GetPointerTransform(
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Returns the world space pointer transform (at pointer origin).</p>
+<h3 id="function-getpointerlocation">function GetPointerLocation</h3>
+<pre><code class="lang-cpp">static FVector GetPointerLocation(
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Returns the world space pointer location</p>
+<h3 id="function-getgriptransform">function GetGripTransform</h3>
+<pre><code class="lang-cpp">static FTransform GetGripTransform(
+    const FUxtGrabPointerData &amp; GrabData
+)
+</code></pre>
+<p>Returns the pointer's grip transform in world space.</p>
+<p>This represents a reference point in the pointer, which corresponds to the actual grip joint's transform for the near pointer and the hit point's transform for the far pointer.</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_u_uxt_grab_pointer_data_function_library.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

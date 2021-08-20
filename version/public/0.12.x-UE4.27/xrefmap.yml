@@ -1,0 +1,348 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: _a_uxt_base_pressable_button_actor
+  name: MRTK Unreal API Reference AUxtBasePressableButtonActor
+  href: api/_a_uxt_base_pressable_button_actor.html
+- uid: _a_uxt_hand_interaction_actor
+  name: MRTK Unreal API Reference AUxtHandInteractionActor
+  href: api/_a_uxt_hand_interaction_actor.html
+- uid: _a_uxt_pinch_slider_actor
+  name: MRTK Unreal API Reference AUxtPinchSliderActor
+  href: api/_a_uxt_pinch_slider_actor.html
+- uid: _a_uxt_pressable_button_actor
+  name: MRTK Unreal API Reference AUxtPressableButtonActor
+  href: api/_a_uxt_pressable_button_actor.html
+- uid: _a_uxt_pressable_check_button_actor
+  name: MRTK Unreal API Reference AUxtPressableCheckButtonActor
+  href: api/_a_uxt_pressable_check_button_actor.html
+- uid: _a_uxt_pressable_radio_button_actor
+  name: MRTK Unreal API Reference AUxtPressableRadioButtonActor
+  href: api/_a_uxt_pressable_radio_button_actor.html
+- uid: _a_uxt_pressable_switch_button_actor
+  name: MRTK Unreal API Reference AUxtPressableSwitchButtonActor
+  href: api/_a_uxt_pressable_switch_button_actor.html
+- uid: _a_uxt_pressable_toggle_button_actor
+  name: MRTK Unreal API Reference AUxtPressableToggleButtonActor
+  href: api/_a_uxt_pressable_toggle_button_actor.html
+- uid: _a_uxt_text_render_actor
+  name: MRTK Unreal API Reference AUxtTextRenderActor
+  href: api/_a_uxt_text_render_actor.html
+- uid: _a_x_r_simulation_actor
+  name: MRTK Unreal API Reference AXRSimulationActor
+  href: api/_a_x_r_simulation_actor.html
+- uid: _f_dummy_hand_tracker
+  name: MRTK Unreal API Reference FDummyHandTracker
+  href: api/_f_dummy_hand_tracker.html
+- uid: _f_scrolling_collection_properties
+  name: MRTK Unreal API Reference FScrollingCollectionProperties
+  href: api/_f_scrolling_collection_properties.html
+- uid: _f_u_x_tools_editor_module
+  name: MRTK Unreal API Reference FUXToolsEditorModule
+  href: api/_f_u_x_tools_editor_module.html
+- uid: _f_u_x_tools_input_module
+  name: MRTK Unreal API Reference FUXToolsInputModule
+  href: api/_f_u_x_tools_input_module.html
+- uid: _f_u_x_tools_module
+  name: MRTK Unreal API Reference FUXToolsModule
+  href: api/_f_u_x_tools_module.html
+- uid: _f_u_x_tools_shaders_module
+  name: MRTK Unreal API Reference FUXToolsShadersModule
+  href: api/_f_u_x_tools_shaders_module.html
+- uid: _f_uxt_affordance_config
+  name: MRTK Unreal API Reference FUxtAffordanceConfig
+  href: api/_f_uxt_affordance_config.html
+- uid: _f_uxt_affordance_instance
+  name: MRTK Unreal API Reference FUxtAffordanceInstance
+  href: api/_f_uxt_affordance_instance.html
+- uid: _f_uxt_button_audio_brush
+  name: MRTK Unreal API Reference FUxtButtonAudioBrush
+  href: api/_f_uxt_button_audio_brush.html
+- uid: _f_uxt_button_brush
+  name: MRTK Unreal API Reference FUxtButtonBrush
+  href: api/_f_uxt_button_brush.html
+- uid: _f_uxt_button_visuals_brush
+  name: MRTK Unreal API Reference FUxtButtonVisualsBrush
+  href: api/_f_uxt_button_visuals_brush.html
+- uid: _f_uxt_default_hand_tracker
+  name: MRTK Unreal API Reference FUxtDefaultHandTracker
+  href: api/_f_uxt_default_hand_tracker.html
+- uid: _f_uxt_font_character
+  name: MRTK Unreal API Reference FUxtFontCharacter
+  href: api/_f_uxt_font_character.html
+- uid: _f_uxt_grab_pointer_data
+  name: MRTK Unreal API Reference FUxtGrabPointerData
+  href: api/_f_uxt_grab_pointer_data.html
+- uid: _f_uxt_grab_pointer_focus
+  name: MRTK Unreal API Reference FUxtGrabPointerFocus
+  href: api/_f_uxt_grab_pointer_focus.html
+- uid: _f_uxt_hand_proximity_mesh_data
+  name: MRTK Unreal API Reference FUxtHandProximityMeshData
+  href: api/_f_uxt_hand_proximity_mesh_data.html
+- uid: _f_uxt_icon_brush
+  name: MRTK Unreal API Reference FUxtIconBrush
+  href: api/_f_uxt_icon_brush.html
+- uid: _f_uxt_icon_brush_customization
+  name: MRTK Unreal API Reference FUxtIconBrushCustomization
+  href: api/_f_uxt_icon_brush_customization.html
+- uid: _f_uxt_interaction_utils
+  name: MRTK Unreal API Reference FUxtInteractionUtils
+  href: api/_f_uxt_interaction_utils.html
+- uid: _f_uxt_manipulator_component_customization
+  name: MRTK Unreal API Reference FUxtManipulatorComponentCustomization
+  href: api/_f_uxt_manipulator_component_customization.html
+- uid: _f_uxt_pointer_focus
+  name: MRTK Unreal API Reference FUxtPointerFocus
+  href: api/_f_uxt_pointer_focus.html
+- uid: _f_uxt_pointer_focus_search_result
+  name: MRTK Unreal API Reference FUxtPointerFocusSearchResult
+  href: api/_f_uxt_pointer_focus_search_result.html
+- uid: _f_uxt_poke_pointer_focus
+  name: MRTK Unreal API Reference FUxtPokePointerFocus
+  href: api/_f_uxt_poke_pointer_focus.html
+- uid: _f_uxt_pressable_button_component_visualizer
+  name: MRTK Unreal API Reference FUxtPressableButtonComponentVisualizer
+  href: api/_f_uxt_pressable_button_component_visualizer.html
+- uid: _f_uxt_text_brush
+  name: MRTK Unreal API Reference FUxtTextBrush
+  href: api/_f_uxt_text_brush.html
+- uid: _f_uxt_tooltip_spawner_component_visualizer
+  name: MRTK Unreal API Reference FUxtTooltipSpawnerComponentVisualizer
+  href: api/_f_uxt_tooltip_spawner_component_visualizer.html
+- uid: _f_uxt_x_r_simulation_view_extension
+  name: MRTK Unreal API Reference FUxtXRSimulationViewExtension
+  href: api/_f_uxt_x_r_simulation_view_extension.html
+- uid: _f_x_r_input_animation_utils
+  name: MRTK Unreal API Reference FXRInputAnimationUtils
+  href: api/_f_x_r_input_animation_utils.html
+- uid: _f_x_r_simulation_editor_module
+  name: MRTK Unreal API Reference FXRSimulationEditorModule
+  href: api/_f_x_r_simulation_editor_module.html
+- uid: _f_x_r_simulation_h_m_d
+  name: MRTK Unreal API Reference FXRSimulationHMD
+  href: api/_f_x_r_simulation_h_m_d.html
+- uid: _f_x_r_simulation_hand_pose_key_mapping
+  name: MRTK Unreal API Reference FXRSimulationHandPoseKeyMapping
+  href: api/_f_x_r_simulation_hand_pose_key_mapping.html
+- uid: _f_x_r_simulation_hand_state
+  name: MRTK Unreal API Reference FXRSimulationHandState
+  href: api/_f_x_r_simulation_hand_state.html
+- uid: _f_x_r_simulation_input_device
+  name: MRTK Unreal API Reference FXRSimulationInputDevice
+  href: api/_f_x_r_simulation_input_device.html
+- uid: _f_x_r_simulation_keys
+  name: MRTK Unreal API Reference FXRSimulationKeys
+  href: api/_f_x_r_simulation_keys.html
+- uid: _f_x_r_simulation_state
+  name: MRTK Unreal API Reference FXRSimulationState
+  href: api/_f_x_r_simulation_state.html
+- uid: _i_uxt_collection_object
+  name: MRTK Unreal API Reference IUxtCollectionObject
+  href: api/_i_uxt_collection_object.html
+- uid: _i_uxt_far_handler
+  name: MRTK Unreal API Reference IUxtFarHandler
+  href: api/_i_uxt_far_handler.html
+- uid: _i_uxt_far_target
+  name: MRTK Unreal API Reference IUxtFarTarget
+  href: api/_i_uxt_far_target.html
+- uid: _i_uxt_grab_handler
+  name: MRTK Unreal API Reference IUxtGrabHandler
+  href: api/_i_uxt_grab_handler.html
+- uid: _i_uxt_grab_target
+  name: MRTK Unreal API Reference IUxtGrabTarget
+  href: api/_i_uxt_grab_target.html
+- uid: _i_uxt_hand_tracker
+  name: MRTK Unreal API Reference IUxtHandTracker
+  href: api/_i_uxt_hand_tracker.html
+- uid: _i_uxt_poke_handler
+  name: MRTK Unreal API Reference IUxtPokeHandler
+  href: api/_i_uxt_poke_handler.html
+- uid: _i_uxt_poke_target
+  name: MRTK Unreal API Reference IUxtPokeTarget
+  href: api/_i_uxt_poke_target.html
+- uid: _u_uxt_base_object_collection
+  name: MRTK Unreal API Reference UUxtBaseObjectCollection
+  href: api/_u_uxt_base_object_collection.html
+- uid: _u_uxt_bounds_control_component
+  name: MRTK Unreal API Reference UUxtBoundsControlComponent
+  href: api/_u_uxt_bounds_control_component.html
+- uid: _u_uxt_bounds_control_config
+  name: MRTK Unreal API Reference UUxtBoundsControlConfig
+  href: api/_u_uxt_bounds_control_config.html
+- uid: _u_uxt_collection_object
+  name: MRTK Unreal API Reference UUxtCollectionObject
+  href: api/_u_uxt_collection_object.html
+- uid: _u_uxt_constraint_picker_widget
+  name: MRTK Unreal API Reference UUxtConstraintPickerWidget
+  href: api/_u_uxt_constraint_picker_widget.html
+- uid: _u_uxt_default_hand_tracker_subsystem
+  name: MRTK Unreal API Reference UUxtDefaultHandTrackerSubsystem
+  href: api/_u_uxt_default_hand_tracker_subsystem.html
+- uid: _u_uxt_face_user_constraint
+  name: MRTK Unreal API Reference UUxtFaceUserConstraint
+  href: api/_u_uxt_face_user_constraint.html
+- uid: _u_uxt_far_beam_component
+  name: MRTK Unreal API Reference UUxtFarBeamComponent
+  href: api/_u_uxt_far_beam_component.html
+- uid: _u_uxt_far_cursor_component
+  name: MRTK Unreal API Reference UUxtFarCursorComponent
+  href: api/_u_uxt_far_cursor_component.html
+- uid: _u_uxt_far_handler
+  name: MRTK Unreal API Reference UUxtFarHandler
+  href: api/_u_uxt_far_handler.html
+- uid: _u_uxt_far_pointer_component
+  name: MRTK Unreal API Reference UUxtFarPointerComponent
+  href: api/_u_uxt_far_pointer_component.html
+- uid: _u_uxt_far_target
+  name: MRTK Unreal API Reference UUxtFarTarget
+  href: api/_u_uxt_far_target.html
+- uid: _u_uxt_finger_cursor_component
+  name: MRTK Unreal API Reference UUxtFingerCursorComponent
+  href: api/_u_uxt_finger_cursor_component.html
+- uid: _u_uxt_fixed_distance_constraint
+  name: MRTK Unreal API Reference UUxtFixedDistanceConstraint
+  href: api/_u_uxt_fixed_distance_constraint.html
+- uid: _u_uxt_fixed_rotation_to_user_constraint
+  name: MRTK Unreal API Reference UUxtFixedRotationToUserConstraint
+  href: api/_u_uxt_fixed_rotation_to_user_constraint.html
+- uid: _u_uxt_fixed_rotation_to_world_constraint
+  name: MRTK Unreal API Reference UUxtFixedRotationToWorldConstraint
+  href: api/_u_uxt_fixed_rotation_to_world_constraint.html
+- uid: _u_uxt_follow_component
+  name: MRTK Unreal API Reference UUxtFollowComponent
+  href: api/_u_uxt_follow_component.html
+- uid: _u_uxt_function_library
+  name: MRTK Unreal API Reference UUxtFunctionLibrary
+  href: api/_u_uxt_function_library.html
+- uid: _u_uxt_grab_handler
+  name: MRTK Unreal API Reference UUxtGrabHandler
+  href: api/_u_uxt_grab_handler.html
+- uid: _u_uxt_grab_pointer_data_function_library
+  name: MRTK Unreal API Reference UUxtGrabPointerDataFunctionLibrary
+  href: api/_u_uxt_grab_pointer_data_function_library.html
+- uid: _u_uxt_grab_target
+  name: MRTK Unreal API Reference UUxtGrabTarget
+  href: api/_u_uxt_grab_target.html
+- uid: _u_uxt_grab_target_component
+  name: MRTK Unreal API Reference UUxtGrabTargetComponent
+  href: api/_u_uxt_grab_target_component.html
+- uid: _u_uxt_hand_constraint_component
+  name: MRTK Unreal API Reference UUxtHandConstraintComponent
+  href: api/_u_uxt_hand_constraint_component.html
+- uid: _u_uxt_icon_brush_editor_utility_widget
+  name: MRTK Unreal API Reference UUxtIconBrushEditorUtilityWidget
+  href: api/_u_uxt_icon_brush_editor_utility_widget.html
+- uid: _u_uxt_input_subsystem
+  name: MRTK Unreal API Reference UUxtInputSubsystem
+  href: api/_u_uxt_input_subsystem.html
+- uid: _u_uxt_internal_function_library
+  name: MRTK Unreal API Reference UUxtInternalFunctionLibrary
+  href: api/_u_uxt_internal_function_library.html
+- uid: _u_uxt_maintain_apparent_size_constraint
+  name: MRTK Unreal API Reference UUxtMaintainApparentSizeConstraint
+  href: api/_u_uxt_maintain_apparent_size_constraint.html
+- uid: _u_uxt_manipulator_component
+  name: MRTK Unreal API Reference UUxtManipulatorComponent
+  href: api/_u_uxt_manipulator_component.html
+- uid: _u_uxt_manipulator_component_base
+  name: MRTK Unreal API Reference UUxtManipulatorComponentBase
+  href: api/_u_uxt_manipulator_component_base.html
+- uid: _u_uxt_math_utils_function_library
+  name: MRTK Unreal API Reference UUxtMathUtilsFunctionLibrary
+  href: api/_u_uxt_math_utils_function_library.html
+- uid: _u_uxt_move_axis_constraint
+  name: MRTK Unreal API Reference UUxtMoveAxisConstraint
+  href: api/_u_uxt_move_axis_constraint.html
+- uid: _u_uxt_near_pointer_component
+  name: MRTK Unreal API Reference UUxtNearPointerComponent
+  href: api/_u_uxt_near_pointer_component.html
+- uid: _u_uxt_palm_up_constraint_component
+  name: MRTK Unreal API Reference UUxtPalmUpConstraintComponent
+  href: api/_u_uxt_palm_up_constraint_component.html
+- uid: _u_uxt_pinch_slider_component
+  name: MRTK Unreal API Reference UUxtPinchSliderComponent
+  href: api/_u_uxt_pinch_slider_component.html
+- uid: _u_uxt_pointer_component
+  name: MRTK Unreal API Reference UUxtPointerComponent
+  href: api/_u_uxt_pointer_component.html
+- uid: _u_uxt_poke_handler
+  name: MRTK Unreal API Reference UUxtPokeHandler
+  href: api/_u_uxt_poke_handler.html
+- uid: _u_uxt_poke_target
+  name: MRTK Unreal API Reference UUxtPokeTarget
+  href: api/_u_uxt_poke_target.html
+- uid: _u_uxt_pressable_button_component
+  name: MRTK Unreal API Reference UUxtPressableButtonComponent
+  href: api/_u_uxt_pressable_button_component.html
+- uid: _u_uxt_rotation_axis_constraint
+  name: MRTK Unreal API Reference UUxtRotationAxisConstraint
+  href: api/_u_uxt_rotation_axis_constraint.html
+- uid: _u_uxt_tap_to_place_component
+  name: MRTK Unreal API Reference UUxtTapToPlaceComponent
+  href: api/_u_uxt_tap_to_place_component.html
+- uid: _u_uxt_text_render_component
+  name: MRTK Unreal API Reference UUxtTextRenderComponent
+  href: api/_u_uxt_text_render_component.html
+- uid: _u_uxt_toggle_group_component
+  name: MRTK Unreal API Reference UUxtToggleGroupComponent
+  href: api/_u_uxt_toggle_group_component.html
+- uid: _u_uxt_touch_based_hand_tracker_component
+  name: MRTK Unreal API Reference UUxtTouchBasedHandTrackerComponent
+  href: api/_u_uxt_touch_based_hand_tracker_component.html
+- uid: _u_uxt_touch_based_hand_tracker_subsystem
+  name: MRTK Unreal API Reference UUxtTouchBasedHandTrackerSubsystem
+  href: api/_u_uxt_touch_based_hand_tracker_subsystem.html
+- uid: _u_uxt_touchable_volume_component
+  name: MRTK Unreal API Reference UUxtTouchableVolumeComponent
+  href: api/_u_uxt_touchable_volume_component.html
+- uid: _u_uxt_transform_constraint
+  name: MRTK Unreal API Reference UUxtTransformConstraint
+  href: api/_u_uxt_transform_constraint.html
+- uid: _u_uxt_u_i_element_component
+  name: MRTK Unreal API Reference UUxtUIElementComponent
+  href: api/_u_uxt_u_i_element_component.html
+- uid: _u_uxt_widget_component
+  name: MRTK Unreal API Reference UUxtWidgetComponent
+  href: api/_u_uxt_widget_component.html
+- uid: _u_uxt_x_r_simulation_subsystem
+  name: MRTK Unreal API Reference UUxtXRSimulationSubsystem
+  href: api/_u_uxt_x_r_simulation_subsystem.html
+- uid: _u_x_r_simulation_head_movement_component
+  name: MRTK Unreal API Reference UXRSimulationHeadMovementComponent
+  href: api/_u_x_r_simulation_head_movement_component.html
+- uid: _u_x_r_simulation_runtime_settings
+  name: MRTK Unreal API Reference UXRSimulationRuntimeSettings
+  href: api/_u_x_r_simulation_runtime_settings.html
+- uid: _u_x_tools
+  name: MRTK Unreal API Reference UXTools
+  href: api/_u_x_tools.html
+- uid: _u_x_tools_editor
+  name: MRTK Unreal API Reference UXToolsEditor
+  href: api/_u_x_tools_editor.html
+- uid: _u_x_tools_input
+  name: MRTK Unreal API Reference UXToolsInput
+  href: api/_u_x_tools_input.html
+- uid: _u_x_tools_shaders
+  name: MRTK Unreal API Reference UXToolsShaders
+  href: api/_u_x_tools_shaders.html
+- uid: _uxt_affordance_interaction_cache
+  name: MRTK Unreal API Reference UxtAffordanceInteractionCache
+  href: api/_uxt_affordance_interaction_cache.html
+- uid: _uxt_manipulation_move_logic
+  name: MRTK Unreal API Reference UxtManipulationMoveLogic
+  href: api/_uxt_manipulation_move_logic.html
+- uid: _uxt_two_hand_manipulation_rotate_logic
+  name: MRTK Unreal API Reference UxtTwoHandManipulationRotateLogic
+  href: api/_uxt_two_hand_manipulation_rotate_logic.html
+- uid: _uxt_two_hand_manipulation_scale_logic
+  name: MRTK Unreal API Reference UxtTwoHandManipulationScaleLogic
+  href: api/_uxt_two_hand_manipulation_scale_logic.html
+- uid: _x_r_simulation
+  name: MRTK Unreal API Reference XRSimulation
+  href: api/_x_r_simulation.html
+- uid: _x_r_simulation_editor
+  name: MRTK Unreal API Reference XRSimulationEditor
+  href: api/_x_r_simulation_editor.html
+- uid: _x_r_simulation_input
+  name: MRTK Unreal API Reference XRSimulationInput
+  href: api/_x_r_simulation_input.html

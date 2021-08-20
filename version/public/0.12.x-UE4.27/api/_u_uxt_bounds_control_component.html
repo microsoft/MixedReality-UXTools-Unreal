@@ -1,0 +1,600 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtBoundsControlComponent | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtBoundsControlComponent | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_bounds_control_component">
+<h1 id="uuxtboundscontrolcomponent">UUxtBoundsControlComponent</h1>
+
+<p>Manages a set of affordances that can be manipulated for changing the actor transform.</p>
+<pre><code class="lang-cpp">class UUxtBoundsControlComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtBoundsControlComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a>, UActorComponent</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtboundscontrolcomponent">UUxtBoundsControlComponent</a></strong>()</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtboundscontrolcomponent">UUxtBoundsControlComponent</a></strong>(FVTableHelper &amp; Helper)</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtboundscontrolcomponent">~UUxtBoundsControlComponent</a></strong>()</td>
+</tr>
+<tr>
+<td>AActor *</td>
+<td><strong><a href="#function-getboundscontrolactor">GetBoundsControlActor</a></strong>() const</td>
+</tr>
+<tr>
+<td>const TMap&lt; UPrimitiveComponent *, <a href="_f_uxt_affordance_instance.html">FUxtAffordanceInstance</a> &gt; &amp;</td>
+<td><strong><a href="#function-getprimitiveaffordancemap">GetPrimitiveAffordanceMap</a></strong>() const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getinitboundsfromactor">GetInitBoundsFromActor</a></strong>() const</td>
+</tr>
+<tr>
+<td>const FBox &amp;</td>
+<td><strong><a href="#function-getbounds">GetBounds</a></strong>() const</td>
+</tr>
+<tr>
+<td>UStaticMesh *</td>
+<td><strong><a href="#function-getaffordancekindmesh">GetAffordanceKindMesh</a></strong>(EUxtAffordanceKind Kind) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-computeboundsfromcomponents">ComputeBoundsFromComponents</a></strong>()</td>
+</tr>
+<tr>
+<td>UPrimitiveComponent *</td>
+<td><strong><a href="#function-getaffordanceprimitive">GetAffordancePrimitive</a></strong>(const EUxtAffordancePlacement Placement) const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-endplay">EndPlay</a></strong>(const EEndPlayReason::Type EndPlayReason) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tickcomponent">TickComponent</a></strong>(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onaffordanceenterfarfocus">OnAffordanceEnterFarFocus</a></strong>(<a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a> * Grabbable, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onaffordanceentergrabfocus">OnAffordanceEnterGrabFocus</a></strong>(<a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a> * Grabbable, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onaffordanceexitfarfocus">OnAffordanceExitFarFocus</a></strong>(<a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a> * Grabbable, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onaffordanceexitgrabfocus">OnAffordanceExitGrabFocus</a></strong>(<a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a> * Grabbable, <a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onaffordancebegingrab">OnAffordanceBeginGrab</a></strong>(<a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a> * Grabbable, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> GrabPointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onaffordanceupdategrab">OnAffordanceUpdateGrab</a></strong>(<a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a> * Grabbable, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> GrabPointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onaffordanceendgrab">OnAffordanceEndGrab</a></strong>(<a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a> * Grabbable, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> GrabPointer)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexternalmanipulationstarted">OnExternalManipulationStarted</a></strong>() override</td>
+</tr>
+<tr>
+<td>const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> *</td>
+<td><strong><a href="#function-findgrabpointer">FindGrabPointer</a></strong>(const <a href="_f_uxt_affordance_instance.html">FUxtAffordanceInstance</a> * AffordanceInstance)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-transformtarget">TransformTarget</a></strong>(const <a href="_f_uxt_affordance_config.html">FUxtAffordanceConfig</a> &amp; Affordance, const <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; GrabPointer) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-createaffordances">CreateAffordances</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-destroyaffordances">DestroyAffordances</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-updateaffordancetransforms">UpdateAffordanceTransforms</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-updateaffordanceanimation">UpdateAffordanceAnimation</a></strong>(float DeltaTime)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-isaffordancegrabbed">IsAffordanceGrabbed</a></strong>(const <a href="_f_uxt_affordance_instance.html">FUxtAffordanceInstance</a> * Affordance) const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getrelativeboxtransform">GetRelativeBoxTransform</a></strong>(const FBox &amp; Box, const FBox &amp; RelativeTo, FTransform &amp; OutTransform)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="_u_uxt_bounds_control_config.html">UUxtBoundsControlConfig</a> *</td>
+<td><strong><a href="#variable-config">Config</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMesh *</td>
+<td><strong><a href="#variable-centeraffordancemesh">CenterAffordanceMesh</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMesh *</td>
+<td><strong><a href="#variable-faceaffordancemesh">FaceAffordanceMesh</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMesh *</td>
+<td><strong><a href="#variable-edgeaffordancemesh">EdgeAffordanceMesh</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMesh *</td>
+<td><strong><a href="#variable-corneraffordancemesh">CornerAffordanceMesh</a></strong></td>
+</tr>
+<tr>
+<td>UBoxComponent *</td>
+<td><strong><a href="#variable-collisionbox">CollisionBox</a></strong></td>
+</tr>
+<tr>
+<td>FName</td>
+<td><strong><a href="#variable-collisionprofile">CollisionProfile</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-affordancevisibilitydistance">AffordanceVisibilityDistance</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-affordancetransitionduration">AffordanceTransitionDuration</a></strong></td>
+</tr>
+<tr>
+<td>FUxtBoundsControlManipulationStartedDelegate</td>
+<td><strong><a href="#variable-onmanipulationstarted">OnManipulationStarted</a></strong></td>
+</tr>
+<tr>
+<td>FUxtBoundsControlManipulationEndedDelegate</td>
+<td><strong><a href="#variable-onmanipulationended">OnManipulationEnded</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getautodetectconstraints">GetAutoDetectConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setautodetectconstraints">SetAutoDetectConstraints</a></strong>(bool bNewAutoDetectConstraints)</td>
+</tr>
+<tr>
+<td>const TArray&lt; FComponentReference &gt; &amp;</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getselectedconstraints">GetSelectedConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-addconstraint">AddConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-removeconstraint">RemoveConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getrelativetoinitialscale">GetRelativeToInitialScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setrelativetoinitialscale">SetRelativeToInitialScale</a></strong>(const bool Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getminscale">GetMinScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setminscale">SetMinScale</a></strong>(const float Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getmaxscale">GetMaxScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setmaxscale">SetMaxScale</a></strong>(const float Value)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-initializeconstraints">InitializeConstraints</a></strong>(USceneComponent * NewTargetComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-applyconstraints">ApplyConstraints</a></strong>(FTransform &amp; Transform, EUxtTransformMode TransformMode, bool bIsOneHanded, bool bIsNear) const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-uuxtboundscontrolcomponent">function UUxtBoundsControlComponent</h3>
+<pre><code class="lang-cpp">UUxtBoundsControlComponent()
+</code></pre>
+<h3 id="function-uuxtboundscontrolcomponent-1">function UUxtBoundsControlComponent</h3>
+<pre><code class="lang-cpp">UUxtBoundsControlComponent(
+    FVTableHelper &amp; Helper
+)
+</code></pre>
+<h3 id="function-uuxtboundscontrolcomponent-2">function ~UUxtBoundsControlComponent</h3>
+<pre><code class="lang-cpp">~UUxtBoundsControlComponent()
+</code></pre>
+<h3 id="function-getboundscontrolactor">function GetBoundsControlActor</h3>
+<pre><code class="lang-cpp">AActor * GetBoundsControlActor() const
+</code></pre>
+<h3 id="function-getprimitiveaffordancemap">function GetPrimitiveAffordanceMap</h3>
+<pre><code class="lang-cpp">const TMap&lt; UPrimitiveComponent *, FUxtAffordanceInstance &gt; &amp; GetPrimitiveAffordanceMap() const
+</code></pre>
+<p>Get the map between the affordance actors and their information.</p>
+<h3 id="function-getinitboundsfromactor">function GetInitBoundsFromActor</h3>
+<pre><code class="lang-cpp">bool GetInitBoundsFromActor() const
+</code></pre>
+<h3 id="function-getbounds">function GetBounds</h3>
+<pre><code class="lang-cpp">const FBox &amp; GetBounds() const
+</code></pre>
+<h3 id="function-getaffordancekindmesh">function GetAffordanceKindMesh</h3>
+<pre><code class="lang-cpp">UStaticMesh * GetAffordanceKindMesh(
+    EUxtAffordanceKind Kind
+) const
+</code></pre>
+<p>Mesh for the given kind of affordance.</p>
+<h3 id="function-computeboundsfromcomponents">function ComputeBoundsFromComponents</h3>
+<pre><code class="lang-cpp">void ComputeBoundsFromComponents()
+</code></pre>
+<p>Compute the bounding box based on the components of the bounding box actor.</p>
+<h3 id="function-getaffordanceprimitive">function GetAffordancePrimitive</h3>
+<pre><code class="lang-cpp">UPrimitiveComponent * GetAffordancePrimitive(
+    const EUxtAffordancePlacement Placement
+) const
+</code></pre>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_u_uxt_manipulator_component.html#function-beginplay">UUxtManipulatorComponent::BeginPlay</a></p>
+<h3 id="function-endplay">function EndPlay</h3>
+<pre><code class="lang-cpp">virtual void EndPlay(
+    const EEndPlayReason::Type EndPlayReason
+) override
+</code></pre>
+<h3 id="function-tickcomponent">function TickComponent</h3>
+<pre><code class="lang-cpp">virtual void TickComponent(
+    float DeltaTime,
+    ELevelTick TickType,
+    FActorComponentTickFunction * ThisTickFunction
+) override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_u_uxt_manipulator_component.html#function-tickcomponent">UUxtManipulatorComponent::TickComponent</a></p>
+<h3 id="function-onaffordanceenterfarfocus">function OnAffordanceEnterFarFocus</h3>
+<pre><code class="lang-cpp">void OnAffordanceEnterFarFocus(
+    UUxtGrabTargetComponent * Grabbable,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Callback when an affordance is entering focus.</p>
+<h3 id="function-onaffordanceentergrabfocus">function OnAffordanceEnterGrabFocus</h3>
+<pre><code class="lang-cpp">void OnAffordanceEnterGrabFocus(
+    UUxtGrabTargetComponent * Grabbable,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Callback when an affordance is entering focus.</p>
+<h3 id="function-onaffordanceexitfarfocus">function OnAffordanceExitFarFocus</h3>
+<pre><code class="lang-cpp">void OnAffordanceExitFarFocus(
+    UUxtGrabTargetComponent * Grabbable,
+    UUxtFarPointerComponent * Pointer
+)
+</code></pre>
+<p>Callback when an affordance is exiting focus.</p>
+<h3 id="function-onaffordanceexitgrabfocus">function OnAffordanceExitGrabFocus</h3>
+<pre><code class="lang-cpp">void OnAffordanceExitGrabFocus(
+    UUxtGrabTargetComponent * Grabbable,
+    UUxtNearPointerComponent * Pointer
+)
+</code></pre>
+<p>Callback when an affordance is exiting focus.</p>
+<h3 id="function-onaffordancebegingrab">function OnAffordanceBeginGrab</h3>
+<pre><code class="lang-cpp">void OnAffordanceBeginGrab(
+    UUxtGrabTargetComponent * Grabbable,
+    FUxtGrabPointerData GrabPointer
+)
+</code></pre>
+<p>Callback when an affordance is being grabbed.</p>
+<h3 id="function-onaffordanceupdategrab">function OnAffordanceUpdateGrab</h3>
+<pre><code class="lang-cpp">void OnAffordanceUpdateGrab(
+    UUxtGrabTargetComponent * Grabbable,
+    FUxtGrabPointerData GrabPointer
+)
+</code></pre>
+<p>Callback when an affordance is being grabbed.</p>
+<h3 id="function-onaffordanceendgrab">function OnAffordanceEndGrab</h3>
+<pre><code class="lang-cpp">void OnAffordanceEndGrab(
+    UUxtGrabTargetComponent * Grabbable,
+    FUxtGrabPointerData GrabPointer
+)
+</code></pre>
+<p>Callback when an affordance is being released.</p>
+<h3 id="function-onexternalmanipulationstarted">function OnExternalManipulationStarted</h3>
+<pre><code class="lang-cpp">virtual void OnExternalManipulationStarted() override
+</code></pre>
+<h3 id="function-findgrabpointer">function FindGrabPointer</h3>
+<pre><code class="lang-cpp">const FUxtGrabPointerData * FindGrabPointer(
+    const FUxtAffordanceInstance * AffordanceInstance
+)
+</code></pre>
+<p>Look up the grab pointer data for an affordance. Returns null if the affordance is not currently grabbed.</p>
+<h3 id="function-transformtarget">function TransformTarget</h3>
+<pre><code class="lang-cpp">void TransformTarget(
+    const FUxtAffordanceConfig &amp; Affordance,
+    const FUxtGrabPointerData &amp; GrabPointer
+) const
+</code></pre>
+<p>Modify the target based on the current affordance interaction</p>
+<h3 id="function-createaffordances">function CreateAffordances</h3>
+<pre><code class="lang-cpp">void CreateAffordances()
+</code></pre>
+<p>Create the BoundsControlActor and all affordances described in the config.</p>
+<h3 id="function-destroyaffordances">function DestroyAffordances</h3>
+<pre><code class="lang-cpp">void DestroyAffordances()
+</code></pre>
+<p>Destroy the BoundsControlActor and affordance instances.</p>
+<h3 id="function-updateaffordancetransforms">function UpdateAffordanceTransforms</h3>
+<pre><code class="lang-cpp">void UpdateAffordanceTransforms()
+</code></pre>
+<p>Update the world transforms of affordance actors to match the current bounding box.</p>
+<h3 id="function-updateaffordanceanimation">function UpdateAffordanceAnimation</h3>
+<pre><code class="lang-cpp">void UpdateAffordanceAnimation(
+    float DeltaTime
+)
+</code></pre>
+<p>Update animated properties such as affordance highlights.</p>
+<h3 id="function-isaffordancegrabbed">function IsAffordanceGrabbed</h3>
+<pre><code class="lang-cpp">bool IsAffordanceGrabbed(
+    const FUxtAffordanceInstance * Affordance
+) const
+</code></pre>
+<p>Returns true if the affordance instance is currently bing grabbed.</p>
+<h3 id="function-getrelativeboxtransform">function GetRelativeBoxTransform</h3>
+<pre><code class="lang-cpp">static bool GetRelativeBoxTransform(
+    const FBox &amp; Box,
+    const FBox &amp; RelativeTo,
+    FTransform &amp; OutTransform
+)
+</code></pre>
+<p>Compute the relative translation and scale between two boxes. Returns false if relative scale can not be computed.</p>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-config">variable Config</h3>
+<pre><code class="lang-cpp">UUxtBoundsControlConfig * Config;
+</code></pre>
+<p>Configuration of the bounds control affordances.</p>
+<h3 id="variable-centeraffordancemesh">variable CenterAffordanceMesh</h3>
+<pre><code class="lang-cpp">UStaticMesh * CenterAffordanceMesh;
+</code></pre>
+<p>Mesh used for a center affordance.</p>
+<h3 id="variable-faceaffordancemesh">variable FaceAffordanceMesh</h3>
+<pre><code class="lang-cpp">UStaticMesh * FaceAffordanceMesh;
+</code></pre>
+<p>Mesh used for a face affordances.</p>
+<h3 id="variable-edgeaffordancemesh">variable EdgeAffordanceMesh</h3>
+<pre><code class="lang-cpp">UStaticMesh * EdgeAffordanceMesh;
+</code></pre>
+<p>Mesh used for a edge affordances.</p>
+<h3 id="variable-corneraffordancemesh">variable CornerAffordanceMesh</h3>
+<pre><code class="lang-cpp">UStaticMesh * CornerAffordanceMesh;
+</code></pre>
+<p>Mesh used for a corner affordances.</p>
+<h3 id="variable-collisionbox">variable CollisionBox</h3>
+<pre><code class="lang-cpp">UBoxComponent * CollisionBox;
+</code></pre>
+<p>Collision box that prevents pointer rays from passing through bounds control's box.</p>
+<h3 id="variable-collisionprofile">variable CollisionProfile</h3>
+<pre><code class="lang-cpp">FName CollisionProfile = TEXT(&quot;UI&quot;);
+</code></pre>
+<p>The collision profile used by <a href="#variable-collisionbox">CollisionBox</a>.</p>
+<h3 id="variable-affordancevisibilitydistance">variable AffordanceVisibilityDistance</h3>
+<pre><code class="lang-cpp">float AffordanceVisibilityDistance = 10.f;
+</code></pre>
+<p>Hand distance at which affordances become visible.</p>
+<h3 id="variable-affordancetransitionduration">variable AffordanceTransitionDuration</h3>
+<pre><code class="lang-cpp">float AffordanceTransitionDuration = 0.25f;
+</code></pre>
+<p>Duration of animated affordance transitions.</p>
+<h3 id="variable-onmanipulationstarted">variable OnManipulationStarted</h3>
+<pre><code class="lang-cpp">FUxtBoundsControlManipulationStartedDelegate OnManipulationStarted;
+</code></pre>
+<p>Event raised when a manipulation is started.</p>
+<h3 id="variable-onmanipulationended">variable OnManipulationEnded</h3>
+<pre><code class="lang-cpp">FUxtBoundsControlManipulationEndedDelegate OnManipulationEnded;
+</code></pre>
+<p>Event raised when a manipulation is ended.</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_u_uxt_bounds_control_component.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,694 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference AUxtPressableButtonActor | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference AUxtPressableButtonActor | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_a_uxt_pressable_button_actor">
+<h1 id="auxtpressablebuttonactor">AUxtPressableButtonActor</h1>
+
+<p>The default pressable button actor which programmatically builds an actor hierarchy with a back plate, front plate, icon, and label. All button properties within this class are reactive at edit and runtime. This actor also contains behaviors to support icon focus animation and sound playback. This class is extensible to support derived button types.</p>
+<pre><code class="lang-cpp">class AUxtPressableButtonActor;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtPressableButtonActor.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a>, AActor, <a href="_i_uxt_collection_object.html">IUxtCollectionObject</a></p>
+<p>Inherited by <a href="_a_uxt_pressable_toggle_button_actor.html">AUxtPressableToggleButtonActor</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-auxtpressablebuttonactor">AUxtPressableButtonActor</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onconstruction">OnConstruction</a></strong>(const FTransform &amp; Transform) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tick">Tick</a></strong>(float DeltaTime) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-constructvisuals">ConstructVisuals</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-constructicon">ConstructIcon</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-constructlabel">ConstructLabel</a></strong>()</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-beginpulse">BeginPulse</a></strong>(const <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-ispulsing">IsPulsing</a></strong>() const</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-getmillimetersize">GetMillimeterSize</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setmillimetersize">SetMillimeterSize</a></strong>(FVector Size)</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-getsize">GetSize</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setsize">SetSize</a></strong>(FVector Size)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-isplated">IsPlated</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setisplated">SetIsPlated</a></strong>(bool IsPlated)</td>
+</tr>
+<tr>
+<td>const <a href="_f_uxt_icon_brush.html">FUxtIconBrush</a> &amp;</td>
+<td><strong><a href="#function-geticonbrush">GetIconBrush</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-seticonbrush">SetIconBrush</a></strong>(const <a href="_f_uxt_icon_brush.html">FUxtIconBrush</a> &amp; Brush)</td>
+</tr>
+<tr>
+<td>const FText &amp;</td>
+<td><strong><a href="#function-getlabel">GetLabel</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setlabel">SetLabel</a></strong>(const FText &amp; NewLabel)</td>
+</tr>
+<tr>
+<td>const <a href="_f_uxt_text_brush.html">FUxtTextBrush</a> &amp;</td>
+<td><strong><a href="#function-getlabeltextbrush">GetLabelTextBrush</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setlabeltextbrush">SetLabelTextBrush</a></strong>(const <a href="_f_uxt_text_brush.html">FUxtTextBrush</a> &amp; Brush)</td>
+</tr>
+<tr>
+<td>const <a href="_f_uxt_button_brush.html">FUxtButtonBrush</a> &amp;</td>
+<td><strong><a href="#function-getbuttonbrush">GetButtonBrush</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setbuttonbrush">SetButtonBrush</a></strong>(const <a href="_f_uxt_button_brush.html">FUxtButtonBrush</a> &amp; Brush)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbuttonpressed">OnButtonPressed</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbuttonreleased">OnButtonReleased</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbeginfocus">OnBeginFocus</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer, bool WasAlreadyFocused)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbuttonenabled">OnButtonEnabled</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbuttondisabled">OnButtonDisabled</a></strong>(<a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> * Button)</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-animatepulse">AnimatePulse</a></strong>(float DeltaTime)</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-animatefocus">AnimateFocus</a></strong>(float DeltaTime)</td>
+</tr>
+<tr>
+<td>template &lt;class T &gt; <br>T *</td>
+<td><strong><a href="#function-createandattachcomponent">CreateAndAttachComponent</a></strong>(FName Name, USceneComponent * Parent)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-attributes">Protected Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#variable-millimetersize">MillimeterSize</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bisplated">bIsPlated</a></strong></td>
+</tr>
+<tr>
+<td>FText</td>
+<td><strong><a href="#variable-label">Label</a></strong></td>
+</tr>
+<tr>
+<td><a href="_f_uxt_text_brush.html">FUxtTextBrush</a></td>
+<td><strong><a href="#variable-labeltextbrush">LabelTextBrush</a></strong></td>
+</tr>
+<tr>
+<td><a href="_f_uxt_button_brush.html">FUxtButtonBrush</a></td>
+<td><strong><a href="#variable-buttonbrush">ButtonBrush</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#variable-backplatepivotcomponent">BackPlatePivotComponent</a></strong></td>
+</tr>
+<tr>
+<td>UUxtBackPlateComponent *</td>
+<td><strong><a href="#variable-backplatemeshcomponent">BackPlateMeshComponent</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#variable-frontplatepivotcomponent">FrontPlatePivotComponent</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#variable-frontplatecentercomponent">FrontPlateCenterComponent</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMeshComponent *</td>
+<td><strong><a href="#variable-frontplatemeshcomponent">FrontPlateMeshComponent</a></strong></td>
+</tr>
+<tr>
+<td>UTextRenderComponent *</td>
+<td><strong><a href="#variable-iconcomponent">IconComponent</a></strong></td>
+</tr>
+<tr>
+<td>UTextRenderComponent *</td>
+<td><strong><a href="#variable-labelcomponent">LabelComponent</a></strong></td>
+</tr>
+<tr>
+<td>UAudioComponent *</td>
+<td><strong><a href="#variable-audiocomponent">AudioComponent</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-pulsetimer">PulseTimer</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-pulsefadetimer">PulseFadeTimer</a></strong></td>
+</tr>
+<tr>
+<td>UMaterialInterface *</td>
+<td><strong><a href="#variable-prepulsematerial">PrePulseMaterial</a></strong></td>
+</tr>
+<tr>
+<td>UMaterialInstanceDynamic *</td>
+<td><strong><a href="#variable-pulsematerialinstance">PulseMaterialInstance</a></strong></td>
+</tr>
+<tr>
+<td>uint32</td>
+<td><strong><a href="#variable-materialindex">MaterialIndex</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-focustimer">FocusTimer</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bcanediticonbrush">bCanEditIconBrush</a></strong></td>
+</tr>
+<tr>
+<td>FUxtIconBrush</td>
+<td><strong><a href="#variable-iconbrush">IconBrush</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-auxtbasepressablebuttonactor">AUxtBasePressableButtonActor</a></strong>()</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getpoketarget">GetPokeTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getpoketarget_implementation">GetPokeTarget_Implementation</a></strong>() override</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getfartarget">GetFarTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>virtual TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getfartarget_implementation">GetFarTarget_Implementation</a></strong>() override</td>
+</tr>
+<tr>
+<td><a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#function-getbuttoncomponent">GetButtonComponent</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Attributes inherited from <a href="_a_uxt_base_pressable_button_actor.html">AUxtBasePressableButtonActor</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="_u_uxt_pressable_button_component.html">UUxtPressableButtonComponent</a> *</td>
+<td><strong><a href="_a_uxt_base_pressable_button_actor.html#variable-buttoncomponent">ButtonComponent</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_collection_object.html">IUxtCollectionObject</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_poke_target.html">IUxtPokeTarget</a> &gt;</td>
+<td><strong><a href="_i_uxt_collection_object.html#function-getpoketarget">GetPokeTarget</a></strong>()</td>
+</tr>
+<tr>
+<td>TScriptInterface&lt; <a href="_i_uxt_far_target.html">IUxtFarTarget</a> &gt;</td>
+<td><strong><a href="_i_uxt_collection_object.html#function-getfartarget">GetFarTarget</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-auxtpressablebuttonactor">function AUxtPressableButtonActor</h3>
+<pre><code class="lang-cpp">AUxtPressableButtonActor()
+</code></pre>
+<h3 id="function-onconstruction">function OnConstruction</h3>
+<pre><code class="lang-cpp">virtual void OnConstruction(
+    const FTransform &amp; Transform
+) override
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_a_uxt_pressable_toggle_button_actor.html#function-onconstruction">AUxtPressableToggleButtonActor::OnConstruction</a></p>
+<p>Creates (and initializes) the button hierarchy when properties are changed.</p>
+<h3 id="function-tick">function Tick</h3>
+<pre><code class="lang-cpp">virtual void Tick(
+    float DeltaTime
+) override
+</code></pre>
+<p>Conditional tick method which occurs when a button needs to animate.</p>
+<h3 id="function-constructvisuals">function ConstructVisuals</h3>
+<pre><code class="lang-cpp">virtual void ConstructVisuals()
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_a_uxt_pressable_toggle_button_actor.html#function-constructvisuals">AUxtPressableToggleButtonActor::ConstructVisuals</a></p>
+<p>Creates (and initializes) the button's visual hierarchy.</p>
+<h3 id="function-constructicon">function ConstructIcon</h3>
+<pre><code class="lang-cpp">virtual void ConstructIcon()
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_a_uxt_pressable_radio_button_actor.html#function-constructicon">AUxtPressableRadioButtonActor::ConstructIcon</a></p>
+<p>Creates (and initializes) the button's icon hierarchy.</p>
+<h3 id="function-constructlabel">function ConstructLabel</h3>
+<pre><code class="lang-cpp">virtual void ConstructLabel()
+</code></pre>
+<p>Creates (and initializes) the button's label hierarchy.</p>
+<h3 id="function-beginpulse">function BeginPulse</h3>
+<pre><code class="lang-cpp">bool BeginPulse(
+    const UUxtPointerComponent * Pointer
+)
+</code></pre>
+<p>Starts the pulse animation for a given pointer.</p>
+<h3 id="function-ispulsing">function IsPulsing</h3>
+<pre><code class="lang-cpp">inline bool IsPulsing() const
+</code></pre>
+<p>Returns true if a pulse is currently animating.</p>
+<h3 id="function-getmillimetersize">function GetMillimeterSize</h3>
+<pre><code class="lang-cpp">inline FVector GetMillimeterSize() const
+</code></pre>
+<p>Accessor to the button size in millimeters.</p>
+<h3 id="function-setmillimetersize">function SetMillimeterSize</h3>
+<pre><code class="lang-cpp">void SetMillimeterSize(
+    FVector Size
+)
+</code></pre>
+<p>Sets the button size in millimeters.</p>
+<h3 id="function-getsize">function GetSize</h3>
+<pre><code class="lang-cpp">inline FVector GetSize() const
+</code></pre>
+<p>Accessor to the button size in default units.</p>
+<h3 id="function-setsize">function SetSize</h3>
+<pre><code class="lang-cpp">void SetSize(
+    FVector Size
+)
+</code></pre>
+<p>Sets the button size in default units.</p>
+<h3 id="function-isplated">function IsPlated</h3>
+<pre><code class="lang-cpp">inline bool IsPlated() const
+</code></pre>
+<p>Accessor to if the button is plated.</p>
+<h3 id="function-setisplated">function SetIsPlated</h3>
+<pre><code class="lang-cpp">void SetIsPlated(
+    bool IsPlated
+)
+</code></pre>
+<p>Enables or disabled the button back plate.</p>
+<h3 id="function-geticonbrush">function GetIconBrush</h3>
+<pre><code class="lang-cpp">inline const FUxtIconBrush &amp; GetIconBrush() const
+</code></pre>
+<p>Accessor to the button's icon brush.</p>
+<h3 id="function-seticonbrush">function SetIconBrush</h3>
+<pre><code class="lang-cpp">void SetIconBrush(
+    const FUxtIconBrush &amp; Brush
+)
+</code></pre>
+<p>Applies a new icon brush.</p>
+<h3 id="function-getlabel">function GetLabel</h3>
+<pre><code class="lang-cpp">inline const FText &amp; GetLabel() const
+</code></pre>
+<p>Accessor to the button's label.</p>
+<h3 id="function-setlabel">function SetLabel</h3>
+<pre><code class="lang-cpp">void SetLabel(
+    const FText &amp; NewLabel
+)
+</code></pre>
+<p>Applies a new label.</p>
+<h3 id="function-getlabeltextbrush">function GetLabelTextBrush</h3>
+<pre><code class="lang-cpp">inline const FUxtTextBrush &amp; GetLabelTextBrush() const
+</code></pre>
+<p>Accessor to the button's label text brush.</p>
+<h3 id="function-setlabeltextbrush">function SetLabelTextBrush</h3>
+<pre><code class="lang-cpp">void SetLabelTextBrush(
+    const FUxtTextBrush &amp; Brush
+)
+</code></pre>
+<p>Applies a new label text brush.</p>
+<h3 id="function-getbuttonbrush">function GetButtonBrush</h3>
+<pre><code class="lang-cpp">inline const FUxtButtonBrush &amp; GetButtonBrush() const
+</code></pre>
+<p>Accessor to the button's button brush.</p>
+<h3 id="function-setbuttonbrush">function SetButtonBrush</h3>
+<pre><code class="lang-cpp">void SetButtonBrush(
+    const FUxtButtonBrush &amp; Brush
+)
+</code></pre>
+<p>Applies a new button brush.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-onbuttonpressed">function OnButtonPressed</h3>
+<pre><code class="lang-cpp">virtual void OnButtonPressed(
+    UUxtPressableButtonComponent * Button,
+    UUxtPointerComponent * Pointer
+)
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_a_uxt_pressable_toggle_button_actor.html#function-onbuttonpressed">AUxtPressableToggleButtonActor::OnButtonPressed</a></p>
+<p>Method which is invoked when the button is pressed.</p>
+<h3 id="function-onbuttonreleased">function OnButtonReleased</h3>
+<pre><code class="lang-cpp">virtual void OnButtonReleased(
+    UUxtPressableButtonComponent * Button,
+    UUxtPointerComponent * Pointer
+)
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_a_uxt_pressable_toggle_button_actor.html#function-onbuttonreleased">AUxtPressableToggleButtonActor::OnButtonReleased</a></p>
+<p>Method which is invoked when the button is released.</p>
+<h3 id="function-onbeginfocus">function OnBeginFocus</h3>
+<pre><code class="lang-cpp">virtual void OnBeginFocus(
+    UUxtPressableButtonComponent * Button,
+    UUxtPointerComponent * Pointer,
+    bool WasAlreadyFocused
+)
+</code></pre>
+<p>Method which is invoked when the button is focused on.</p>
+<h3 id="function-onbuttonenabled">function OnButtonEnabled</h3>
+<pre><code class="lang-cpp">virtual void OnButtonEnabled(
+    UUxtPressableButtonComponent * Button
+)
+</code></pre>
+<p>Method which is invoked when the button is enabled.</p>
+<h3 id="function-onbuttondisabled">function OnButtonDisabled</h3>
+<pre><code class="lang-cpp">virtual void OnButtonDisabled(
+    UUxtPressableButtonComponent * Button
+)
+</code></pre>
+<p>Method which is invoked when the button is disabled.</p>
+<h3 id="function-animatepulse">function AnimatePulse</h3>
+<pre><code class="lang-cpp">virtual bool AnimatePulse(
+    float DeltaTime
+)
+</code></pre>
+<p>Method to update the pulse animation and behavior. Returns true when the animation is complete.</p>
+<h3 id="function-animatefocus">function AnimateFocus</h3>
+<pre><code class="lang-cpp">virtual bool AnimateFocus(
+    float DeltaTime
+)
+</code></pre>
+<p>Method to update the focus animation and behavior. Returns true when the animation is complete.</p>
+<h3 id="function-createandattachcomponent">function CreateAndAttachComponent</h3>
+<pre><code class="lang-cpp">template &lt;class T &gt;
+inline T * CreateAndAttachComponent(
+    FName Name,
+    USceneComponent * Parent
+)
+</code></pre>
+<p>Utility method to allocate and add a scene component to the button.</p>
+<h2 id="protected-attributes-documentation">Protected Attributes Documentation</h2>
+<h3 id="variable-millimetersize">variable MillimeterSize</h3>
+<pre><code class="lang-cpp">FVector MillimeterSize = FVector(16, 32, 32);
+</code></pre>
+<p>The millimeter size of the button which dynamically resizes components within the button. This will preserve the actor scale.</p>
+<h3 id="variable-bisplated">variable bIsPlated</h3>
+<pre><code class="lang-cpp">bool bIsPlated = true;
+</code></pre>
+<p>True if the button should display a back plate. Collections of buttons should share a common back plate.</p>
+<h3 id="variable-label">variable Label</h3>
+<pre><code class="lang-cpp">FText Label = NSLOCTEXT(&quot;PressableButtonActor&quot;, &quot;LabelDefault&quot;, &quot;16x32x32mm&quot;);
+</code></pre>
+<p>Localizable text for the label.</p>
+<h3 id="variable-labeltextbrush">variable LabelTextBrush</h3>
+<pre><code class="lang-cpp">FUxtTextBrush LabelTextBrush;
+</code></pre>
+<p>Text settings for the label.</p>
+<h3 id="variable-buttonbrush">variable ButtonBrush</h3>
+<pre><code class="lang-cpp">FUxtButtonBrush ButtonBrush;
+</code></pre>
+<p>Structure which contains properties for the button's appearance and behavior.</p>
+<h3 id="variable-backplatepivotcomponent">variable BackPlatePivotComponent</h3>
+<pre><code class="lang-cpp">USceneComponent * BackPlatePivotComponent = nullptr;
+</code></pre>
+<p>Pivot component to support back plate compression visuals.</p>
+<h3 id="variable-backplatemeshcomponent">variable BackPlateMeshComponent</h3>
+<pre><code class="lang-cpp">UUxtBackPlateComponent * BackPlateMeshComponent = nullptr;
+</code></pre>
+<p>Back plate mesh component.</p>
+<h3 id="variable-frontplatepivotcomponent">variable FrontPlatePivotComponent</h3>
+<pre><code class="lang-cpp">USceneComponent * FrontPlatePivotComponent = nullptr;
+</code></pre>
+<p>Pivot component to support front plate compression visuals.</p>
+<h3 id="variable-frontplatecentercomponent">variable FrontPlateCenterComponent</h3>
+<pre><code class="lang-cpp">USceneComponent * FrontPlateCenterComponent = nullptr;
+</code></pre>
+<p>The center of mass pivot of the front plate.</p>
+<h3 id="variable-frontplatemeshcomponent">variable FrontPlateMeshComponent</h3>
+<pre><code class="lang-cpp">UStaticMeshComponent * FrontPlateMeshComponent = nullptr;
+</code></pre>
+<p>Front plate mesh component.</p>
+<h3 id="variable-iconcomponent">variable IconComponent</h3>
+<pre><code class="lang-cpp">UTextRenderComponent * IconComponent = nullptr;
+</code></pre>
+<p>Icon text component.</p>
+<h3 id="variable-labelcomponent">variable LabelComponent</h3>
+<pre><code class="lang-cpp">UTextRenderComponent * LabelComponent = nullptr;
+</code></pre>
+<p>Label text component.</p>
+<h3 id="variable-audiocomponent">variable AudioComponent</h3>
+<pre><code class="lang-cpp">UAudioComponent * AudioComponent = nullptr;
+</code></pre>
+<p>Audio playback component.</p>
+<h3 id="variable-pulsetimer">variable PulseTimer</h3>
+<pre><code class="lang-cpp">float PulseTimer = -1;
+</code></pre>
+<p>The current animation time of the pulse animation.</p>
+<h3 id="variable-pulsefadetimer">variable PulseFadeTimer</h3>
+<pre><code class="lang-cpp">float PulseFadeTimer = -1;
+</code></pre>
+<p>The current animation time of the pulse fade out animation.</p>
+<h3 id="variable-prepulsematerial">variable PrePulseMaterial</h3>
+<pre><code class="lang-cpp">UMaterialInterface * PrePulseMaterial = nullptr;
+</code></pre>
+<p>Handle to the original (unaltered) material before pulsing.</p>
+<h3 id="variable-pulsematerialinstance">variable PulseMaterialInstance</h3>
+<pre><code class="lang-cpp">UMaterialInstanceDynamic * PulseMaterialInstance = nullptr;
+</code></pre>
+<p>Handle to any dynamic material the pulse instantiates due to material parameter changes.</p>
+<h3 id="variable-materialindex">variable MaterialIndex</h3>
+<pre><code class="lang-cpp">uint32 MaterialIndex = 0;
+</code></pre>
+<p>The active material based on which pointer triggered the pulse.</p>
+<h3 id="variable-focustimer">variable FocusTimer</h3>
+<pre><code class="lang-cpp">float FocusTimer = 0;
+</code></pre>
+<p>The current animation time of the focus animation.</p>
+<h3 id="variable-bcanediticonbrush">variable bCanEditIconBrush</h3>
+<pre><code class="lang-cpp">bool bCanEditIconBrush = true;
+</code></pre>
+<p>Allows derived classes to control if the icon brush can be edited.</p>
+<h3 id="variable-iconbrush">variable IconBrush</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, Category=&quot;Uxt Pressable Button&quot;, BlueprintGetter=&quot;GetIconBrush&quot;, BlueprintSetter=&quot;SetIconBrush&quot;, meta=(EditCondition=&quot;bCanEditIconBrush&quot;))
+FUxtIconBrush IconBrush;
+</code></pre>
+<p>Structure which contains properties for the button's icon.</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_a_uxt_pressable_button_actor.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

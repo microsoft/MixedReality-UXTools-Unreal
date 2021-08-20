@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference FUxtPointerFocusSearchResult | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference FUxtPointerFocusSearchResult | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_f_uxt_pointer_focus_search_result">
+<h1 id="fuxtpointerfocussearchresult">FUxtPointerFocusSearchResult</h1>
+
+<p>Result of closest point search functions.</p>
+<pre><code class="lang-cpp">struct FUxtPointerFocusSearchResult;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;UxtPointerFocus.h&gt;</code></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-isvalid">IsValid</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UObject *</td>
+<td><strong><a href="#variable-target">Target</a></strong></td>
+</tr>
+<tr>
+<td>UPrimitiveComponent *</td>
+<td><strong><a href="#variable-primitive">Primitive</a></strong></td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#variable-closestpointontarget">ClosestPointOnTarget</a></strong></td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#variable-normal">Normal</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-mindistance">MinDistance</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-isvalid">function IsValid</h3>
+<pre><code class="lang-cpp">bool IsValid() const
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-target">variable Target</h3>
+<pre><code class="lang-cpp">UObject* FUxtPointerFocusSearchResult::Target
+UObject * Target;
+</code></pre>
+<p>Closest object that implements the requires pointer target interface.</p>
+<h3 id="variable-primitive">variable Primitive</h3>
+<pre><code class="lang-cpp">UPrimitiveComponent* FUxtPointerFocusSearchResult::Primitive
+UPrimitiveComponent * Primitive;
+</code></pre>
+<p>Primitive that contains the closes point.</p>
+<h3 id="variable-closestpointontarget">variable ClosestPointOnTarget</h3>
+<pre><code class="lang-cpp">FVector FUxtPointerFocusSearchResult::ClosestPointOnTarget
+FVector ClosestPointOnTarget;
+</code></pre>
+<p>Closest point on the primitive to the pointer position.</p>
+<h3 id="variable-normal">variable Normal</h3>
+<pre><code class="lang-cpp">FVector FUxtPointerFocusSearchResult::Normal
+FVector Normal;
+</code></pre>
+<p>Poke normal from the closest point on the primitive.</p>
+<h3 id="variable-mindistance">variable MinDistance</h3>
+<pre><code class="lang-cpp">float FUxtPointerFocusSearchResult::MinDistance
+float MinDistance;
+</code></pre>
+<p>Distance of the closest point to the pointer position.</p>
+<hr>
+<p>Updated on 20 August 2021 at 14:18:13 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE4.27/api/_f_uxt_pointer_focus_search_result.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
