@@ -46,21 +46,21 @@ void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMod
 		if (NewPlayer->InputComponent)
 		{
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::LeftSelect, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectPressed);
+				UxtHandTrackerInputActions::LeftSelect, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectPressed).bConsumeInput = false;
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::LeftSelect, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectReleased);
+				UxtHandTrackerInputActions::LeftSelect, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectReleased).bConsumeInput = false;
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::LeftGrab, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripPressed);
+				UxtHandTrackerInputActions::LeftGrab, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripPressed).bConsumeInput = false;
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::LeftGrab, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripReleased);
+				UxtHandTrackerInputActions::LeftGrab, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripReleased).bConsumeInput = false;
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::RightSelect, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelectPressed);
+				UxtHandTrackerInputActions::RightSelect, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelectPressed).bConsumeInput = false;
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::RightSelect, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelectReleased);
+				UxtHandTrackerInputActions::RightSelect, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelectReleased).bConsumeInput = false;
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::RightGrab, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnRightGripPressed);
+				UxtHandTrackerInputActions::RightGrab, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnRightGripPressed).bConsumeInput = false;
 			NewPlayer->InputComponent->BindAction(
-				UxtHandTrackerInputActions::RightGrab, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnRightGripReleased);
+				UxtHandTrackerInputActions::RightGrab, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnRightGripReleased).bConsumeInput = false;
 		}
 
 		// Tick handler for updating the cached motion controller data.
