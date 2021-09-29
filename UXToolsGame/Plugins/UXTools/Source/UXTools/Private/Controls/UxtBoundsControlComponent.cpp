@@ -587,8 +587,10 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 		}
 		else
 		{
-			const FVector GrabDiff = CurrentOppositeToGrabPoint - InitialOppositeToGrabPoint;
-			ScaleFactor += (GrabDiff / InitialOppositeToGrabPoint);
+			const FTransform& InitialTransform = InteractionCache->InitialTransform;
+
+			ScaleFactor = InitialTransform.InverseTransformVector(CurrentOppositeToGrabPoint) /
+						  InitialTransform.InverseTransformVector(InitialOppositeToGrabPoint);
 		}
 		if (Config->bIsSlate)
 		{
@@ -596,6 +598,13 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 		}
 		NewTransform.SetScale3D(InteractionCache->InitialTransform.GetScale3D() * ScaleFactor);
 		ApplyConstraints(NewTransform, EUxtTransformMode::Scaling, true, IsNear);
+
+		const FVector DiagVec = NewTransform.TransformVector(
+			InteractionCache->InitialTransform.InverseTransformVector(InteractionCache->InitialDiagonalDirection));
+
+		// When scaling, leave the opposite corner pinned to its initial location
+		NewTransform.SetLocation(InteractionCache->InitialOppositeAffordanceLoc + DiagVec);
+
 		break;
 	}
 	case EUxtAffordanceAction::Rotate:
@@ -628,15 +637,6 @@ void UUxtBoundsControlComponent::TransformTarget(const FUxtAffordanceConfig& Aff
 	}
 	}
 
-	if (AffordanceConfig.GetAction() == EUxtAffordanceAction::Scale)
-	{
-		// When scaling, leave the opposite corner pinned to its initial location
-		const FVector OriginalRelativePosition =
-			InteractionCache->InitialTransform.GetLocation() - InteractionCache->InitialOppositeAffordanceLoc;
-		const FVector NewPos = (OriginalRelativePosition / InteractionCache->InitialTransform.GetScale3D()) * NewTransform.GetScale3D() +
-							   InteractionCache->InitialOppositeAffordanceLoc;
-		NewTransform.SetLocation(NewPos);
-	}
 	if (GetOwner())
 	{
 		GetOwner()->SetActorTransform(NewTransform);
