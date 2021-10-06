@@ -85,7 +85,8 @@
 <ul>
 <li><a href="#whats-new">What's new</a>
 <ul>
-<li><a href="#bounds-control-component">Bounds Control component</a></li>
+<li><a href="#fixed-non-uniform-scaling-in-bounds-control-when-the-actor-was-rotated">Fixed non-uniform scaling in Bounds Control when the actor was rotated</a></li>
+<li><a href="#hand-tracking-component-no-longer-consumes-input-events">Hand tracking component no longer consumes input events</a></li>
 </ul>
 </li>
 </ul>
@@ -97,10 +98,12 @@
 <li>Steam VR</li>
 </ul>
 <p>Unreal 4.27 required.</p>
+<p>This is an incremental hotfix release. Please review changes in <a href="https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x/Docs/ReleaseNotes.html">0.12.0 Release Notes</a> for information regarding changes introduced in the major UX Tools version.</p>
 <h2 id="whats-new">What's new</h2>
-<h3 id="bounds-control-component">Bounds Control component</h3>
-<h4 id="fix-non-uniform-scaling-when-the-actor-was-rotated">Fix non-uniform scaling when the actor was rotated</h4>
+<h3 id="fixed-non-uniform-scaling-in-bounds-control-when-the-actor-was-rotated">Fixed non-uniform scaling in Bounds Control when the actor was rotated</h3>
 <p>Non-uniformly scaling an actor via Bounds Control after having rotated it will no longer result in an undesired/unexpected transformation.</p>
+<h3 id="hand-tracking-component-no-longer-consumes-input-events">Hand tracking component no longer consumes input events</h3>
+<p>UXT is using input events to set internal state for interacting with input widgets, but other actors in the scene outside of UXT may need to use the same events for other purposes. UXT actions no longer consume input, so other events with the same action will still fire.</p>
 </article>
           </div>
           
