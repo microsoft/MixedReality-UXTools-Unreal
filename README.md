@@ -13,7 +13,7 @@ UX Tools for Unreal Engine is a UE game plugin with code, blueprints and example
 
 If you're new to MRTK or Mixed Reality development in Unreal, **we recommend starting at the beginning of our** [Unreal development journey](https://docs.microsoft.com/windows/mixed-reality/unreal-development-overview) in the Microsoft Docs. The Unreal development journey is specifically tailored to walk new developers through the installation, core concepts, and usage of the UX Tools.
 
-| CAUTION: The Unreal development journey currently uses **UX Tools 0.12.x** and **Unreal 4.26.0+**. |
+| CAUTION: The Unreal development journey currently uses **UX Tools 0.12.x** and **Unreal 4.27.0+**. |
 | --- |
 
 If you're already familiar with Mixed Reality development in Unreal, you can find the installation instructions for the UX Tools plugin [here](Docs/Installation.md).

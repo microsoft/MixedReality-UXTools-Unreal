@@ -11,7 +11,8 @@ keywords: Unreal, Unreal Engine, UE4, HoloLens, HoloLens 2, Mixed Reality, devel
 # UX Tools 0.12.1 release notes
 
 - [What's new](#whats-new)
-  - [Bounds Control component](#bounds-control-component)
+  - [Fixed non-uniform scaling in Bounds Control when the actor was rotated](#fixed-non-uniform-scaling-in-bounds-control-when-the-actor-was-rotated)
+  - [Hand tracking component no longer consumes input events](#hand-tracking-component-no-longer-consumes-input-events)
 
 This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Reality VR but should work on all [XR devices supported by Unreal Engine via OpenXR](https://docs.unrealengine.com/en-US/SharingAndReleasing/XRDevelopment/OpenXR/#platformsupport):
 - HoloLens 2
@@ -21,10 +22,14 @@ This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Rea
 
 Unreal 4.27 required.
 
+This is an incremental hotfix release. Please review changes in [0.12.0 Release Notes](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x/Docs/ReleaseNotes.html) for information regarding changes introduced in the major UX Tools version.
+
 ## What's new
 
-### Bounds Control component
-
-#### Fix non-uniform scaling when the actor was rotated
+### Fixed non-uniform scaling in Bounds Control when the actor was rotated
 
 Non-uniformly scaling an actor via Bounds Control after having rotated it will no longer result in an undesired/unexpected transformation.
+
+### Hand tracking component no longer consumes input events
+
+UXT is using input events to set internal state for interacting with input widgets, but other actors in the scene outside of UXT may need to use the same events for other purposes. UXT actions no longer consume input, so other events with the same action will still fire.

@@ -9,7 +9,7 @@
         <id>UXToolsExamples-UE4.27.0</id>
         <title>Mixed Reality UX Tools Examples</title>
         <description>Example usage of Mixed Reality UX Tools.</description>
-        <version>0.12.0</version>
+        <version>0.12.1</version>
         <authors>Microsoft</authors>
         <projectUrl>https://github.com/microsoft/MixedReality-UXTools-Unreal</projectUrl>
         <releaseNotes>https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x-UE4.27/Docs/ReleaseNotes.html</releaseNotes>
@@ -18,7 +18,7 @@
         <icon>native/Resources/Icon128.png</icon>
         <tags>HoloLens2 Examples</tags>
         <dependencies>
-            <dependency id="UXTools-UE4.27.0" version="[0.12.0]" />
+            <dependency id="UXTools-UE4.27.0" version="[0.12.1]" />
         </dependencies>
     </metadata>
     <files>
