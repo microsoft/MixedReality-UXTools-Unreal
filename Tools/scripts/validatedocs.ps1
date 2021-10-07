@@ -58,14 +58,14 @@ function CheckDocLinks {
         $AllowedUrlsFound += ($AllowedUrls | Where-Object { $CurrentLine -match $_ })
         if ($AllowedUrlsFound.Length -gt 0)
         {
-            Write-Host -ForegroundColor Yellow "##[warning] An non-relative doc link(s) found in $FileName at line $LineNumber should be reviewed ($AllowedUrlsFound)"
+            Write-Host -ForegroundColor Yellow "##vso[task.logissue type=warning;sourcepath=$FileName;linenumber=$LineNumber;] An non-relative doc link(s) found in $FileName at line $LineNumber should be reviewed ($AllowedUrlsFound)"
             Write-Host -ForegroundColor Yellow "This URL was temporarily allowed as an exception but it should be removed when no longer needed."
             Write-Host -ForegroundColor Yellow "Avoid doc links containing https://microsoft.github.io/MixedReality-UXTools-Unreal "
             Write-Host -ForegroundColor Yellow "and use relative links instead."
             $AllowedUrlsFound | ForEach-Object { $CurrentLine = $CurrentLine -replace $_,"" }
         }
         if ($CurrentLine -match "https://microsoft.github.io/MixedReality-UXTools-Unreal") {
-            Write-Host -ForegroundColor Red "##[error] An non-relative doc link was found in $FileName at line $LineNumber "
+            Write-Host -ForegroundColor Red "##vso[task.logissue type=error;sourcepath=$FileName;linenumber=$LineNumber;] An non-relative doc link was found in $FileName at line $LineNumber "
             Write-Host -ForegroundColor Red "Avoid doc links containing https://microsoft.github.io/MixedReality-UXTools-Unreal "
             Write-Host -ForegroundColor Red "and use relative links instead."
             $true;
