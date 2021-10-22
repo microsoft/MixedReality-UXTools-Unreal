@@ -12,7 +12,11 @@ void UUxtFixedRotationToUserConstraint::Initialize(const FTransform& WorldPose)
 	Super::Initialize(WorldPose);
 
 	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
-	const FRotator CameraRotation = CameraManager->GetCameraRotation();
+	FRotator CameraRotation = CameraManager->GetCameraRotation();
+	if (bExcludeRoll)
+	{
+		CameraRotation.Roll = 0.0f;
+	}
 
 	StartObjectRotationCameraSpace = CameraRotation.Quaternion().Inverse() * WorldPose.GetRotation();
 }

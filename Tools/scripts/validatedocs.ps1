@@ -49,13 +49,25 @@ function CheckDocLinks {
     param(
         [string]$FileName,
         [string[]]$FileContent,
-        [int]$LineNumber
+        [int]$LineNumber,
+        [string[]]$AllowedUrls
     )
     process {
-        if ($FileContent[$LineNumber] -match "https://microsoft.github.io/MixedReality-UXTools-Unreal") {
-            Write-Host "An non-relative doc link was found in $FileName at line $LineNumber "
-            Write-Host "Avoid doc links containing https://microsoft.github.io/MixedReality-UXTools-Unreal "
-            Write-Host "and use relative links instead."
+        $CurrentLine = $FileContent[$LineNumber]
+        $AllowedUrlsFound = @()
+        $AllowedUrlsFound += ($AllowedUrls | Where-Object { $CurrentLine -match $_ })
+        if ($AllowedUrlsFound.Length -gt 0)
+        {
+            Write-Host -ForegroundColor Yellow "##vso[task.logissue type=warning;sourcepath=$FileName;linenumber=$LineNumber;] An non-relative doc link(s) found in $FileName at line $LineNumber should be reviewed ($AllowedUrlsFound)"
+            Write-Host -ForegroundColor Yellow "This URL was temporarily allowed as an exception but it should be removed when no longer needed."
+            Write-Host -ForegroundColor Yellow "Avoid doc links containing https://microsoft.github.io/MixedReality-UXTools-Unreal "
+            Write-Host -ForegroundColor Yellow "and use relative links instead."
+            $AllowedUrlsFound | ForEach-Object { $CurrentLine = $CurrentLine -replace $_,"" }
+        }
+        if ($CurrentLine -match "https://microsoft.github.io/MixedReality-UXTools-Unreal") {
+            Write-Host -ForegroundColor Red "##vso[task.logissue type=error;sourcepath=$FileName;linenumber=$LineNumber;] An non-relative doc link was found in $FileName at line $LineNumber "
+            Write-Host -ForegroundColor Red "Avoid doc links containing https://microsoft.github.io/MixedReality-UXTools-Unreal "
+            Write-Host -ForegroundColor Red "and use relative links instead."
             $true;
         }
         $false
@@ -242,7 +254,8 @@ function CheckDocument {
     [CmdletBinding()]
     param(
         [string]$DocsRootDir,
-        [string]$FileName
+        [string]$FileName,
+        [string[]]$AllowedUrls
     )
     process {
         Write-Host "Checking file: $FileName"
@@ -253,7 +266,7 @@ function CheckDocument {
         $issueFound = $false
         $fileContent = Get-Content $FileName
         for ($i = 0; $i -lt $fileContent.Length; $i++) {
-            if (CheckDocLinks $FileName $fileContent $i) {
+            if (CheckDocLinks $FileName $fileContent $i -AllowedUrls $AllowedUrls) {
                 $issueFound = $true
             } elseif (CheckBrokenImages $DocsRootDir $FileName $fileContent $i) {
                 $issueFound = $true
@@ -267,6 +280,9 @@ function CheckDocument {
 
 $containsIssue = $false
 
+$AllowedAbsoluteUrls = @()
+$AllowedAbsoluteUrls += Get-Content "$PSScriptRoot\..\..\Tools\DocGen\allowedUrls.json" | ConvertFrom-Json
+
 # If the file containing the list of changes was provided and actually exists,
 # this validation should scope to only those changed files.
 if (($ChangesFile) -and (Test-Path $ChangesFile -PathType leaf)) {
@@ -276,7 +292,7 @@ if (($ChangesFile) -and (Test-Path $ChangesFile -PathType leaf)) {
     $changedFiles = GetChangedFiles -Filename $ChangesFile -RepoRoot $RepoRoot
 
     foreach ($changedFile in $changedFiles) {
-        if ((IsMarkdownFile -Filename $changedFile) -and (CheckDocument $Directory $changedFile)) {
+        if ((IsMarkdownFile -Filename $changedFile) -and (CheckDocument $Directory $changedFile -AllowedUrls $AllowedAbsoluteUrls)) {
             $containsIssue = $true;
         }
     }
@@ -286,7 +302,7 @@ else {
 
     $docFiles = Get-ChildItem $Directory *.md -Recurse | Select-Object FullName
     foreach ($docFile in $docFiles) {
-        if (CheckDocument $Directory $docFile.FullName) {
+        if (CheckDocument $Directory $docFile.FullName -AllowedUrls $AllowedAbsoluteUrls) {
             $containsIssue = $true
         }
     }
