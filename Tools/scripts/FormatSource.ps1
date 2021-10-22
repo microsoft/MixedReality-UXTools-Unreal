@@ -31,6 +31,8 @@ param (
     [boolean]$NoFail = $false
 )
 
+$RequiredClangFormatVersion = "12.0.0"  # wildcards are allowed, e.g. "12.0.*"
+
 # Only check source files
 $FilePatterns = "\.(h|cpp)$"
 
@@ -143,6 +145,14 @@ elseif ([string]::IsNullOrEmpty($ClangFormat) -or (-not (Test-Path -Type Leaf -P
 if ([string]::IsNullOrEmpty($ClangFormat))
 {
     Write-Host -ForegroundColor Red "clang-format.exe not found. Please install VS2019 or make sure clang-format.exe is in PATH."
+    exit 1
+}
+
+$ClangFormatVersionString = [string](& $ClangFormat --version)
+if ($ClangFormatVersionString -notlike "clang-format version $RequiredClangFormatVersion")
+{
+    Write-Host -ForegroundColor Red "$ClangFormatVersionString does not match required version $RequiredClangFormatVersion"
+    Write-Host -ForegroundColor Red "Please update Visual Studio 2019 to the latest version or provide -ClangFormat parameter."
     exit 1
 }
 
