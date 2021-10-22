@@ -60,12 +60,14 @@ void SetupFrames(const FDoneDelegate& Done, bool bEnableGrabbing, bool bExpectTi
 	}
 
 	// Examine observed tick behavior of the target component.
-	FrameQueue.Enqueue([this, Done, bExpectTicking] {
-		bool bWasTicked = Target->GetNumTicks() > 0;
-		TestEqual(TEXT("Grabbable component ticked"), bExpectTicking, bWasTicked);
+	FrameQueue.Enqueue(
+		[this, Done, bExpectTicking]
+		{
+			bool bWasTicked = Target->GetNumTicks() > 0;
+			TestEqual(TEXT("Grabbable component ticked"), bExpectTicking, bWasTicked);
 
-		Done.Execute();
-	});
+			Done.Execute();
+		});
 }
 
 UUxtNearPointerComponent* Pointer;
@@ -76,69 +78,93 @@ END_DEFINE_SPEC(GrabTargetComponentTickSpec)
 
 void GrabTargetComponentTickSpec::Define()
 {
-	Describe("Grab component", [this] {
-		BeforeEach([this]() {
-			TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+	Describe(
+		"Grab component",
+		[this]
+		{
+			BeforeEach(
+				[this]()
+				{
+					TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
-			UWorld* World = UxtTestUtils::GetTestWorld();
-			FrameQueue.Init(World->GetGameInstance()->TimerManager);
+					UWorld* World = UxtTestUtils::GetTestWorld();
+					FrameQueue.Init(World->GetGameInstance()->TimerManager);
 
-			UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestHandTracker();
 
-			FVector Center(150, 0, 0);
-			Pointer = UxtTestUtils::CreateNearPointer(World, TEXT("GrabTestPointer"), Center + FVector(-15, 0, 0));
-			Target = CreateTestComponent(World, Center);
+					FVector Center(150, 0, 0);
+					Pointer = UxtTestUtils::CreateNearPointer(World, TEXT("GrabTestPointer"), Center + FVector(-15, 0, 0));
+					Target = CreateTestComponent(World, Center);
 
-			// Register all new components.
-			World->UpdateWorldComponents(false, false);
+					// Register all new components.
+					World->UpdateWorldComponents(false, false);
+				});
+
+			AfterEach(
+				[this]
+				{
+					UxtTestUtils::DisableTestHandTracker();
+
+					FrameQueue.Reset();
+					Pointer->GetOwner()->Destroy();
+					Pointer = nullptr;
+					Target->GetOwner()->Destroy();
+					Target = nullptr;
+				});
+
+			LatentIt(
+				"should never tick when disabled",
+				[this](const FDoneDelegate& Done)
+				{
+					Target->SetComponentTickEnabled(false);
+
+					SetupFrames(Done, false, false);
+				});
+
+			LatentIt(
+				"should always tick with TickOnlyWhileGrabbed disabled (not grabbed)",
+				[this](const FDoneDelegate& Done)
+				{
+					Target->SetTickOnlyWhileGrabbed(false);
+					TestTrue(
+						TEXT("Component tick should be enabled after disabling TickOnlyWhileGrabbed"),
+						Target->PrimaryComponentTick.IsTickFunctionEnabled());
+
+					SetupFrames(Done, false, true);
+				});
+			LatentIt(
+				"should always tick with TickOnlyWhileGrabbed disabled (grabbed)",
+				[this](const FDoneDelegate& Done)
+				{
+					Target->SetTickOnlyWhileGrabbed(false);
+					TestTrue(
+						TEXT("Component tick should be enabled after disabling TickOnlyWhileGrabbed"),
+						Target->PrimaryComponentTick.IsTickFunctionEnabled());
+
+					SetupFrames(Done, true, true);
+				});
+
+			LatentIt(
+				"should not tick if not grabbed and TickOnlyWhileGrabbed enabled",
+				[this](const FDoneDelegate& Done)
+				{
+					Target->SetTickOnlyWhileGrabbed(true);
+					TestTrue(
+						TEXT("Component tick should be disabled when not grabbed"), !Target->PrimaryComponentTick.IsTickFunctionEnabled());
+
+					SetupFrames(Done, false, false);
+				});
+			LatentIt(
+				"should tick while grabbed and TickOnlyWhileGrabbed enabled",
+				[this](const FDoneDelegate& Done)
+				{
+					Target->SetTickOnlyWhileGrabbed(true);
+					TestTrue(
+						TEXT("Component tick should be disabled when not grabbed"), !Target->PrimaryComponentTick.IsTickFunctionEnabled());
+
+					SetupFrames(Done, true, true);
+				});
 		});
-
-		AfterEach([this] {
-			UxtTestUtils::DisableTestHandTracker();
-
-			FrameQueue.Reset();
-			Pointer->GetOwner()->Destroy();
-			Pointer = nullptr;
-			Target->GetOwner()->Destroy();
-			Target = nullptr;
-		});
-
-		LatentIt("should never tick when disabled", [this](const FDoneDelegate& Done) {
-			Target->SetComponentTickEnabled(false);
-
-			SetupFrames(Done, false, false);
-		});
-
-		LatentIt("should always tick with TickOnlyWhileGrabbed disabled (not grabbed)", [this](const FDoneDelegate& Done) {
-			Target->SetTickOnlyWhileGrabbed(false);
-			TestTrue(
-				TEXT("Component tick should be enabled after disabling TickOnlyWhileGrabbed"),
-				Target->PrimaryComponentTick.IsTickFunctionEnabled());
-
-			SetupFrames(Done, false, true);
-		});
-		LatentIt("should always tick with TickOnlyWhileGrabbed disabled (grabbed)", [this](const FDoneDelegate& Done) {
-			Target->SetTickOnlyWhileGrabbed(false);
-			TestTrue(
-				TEXT("Component tick should be enabled after disabling TickOnlyWhileGrabbed"),
-				Target->PrimaryComponentTick.IsTickFunctionEnabled());
-
-			SetupFrames(Done, true, true);
-		});
-
-		LatentIt("should not tick if not grabbed and TickOnlyWhileGrabbed enabled", [this](const FDoneDelegate& Done) {
-			Target->SetTickOnlyWhileGrabbed(true);
-			TestTrue(TEXT("Component tick should be disabled when not grabbed"), !Target->PrimaryComponentTick.IsTickFunctionEnabled());
-
-			SetupFrames(Done, false, false);
-		});
-		LatentIt("should tick while grabbed and TickOnlyWhileGrabbed enabled", [this](const FDoneDelegate& Done) {
-			Target->SetTickOnlyWhileGrabbed(true);
-			TestTrue(TEXT("Component tick should be disabled when not grabbed"), !Target->PrimaryComponentTick.IsTickFunctionEnabled());
-
-			SetupFrames(Done, true, true);
-		});
-	});
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS

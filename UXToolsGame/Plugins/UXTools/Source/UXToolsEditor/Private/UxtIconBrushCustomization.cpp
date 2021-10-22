@@ -49,26 +49,28 @@ void FUxtIconBrushCustomization::CustomizeChildren(
 				.NameContent()[SNew(STextBlock).Font(IDetailLayoutBuilder::GetDetailFont()).Text(Description)]
 				.ValueContent()
 				.MaxDesiredWidth(150.f)
-				.MinDesiredWidth(150.f)[SNew(SButton)
-											.ContentPadding(2)
-											.VAlign(VAlign_Center)
-											.HAlign(HAlign_Center)
-											.IsEnabled((MakeAttributeLambda([=] {
-												// Enable the button only when the IconBrushContentType is set to UnicodeCharacter or String.
-												uint8 Enum = 0;
-												const FName ChildName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, ContentType);
-												const bool Success =
-													PropertyHandle->GetChildHandle(ChildName)->GetValue(Enum) == FPropertyAccess::Success;
-												return Success &&
-													   (static_cast<EUxtIconBrushContentType>(Enum) ==
-															EUxtIconBrushContentType::UnicodeCharacter ||
-														static_cast<EUxtIconBrushContentType>(Enum) == EUxtIconBrushContentType::String);
-											})))
-											.OnClicked(
-												this, &FUxtIconBrushCustomization::OnShowEditor,
-												PropertyHandle)[SNew(STextBlock)
-																	.Font(IDetailLayoutBuilder::GetDetailFont())
-																	.Text(FText::AsCultureInvariant("Open Icon Brush Editor"))]];
+				.MinDesiredWidth(
+					150.f)[SNew(SButton)
+							   .ContentPadding(2)
+							   .VAlign(VAlign_Center)
+							   .HAlign(HAlign_Center)
+							   .IsEnabled((MakeAttributeLambda(
+								   [=]
+								   {
+									   // Enable the button only when the IconBrushContentType is set to UnicodeCharacter or String.
+									   uint8 Enum = 0;
+									   const FName ChildName = GET_MEMBER_NAME_CHECKED(FUxtIconBrush, ContentType);
+									   const bool Success =
+										   PropertyHandle->GetChildHandle(ChildName)->GetValue(Enum) == FPropertyAccess::Success;
+									   return Success &&
+											  (static_cast<EUxtIconBrushContentType>(Enum) == EUxtIconBrushContentType::UnicodeCharacter ||
+											   static_cast<EUxtIconBrushContentType>(Enum) == EUxtIconBrushContentType::String);
+								   })))
+							   .OnClicked(
+								   this, &FUxtIconBrushCustomization::OnShowEditor,
+								   PropertyHandle)[SNew(STextBlock)
+													   .Font(IDetailLayoutBuilder::GetDetailFont())
+													   .Text(FText::AsCultureInvariant("Open Icon Brush Editor"))]];
 		}
 		else
 		{

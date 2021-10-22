@@ -263,7 +263,8 @@ void UUxtHandConstraintComponent::UpdateConstraint()
 bool UUxtHandConstraintComponent::UpdateTrackedHand(FVector& OutPalmLocation, FQuat& OutPalmRotation)
 {
 	// Utility lambda for getting palm location and rotation of the TrackedHand, returns false if rejected.
-	auto GetValidTransformFromTrackedHand = [this, &OutPalmLocation, &OutPalmRotation]() -> bool {
+	auto GetValidTransformFromTrackedHand = [this, &OutPalmLocation, &OutPalmRotation]() -> bool
+	{
 		if (IsHandUsableForConstraint(TrackedHand))
 		{
 			float PalmRadius;

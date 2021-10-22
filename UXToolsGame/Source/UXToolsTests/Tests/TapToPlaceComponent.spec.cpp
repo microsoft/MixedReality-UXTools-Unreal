@@ -86,152 +86,189 @@ END_DEFINE_SPEC(TapToPlaceComponentSpec)
 
 void TapToPlaceComponentSpec::Define()
 {
-	Describe("TapToPlace component", [this] {
-		BeforeEach([this] {
-			TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+	Describe(
+		"TapToPlace component",
+		[this]
+		{
+			BeforeEach(
+				[this]
+				{
+					TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
-			UWorld* World = UxtTestUtils::GetTestWorld();
-			FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
+					UWorld* World = UxtTestUtils::GetTestWorld();
+					FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-			UxtTestUtils::SetTestHeadEnabled(true);
-			UxtTestUtils::SetTestHeadLocation(StartingHeadPos);
-			UxtTestUtils::SetTestHeadRotation(StartingHeadRot);
+					UxtTestUtils::SetTestHeadEnabled(true);
+					UxtTestUtils::SetTestHeadLocation(StartingHeadPos);
+					UxtTestUtils::SetTestHeadRotation(StartingHeadRot);
 
-			TapToPlace = CreateTestComponent(World, Centre, TargetBounds);
-			TapToPlace->bInterpolatePose = false;
+					TapToPlace = CreateTestComponent(World, Centre, TargetBounds);
+					TapToPlace->bInterpolatePose = false;
 
-			UxtTestUtils::EnableTestHandTracker();
-			Hand.Configure(EUxtInteractionMode::Far, Centre);
+					UxtTestUtils::EnableTestHandTracker();
+					Hand.Configure(EUxtInteractionMode::Far, Centre);
 
-			TestComponent = NewObject<UTapToPlaceTestComponent>(TapToPlace->GetOwner());
-			TestComponent->RegisterComponent();
-			TapToPlace->OnBeginFocus.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnFocusEnter);
-			TapToPlace->OnUpdateFocus.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnFocusUpdated);
-			TapToPlace->OnEndFocus.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnFocusExit);
-			TapToPlace->OnBeginPlacing.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnPlacementStarted);
-			TapToPlace->OnEndPlacing.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnPlacementEnded);
+					TestComponent = NewObject<UTapToPlaceTestComponent>(TapToPlace->GetOwner());
+					TestComponent->RegisterComponent();
+					TapToPlace->OnBeginFocus.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnFocusEnter);
+					TapToPlace->OnUpdateFocus.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnFocusUpdated);
+					TapToPlace->OnEndFocus.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnFocusExit);
+					TapToPlace->OnBeginPlacing.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnPlacementStarted);
+					TapToPlace->OnEndPlacing.AddDynamic(TestComponent, &UTapToPlaceTestComponent::OnPlacementEnded);
 
-			InitialOrientation = TapToPlace->GetTargetComponent()->GetComponentRotation().Vector();
+					InitialOrientation = TapToPlace->GetTargetComponent()->GetComponentRotation().Vector();
+				});
+
+			AfterEach(
+				[this]
+				{
+					FrameQueue.Reset();
+
+					TapToPlace->GetOwner()->Destroy();
+					TapToPlace = nullptr;
+
+					UxtTestUtils::SetTestHeadEnabled(false);
+
+					UxtTestUtils::DisableTestHandTracker();
+					Hand.Reset();
+
+					if (Surface)
+					{
+						Surface->GetOwner()->Destroy();
+						Surface = nullptr;
+					}
+				});
+
+			LatentIt(
+				"should be placed at default placement distance as no surface to hit",
+				[this](const FDoneDelegate& Done)
+				{
+					EnqueuePlacementTest(false);
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should begin and end placement on far tap",
+				[this](const FDoneDelegate& Done)
+				{
+					EnqueueFarInteractionTest();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			Describe(
+				"should have correct orientation",
+				[this]
+				{
+					BeforeEach([this] { Surface = CreatePlacementSurface(UxtTestUtils::GetTestWorld(), Centre + Delta, SurfaceBounds); });
+
+					LatentIt(
+						"when placed against a surface",
+						[this](const FDoneDelegate& Done)
+						{
+							EnqueuePlacementTest(true);
+							FrameQueue.Enqueue([Done] { Done.Execute(); });
+						});
+
+					LatentIt(
+						"when set to always face the camera",
+						[this](const FDoneDelegate& Done)
+						{
+							TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToCamera;
+							EnqueueOrientationTest();
+							FrameQueue.Enqueue([Done] { Done.Execute(); });
+						});
+
+					LatentIt(
+						"when set to be aligned to surface normals",
+						[this](const FDoneDelegate& Done)
+						{
+							TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
+							EnqueueOrientationTest();
+							FrameQueue.Enqueue([Done] { Done.Execute(); });
+						});
+
+					LatentIt(
+						"when set to maintain original orientation",
+						[this](const FDoneDelegate& Done)
+						{
+							TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::MaintainOrientation;
+							EnqueueOrientationTest();
+							FrameQueue.Enqueue([Done] { Done.Execute(); });
+						});
+				});
 		});
-
-		AfterEach([this] {
-			FrameQueue.Reset();
-
-			TapToPlace->GetOwner()->Destroy();
-			TapToPlace = nullptr;
-
-			UxtTestUtils::SetTestHeadEnabled(false);
-
-			UxtTestUtils::DisableTestHandTracker();
-			Hand.Reset();
-
-			if (Surface)
-			{
-				Surface->GetOwner()->Destroy();
-				Surface = nullptr;
-			}
-		});
-
-		LatentIt("should be placed at default placement distance as no surface to hit", [this](const FDoneDelegate& Done) {
-			EnqueuePlacementTest(false);
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should begin and end placement on far tap", [this](const FDoneDelegate& Done) {
-			EnqueueFarInteractionTest();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		Describe("should have correct orientation", [this] {
-			BeforeEach([this] { Surface = CreatePlacementSurface(UxtTestUtils::GetTestWorld(), Centre + Delta, SurfaceBounds); });
-
-			LatentIt("when placed against a surface", [this](const FDoneDelegate& Done) {
-				EnqueuePlacementTest(true);
-				FrameQueue.Enqueue([Done] { Done.Execute(); });
-			});
-
-			LatentIt("when set to always face the camera", [this](const FDoneDelegate& Done) {
-				TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToCamera;
-				EnqueueOrientationTest();
-				FrameQueue.Enqueue([Done] { Done.Execute(); });
-			});
-
-			LatentIt("when set to be aligned to surface normals", [this](const FDoneDelegate& Done) {
-				TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
-				EnqueueOrientationTest();
-				FrameQueue.Enqueue([Done] { Done.Execute(); });
-			});
-
-			LatentIt("when set to maintain original orientation", [this](const FDoneDelegate& Done) {
-				TapToPlace->OrientationType = EUxtTapToPlaceOrientBehavior::MaintainOrientation;
-				EnqueueOrientationTest();
-				FrameQueue.Enqueue([Done] { Done.Execute(); });
-			});
-		});
-	});
 }
 
 void TapToPlaceComponentSpec::EnqueuePlacementTest(const bool bSurfaceExists)
 {
 	// Record position and begin placement
-	FrameQueue.Enqueue([this] {
-		TestPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
-
-		TapToPlace->StartPlacement();
-	});
-	// Ensure placement has started and then move the head
-	FrameQueue.Enqueue([this, bSurfaceExists] {
-		const FVector NewPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
-		const FVector HeadPosition = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld()).GetLocation();
-
-		const float DistanceToHead = FVector::Dist(NewPosition, HeadPosition);
-
-		float ExpectedDistance = TapToPlace->DefaultPlacementDistance;
-		if (bSurfaceExists)
+	FrameQueue.Enqueue(
+		[this]
 		{
-			const USceneComponent* Target = TapToPlace->GetTargetComponent();
-			const float SurfaceDepth = Surface->CalcBounds(Surface->GetComponentToWorld()).BoxExtent.X;
-			const float TargetDepth = Target->CalcBounds(Target->GetComponentToWorld()).BoxExtent.X;
-			ExpectedDistance = Centre.X + Delta.X - SurfaceDepth - TargetDepth;
-		}
+			TestPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
 
-		TestNotEqual("TapToPlace target has not moved after selection started", NewPosition, TestPosition);
-		TestEqual("TapToPlace target at unexpected distance from head", DistanceToHead, ExpectedDistance);
-		TestTrue("TapToPlace did not fire expected event", TestComponent->OnPlacementStartedReceived);
+			TapToPlace->StartPlacement();
+		});
+	// Ensure placement has started and then move the head
+	FrameQueue.Enqueue(
+		[this, bSurfaceExists]
+		{
+			const FVector NewPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
+			const FVector HeadPosition = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld()).GetLocation();
 
-		TestPosition = NewPosition;
+			const float DistanceToHead = FVector::Dist(NewPosition, HeadPosition);
 
-		UxtTestUtils::SetTestHeadLocation(StartingHeadPos + FVector(0, 5, 5));
-	});
+			float ExpectedDistance = TapToPlace->DefaultPlacementDistance;
+			if (bSurfaceExists)
+			{
+				const USceneComponent* Target = TapToPlace->GetTargetComponent();
+				const float SurfaceDepth = Surface->CalcBounds(Surface->GetComponentToWorld()).BoxExtent.X;
+				const float TargetDepth = Target->CalcBounds(Target->GetComponentToWorld()).BoxExtent.X;
+				ExpectedDistance = Centre.X + Delta.X - SurfaceDepth - TargetDepth;
+			}
+
+			TestNotEqual("TapToPlace target has not moved after selection started", NewPosition, TestPosition);
+			TestEqual("TapToPlace target at unexpected distance from head", DistanceToHead, ExpectedDistance);
+			TestTrue("TapToPlace did not fire expected event", TestComponent->OnPlacementStartedReceived);
+
+			TestPosition = NewPosition;
+
+			UxtTestUtils::SetTestHeadLocation(StartingHeadPos + FVector(0, 5, 5));
+		});
 	// Ensure that target has moved with the head and then end placement
-	FrameQueue.Enqueue([this] {
-		const FVector NewPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
-		const FVector HeadPosition = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld()).GetLocation();
+	FrameQueue.Enqueue(
+		[this]
+		{
+			const FVector NewPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
+			const FVector HeadPosition = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld()).GetLocation();
 
-		// the x distance of the target should not have changed, however the yz should have changed
-		// to match the new head position
-		TestEqual("TapToPlace target distance from head changed unexpectedly", NewPosition.X, TestPosition.X);
-		TestEqual("TapToPlace target has not moved with the head", NewPosition.Y, HeadPosition.Y);
-		TestEqual("TapToPlace target has not moved with the head", NewPosition.Z, HeadPosition.Z);
+			// the x distance of the target should not have changed, however the yz should have changed
+			// to match the new head position
+			TestEqual("TapToPlace target distance from head changed unexpectedly", NewPosition.X, TestPosition.X);
+			TestEqual("TapToPlace target has not moved with the head", NewPosition.Y, HeadPosition.Y);
+			TestEqual("TapToPlace target has not moved with the head", NewPosition.Z, HeadPosition.Z);
 
-		TestPosition = NewPosition;
+			TestPosition = NewPosition;
 
-		TapToPlace->EndPlacement();
-		UxtTestUtils::SetTestHeadLocation(StartingHeadPos + FVector::RightVector * 10);
-	});
+			TapToPlace->EndPlacement();
+			UxtTestUtils::SetTestHeadLocation(StartingHeadPos + FVector::RightVector * 10);
+		});
 	// Ensure that the placed target has not moved
-	FrameQueue.Enqueue([this] {
-		const FVector NewPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
+	FrameQueue.Enqueue(
+		[this]
+		{
+			const FVector NewPosition = TapToPlace->GetTargetComponent()->GetComponentLocation();
 
-		TestEqual("TapToPlace target distance from head changed unexpectedly", NewPosition, TestPosition);
-		TestTrue("TapToPlace did not fire expected event", TestComponent->OnPlacementEndedReceived);
-	});
+			TestEqual("TapToPlace target distance from head changed unexpectedly", NewPosition, TestPosition);
+			TestTrue("TapToPlace did not fire expected event", TestComponent->OnPlacementEndedReceived);
+		});
 }
 
 void TapToPlaceComponentSpec::EnqueueOrientationTest()
 {
-	auto TestOrientation = [this]() {
+	auto TestOrientation = [this]()
+	{
 		const FQuat Current = TapToPlace->GetTargetComponent()->GetComponentQuat();
 
 		const FVector HeadPosition = UUxtFunctionLibrary::GetHeadPose(UxtTestUtils::GetTestWorld()).GetLocation();
@@ -258,11 +295,13 @@ void TapToPlaceComponentSpec::EnqueueOrientationTest()
 	// Begin placement
 	FrameQueue.Enqueue([this] { TapToPlace->StartPlacement(); });
 	// Test Orientation and rotate head
-	FrameQueue.Enqueue([this, TestOrientation] {
-		TestTrue("TapToPlace target orientation is unexpected", TestOrientation());
+	FrameQueue.Enqueue(
+		[this, TestOrientation]
+		{
+			TestTrue("TapToPlace target orientation is unexpected", TestOrientation());
 
-		UxtTestUtils::SetTestHeadRotation(StartingHeadRot + FRotator(0, 10, 0));
-	});
+			UxtTestUtils::SetTestHeadRotation(StartingHeadRot + FRotator(0, 10, 0));
+		});
 	// Test Orientation after rotation
 	FrameQueue.Enqueue([this, TestOrientation] { TestTrue("TapToPlace target orientation is unexpected", TestOrientation()); });
 }
@@ -272,35 +311,45 @@ void TapToPlaceComponentSpec::EnqueueFarInteractionTest()
 	// Far tap to initiate placement
 	FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
 	// Ensure placement has not started and then far release
-	FrameQueue.Enqueue([this] {
-		TestFalse("Tap to place placement has started", TestComponent->OnPlacementStartedReceived);
+	FrameQueue.Enqueue(
+		[this]
+		{
+			TestFalse("Tap to place placement has started", TestComponent->OnPlacementStartedReceived);
 
-		Hand.SetGrabbing(false);
-	});
+			Hand.SetGrabbing(false);
+		});
 	// Ensure placement has started and then move the hand
-	FrameQueue.Enqueue([this] {
-		TestTrue("Tap to place placement has started", TestComponent->OnPlacementStartedReceived);
+	FrameQueue.Enqueue(
+		[this]
+		{
+			TestTrue("Tap to place placement has started", TestComponent->OnPlacementStartedReceived);
 
-		Hand.SetTranslation(Hand.GetTransform().GetLocation() + FVector::LeftVector * 2);
-	});
+			Hand.SetTranslation(Hand.GetTransform().GetLocation() + FVector::LeftVector * 2);
+		});
 	// Far tap while not pointing at the target
-	FrameQueue.Enqueue([this] {
-		TestFalse("Tap to place placement has ended", TestComponent->OnPlacementEndedReceived);
+	FrameQueue.Enqueue(
+		[this]
+		{
+			TestFalse("Tap to place placement has ended", TestComponent->OnPlacementEndedReceived);
 
-		Hand.SetGrabbing(true);
-	});
+			Hand.SetGrabbing(true);
+		});
 	// Far release while not pointing at the target
-	FrameQueue.Enqueue([this] {
-		TestFalse("Tap to place placement has ended", TestComponent->OnPlacementEndedReceived);
+	FrameQueue.Enqueue(
+		[this]
+		{
+			TestFalse("Tap to place placement has ended", TestComponent->OnPlacementEndedReceived);
 
-		Hand.SetGrabbing(false);
-	});
+			Hand.SetGrabbing(false);
+		});
 	// Test for placement ended
-	FrameQueue.Enqueue([this] {
-		TestTrue("Tap to place placement has ended", TestComponent->OnPlacementEndedReceived);
+	FrameQueue.Enqueue(
+		[this]
+		{
+			TestTrue("Tap to place placement has ended", TestComponent->OnPlacementEndedReceived);
 
-		Hand.SetGrabbing(false);
-	});
+			Hand.SetGrabbing(false);
+		});
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS

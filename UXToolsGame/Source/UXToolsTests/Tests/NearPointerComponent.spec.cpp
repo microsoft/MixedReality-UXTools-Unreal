@@ -205,15 +205,17 @@ void NearPointerPokeSpec::TestKeyframe()
 /** Test for the pointer having the correct focus target object. */
 void NearPointerPokeSpec::TestFocusTargetObject()
 {
-	FrameQueue.Enqueue([this]() {
-		const bool bValidTarget = CurrentFocusTargetIndex != -1 && CurrentFocusTargetIndex < Targets.Num();
-		TestTrue("Focus target is valid", bValidTarget);
+	FrameQueue.Enqueue(
+		[this]()
+		{
+			const bool bValidTarget = CurrentFocusTargetIndex != -1 && CurrentFocusTargetIndex < Targets.Num();
+			TestTrue("Focus target is valid", bValidTarget);
 
-		const UTestGrabTarget* GrabTarget = Targets[CurrentFocusTargetIndex].GetGrabTarget();
-		TestTrue("Target kind is Grab", GrabTarget != nullptr);
-		const bool bTargetFocused = Pointers[0]->GetFocusTarget() == GrabTarget;
-		TestTrue("Target is focused", bTargetFocused);
-	});
+			const UTestGrabTarget* GrabTarget = Targets[CurrentFocusTargetIndex].GetGrabTarget();
+			TestTrue("Target kind is Grab", GrabTarget != nullptr);
+			const bool bTargetFocused = Pointers[0]->GetFocusTarget() == GrabTarget;
+			TestTrue("Target is focused", bTargetFocused);
+		});
 }
 
 void NearPointerPokeSpec::AddMovementKeyframe(const FVector& PointerLocation)
@@ -223,28 +225,30 @@ void NearPointerPokeSpec::AddMovementKeyframe(const FVector& PointerLocation)
 
 void NearPointerPokeSpec::ExpectFocusTargetIndex(int NewFocusTargetIndex)
 {
-	FrameQueue.Enqueue([this, NewFocusTargetIndex] {
-		// Focus changed: Increment EndFocusCount of the previous target and the BeginGrabCount of the new target.
-		if (NewFocusTargetIndex != CurrentFocusTargetIndex)
+	FrameQueue.Enqueue(
+		[this, NewFocusTargetIndex]
 		{
-			for (int i = 0; i < Targets.Num(); ++i)
+			// Focus changed: Increment EndFocusCount of the previous target and the BeginGrabCount of the new target.
+			if (NewFocusTargetIndex != CurrentFocusTargetIndex)
 			{
-				if (i == CurrentFocusTargetIndex)
+				for (int i = 0; i < Targets.Num(); ++i)
 				{
-					Targets[i].EndFocusCount += Pointers.Num();
+					if (i == CurrentFocusTargetIndex)
+					{
+						Targets[i].EndFocusCount += Pointers.Num();
+					}
+					if (i == NewFocusTargetIndex)
+					{
+						Targets[i].BeginFocusCount += Pointers.Num();
+					}
 				}
-				if (i == NewFocusTargetIndex)
-				{
-					Targets[i].BeginFocusCount += Pointers.Num();
-				}
+
+				CurrentFocusTargetIndex = NewFocusTargetIndex;
 			}
 
-			CurrentFocusTargetIndex = NewFocusTargetIndex;
-		}
-
-		// Test state of targets after update from the previous frame.
-		TestKeyframe();
-	});
+			// Test state of targets after update from the previous frame.
+			TestKeyframe();
+		});
 }
 
 void NearPointerPokeSpec::ExpectFocusTargetNone()
@@ -254,302 +258,358 @@ void NearPointerPokeSpec::ExpectFocusTargetNone()
 
 void NearPointerPokeSpec::ExpectGrabTargetNone()
 {
-	FrameQueue.Enqueue([this]() {
-		for (const PointerTargetState& Target : Targets)
+	FrameQueue.Enqueue(
+		[this]()
 		{
-			const UTestGrabTarget* GrabTarget = Target.GetGrabTarget();
-			TestTrue("Target must be of Grab kind", GrabTarget != nullptr);
-			if (GrabTarget)
+			for (const PointerTargetState& Target : Targets)
 			{
-				const bool bIsGrabbed = GrabTarget->BeginGrabCount > GrabTarget->EndGrabCount;
-				TestFalse("Target should not be grabbed", bIsGrabbed);
+				const UTestGrabTarget* GrabTarget = Target.GetGrabTarget();
+				TestTrue("Target must be of Grab kind", GrabTarget != nullptr);
+				if (GrabTarget)
+				{
+					const bool bIsGrabbed = GrabTarget->BeginGrabCount > GrabTarget->EndGrabCount;
+					TestFalse("Target should not be grabbed", bIsGrabbed);
+				}
 			}
-		}
-	});
+		});
 }
 
 void NearPointerPokeSpec::ExpectPokeTargetIndex(int TargetIndex)
 {
-	FrameQueue.Enqueue([this, TargetIndex] {
-		check(TargetIndex >= 0 && TargetIndex < Targets.Num());
-		if (TargetIndex != CurrentPokeTargetIndex)
+	FrameQueue.Enqueue(
+		[this, TargetIndex]
 		{
-			Targets[TargetIndex].BeginPokeCount += Pointers.Num();
-			if (CurrentPokeTargetIndex != -1)
+			check(TargetIndex >= 0 && TargetIndex < Targets.Num());
+			if (TargetIndex != CurrentPokeTargetIndex)
 			{
-				Targets[CurrentPokeTargetIndex].EndPokeCount += Pointers.Num();
+				Targets[TargetIndex].BeginPokeCount += Pointers.Num();
+				if (CurrentPokeTargetIndex != -1)
+				{
+					Targets[CurrentPokeTargetIndex].EndPokeCount += Pointers.Num();
+				}
+				CurrentPokeTargetIndex = TargetIndex;
 			}
-			CurrentPokeTargetIndex = TargetIndex;
-		}
-		TestKeyframe();
-	});
+			TestKeyframe();
+		});
 }
 
 void NearPointerPokeSpec::ExpectPokeTargetNone()
 {
-	FrameQueue.Enqueue([this]() {
-		for (const PointerTargetState& Target : Targets)
+	FrameQueue.Enqueue(
+		[this]()
 		{
-			const UTestPokeTarget* PokeTarget = Target.GetPokeTarget();
-			if (PokeTarget == nullptr)
+			for (const PointerTargetState& Target : Targets)
 			{
-				continue; // Ignore any non-poke target
+				const UTestPokeTarget* PokeTarget = Target.GetPokeTarget();
+				if (PokeTarget == nullptr)
+				{
+					continue; // Ignore any non-poke target
+				}
+				const bool bIsPoked = PokeTarget->BeginPokeCount - PokeTarget->EndPokeCount != 0;
+				TestFalse("Target should not be poked", bIsPoked);
 			}
-			const bool bIsPoked = PokeTarget->BeginPokeCount - PokeTarget->EndPokeCount != 0;
-			TestFalse("Target should not be poked", bIsPoked);
-		}
-	});
+		});
 }
 
 void NearPointerPokeSpec::AddGrabKeyframe(bool bEnableGrab)
 {
 	FrameQueue.Enqueue([bEnableGrab] { UxtTestUtils::GetTestHandTracker().SetGrabbing(bEnableGrab); });
 
-	FrameQueue.Enqueue([this, bEnableGrab] {
-		if (bCurrentGrabbing != bEnableGrab)
+	FrameQueue.Enqueue(
+		[this, bEnableGrab]
 		{
-			// Increment EndFocusCount of the current target when released and the BeginFocusCount when grabbed.
-			for (int i = 0; i < Targets.Num(); ++i)
+			if (bCurrentGrabbing != bEnableGrab)
 			{
-				if (i == CurrentFocusTargetIndex)
+				// Increment EndFocusCount of the current target when released and the BeginFocusCount when grabbed.
+				for (int i = 0; i < Targets.Num(); ++i)
 				{
-					if (bEnableGrab)
+					if (i == CurrentFocusTargetIndex)
 					{
-						Targets[i].BeginGrabCount += Pointers.Num();
-					}
-					else
-					{
-						Targets[i].EndGrabCount += Pointers.Num();
+						if (bEnableGrab)
+						{
+							Targets[i].BeginGrabCount += Pointers.Num();
+						}
+						else
+						{
+							Targets[i].EndGrabCount += Pointers.Num();
+						}
 					}
 				}
 			}
-		}
-	});
+		});
 }
 
 void NearPointerPokeSpec::Define()
 {
-	Describe("Near pointer", [this] {
-		BeforeEach([this] {
-			TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
-			UWorld* World = UxtTestUtils::GetTestWorld();
-			FrameQueue.Init(World->GetGameInstance()->TimerManager);
-			UxtTestUtils::EnableTestHandTracker();
+	Describe(
+		"Near pointer",
+		[this]
+		{
+			BeforeEach(
+				[this]
+				{
+					TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+					UWorld* World = UxtTestUtils::GetTestWorld();
+					FrameQueue.Init(World->GetGameInstance()->TimerManager);
+					UxtTestUtils::EnableTestHandTracker();
 
-			Pointers.SetNum(NumPointers);
-			for (int i = 0; i < NumPointers; ++i)
-			{
-				Pointers[i] = UxtTestUtils::CreateNearPointer(World, *FString::Printf(TEXT("TestPointer%d"), i), FVector::ZeroVector);
-				TestTrue("Valid near pointer", Pointers[i] != nullptr);
-			}
+					Pointers.SetNum(NumPointers);
+					for (int i = 0; i < NumPointers; ++i)
+					{
+						Pointers[i] =
+							UxtTestUtils::CreateNearPointer(World, *FString::Printf(TEXT("TestPointer%d"), i), FVector::ZeroVector);
+						TestTrue("Valid near pointer", Pointers[i] != nullptr);
+					}
 
-			// Register all new components.
-			World->UpdateWorldComponents(false, false);
+					// Register all new components.
+					World->UpdateWorldComponents(false, false);
+				});
+
+			AfterEach(
+				[this]
+				{
+					UxtTestUtils::DisableTestHandTracker();
+
+					for (UUxtNearPointerComponent* Pointer : Pointers)
+					{
+						Pointer->GetOwner()->Destroy();
+					}
+					Pointers.Empty();
+
+					for (PointerTargetState& TargetState : Targets)
+					{
+						TargetState.GetOwner()->Destroy();
+					}
+					Targets.Empty();
+					CurrentFocusTargetIndex = -1;
+					CurrentPokeTargetIndex = -1;
+					bCurrentGrabbing = false;
+
+					FrameQueue.Reset();
+				});
+
+			LatentIt(
+				"should have correct focus target object",
+				[this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectFocusTargetIndex(0);
+					TestFocusTargetObject();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should focus poke target when overlapping initially",
+				[this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectFocusTargetIndex(0);
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should focus poke target when entering",
+				[this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(OutsideTargetLocation);
+					ExpectFocusTargetNone();
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectFocusTargetIndex(0);
+
+					AddMovementKeyframe(OutsideTargetLocation);
+					ExpectFocusTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should have no focus without targets",
+				[this](const FDoneDelegate& Done)
+				{
+					AddMovementKeyframe(FocusStartLocation);
+					ExpectFocusTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should focus single target",
+				[this](const FDoneDelegate& Done)
+				{
+					FVector p1(120, -20, -5);
+					AddTarget(p1);
+
+					AddMovementKeyframe(FocusStartLocation);
+					ExpectFocusTargetNone();
+					AddMovementKeyframe(p1);
+					ExpectFocusTargetIndex(0);
+					AddMovementKeyframe(FocusEndLocation);
+					ExpectFocusTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should focus two separate targets",
+				[this](const FDoneDelegate& Done)
+				{
+					FVector p1(120, -40, -5);
+					FVector p2(100, 30, 15);
+					AddTarget(p1);
+					AddTarget(p2);
+
+					AddMovementKeyframe(FocusStartLocation);
+					ExpectFocusTargetNone();
+					AddMovementKeyframe(p1);
+					ExpectFocusTargetIndex(0);
+					AddMovementKeyframe(p2);
+					ExpectFocusTargetIndex(1);
+					AddMovementKeyframe(FocusEndLocation);
+					ExpectFocusTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should focus two overlapping targets",
+				[this](const FDoneDelegate& Done)
+				{
+					FVector p1(110, 4, -5);
+					FVector p2(115, 12, -2);
+					AddTarget(p1);
+					AddTarget(p2);
+
+					AddMovementKeyframe(FocusStartLocation);
+					ExpectFocusTargetNone();
+					AddMovementKeyframe(p1 + FVector(0, -10, 0));
+					ExpectFocusTargetIndex(0);
+					AddMovementKeyframe(p2 + FVector(0, 10, 0));
+					ExpectFocusTargetIndex(1);
+					AddMovementKeyframe(FocusEndLocation);
+					ExpectFocusTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should focus grab target when overlapping initially",
+				[this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectFocusTargetIndex(0);
+
+					AddGrabKeyframe(true);
+
+					AddGrabKeyframe(false);
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should focus grab target when entering",
+				[this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(OutsideTargetLocation);
+					ExpectFocusTargetNone();
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectFocusTargetIndex(0);
+
+					AddGrabKeyframe(true);
+
+					AddMovementKeyframe(OutsideTargetLocation);
+					ExpectFocusTargetNone();
+
+					AddGrabKeyframe(false);
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should not grab target when entering while already grabbing",
+				[this](const FDoneDelegate& Done)
+				{
+					AddTarget(TargetLocation);
+
+					AddMovementKeyframe(OutsideTargetLocation);
+					AddGrabKeyframe(true);
+					ExpectGrabTargetNone();
+
+					AddMovementKeyframe(InsideTargetLocation);
+					ExpectGrabTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+			LatentIt(
+				"should start poking box target",
+				[this](const FDoneDelegate& Done)
+				{
+					PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke);
+
+					bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
+					TestTrue("There's a collision", Colliding);
+
+					ExpectFocusTargetNone();
+					AddMovementKeyframe(PokeInitialPosition);
+					ExpectFocusTargetIndex(0);
+					ExpectPokeTargetNone();
+					AddMovementKeyframe(PokeFinalPosition);
+					ExpectPokeTargetIndex(0);
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+			LatentIt(
+				"should not start poking non-box target",
+				[this](const FDoneDelegate& Done)
+				{
+					PointerTargetState& Target =
+						AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke, TEXT("/Engine/BasicShapes/Sphere.Sphere"));
+
+					bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
+					TestTrue("There's a collision", Colliding);
+
+					ExpectFocusTargetNone();
+					AddMovementKeyframe(PokeInitialPosition);
+					ExpectPokeTargetNone();
+					AddMovementKeyframe(PokeFinalPosition);
+					ExpectPokeTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+			LatentIt(
+				"should not start poking when facing backwards",
+				[this](const FDoneDelegate& Done)
+				{
+					PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke);
+					AActor* const TargetActor = Target.GetPokeTarget()->GetOwner();
+					TargetActor->AddActorLocalRotation(FQuat::MakeFromEuler(FVector(0, 0, 180)));
+
+					bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
+					TestTrue("There's a collision", Colliding);
+
+					ExpectFocusTargetNone();
+					AddMovementKeyframe(PokeInitialPosition);
+					ExpectFocusTargetIndex(0);
+					ExpectPokeTargetNone();
+					AddMovementKeyframe(PokeFinalPosition);
+					ExpectPokeTargetNone();
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
 		});
-
-		AfterEach([this] {
-			UxtTestUtils::DisableTestHandTracker();
-
-			for (UUxtNearPointerComponent* Pointer : Pointers)
-			{
-				Pointer->GetOwner()->Destroy();
-			}
-			Pointers.Empty();
-
-			for (PointerTargetState& TargetState : Targets)
-			{
-				TargetState.GetOwner()->Destroy();
-			}
-			Targets.Empty();
-			CurrentFocusTargetIndex = -1;
-			CurrentPokeTargetIndex = -1;
-			bCurrentGrabbing = false;
-
-			FrameQueue.Reset();
-		});
-
-		LatentIt("should have correct focus target object", [this](const FDoneDelegate& Done) {
-			AddTarget(TargetLocation);
-
-			AddMovementKeyframe(InsideTargetLocation);
-			ExpectFocusTargetIndex(0);
-			TestFocusTargetObject();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should focus poke target when overlapping initially", [this](const FDoneDelegate& Done) {
-			AddTarget(TargetLocation);
-
-			AddMovementKeyframe(InsideTargetLocation);
-			ExpectFocusTargetIndex(0);
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should focus poke target when entering", [this](const FDoneDelegate& Done) {
-			AddTarget(TargetLocation);
-
-			AddMovementKeyframe(OutsideTargetLocation);
-			ExpectFocusTargetNone();
-
-			AddMovementKeyframe(InsideTargetLocation);
-			ExpectFocusTargetIndex(0);
-
-			AddMovementKeyframe(OutsideTargetLocation);
-			ExpectFocusTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should have no focus without targets", [this](const FDoneDelegate& Done) {
-			AddMovementKeyframe(FocusStartLocation);
-			ExpectFocusTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should focus single target", [this](const FDoneDelegate& Done) {
-			FVector p1(120, -20, -5);
-			AddTarget(p1);
-
-			AddMovementKeyframe(FocusStartLocation);
-			ExpectFocusTargetNone();
-			AddMovementKeyframe(p1);
-			ExpectFocusTargetIndex(0);
-			AddMovementKeyframe(FocusEndLocation);
-			ExpectFocusTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should focus two separate targets", [this](const FDoneDelegate& Done) {
-			FVector p1(120, -40, -5);
-			FVector p2(100, 30, 15);
-			AddTarget(p1);
-			AddTarget(p2);
-
-			AddMovementKeyframe(FocusStartLocation);
-			ExpectFocusTargetNone();
-			AddMovementKeyframe(p1);
-			ExpectFocusTargetIndex(0);
-			AddMovementKeyframe(p2);
-			ExpectFocusTargetIndex(1);
-			AddMovementKeyframe(FocusEndLocation);
-			ExpectFocusTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should focus two overlapping targets", [this](const FDoneDelegate& Done) {
-			FVector p1(110, 4, -5);
-			FVector p2(115, 12, -2);
-			AddTarget(p1);
-			AddTarget(p2);
-
-			AddMovementKeyframe(FocusStartLocation);
-			ExpectFocusTargetNone();
-			AddMovementKeyframe(p1 + FVector(0, -10, 0));
-			ExpectFocusTargetIndex(0);
-			AddMovementKeyframe(p2 + FVector(0, 10, 0));
-			ExpectFocusTargetIndex(1);
-			AddMovementKeyframe(FocusEndLocation);
-			ExpectFocusTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should focus grab target when overlapping initially", [this](const FDoneDelegate& Done) {
-			AddTarget(TargetLocation);
-
-			AddMovementKeyframe(InsideTargetLocation);
-			ExpectFocusTargetIndex(0);
-
-			AddGrabKeyframe(true);
-
-			AddGrabKeyframe(false);
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should focus grab target when entering", [this](const FDoneDelegate& Done) {
-			AddTarget(TargetLocation);
-
-			AddMovementKeyframe(OutsideTargetLocation);
-			ExpectFocusTargetNone();
-
-			AddMovementKeyframe(InsideTargetLocation);
-			ExpectFocusTargetIndex(0);
-
-			AddGrabKeyframe(true);
-
-			AddMovementKeyframe(OutsideTargetLocation);
-			ExpectFocusTargetNone();
-
-			AddGrabKeyframe(false);
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should not grab target when entering while already grabbing", [this](const FDoneDelegate& Done) {
-			AddTarget(TargetLocation);
-
-			AddMovementKeyframe(OutsideTargetLocation);
-			AddGrabKeyframe(true);
-			ExpectGrabTargetNone();
-
-			AddMovementKeyframe(InsideTargetLocation);
-			ExpectGrabTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-		LatentIt("should start poking box target", [this](const FDoneDelegate& Done) {
-			PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke);
-
-			bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
-			TestTrue("There's a collision", Colliding);
-
-			ExpectFocusTargetNone();
-			AddMovementKeyframe(PokeInitialPosition);
-			ExpectFocusTargetIndex(0);
-			ExpectPokeTargetNone();
-			AddMovementKeyframe(PokeFinalPosition);
-			ExpectPokeTargetIndex(0);
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-		LatentIt("should not start poking non-box target", [this](const FDoneDelegate& Done) {
-			PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke, TEXT("/Engine/BasicShapes/Sphere.Sphere"));
-
-			bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
-			TestTrue("There's a collision", Colliding);
-
-			ExpectFocusTargetNone();
-			AddMovementKeyframe(PokeInitialPosition);
-			ExpectPokeTargetNone();
-			AddMovementKeyframe(PokeFinalPosition);
-			ExpectPokeTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-		LatentIt("should not start poking when facing backwards", [this](const FDoneDelegate& Done) {
-			PointerTargetState& Target = AddTarget(FVector(200, 0, 0), ETestTargetKind::Poke);
-			AActor* const TargetActor = Target.GetPokeTarget()->GetOwner();
-			TargetActor->AddActorLocalRotation(FQuat::MakeFromEuler(FVector(0, 0, 180)));
-
-			bool Colliding = IsThereCollisionWithActor(PokeInitialPosition, PokeFinalPosition, Target.GetPokeTarget()->GetOwner());
-			TestTrue("There's a collision", Colliding);
-
-			ExpectFocusTargetNone();
-			AddMovementKeyframe(PokeInitialPosition);
-			ExpectFocusTargetIndex(0);
-			ExpectPokeTargetNone();
-			AddMovementKeyframe(PokeFinalPosition);
-			ExpectPokeTargetNone();
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-	});
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS

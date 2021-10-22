@@ -33,57 +33,59 @@ bool BoundsControlBoundsOverrideSpec::TestEqual(const FString& What, const FBox&
 
 void BoundsControlBoundsOverrideSpec::Define()
 {
-	It("should modify bounds at runtime", [this] {
-		// Open test map
-		TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+	It("should modify bounds at runtime",
+	   [this]
+	   {
+		   // Open test map
+		   TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
-		// Create actor
-		AActor* Actor = UxtTestUtils::GetTestWorld()->SpawnActor<AActor>();
+		   // Create actor
+		   AActor* Actor = UxtTestUtils::GetTestWorld()->SpawnActor<AActor>();
 
-		const FString MeshAssetRefName = TEXT("/Engine/BasicShapes/Cone.Cone");
+		   const FString MeshAssetRefName = TEXT("/Engine/BasicShapes/Cone.Cone");
 
-		// Add root mesh
-		UStaticMeshComponent* RootMesh = UxtTestUtils::CreateStaticMesh(Actor, FVector::OneVector, MeshAssetRefName);
-		Actor->SetRootComponent(RootMesh);
-		RootMesh->RegisterComponent();
+		   // Add root mesh
+		   UStaticMeshComponent* RootMesh = UxtTestUtils::CreateStaticMesh(Actor, FVector::OneVector, MeshAssetRefName);
+		   Actor->SetRootComponent(RootMesh);
+		   RootMesh->RegisterComponent();
 
-		// Add child mesh
-		UStaticMeshComponent* ChildMesh = UxtTestUtils::CreateStaticMesh(Actor, FVector::OneVector, MeshAssetRefName);
-		ChildMesh->SetupAttachment(Actor->GetRootComponent());
-		ChildMesh->SetRelativeLocation(FVector(200, 0, 0));
-		ChildMesh->RegisterComponent();
+		   // Add child mesh
+		   UStaticMeshComponent* ChildMesh = UxtTestUtils::CreateStaticMesh(Actor, FVector::OneVector, MeshAssetRefName);
+		   ChildMesh->SetupAttachment(Actor->GetRootComponent());
+		   ChildMesh->SetRelativeLocation(FVector(200, 0, 0));
+		   ChildMesh->RegisterComponent();
 
-		// Add bounds control
-		UUxtBoundsControlComponent* BoundsControl = NewObject<UUxtBoundsControlComponent>(Actor);
-		BoundsControl->RegisterComponent();
+		   // Add bounds control
+		   UUxtBoundsControlComponent* BoundsControl = NewObject<UUxtBoundsControlComponent>(Actor);
+		   BoundsControl->RegisterComponent();
 
-		// Get root and child local bounds
-		FVector Min, Max;
-		RootMesh->GetLocalBounds(Min, Max);
-		FBox RootBounds(Min, Max);
-		ChildMesh->GetLocalBounds(Min, Max);
-		FBox ChildBounds(Min, Max);
+		   // Get root and child local bounds
+		   FVector Min, Max;
+		   RootMesh->GetLocalBounds(Min, Max);
+		   FBox RootBounds(Min, Max);
+		   ChildMesh->GetLocalBounds(Min, Max);
+		   FBox ChildBounds(Min, Max);
 
-		// Check bounds control bounds before overriding
-		FBox ActualBounds = BoundsControl->GetBounds();
-		FBox ExpectedBounds = RootBounds + ChildBounds.ShiftBy(ChildMesh->GetRelativeLocation());
-		TestEqual("Bounds before override", ActualBounds, ExpectedBounds);
+		   // Check bounds control bounds before overriding
+		   FBox ActualBounds = BoundsControl->GetBounds();
+		   FBox ExpectedBounds = RootBounds + ChildBounds.ShiftBy(ChildMesh->GetRelativeLocation());
+		   TestEqual("Bounds before override", ActualBounds, ExpectedBounds);
 
-		// Override bounds
-		BoundsControl->SetBoundsOverride(ChildMesh);
+		   // Override bounds
+		   BoundsControl->SetBoundsOverride(ChildMesh);
 
-		// Check the override component
-		USceneComponent* ActualOverride = BoundsControl->GetBoundsOverride();
-		USceneComponent* ExpectedOverride = ChildMesh;
-		TestEqual("Bounds override", ActualOverride, ExpectedOverride);
+		   // Check the override component
+		   USceneComponent* ActualOverride = BoundsControl->GetBoundsOverride();
+		   USceneComponent* ExpectedOverride = ChildMesh;
+		   TestEqual("Bounds override", ActualOverride, ExpectedOverride);
 
-		// Check bounds control bounds after overriding
-		ActualBounds = BoundsControl->GetBounds();
-		ExpectedBounds = ChildBounds;
-		TestEqual("Bounds after override", ActualBounds, ExpectedBounds);
+		   // Check bounds control bounds after overriding
+		   ActualBounds = BoundsControl->GetBounds();
+		   ExpectedBounds = ChildBounds;
+		   TestEqual("Bounds after override", ActualBounds, ExpectedBounds);
 
-		Actor->Destroy();
-	});
+		   Actor->Destroy();
+	   });
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS

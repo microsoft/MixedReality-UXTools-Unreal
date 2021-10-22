@@ -393,7 +393,8 @@ void AUxtHandInteractionActor::VLogHandJoints() const
 	};
 
 	// Utility function for drawing a bone segment
-	auto VlogJointSegment = [this, &HandTracker](EHandKeypoint JointA, EHandKeypoint JointB) {
+	auto VlogJointSegment = [this, &HandTracker](EHandKeypoint JointA, EHandKeypoint JointB)
+	{
 		FVector PositionA, PositionB;
 		FQuat OrientationA, OrientationB;
 		float RadiusA, RadiusB;
