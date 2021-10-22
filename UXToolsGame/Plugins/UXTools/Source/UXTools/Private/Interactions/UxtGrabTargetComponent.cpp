@@ -388,17 +388,19 @@ void UUxtGrabTargetComponent::OnEndGrab_Implementation(UUxtNearPointerComponent*
 	const bool bIsEndingGrab = IsGrabModeRequirementMet();
 
 	FUxtGrabPointerData PointerData;
-	GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
-		if (GrabData.NearPointer == Pointer)
+	GrabPointers.RemoveAll(
+		[this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData)
 		{
-			// Unlock the pointer focus so that another target can be selected.
-			Pointer->SetFocusLocked(false);
-			PointerData = GrabData;
+			if (GrabData.NearPointer == Pointer)
+			{
+				// Unlock the pointer focus so that another target can be selected.
+				Pointer->SetFocusLocked(false);
+				PointerData = GrabData;
 
-			return true;
-		}
-		return false;
-	});
+				return true;
+			}
+			return false;
+		});
 
 	if (bIsEndingGrab)
 	{
@@ -490,15 +492,17 @@ void UUxtGrabTargetComponent::OnFarReleased_Implementation(UUxtFarPointerCompone
 	const bool bIsEndingGrab = IsGrabModeRequirementMet();
 
 	FUxtGrabPointerData PointerData;
-	GrabPointers.RemoveAll([this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData) {
-		if (GrabData.FarPointer == Pointer)
+	GrabPointers.RemoveAll(
+		[this, Pointer, &PointerData](const FUxtGrabPointerData& GrabData)
 		{
-			Pointer->SetFocusLocked(false);
-			PointerData = GrabData;
-			return true;
-		}
-		return false;
-	});
+			if (GrabData.FarPointer == Pointer)
+			{
+				Pointer->SetFocusLocked(false);
+				PointerData = GrabData;
+				return true;
+			}
+			return false;
+		});
 
 	if (bIsEndingGrab)
 	{
@@ -586,8 +590,8 @@ bool UUxtGrabTargetComponent::IsGrabModeRequirementMet() const
 
 bool UUxtGrabTargetComponent::IsGrabbingPointer(const UUxtPointerComponent* Pointer)
 {
-	return GrabPointers.ContainsByPredicate(
-		[&Pointer](const FUxtGrabPointerData& GrabData) { return GrabData.NearPointer == Pointer || GrabData.FarPointer == Pointer; });
+	return GrabPointers.ContainsByPredicate([&Pointer](const FUxtGrabPointerData& GrabData)
+											{ return GrabData.NearPointer == Pointer || GrabData.FarPointer == Pointer; });
 }
 
 void UUxtGrabTargetComponent::OnExternalManipulationStarted()

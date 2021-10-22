@@ -66,243 +66,321 @@ END_DEFINE_SPEC(TouchableVolumeSpec)
 
 void TouchableVolumeSpec::Define()
 {
-	BeforeEach([this] {
-		TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+	BeforeEach(
+		[this]
+		{
+			TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
-		UWorld* World = UxtTestUtils::GetTestWorld();
-		FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
+			UWorld* World = UxtTestUtils::GetTestWorld();
+			FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-		UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestHandTracker();
 
-		Target = CreateTestComponent();
-		EventCaptureComponent = AddEventCaptureComponent(Target);
-	});
-
-	AfterEach([this] {
-		Target->GetOwner()->Destroy();
-		Target = nullptr;
-
-		UxtTestUtils::DisableTestHandTracker();
-
-		FrameQueue.Reset();
-	});
-
-	Describe("Near Interaction", [this] {
-		BeforeEach([this] { Hand.Configure(EUxtInteractionMode::Near, TargetLocation + FVector(-100, 0, 0)); });
-
-		AfterEach([this] { Hand.Reset(); });
-
-		LatentIt("should trigger focus events", [this](const FDoneDelegate& Done) {
-			FrameQueue.Enqueue([this] { Hand.Translate(FVector(50, 0, 0)); });
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin focus triggered", EventCaptureComponent->BeginFocusCount, 1);
-
-				Hand.Translate(FVector(-50, 0, 0));
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("End focus triggered", EventCaptureComponent->EndFocusCount, 1); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
+			Target = CreateTestComponent();
+			EventCaptureComponent = AddEventCaptureComponent(Target);
 		});
 
-		LatentIt("should trigger poke events", [this](const FDoneDelegate& Done) {
-			FrameQueue.Enqueue([this] { Hand.Translate(FVector(100, 0, 0)); });
+	AfterEach(
+		[this]
+		{
+			Target->GetOwner()->Destroy();
+			Target = nullptr;
 
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
+			UxtTestUtils::DisableTestHandTracker();
 
-				Hand.Translate(FVector(-100, 0, 0));
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
+			FrameQueue.Reset();
 		});
 
-		LatentIt("should not trigger events when disabled", [this](const FDoneDelegate& Done) {
-			FrameQueue.Enqueue([this] {
-				Target->SetEnabled(false);
-				Hand.Translate(FVector(100, 0, 0));
-			});
+	Describe(
+		"Near Interaction",
+		[this]
+		{
+			BeforeEach([this] { Hand.Configure(EUxtInteractionMode::Near, TargetLocation + FVector(-100, 0, 0)); });
 
-			FrameQueue.Enqueue([this] {
-				TestEqual("Disable event triggered", EventCaptureComponent->DisableCount, 1);
-				TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
+			AfterEach([this] { Hand.Reset(); });
 
-				Hand.Translate(FVector(-100, 0, 0));
-			});
+			LatentIt(
+				"should trigger focus events",
+				[this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this] { Hand.Translate(FVector(50, 0, 0)); });
 
-			FrameQueue.Enqueue([this] {
-				TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin focus triggered", EventCaptureComponent->BeginFocusCount, 1);
 
-				Target->SetEnabled(true);
-			});
+							Hand.Translate(FVector(-50, 0, 0));
+						});
 
-			FrameQueue.Enqueue([this] { TestEqual("Enable event triggered", EventCaptureComponent->EnableCount, 1); });
+					FrameQueue.Enqueue([this] { TestEqual("End focus triggered", EventCaptureComponent->EndFocusCount, 1); });
 
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should trigger poke events",
+				[this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this] { Hand.Translate(FVector(100, 0, 0)); });
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
+
+							Hand.Translate(FVector(-100, 0, 0));
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should not trigger events when disabled",
+				[this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue(
+						[this]
+						{
+							Target->SetEnabled(false);
+							Hand.Translate(FVector(100, 0, 0));
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Disable event triggered", EventCaptureComponent->DisableCount, 1);
+							TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
+
+							Hand.Translate(FVector(-100, 0, 0));
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
+
+							Target->SetEnabled(true);
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("Enable event triggered", EventCaptureComponent->EnableCount, 1); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should not trigger events when near interaction is disabled",
+				[this](const FDoneDelegate& Done)
+				{
+					Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Far);
+
+					FrameQueue.Enqueue([this] { Hand.Translate(FVector(100, 0, 0)); });
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
+
+							Hand.Translate(FVector(-100, 0, 0));
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should only trigger events on selected primitives",
+				[this](const FDoneDelegate& Done)
+				{
+					UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Target->GetOwner());
+					Mesh->SetWorldLocation(TargetLocation + FVector(0, 0, 100));
+					Mesh->RegisterComponent();
+
+					Target->TouchablePrimitives.Add(Mesh);
+
+					FrameQueue.Enqueue([this] { Hand.Translate(FVector(100, 0, 0)); });
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
+
+							Hand.Translate(FVector(-100, 0, 0));
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
+
+							Hand.Translate(FVector(100, 0, 100));
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
+
+							Hand.Translate(FVector(-100, 0, 0));
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
 		});
 
-		LatentIt("should not trigger events when near interaction is disabled", [this](const FDoneDelegate& Done) {
-			Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Far);
+	Describe(
+		"Far Interaction",
+		[this]
+		{
+			BeforeEach([this] { Hand.Configure(EUxtInteractionMode::Far, TargetLocation); });
 
-			FrameQueue.Enqueue([this] { Hand.Translate(FVector(100, 0, 0)); });
+			AfterEach([this] { Hand.Reset(); });
 
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
+			LatentIt(
+				"should trigger focus events",
+				[this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Starts with focus", EventCaptureComponent->BeginFocusCount, 1);
 
-				Hand.Translate(FVector(-100, 0, 0));
-			});
+							Hand.Translate(FVector(0, 100, 0));
+						});
 
-			FrameQueue.Enqueue([this] { TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0); });
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("End focus triggered", EventCaptureComponent->EndFocusCount, 1);
 
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
+							Hand.Translate(FVector(0, -100, 0));
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("Begin focus triggered", EventCaptureComponent->BeginFocusCount, 2); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should trigger poke events",
+				[this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
+
+							Hand.SetGrabbing(false);
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should not trigger events when disabled",
+				[this](const FDoneDelegate& Done)
+				{
+					FrameQueue.Enqueue(
+						[this]
+						{
+							Target->SetEnabled(false);
+							Hand.SetGrabbing(true);
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Disable event triggered", EventCaptureComponent->DisableCount, 1);
+							TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
+
+							Hand.SetGrabbing(false);
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
+
+							Target->SetEnabled(true);
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("Enable event triggered", EventCaptureComponent->EnableCount, 1); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should not trigger events when far interaction is disabled",
+				[this](const FDoneDelegate& Done)
+				{
+					Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Near);
+
+					FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 0);
+
+							Hand.SetGrabbing(false);
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 0); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
+
+			LatentIt(
+				"should only trigger events on selected primitives",
+				[this](const FDoneDelegate& Done)
+				{
+					UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Target->GetOwner());
+					Mesh->SetWorldLocation(TargetLocation + FVector(0, 0, 100));
+					Mesh->RegisterComponent();
+
+					Target->TouchablePrimitives.Add(Mesh);
+
+					FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
+
+							Hand.SetGrabbing(false);
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
+
+							Hand.Translate(FVector(0, 0, 100));
+							Hand.SetGrabbing(true);
+						});
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
+
+							Hand.SetGrabbing(false);
+						});
+
+					FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
+
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
 		});
-
-		LatentIt("should only trigger events on selected primitives", [this](const FDoneDelegate& Done) {
-			UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Target->GetOwner());
-			Mesh->SetWorldLocation(TargetLocation + FVector(0, 0, 100));
-			Mesh->RegisterComponent();
-
-			Target->TouchablePrimitives.Add(Mesh);
-
-			FrameQueue.Enqueue([this] { Hand.Translate(FVector(100, 0, 0)); });
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
-
-				Hand.Translate(FVector(-100, 0, 0));
-			});
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
-
-				Hand.Translate(FVector(100, 0, 100));
-			});
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
-
-				Hand.Translate(FVector(-100, 0, 0));
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-	});
-
-	Describe("Far Interaction", [this] {
-		BeforeEach([this] { Hand.Configure(EUxtInteractionMode::Far, TargetLocation); });
-
-		AfterEach([this] { Hand.Reset(); });
-
-		LatentIt("should trigger focus events", [this](const FDoneDelegate& Done) {
-			FrameQueue.Enqueue([this] {
-				TestEqual("Starts with focus", EventCaptureComponent->BeginFocusCount, 1);
-
-				Hand.Translate(FVector(0, 100, 0));
-			});
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("End focus triggered", EventCaptureComponent->EndFocusCount, 1);
-
-				Hand.Translate(FVector(0, -100, 0));
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("Begin focus triggered", EventCaptureComponent->BeginFocusCount, 2); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should trigger poke events", [this](const FDoneDelegate& Done) {
-			FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
-
-				Hand.SetGrabbing(false);
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should not trigger events when disabled", [this](const FDoneDelegate& Done) {
-			FrameQueue.Enqueue([this] {
-				Target->SetEnabled(false);
-				Hand.SetGrabbing(true);
-			});
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Disable event triggered", EventCaptureComponent->DisableCount, 1);
-				TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
-
-				Hand.SetGrabbing(false);
-			});
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
-
-				Target->SetEnabled(true);
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("Enable event triggered", EventCaptureComponent->EnableCount, 1); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should not trigger events when far interaction is disabled", [this](const FDoneDelegate& Done) {
-			Target->InteractionMode = static_cast<int32>(EUxtInteractionMode::Near);
-
-			FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 0);
-
-				Hand.SetGrabbing(false);
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 0); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-
-		LatentIt("should only trigger events on selected primitives", [this](const FDoneDelegate& Done) {
-			UStaticMeshComponent* Mesh = UxtTestUtils::CreateStaticMesh(Target->GetOwner());
-			Mesh->SetWorldLocation(TargetLocation + FVector(0, 0, 100));
-			Mesh->RegisterComponent();
-
-			Target->TouchablePrimitives.Add(Mesh);
-
-			FrameQueue.Enqueue([this] { Hand.SetGrabbing(true); });
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke not triggered", EventCaptureComponent->BeginPokeCount, 0);
-
-				Hand.SetGrabbing(false);
-			});
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("End poke not triggered", EventCaptureComponent->EndPokeCount, 0);
-
-				Hand.Translate(FVector(0, 0, 100));
-				Hand.SetGrabbing(true);
-			});
-
-			FrameQueue.Enqueue([this] {
-				TestEqual("Begin poke triggered", EventCaptureComponent->BeginPokeCount, 1);
-
-				Hand.SetGrabbing(false);
-			});
-
-			FrameQueue.Enqueue([this] { TestEqual("End poke triggered", EventCaptureComponent->EndPokeCount, 1); });
-
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-	});
 }
 
 #endif // WITH_DEV_AUTOMATION_TESTS

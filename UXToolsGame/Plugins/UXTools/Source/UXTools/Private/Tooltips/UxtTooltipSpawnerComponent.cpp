@@ -50,34 +50,37 @@ void UUxtTooltipSpawnerComponent::CreateTooltip()
 
 	// Timer is used to schedule the "Appear delay".
 	FTimerDelegate TimerCallback;
-	TimerCallback.BindLambda([this] {
-		if (AActor* Owner = GetOwner())
+	TimerCallback.BindLambda(
+		[this]
 		{
-			SpawnedTooltip = GetWorld()->SpawnActor<AUxtTooltipActor>();
-			SpawnedTooltip->TooltipTarget.OtherActor = Owner;
-			SpawnedTooltip->TooltipTarget.OverrideComponent = Owner->GetRootComponent();
-
-			if (WidgetClass != nullptr)
+			if (AActor* Owner = GetOwner())
 			{
-				SpawnedTooltip->WidgetClass = WidgetClass;
-			}
-			else if (!TooltipText.IsEmpty())
-			{
-				SpawnedTooltip->SetText(TooltipText);
-			}
-			SpawnedTooltip->bIsAutoAnchoring = bIsAutoAnchoring;
+				SpawnedTooltip = GetWorld()->SpawnActor<AUxtTooltipActor>();
+				SpawnedTooltip->TooltipTarget.OtherActor = Owner;
+				SpawnedTooltip->TooltipTarget.OverrideComponent = Owner->GetRootComponent();
 
-			const USceneComponent* PivotComponent = Cast<USceneComponent>(Pivot.GetComponent(Owner));
-			const FVector Offset = PivotComponent ? PivotComponent->GetRelativeLocation() * Owner->GetActorScale3D() : FVector::ZeroVector;
-			const FVector FinalTooltipLocation = Owner->GetActorLocation() + Offset;
-			SpawnedTooltip->SetActorLocation(FinalTooltipLocation);
-			SpawnedTooltip->SetActorScale3D(WidgetScale);
-			SpawnedTooltip->Margin = Margin;
-			SpawnedTooltip->UpdateComponent();
+				if (WidgetClass != nullptr)
+				{
+					SpawnedTooltip->WidgetClass = WidgetClass;
+				}
+				else if (!TooltipText.IsEmpty())
+				{
+					SpawnedTooltip->SetText(TooltipText);
+				}
+				SpawnedTooltip->bIsAutoAnchoring = bIsAutoAnchoring;
 
-			OnShowTooltip.Broadcast();
-		}
-	});
+				const USceneComponent* PivotComponent = Cast<USceneComponent>(Pivot.GetComponent(Owner));
+				const FVector Offset =
+					PivotComponent ? PivotComponent->GetRelativeLocation() * Owner->GetActorScale3D() : FVector::ZeroVector;
+				const FVector FinalTooltipLocation = Owner->GetActorLocation() + Offset;
+				SpawnedTooltip->SetActorLocation(FinalTooltipLocation);
+				SpawnedTooltip->SetActorScale3D(WidgetScale);
+				SpawnedTooltip->Margin = Margin;
+				SpawnedTooltip->UpdateComponent();
+
+				OnShowTooltip.Broadcast();
+			}
+		});
 	float FinalDelay = FMath::Max(AppearDelay, SMALL_NUMBER); // Timer handle needs time to be non-zero.
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
 
@@ -96,15 +99,17 @@ void UUxtTooltipSpawnerComponent::DestroyTooltip()
 
 	// Use timer to perform the "VanishDelay".
 	FTimerDelegate TimerCallback;
-	TimerCallback.BindLambda([this] {
-		if (SpawnedTooltip)
+	TimerCallback.BindLambda(
+		[this]
 		{
-			GetWorld()->DestroyActor(SpawnedTooltip);
-			SpawnedTooltip = nullptr;
+			if (SpawnedTooltip)
+			{
+				GetWorld()->DestroyActor(SpawnedTooltip);
+				SpawnedTooltip = nullptr;
 
-			OnHideTooltip.Broadcast();
-		}
-	});
+				OnHideTooltip.Broadcast();
+			}
+		});
 	auto FinalDelay = FMath::Max(VanishDelay, SMALL_NUMBER); // Timer handle needs time to be non-zero
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerCallback, FinalDelay, false, FinalDelay);
 }
@@ -118,14 +123,16 @@ void UUxtTooltipSpawnerComponent::ScheduleDeathAfterLifetime()
 
 	// Timer is used to schedule the death of the tooltip based on Lifetime.
 	FTimerDelegate LifetimeTimerCallback;
-	LifetimeTimerCallback.BindLambda([this] {
-		if (SpawnedTooltip)
+	LifetimeTimerCallback.BindLambda(
+		[this]
 		{
-			GetWorld()->DestroyActor(SpawnedTooltip);
-			SpawnedTooltip = nullptr;
-			OnHideTooltip.Broadcast();
-		}
-	});
+			if (SpawnedTooltip)
+			{
+				GetWorld()->DestroyActor(SpawnedTooltip);
+				SpawnedTooltip = nullptr;
+				OnHideTooltip.Broadcast();
+			}
+		});
 	float FinalLifetime = FMath::Max(Lifetime, SMALL_NUMBER); // Timer handle needs time to be non-zero
 	GetWorld()->GetTimerManager().SetTimer(LifetimeTimerHandle, LifetimeTimerCallback, FinalLifetime, false, FinalLifetime);
 }

@@ -43,97 +43,112 @@ END_DEFINE_SPEC(FSurfaceMagnetism)
 
 void FSurfaceMagnetism::Define()
 {
-	Describe("Surface Magnetism", [this] {
-		BeforeEach([this] {
-			// Load the empty test map to run the test in.
-			TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
+	Describe(
+		"Surface Magnetism",
+		[this]
+		{
+			BeforeEach(
+				[this]
+				{
+					// Load the empty test map to run the test in.
+					TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
-			UWorld* World = UxtTestUtils::GetTestWorld();
-			FrameQueue.Init(World->GetGameInstance()->TimerManager);
-			UxtTestUtils::EnableTestHandTracker();
+					UWorld* World = UxtTestUtils::GetTestWorld();
+					FrameQueue.Init(World->GetGameInstance()->TimerManager);
+					UxtTestUtils::EnableTestHandTracker();
 
-			// HandInteraction actor
-			HandInteractionActor = World->SpawnActor<AUxtHandInteractionActor>();
-			HandInteractionActor->SetHand(EControllerHand::Left);
+					// HandInteraction actor
+					HandInteractionActor = World->SpawnActor<AUxtHandInteractionActor>();
+					HandInteractionActor->SetHand(EControllerHand::Left);
 
-			// pointer
-			Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", ActorLocation);
+					// pointer
+					Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", ActorLocation);
 
-			// Target Actor
-			TargetActor = World->SpawnActor<AActor>();
+					// Target Actor
+					TargetActor = World->SpawnActor<AActor>();
 
-			UStaticMeshComponent* Root = UxtTestUtils::CreateStaticMesh(TargetActor, FVector(0.3f));
-			TargetActor->SetRootComponent(Root);
-			Root->SetWorldLocation(TargetLocation);
-			Root->RegisterComponent();
+					UStaticMeshComponent* Root = UxtTestUtils::CreateStaticMesh(TargetActor, FVector(0.3f));
+					TargetActor->SetRootComponent(Root);
+					Root->SetWorldLocation(TargetLocation);
+					Root->RegisterComponent();
 
-			SurfaceMagnetismComponent = NewObject<UUxtSurfaceMagnetismComponent>(TargetActor);
-			SurfaceMagnetismComponent->SetTargetComponent(Root);
-			SurfaceMagnetismComponent->bSmoothPosition = false;
-			SurfaceMagnetismComponent->bSmoothRotation = false;
-			SurfaceMagnetismComponent->RegisterComponent();
+					SurfaceMagnetismComponent = NewObject<UUxtSurfaceMagnetismComponent>(TargetActor);
+					SurfaceMagnetismComponent->SetTargetComponent(Root);
+					SurfaceMagnetismComponent->bSmoothPosition = false;
+					SurfaceMagnetismComponent->bSmoothRotation = false;
+					SurfaceMagnetismComponent->RegisterComponent();
 
-			if (!TargetFilename.IsEmpty())
-			{
-				UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(TargetActor);
-				Mesh->SetupAttachment(TargetActor->GetRootComponent());
-				Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-				Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
-				Mesh->SetGenerateOverlapEvents(true);
+					if (!TargetFilename.IsEmpty())
+					{
+						UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(TargetActor);
+						Mesh->SetupAttachment(TargetActor->GetRootComponent());
+						Mesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+						Mesh->SetCollisionProfileName(TEXT("OverlapAll"));
+						Mesh->SetGenerateOverlapEvents(true);
 
-				UStaticMesh* MeshAsset = LoadObject<UStaticMesh>(TargetActor, *TargetFilename);
-				Mesh->SetStaticMesh(MeshAsset);
-				Mesh->RegisterComponent();
-			}
+						UStaticMesh* MeshAsset = LoadObject<UStaticMesh>(TargetActor, *TargetFilename);
+						Mesh->SetStaticMesh(MeshAsset);
+						Mesh->RegisterComponent();
+					}
 
-			/// Surface Actor
-			SurfaceActor = World->SpawnActor<AActor>();
-			USceneComponent* RootSurface = NewObject<USceneComponent>(SurfaceActor);
-			SurfaceActor->SetRootComponent(RootSurface);
-			RootSurface->SetWorldLocation(SurfaceLocation);
-			RootSurface->RegisterComponent();
+					/// Surface Actor
+					SurfaceActor = World->SpawnActor<AActor>();
+					USceneComponent* RootSurface = NewObject<USceneComponent>(SurfaceActor);
+					SurfaceActor->SetRootComponent(RootSurface);
+					RootSurface->SetWorldLocation(SurfaceLocation);
+					RootSurface->RegisterComponent();
 
-			UStaticMeshComponent* SurfaceMesh = UxtTestUtils::CreateStaticMesh(SurfaceActor, FVector(.5, 5, 5));
-			SurfaceMesh->SetupAttachment(SurfaceActor->GetRootComponent());
-			SurfaceMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			SurfaceMesh->SetCollisionProfileName(TEXT("BlockAllDynamic"));
-			SurfaceMesh->SetGenerateOverlapEvents(true);
-			SurfaceMesh->RegisterComponent();
+					UStaticMeshComponent* SurfaceMesh = UxtTestUtils::CreateStaticMesh(SurfaceActor, FVector(.5, 5, 5));
+					SurfaceMesh->SetupAttachment(SurfaceActor->GetRootComponent());
+					SurfaceMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+					SurfaceMesh->SetCollisionProfileName(TEXT("BlockAllDynamic"));
+					SurfaceMesh->SetGenerateOverlapEvents(true);
+					SurfaceMesh->RegisterComponent();
 
-			World->UpdateWorldComponents(false, false);
+					World->UpdateWorldComponents(false, false);
+				});
+
+			AfterEach(
+				[this]
+				{
+					FrameQueue.Reset();
+					UxtTestUtils::DisableTestHandTracker();
+					FrameQueue.Reset();
+					HandInteractionActor->Destroy();
+					HandInteractionActor = nullptr;
+					Pointer->GetOwner()->Destroy();
+					Pointer = nullptr;
+					TargetActor->Destroy();
+					SurfaceActor->Destroy();
+				});
+
+			LatentIt(
+				"Target should snap to surface when pointing",
+				[this](const FDoneDelegate& Done)
+				{
+					UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
+
+					FrameQueue.Enqueue(
+						[this]
+						{
+							DistCheck = FVector::Distance(SurfaceActor->GetActorLocation(), TargetActor->GetActorLocation());
+							TestTrue(TEXT("Distance outside range"), DistCheck > InRange);
+							TestTrue(TEXT("Surface component not is ticking"), !SurfaceMagnetismComponent->IsComponentTickEnabled());
+						});
+					FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NearPoint); });
+					FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetSelectPressed(true); });
+
+					FrameQueue.Enqueue([this]
+									   { TestTrue(TEXT("Component is ticking"), SurfaceMagnetismComponent->IsComponentTickEnabled()); });
+					FrameQueue.Enqueue(
+						[this]
+						{
+							DistCheck = FVector::Distance(SurfaceActor->GetActorLocation(), TargetActor->GetActorLocation());
+							TestTrue(TEXT("Distance within range"), DistCheck < InRange);
+						});
+					FrameQueue.Enqueue([Done] { Done.Execute(); });
+				});
 		});
-
-		AfterEach([this] {
-			FrameQueue.Reset();
-			UxtTestUtils::DisableTestHandTracker();
-			FrameQueue.Reset();
-			HandInteractionActor->Destroy();
-			HandInteractionActor = nullptr;
-			Pointer->GetOwner()->Destroy();
-			Pointer = nullptr;
-			TargetActor->Destroy();
-			SurfaceActor->Destroy();
-		});
-
-		LatentIt("Target should snap to surface when pointing", [this](const FDoneDelegate& Done) {
-			UxtTestUtils::GetTestHandTracker().SetAllJointPositions(FVector::ZeroVector);
-
-			FrameQueue.Enqueue([this] {
-				DistCheck = FVector::Distance(SurfaceActor->GetActorLocation(), TargetActor->GetActorLocation());
-				TestTrue(TEXT("Distance outside range"), DistCheck > InRange);
-				TestTrue(TEXT("Surface component not is ticking"), !SurfaceMagnetismComponent->IsComponentTickEnabled());
-			});
-			FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetAllJointPositions(NearPoint); });
-			FrameQueue.Enqueue([this] { UxtTestUtils::GetTestHandTracker().SetSelectPressed(true); });
-
-			FrameQueue.Enqueue([this] { TestTrue(TEXT("Component is ticking"), SurfaceMagnetismComponent->IsComponentTickEnabled()); });
-			FrameQueue.Enqueue([this] {
-				DistCheck = FVector::Distance(SurfaceActor->GetActorLocation(), TargetActor->GetActorLocation());
-				TestTrue(TEXT("Distance within range"), DistCheck < InRange);
-			});
-			FrameQueue.Enqueue([Done] { Done.Execute(); });
-		});
-	});
 }
 
 #endif // #if WITH_DEV_AUTOMATION_TESTS
