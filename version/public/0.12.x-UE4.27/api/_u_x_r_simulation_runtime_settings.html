@@ -126,6 +126,22 @@
 <td><strong><a href="#variable-bstartwithpositionalheadtracking">bStartWithPositionalHeadTracking</a></strong></td>
 </tr>
 <tr>
+<td>float</td>
+<td><strong><a href="#variable-headmovementmaxspeed">HeadMovementMaxSpeed</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-headmovementacceleration">HeadMovementAcceleration</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-headmovementdeceleration">HeadMovementDeceleration</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-headmovementturningboost">HeadMovementTurningBoost</a></strong></td>
+</tr>
+<tr>
 <td>bool</td>
 <td><strong><a href="#variable-bstartwithhandsenabled">bStartWithHandsEnabled</a></strong></td>
 </tr>
@@ -195,6 +211,26 @@ bool bEnableSimulation;
 bool bStartWithPositionalHeadTracking;
 </code></pre>
 <p>Enable positional head tracking on game start.</p>
+<h3 id="variable-headmovementmaxspeed">variable HeadMovementMaxSpeed</h3>
+<pre><code class="lang-cpp">UPROPERTY(GlobalConfig, EditAnywhere, Category=&quot;XRSimulation&quot;, Meta=(DisplayName=&quot;Max HMD Speed&quot;, Tooltip=&quot;Maximum speed for HMD movement.&quot;))
+float HeadMovementMaxSpeed;
+</code></pre>
+<p>Maximum speed for HMD movement.</p>
+<h3 id="variable-headmovementacceleration">variable HeadMovementAcceleration</h3>
+<pre><code class="lang-cpp">UPROPERTY(GlobalConfig, EditAnywhere, Category=&quot;XRSimulation&quot;, Meta=(DisplayName=&quot;HMD Acceleration&quot;, Tooltip=&quot;Acceleration of the HMD when moving.&quot;))
+float HeadMovementAcceleration;
+</code></pre>
+<p>Acceleration of the HMD when moving.</p>
+<h3 id="variable-headmovementdeceleration">variable HeadMovementDeceleration</h3>
+<pre><code class="lang-cpp">UPROPERTY(GlobalConfig, EditAnywhere, Category=&quot;XRSimulation&quot;, Meta=(DisplayName=&quot;HMD Deceleration&quot;, Tooltip=&quot;Deceleration of the HMD when moving.&quot;))
+float HeadMovementDeceleration;
+</code></pre>
+<p>Deceleration of the HMD when moving.</p>
+<h3 id="variable-headmovementturningboost">variable HeadMovementTurningBoost</h3>
+<pre><code class="lang-cpp">UPROPERTY(GlobalConfig, EditAnywhere, Category=&quot;XRSimulation&quot;, Meta=(DisplayName=&quot;HMD Turning Boost&quot;, Tooltip=&quot;Boost to avoid losing speed when HMD is turning.&quot;))
+float HeadMovementTurningBoost;
+</code></pre>
+<p>Boost to avoid losing speed when HMD is turning.</p>
 <h3 id="variable-bstartwithhandsenabled">variable bStartWithHandsEnabled</h3>
 <pre><code class="lang-cpp">UPROPERTY(GlobalConfig, EditAnywhere, Category=&quot;XRSimulation&quot;, Meta=(DisplayName=&quot;Start With Hands Enabled&quot;, Tooltip=&quot;If true, hands will start with tracking enabled.&quot;))
 bool bStartWithHandsEnabled;
@@ -256,7 +292,7 @@ TSubclassOf&lt; UAnimInstance &gt; HandAnimInstance;
 </code></pre>
 <p>Animation instance used for animating hand meshes.</p>
 <hr>
-<p>Updated on 22 October 2021 at 14:17:43 Coordinated Universal Time</p>
+<p>Updated on  2 November 2021 at 11:40:26 Coordinated Universal Time</p>
 </article>
           </div>
           
