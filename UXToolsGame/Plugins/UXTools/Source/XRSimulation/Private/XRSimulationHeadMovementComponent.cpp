@@ -3,6 +3,8 @@
 
 #include "XRSimulationHeadMovementComponent.h"
 
+#include "XRSimulationRuntimeSettings.h"
+
 #include "Camera/PlayerCameraManager.h"
 #include "Engine/Engine.h"
 #include "Engine/LocalPlayer.h"
@@ -52,15 +54,12 @@ void UXRSimulationHeadMovementComponent::ApplyRotationInput(float DeltaTime)
 // Copied from UFloatingPawnMovement
 void UXRSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
 {
-	const float MaxSpeed = 1200.f;
-	const float Acceleration = 4000.f;
-	const float Deceleration = 8000.f;
-	const float TurningBoost = 8.0f;
+	const UXRSimulationRuntimeSettings* Settings = UXRSimulationRuntimeSettings::Get();
 
 	const FVector ControlAcceleration = MovementInput.GetClampedToMaxSize(1.f);
 
 	const float AnalogInputModifier = (ControlAcceleration.SizeSquared() > 0.f ? ControlAcceleration.Size() : 0.f);
-	const float MaxPawnSpeed = MaxSpeed * AnalogInputModifier;
+	const float MaxPawnSpeed = Settings->HeadMovementMaxSpeed * AnalogInputModifier;
 	const bool bExceedingMaxSpeed = IsExceedingMaxSpeed(MaxPawnSpeed);
 
 	if (AnalogInputModifier > 0.f && !bExceedingMaxSpeed)
@@ -69,7 +68,7 @@ void UXRSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
 		if (Velocity.SizeSquared() > 0.f)
 		{
 			// Change direction faster than only using acceleration, but never increase velocity magnitude.
-			const float TimeScale = FMath::Clamp(DeltaTime * TurningBoost, 0.f, 1.f);
+			const float TimeScale = FMath::Clamp(DeltaTime * Settings->HeadMovementTurningBoost, 0.f, 1.f);
 			Velocity = Velocity + (ControlAcceleration * Velocity.Size() - Velocity) * TimeScale;
 		}
 	}
@@ -79,7 +78,7 @@ void UXRSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
 		if (Velocity.SizeSquared() > 0.f)
 		{
 			const FVector OldVelocity = Velocity;
-			const float VelSize = FMath::Max(Velocity.Size() - FMath::Abs(Deceleration) * DeltaTime, 0.f);
+			const float VelSize = FMath::Max(Velocity.Size() - FMath::Abs(Settings->HeadMovementDeceleration) * DeltaTime, 0.f);
 			Velocity = Velocity.GetSafeNormal() * VelSize;
 
 			// Don't allow braking to lower us below max speed if we started above it.
@@ -92,7 +91,7 @@ void UXRSimulationHeadMovementComponent::ApplyMovementInput(float DeltaTime)
 
 	// Apply acceleration and clamp velocity magnitude.
 	const float NewMaxSpeed = (IsExceedingMaxSpeed(MaxPawnSpeed)) ? Velocity.Size() : MaxPawnSpeed;
-	Velocity += ControlAcceleration * FMath::Abs(Acceleration) * DeltaTime;
+	Velocity += ControlAcceleration * FMath::Abs(Settings->HeadMovementAcceleration) * DeltaTime;
 	Velocity = Velocity.GetClampedToMaxSize(NewMaxSpeed);
 }
 

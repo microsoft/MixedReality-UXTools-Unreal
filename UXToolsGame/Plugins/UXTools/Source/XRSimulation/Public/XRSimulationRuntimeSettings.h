@@ -72,6 +72,30 @@ public:
 		Meta = (DisplayName = "Start With Positional Head Tracking", Tooltip = "Enable positional head tracking on game start."))
 	bool bStartWithPositionalHeadTracking = true;
 
+	/** Maximum speed for HMD movement. */
+	UPROPERTY(
+		GlobalConfig, EditAnywhere, Category = "XRSimulation",
+		Meta = (DisplayName = "Max HMD Speed", Tooltip = "Maximum speed for HMD movement."))
+	float HeadMovementMaxSpeed = 100.0f;
+
+	/** Acceleration of the HMD when moving. */
+	UPROPERTY(
+		GlobalConfig, EditAnywhere, Category = "XRSimulation",
+		Meta = (DisplayName = "HMD Acceleration", Tooltip = "Acceleration of the HMD when moving."))
+	float HeadMovementAcceleration = 400.f;
+
+	/** Deceleration of the HMD when moving. */
+	UPROPERTY(
+		GlobalConfig, EditAnywhere, Category = "XRSimulation",
+		Meta = (DisplayName = "HMD Deceleration", Tooltip = "Deceleration of the HMD when moving."))
+	float HeadMovementDeceleration = 1000.f;
+
+	/** Boost to avoid losing speed when HMD is turning. */
+	UPROPERTY(
+		GlobalConfig, EditAnywhere, Category = "XRSimulation",
+		Meta = (DisplayName = "HMD Turning Boost", Tooltip = "Boost to avoid losing speed when HMD is turning."))
+	float HeadMovementTurningBoost = 8.0f;
+
 	/** Start With Hands Enabled. */
 	UPROPERTY(
 		GlobalConfig, EditAnywhere, Category = "XRSimulation",
