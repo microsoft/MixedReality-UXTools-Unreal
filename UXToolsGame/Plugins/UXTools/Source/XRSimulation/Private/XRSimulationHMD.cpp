@@ -477,7 +477,7 @@ FMatrix FXRSimulationHMD::GetStereoProjectionMatrix(const enum EStereoscopicPass
 }
 
 void FXRSimulationHMD::GetEyeRenderParams_RenderThread(
-	const FRenderingCompositePassContext& Context, FVector2D& EyeToSrcUVScaleValue, FVector2D& EyeToSrcUVOffsetValue) const
+	const FHeadMountedDisplayPassContext& Context, FVector2D& EyeToSrcUVScaleValue, FVector2D& EyeToSrcUVOffsetValue) const
 {
 	EyeToSrcUVOffsetValue = FVector2D::ZeroVector;
 	EyeToSrcUVScaleValue = FVector2D(1.0f, 1.0f);

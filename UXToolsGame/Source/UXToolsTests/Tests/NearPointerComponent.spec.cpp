@@ -103,7 +103,7 @@ namespace
 		FHitResult HitResult;
 		UxtTestUtils::GetTestWorld()->SweepSingleByChannel(
 			HitResult, Start, End, FQuat::Identity, ECollisionChannel::ECC_Visibility, FCollisionShape::MakeSphere(1.f));
-		return HitResult.Actor == Actor;
+		return HitResult.GetActor() == Actor;
 	}
 } // namespace
 

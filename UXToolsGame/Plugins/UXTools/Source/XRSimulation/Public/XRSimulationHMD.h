@@ -101,7 +101,7 @@ public:
 	virtual int32 GetDesiredNumberOfViews(bool bStereoRequested) const override;
 	virtual FMatrix GetStereoProjectionMatrix(const enum EStereoscopicPass StereoPassType) const override;
 	virtual void GetEyeRenderParams_RenderThread(
-		const struct FRenderingCompositePassContext& Context, FVector2D& EyeToSrcUVScaleValue,
+		const struct FHeadMountedDisplayPassContext& Context, FVector2D& EyeToSrcUVScaleValue,
 		FVector2D& EyeToSrcUVOffsetValue) const override;
 	virtual IStereoRenderTargetManager* GetRenderTargetManager() override;
 	virtual void RenderTexture_RenderThread(
