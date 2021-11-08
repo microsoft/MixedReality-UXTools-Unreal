@@ -10,7 +10,7 @@
 	"DocsURL": "https://microsoft.github.io/MixedReality-UXTools-Unreal/",
 	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/f9f9cddaf5834ad1abeda49da34adf85",
 	"SupportURL": "https://github.com/microsoft/MixedReality-UXTools-Unreal",
-	"EngineVersion": "4.27.0",
+	"EngineVersion": "5.0.0",
 	"CanContainContent": true,
 	"IsBetaVersion": true,
 	"Installed": false,
