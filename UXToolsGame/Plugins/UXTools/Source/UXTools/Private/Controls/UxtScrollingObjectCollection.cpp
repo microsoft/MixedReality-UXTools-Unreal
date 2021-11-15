@@ -329,8 +329,8 @@ void UUxtScrollingObjectCollection::InitializeCollection()
 	// If the @ScrollDirection property is set to LeftAndRight then all that needs to be done at the point
 	// is to swap the axis in which the offsets are applied, placement logic remains the same
 	// Use pointers to member to make this transparent within the loop below.
-	float FVector::*pTier = &FVector::Y;
-	float FVector::*pOrtho = &FVector::Z;
+	double FVector::*pTier = &FVector::Y;
+	double FVector::*pOrtho = &FVector::Z;
 	float TierOffset = TierDir * CellWidth;
 	float OrthoOffset = OrthoDir * CellHeight;
 	if (ScrollDirection == EUxtScrollDirection::LeftAndRight)
@@ -498,14 +498,14 @@ void UUxtScrollingObjectCollection::ConfigureBoxComponent()
 float UUxtScrollingObjectCollection::GetScrollOffsetFromLocation(const FVector LocalSpaceLocation) const
 {
 	// We know that the scroll offset is aligned to one of two possible axes in local space.
-	const float FVector::*pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Z : &FVector::Y);
+	const double FVector::*pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Z : &FVector::Y);
 	return LocalSpaceLocation.*pOffset;
 }
 
 float UUxtScrollingObjectCollection::GetTierOffsetFromLocation(const FVector LocalSpaceLocation) const
 {
 	// We know that the tier offset is aligned to one of two possible axes in local space.
-	const float FVector::*pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Y : &FVector::Z);
+	const double FVector::*pOffset = (ScrollDirection == EUxtScrollDirection::UpAndDown ? &FVector::Y : &FVector::Z);
 	return LocalSpaceLocation.*pOffset;
 }
 
