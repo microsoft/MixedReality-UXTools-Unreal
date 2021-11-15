@@ -254,7 +254,7 @@ void UUxtWidgetComponent::GetEventAndPath(
 	FVector2D LocalHitLocation;
 	Widget->GetLocalHitLocation(ClosestPoint, LocalHitLocation);
 
-	Path = Widget->GetHitWidgetPath(LocalHitLocation, false);
+	Path = FWidgetPath(Widget->GetHitWidgetPath(LocalHitLocation, false));
 
 	Event = FPointerEvent(
 		VirtualUser->GetUserIndex(), Pointer->GetUniqueID(), LocalHitLocation, Pointers[Pointer], PressedKeys, Key, 0.0f, ModifierKeys);
