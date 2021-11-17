@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Near Menu | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Near Menu | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="near-menu">Near Menu</h1>
+
+<p>Near Menu is a UX control which provides a collection of buttons or other UI components. It floats around the user's body using the <a href="FollowComponent.html">follow component</a> and is easily accessible anytime. Since it is loosely coupled with the user, it does not disturb the user's interaction with the target content. The user can use the 'Pin' button to world-lock/unlock the menu. The menu can be grabbed and placed at a specific position.</p>
+<p><img src="Images/NearMenu/NearMenu.png" alt="NearMenu"></p>
+<h2 id="interaction-behavior">Interaction behavior</h2>
+<ul>
+<li><strong>Tag-along</strong>: The menu follows you and stays within 30-60cm range from the user for the near interactions.</li>
+<li><strong>Pin</strong>: Using the 'Pin' button, the menu can be world-locked and released.</li>
+<li><strong>Grab and move</strong>: The menu is always grabbable and movable. Regardless of the previous state, the menu will be pinned (world-locked) when grabbed and released. There are visual cues for the grabbable area. They are revealed on hand proximity.</li>
+</ul>
+<h2 id="blueprints">Blueprints</h2>
+<p>Near Menu blueprints are designed to demonstrate how to use UX Tool's various components to build menus for near interactions. It is recommended to derive from these blueprints when creating new or custom near menus.</p>
+<ul>
+<li><strong>BP_NearMenu2x1.uasset</strong></li>
+<li><strong>BP_NearMenu3x1.uasset</strong></li>
+<li><strong>BP_NearMenu3x2.uasset</strong></li>
+<li><strong>BP_NearMenu3x3.uasset</strong></li>
+<li><strong>BP_NearMenu4x1.uasset</strong></li>
+<li><strong>BP_NearMenu4x2.uasset</strong></li>
+</ul>
+<h2 id="example-level">Example level</h2>
+<p>There are some examples of various near menus within the <code>\UXToolsGame\Plugins\UXToolsExamples\Content\NearMenu\NearMenuExample.umap</code> level.</p>
+<h2 id="creating-a-near-menu">Creating a near menu</h2>
+<p>When creating a near menu for your application it is recommended to copy the near menu you need from the above Blueprints into your project to derive from.</p>
+<ol>
+<li><p>Create a new blueprint class, select one of the <code>BP_NearMenu*</code> blueprints as a parent class.</p>
+<ul>
+<li>In this example we will derive from <code>BP_NearMenu3x3</code> and call our blueprint <code>BP_ExampleNearMenu</code>.</li>
+</ul>
+<p><img src="Images/NearMenu/NearMenuParentClass.png" alt="ParentClass"></p>
+</li>
+<li><p>Now that we have our foundation, we can customize the menu.</p>
+<ul>
+<li>Any button may be customized by selecting a button <code>ChildActorComponent</code> and modifying settings within the child actor template.</li>
+<li>The <a href="FollowComponent.html">UxtFollow</a> and <a href="Manipulator.html">UxtGenericManipulator</a> components can be altered to change follow and manipulation behavior respectively.</li>
+<li>A handful of properties exist on the near menu blueprint root to adjust the auto follow behavior.</li>
+</ul>
+<p><img src="Images/NearMenu/NearMenuCustomize.png" alt="Customize"></p>
+</li>
+<li><p>Finally, to tie logic to buttons on the menu we need to bind to the <code>On Button Pressed</code> event. The below blueprint graph will print &quot;Hello&quot; when &quot;Menu One&quot; is pressed:</p>
+<ul>
+<li>The <code>Get Component by Class</code> method is looking for a <a href="PressableButton.html">UxtPressableButton</a> component.</li>
+</ul>
+<p><img src="Images/NearMenu/NearMenuEventGraph.png" alt="EventGraph"></p>
+</li>
+</ol>
+<h2 id="more-information">More information</h2>
+<ul>
+<li><a href="FollowComponent.html">FollowComponent</a></li>
+<li><a href="Manipulator.html">Manipulator</a></li>
+<li><a href="PressableButton.html">PressableButton</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/Docs/NearMenu.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,723 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtManipulatorComponentBase | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtManipulatorComponentBase | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_manipulator_component_base">
+<h1 id="uuxtmanipulatorcomponentbase">UUxtManipulatorComponentBase</h1>
+
+<p>Base class for manipulation components that react to pointer interactions.</p>
+<p>This class does not modify the actor as-is. Implementations should use the provided functions to compute a target transform from grabbing pointers and call the ApplyTargetTransform method to actually modify the actor.</p>
+<pre><code class="lang-cpp">class UUxtManipulatorComponentBase;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Interactions/UxtManipulatorComponentBase.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from <a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a>, <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a>, <a href="_i_uxt_grab_target.html">IUxtGrabTarget</a>, <a href="_i_uxt_grab_handler.html">IUxtGrabHandler</a>, <a href="_i_uxt_far_target.html">IUxtFarTarget</a>, <a href="_i_uxt_far_handler.html">IUxtFarHandler</a>, UActorComponent</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtmanipulatorcomponentbase">UUxtManipulatorComponentBase</a></strong>()</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxtmanipulatorcomponentbase">~UUxtManipulatorComponentBase</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-movetotargets">MoveToTargets</a></strong>(const FTransform &amp; SourceTransform, FTransform &amp; TargetTransform, bool UsePointerRotation) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-rotatearoundpivot">RotateAroundPivot</a></strong>(const FTransform &amp; SourceTransform, const FVector &amp; Pivot, FTransform &amp; TargetTransform) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-rotateaboutaxis">RotateAboutAxis</a></strong>(const FTransform &amp; SourceTransform, const FVector &amp; Pivot, const FVector &amp; Axis, FTransform &amp; TargetTransform) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-smoothtransform">SmoothTransform</a></strong>(const FTransform &amp; SourceTransform, float LocationLerpTime, float RotationLerpTime, float DeltaSeconds, FTransform &amp; TargetTransform) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setinitialtransform">SetInitialTransform</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-applytargettransform">ApplyTargetTransform</a></strong>(const FTransform &amp; TargetTransform)</td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#function-gettargetcomponent">GetTargetComponent</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-endplay">EndPlay</a></strong>(const EEndPlayReason::Type EndPlayReason) override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtUpdateTransformDelegate</td>
+<td><strong><a href="#variable-onupdatetransform">OnUpdateTransform</a></strong></td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#variable-initialtransform">InitialTransform</a></strong></td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="#variable-initialcameraspacetransform">InitialCameraSpaceTransform</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-bautosetinitialtransform">bAutoSetInitialTransform</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#variable-transformtarget">TransformTarget</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-attributes">Protected Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="_uxt_manipulation_move_logic.html">UxtManipulationMoveLogic</a> *</td>
+<td><strong><a href="#variable-movelogic">MoveLogic</a></strong></td>
+</tr>
+<tr>
+<td><a href="_uxt_two_hand_manipulation_rotate_logic.html">UxtTwoHandManipulationRotateLogic</a> *</td>
+<td><strong><a href="#variable-twohandrotatelogic">TwoHandRotateLogic</a></strong></td>
+</tr>
+<tr>
+<td><a href="_uxt_two_hand_manipulation_scale_logic.html">UxtTwoHandManipulationScaleLogic</a> *</td>
+<td><strong><a href="#variable-twohandscalelogic">TwoHandScaleLogic</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-uuxtgrabtargetcomponent">UUxtGrabTargetComponent</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-findgrabpointer">FindGrabPointer</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * NearPointer, <a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * FarPointer, bool &amp; Success, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; PointerData, int &amp; Index) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-getprimarygrabpointer">GetPrimaryGrabPointer</a></strong>(bool &amp; Valid, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; PointerData) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-getsecondarygrabpointer">GetSecondaryGrabPointer</a></strong>(bool &amp; Valid, <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &amp; PointerData) const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-forceendgrab">ForceEndGrab</a></strong>()</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-getgrabpointcentroid">GetGrabPointCentroid</a></strong>(const FTransform &amp; ToWorldTransform) const</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-gettargetcentroid">GetTargetCentroid</a></strong>() const</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-gettickonlywhilegrabbed">GetTickOnlyWhileGrabbed</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-settickonlywhilegrabbed">SetTickOnlyWhileGrabbed</a></strong>(bool bEnable)</td>
+</tr>
+<tr>
+<td>const TArray&lt; <a href="_f_uxt_grab_pointer_data.html">FUxtGrabPointerData</a> &gt; &amp;</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-getgrabpointers">GetGrabPointers</a></strong>() const</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onexternalmanipulationstarted">OnExternalManipulationStarted</a></strong>() override</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-isgrabfocusable_implementation">IsGrabFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-canhandlegrab_implementation">CanHandleGrab_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onentergrabfocus_implementation">OnEnterGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onupdategrabfocus_implementation">OnUpdateGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onexitgrabfocus_implementation">OnExitGrabFocus_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onbegingrab_implementation">OnBeginGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onupdategrab_implementation">OnUpdateGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onendgrab_implementation">OnEndGrab_Implementation</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-isfarfocusable_implementation">IsFarFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-canhandlefar_implementation">CanHandleFar_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onfarpressed_implementation">OnFarPressed_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onfarreleased_implementation">OnFarReleased_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onfardragged_implementation">OnFarDragged_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onenterfarfocus_implementation">OnEnterFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onexitfarfocus_implementation">OnExitFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-onupdatedfarfocus_implementation">OnUpdatedFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>FTransform</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#function-getpointercentroid">GetPointerCentroid</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Attributes inherited from <a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtEnterFarFocusDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onenterfarfocus">OnEnterFarFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUpdateFarFocusDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onupdatefarfocus">OnUpdateFarFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtExitFarFocusDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onexitfarfocus">OnExitFarFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtEnterGrabFocusDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onentergrabfocus">OnEnterGrabFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUpdateGrabFocusDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onupdategrabfocus">OnUpdateGrabFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtExitGrabFocusDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onexitgrabfocus">OnExitGrabFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtBeginGrabDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onbegingrab">OnBeginGrab</a></strong></td>
+</tr>
+<tr>
+<td>FUxtUpdateGrabDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onupdategrab">OnUpdateGrab</a></strong></td>
+</tr>
+<tr>
+<td>FUxtEndGrabDelegate</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-onendgrab">OnEndGrab</a></strong></td>
+</tr>
+<tr>
+<td>int32</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-interactionmode">InteractionMode</a></strong></td>
+</tr>
+<tr>
+<td>int32</td>
+<td><strong><a href="_u_uxt_grab_target_component.html#variable-grabmodes">GrabModes</a></strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getautodetectconstraints">GetAutoDetectConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setautodetectconstraints">SetAutoDetectConstraints</a></strong>(bool bNewAutoDetectConstraints)</td>
+</tr>
+<tr>
+<td>const TArray&lt; FComponentReference &gt; &amp;</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getselectedconstraints">GetSelectedConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-addconstraint">AddConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-removeconstraint">RemoveConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getrelativetoinitialscale">GetRelativeToInitialScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setrelativetoinitialscale">SetRelativeToInitialScale</a></strong>(const bool Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getminscale">GetMinScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setminscale">SetMinScale</a></strong>(const float Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-getmaxscale">GetMaxScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-setmaxscale">SetMaxScale</a></strong>(const float Value)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protected Functions inherited from <a href="_u_uxt_manipulator_component.html">UUxtManipulatorComponent</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-tickcomponent">TickComponent</a></strong>(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-initializeconstraints">InitializeConstraints</a></strong>(USceneComponent * NewTargetComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_u_uxt_manipulator_component.html#function-applyconstraints">ApplyConstraints</a></strong>(FTransform &amp; Transform, EUxtTransformMode TransformMode, bool bIsOneHanded, bool bIsNear) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_grab_target.html">IUxtGrabTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_grab_target.html#function-isgrabfocusable">IsGrabFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_grab_handler.html">IUxtGrabHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-canhandlegrab">CanHandleGrab</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onentergrabfocus">OnEnterGrabFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onupdategrabfocus">OnUpdateGrabFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onexitgrabfocus">OnExitGrabFocus</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onbegingrab">OnBeginGrab</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onupdategrab">OnUpdateGrab</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_grab_handler.html#function-onendgrab">OnEndGrab</a></strong>(<a href="_u_uxt_near_pointer_component.html">UUxtNearPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_target.html">IUxtFarTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_target.html#function-isfarfocusable">IsFarFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-canhandlefar">CanHandleFar</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onenterfarfocus">OnEnterFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onupdatedfarfocus">OnUpdatedFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onexitfarfocus">OnExitFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarpressed">OnFarPressed</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfardragged">OnFarDragged</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarreleased">OnFarReleased</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-uuxtmanipulatorcomponentbase">function UUxtManipulatorComponentBase</h3>
+<pre><code class="lang-cpp">UUxtManipulatorComponentBase()
+</code></pre>
+<h3 id="function-uuxtmanipulatorcomponentbase-1">function ~UUxtManipulatorComponentBase</h3>
+<pre><code class="lang-cpp">~UUxtManipulatorComponentBase()
+</code></pre>
+<h3 id="function-movetotargets">function MoveToTargets</h3>
+<pre><code class="lang-cpp">void MoveToTargets(
+    const FTransform &amp; SourceTransform,
+    FTransform &amp; TargetTransform,
+    bool UsePointerRotation
+) const
+</code></pre>
+<p>Translate the source transform such that grab points match targets. If more than one pointer is used then the centroid of the grab points and targets is used.</p>
+<h3 id="function-rotatearoundpivot">function RotateAroundPivot</h3>
+<pre><code class="lang-cpp">void RotateAroundPivot(
+    const FTransform &amp; SourceTransform,
+    const FVector &amp; Pivot,
+    FTransform &amp; TargetTransform
+) const
+</code></pre>
+<p>Rotates the source transform around the pivot point such that the pointers line up with current targets. If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.</p>
+<h3 id="function-rotateaboutaxis">function RotateAboutAxis</h3>
+<pre><code class="lang-cpp">void RotateAboutAxis(
+    const FTransform &amp; SourceTransform,
+    const FVector &amp; Pivot,
+    const FVector &amp; Axis,
+    FTransform &amp; TargetTransform
+) const
+</code></pre>
+<p>Rotates the source transform around the pivot point on the given axis such that the pointers line up with current targets. If more than one pointer is used then the resulting rotation will minimize the mean square of target distances.</p>
+<h3 id="function-smoothtransform">function SmoothTransform</h3>
+<pre><code class="lang-cpp">void SmoothTransform(
+    const FTransform &amp; SourceTransform,
+    float LocationLerpTime,
+    float RotationLerpTime,
+    float DeltaSeconds,
+    FTransform &amp; TargetTransform
+) const
+</code></pre>
+<p>Apply a low-pass filter to the source transform location and rotation to smooth out jittering. Target transform is a exponentially weighted average of the current component transform and the source transform based on the time step.</p>
+<h3 id="function-setinitialtransform">function SetInitialTransform</h3>
+<pre><code class="lang-cpp">void SetInitialTransform()
+</code></pre>
+<p>Cache the initial world space and camera space transform. Manipulation should be based on these initial transform for stable results. If bAutoSetInitialTransform is true then the initial transform is updated when grabbed.</p>
+<h3 id="function-applytargettransform">function ApplyTargetTransform</h3>
+<pre><code class="lang-cpp">void ApplyTargetTransform(
+    const FTransform &amp; TargetTransform
+)
+</code></pre>
+<p>Apply the transform to the actor root scene component. Relative transform between the manipulator component and the root scene component is preserved.</p>
+<h3 id="function-gettargetcomponent">function GetTargetComponent</h3>
+<pre><code class="lang-cpp">USceneComponent * GetTargetComponent()
+</code></pre>
+<p>Get the component the manipulator is targeting.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplements</strong>: <a href="_u_uxt_grab_target_component.html#function-beginplay">UUxtGrabTargetComponent::BeginPlay</a></p>
+<h3 id="function-endplay">function EndPlay</h3>
+<pre><code class="lang-cpp">virtual void EndPlay(
+    const EEndPlayReason::Type EndPlayReason
+) override
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-onupdatetransform">variable OnUpdateTransform</h3>
+<pre><code class="lang-cpp">FUxtUpdateTransformDelegate OnUpdateTransform;
+</code></pre>
+<h3 id="variable-initialtransform">variable InitialTransform</h3>
+<pre><code class="lang-cpp">FTransform InitialTransform;
+</code></pre>
+<h3 id="variable-initialcameraspacetransform">variable InitialCameraSpaceTransform</h3>
+<pre><code class="lang-cpp">FTransform InitialCameraSpaceTransform;
+</code></pre>
+<h3 id="variable-bautosetinitialtransform">variable bAutoSetInitialTransform</h3>
+<pre><code class="lang-cpp">bool bAutoSetInitialTransform = true;
+</code></pre>
+<p>If true the initial transform will be set automatically when the component is grabbed.</p>
+<h3 id="variable-transformtarget">variable TransformTarget</h3>
+<pre><code class="lang-cpp">USceneComponent * TransformTarget = nullptr;
+</code></pre>
+<p>The component to transform, will default to the root scene component if not specified</p>
+<h2 id="protected-attributes-documentation">Protected Attributes Documentation</h2>
+<h3 id="variable-movelogic">variable MoveLogic</h3>
+<pre><code class="lang-cpp">UxtManipulationMoveLogic * MoveLogic;
+</code></pre>
+<h3 id="variable-twohandrotatelogic">variable TwoHandRotateLogic</h3>
+<pre><code class="lang-cpp">UxtTwoHandManipulationRotateLogic * TwoHandRotateLogic;
+</code></pre>
+<h3 id="variable-twohandscalelogic">variable TwoHandScaleLogic</h3>
+<pre><code class="lang-cpp">UxtTwoHandManipulationScaleLogic * TwoHandScaleLogic;
+</code></pre>
+<hr>
+<p>Updated on 17 November 2021 at 14:09:29 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/api/_u_uxt_manipulator_component_base.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

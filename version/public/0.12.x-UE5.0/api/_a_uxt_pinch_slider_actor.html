@@ -1,0 +1,701 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference AUxtPinchSliderActor | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference AUxtPinchSliderActor | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_a_uxt_pinch_slider_actor">
+<h1 id="auxtpinchslideractor">AUxtPinchSliderActor</h1>
+
+<p>A simple HoloLens 2 style slider that can be moved by grabbing / pinching a slider thumb. The class is extensible to support additional functionality.</p>
+<pre><code class="lang-cpp">class AUxtPinchSliderActor;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Controls/UxtPinchSliderActor.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from AActor</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-auxtpinchslideractor">AUxtPinchSliderActor</a></strong>()</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getvalue">GetValue</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setvalue">SetValue</a></strong>(float NewValue)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getminvalue">GetMinValue</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setminvalue">SetMinValue</a></strong>(float NewMinValue)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getmaxvalue">GetMaxValue</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setmaxvalue">SetMaxValue</a></strong>(float NewMaxValue)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-gettracklength">GetTrackLength</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settracklength">SetTrackLength</a></strong>(float NewTrackLength)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getstepwithtickmarks">GetStepWithTickMarks</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setstepwithtickmarks">SetStepWithTickMarks</a></strong>(bool bNewStepWithTickMarks)</td>
+</tr>
+<tr>
+<td>FText</td>
+<td><strong><a href="#function-gettitle">GetTitle</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settitle">SetTitle</a></strong>(FText NewTitle)</td>
+</tr>
+<tr>
+<td>int</td>
+<td><strong><a href="#function-getvaluetextdecimalplaces">GetValueTextDecimalPlaces</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setvaluetextdecimalplaces">SetValueTextDecimalPlaces</a></strong>(int NewValueTextDecimalPlaces)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getaligntextwithz">GetAlignTextWithZ</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setaligntextwithz">SetAlignTextWithZ</a></strong>(bool bNewAlignTextWithZ)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getmovetextwiththumb">GetMoveTextWithThumb</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setmovetextwiththumb">SetMoveTextWithThumb</a></strong>(bool bNewMoveWithThumb)</td>
+</tr>
+<tr>
+<td>int</td>
+<td><strong><a href="#function-getnumtickmarks">GetNumTickMarks</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setnumtickmarks">SetNumTickMarks</a></strong>(int NewNumTickMarks)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getshowtickmarks">GetShowTickMarks</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setshowtickmarks">SetShowTickMarks</a></strong>(bool bNewShowTickMarks)</td>
+</tr>
+<tr>
+<td>FVector</td>
+<td><strong><a href="#function-gettickmarkscale">GetTickMarkScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settickmarkscale">SetTickMarkScale</a></strong>(FVector NewTickMarkScale)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getinstancetickmarks">GetInstanceTickMarks</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setinstancetickmarks">SetInstanceTickMarks</a></strong>(bool InstanceTickMarks)</td>
+</tr>
+<tr>
+<td>FLinearColor</td>
+<td><strong><a href="#function-getdefaultthumbcolor">GetDefaultThumbColor</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setdefaultthumbcolor">SetDefaultThumbColor</a></strong>(FLinearColor NewDefaultThumbColor)</td>
+</tr>
+<tr>
+<td>FLinearColor</td>
+<td><strong><a href="#function-getfocusedthumbcolor">GetFocusedThumbColor</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setfocusedthumbcolor">SetFocusedThumbColor</a></strong>(FLinearColor NewFocusedThumbColor)</td>
+</tr>
+<tr>
+<td>FLinearColor</td>
+<td><strong><a href="#function-getgrabbedthumbcolor">GetGrabbedThumbColor</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setgrabbedthumbcolor">SetGrabbedThumbColor</a></strong>(FLinearColor NewGrabbedThumbColor)</td>
+</tr>
+<tr>
+<td>FLinearColor</td>
+<td><strong><a href="#function-getdisabledthumbcolor">GetDisabledThumbColor</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setdisabledthumbcolor">SetDisabledThumbColor</a></strong>(FLinearColor NewDisabledThumbColor)</td>
+</tr>
+<tr>
+<td>USoundCue *</td>
+<td><strong><a href="#function-getgrabsound">GetGrabSound</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setgrabsound">SetGrabSound</a></strong>(USoundCue * NewGrabSound)</td>
+</tr>
+<tr>
+<td>USoundCue *</td>
+<td><strong><a href="#function-getreleasesound">GetReleaseSound</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setreleasesound">SetReleaseSound</a></strong>(USoundCue * NewReleaseSound)</td>
+</tr>
+<tr>
+<td>USoundCue *</td>
+<td><strong><a href="#function-getticksound">GetTickSound</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setticksound">SetTickSound</a></strong>(USoundCue * NewTickSound)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getdefaultthumbscale">GetDefaultThumbScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setdefaultthumbscale">SetDefaultThumbScale</a></strong>(float NewDefaultThumbScale)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getfocusedthumbscale">GetFocusedThumbScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setfocusedthumbscale">SetFocusedThumbScale</a></strong>(float NewFocusedThumbScale)</td>
+</tr>
+<tr>
+<td>UCurveFloat *</td>
+<td><strong><a href="#function-getthumbscalecurve">GetThumbScaleCurve</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setthumbscalecurve">SetThumbScaleCurve</a></strong>(UCurveFloat * NewThumbScaleCurve)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onconstruction">OnConstruction</a></strong>(const FTransform &amp; Transform) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatestate">OnUpdateState</a></strong>(<a href="_u_uxt_pinch_slider_component.html">UUxtPinchSliderComponent</a> * Slider, EUxtSliderState NewState)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onbegingrab">OnBeginGrab</a></strong>(<a href="_u_uxt_pinch_slider_component.html">UUxtPinchSliderComponent</a> * Slider, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatevalue">OnUpdateValue</a></strong>(<a href="_u_uxt_pinch_slider_component.html">UUxtPinchSliderComponent</a> * Slider, float NewValue)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onendgrab">OnEndGrab</a></strong>(<a href="_u_uxt_pinch_slider_component.html">UUxtPinchSliderComponent</a> * Slider, <a href="_u_uxt_pointer_component.html">UUxtPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onupdatetimeline">OnUpdateTimeline</a></strong>(float Scale)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtPinchSliderValueUpdatedDelegate</td>
+<td><strong><a href="#variable-onvalueupdated">OnValueUpdated</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-attributes">Protected Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="_u_uxt_pinch_slider_component.html">UUxtPinchSliderComponent</a> *</td>
+<td><strong><a href="#variable-pinchslider">PinchSlider</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMeshComponent *</td>
+<td><strong><a href="#variable-thumb">Thumb</a></strong></td>
+</tr>
+<tr>
+<td>UStaticMeshComponent *</td>
+<td><strong><a href="#variable-track">Track</a></strong></td>
+</tr>
+<tr>
+<td>class UInstancedStaticMeshComponent *</td>
+<td><strong><a href="#variable-tickmarks">TickMarks</a></strong></td>
+</tr>
+<tr>
+<td>TArray&lt; UStaticMeshComponent * &gt;</td>
+<td><strong><a href="#variable-tickmarksnoninstanced">TickMarksNonInstanced</a></strong></td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#variable-textroot">TextRoot</a></strong></td>
+</tr>
+<tr>
+<td>class UTextRenderComponent *</td>
+<td><strong><a href="#variable-titletext">TitleText</a></strong></td>
+</tr>
+<tr>
+<td>class UTextRenderComponent *</td>
+<td><strong><a href="#variable-valuetext">ValueText</a></strong></td>
+</tr>
+<tr>
+<td>class UAudioComponent *</td>
+<td><strong><a href="#variable-audio">Audio</a></strong></td>
+</tr>
+<tr>
+<td>UTimelineComponent *</td>
+<td><strong><a href="#variable-scaletimeline">ScaleTimeline</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-auxtpinchslideractor">function AUxtPinchSliderActor</h3>
+<pre><code class="lang-cpp">AUxtPinchSliderActor()
+</code></pre>
+<h3 id="function-getvalue">function GetValue</h3>
+<pre><code class="lang-cpp">inline float GetValue() const
+</code></pre>
+<h3 id="function-setvalue">function SetValue</h3>
+<pre><code class="lang-cpp">void SetValue(
+    float NewValue
+)
+</code></pre>
+<h3 id="function-getminvalue">function GetMinValue</h3>
+<pre><code class="lang-cpp">inline float GetMinValue() const
+</code></pre>
+<h3 id="function-setminvalue">function SetMinValue</h3>
+<pre><code class="lang-cpp">void SetMinValue(
+    float NewMinValue
+)
+</code></pre>
+<h3 id="function-getmaxvalue">function GetMaxValue</h3>
+<pre><code class="lang-cpp">inline float GetMaxValue() const
+</code></pre>
+<h3 id="function-setmaxvalue">function SetMaxValue</h3>
+<pre><code class="lang-cpp">void SetMaxValue(
+    float NewMaxValue
+)
+</code></pre>
+<h3 id="function-gettracklength">function GetTrackLength</h3>
+<pre><code class="lang-cpp">inline float GetTrackLength() const
+</code></pre>
+<h3 id="function-settracklength">function SetTrackLength</h3>
+<pre><code class="lang-cpp">void SetTrackLength(
+    float NewTrackLength
+)
+</code></pre>
+<h3 id="function-getstepwithtickmarks">function GetStepWithTickMarks</h3>
+<pre><code class="lang-cpp">inline bool GetStepWithTickMarks() const
+</code></pre>
+<h3 id="function-setstepwithtickmarks">function SetStepWithTickMarks</h3>
+<pre><code class="lang-cpp">void SetStepWithTickMarks(
+    bool bNewStepWithTickMarks
+)
+</code></pre>
+<h3 id="function-gettitle">function GetTitle</h3>
+<pre><code class="lang-cpp">inline FText GetTitle() const
+</code></pre>
+<h3 id="function-settitle">function SetTitle</h3>
+<pre><code class="lang-cpp">void SetTitle(
+    FText NewTitle
+)
+</code></pre>
+<h3 id="function-getvaluetextdecimalplaces">function GetValueTextDecimalPlaces</h3>
+<pre><code class="lang-cpp">inline int GetValueTextDecimalPlaces() const
+</code></pre>
+<h3 id="function-setvaluetextdecimalplaces">function SetValueTextDecimalPlaces</h3>
+<pre><code class="lang-cpp">void SetValueTextDecimalPlaces(
+    int NewValueTextDecimalPlaces
+)
+</code></pre>
+<h3 id="function-getaligntextwithz">function GetAlignTextWithZ</h3>
+<pre><code class="lang-cpp">inline bool GetAlignTextWithZ() const
+</code></pre>
+<h3 id="function-setaligntextwithz">function SetAlignTextWithZ</h3>
+<pre><code class="lang-cpp">void SetAlignTextWithZ(
+    bool bNewAlignTextWithZ
+)
+</code></pre>
+<h3 id="function-getmovetextwiththumb">function GetMoveTextWithThumb</h3>
+<pre><code class="lang-cpp">inline bool GetMoveTextWithThumb() const
+</code></pre>
+<h3 id="function-setmovetextwiththumb">function SetMoveTextWithThumb</h3>
+<pre><code class="lang-cpp">void SetMoveTextWithThumb(
+    bool bNewMoveWithThumb
+)
+</code></pre>
+<h3 id="function-getnumtickmarks">function GetNumTickMarks</h3>
+<pre><code class="lang-cpp">inline int GetNumTickMarks() const
+</code></pre>
+<h3 id="function-setnumtickmarks">function SetNumTickMarks</h3>
+<pre><code class="lang-cpp">void SetNumTickMarks(
+    int NewNumTickMarks
+)
+</code></pre>
+<h3 id="function-getshowtickmarks">function GetShowTickMarks</h3>
+<pre><code class="lang-cpp">inline bool GetShowTickMarks() const
+</code></pre>
+<h3 id="function-setshowtickmarks">function SetShowTickMarks</h3>
+<pre><code class="lang-cpp">void SetShowTickMarks(
+    bool bNewShowTickMarks
+)
+</code></pre>
+<h3 id="function-gettickmarkscale">function GetTickMarkScale</h3>
+<pre><code class="lang-cpp">inline FVector GetTickMarkScale() const
+</code></pre>
+<h3 id="function-settickmarkscale">function SetTickMarkScale</h3>
+<pre><code class="lang-cpp">void SetTickMarkScale(
+    FVector NewTickMarkScale
+)
+</code></pre>
+<h3 id="function-getinstancetickmarks">function GetInstanceTickMarks</h3>
+<pre><code class="lang-cpp">inline bool GetInstanceTickMarks() const
+</code></pre>
+<h3 id="function-setinstancetickmarks">function SetInstanceTickMarks</h3>
+<pre><code class="lang-cpp">void SetInstanceTickMarks(
+    bool InstanceTickMarks
+)
+</code></pre>
+<h3 id="function-getdefaultthumbcolor">function GetDefaultThumbColor</h3>
+<pre><code class="lang-cpp">inline FLinearColor GetDefaultThumbColor() const
+</code></pre>
+<h3 id="function-setdefaultthumbcolor">function SetDefaultThumbColor</h3>
+<pre><code class="lang-cpp">void SetDefaultThumbColor(
+    FLinearColor NewDefaultThumbColor
+)
+</code></pre>
+<h3 id="function-getfocusedthumbcolor">function GetFocusedThumbColor</h3>
+<pre><code class="lang-cpp">inline FLinearColor GetFocusedThumbColor() const
+</code></pre>
+<h3 id="function-setfocusedthumbcolor">function SetFocusedThumbColor</h3>
+<pre><code class="lang-cpp">void SetFocusedThumbColor(
+    FLinearColor NewFocusedThumbColor
+)
+</code></pre>
+<h3 id="function-getgrabbedthumbcolor">function GetGrabbedThumbColor</h3>
+<pre><code class="lang-cpp">inline FLinearColor GetGrabbedThumbColor() const
+</code></pre>
+<h3 id="function-setgrabbedthumbcolor">function SetGrabbedThumbColor</h3>
+<pre><code class="lang-cpp">void SetGrabbedThumbColor(
+    FLinearColor NewGrabbedThumbColor
+)
+</code></pre>
+<h3 id="function-getdisabledthumbcolor">function GetDisabledThumbColor</h3>
+<pre><code class="lang-cpp">inline FLinearColor GetDisabledThumbColor() const
+</code></pre>
+<h3 id="function-setdisabledthumbcolor">function SetDisabledThumbColor</h3>
+<pre><code class="lang-cpp">void SetDisabledThumbColor(
+    FLinearColor NewDisabledThumbColor
+)
+</code></pre>
+<h3 id="function-getgrabsound">function GetGrabSound</h3>
+<pre><code class="lang-cpp">inline USoundCue * GetGrabSound() const
+</code></pre>
+<h3 id="function-setgrabsound">function SetGrabSound</h3>
+<pre><code class="lang-cpp">void SetGrabSound(
+    USoundCue * NewGrabSound
+)
+</code></pre>
+<h3 id="function-getreleasesound">function GetReleaseSound</h3>
+<pre><code class="lang-cpp">inline USoundCue * GetReleaseSound() const
+</code></pre>
+<h3 id="function-setreleasesound">function SetReleaseSound</h3>
+<pre><code class="lang-cpp">void SetReleaseSound(
+    USoundCue * NewReleaseSound
+)
+</code></pre>
+<h3 id="function-getticksound">function GetTickSound</h3>
+<pre><code class="lang-cpp">inline USoundCue * GetTickSound() const
+</code></pre>
+<h3 id="function-setticksound">function SetTickSound</h3>
+<pre><code class="lang-cpp">void SetTickSound(
+    USoundCue * NewTickSound
+)
+</code></pre>
+<h3 id="function-getdefaultthumbscale">function GetDefaultThumbScale</h3>
+<pre><code class="lang-cpp">inline float GetDefaultThumbScale() const
+</code></pre>
+<h3 id="function-setdefaultthumbscale">function SetDefaultThumbScale</h3>
+<pre><code class="lang-cpp">void SetDefaultThumbScale(
+    float NewDefaultThumbScale
+)
+</code></pre>
+<h3 id="function-getfocusedthumbscale">function GetFocusedThumbScale</h3>
+<pre><code class="lang-cpp">inline float GetFocusedThumbScale() const
+</code></pre>
+<h3 id="function-setfocusedthumbscale">function SetFocusedThumbScale</h3>
+<pre><code class="lang-cpp">void SetFocusedThumbScale(
+    float NewFocusedThumbScale
+)
+</code></pre>
+<h3 id="function-getthumbscalecurve">function GetThumbScaleCurve</h3>
+<pre><code class="lang-cpp">inline UCurveFloat * GetThumbScaleCurve() const
+</code></pre>
+<h3 id="function-setthumbscalecurve">function SetThumbScaleCurve</h3>
+<pre><code class="lang-cpp">void SetThumbScaleCurve(
+    UCurveFloat * NewThumbScaleCurve
+)
+</code></pre>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-onconstruction">function OnConstruction</h3>
+<pre><code class="lang-cpp">virtual void OnConstruction(
+    const FTransform &amp; Transform
+) override
+</code></pre>
+<h3 id="function-onupdatestate">function OnUpdateState</h3>
+<pre><code class="lang-cpp">virtual void OnUpdateState(
+    UUxtPinchSliderComponent * Slider,
+    EUxtSliderState NewState
+)
+</code></pre>
+<h3 id="function-onbegingrab">function OnBeginGrab</h3>
+<pre><code class="lang-cpp">virtual void OnBeginGrab(
+    UUxtPinchSliderComponent * Slider,
+    UUxtPointerComponent * Pointer
+)
+</code></pre>
+<h3 id="function-onupdatevalue">function OnUpdateValue</h3>
+<pre><code class="lang-cpp">virtual void OnUpdateValue(
+    UUxtPinchSliderComponent * Slider,
+    float NewValue
+)
+</code></pre>
+<h3 id="function-onendgrab">function OnEndGrab</h3>
+<pre><code class="lang-cpp">virtual void OnEndGrab(
+    UUxtPinchSliderComponent * Slider,
+    UUxtPointerComponent * Pointer
+)
+</code></pre>
+<h3 id="function-onupdatetimeline">function OnUpdateTimeline</h3>
+<pre><code class="lang-cpp">void OnUpdateTimeline(
+    float Scale
+)
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-onvalueupdated">variable OnValueUpdated</h3>
+<pre><code class="lang-cpp">FUxtPinchSliderValueUpdatedDelegate OnValueUpdated;
+</code></pre>
+<p>Event raised when the slider's value changes.</p>
+<h2 id="protected-attributes-documentation">Protected Attributes Documentation</h2>
+<h3 id="variable-pinchslider">variable PinchSlider</h3>
+<pre><code class="lang-cpp">UUxtPinchSliderComponent * PinchSlider;
+</code></pre>
+<p>The slider functionality.</p>
+<h3 id="variable-thumb">variable Thumb</h3>
+<pre><code class="lang-cpp">UStaticMeshComponent * Thumb;
+</code></pre>
+<p>The thumb visuals.</p>
+<h3 id="variable-track">variable Track</h3>
+<pre><code class="lang-cpp">UStaticMeshComponent * Track;
+</code></pre>
+<p>The track visuals.</p>
+<h3 id="variable-tickmarks">variable TickMarks</h3>
+<pre><code class="lang-cpp">class UInstancedStaticMeshComponent * TickMarks;
+</code></pre>
+<p>The tick mark visuals if bInstanceTickMarks is true.</p>
+<h3 id="variable-tickmarksnoninstanced">variable TickMarksNonInstanced</h3>
+<pre><code class="lang-cpp">TArray&lt; UStaticMeshComponent * &gt; TickMarksNonInstanced;
+</code></pre>
+<p>The tick mark visuals if bInstanceTickMarks is false.</p>
+<h3 id="variable-textroot">variable TextRoot</h3>
+<pre><code class="lang-cpp">USceneComponent * TextRoot;
+</code></pre>
+<p>Root text component to allow text to move as a block.</p>
+<h3 id="variable-titletext">variable TitleText</h3>
+<pre><code class="lang-cpp">class UTextRenderComponent * TitleText;
+</code></pre>
+<p>The title text, configure using the 'Title' property.</p>
+<h3 id="variable-valuetext">variable ValueText</h3>
+<pre><code class="lang-cpp">class UTextRenderComponent * ValueText;
+</code></pre>
+<p>The value text. TODO configure</p>
+<h3 id="variable-audio">variable Audio</h3>
+<pre><code class="lang-cpp">class UAudioComponent * Audio;
+</code></pre>
+<p>The audio cues, configure using the 'Slider Sounds' properties.</p>
+<h3 id="variable-scaletimeline">variable ScaleTimeline</h3>
+<pre><code class="lang-cpp">UTimelineComponent * ScaleTimeline;
+</code></pre>
+<p>The timeline for scaling the thumb, configuring using the 'Slider Thumb Scaling' properties.</p>
+<hr>
+<p>Updated on 17 November 2021 at 14:09:29 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/api/_a_uxt_pinch_slider_actor.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

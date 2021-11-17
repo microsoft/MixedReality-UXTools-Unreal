@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference AXRSimulationActor | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference AXRSimulationActor | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_a_x_r_simulation_actor">
+<h1 id="axrsimulationactor">AXRSimulationActor</h1>
+
+<p>Actor that produces head pose and hand animations for the simulated HMD.</p>
+<pre><code class="lang-cpp">class AXRSimulationActor;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;XRSimulationActor.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from AActor</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onconstruction">OnConstruction</a></strong>(const FTransform &amp; Transform)</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tick">Tick</a></strong>(float DeltaSeconds) override</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setsimulationstate">SetSimulationState</a></strong>(const TSharedPtr&lt; <a href="_f_x_r_simulation_state.html">FXRSimulationState</a> &gt; &amp; NewSimulationState)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settrackingtoworldtransform">SetTrackingToWorldTransform</a></strong>(const FTransform &amp; InTrackingToWorldTransform)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-gettargethandpose">GetTargetHandPose</a></strong>(UObject * WorldContextObject, EControllerHand Hand, FName &amp; TargetPose, FTransform &amp; TargetTransform, bool &amp; bAnimateTransform) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-getheadpose">GetHeadPose</a></strong>(FQuat &amp; Orientation, FVector &amp; Position) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-gethanddata">GetHandData</a></strong>(EControllerHand Hand, FXRMotionControllerData &amp; MotionControllerData) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-getcontrolleractionstate">GetControllerActionState</a></strong>(EControllerHand Hand, bool &amp; OutSelectPressed, bool &amp; OutGripPressed) const</td>
+</tr>
+<tr>
+<td><a href="_u_x_r_simulation_head_movement_component.html">UXRSimulationHeadMovementComponent</a> *</td>
+<td><strong><a href="#function-getheadmovement">GetHeadMovement</a></strong>() const</td>
+</tr>
+<tr>
+<td>USkeletalMeshComponent *</td>
+<td><strong><a href="#function-getlefthand">GetLeftHand</a></strong>() const</td>
+</tr>
+<tr>
+<td>USkeletalMeshComponent *</td>
+<td><strong><a href="#function-getrighthand">GetRightHand</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-registerinputmappings">RegisterInputMappings</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-unregisterinputmappings">UnregisterInputMappings</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uint32</td>
+<td><strong><a href="#variable-badddefaultinputbindings">bAddDefaultInputBindings</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-onconstruction">function OnConstruction</h3>
+<pre><code class="lang-cpp">virtual void OnConstruction(
+    const FTransform &amp; Transform
+)
+</code></pre>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<h3 id="function-tick">function Tick</h3>
+<pre><code class="lang-cpp">virtual void Tick(
+    float DeltaSeconds
+) override
+</code></pre>
+<h3 id="function-setsimulationstate">function SetSimulationState</h3>
+<pre><code class="lang-cpp">void SetSimulationState(
+    const TSharedPtr&lt; FXRSimulationState &gt; &amp; NewSimulationState
+)
+</code></pre>
+<h3 id="function-settrackingtoworldtransform">function SetTrackingToWorldTransform</h3>
+<pre><code class="lang-cpp">void SetTrackingToWorldTransform(
+    const FTransform &amp; InTrackingToWorldTransform
+)
+</code></pre>
+<h3 id="function-gettargethandpose">function GetTargetHandPose</h3>
+<pre><code class="lang-cpp">void GetTargetHandPose(
+    UObject * WorldContextObject,
+    EControllerHand Hand,
+    FName &amp; TargetPose,
+    FTransform &amp; TargetTransform,
+    bool &amp; bAnimateTransform
+) const
+</code></pre>
+<h3 id="function-getheadpose">function GetHeadPose</h3>
+<pre><code class="lang-cpp">void GetHeadPose(
+    FQuat &amp; Orientation,
+    FVector &amp; Position
+) const
+</code></pre>
+<h3 id="function-gethanddata">function GetHandData</h3>
+<pre><code class="lang-cpp">void GetHandData(
+    EControllerHand Hand,
+    FXRMotionControllerData &amp; MotionControllerData
+) const
+</code></pre>
+<h3 id="function-getcontrolleractionstate">function GetControllerActionState</h3>
+<pre><code class="lang-cpp">void GetControllerActionState(
+    EControllerHand Hand,
+    bool &amp; OutSelectPressed,
+    bool &amp; OutGripPressed
+) const
+</code></pre>
+<h3 id="function-getheadmovement">function GetHeadMovement</h3>
+<pre><code class="lang-cpp">inline UXRSimulationHeadMovementComponent * GetHeadMovement() const
+</code></pre>
+<h3 id="function-getlefthand">function GetLeftHand</h3>
+<pre><code class="lang-cpp">inline USkeletalMeshComponent * GetLeftHand() const
+</code></pre>
+<h3 id="function-getrighthand">function GetRightHand</h3>
+<pre><code class="lang-cpp">inline USkeletalMeshComponent * GetRightHand() const
+</code></pre>
+<h3 id="function-registerinputmappings">function RegisterInputMappings</h3>
+<pre><code class="lang-cpp">static void RegisterInputMappings()
+</code></pre>
+<h3 id="function-unregisterinputmappings">function UnregisterInputMappings</h3>
+<pre><code class="lang-cpp">static void UnregisterInputMappings()
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-badddefaultinputbindings">variable bAddDefaultInputBindings</h3>
+<pre><code class="lang-cpp">uint32 bAddDefaultInputBindings;
+</code></pre>
+<p>If true, adds default input bindings for input simulation.</p>
+<hr>
+<p>Updated on 17 November 2021 at 14:09:29 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/api/_a_x_r_simulation_actor.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

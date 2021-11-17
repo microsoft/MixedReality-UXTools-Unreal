@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtManipulatorComponent | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtManipulatorComponent | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_manipulator_component">
+<h1 id="uuxtmanipulatorcomponent">UUxtManipulatorComponent</h1>
+
+<p>Manages constraints that can be applied by child components.</p>
+<pre><code class="lang-cpp">class UUxtManipulatorComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Interactions/UxtManipulatorComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from UActorComponent</p>
+<p>Inherited by <a href="_u_uxt_bounds_control_component.html">UUxtBoundsControlComponent</a>, <a href="_u_uxt_grab_target_component.html">UUxtGrabTargetComponent</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getautodetectconstraints">GetAutoDetectConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setautodetectconstraints">SetAutoDetectConstraints</a></strong>(bool bNewAutoDetectConstraints)</td>
+</tr>
+<tr>
+<td>const TArray&lt; FComponentReference &gt; &amp;</td>
+<td><strong><a href="#function-getselectedconstraints">GetSelectedConstraints</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-addconstraint">AddConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-removeconstraint">RemoveConstraint</a></strong>(const FComponentReference &amp; NewConstraint)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-getrelativetoinitialscale">GetRelativeToInitialScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setrelativetoinitialscale">SetRelativeToInitialScale</a></strong>(const bool Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getminscale">GetMinScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setminscale">SetMinScale</a></strong>(const float Value)</td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#function-getmaxscale">GetMaxScale</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setmaxscale">SetMaxScale</a></strong>(const float Value)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tickcomponent">TickComponent</a></strong>(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-initializeconstraints">InitializeConstraints</a></strong>(USceneComponent * NewTargetComponent)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-applyconstraints">ApplyConstraints</a></strong>(FTransform &amp; Transform, EUxtTransformMode TransformMode, bool bIsOneHanded, bool bIsNear) const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-getautodetectconstraints">function GetAutoDetectConstraints</h3>
+<pre><code class="lang-cpp">bool GetAutoDetectConstraints() const
+</code></pre>
+<p>Get if the component is automatically detecting constraints.</p>
+<h3 id="function-setautodetectconstraints">function SetAutoDetectConstraints</h3>
+<pre><code class="lang-cpp">void SetAutoDetectConstraints(
+    bool bNewAutoDetectConstraints
+)
+</code></pre>
+<p>Set if the component should automatically detect constraints.</p>
+<h3 id="function-getselectedconstraints">function GetSelectedConstraints</h3>
+<pre><code class="lang-cpp">const TArray&lt; FComponentReference &gt; &amp; GetSelectedConstraints() const
+</code></pre>
+<p>Get the list of currently selected constraints.</p>
+<h3 id="function-addconstraint">function AddConstraint</h3>
+<pre><code class="lang-cpp">void AddConstraint(
+    const FComponentReference &amp; NewConstraint
+)
+</code></pre>
+<p>Add a constraint to be applied when bAutoDetectConstraints is not set.</p>
+<h3 id="function-removeconstraint">function RemoveConstraint</h3>
+<pre><code class="lang-cpp">void RemoveConstraint(
+    const FComponentReference &amp; NewConstraint
+)
+</code></pre>
+<p>Remove a constraint from being applied when bAutoDetectConstraints is not set.</p>
+<h3 id="function-getrelativetoinitialscale">function GetRelativeToInitialScale</h3>
+<pre><code class="lang-cpp">inline bool GetRelativeToInitialScale() const
+</code></pre>
+<h3 id="function-setrelativetoinitialscale">function SetRelativeToInitialScale</h3>
+<pre><code class="lang-cpp">void SetRelativeToInitialScale(
+    const bool Value
+)
+</code></pre>
+<h3 id="function-getminscale">function GetMinScale</h3>
+<pre><code class="lang-cpp">inline float GetMinScale() const
+</code></pre>
+<h3 id="function-setminscale">function SetMinScale</h3>
+<pre><code class="lang-cpp">void SetMinScale(
+    const float Value
+)
+</code></pre>
+<h3 id="function-getmaxscale">function GetMaxScale</h3>
+<pre><code class="lang-cpp">inline float GetMaxScale() const
+</code></pre>
+<h3 id="function-setmaxscale">function SetMaxScale</h3>
+<pre><code class="lang-cpp">void SetMaxScale(
+    const float Value
+)
+</code></pre>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_u_uxt_bounds_control_component.html#function-beginplay">UUxtBoundsControlComponent::BeginPlay</a>, <a href="_u_uxt_grab_target_component.html#function-beginplay">UUxtGrabTargetComponent::BeginPlay</a>, <a href="_u_uxt_manipulator_component_base.html#function-beginplay">UUxtManipulatorComponentBase::BeginPlay</a></p>
+<h3 id="function-tickcomponent">function TickComponent</h3>
+<pre><code class="lang-cpp">virtual void TickComponent(
+    float DeltaTime,
+    ELevelTick TickType,
+    FActorComponentTickFunction * ThisTickFunction
+) override
+</code></pre>
+<p><strong>Reimplemented by</strong>: <a href="_u_uxt_bounds_control_component.html#function-tickcomponent">UUxtBoundsControlComponent::TickComponent</a></p>
+<h3 id="function-initializeconstraints">function InitializeConstraints</h3>
+<pre><code class="lang-cpp">void InitializeConstraints(
+    USceneComponent * NewTargetComponent
+)
+</code></pre>
+<p>Initialize the constraints with a target component to use for a reference transform.</p>
+<h3 id="function-applyconstraints">function ApplyConstraints</h3>
+<pre><code class="lang-cpp">void ApplyConstraints(
+    FTransform &amp; Transform,
+    EUxtTransformMode TransformMode,
+    bool bIsOneHanded,
+    bool bIsNear
+) const
+</code></pre>
+<p>Apply the constraints to the transform.</p>
+<hr>
+<p>Updated on 17 November 2021 at 14:09:29 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/api/_u_uxt_manipulator_component.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

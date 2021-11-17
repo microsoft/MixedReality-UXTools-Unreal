@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Release Notes | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Release Notes | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="ux-tools-0121-release-notes">UX Tools 0.12.1 release notes</h1>
+
+<ul>
+<li><a href="#whats-new">What's new</a>
+<ul>
+<li><a href="#fixed-non-uniform-scaling-in-bounds-control-when-the-actor-was-rotated">Fixed non-uniform scaling in Bounds Control when the actor was rotated</a></li>
+<li><a href="#hand-tracking-component-no-longer-consumes-input-events">Hand tracking component no longer consumes input events</a></li>
+</ul>
+</li>
+</ul>
+<p>This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Reality VR but should work on all <a href="https://docs.unrealengine.com/en-US/SharingAndReleasing/XRDevelopment/OpenXR/#platformsupport">XR devices supported by Unreal Engine via OpenXR</a>:</p>
+<ul>
+<li>HoloLens 2</li>
+<li>Windows Mixed Reality VR</li>
+<li>Oculus</li>
+<li>Steam VR</li>
+</ul>
+<p>Unreal 4.27 required.</p>
+<p>This is an incremental hotfix release. Please review changes in <a href="https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x/Docs/ReleaseNotes.html">0.12.0 Release Notes</a> for information regarding changes introduced in the major UX Tools version.</p>
+<h2 id="whats-new">What's new</h2>
+<h3 id="fixed-non-uniform-scaling-in-bounds-control-when-the-actor-was-rotated">Fixed non-uniform scaling in Bounds Control when the actor was rotated</h3>
+<p>Non-uniformly scaling an actor via Bounds Control after having rotated it will no longer result in an undesired/unexpected transformation.</p>
+<h3 id="hand-tracking-component-no-longer-consumes-input-events">Hand tracking component no longer consumes input events</h3>
+<p>UXT is using input events to set internal state for interacting with input widgets, but other actors in the scene outside of UXT may need to use the same events for other purposes. UXT actions no longer consume input, so other events with the same action will still fire.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/Docs/ReleaseNotes.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

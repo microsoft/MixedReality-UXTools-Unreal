@@ -1,0 +1,483 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtTapToPlaceComponent | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtTapToPlaceComponent | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_tap_to_place_component">
+<h1 id="uuxttaptoplacecomponent">UUxtTapToPlaceComponent</h1>
+
+<p>Tap to place is a control used to transform objects at a distance. The control allows you to select an object you wish to place using far interaction. After that, the object will be locked to your gaze and will be placed against surfaces and other objects. Any subsequent far release will end placement, even if the pointer is not pointing at the object being placed.</p>
+<pre><code class="lang-cpp">class UUxtTapToPlaceComponent;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;Behaviors/UxtTapToPlaceComponent.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from UActorComponent, <a href="_i_uxt_far_target.html">IUxtFarTarget</a>, <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="#function-uuxttaptoplacecomponent">UUxtTapToPlaceComponent</a></strong>()</td>
+</tr>
+<tr>
+<td>USceneComponent *</td>
+<td><strong><a href="#function-gettargetcomponent">GetTargetComponent</a></strong>() const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settargetcomponent">SetTargetComponent</a></strong>(USceneComponent * Target)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-startplacement">StartPlacement</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-endplacement">EndPlacement</a></strong>()</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-beginplay">BeginPlay</a></strong>() override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-tickcomponent">TickComponent</a></strong>(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-endplay">EndPlay</a></strong>(const EEndPlayReason::Type EndPlayReason) override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-isfarfocusable_implementation">IsFarFocusable_Implementation</a></strong>(const UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual bool</td>
+<td><strong><a href="#function-canhandlefar_implementation">CanHandleFar_Implementation</a></strong>(UPrimitiveComponent * Primitive) const override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onenterfarfocus_implementation">OnEnterFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onupdatedfarfocus_implementation">OnUpdatedFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onexitfarfocus_implementation">OnExitFarFocus_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarpressed_implementation">OnFarPressed_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+<tr>
+<td>virtual void</td>
+<td><strong><a href="#function-onfarreleased_implementation">OnFarReleased_Implementation</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer) override</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-attributes">Public Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUxtTapToPlaceBeginFocusDelegate</td>
+<td><strong><a href="#variable-onbeginfocus">OnBeginFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceUpdateFocusDelegate</td>
+<td><strong><a href="#variable-onupdatefocus">OnUpdateFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceEndFocusDelegate</td>
+<td><strong><a href="#variable-onendfocus">OnEndFocus</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceBeginPlacingDelegate</td>
+<td><strong><a href="#variable-onbeginplacing">OnBeginPlacing</a></strong></td>
+</tr>
+<tr>
+<td>FUxtTapToPlaceEndPlacingDelegate</td>
+<td><strong><a href="#variable-onendplacing">OnEndPlacing</a></strong></td>
+</tr>
+<tr>
+<td>TEnumAsByte&lt; EUxtTapToPlaceOrientBehavior &gt;</td>
+<td><strong><a href="#variable-orientationtype">OrientationType</a></strong></td>
+</tr>
+<tr>
+<td>TEnumAsByte&lt; EUxtTapToPlaceMode &gt;</td>
+<td><strong><a href="#variable-placementtype">PlacementType</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-keeporientationvertical">KeepOrientationVertical</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-horizontalsurfacethreshold">HorizontalSurfaceThreshold</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-defaultplacementdistance">DefaultPlacementDistance</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-maxraycastdistance">MaxRaycastDistance</a></strong></td>
+</tr>
+<tr>
+<td>TEnumAsByte&lt; ECollisionChannel &gt;</td>
+<td><strong><a href="#variable-tracechannel">TraceChannel</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-binterpolatepose">bInterpolatePose</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-lerptime">LerpTime</a></strong></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#variable-busedefaultsurfacenormaloffset">bUseDefaultSurfaceNormalOffset</a></strong></td>
+</tr>
+<tr>
+<td>float</td>
+<td><strong><a href="#variable-surfacenormaloffset">SurfaceNormalOffset</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-inherited-members">Additional inherited members</h2>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_target.html">IUxtFarTarget</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_target.html#function-isfarfocusable">IsFarFocusable</a></strong>(const UPrimitiveComponent * Primitive) const</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Public Functions inherited from <a href="_i_uxt_far_handler.html">IUxtFarHandler</a></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bool</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-canhandlefar">CanHandleFar</a></strong>(UPrimitiveComponent * Primitive) const</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onenterfarfocus">OnEnterFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onupdatedfarfocus">OnUpdatedFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onexitfarfocus">OnExitFarFocus</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarpressed">OnFarPressed</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfardragged">OnFarDragged</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="_i_uxt_far_handler.html#function-onfarreleased">OnFarReleased</a></strong>(<a href="_u_uxt_far_pointer_component.html">UUxtFarPointerComponent</a> * Pointer)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-uuxttaptoplacecomponent">function UUxtTapToPlaceComponent</h3>
+<pre><code class="lang-cpp">UUxtTapToPlaceComponent()
+</code></pre>
+<h3 id="function-gettargetcomponent">function GetTargetComponent</h3>
+<pre><code class="lang-cpp">USceneComponent * GetTargetComponent() const
+</code></pre>
+<p>Get the component to transform.</p>
+<h3 id="function-settargetcomponent">function SetTargetComponent</h3>
+<pre><code class="lang-cpp">void SetTargetComponent(
+    USceneComponent * Target
+)
+</code></pre>
+<p>Set the component to transform.</p>
+<h3 id="function-startplacement">function StartPlacement</h3>
+<pre><code class="lang-cpp">void StartPlacement()
+</code></pre>
+<p>Start placement of the target component.</p>
+<h3 id="function-endplacement">function EndPlacement</h3>
+<pre><code class="lang-cpp">void EndPlacement()
+</code></pre>
+<p>End placement of the target component.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-beginplay">function BeginPlay</h3>
+<pre><code class="lang-cpp">virtual void BeginPlay() override
+</code></pre>
+<h3 id="function-tickcomponent">function TickComponent</h3>
+<pre><code class="lang-cpp">virtual void TickComponent(
+    float DeltaTime,
+    ELevelTick TickType,
+    FActorComponentTickFunction * ThisTickFunction
+) override
+</code></pre>
+<h3 id="function-endplay">function EndPlay</h3>
+<pre><code class="lang-cpp">virtual void EndPlay(
+    const EEndPlayReason::Type EndPlayReason
+) override
+</code></pre>
+<h3 id="function-isfarfocusable_implementation">function IsFarFocusable_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool IsFarFocusable_Implementation(
+    const UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-canhandlefar_implementation">function CanHandleFar_Implementation</h3>
+<pre><code class="lang-cpp">virtual bool CanHandleFar_Implementation(
+    UPrimitiveComponent * Primitive
+) const override
+</code></pre>
+<h3 id="function-onenterfarfocus_implementation">function OnEnterFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnEnterFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onupdatedfarfocus_implementation">function OnUpdatedFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnUpdatedFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onexitfarfocus_implementation">function OnExitFarFocus_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnExitFarFocus_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarpressed_implementation">function OnFarPressed_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarPressed_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h3 id="function-onfarreleased_implementation">function OnFarReleased_Implementation</h3>
+<pre><code class="lang-cpp">virtual void OnFarReleased_Implementation(
+    UUxtFarPointerComponent * Pointer
+) override
+</code></pre>
+<h2 id="public-attributes-documentation">Public Attributes Documentation</h2>
+<h3 id="variable-onbeginfocus">variable OnBeginFocus</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceBeginFocusDelegate OnBeginFocus;
+</code></pre>
+<p>Event raised when a pointer starts focusing the placeable object. bWasAlreadyFocused indicates if the object was already focused by another pointer.</p>
+<h3 id="variable-onupdatefocus">variable OnUpdateFocus</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceUpdateFocusDelegate OnUpdateFocus;
+</code></pre>
+<p>Event raised when a focusing pointer updates.</p>
+<h3 id="variable-onendfocus">variable OnEndFocus</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceEndFocusDelegate OnEndFocus;
+</code></pre>
+<p>Event raised when a pointer ends focusing the placeable object. bIsStillFocused indicates if the object is still focused by another pointer.</p>
+<h3 id="variable-onbeginplacing">variable OnBeginPlacing</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceBeginPlacingDelegate OnBeginPlacing;
+</code></pre>
+<p>Event raised when a placeable object is selected.</p>
+<h3 id="variable-onendplacing">variable OnEndPlacing</h3>
+<pre><code class="lang-cpp">FUxtTapToPlaceEndPlacingDelegate OnEndPlacing;
+</code></pre>
+<p>Event raised when a placeable object is deselected and placed.</p>
+<h3 id="variable-orientationtype">variable OrientationType</h3>
+<pre><code class="lang-cpp">TEnumAsByte&lt; EUxtTapToPlaceOrientBehavior &gt; OrientationType = EUxtTapToPlaceOrientBehavior::AlignToSurface;
+</code></pre>
+<p>How the object is oriented against hit surfaces.</p>
+<h3 id="variable-placementtype">variable PlacementType</h3>
+<pre><code class="lang-cpp">TEnumAsByte&lt; EUxtTapToPlaceMode &gt; PlacementType = EUxtTapToPlaceMode::Head;
+</code></pre>
+<p>How the target should be placed, using head or far pointer.</p>
+<h3 id="variable-keeporientationvertical">variable KeepOrientationVertical</h3>
+<pre><code class="lang-cpp">bool KeepOrientationVertical = false;
+</code></pre>
+<p>Whether the orientation of the object should pitch or roll.</p>
+<h3 id="variable-horizontalsurfacethreshold">variable HorizontalSurfaceThreshold</h3>
+<pre><code class="lang-cpp">float HorizontalSurfaceThreshold = 10.0f;
+</code></pre>
+<p>Angle in degrees at which a surface is considered horizontal in AlignToSurface mode. Slightly increasing this value helps avoid jitter resulting from noise in depth data but it can cause objects to lean sideways when moved over slightly inclined surfaces.</p>
+<h3 id="variable-defaultplacementdistance">variable DefaultPlacementDistance</h3>
+<pre><code class="lang-cpp">float DefaultPlacementDistance = 150;
+</code></pre>
+<p>Distance to place the object at if no obstructing surface.</p>
+<h3 id="variable-maxraycastdistance">variable MaxRaycastDistance</h3>
+<pre><code class="lang-cpp">float MaxRaycastDistance = 2000;
+</code></pre>
+<p>Max distance to cast to when checking for obstructing surfaces.</p>
+<h3 id="variable-tracechannel">variable TraceChannel</h3>
+<pre><code class="lang-cpp">TEnumAsByte&lt; ECollisionChannel &gt; TraceChannel = ECollisionChannel::ECC_Visibility;
+</code></pre>
+<p>Trace channel for raycast.</p>
+<h3 id="variable-binterpolatepose">variable bInterpolatePose</h3>
+<pre><code class="lang-cpp">bool bInterpolatePose = true;
+</code></pre>
+<p>Option to ignore interpolation between follow poses</p>
+<h3 id="variable-lerptime">variable LerpTime</h3>
+<pre><code class="lang-cpp">float LerpTime = 0.1f;
+</code></pre>
+<p>Rate at which its owner will move toward default distance when angular leashing</p>
+<h3 id="variable-busedefaultsurfacenormaloffset">variable bUseDefaultSurfaceNormalOffset</h3>
+<pre><code class="lang-cpp">bool bUseDefaultSurfaceNormalOffset = true;
+</code></pre>
+<p>When false, use SurfaceNormalOffset. Otherwise, automatically calculate the offset value.</p>
+<h3 id="variable-surfacenormaloffset">variable SurfaceNormalOffset</h3>
+<pre><code class="lang-cpp">UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=&quot;Uxt Tap To Place&quot;, meta=(DisplayAfter=&quot;bUseDefaultSurfaceNormalOffset&quot;, EditCondition=&quot;!bUseDefaultSurfaceNormalOffset&quot;))
+float SurfaceNormalOffset = 0.0f;
+</code></pre>
+<p>The distance between the pivot point of the object and the surface on which the object is being placed.</p>
+<hr>
+<p>Updated on 17 November 2021 at 14:09:30 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/api/_u_uxt_tap_to_place_component.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

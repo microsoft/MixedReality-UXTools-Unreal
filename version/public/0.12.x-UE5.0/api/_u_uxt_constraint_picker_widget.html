@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>MRTK Unreal API Reference UUxtConstraintPickerWidget | UXT Documentation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="MRTK Unreal API Reference UUxtConstraintPickerWidget | UXT Documentation ">
+    <meta name="generator" content="docfx 2.48.1.0">
+    
+    <link rel="shortcut icon" href=".././Docs/Images/uxt_favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src=".././Docs/Images/uxt_logo_icon.png" alt="">
+              </a>
+            </div>
+          
+          <div class="version-dropdown" id="versionDropdown">
+           </div>
+         
+          <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="_u_uxt_constraint_picker_widget">
+<h1 id="uuxtconstraintpickerwidget">UUxtConstraintPickerWidget</h1>
+
+<p>Editor utility widget for adding constraints to actors.</p>
+<pre><code class="lang-cpp">class UUxtConstraintPickerWidget;
+</code></pre>
+<h2 id="header">Header</h2>
+<p><code>#include &lt;UxtConstraintPickerWidget.h&gt;</code></p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inherits from UEditorUtilityWidget</p>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-settabid">SetTabID</a></strong>(FName ID)</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-setowner">SetOwner</a></strong>(TWeakObjectPtr&lt; UObject &gt; Owner)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-hasvalidowner">HasValidOwner</a></strong>() const</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-functions">Protected Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td><strong><a href="#function-onownerchanged">OnOwnerChanged</a></strong>()</td>
+</tr>
+<tr>
+<td>TArray&lt; TSubclassOf&lt; <a href="_u_uxt_transform_constraint.html">UUxtTransformConstraint</a> &gt; &gt;</td>
+<td><strong><a href="#function-getconstraintclasses">GetConstraintClasses</a></strong>() const</td>
+</tr>
+<tr>
+<td>FString</td>
+<td><strong><a href="#function-getconstraintname">GetConstraintName</a></strong>(TSubclassOf&lt; <a href="_u_uxt_transform_constraint.html">UUxtTransformConstraint</a> &gt; ConstraintClass)</td>
+</tr>
+<tr>
+<td>FString</td>
+<td><strong><a href="#function-getconstraintdescription">GetConstraintDescription</a></strong>(TSubclassOf&lt; <a href="_u_uxt_transform_constraint.html">UUxtTransformConstraint</a> &gt; ConstraintClass)</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><strong><a href="#function-addconstraint">AddConstraint</a></strong>(TSubclassOf&lt; <a href="_u_uxt_transform_constraint.html">UUxtTransformConstraint</a> &gt; ConstraintClass)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="protected-attributes">Protected Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FName</td>
+<td><strong><a href="#variable-tabid">TabID</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-settabid">function SetTabID</h3>
+<pre><code class="lang-cpp">void SetTabID(
+    FName ID
+)
+</code></pre>
+<p>Sets the unique identifier for the tab this EditorUtilityWidget was spawned into.</p>
+<h3 id="function-setowner">function SetOwner</h3>
+<pre><code class="lang-cpp">void SetOwner(
+    TWeakObjectPtr&lt; UObject &gt; Owner
+)
+</code></pre>
+<p>Set the wiget's owning component.</p>
+<h3 id="function-hasvalidowner">function HasValidOwner</h3>
+<pre><code class="lang-cpp">bool HasValidOwner() const
+</code></pre>
+<p>Returns true if we have a valid handle to the actor being modified.</p>
+<h2 id="protected-functions-documentation">Protected Functions Documentation</h2>
+<h3 id="function-onownerchanged">function OnOwnerChanged</h3>
+<pre><code class="lang-cpp">void OnOwnerChanged()
+</code></pre>
+<p>Event which triggers when the owner is changed.</p>
+<h3 id="function-getconstraintclasses">function GetConstraintClasses</h3>
+<pre><code class="lang-cpp">TArray&lt; TSubclassOf&lt; UUxtTransformConstraint &gt; &gt; GetConstraintClasses() const
+</code></pre>
+<p>Get all classes that inherit from UxtTransformConstraint.</p>
+<h3 id="function-getconstraintname">function GetConstraintName</h3>
+<pre><code class="lang-cpp">FString GetConstraintName(
+    TSubclassOf&lt; UUxtTransformConstraint &gt; ConstraintClass
+)
+</code></pre>
+<p>Get the name of the constraint as a formatted display string.</p>
+<h3 id="function-getconstraintdescription">function GetConstraintDescription</h3>
+<pre><code class="lang-cpp">FString GetConstraintDescription(
+    TSubclassOf&lt; UUxtTransformConstraint &gt; ConstraintClass
+)
+</code></pre>
+<p>Get the description for the constraint, this is the comment above the constraint class.</p>
+<h3 id="function-addconstraint">function AddConstraint</h3>
+<pre><code class="lang-cpp">bool AddConstraint(
+    TSubclassOf&lt; UUxtTransformConstraint &gt; ConstraintClass
+)
+</code></pre>
+<p>Add the selected constraint to the actor / blueprint.</p>
+<h2 id="protected-attributes-documentation">Protected Attributes Documentation</h2>
+<h3 id="variable-tabid">variable TabID</h3>
+<pre><code class="lang-cpp">FName TabID;
+</code></pre>
+<p>Gets unique identifier for the tab this EditorUtilityWidget was spawned into.</p>
+<hr>
+<p>Updated on 17 November 2021 at 14:09:29 Coordinated Universal Time</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/MixedReality-UXTools-Unreal/blob/0.12.x-UE5.0/api/_u_uxt_constraint_picker_widget.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
