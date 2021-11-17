@@ -25,10 +25,12 @@ UXRSimulationRuntimeSettings::UXRSimulationRuntimeSettings(const FObjectInitiali
 	HandPoseKeys.Add({EControllerHand::Right, TEXT("Pinch"), FXRSimulationKeys::RightGrip});
 
 	// Default hand mesh and animation assets
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> HandMeshFinder(TEXT("/UXTools/XRSimulation/SK_Hand"));
-	HandMesh = HandMeshFinder.Object;
-	static ConstructorHelpers::FClassFinder<UAnimInstance> HandAnimFinder(TEXT("/UXTools/XRSimulation/HandAnimBlueprint"));
-	HandAnimInstance = HandAnimFinder.Class;
+	HandMesh = LoadObject<USkeletalMesh>(nullptr, TEXT("/UXTools/XRSimulation/SK_Hand.SK_Hand"));
+	FSoftObjectPath HandAnimInstanceSoftPath = FSoftObjectPath(TEXT("/UXTools/XRSimulation/HandAnimBlueprint.HandAnimBlueprint"));
+	if (!HandAnimInstanceSoftPath.IsNull())
+	{
+		HandAnimInstance = TSoftClassPtr<UAnimInstance>(HandAnimInstanceSoftPath);
+	}
 }
 
 #if WITH_EDITOR

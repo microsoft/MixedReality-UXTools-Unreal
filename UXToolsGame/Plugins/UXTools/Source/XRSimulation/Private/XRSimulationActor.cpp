@@ -331,8 +331,8 @@ void AXRSimulationActor::SetupHandComponents()
 	}
 	if (Settings->HandAnimInstance)
 	{
-		LeftHand->SetAnimInstanceClass(Settings->HandAnimInstance.Get());
-		RightHand->SetAnimInstanceClass(Settings->HandAnimInstance.Get());
+		LeftHand->SetAnimInstanceClass(Settings->HandAnimInstance.LoadSynchronous());
+		RightHand->SetAnimInstanceClass(Settings->HandAnimInstance.LoadSynchronous());
 	}
 
 	// Disable shadows
