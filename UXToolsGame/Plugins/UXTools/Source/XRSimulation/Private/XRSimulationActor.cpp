@@ -7,6 +7,7 @@
 #include "XRSimulationHeadMovementComponent.h"
 #include "XRSimulationRuntimeSettings.h"
 
+#include "Animation/AnimBlueprint.h"
 #include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/Engine.h"
@@ -299,8 +300,6 @@ void AXRSimulationActor::SetupHeadComponents()
 
 void AXRSimulationActor::SetupHandComponents()
 {
-	const UXRSimulationRuntimeSettings* const Settings = UXRSimulationRuntimeSettings::Get();
-
 	LeftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("LeftHand"));
 	AddOwnedComponent(LeftHand);
 	LeftHand->SetMobility(EComponentMobility::Movable);
@@ -322,18 +321,6 @@ void AXRSimulationActor::SetupHandComponents()
 	// Add tick dependency so the hand animation happens before the actor copies the result
 	AddTickPrerequisiteComponent(LeftHand);
 	AddTickPrerequisiteComponent(RightHand);
-
-	// Link the skeletal mesh components to animation assets.
-	if (Settings->HandMesh)
-	{
-		LeftHand->SetSkeletalMesh(Settings->HandMesh.Get());
-		RightHand->SetSkeletalMesh(Settings->HandMesh.Get());
-	}
-	if (Settings->HandAnimInstance)
-	{
-		LeftHand->SetAnimInstanceClass(Settings->HandAnimInstance.LoadSynchronous());
-		RightHand->SetAnimInstanceClass(Settings->HandAnimInstance.LoadSynchronous());
-	}
 
 	// Disable shadows
 	LeftHand->SetCastShadow(false);
@@ -366,6 +353,25 @@ void AXRSimulationActor::OnConstruction(const FTransform& Transform)
 void AXRSimulationActor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	const UXRSimulationRuntimeSettings* const Settings = UXRSimulationRuntimeSettings::Get();
+
+	// Link the skeletal mesh components to animation assets.
+	if (!Settings->HandMesh.IsNull())
+	{
+		USkeletalMesh* HandMesh = Settings->HandMesh.LoadSynchronous();
+		LeftHand->SetSkeletalMesh(HandMesh);
+		RightHand->SetSkeletalMesh(HandMesh);
+	}
+	if (!Settings->HandAnimBlueprint.IsNull())
+	{
+		UAnimBlueprint* AnimBP = Settings->HandAnimBlueprint.LoadSynchronous();
+		if (AnimBP)
+		{
+			LeftHand->SetAnimInstanceClass(AnimBP->GeneratedClass);
+			RightHand->SetAnimInstanceClass(AnimBP->GeneratedClass);
+		}
+	}
 
 	if (ensure(InputComponent != nullptr))
 	{

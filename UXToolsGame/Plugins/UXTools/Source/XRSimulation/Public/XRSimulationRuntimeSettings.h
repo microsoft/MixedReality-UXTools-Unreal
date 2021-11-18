@@ -170,7 +170,7 @@ public:
 	UPROPERTY(
 		GlobalConfig, EditAnywhere, Category = "XRSimulation",
 		Meta = (DisplayName = "Hand Animation", Tooltip = "Animation instance used for animating hand meshes."))
-	TSoftClassPtr<UAnimInstance> HandAnimInstance;
+	TSoftObjectPtr<UAnimBlueprint> HandAnimBlueprint;
 
 private:
 	static class UXRSimulationRuntimeSettings* XRInputSimSettingsSingleton;
