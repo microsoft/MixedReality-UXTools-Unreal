@@ -100,17 +100,17 @@ float3 Hushed_Vertex(
 	,float2 vertexInput_UV
 )
 {
-    float3 vertexWorldPosition = GetWorldPosition(Parameters);
+    float3 vertexWorldPosition = LWCToFloat(GetWorldPosition(Parameters));
     //float3 vertexLocalPosition = mul(float4(vertexWorldPosition, 1), GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal).xyz;
     float3 vertexLocalPosition = Parameters.PreSkinnedPosition;
 
     #if USE_INSTANCING || IS_MESHPARTICLE_FACTORY
     ObjectToWorldDir = (MaterialFloat3x3)Parameters.InstanceLocalToWorld;
     #else
-    ObjectToWorldDir = GetLocalToWorld3x3(Parameters.PrimitiveId);
+    ObjectToWorldDir = GetLocalToWorld3x3(Parameters);
     #endif
 
-    HUX_OBJECT_TO_WORLD_POS_MATRIX = GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld;
+    HUX_OBJECT_TO_WORLD_POS_MATRIX = LWCToFloat(GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld);
 
     Use_Global_Left_Index_Int = useGlobalLeftIndex;
     Use_Global_Right_Index_Int = useGlobalRightIndex;

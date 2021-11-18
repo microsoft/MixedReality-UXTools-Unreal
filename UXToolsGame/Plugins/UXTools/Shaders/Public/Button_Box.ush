@@ -398,24 +398,24 @@ float3 Hushed_Vertex(
 	,float4 vertexInput_Color
 )
 {
-    float3 vertexWorldPosition = GetWorldPosition(Parameters);
+    float3 vertexWorldPosition = LWCToFloat(GetWorldPosition(Parameters));
     //float3 vertexLocalPosition = mul(float4(vertexWorldPosition, 1), GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal).xyz;
     float3 vertexLocalPosition = Parameters.PreSkinnedPosition;
 	//float3 worldNormal = Parameters.WorldNormal; //mul(MaterialFloat3(1.00000000,0.00000000,0.00000000), (MaterialFloat3x3)(Parameters.TangentToWorld));
 	//float3 vertexLocalNormal = mul(worldNormal,(MaterialFloat3x3)(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal));
     float3 vertexLocalNormal = Parameters.PreSkinnedNormal;
 	float3 worldTangent = Parameters.TangentToWorld[0];
-	float3 vertexLocalTangent = normalize(mul(worldTangent,(MaterialFloat3x3)(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal)));
+	float3 vertexLocalTangent = normalize(mul(worldTangent,(MaterialFloat3x3)(LWCToFloat(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal))));
 	float3 worldBinormal = Parameters.TangentToWorld[1];
-	float3 vertexLocalBinormal = normalize(mul(worldBinormal,(MaterialFloat3x3)(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal)));
+	float3 vertexLocalBinormal = normalize(mul(worldBinormal,(MaterialFloat3x3)(LWCToFloat(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal))));
 
     #if USE_INSTANCING || IS_MESHPARTICLE_FACTORY
     ObjectToWorldDir = (MaterialFloat3x3)Parameters.InstanceLocalToWorld;
     #else
-    ObjectToWorldDir = GetLocalToWorld3x3(Parameters.PrimitiveId);
+    ObjectToWorldDir = GetLocalToWorld3x3(Parameters);
     #endif
 
-    HUX_OBJECT_TO_WORLD_POS_MATRIX = GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld;
+    HUX_OBJECT_TO_WORLD_POS_MATRIX = LWCToFloat(GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld);
 
     Use_Global_Left_Index_Int = useGlobalLeftIndex;
     Use_Global_Right_Index_Int = useGlobalRightIndex;

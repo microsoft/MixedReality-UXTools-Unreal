@@ -329,24 +329,24 @@ float3 Hushed_Vertex(
 	,float inputTime
 	,float4 _Z_Up_Rotation_)
 {
-    float3 vertexWorldPosition = GetWorldPosition(Parameters);
+    float3 vertexWorldPosition = LWCToFloat(GetWorldPosition(Parameters));
     //float3 vertexLocalPosition = mul(float4(vertexWorldPosition, 1), GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal).xyz;
     float3 vertexLocalPosition = Parameters.PreSkinnedPosition;
 	//float3 worldNormal = Parameters.WorldNormal; //mul(MaterialFloat3(1.00000000,0.00000000,0.00000000), (MaterialFloat3x3)(Parameters.TangentToWorld));
 	//float3 vertexLocalNormal = mul(worldNormal,(MaterialFloat3x3)(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal));
     float3 vertexLocalNormal = Parameters.PreSkinnedNormal;
 	float3 worldTangent = Parameters.TangentToWorld[0];
-	float3 vertexLocalTangent = normalize(mul(worldTangent,(MaterialFloat3x3)(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal)));
+	float3 vertexLocalTangent = normalize(mul(worldTangent,(MaterialFloat3x3)(LWCToFloat(GetPrimitiveData(Parameters.PrimitiveId).WorldToLocal))));
 
 	MaterialFloat4x4 zUpRotation = Quaternion_To_Matrix(_Z_Up_Rotation_);
 
     #if USE_INSTANCING || IS_MESHPARTICLE_FACTORY
 	ObjectToWorldDir = mul((MaterialFloat3x3)zUpRotation, (MaterialFloat3x3) Parameters.InstanceLocalToWorld);
     #else
-	ObjectToWorldDir = mul((MaterialFloat3x3)zUpRotation, GetLocalToWorld3x3(Parameters.PrimitiveId));
+	ObjectToWorldDir = mul((MaterialFloat3x3)zUpRotation, GetLocalToWorld3x3(Parameters));
     #endif
 
-    HUX_OBJECT_TO_WORLD_POS_MATRIX = mul(zUpRotation, GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld);
+    HUX_OBJECT_TO_WORLD_POS_MATRIX = mul(zUpRotation, LWCToFloat(GetPrimitiveData(Parameters.PrimitiveId).LocalToWorld));
 
     Use_Global_Left_Index_Int = useGlobalLeftIndex;
     Use_Global_Right_Index_Int = useGlobalRightIndex;
