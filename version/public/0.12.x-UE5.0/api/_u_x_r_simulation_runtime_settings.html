@@ -186,8 +186,8 @@
 <td><strong><a href="#variable-handmesh">HandMesh</a></strong></td>
 </tr>
 <tr>
-<td>TSoftClassPtr&lt; UAnimInstance &gt;</td>
-<td><strong><a href="#variable-handaniminstance">HandAnimInstance</a></strong></td>
+<td>TSoftObjectPtr&lt; UAnimBlueprint &gt;</td>
+<td><strong><a href="#variable-handanimblueprint">HandAnimBlueprint</a></strong></td>
 </tr>
 </tbody>
 </table>
@@ -286,13 +286,13 @@ FRotator HandRestOrientation;
 TSoftObjectPtr&lt; USkeletalMesh &gt; HandMesh;
 </code></pre>
 <p>Skeletal mesh for animating hands. The skeleton should contain bones that match the names in the EHandKeypoint enum.</p>
-<h3 id="variable-handaniminstance">variable HandAnimInstance</h3>
+<h3 id="variable-handanimblueprint">variable HandAnimBlueprint</h3>
 <pre><code class="lang-cpp">UPROPERTY(GlobalConfig, EditAnywhere, Category=&quot;XRSimulation&quot;, Meta=(DisplayName=&quot;Hand Animation&quot;, Tooltip=&quot;Animation instance used for animating hand meshes.&quot;))
-TSoftClassPtr&lt; UAnimInstance &gt; HandAnimInstance;
+TSoftObjectPtr&lt; UAnimBlueprint &gt; HandAnimBlueprint;
 </code></pre>
 <p>Animation instance used for animating hand meshes.</p>
 <hr>
-<p>Updated on 17 November 2021 at 14:09:30 Coordinated Universal Time</p>
+<p>Updated on 18 November 2021 at 17:31:52 Coordinated Universal Time</p>
 </article>
           </div>
           
