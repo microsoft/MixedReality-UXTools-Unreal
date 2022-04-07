@@ -405,12 +405,10 @@ bool FXRSimulationHMD::EnableStereo(bool bEnable)
 	return bStereoEnabled;
 }
 
-void FXRSimulationHMD::AdjustViewRect(EStereoscopicPass StereoPass, int32& X, int32& Y, uint32& SizeX, uint32& SizeY) const
+void FXRSimulationHMD::AdjustViewRect(int32 ViewIndex, int32& X, int32& Y, uint32& SizeX, uint32& SizeY) const
 {
-	const uint32 ViewIndex = GetViewIndexForPass(StereoPass);
-
 	FIntPoint ViewRectMin(EForceInit::ForceInitToZero);
-	for (uint32 i = 0; i < ViewIndex; ++i)
+	for (int32 i = 0; i < ViewIndex; ++i)
 	{
 		ViewRectMin.X += RecommendedImageRectWidth;
 	}
@@ -422,28 +420,12 @@ void FXRSimulationHMD::AdjustViewRect(EStereoscopicPass StereoPass, int32& X, in
 	SizeY = RecommendedImageRectHeight;
 }
 
-EStereoscopicPass FXRSimulationHMD::GetViewPassForIndex(bool bStereoRequested, uint32 ViewIndex) const
+EStereoscopicPass FXRSimulationHMD::GetViewPassForIndex(bool bStereoRequested, int32 ViewIndex) const
 {
 	if (!bStereoRequested)
 		return EStereoscopicPass::eSSP_FULL;
 
-	return static_cast<EStereoscopicPass>(eSSP_LEFT_EYE + ViewIndex);
-}
-
-uint32 FXRSimulationHMD::GetViewIndexForPass(EStereoscopicPass StereoPassType) const
-{
-	switch (StereoPassType)
-	{
-	case eSSP_LEFT_EYE:
-	case eSSP_FULL:
-		return 0;
-
-	case eSSP_RIGHT_EYE:
-		return 1;
-
-	default:
-		return StereoPassType - eSSP_LEFT_EYE;
-	}
+	return ViewIndex == EStereoscopicEye::eSSE_LEFT_EYE ? EStereoscopicPass::eSSP_PRIMARY : EStereoscopicPass::eSSP_SECONDARY;
 }
 
 int32 FXRSimulationHMD::GetDesiredNumberOfViews(bool bStereoRequested) const
@@ -451,7 +433,7 @@ int32 FXRSimulationHMD::GetDesiredNumberOfViews(bool bStereoRequested) const
 	return bStereoRequested ? 2 : 1;
 }
 
-FMatrix FXRSimulationHMD::GetStereoProjectionMatrix(const enum EStereoscopicPass StereoPassType) const
+FMatrix FXRSimulationHMD::GetStereoProjectionMatrix(const int32 ViewIndex) const
 {
 	const float ZNear = GNearClippingPlane;
 	const float AngleUp = FMath::DegreesToRadians(30.0f);
