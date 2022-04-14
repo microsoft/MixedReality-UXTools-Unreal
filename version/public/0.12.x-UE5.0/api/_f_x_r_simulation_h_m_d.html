@@ -228,15 +228,11 @@
 </tr>
 <tr>
 <td>virtual void</td>
-<td><strong><a href="#function-adjustviewrect">AdjustViewRect</a></strong>(EStereoscopicPass StereoPass, int32 &amp; X, int32 &amp; Y, uint32 &amp; SizeX, uint32 &amp; SizeY) const override</td>
+<td><strong><a href="#function-adjustviewrect">AdjustViewRect</a></strong>(int32 ViewIndex, int32 &amp; X, int32 &amp; Y, uint32 &amp; SizeX, uint32 &amp; SizeY) const override</td>
 </tr>
 <tr>
 <td>virtual EStereoscopicPass</td>
-<td><strong><a href="#function-getviewpassforindex">GetViewPassForIndex</a></strong>(bool bStereoRequested, uint32 ViewIndex) const override</td>
-</tr>
-<tr>
-<td>virtual uint32</td>
-<td><strong><a href="#function-getviewindexforpass">GetViewIndexForPass</a></strong>(EStereoscopicPass StereoPassType) const override</td>
+<td><strong><a href="#function-getviewpassforindex">GetViewPassForIndex</a></strong>(bool bStereoRequested, int32 ViewIndex) const override</td>
 </tr>
 <tr>
 <td>virtual int32</td>
@@ -244,7 +240,7 @@
 </tr>
 <tr>
 <td>virtual FMatrix</td>
-<td><strong><a href="#function-getstereoprojectionmatrix">GetStereoProjectionMatrix</a></strong>(const enum EStereoscopicPass StereoPassType) const override</td>
+<td><strong><a href="#function-getstereoprojectionmatrix">GetStereoProjectionMatrix</a></strong>(const int32 ViewIndex) const override</td>
 </tr>
 <tr>
 <td>virtual void</td>
@@ -485,7 +481,7 @@
 </code></pre>
 <h3 id="function-adjustviewrect">function AdjustViewRect</h3>
 <pre><code class="lang-cpp">virtual void AdjustViewRect(
-    EStereoscopicPass StereoPass,
+    int32 ViewIndex,
     int32 &amp; X,
     int32 &amp; Y,
     uint32 &amp; SizeX,
@@ -495,12 +491,7 @@
 <h3 id="function-getviewpassforindex">function GetViewPassForIndex</h3>
 <pre><code class="lang-cpp">virtual EStereoscopicPass GetViewPassForIndex(
     bool bStereoRequested,
-    uint32 ViewIndex
-) const override
-</code></pre>
-<h3 id="function-getviewindexforpass">function GetViewIndexForPass</h3>
-<pre><code class="lang-cpp">virtual uint32 GetViewIndexForPass(
-    EStereoscopicPass StereoPassType
+    int32 ViewIndex
 ) const override
 </code></pre>
 <h3 id="function-getdesirednumberofviews">function GetDesiredNumberOfViews</h3>
@@ -510,7 +501,7 @@
 </code></pre>
 <h3 id="function-getstereoprojectionmatrix">function GetStereoProjectionMatrix</h3>
 <pre><code class="lang-cpp">virtual FMatrix GetStereoProjectionMatrix(
-    const enum EStereoscopicPass StereoPassType
+    const int32 ViewIndex
 ) const override
 </code></pre>
 <h3 id="function-geteyerenderparams_renderthread">function GetEyeRenderParams_RenderThread</h3>
@@ -596,7 +587,7 @@
 <pre><code class="lang-cpp">static const FName SystemName = TEXT(&quot;XRSimulation&quot;);
 </code></pre>
 <hr>
-<p>Updated on 18 November 2021 at 17:31:51 Coordinated Universal Time</p>
+<p>Updated on 14 April 2022 at 23:08:58 Coordinated Universal Time</p>
 </article>
           </div>
           
