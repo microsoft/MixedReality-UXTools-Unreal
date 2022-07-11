@@ -57,7 +57,7 @@ USceneComponent* UUxtFunctionLibrary::GetSceneComponentFromReference(const FComp
 		return Cast<USceneComponent>(ComponentRef.OverrideComponent.Get());
 	}
 
-	if (AActor* Actor = ComponentRef.OtherActor ? ComponentRef.OtherActor : Owner)
+	if (AActor* Actor = ComponentRef.OtherActor ? ComponentRef.OtherActor.Get() : Owner)
 	{
 		if (ComponentRef.ComponentProperty != NAME_None)
 		{
