@@ -15,6 +15,7 @@ class UUxtBackPlateComponent;
 class UStaticMeshComponent;
 class UTextRenderComponent;
 class UAudioComponent;
+class UMaterialInstanceDynamic;
 
 /**
  * The default pressable button actor which programmatically builds an actor hierarchy with a back plate, front plate,

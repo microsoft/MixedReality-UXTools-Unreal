@@ -7,7 +7,7 @@ variables:
   UE4BatchFilesDir: $(UnrealEngine)/Engine/Build/BatchFiles
   UE4BinariesDir: $(UnrealEngine)/Engine/Binaries
   UAT: $(UE4BatchFilesDir)/RunUAT.bat
-  UE4Editor: $(UE4BinariesDir)/Win64/UE4Editor.exe
+  UE4Editor: $(UE4BinariesDir)/Win64/UnrealEditor.exe
   UAT_mac: $(UE4BatchFilesDir)/RunUAT.sh
   UE4Editor_mac: $(UE4BinariesDir)/Mac/UE4Editor.app/Contents/MacOS/UE4Editor
   # paths to specific build folders

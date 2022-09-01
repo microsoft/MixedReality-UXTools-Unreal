@@ -28,9 +28,8 @@ stages:
       clean: true
       submodules: true
     - checkout: build-tools
-    - ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/public/0.12.x-UE5.0') }}:
-      - template: templates/common.yml
-      - template: templates/build-android.yml
+    - template: templates/common.yml
+    - template: templates/build-android.yml
 
     # RepoMirrorUrl will usually contain a PAT because the build agent doesn't have write permission.
     - powershell: '$(UXTSourceDir)\Tools\CI\scripts\MirrorToRemote.ps1 -RemoteUrl $(RepoMirrorUrl) -RefToPush $(Build.SourceBranch) -RefsToAllowRegex $(MirrorRefsToAllowRegex)'

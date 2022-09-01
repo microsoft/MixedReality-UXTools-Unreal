@@ -10,6 +10,7 @@
 
 #include "XRSimulationRuntimeSettings.generated.h"
 
+class UAnimBlueprint;
 class UAnimInstance;
 class USkeletalMesh;
 

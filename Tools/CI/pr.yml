@@ -18,7 +18,6 @@ resources:
 
 jobs:
 - job:
-  condition: and(ne(variables['Build.SourceBranch'], 'refs/heads/public/0.12.x-UE5.0'), ne(variables['System.PullRequest.TargetBranch'], 'refs/heads/public/0.12.x-UE5.0'))
   pool:
     name: $(AgentPool)
   workspace:

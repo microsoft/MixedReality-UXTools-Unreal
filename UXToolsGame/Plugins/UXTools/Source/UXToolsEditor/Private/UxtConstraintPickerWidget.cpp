@@ -3,7 +3,9 @@
 
 #include "UxtConstraintPickerWidget.h"
 
-#include "SSCSEditor.h"
+#include "SSubobjectBlueprintEditor.h"
+#include "SSubobjectInstanceEditor.h"
+#include "UXToolsEditor.h"
 
 void UUxtConstraintPickerWidget::SetTabID(FName NewID)
 {
@@ -17,11 +19,13 @@ void UUxtConstraintPickerWidget::SetOwner(TWeakObjectPtr<UObject> Owner)
 		// Create an editor for the parent actor / blueprint.
 		if (AActor* Actor = Component->GetOwner())
 		{
-			SCSEditor = SNew(SSCSEditor).EditorMode(EComponentEditorMode::ActorInstance).ActorContext(Actor);
+			SubobjectEditor = SNew(SSubobjectInstanceEditor).ObjectContext(Actor);
+			IsBlueprint = false;
 		}
 		else if (UBlueprintGeneratedClass* Blueprint = Cast<UBlueprintGeneratedClass>(Component->GetOuter()))
 		{
-			SCSEditor = SNew(SSCSEditor).EditorMode(EComponentEditorMode::BlueprintSCS).ActorContext(Blueprint->GetDefaultObject(true));
+			SubobjectEditor = SNew(SSubobjectBlueprintEditor).ObjectContext(Blueprint->GetDefaultObject(true));
+			IsBlueprint = true;
 		}
 	}
 
@@ -30,9 +34,9 @@ void UUxtConstraintPickerWidget::SetOwner(TWeakObjectPtr<UObject> Owner)
 
 bool UUxtConstraintPickerWidget::HasValidOwner() const
 {
-	if (SCSEditor.IsValid())
+	if (SubobjectEditor.IsValid())
 	{
-		return IsValid(SCSEditor->GetActorContext());
+		return IsValid(SubobjectEditor->GetObjectContext());
 	}
 
 	return false;
@@ -72,18 +76,38 @@ bool UUxtConstraintPickerWidget::AddConstraint(TSubclassOf<UUxtTransformConstrai
 
 	if (HasValidOwner())
 	{
-		if (UActorComponent* Component = SCSEditor->AddNewComponent(ConstraintClass, nullptr))
-		{
-			// Refresh selection if modifying an actor instance.
-			if (AActor* Actor = Component->GetOwner())
-			{
-				GEditor->ResetAllSelectionSets();
-				GEditor->SelectActor(Actor, true, true);
-				GEditor->SelectComponent(Component, true, true);
-			}
+		FAddNewSubobjectParams ComponentParams;
+		ComponentParams.ParentHandle = SubobjectEditor->GetObjectContextHandle();
+		ComponentParams.NewClass = ConstraintClass;
+		ComponentParams.BlueprintContext = IsBlueprint ? SubobjectEditor->GetBlueprint() : nullptr;
 
-			return true;
+		FText FailReason;
+		FSubobjectDataHandle ComponentHandle = USubobjectDataSubsystem::Get()->AddNewSubobject(ComponentParams, FailReason);
+		if (!ComponentHandle.IsValid())
+		{
+			UE_LOG(UXToolsEditor, Error, TEXT("Failed to add component: %s"), *FailReason.ToString());
+			return false;
 		}
+
+		if (!IsBlueprint)
+		{
+			// We can only get a const pointer to the new component through the ComponentHandle
+			// so we have to get it through the actor instead.
+			if (AActor* Actor = Cast<AActor>(SubobjectEditor->GetObjectContext()))
+			{
+				TArray<UActorComponent*> Components;
+				Actor->GetComponents(ConstraintClass, Components);
+				if (!Components.IsEmpty())
+				{
+					UActorComponent* Component = Components.Last(); // The new component will always be last.
+					GEditor->ResetAllSelectionSets();
+					GEditor->SelectActor(Actor, true, true);
+					GEditor->SelectComponent(Component, true, true);
+				}
+			}
+		}
+
+		return true;
 	}
 
 	return false;

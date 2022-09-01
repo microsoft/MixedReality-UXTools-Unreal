@@ -11,7 +11,7 @@ public class UXToolsEditor : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Core", "CoreUObject", "UXTools" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "SlateCore", "Slate", "EditorStyle", "Blutility", "UMG", "UMGEditor", "Kismet" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd", "SlateCore", "Slate", "EditorStyle", "Blutility", "UMG", "UMGEditor", "Kismet", "SubobjectEditor", "SubobjectDataInterface" });
 	}
 }
 

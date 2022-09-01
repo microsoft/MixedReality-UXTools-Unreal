@@ -5,7 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "EditorUtilityWidget.h"
-#include "SSCSEditor.h"
+#include "SSubobjectEditor.h"
 
 #include "Interactions/Constraints/UxtTransformConstraint.h"
 
@@ -56,5 +56,6 @@ protected:
 	FName TabID;
 
 private:
-	TSharedPtr<SSCSEditor> SCSEditor;
+	TSharedPtr<SSubobjectEditor> SubobjectEditor;
+	bool IsBlueprint;
 };
