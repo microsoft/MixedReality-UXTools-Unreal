@@ -120,7 +120,7 @@ void HandConstraintComponentSpec::Define()
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					FrameQueue.Init(World->GetGameInstance()->TimerManager);
 
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 
 					AActor* Actor = World->SpawnActor<AActor>();
 					USceneComponent* Root = NewObject<USceneComponent>(Actor);
@@ -144,7 +144,7 @@ void HandConstraintComponentSpec::Define()
 			AfterEach(
 				[this]
 				{
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 
 					FrameQueue.Reset();
 

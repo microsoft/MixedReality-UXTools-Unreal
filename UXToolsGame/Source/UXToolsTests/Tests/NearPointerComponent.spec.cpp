@@ -351,7 +351,7 @@ void NearPointerPokeSpec::Define()
 					TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					FrameQueue.Init(World->GetGameInstance()->TimerManager);
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 
 					Pointers.SetNum(NumPointers);
 					for (int i = 0; i < NumPointers; ++i)
@@ -368,7 +368,7 @@ void NearPointerPokeSpec::Define()
 			AfterEach(
 				[this]
 				{
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 
 					for (UUxtNearPointerComponent* Pointer : Pointers)
 					{

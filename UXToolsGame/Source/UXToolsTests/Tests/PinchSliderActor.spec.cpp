@@ -56,7 +56,7 @@ void PinchSliderActorSpec::Define()
 			PinchSliderActor = CreateTestActor();
 			PinchSliderComponent = PinchSliderActor->FindComponentByClass<UUxtPinchSliderComponent>();
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 			Hand.Configure(EUxtInteractionMode::Near, TargetLocation);
 		});
 
@@ -68,7 +68,7 @@ void PinchSliderActorSpec::Define()
 			PinchSliderComponent = nullptr;
 
 			Hand.Reset();
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 
 			FrameQueue.Reset();
 		});

@@ -82,7 +82,7 @@ void PressableButtonSpec::Define()
 					Button->OnButtonPressed.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementPressed);
 					Button->OnButtonReleased.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementReleased);
 
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 					Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", FVector::ZeroVector);
 					Pointer->PokeDepth = 5;
 				});
@@ -90,7 +90,7 @@ void PressableButtonSpec::Define()
 			AfterEach(
 				[this]
 				{
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 
 					FrameQueue.Reset();
 
@@ -366,7 +366,7 @@ void PressableButtonSpec::Define()
 					Button->OnButtonPressed.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementPressed);
 					Button->OnButtonReleased.AddDynamic(EventCaptureObj, &UPressableButtonTestComponent::IncrementReleased);
 
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 					Pointer = UxtTestUtils::CreateNearPointer(World, "TestPointer", FVector::ZeroVector);
 					Pointer->PokeDepth = 5;
 				});
@@ -374,7 +374,7 @@ void PressableButtonSpec::Define()
 			AfterEach(
 				[this]
 				{
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 
 					FrameQueue.Reset();
 

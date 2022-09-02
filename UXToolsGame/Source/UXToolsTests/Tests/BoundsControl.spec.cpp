@@ -120,7 +120,7 @@ void BoundsControlSpec::Define()
 			UWorld* World = UxtTestUtils::GetTestWorld();
 			FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 
 			Target = CreateTestComponent();
 
@@ -137,7 +137,7 @@ void BoundsControlSpec::Define()
 		{
 			FrameQueue.Reset();
 
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 
 			Actor->Destroy();
 		});

@@ -46,7 +46,7 @@ void HandInteractionSpec::Define()
 			UWorld* World = UxtTestUtils::LoadMap("/Game/UXToolsGame/Tests/Maps/TestEmpty");
 			TestNotNull("World", World);
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 			FrameQueue.Init(&World->GetTimerManager());
 
 			HandActor = World->SpawnActor<AUxtHandInteractionActor>();
@@ -66,7 +66,7 @@ void HandInteractionSpec::Define()
 		[this]
 		{
 			FrameQueue.Reset();
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 			UxtTestUtils::ExitGame();
 		});
 

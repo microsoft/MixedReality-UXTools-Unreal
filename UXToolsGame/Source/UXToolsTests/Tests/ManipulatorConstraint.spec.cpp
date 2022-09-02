@@ -79,6 +79,7 @@ FUxtTestHand RightHand = FUxtTestHand(EControllerHand::Right);
 
 // Cache for a position to use between frames
 FVector PositionCache;
+FQuat RotationCache;
 
 END_DEFINE_SPEC(ManipulatorConstraintSpec)
 
@@ -92,7 +93,7 @@ void ManipulatorConstraintSpec::Define()
 			UWorld* World = UxtTestUtils::GetTestWorld();
 			FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 
 			Target = CreateTestComponent();
 		});
@@ -104,7 +105,7 @@ void ManipulatorConstraintSpec::Define()
 			Target = nullptr;
 			Constraint = nullptr;
 
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 
 			FrameQueue.Reset();
 		});
@@ -365,10 +366,6 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 				{
 					const FTransform& TransformTarget = Target->TransformTarget->GetComponentTransform();
 					const FTransform ExpectedTransformAfterHandRotation = TransformTarget;
-
-					// store relative rotation to camera
-					const FRotator CameraRotation = GetCameraRotation(Constraint->GetWorld());
-					const FQuat RelativeRotationToCameraStart = CameraRotation.Quaternion().Inverse() * TransformTarget.GetRotation();
 					const FQuat HeadTilt = FQuat(FVector::ForwardVector, FMath::DegreesToRadians(90));
 
 					USceneComponent* CameraController = UxtTestUtils::CreateTestCamera(Constraint->GetWorld());
@@ -379,6 +376,12 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 						[this, HeadTilt]
 						{
 							TestTrue("Component is grabbed", Target->GetGrabPointers().Num() > 0);
+
+							// store relative rotation to camera in the cache.
+							const FRotator CameraRotation = GetCameraRotation(Constraint->GetWorld());
+							const FQuat TargetRotation = Target->TransformTarget->GetComponentTransform().GetRotation();
+							RotationCache = CameraRotation.Quaternion().Inverse() * TargetRotation;
+
 							RightHand.Rotate(HeadTilt);
 						});
 
@@ -401,7 +404,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 					FrameQueue.Skip();
 
 					FrameQueue.Enqueue(
-						[this, RelativeRotationToCameraStart, HeadTilt, CameraController]
+						[this, HeadTilt, CameraController]
 						{
 							// check if our object rotated and if the rotation relative to head / camera is still the same
 							const FTransform Result = Target->TransformTarget->GetComponentTransform();
@@ -411,7 +414,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 							const FQuat RelativeRotationToCamera = CameraRotation.Quaternion().Inverse() * Result.GetRotation();
 							TestTrue(
 								"Objects rotation relative to camera / head stayed the same",
-								RelativeRotationToCameraStart.Rotator().Equals(RelativeRotationToCamera.Rotator()));
+								RotationCache.Rotator().Equals(RelativeRotationToCamera.Rotator()));
 
 							CameraController->GetOwner()->Destroy();
 						});
@@ -426,10 +429,6 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 					const FQuat ExpectedRotation(FVector::ForwardVector, FMath::DegreesToRadians(90));
 					const FTransform& TransformTarget = Target->TransformTarget->GetComponentTransform();
 					const FTransform ExpectedTransformAfterHandRotation = TransformTarget;
-
-					// store relative rotation to camera
-					const FRotator CameraRotation = GetCameraRotation(Constraint->GetWorld());
-					const FQuat RelativeRotationToCameraStart = CameraRotation.Quaternion().Inverse() * TransformTarget.GetRotation();
 					const FQuat HeadTilt = FQuat(FVector::ForwardVector, FMath::DegreesToRadians(90));
 
 					USceneComponent* CameraController = UxtTestUtils::CreateTestCamera(Constraint->GetWorld());
@@ -448,6 +447,12 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 						[this]
 						{
 							TestTrue("Component is grabbed", Target->GetGrabPointers().Num() == 2);
+
+							// store relative rotation to camera in the cache.
+							const FRotator CameraRotation = GetCameraRotation(Constraint->GetWorld());
+							const FQuat TargetRotation = Target->TransformTarget->GetComponentTransform().GetRotation();
+							RotationCache = CameraRotation.Quaternion().Inverse() * TargetRotation;
+
 							LeftHand.Translate(FVector(0, 50, -50));
 							RightHand.Translate(FVector(0, -50, 50));
 						});
@@ -471,7 +476,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 					FrameQueue.Skip();
 
 					FrameQueue.Enqueue(
-						[this, RelativeRotationToCameraStart, HeadTilt, CameraController]
+						[this, HeadTilt, CameraController]
 						{
 							// check if our object rotated and if the rotation relative to head / camera is still the same
 							const FTransform Result = Target->TransformTarget->GetComponentTransform();
@@ -483,7 +488,7 @@ void ManipulatorConstraintSpec::EnqueueFixedRotationToUserConstraintTests()
 							const FQuat RelativeRotationToCamera = CameraRotation.Quaternion().Inverse() * Result.GetRotation();
 							TestTrue(
 								"Objects rotation relative to camera / head stayed the same",
-								RelativeRotationToCameraStart.Rotator().Equals(RelativeRotationToCamera.Rotator()));
+								RotationCache.Rotator().Equals(RelativeRotationToCamera.Rotator()));
 
 							CameraController->GetOwner()->Destroy();
 						});

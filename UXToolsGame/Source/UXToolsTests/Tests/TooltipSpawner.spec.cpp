@@ -88,7 +88,8 @@ void TooltipSpawnerSpec::Define()
 					TooltipSpawnerActor->SetActorLocation(Center);
 
 					// Hand Tracker.
-					HandTracker = &UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
+					HandTracker = &UxtTestUtils::GetTestHandTracker();
 					HandTracker->SetAllJointPositions(FVector::ZeroVector);
 					HandTracker->SetAllJointOrientations(FQuat::Identity);
 
@@ -122,7 +123,7 @@ void TooltipSpawnerSpec::Define()
 			AfterEach(
 				[this]
 				{
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 
 					Pointer->GetOwner()->Destroy();
 					Pointer = nullptr;

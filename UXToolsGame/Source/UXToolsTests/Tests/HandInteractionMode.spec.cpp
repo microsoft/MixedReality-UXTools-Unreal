@@ -65,7 +65,7 @@ void HandInteractionModeSpec::Define()
 				{
 					TestTrueExpr(AutomationOpenMap(TEXT("/Game/UXToolsGame/Tests/Maps/TestEmpty")));
 
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					FrameQueue.Init(World->GetGameInstance()->TimerManager);
@@ -88,7 +88,7 @@ void HandInteractionModeSpec::Define()
 			AfterEach(
 				[this]
 				{
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 					FrameQueue.Reset();
 					HandActor->Destroy();
 					Target->GetOwner()->Destroy();

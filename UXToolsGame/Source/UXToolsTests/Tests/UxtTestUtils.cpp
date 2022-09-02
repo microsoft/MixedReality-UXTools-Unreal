@@ -114,7 +114,7 @@ FUxtTestHandTracker& UxtTestUtils::GetTestHandTracker()
 	return TestHandTracker;
 }
 
-FUxtTestHandTracker& UxtTestUtils::EnableTestHandTracker()
+void UxtTestUtils::EnableTestInputSystem()
 {
 	check(MainHandTracker == nullptr);
 
@@ -131,10 +131,13 @@ FUxtTestHandTracker& UxtTestUtils::EnableTestHandTracker()
 	// Reset test hand tracker defaults
 	TestHandTracker = FUxtTestHandTracker();
 
-	return TestHandTracker;
+	// Enable the test head tracker and reset its position
+	UUxtFunctionLibrary::bUseTestData = true;
+	SetTestHeadLocation(FVector::ZeroVector);
+	SetTestHeadRotation(FRotator::ZeroRotator);
 }
 
-void UxtTestUtils::DisableTestHandTracker()
+void UxtTestUtils::DisableTestInputSystem()
 {
 	// Unregister the test hand tracker.
 	IModularFeatures::Get().UnregisterModularFeature(IUxtHandTracker::GetModularFeatureName(), &TestHandTracker);
@@ -145,6 +148,9 @@ void UxtTestUtils::DisableTestHandTracker()
 		IModularFeatures::Get().RegisterModularFeature(IUxtHandTracker::GetModularFeatureName(), MainHandTracker);
 		MainHandTracker = nullptr;
 	}
+
+	// Disable the test head tracker
+	UUxtFunctionLibrary::bUseTestData = false;
 }
 
 UUxtNearPointerComponent* UxtTestUtils::CreateNearPointer(
@@ -262,13 +268,8 @@ USceneComponent* UxtTestUtils::CreateTestCamera(UWorld* World)
 
 bool FUxtDisableTestHandTrackerCommand::Update()
 {
-	UxtTestUtils::DisableTestHandTracker();
+	UxtTestUtils::DisableTestInputSystem();
 	return true;
-}
-
-void UxtTestUtils::SetTestHeadEnabled(bool bEnabled)
-{
-	UUxtFunctionLibrary::bUseTestData = bEnabled;
 }
 
 void UxtTestUtils::SetTestHeadLocation(const FVector& Location)

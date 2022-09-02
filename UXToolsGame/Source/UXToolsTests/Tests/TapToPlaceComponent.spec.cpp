@@ -98,14 +98,10 @@ void TapToPlaceComponentSpec::Define()
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-					UxtTestUtils::SetTestHeadEnabled(true);
-					UxtTestUtils::SetTestHeadLocation(StartingHeadPos);
-					UxtTestUtils::SetTestHeadRotation(StartingHeadRot);
-
 					TapToPlace = CreateTestComponent(World, Centre, TargetBounds);
 					TapToPlace->bInterpolatePose = false;
 
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 					Hand.Configure(EUxtInteractionMode::Far, Centre);
 
 					TestComponent = NewObject<UTapToPlaceTestComponent>(TapToPlace->GetOwner());
@@ -127,9 +123,7 @@ void TapToPlaceComponentSpec::Define()
 					TapToPlace->GetOwner()->Destroy();
 					TapToPlace = nullptr;
 
-					UxtTestUtils::SetTestHeadEnabled(false);
-
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 					Hand.Reset();
 
 					if (Surface)
@@ -283,7 +277,7 @@ void TapToPlaceComponentSpec::EnqueueOrientationTest()
 			return FMath::IsNearlyEqual(Cross.Size(), 0, KINDA_SMALL_NUMBER) && Dot > 0;
 
 		case EUxtTapToPlaceOrientBehavior::AlignToSurface:
-			return FMath::IsNearlyEqual(Current.AngularDistance(Surface->GetComponentQuat()), PI);
+			return FMath::IsNearlyEqual(Current.AngularDistance(Surface->GetComponentQuat()), PI, KINDA_SMALL_NUMBER);
 
 		case EUxtTapToPlaceOrientBehavior::MaintainOrientation:
 			return InitialOrientation.Equals(TapToPlace->GetTargetComponent()->GetComponentRotation().Vector());

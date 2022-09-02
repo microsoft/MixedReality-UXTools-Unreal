@@ -88,13 +88,13 @@ void WidgetComponentSpec::Define()
 			UWorld* World = UxtTestUtils::GetTestWorld();
 			FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 		});
 
 	AfterEach(
 		[this]
 		{
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 
 			FrameQueue.Reset();
 		});
@@ -316,7 +316,8 @@ void WidgetComponentSpec::EnqueueSliderTest()
 						{
 							TestEqual("New slider value is middle value", GetWidget<USlider>(Widget)->GetValue(), 0.5f);
 
-							LeftHand.SetTranslation(LeftHand.GetTransform().GetLocation() + FVector(0, 50, 0));
+							// Move it to just before the end as moving it off the end in a single frame won't update the slider's position.
+							LeftHand.SetTranslation(LeftHand.GetTransform().GetLocation() + FVector(0, 49, 0));
 						});
 
 					// Frame skip needed because of internal operation of the USlider, the position of

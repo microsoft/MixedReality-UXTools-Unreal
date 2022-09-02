@@ -130,8 +130,8 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldPreActorTick(UWorld* World, ELevelT
 		FVector HeadPosition;
 		FQuat HeadRotation;
 		XRSimulationSubsystem->GetHeadPose(HeadRotation, HeadPosition);
-		UUxtFunctionLibrary::bUseTestData = true;
-		UUxtFunctionLibrary::TestHeadPose = FTransform(HeadRotation, HeadPosition);
+		UUxtFunctionLibrary::bUseInputSim = true;
+		UUxtFunctionLibrary::SimulatedHeadPose = FTransform(HeadRotation, HeadPosition);
 	}
 	else
 	{
@@ -155,7 +155,7 @@ void UUxtDefaultHandTrackerSubsystem::OnWorldPreActorTick(UWorld* World, ELevelT
 		}
 
 		// Disable head pose override from simulation
-		UUxtFunctionLibrary::bUseTestData = false;
+		UUxtFunctionLibrary::bUseInputSim = false;
 	}
 }
 

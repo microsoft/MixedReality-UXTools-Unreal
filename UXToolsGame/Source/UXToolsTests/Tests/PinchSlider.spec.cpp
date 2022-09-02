@@ -82,7 +82,7 @@ void PinchSliderSpec::Define()
 			Target = CreateTestComponent();
 			EventCaptureComponent = CreateEventCaptureComponent(Target);
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 			Hand.Configure(EUxtInteractionMode::Near, TargetLocation);
 		});
 
@@ -94,7 +94,7 @@ void PinchSliderSpec::Define()
 			EventCaptureComponent = nullptr;
 
 			Hand.Reset();
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 
 			FrameQueue.Reset();
 		});

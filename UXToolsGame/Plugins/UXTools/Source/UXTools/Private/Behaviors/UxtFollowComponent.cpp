@@ -198,7 +198,8 @@ namespace
 
 	bool PassedOrientationDeadzone(FVector CurrentToTarget, FQuat CurrentRotation, FVector FollowPosition, float DeadzoneDegrees)
 	{
-		FVector LeashForward = CurrentRotation * FVector::ForwardVector;
+		// We don't flip the actor to face the user so the BackwardVector is the one that is facing the user.
+		FVector LeashForward = CurrentRotation * FVector::BackwardVector;
 
 		FVector LeashToFollow = CurrentToTarget;
 		LeashToFollow.Normalize();

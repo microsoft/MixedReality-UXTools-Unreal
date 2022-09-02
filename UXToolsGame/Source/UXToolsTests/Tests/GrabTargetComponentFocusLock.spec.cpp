@@ -41,7 +41,7 @@ void GrabTargetComponentFocusLockSpec::Define()
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					FrameQueue.Init(World->GetGameInstance()->TimerManager);
 
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 
 					FVector Center(150, 0, 0);
 					Pointer = UxtTestUtils::CreateNearPointer(World, TEXT("GrabTestPointer"), Center + FVector(-15, 0, 0));
@@ -59,7 +59,7 @@ void GrabTargetComponentFocusLockSpec::Define()
 			AfterEach(
 				[this]
 				{
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 
 					FrameQueue.Reset();
 					Pointer->GetOwner()->Destroy();

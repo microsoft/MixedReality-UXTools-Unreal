@@ -201,12 +201,7 @@ void AUxtTooltipActor::UpdateSpline()
 
 		if (bIsAutoAnchoring)
 		{
-			// The tooltip doesn't return the correct size until it has been rendered at least once. This coincides with the creation of the
-			// render target.
-			if (TooltipWidgetComponent->GetRenderTarget())
-			{
-				StartPivotPos = GetClosestAnchorToTarget(EndPivotPos);
-			}
+			StartPivotPos = GetClosestAnchorToTarget(EndPivotPos);
 		}
 
 		FVector StartSplinePos = PivotToSplineTransf.TransformPositionNoScale(StartPivotPos);

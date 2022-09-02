@@ -47,7 +47,7 @@ void FFarBeamSpec::Define()
 
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					FrameQueue.Init(World->GetGameInstance()->TimerManager);
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 
 					// handinteractionactor
 					HandInteractionActor = World->SpawnActor<AUxtHandInteractionActor>();
@@ -64,7 +64,7 @@ void FFarBeamSpec::Define()
 				[this]
 				{
 					FrameQueue.Reset();
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 					FrameQueue.Reset();
 					HandInteractionActor->Destroy();
 					HandInteractionActor = NULL;

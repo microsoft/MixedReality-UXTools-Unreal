@@ -12,13 +12,20 @@
 #endif
 
 bool UUxtFunctionLibrary::bUseTestData = false;
+bool UUxtFunctionLibrary::bUseInputSim = false;
 FTransform UUxtFunctionLibrary::TestHeadPose = FTransform::Identity;
+FTransform UUxtFunctionLibrary::SimulatedHeadPose = FTransform::Identity;
 
 FTransform UUxtFunctionLibrary::GetHeadPose(UObject* WorldContextObject)
 {
 	if (bUseTestData)
 	{
 		return TestHeadPose;
+	}
+
+	if (bUseInputSim)
+	{
+		return SimulatedHeadPose;
 	}
 
 	FRotator Rotation;

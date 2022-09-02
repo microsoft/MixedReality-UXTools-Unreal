@@ -82,7 +82,7 @@ void GrabTargetComponentSpec::Define()
 			UWorld* World = UxtTestUtils::GetTestWorld();
 			FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 
 			Target = CreateTestComponent();
 			EventCaptureComponent = AddEventCaptureComponent(Target);
@@ -95,7 +95,7 @@ void GrabTargetComponentSpec::Define()
 			Target = nullptr;
 			EventCaptureComponent = nullptr;
 
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 
 			FrameQueue.Reset();
 		});

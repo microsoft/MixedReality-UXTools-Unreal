@@ -65,7 +65,8 @@ void TooltipSpec::Define()
 					const FTransform T1 = TooltipActor->GetTransform();
 
 					// Hand Tracker.
-					HandTracker = &UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
+					HandTracker = &UxtTestUtils::GetTestHandTracker();
 					HandTracker->SetAllJointPositions(FVector::ZeroVector);
 					HandTracker->SetAllJointOrientations(FQuat::Identity);
 
@@ -77,7 +78,7 @@ void TooltipSpec::Define()
 				[this]
 				{
 					HandTracker = nullptr;
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 
 					FrameQueue.Reset();
 					UxtTestUtils::GetTestWorld()->DestroyActor(TooltipActor);

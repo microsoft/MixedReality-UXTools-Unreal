@@ -55,7 +55,7 @@ void FSurfaceMagnetism::Define()
 
 					UWorld* World = UxtTestUtils::GetTestWorld();
 					FrameQueue.Init(World->GetGameInstance()->TimerManager);
-					UxtTestUtils::EnableTestHandTracker();
+					UxtTestUtils::EnableTestInputSystem();
 
 					// HandInteraction actor
 					HandInteractionActor = World->SpawnActor<AUxtHandInteractionActor>();
@@ -112,7 +112,7 @@ void FSurfaceMagnetism::Define()
 				[this]
 				{
 					FrameQueue.Reset();
-					UxtTestUtils::DisableTestHandTracker();
+					UxtTestUtils::DisableTestInputSystem();
 					FrameQueue.Reset();
 					HandInteractionActor->Destroy();
 					HandInteractionActor = nullptr;

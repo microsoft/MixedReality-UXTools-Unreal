@@ -74,7 +74,7 @@ void TouchableVolumeSpec::Define()
 			UWorld* World = UxtTestUtils::GetTestWorld();
 			FrameQueue.Init(&World->GetGameInstance()->GetTimerManager());
 
-			UxtTestUtils::EnableTestHandTracker();
+			UxtTestUtils::EnableTestInputSystem();
 
 			Target = CreateTestComponent();
 			EventCaptureComponent = AddEventCaptureComponent(Target);
@@ -86,7 +86,7 @@ void TouchableVolumeSpec::Define()
 			Target->GetOwner()->Destroy();
 			Target = nullptr;
 
-			UxtTestUtils::DisableTestHandTracker();
+			UxtTestUtils::DisableTestInputSystem();
 
 			FrameQueue.Reset();
 		});

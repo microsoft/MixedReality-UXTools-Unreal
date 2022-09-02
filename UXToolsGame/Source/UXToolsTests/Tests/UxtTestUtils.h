@@ -67,9 +67,6 @@ public:
 	/** Create a background target without a scene component or primitive. */
 	static UTestGrabTarget* CreateNearPointerBackgroundTarget(UWorld* World);
 
-	/** When true, test data will be used for head pose. */
-	static void SetTestHeadEnabled(bool bEnabled);
-
 	/** Set the simulated head pose location to the given location. */
 	static void SetTestHeadLocation(const FVector& Location);
 
@@ -85,11 +82,11 @@ public:
 	/** Get the instance of the testing hand tracker. */
 	static FUxtTestHandTracker& GetTestHandTracker();
 
-	/** Replace the default hand tracker with a testing implementing. */
-	static FUxtTestHandTracker& EnableTestHandTracker();
+	/** Enable the test head and hand trackers. */
+	static void EnableTestInputSystem();
 
-	/** Restore the default hand tracker implementation. */
-	static void DisableTestHandTracker();
+	/** Disable the test head and hand trackers. */
+	static void DisableTestInputSystem();
 
 public:
 	/** Hand tracker implementation for tests. */
