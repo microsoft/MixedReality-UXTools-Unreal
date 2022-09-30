@@ -155,12 +155,18 @@ void UUxtInputSubsystem::ExecuteHierarchy(UPrimitiveComponent* Target, const Fun
 {
 	if (Target && Target->GetOwner())
 	{
-		for (UActorComponent* Child : Target->GetOwner()->GetComponents())
+		TArray<UActorComponent*> ComponentsToUpdate;
+		for (UActorComponent* Component : Target->GetOwner()->GetComponents())
 		{
-			if (Child->Implements<HandlerType>() && CanHandle<HandlerType>(Child, Target) && !Handled.Contains(Child))
+			if (Component->Implements<HandlerType>() && CanHandle<HandlerType>(Component, Target) && !Handled.Contains(Component))
 			{
-				Callback(Child);
+				ComponentsToUpdate.Add(Component);
 			}
+		}
+
+		for (UActorComponent* Component : ComponentsToUpdate)
+		{
+			Callback(Component);
 		}
 	}
 }

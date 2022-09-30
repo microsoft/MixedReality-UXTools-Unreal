@@ -20,7 +20,7 @@ This release of the UX Tools has been tested on HoloLens 2 and Windows Mixed Rea
 - Oculus
 - Steam VR
 
-Unreal 4.27 required.
+Unreal 5.0 required.
 
 This is an incremental hotfix release. Please review changes in [0.12.0 Release Notes](https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x/Docs/ReleaseNotes.html) for information regarding changes introduced in the major UX Tools version.
 

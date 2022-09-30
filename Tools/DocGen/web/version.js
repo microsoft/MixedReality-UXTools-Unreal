@@ -1,7 +1,7 @@
 function createDropdown()
 {
 	// configurable values:
-	var defaultTitle = "public/0.12.x-UE4.27"; // title in the dropdown for the root version of the docs - alternatively put a version from the version array as a default
+	var defaultTitle = "public/0.12.x-UE5.0"; // title in the dropdown for the root version of the docs - alternatively put a version from the version array as a default
 	var versionArray = ["public/0.8.x", "public/0.9.x", "public/0.10.x", "public/0.11.x", "public/0.12.x", "public/0.12.x-UE4.27", "public/0.12.x-UE5.0"]; // list of all versions in the version folder
 
 	var ignoreDefaultInVersionFolder = true;

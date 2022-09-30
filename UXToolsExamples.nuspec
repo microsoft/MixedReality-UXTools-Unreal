@@ -6,19 +6,19 @@
 -->
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>UXToolsExamples-UE4.27.0</id>
+        <id>UXToolsExamples-UE5.0.0</id>
         <title>Mixed Reality UX Tools Examples</title>
         <description>Example usage of Mixed Reality UX Tools.</description>
         <version>0.12.1</version>
         <authors>Microsoft</authors>
         <projectUrl>https://github.com/microsoft/MixedReality-UXTools-Unreal</projectUrl>
-        <releaseNotes>https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x-UE4.27/Docs/ReleaseNotes.html</releaseNotes>
+        <releaseNotes>https://microsoft.github.io/MixedReality-UXTools-Unreal/version/public/0.12.x-UE5.0/Docs/ReleaseNotes.html</releaseNotes>
         <license type="expression">MIT</license>
         <copyright>Copyright (c) Microsoft Corporation. All rights reserved.</copyright>
         <icon>native/Resources/Icon128.png</icon>
         <tags>HoloLens2 Examples</tags>
         <dependencies>
-            <dependency id="UXTools-UE4.27.0" version="[0.12.1]" />
+            <dependency id="UXTools-UE5.0.0" version="[0.12.1]" />
         </dependencies>
     </metadata>
     <files>
