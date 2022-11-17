@@ -46,23 +46,47 @@ void FXRSimulationInputDevice::SendHandEvents(const AXRSimulationActor* InputSim
 	if (bNewSelectPressed && !bSelectPressedState)
 	{
 		bSelectPressedState = true;
-		MessageHandler->OnControllerButtonPressed(SelectKey.GetFName(), 0, /*IsRepeat =*/false);
+
+		int ControllerId = 0;
+		FPlatformUserId UserId = FGenericPlatformMisc::GetPlatformUserForUserIndex(ControllerId);
+		FInputDeviceId DeviceId = INPUTDEVICEID_NONE;
+		IPlatformInputDeviceMapper::Get().RemapControllerIdToPlatformUserAndDevice(ControllerId, UserId, DeviceId);
+
+		MessageHandler->OnControllerButtonPressed(SelectKey.GetFName(), UserId, DeviceId, /*IsRepeat =*/false);
 	}
 	if (!bNewSelectPressed && bSelectPressedState)
 	{
 		bSelectPressedState = false;
-		MessageHandler->OnControllerButtonReleased(SelectKey.GetFName(), 0, /*IsRepeat =*/false);
+
+		int ControllerId = 0;
+		FPlatformUserId UserId = FGenericPlatformMisc::GetPlatformUserForUserIndex(ControllerId);
+		FInputDeviceId DeviceId = INPUTDEVICEID_NONE;
+		IPlatformInputDeviceMapper::Get().RemapControllerIdToPlatformUserAndDevice(ControllerId, UserId, DeviceId);
+
+		MessageHandler->OnControllerButtonReleased(SelectKey.GetFName(), UserId, DeviceId, /*IsRepeat =*/false);
 	}
 
 	if (bNewGripPressed && !bGripPressedState)
 	{
 		bGripPressedState = true;
-		MessageHandler->OnControllerButtonPressed(GripKey.GetFName(), 0, /*IsRepeat =*/false);
+
+		int ControllerId = 0;
+		FPlatformUserId UserId = FGenericPlatformMisc::GetPlatformUserForUserIndex(ControllerId);
+		FInputDeviceId DeviceId = INPUTDEVICEID_NONE;
+		IPlatformInputDeviceMapper::Get().RemapControllerIdToPlatformUserAndDevice(ControllerId, UserId, DeviceId);
+
+		MessageHandler->OnControllerButtonPressed(GripKey.GetFName(), UserId, DeviceId, /*IsRepeat =*/false);
 	}
 	if (!bNewGripPressed && bGripPressedState)
 	{
 		bGripPressedState = false;
-		MessageHandler->OnControllerButtonReleased(GripKey.GetFName(), 0, /*IsRepeat =*/false);
+
+		int ControllerId = 0;
+		FPlatformUserId UserId = FGenericPlatformMisc::GetPlatformUserForUserIndex(ControllerId);
+		FInputDeviceId DeviceId = INPUTDEVICEID_NONE;
+		IPlatformInputDeviceMapper::Get().RemapControllerIdToPlatformUserAndDevice(ControllerId, UserId, DeviceId);
+
+		MessageHandler->OnControllerButtonReleased(GripKey.GetFName(), UserId, DeviceId, /*IsRepeat =*/false);
 	}
 }
 

@@ -23,72 +23,6 @@ DEFINE_LOG_CATEGORY_STATIC(LogXRSimulationActor, Log, All);
 
 namespace
 {
-	const FName Action_ToggleLeftHand = TEXT("XRSimulation_Action_ToggleLeftHand");
-	const FName Action_ToggleRightHand = TEXT("XRSimulation_Action_ToggleRightHand");
-
-	const FName Action_ControlLeftHand = TEXT("XRSimulation_Action_ControlLeftHand");
-	const FName Action_ControlRightHand = TEXT("XRSimulation_Action_ControlRightHand");
-
-	const FName Action_HandRotate = TEXT("XRSimulation_Action_HandRotate");
-
-	const FName Action_PrimaryHandPose = TEXT("XRSimulation_Action_PrimaryHandPose");
-	const FName Action_SecondaryHandPose = TEXT("XRSimulation_Action_SecondaryHandPose");
-	const FName Action_MenuHandPose = TEXT("XRSimulation_Action_MenuHandPose");
-
-	const FName Axis_MoveForward = TEXT("XRSimulation_Axis_MoveForward");
-	const FName Axis_MoveRight = TEXT("XRSimulation_Axis_MoveRight");
-	const FName Axis_MoveUp = TEXT("XRSimulation_Axis_MoveUp");
-	const FName Axis_Turn = TEXT("XRSimulation_Axis_Turn");
-	const FName Axis_TurnRate = TEXT("XRSimulation_Axis_TurnRate");
-	const FName Axis_LookUp = TEXT("XRSimulation_Axis_LookUp");
-	const FName Axis_LookUpRate = TEXT("XRSimulation_Axis_LookUpRate");
-
-	const FName Axis_Scroll = TEXT("XRSimulation_Axis_Scroll");
-	const FName Axis_ScrollRate = TEXT("XRSimulation_Axis_ScrollRate");
-
-	const TArray<FInputActionKeyMapping> ActionMappings({
-		FInputActionKeyMapping(Action_ToggleLeftHand, EKeys::T),
-		FInputActionKeyMapping(Action_ToggleRightHand, EKeys::Y),
-
-		FInputActionKeyMapping(Action_ControlLeftHand, EKeys::LeftShift),
-		FInputActionKeyMapping(Action_ControlRightHand, EKeys::LeftAlt),
-
-		FInputActionKeyMapping(Action_HandRotate, EKeys::RightMouseButton),
-
-		FInputActionKeyMapping(Action_PrimaryHandPose, EKeys::LeftMouseButton),
-		FInputActionKeyMapping(Action_SecondaryHandPose, EKeys::MiddleMouseButton),
-		FInputActionKeyMapping(Action_MenuHandPose, EKeys::Home),
-	});
-
-	const TArray<FInputAxisKeyMapping> AxisMappings({
-		FInputAxisKeyMapping(Axis_MoveForward, EKeys::W, 1.f),
-		FInputAxisKeyMapping(Axis_MoveForward, EKeys::S, -1.f),
-		FInputAxisKeyMapping(Axis_MoveForward, EKeys::Up, 1.f),
-		FInputAxisKeyMapping(Axis_MoveForward, EKeys::Down, -1.f),
-		FInputAxisKeyMapping(Axis_MoveForward, EKeys::Gamepad_LeftY, 1.f),
-
-		FInputAxisKeyMapping(Axis_MoveRight, EKeys::A, -1.f),
-		FInputAxisKeyMapping(Axis_MoveRight, EKeys::D, 1.f),
-		FInputAxisKeyMapping(Axis_MoveRight, EKeys::Gamepad_LeftX, 1.f),
-
-		FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_LeftThumbstick, 1.f),
-		FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_RightThumbstick, -1.f),
-		FInputAxisKeyMapping(Axis_MoveUp, EKeys::Gamepad_FaceButton_Bottom, 1.f),
-		FInputAxisKeyMapping(Axis_MoveUp, EKeys::E, 1.f),
-		FInputAxisKeyMapping(Axis_MoveUp, EKeys::Q, -1.f),
-
-		FInputAxisKeyMapping(Axis_Turn, EKeys::MouseX, 1.f),
-		FInputAxisKeyMapping(Axis_TurnRate, EKeys::Gamepad_RightX, 1.f),
-		FInputAxisKeyMapping(Axis_TurnRate, EKeys::Left, -1.f),
-		FInputAxisKeyMapping(Axis_TurnRate, EKeys::Right, 1.f),
-
-		FInputAxisKeyMapping(Axis_LookUp, EKeys::MouseY, 1.f),
-		FInputAxisKeyMapping(Axis_LookUpRate, EKeys::Gamepad_RightY, -1.f),
-
-		FInputAxisKeyMapping(Axis_Scroll, EKeys::MouseWheelAxis, 3.f),
-		// FInputAxisKeyMapping(Axis_ScrollRate, ???, 1.f),
-	});
-
 	/** Utility for building a static list of all keypoint enum values. */
 	TArray<EHandKeypoint> BuildHandKeypointList()
 	{
@@ -122,6 +56,23 @@ AXRSimulationActor::AXRSimulationActor(const FObjectInitializer& ObjectInitializ
 
 	SetupHeadComponents();
 	SetupHandComponents();
+
+	InputMappingContext = NewObject<UInputMappingContext>();
+	InputMappingContext->AddToRoot();
+
+	if (GWorld)
+	{
+		if (const ULocalPlayer* FirstLocalPlayer = GWorld->GetFirstLocalPlayerFromController())
+		{
+			UEnhancedInputLocalPlayerSubsystem* EnhancedInputSystem =
+				ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(FirstLocalPlayer);
+			if (EnhancedInputSystem && !EnhancedInputSystem->HasMappingContext(InputMappingContext))
+			{
+				EnhancedInputSystem->AddMappingContext(InputMappingContext, 0);
+				RegisterInputMappings();
+			}
+		}
+	}
 }
 
 void AXRSimulationActor::SetSimulationState(const TSharedPtr<FXRSimulationState>& NewSimulationState)
@@ -382,6 +333,13 @@ void AXRSimulationActor::BeginPlay()
 	}
 }
 
+void AXRSimulationActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	UnregisterInputMappings();
+}
+
 void AXRSimulationActor::Tick(float DeltaSeconds)
 {
 	UpdateHandMeshComponent(EControllerHand::Left);
@@ -425,75 +383,244 @@ void AXRSimulationActor::UpdateHandMeshComponent(EControllerHand Hand)
 	}
 }
 
-void AXRSimulationActor::RegisterInputMappings()
+void AXRSimulationActor::RegisterEnhancedInputAxis(UInputAction*& Action, FText Description, TArray<FKey> Keys, bool Negate)
 {
-	UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
-	if (!InputSettings)
+	Action = NewObject<UInputAction>();
+	Action->AddToRoot();
+
+	Action->ActionDescription = Description;
+	Action->Triggers.Add(NewObject<UInputTriggerDown>());
+	Action->bConsumeInput = false;
+	Action->ValueType = EInputActionValueType::Axis1D;
+
+	if (Negate)
 	{
-		UE_LOG(LogXRSimulationActor, Warning, TEXT("Could not find mutable input settings"));
-		return;
+		Action->Modifiers.Add(NewObject<UInputModifierNegate>());
 	}
 
-	for (const FInputActionKeyMapping& Mapping : ActionMappings)
+	for (FKey Key : Keys)
 	{
-		if (Mapping.Key.IsValid())
-		{
-			InputSettings->AddActionMapping(Mapping, false);
-		}
+		InputMappingContext->MapKey(Action, Key);
 	}
-	for (const FInputAxisKeyMapping& Mapping : AxisMappings)
+}
+
+void AXRSimulationActor::RegisterEnhancedInputAction(UInputAction*& Action, FText Description, TArray<FKey> Keys)
+{
+	Action = NewObject<UInputAction>();
+	Action->AddToRoot();
+
+	Action->ActionDescription = Description;
+	Action->Triggers.Add(NewObject<UInputTriggerDown>());
+	Action->bConsumeInput = false;
+
+	for (FKey Key : Keys)
 	{
-		if (Mapping.Key.IsValid())
-		{
-			InputSettings->AddAxisMapping(Mapping, false);
-		}
+		InputMappingContext->MapKey(Action, Key);
 	}
-	InputSettings->ForceRebuildKeymaps();
+}
+
+void AXRSimulationActor::RegisterInputMappings()
+{
+	// Axis mappings
+	RegisterEnhancedInputAxis(
+		MoveForward,
+		FText::FromName(TEXT("XRSimulation_Axis_MoveForward")), 
+		TArray<FKey> { EKeys::W, EKeys::Up, EKeys::Gamepad_LeftY }
+	);
+
+	RegisterEnhancedInputAxis(
+		MoveBackward,
+		FText::FromName(TEXT("XRSimulation_Axis_MoveBackward")),
+		TArray<FKey> { EKeys::S, EKeys::Down },
+		true
+	);
+
+	RegisterEnhancedInputAxis(
+		MoveRight,
+		FText::FromName(TEXT("XRSimulation_Axis_MoveRight")),
+		TArray<FKey> { EKeys::D, EKeys::Gamepad_LeftX }
+	);
+
+	RegisterEnhancedInputAxis(
+		MoveLeft,
+		FText::FromName(TEXT("XRSimulation_Axis_MoveLeft")),
+		TArray<FKey> { EKeys::A },
+		true
+	);
+
+	RegisterEnhancedInputAxis(
+		MoveUp,
+		FText::FromName(TEXT("XRSimulation_Axis_MoveUp")),
+		TArray<FKey> { EKeys::E, EKeys::Gamepad_FaceButton_Bottom, EKeys::Gamepad_LeftThumbstick }
+	);
+
+	RegisterEnhancedInputAxis(
+		MoveDown,
+		FText::FromName(TEXT("XRSimulation_Axis_MoveDown")),
+		TArray<FKey> { EKeys::Q, EKeys::Gamepad_RightThumbstick },
+		true
+	);
+
+	RegisterEnhancedInputAxis(
+		Turn,
+		FText::FromName(TEXT("XRSimulation_Axis_Turn")),
+		TArray<FKey> { EKeys::MouseX }
+	);
+
+	RegisterEnhancedInputAxis(
+		TurnRateRight,
+		FText::FromName(TEXT("XRSimulation_Axis_TurnRateRight")),
+		TArray<FKey> { EKeys::Right, EKeys::Gamepad_RightX }
+	);
+
+	RegisterEnhancedInputAxis(
+		TurnRateLeft,
+		FText::FromName(TEXT("XRSimulation_Axis_TurnRateLeft")),
+		TArray<FKey> { EKeys::Left },
+		true
+	);
+
+	RegisterEnhancedInputAxis(
+		LookUp,
+		FText::FromName(TEXT("XRSimulation_Axis_LookUp")),
+		TArray<FKey> { EKeys::MouseY }
+	);
+
+	RegisterEnhancedInputAxis(
+		LookUpRate,
+		FText::FromName(TEXT("XRSimulation_Axis_LookUpRate")),
+		TArray<FKey> { EKeys::Gamepad_RightY },
+		true
+	);
+
+	RegisterEnhancedInputAxis(
+		Scroll,
+		FText::FromName(TEXT("XRSimulation_Axis_Scroll")),
+		TArray<FKey> { EKeys::MouseWheelAxis }
+	);
+
+	// Action Mappings
+	RegisterEnhancedInputAction(
+		ToggleLeftHand,
+		FText::FromName(TEXT("XRSimulation_Action_ToggleLeftHand")),
+		TArray<FKey> { EKeys::T }
+	);
+
+	RegisterEnhancedInputAction(
+		ToggleRightHand,
+		FText::FromName(TEXT("XRSimulation_Action_ToggleRightHand")),
+		TArray<FKey> { EKeys::Y }
+	);
+
+	RegisterEnhancedInputAction(
+		ControlLeftHand,
+		FText::FromName(TEXT("XRSimulation_Action_ControlLeftHand")),
+		TArray<FKey> { EKeys::LeftShift }
+	);
+
+	RegisterEnhancedInputAction(
+		ControlRightHand,
+		FText::FromName(TEXT("XRSimulation_Action_ControlRightHand")),
+		TArray<FKey> { EKeys::LeftAlt }
+	);
+
+	RegisterEnhancedInputAction(
+		HandRotate,
+		FText::FromName(TEXT("XRSimulation_Action_HandRotate")),
+		TArray<FKey> { EKeys::RightMouseButton }
+	);
+
+	RegisterEnhancedInputAction(
+		PrimaryHandPose,
+		FText::FromName(TEXT("XRSimulation_Action_PrimaryHandPose")),
+		TArray<FKey> { EKeys::LeftMouseButton }
+	);
+
+	RegisterEnhancedInputAction(
+		SecondaryHandPose,
+		FText::FromName(TEXT("XRSimulation_Action_SecondaryHandPose")),
+		TArray<FKey> { EKeys::MiddleMouseButton }
+	);
+
+	RegisterEnhancedInputAction(
+		MenuHandPose,
+		FText::FromName(TEXT("XRSimulation_Action_MenuHandPose")),
+		TArray<FKey> { EKeys::Home }
+	);
 }
 
 void AXRSimulationActor::UnregisterInputMappings()
 {
-	UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
-	if (!InputSettings)
-	{
-		return;
-	}
+	InputMappingContext->UnmapAllKeysFromAction(MoveForward);
+	InputMappingContext->UnmapAllKeysFromAction(MoveBackward);
+	InputMappingContext->UnmapAllKeysFromAction(MoveRight);
+	InputMappingContext->UnmapAllKeysFromAction(MoveLeft);
+	InputMappingContext->UnmapAllKeysFromAction(MoveUp);
+	InputMappingContext->UnmapAllKeysFromAction(MoveDown);
+	InputMappingContext->UnmapAllKeysFromAction(Turn);
+	InputMappingContext->UnmapAllKeysFromAction(TurnRateRight);
+	InputMappingContext->UnmapAllKeysFromAction(TurnRateLeft);
+	InputMappingContext->UnmapAllKeysFromAction(LookUp);
+	InputMappingContext->UnmapAllKeysFromAction(LookUpRate);
+	InputMappingContext->UnmapAllKeysFromAction(Scroll);
 
-	for (const FInputActionKeyMapping& Mapping : ActionMappings)
-	{
-		InputSettings->RemoveActionMapping(Mapping, false);
-	}
-	for (const FInputAxisKeyMapping& Mapping : AxisMappings)
-	{
-		InputSettings->RemoveAxisMapping(Mapping, false);
-	}
-	InputSettings->ForceRebuildKeymaps();
+	InputMappingContext->UnmapAllKeysFromAction(ToggleLeftHand);
+	InputMappingContext->UnmapAllKeysFromAction(ToggleRightHand);
+	InputMappingContext->UnmapAllKeysFromAction(ControlLeftHand);
+	InputMappingContext->UnmapAllKeysFromAction(ControlRightHand);
+	InputMappingContext->UnmapAllKeysFromAction(HandRotate);
+	InputMappingContext->UnmapAllKeysFromAction(PrimaryHandPose);
+	InputMappingContext->UnmapAllKeysFromAction(SecondaryHandPose);
+	InputMappingContext->UnmapAllKeysFromAction(MenuHandPose);
 }
 
 void AXRSimulationActor::BindInputEvents()
 {
-	InputComponent->BindAction(Action_ToggleLeftHand, IE_Pressed, this, &AXRSimulationActor::OnToggleLeftHandPressed);
-	InputComponent->BindAction(Action_ToggleRightHand, IE_Pressed, this, &AXRSimulationActor::OnToggleRightHandPressed);
+	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	if (EnhancedInputComponent)
+	{
+		EnhancedInputComponent->BindAction(MoveForward, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputMoveForward);
+		EnhancedInputComponent->BindAction(MoveBackward, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputMoveForward);
+		EnhancedInputComponent->BindAction(MoveLeft, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputMoveRight);
+		EnhancedInputComponent->BindAction(MoveRight, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputMoveRight);
+		EnhancedInputComponent->BindAction(MoveUp, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputMoveUp);
+		EnhancedInputComponent->BindAction(MoveDown, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputMoveUp);
+		EnhancedInputComponent->BindAction(LookUp, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputLookUp);
+		EnhancedInputComponent->BindAction(Turn, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputTurn);
+		EnhancedInputComponent->BindAction(Scroll, ETriggerEvent::Triggered, this,
+			&AXRSimulationActor::AddInputScroll);
 
-	InputComponent->BindAction(Action_ControlLeftHand, IE_Pressed, this, &AXRSimulationActor::OnControlLeftHandPressed);
-	InputComponent->BindAction(Action_ControlLeftHand, IE_Released, this, &AXRSimulationActor::OnControlLeftHandReleased);
-	InputComponent->BindAction(Action_ControlRightHand, IE_Pressed, this, &AXRSimulationActor::OnControlRightHandPressed);
-	InputComponent->BindAction(Action_ControlRightHand, IE_Released, this, &AXRSimulationActor::OnControlRightHandReleased);
-
-	InputComponent->BindAction(Action_HandRotate, IE_Pressed, this, &AXRSimulationActor::OnHandRotatePressed);
-	InputComponent->BindAction(Action_HandRotate, IE_Released, this, &AXRSimulationActor::OnHandRotateReleased);
-
-	InputComponent->BindAction(Action_PrimaryHandPose, IE_Pressed, this, &AXRSimulationActor::OnPrimaryHandPosePressed);
-	InputComponent->BindAction(Action_SecondaryHandPose, IE_Pressed, this, &AXRSimulationActor::OnSecondaryHandPosePressed);
-	InputComponent->BindAction(Action_MenuHandPose, IE_Pressed, this, &AXRSimulationActor::OnMenuHandPosePressed);
-
-	InputComponent->BindAxis(Axis_MoveForward, this, &AXRSimulationActor::AddInputMoveForward);
-	InputComponent->BindAxis(Axis_MoveRight, this, &AXRSimulationActor::AddInputMoveRight);
-	InputComponent->BindAxis(Axis_MoveUp, this, &AXRSimulationActor::AddInputMoveUp);
-
-	InputComponent->BindAxis(Axis_LookUp, this, &AXRSimulationActor::AddInputLookUp);
-	InputComponent->BindAxis(Axis_Turn, this, &AXRSimulationActor::AddInputTurn);
-	InputComponent->BindAxis(Axis_Scroll, this, &AXRSimulationActor::AddInputScroll);
+		EnhancedInputComponent->BindAction(ToggleLeftHand, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnToggleLeftHandPressed);
+		EnhancedInputComponent->BindAction(ToggleRightHand, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnToggleRightHandPressed);
+		EnhancedInputComponent->BindAction(ControlLeftHand, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnControlLeftHandPressed);
+		EnhancedInputComponent->BindAction(ControlLeftHand, ETriggerEvent::Completed, this,
+			&AXRSimulationActor::OnControlLeftHandReleased);
+		EnhancedInputComponent->BindAction(ControlRightHand, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnControlRightHandPressed);
+		EnhancedInputComponent->BindAction(ControlRightHand, ETriggerEvent::Completed, this,
+			&AXRSimulationActor::OnControlRightHandReleased);
+		EnhancedInputComponent->BindAction(HandRotate, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnHandRotatePressed);
+		EnhancedInputComponent->BindAction(HandRotate, ETriggerEvent::Completed, this,
+			&AXRSimulationActor::OnHandRotateReleased);
+		EnhancedInputComponent->BindAction(PrimaryHandPose, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnPrimaryHandPosePressed);
+		EnhancedInputComponent->BindAction(SecondaryHandPose, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnSecondaryHandPosePressed);
+		EnhancedInputComponent->BindAction(MenuHandPose, ETriggerEvent::Started, this,
+			&AXRSimulationActor::OnMenuHandPosePressed);
+	}
 }
 
 void AXRSimulationActor::OnToggleLeftHandPressed()
@@ -662,58 +789,58 @@ void AXRSimulationActor::OnMenuHandPosePressed()
 	}
 }
 
-void AXRSimulationActor::AddInputMoveForward(float Value)
+void AXRSimulationActor::AddInputMoveForward(const FInputActionInstance& ActionInstance)
 {
-	AddHeadMovementInputImpl(EAxis::X, Value);
+	AddHeadMovementInputImpl(EAxis::X, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>());
 }
 
-void AXRSimulationActor::AddInputMoveRight(float Value)
+void AXRSimulationActor::AddInputMoveRight(const FInputActionInstance& ActionInstance)
 {
-	AddHeadMovementInputImpl(EAxis::Y, Value);
+	AddHeadMovementInputImpl(EAxis::Y, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>());
 }
 
-void AXRSimulationActor::AddInputMoveUp(float Value)
+void AXRSimulationActor::AddInputMoveUp(const FInputActionInstance& ActionInstance)
 {
-	AddHeadMovementInputImpl(EAxis::Z, Value);
+	AddHeadMovementInputImpl(EAxis::Z, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>());
 }
 
-void AXRSimulationActor::AddInputLookUp(float Value)
+void AXRSimulationActor::AddInputLookUp(const FInputActionInstance& ActionInstance)
 {
 	if (SimulationState.IsValid())
 	{
 		if (SimulationState->IsAnyHandControlled())
 		{
-			SimulationState->AddHandInput(EAxis::Z, Value);
+			SimulationState->AddHandInput(EAxis::Z, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>());
 		}
 		else
 		{
-			AddHeadRotationInputImpl(EAxis::Z, Value);
+			AddHeadRotationInputImpl(EAxis::Z, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>());
 		}
 	}
 }
 
-void AXRSimulationActor::AddInputTurn(float Value)
+void AXRSimulationActor::AddInputTurn(const FInputActionInstance& ActionInstance)
 {
 	if (SimulationState.IsValid())
 	{
 		if (SimulationState->IsAnyHandControlled())
 		{
-			SimulationState->AddHandInput(EAxis::Y, Value);
+			SimulationState->AddHandInput(EAxis::Y, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>());
 		}
 		else
 		{
-			AddHeadRotationInputImpl(EAxis::Y, Value);
+			AddHeadRotationInputImpl(EAxis::Y, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>());
 		}
 	}
 }
 
-void AXRSimulationActor::AddInputScroll(float Value)
+void AXRSimulationActor::AddInputScroll(const FInputActionInstance& ActionInstance)
 {
 	if (SimulationState.IsValid())
 	{
 		if (SimulationState->IsAnyHandControlled())
 		{
-			SimulationState->AddHandInput(EAxis::X, Value);
+			SimulationState->AddHandInput(EAxis::X, ActionInstance.GetValue().Get<FInputActionValue::Axis1D>() * 3);
 		}
 		else
 		{

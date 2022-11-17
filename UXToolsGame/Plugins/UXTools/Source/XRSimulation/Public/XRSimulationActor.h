@@ -9,6 +9,12 @@
 
 #include "GameFramework/Actor.h"
 
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputSubsystemInterface.h"
+#include "InputMappingContext.h"
+#include "InputAction.h"
+
 #include "XRSimulationActor.generated.h"
 
 struct FXRMotionControllerData;
@@ -23,6 +29,7 @@ class XRSIMULATION_API AXRSimulationActor : public AActor
 public:
 	virtual void OnConstruction(const FTransform& Transform);
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void Tick(float DeltaSeconds) override;
 
 	void SetSimulationState(const TSharedPtr<FXRSimulationState>& NewSimulationState);
@@ -48,8 +55,8 @@ public:
 	UFUNCTION(BlueprintGetter, Category = "XRSimulation")
 	USkeletalMeshComponent* GetRightHand() const { return RightHand; }
 
-	static void RegisterInputMappings();
-	static void UnregisterInputMappings();
+	void RegisterInputMappings();
+	void UnregisterInputMappings();
 
 private:
 	/** Find bone transforms matching the requested keypoints in the skeletal hand mesh. */
@@ -77,13 +84,13 @@ private:
 	void OnSecondaryHandPosePressed();
 	void OnMenuHandPosePressed();
 
-	void AddInputMoveForward(float Value);
-	void AddInputMoveRight(float Value);
-	void AddInputMoveUp(float Value);
+	void AddInputMoveForward(const FInputActionInstance& ActionInstancen);
+	void AddInputMoveRight(const FInputActionInstance& ActionInstancen);
+	void AddInputMoveUp(const FInputActionInstance& ActionInstancen);
 
-	void AddInputLookUp(float Value);
-	void AddInputTurn(float Value);
-	void AddInputScroll(float Value);
+	void AddInputLookUp(const FInputActionInstance& ActionInstancen);
+	void AddInputTurn(const FInputActionInstance& ActionInstancen);
+	void AddInputScroll(const FInputActionInstance& ActionInstancen);
 
 	/** Add head movement input along a local axis. */
 	void AddHeadMovementInputImpl(EAxis::Type Axis, float Value);
@@ -126,4 +133,32 @@ private:
 	 * This transform is applied in parent space to the hand component transforms.
 	 */
 	FTransform TrackingToWorldTransform = FTransform::Identity;
+
+private:
+	void RegisterEnhancedInputAxis(UInputAction*& Action, FText Description, TArray<FKey> Keys, bool Negate = false);
+	void RegisterEnhancedInputAction(UInputAction*& Action, FText Description, TArray<FKey> Keys);
+
+	UInputMappingContext* InputMappingContext;
+
+	UInputAction* MoveForward;
+	UInputAction* MoveBackward;
+	UInputAction* MoveRight;
+	UInputAction* MoveLeft;
+	UInputAction* MoveUp;
+	UInputAction* MoveDown;
+	UInputAction* Turn;
+	UInputAction* TurnRateRight;
+	UInputAction* TurnRateLeft;
+	UInputAction* LookUp;
+	UInputAction* LookUpRate;
+	UInputAction* Scroll;
+
+	UInputAction* ToggleLeftHand;
+	UInputAction* ToggleRightHand;
+	UInputAction* ControlLeftHand;
+	UInputAction* ControlRightHand;
+	UInputAction* HandRotate;
+	UInputAction* PrimaryHandPose;
+	UInputAction* SecondaryHandPose;
+	UInputAction* MenuHandPose;
 };

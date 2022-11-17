@@ -21,8 +21,10 @@
 
 void UUxtDefaultHandTrackerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	FUxtDefaultHandTracker::RegisterInputMappings();
-	AXRSimulationActor::RegisterInputMappings();
+	InputMappingContext = NewObject<UInputMappingContext>();
+	InputMappingContext->AddToRoot();
+
+	DefaultHandTracker.RegisterInputMappings(InputMappingContext);
 
 	PostLoginHandle = FGameModeEvents::GameModePostLoginEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin);
 	LogoutHandle = FGameModeEvents::GameModeLogoutEvent.AddUObject(this, &UUxtDefaultHandTrackerSubsystem::OnGameModeLogout);
@@ -35,45 +37,45 @@ void UUxtDefaultHandTrackerSubsystem::Deinitialize()
 	PostLoginHandle.Reset();
 	LogoutHandle.Reset();
 
-	FUxtDefaultHandTracker::UnregisterInputMappings();
-	AXRSimulationActor::UnregisterInputMappings();
+	DefaultHandTracker.UnregisterInputMappings(InputMappingContext);
 }
 
 void UUxtDefaultHandTrackerSubsystem::OnGameModePostLogin(AGameModeBase* GameMode, APlayerController* NewPlayer)
 {
 	if (NewPlayer->IsLocalController())
 	{
+		UEnhancedInputLocalPlayerSubsystem* EnhancedInputSystem =
+			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(NewPlayer->GetLocalPlayer());
+		if (EnhancedInputSystem && !EnhancedInputSystem->HasMappingContext(InputMappingContext))
+		{
+			EnhancedInputSystem->AddMappingContext(InputMappingContext, 0);
+		}
+
 		if (NewPlayer->InputComponent)
 		{
-			NewPlayer->InputComponent
-				->BindAction(
-					UxtHandTrackerInputActions::LeftSelect, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectPressed)
-				.bConsumeInput = false;
-			NewPlayer->InputComponent
-				->BindAction(
-					UxtHandTrackerInputActions::LeftSelect, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftSelectReleased)
-				.bConsumeInput = false;
-			NewPlayer->InputComponent
-				->BindAction(UxtHandTrackerInputActions::LeftGrab, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripPressed)
-				.bConsumeInput = false;
-			NewPlayer->InputComponent
-				->BindAction(UxtHandTrackerInputActions::LeftGrab, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnLeftGripReleased)
-				.bConsumeInput = false;
-			NewPlayer->InputComponent
-				->BindAction(
-					UxtHandTrackerInputActions::RightSelect, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelectPressed)
-				.bConsumeInput = false;
-			NewPlayer->InputComponent
-				->BindAction(
-					UxtHandTrackerInputActions::RightSelect, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnRightSelectReleased)
-				.bConsumeInput = false;
-			NewPlayer->InputComponent
-				->BindAction(UxtHandTrackerInputActions::RightGrab, IE_Pressed, this, &UUxtDefaultHandTrackerSubsystem::OnRightGripPressed)
-				.bConsumeInput = false;
-			NewPlayer->InputComponent
-				->BindAction(
-					UxtHandTrackerInputActions::RightGrab, IE_Released, this, &UUxtDefaultHandTrackerSubsystem::OnRightGripReleased)
-				.bConsumeInput = false;
+			UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(NewPlayer->InputComponent);
+			if (EnhancedInputComponent)
+			{
+				EnhancedInputComponent->BindAction(DefaultHandTracker.LeftSelect, ETriggerEvent::Started, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnLeftSelectPressed);
+				EnhancedInputComponent->BindAction(DefaultHandTracker.LeftSelect, ETriggerEvent::Completed, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnLeftSelectReleased);
+
+				EnhancedInputComponent->BindAction(DefaultHandTracker.LeftGrab, ETriggerEvent::Started, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnLeftGripPressed);
+				EnhancedInputComponent->BindAction(DefaultHandTracker.LeftGrab, ETriggerEvent::Completed, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnLeftGripReleased);
+
+				EnhancedInputComponent->BindAction(DefaultHandTracker.RightSelect, ETriggerEvent::Started, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnRightSelectPressed);
+				EnhancedInputComponent->BindAction(DefaultHandTracker.RightSelect, ETriggerEvent::Completed, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnRightSelectReleased);
+
+				EnhancedInputComponent->BindAction(DefaultHandTracker.RightGrab, ETriggerEvent::Started, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnRightGripPressed);
+				EnhancedInputComponent->BindAction(DefaultHandTracker.RightGrab, ETriggerEvent::Completed, this, 
+					&UUxtDefaultHandTrackerSubsystem::OnRightGripReleased);
+			}
 		}
 
 		// Tick handler for updating the cached motion controller data.

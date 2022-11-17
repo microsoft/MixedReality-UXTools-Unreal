@@ -217,8 +217,6 @@ void FXRSimulationHMD::OnBeginPlay(FWorldContext& InWorldContext)
 
 	if (bHMDEnabled && bIsVRPreview)
 	{
-		AXRSimulationActor::RegisterInputMappings();
-
 		SimulationState = MakeShareable(new FXRSimulationState());
 
 		OnPostLoginDelegateHandle = FGameModeEvents::GameModePostLoginEvent.AddRaw(this, &FXRSimulationHMD::OnGameModePostLogin);
@@ -230,8 +228,6 @@ void FXRSimulationHMD::OnEndPlay(FWorldContext& InWorldContext)
 {
 	FGameModeEvents::GameModePostLoginEvent.Remove(OnPostLoginDelegateHandle);
 	FGameModeEvents::GameModeLogoutEvent.Remove(OnLogoutDelegateHandle);
-
-	AXRSimulationActor::UnregisterInputMappings();
 
 	bIsInitialized = false;
 }
@@ -471,7 +467,7 @@ IStereoRenderTargetManager* FXRSimulationHMD::GetRenderTargetManager()
 }
 
 void FXRSimulationHMD::RenderTexture_RenderThread(
-	class FRHICommandListImmediate& RHICmdList, class FRHITexture2D* BackBuffer, class FRHITexture2D* SrcTexture,
+	class FRHICommandListImmediate& RHICmdList, class FRHITexture* BackBuffer, class FRHITexture* SrcTexture,
 	FVector2D WindowSize) const
 {
 	if (SpectatorScreenController)
