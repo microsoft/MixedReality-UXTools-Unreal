@@ -128,13 +128,17 @@ private:
 		const FVector& ConeTip, const FQuat& ConeOrientation, const TArray<FOverlapResult>& Overlaps, bool bHasNearTarget) const;
 #endif // ENABLE_VISUAL_LOG
 
-private:
+// 5.1 has broken this pattern with blueprint getters/setters.
+// ExposeOnSpawn currently requires a public or protected scope, with a BlueprintReadWrite or BlueprintReadOnly attribute.
+// UE-168193 scheduled for fix in 5.2
+protected:
 	/** Articulated hand used to drive interactions. */
 	UPROPERTY(
-		EditAnywhere, Category = "Uxt Hand Interaction", BlueprintGetter = "GetHand", BlueprintSetter = "SetHand",
+		EditAnywhere, BlueprintReadOnly, Category = "Uxt Hand Interaction", // BlueprintGetter = "GetHand", BlueprintSetter = "SetHand",
 		meta = (ExposeOnSpawn = true))
 	EControllerHand Hand;
 
+private:
 	/** Offset from the hand ray origin at which the far ray used for far target selection starts. */
 	UPROPERTY(EditAnywhere, Category = "Uxt Hand Interaction", BlueprintGetter = "GetRayStartOffset", BlueprintSetter = "SetRayStartOffset")
 	float RayStartOffset = 5.0f;

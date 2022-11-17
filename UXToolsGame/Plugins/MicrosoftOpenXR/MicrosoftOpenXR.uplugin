@@ -1,0 +1,93 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.1.15",
+	"FriendlyName": "Microsoft OpenXR",
+	"Description": "The Microsoft OpenXR plugin is a game plugin which provides additional features available on Microsoft's Mixed Reality devices like the HoloLens 2 when using OpenXR.",
+	"Category": "Mixed Reality",
+	"CreatedBy": "Microsoft",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ef8930ca860148c498b46887da196239",
+	"SupportURL": "https://github.com/microsoft/Microsoft-OpenXR-Unreal",
+	"EngineVersion": "5.1.0",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"SupportedTargetPlatforms": [
+		"Win64",
+		"HoloLens"
+	],
+	"Modules": [
+		{
+			"Name": "NuGetModule",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		},
+		{
+			"Name": "MicrosoftOpenXR",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit"
+		},
+		{
+			"Name": "MicrosoftOpenXRRuntimeSettings",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		},
+		{
+			"Name": "MicrosoftOpenXREditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit",
+			"WhitelistPlatforms": [
+				"Win64"
+			]
+		},
+		{
+			"Name": "AzureSpatialAnchorsForOpenXR",
+			"Type": "Runtime",
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "OpenXR",
+			"Enabled": true
+		},
+		{
+			"Name": "OpenXREyeTracker",
+			"Enabled": true
+		},
+		{
+			"Name": "OpenXRHandTracking",
+			"Enabled": true
+		},
+		{
+			"Name": "OpenXRMsftHandInteraction",
+			"Enabled": true
+		},
+		{
+			"Name": "XRVisualization",
+			"Enabled": true
+		},
+		{
+			"Name": "AzureSpatialAnchors",
+			"Enabled": true,
+			"WhitelistPlatforms": [
+				"Win64",
+				"HoloLens"
+			]
+		}
+	]
+}

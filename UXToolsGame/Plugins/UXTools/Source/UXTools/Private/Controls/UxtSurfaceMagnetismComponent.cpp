@@ -5,6 +5,8 @@
 
 #include "DrawDebugHelpers.h"
 
+#include "ARTraceResult.h"
+#include "ARBlueprintLibrary.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -91,15 +93,46 @@ void UUxtSurfaceMagnetismComponent::TraceAndSetActorLocation(FVector Start, FVec
 {
 	if (UPrimitiveComponent* Target = GetTargetComponent())
 	{
-		FHitResult Hit;
-		FCollisionQueryParams QueryParams;
-		QueryParams.bTraceComplex = false;
-		QueryParams.AddIgnoredComponent(Target);
-
-		if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel, QueryParams))
+		float HitDistance = std::numeric_limits<float>::max();
+		bool HasHit = false;
 		{
-			TargetLocation = Hit.Location + (ImpactNormalOffset * Hit.ImpactNormal);
-			TargetRotation = UKismetMathLibrary::MakeRotFromX(Hit.ImpactNormal);
+			FHitResult Hit;
+			FCollisionQueryParams QueryParams;
+			QueryParams.bTraceComplex = false;
+			QueryParams.AddIgnoredComponent(Target);
+
+			if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, TraceChannel, QueryParams))
+			{
+				TargetLocation = Hit.Location + (ImpactNormalOffset * Hit.ImpactNormal);
+				TargetRotation = UKismetMathLibrary::MakeRotFromX(Hit.ImpactNormal);
+
+				HitDistance = Hit.Distance;
+				HasHit = true;
+			}
+		}
+
+		// UE-169219: In 5.1 Unreal has switched over to their chaos physics engine, which is not currently working with the MRMesh.
+		// LineTraceTrackedObjects3D will hit test against any tracked objects like the MRMesh without using the physics engine.
+		TArray<FARTraceResult> HitTestSR = UARBlueprintLibrary::LineTraceTrackedObjects3D(Start, End, true, true, true, true);
+		if (!HitTestSR.IsEmpty())
+		{
+			FARTraceResult Hit = HitTestSR[0];
+
+			FVector HitLocation = Hit.GetLocalTransform().GetLocation();
+			FQuat HitRotation = Hit.GetLocalTransform().GetRotation();
+
+			// Check if this hit against the spatial map is closer than the hit against the physics mesh.
+			if (!HasHit || (HasHit && FVector::Distance(Start, HitLocation) < HitDistance))
+			{
+				TargetLocation = HitLocation + (ImpactNormalOffset * HitRotation.GetForwardVector());
+				TargetRotation = FRotator(HitRotation);
+			}
+
+			HasHit = true;
+		}
+
+		if (HasHit)
+		{
 			if (bKeepOrientationVertical)
 			{
 				TargetRotation.Pitch = TargetRotation.Roll = 0.0f;

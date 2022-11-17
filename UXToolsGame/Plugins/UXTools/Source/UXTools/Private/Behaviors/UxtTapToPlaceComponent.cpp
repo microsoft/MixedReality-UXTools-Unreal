@@ -3,6 +3,8 @@
 
 #include "Behaviors/UxtTapToPlaceComponent.h"
 
+#include "ARTraceResult.h"
+#include "ARBlueprintLibrary.h"
 #include "Components/PrimitiveComponent.h"
 #include "Controls/UxtBoundsControlComponent.h"
 #include "Engine/World.h"
@@ -137,38 +139,66 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 				QueryParams.AddIgnoredActor(BoundsControl->GetBoundsControlActor());
 			}
 
-			FHitResult Result;
 			FVector Start = OriginPose.GetLocation();
 			FVector End = Start + OriginPose.GetUnitAxis(EAxis::X) * MaxRaycastDistance;
-			GetWorld()->LineTraceSingleByChannel(Result, Start, End, TraceChannel, QueryParams);
 
 			FVector HitPosition = Start + OriginPose.GetUnitAxis(EAxis::X) * DefaultPlacementDistance;
+			FVector HitNormal = FVector::UpVector;
 			FVector Facing = OriginPose.GetLocation() - HitPosition;
 			FVector Up = FVector::UpVector;
 
-			if (Result.GetComponent())
+			float HitDistance = std::numeric_limits<float>::max();
+			bool HasHit = false;
+
+			{
+				FHitResult Result;
+				if (GetWorld()->LineTraceSingleByChannel(Result, Start, End, TraceChannel, QueryParams))
+				{
+					HitPosition = Result.Location;
+					HitNormal = Result.Normal;
+
+					HitDistance = Result.Distance;
+					HasHit = true;
+				}
+			}
+
+			// UE-169219: In 5.1 Unreal has switched over to their chaos physics engine, which is not currently working with the MRMesh.
+			// LineTraceTrackedObjects3D will hit test against any tracked objects like the MRMesh without using the physics engine.
+			TArray<FARTraceResult> HitTestSR = UARBlueprintLibrary::LineTraceTrackedObjects3D(Start, End, true, true, true, true);
+			if (!HitTestSR.IsEmpty())
+			{
+				// Check if this hit against the spatial map is closer than the hit against the physics mesh.
+				if (!HasHit || (HasHit && FVector::Distance(Start, HitTestSR[0].GetLocalTransform().GetLocation()) < HitDistance))
+				{
+					HitPosition = HitTestSR[0].GetLocalTransform().GetLocation();
+					HitNormal = HitTestSR[0].GetLocalTransform().GetRotation().GetForwardVector();
+				}
+
+				HasHit = true;
+			}
+
+			if (HasHit)
 			{
 				// Add SurfaceNormalOffset so object is placed touching the surface, rather than overlapping with it
-				HitPosition =
-					Result.Location + Result.Normal * (bUseDefaultSurfaceNormalOffset ? DefaultSurfaceNormalOffset : SurfaceNormalOffset);
+				HitPosition += HitNormal * (bUseDefaultSurfaceNormalOffset ? DefaultSurfaceNormalOffset : SurfaceNormalOffset);
 				const FVector TowardsOriginPose = Facing = OriginPose.GetLocation() - HitPosition;
 
 				// Check if the target surface is flat, e.g. floor or ceiling
 				const float HorizontalSurfaceCosineThreshold =
 					FMath::Clamp(cosf(FMath::DegreesToRadians(HorizontalSurfaceThreshold)), 0.0f, THRESH_NORMALS_ARE_PARALLEL);
-				const bool IsFloor = FVector::Coincident(Result.Normal, FVector::UpVector, HorizontalSurfaceCosineThreshold);
-				const bool IsCeiling = FVector::Coincident(Result.Normal, FVector::DownVector, HorizontalSurfaceCosineThreshold);
+				const bool IsFloor = FVector::Coincident(HitNormal, FVector::UpVector, HorizontalSurfaceCosineThreshold);
+				const bool IsCeiling = FVector::Coincident(HitNormal, FVector::DownVector, HorizontalSurfaceCosineThreshold);
 
 				if (OrientationType == EUxtTapToPlaceOrientBehavior::AlignToSurface)
 				{
-					Facing = Result.Normal;
+					Facing = HitNormal;
 
 					if (KeepOrientationVertical)
 					{
 						// Horizontal surface - object sitting vertically on the surface, front should face the camera
 						// Vertical or tilted surface - front of the object should align with the surface
 						FVector ParallelToSurface =
-							FVector::CrossProduct((IsFloor || IsCeiling) ? TowardsOriginPose : Result.Normal, FVector::UpVector);
+							FVector::CrossProduct((IsFloor || IsCeiling) ? TowardsOriginPose : HitNormal, FVector::UpVector);
 						Facing = FVector::CrossProduct(FVector::UpVector, ParallelToSurface);
 					}
 					else if (IsFloor || IsCeiling)
@@ -176,8 +206,8 @@ void UUxtTapToPlaceComponent::TickComponent(float DeltaTime, ELevelTick TickType
 						// Horizontal surface - object resting flat on the surface, the top of the object should face:
 						// - away from the camera when placing the object on a surface below the view level (i.e. floor)
 						// - towards the camera when placing on a surface above the view level (i.e. ceiling)
-						const FVector ParallelToSurface = FVector::CrossProduct(TowardsOriginPose, Result.Normal);
-						Up = (IsFloor ? 1.0f : -1.0f) * FVector::CrossProduct(ParallelToSurface, Result.Normal);
+						const FVector ParallelToSurface = FVector::CrossProduct(TowardsOriginPose, HitNormal);
+						Up = (IsFloor ? 1.0f : -1.0f) * FVector::CrossProduct(ParallelToSurface, HitNormal);
 					}
 				}
 			}

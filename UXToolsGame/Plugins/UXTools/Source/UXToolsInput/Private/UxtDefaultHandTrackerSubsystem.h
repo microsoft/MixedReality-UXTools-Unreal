@@ -50,4 +50,7 @@ private:
 
 	FDelegateHandle PostLoginHandle;
 	FDelegateHandle LogoutHandle;
+
+private:
+	UInputMappingContext* InputMappingContext;
 };

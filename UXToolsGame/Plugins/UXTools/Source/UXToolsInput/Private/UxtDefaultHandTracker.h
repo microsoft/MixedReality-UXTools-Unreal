@@ -3,20 +3,19 @@
 
 #pragma once
 
+#include "Engine/LocalPlayer.h"
+
 #include "HeadMountedDisplayTypes.h"
 
 #include "HandTracking/IUxtHandTracker.h"
 
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputSubsystemInterface.h"
+#include "InputMappingContext.h"
+
 class AXRSimulationActor;
 struct FXRSimulationState;
-
-namespace UxtHandTrackerInputActions
-{
-	static const FName LeftSelect = TEXT("UxtLeftSelect");
-	static const FName LeftGrab = TEXT("UxtLeftGrab");
-	static const FName RightSelect = TEXT("UxtRightSelect");
-	static const FName RightGrab = TEXT("UxtRightGrab");
-} // namespace UxtHandTrackerInputActions
 
 /** Default hand tracker implementation.
  *
@@ -29,8 +28,8 @@ namespace UxtHandTrackerInputActions
 class FUxtDefaultHandTracker : public IUxtHandTracker
 {
 public:
-	static void RegisterInputMappings();
-	static void UnregisterInputMappings();
+	void RegisterInputMappings(UInputMappingContext* InputContext);
+	void UnregisterInputMappings(UInputMappingContext* InputContext);
 
 	FXRMotionControllerData& GetControllerData(EControllerHand Hand);
 	const FXRMotionControllerData& GetControllerData(EControllerHand Hand) const;
@@ -56,4 +55,13 @@ private:
 	bool bIsSelectPressed_Right = false;
 
 	friend class UUxtDefaultHandTrackerSubsystem;
+
+private:
+	void RegisterEnhancedInputAction(UInputMappingContext* InputContext, UInputAction*& Action, FText Description, TArray<FKey> Keys);
+
+public:
+	UInputAction* LeftSelect;
+	UInputAction* LeftGrab;
+	UInputAction* RightSelect;
+	UInputAction* RightGrab;
 };

@@ -10,31 +10,6 @@ DEFINE_LOG_CATEGORY_STATIC(LogUxtDefaultHandTracker, Log, All);
 
 namespace
 {
-	const TArray<FInputActionKeyMapping> ActionMappings(
-		{// OpenXR MsftHandInteraction mapping
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftSelect, FKey("OpenXRMsftHandInteraction_Left_Select_Axis")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftGrab, FKey("OpenXRMsftHandInteraction_Left_Grip_Axis")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightSelect, FKey("OpenXRMsftHandInteraction_Right_Select_Axis")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightGrab, FKey("OpenXRMsftHandInteraction_Right_Grip_Axis")),
-
-		 // MixedReality mapping
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftSelect, FKey("MixedReality_Left_Trigger_Click")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftGrab, FKey("MixedReality_Left_Grip_Click")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightSelect, FKey("MixedReality_Right_Trigger_Click")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightGrab, FKey("MixedReality_Right_Grip_Click")),
-
-		 // Oculus Touch mappings
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftSelect, FKey("OculusTouch_Left_Trigger_Click")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftGrab, FKey("OculusTouch_Left_Grip_Click")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightSelect, FKey("OculusTouch_Right_Trigger_Click")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightGrab, FKey("OculusTouch_Right_Grip_Click")),
-
-		 // XRInputSimulation mapping
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftSelect, FKey("XRSimulation_Left_Select")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::LeftGrab, FKey("XRSimulation_Left_Grip")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightSelect, FKey("XRSimulation_Right_Select")),
-		 FInputActionKeyMapping(UxtHandTrackerInputActions::RightGrab, FKey("XRSimulation_Right_Grip"))});
-
 	bool IsValidHandData(const FXRMotionControllerData& MotionControllerData)
 	{
 		if (MotionControllerData.DeviceVisualType == EXRVisualType::Hand && MotionControllerData.bValid)
@@ -49,38 +24,60 @@ namespace
 	}
 } // namespace
 
-void FUxtDefaultHandTracker::RegisterInputMappings()
+void FUxtDefaultHandTracker::RegisterEnhancedInputAction(UInputMappingContext* InputContext, UInputAction*& Action, FText Description, TArray<FKey> Keys)
 {
-	UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
-	if (!InputSettings)
-	{
-		UE_LOG(LogUxtDefaultHandTracker, Warning, TEXT("Could not find mutable input settings"));
-		return;
-	}
+	Action = NewObject<UInputAction>();
+	Action->AddToRoot();
 
-	for (const FInputActionKeyMapping& Mapping : ActionMappings)
+	Action->ActionDescription = Description;
+	Action->Triggers.Add(NewObject<UInputTriggerDown>());
+	Action->bConsumeInput = false;
+
+	for (FKey Key : Keys)
 	{
-		if (Mapping.Key.IsValid())
-		{
-			InputSettings->AddActionMapping(Mapping, false);
-		}
+		InputContext->MapKey(Action, Key);
 	}
-	InputSettings->ForceRebuildKeymaps();
 }
 
-void FUxtDefaultHandTracker::UnregisterInputMappings()
+void FUxtDefaultHandTracker::RegisterInputMappings(UInputMappingContext* InputContext)
 {
-	UInputSettings* InputSettings = GetMutableDefault<UInputSettings>();
-	if (!InputSettings)
-	{
-		return;
-	}
+	RegisterEnhancedInputAction(InputContext, LeftSelect, 
+		FText::FromName(TEXT("UxtLeftSelect")), TArray<FKey> {
+		FKey("OpenXRMsftHandInteraction_Left_Select_Axis"),
+			FKey("MixedReality_Left_Trigger_Click"),
+			FKey("OculusTouch_Left_Trigger_Click"),
+			FKey("XRSimulation_Left_Select")
+	});
+	RegisterEnhancedInputAction(InputContext, LeftGrab,
+		FText::FromName(TEXT("UxtLeftGrab")), TArray<FKey> {
+		FKey("OpenXRMsftHandInteraction_Left_Grip_Axis"),
+			FKey("MixedReality_Left_Grip_Click"),
+			FKey("OculusTouch_Left_Grip_Click"),
+			FKey("XRSimulation_Left_Grip")
+	});
 
-	for (const FInputActionKeyMapping& Mapping : ActionMappings)
-	{
-		InputSettings->RemoveActionMapping(Mapping, false);
-	}
-	InputSettings->ForceRebuildKeymaps();
+	RegisterEnhancedInputAction(InputContext, RightSelect,
+		FText::FromName(TEXT("UxtRightSelect")), TArray<FKey> {
+		FKey("OpenXRMsftHandInteraction_Right_Select_Axis"),
+			FKey("MixedReality_Right_Trigger_Click"),
+			FKey("OculusTouch_Right_Trigger_Click"),
+			FKey("XRSimulation_Right_Select")
+	});
+	RegisterEnhancedInputAction(InputContext, RightGrab,
+		FText::FromName(TEXT("UxtRightGrab")), TArray<FKey> {
+		FKey("OpenXRMsftHandInteraction_Right_Grip_Axis"),
+			FKey("MixedReality_Right_Grip_Click"),
+			FKey("OculusTouch_Right_Grip_Click"),
+			FKey("XRSimulation_Right_Grip")
+	});
+}
+
+void FUxtDefaultHandTracker::UnregisterInputMappings(UInputMappingContext* InputContext)
+{
+	InputContext->UnmapAllKeysFromAction(LeftSelect);
+	InputContext->UnmapAllKeysFromAction(LeftGrab);
+	InputContext->UnmapAllKeysFromAction(RightSelect);
+	InputContext->UnmapAllKeysFromAction(RightGrab);
 }
 
 FXRMotionControllerData& FUxtDefaultHandTracker::GetControllerData(EControllerHand Hand)

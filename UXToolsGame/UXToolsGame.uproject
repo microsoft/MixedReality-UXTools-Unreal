@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.0",
+	"EngineAssociation": "5.1",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -47,8 +47,9 @@
 			]
 		},
 		{
-			"Name": "WindowsMixedReality",
+			"Name": "MicrosoftOpenXR",
 			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ef8930ca860148c498b46887da196239",
 			"SupportedTargetPlatforms": [
 				"Win64",
 				"HoloLens"

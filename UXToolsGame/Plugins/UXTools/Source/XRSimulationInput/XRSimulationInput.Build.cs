@@ -11,6 +11,7 @@ public class XRSimulationInput : ModuleRules
 		
 		PublicDependencyModuleNames.AddRange(new string[]
 			{
+				"ApplicationCore",
 				"Core",
 				"CoreUObject",
 				"Engine",

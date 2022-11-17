@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Microsoft Corporation.
 // Licensed under the MIT License.
 
-#include "AssetRegistryModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "CoreMinimal.h"
 #include "Engine.h"
 #include "EngineUtils.h"
